@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IsmRoleViewDlg" widgetVar="IsmRoleViewDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewIsmRoleTitle}">
+            <h:form id="IsmRoleViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ismRoleController.selected != null}">
+                        <h:outputText value="#{bundle.ViewIsmRoleLabel_id}"/>
+                        <h:outputText value="#{ismRoleController.selected.id}" title="#{bundle.ViewIsmRoleTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewIsmRoleLabel_role}"/>
+                        <h:outputText value="#{ismRoleController.selected.role}" title="#{bundle.ViewIsmRoleTitle_role}"/>
+                        <h:outputText value="#{bundle.ViewIsmRoleLabel_rolename}"/>
+                        <h:outputText value="#{ismRoleController.selected.rolename}" title="#{bundle.ViewIsmRoleTitle_rolename}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="IsmRoleViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

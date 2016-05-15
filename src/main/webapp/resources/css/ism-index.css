@@ -1,0 +1,32 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 06-mai-2016, 10:46:34
+    Author     : r.hendrick
+*/
+/*
+.jqplot-target              Plot target container.
+.jqplot-axis                Axes.
+.jqplot-xaxis               Primary x-axis.
+.jqplot-yaxis               Primary y-axis.
+.jqplot-x2axis, .jqplot-x3axis ... 2nd, 3rd ... x-axis.
+.jqplot-y2axis, .jqplot-y3axis ... 2nd, 3rd ... y-axis.
+.jqplot-axis-tick           Axis ticks.
+.jqplot-xaxis-tick          Primary x-axis ticks.
+.jqplot-x2axis-tick         Secondary x-axis ticks.
+.jqplot-yaxis-tick          Primary y-axis-ticks.
+.jqplot-y2axis-tick         Seconday y-axis-ticks.
+table.jqplot-table-legend   Legend table.
+.jqplot-title               Title of the chart.
+.jqplot-cursor-tooltip      Cursor tooltip.
+.jqplot-highlighter-tooltip Highlighter tooltip.
+div.jqplot-table-legend-swatch Colors swatch of the legend.
+*/
+
+
+#graphActSession .jqplot-target{
+    background-color: blue;
+}

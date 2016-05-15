@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UniteCreateDlg" widgetVar="UniteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lAR.CreateUniteTitle}">
+            <h:form id="UniteCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{uniteController.selected != null}">
+                        <p:outputLabel value="#{lAR.CreateUniteLabel_UId}" for="UId" />
+                        <p:inputText id="UId" value="#{uniteController.selected.UId}" title="#{lAR.CreateUniteTitle_UId}" required="true" requiredMessage="#{lAR.CreateUniteRequiredMessage_UId}"/>
+                        <p:outputLabel value="#{lAR.CreateUniteLabel_UUnite}" for="UUnite" />
+                        <p:inputText id="UUnite" value="#{uniteController.selected.UUnite}" title="#{lAR.CreateUniteTitle_UUnite}" required="true" requiredMessage="#{lAR.CreateUniteRequiredMessage_UUnite}"/>
+                        <p:outputLabel value="#{lAR.CreateUniteLabel_UDesignation}" for="UDesignation" />
+                        <p:inputText id="UDesignation" value="#{uniteController.selected.UDesignation}" title="#{lAR.CreateUniteTitle_UDesignation}" required="true" requiredMessage="#{lAR.CreateUniteRequiredMessage_UDesignation}"/>
+                        <p:outputLabel value="#{lAR.CreateUniteLabel_UDeleted}" for="UDeleted" />
+                        <p:selectBooleanCheckbox id="UDeleted" value="#{uniteController.selected.UDeleted}" required="true" requiredMessage="#{lAR.EditUniteRequiredMessage_UDeleted}"/>
+                        <p:outputLabel value="#{lAR.CreateUniteLabel_UCreated}" for="UCreated" />
+                        <p:calendar id="UCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{uniteController.selected.UCreated}" title="#{lAR.EditUniteTitle_UCreated}" required="true" requiredMessage="#{lAR.EditUniteRequiredMessage_UCreated}" showOn="button"/>
+                        <p:outputLabel value="#{lAR.CreateUniteLabel_UChanged}" for="UChanged" />
+                        <p:calendar id="UChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{uniteController.selected.UChanged}" title="#{lAR.EditUniteTitle_UChanged}" required="true" requiredMessage="#{lAR.EditUniteRequiredMessage_UChanged}" showOn="button"/>
+                        <p:outputLabel value="#{lAR.CreateUniteLabel_UCompany}" for="UCompany" />
+                        <p:selectOneMenu id="UCompany" value="#{uniteController.selected.UCompany}" required="true" requiredMessage="#{lAR.EditUniteRequiredMessage_UCompany}">
+                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
+                                           var="UCompanyItem"
+                                           itemValue="#{UCompanyItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{uniteController.create}" value="#{lAR.Save}" update="display,:UniteListForm:datalist,:growl" oncomplete="handleSubmit(args,'UniteCreateDialog');"/>
+                    <p:commandButton value="#{lAR.Cancel}" onclick="UniteCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

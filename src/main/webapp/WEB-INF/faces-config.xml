@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <application>
+        <locale-config>
+            <default-locale>fr</default-locale>
+            <supported-locale>fr_BE</supported-locale>
+            <supported-locale>fr</supported-locale>
+        </locale-config>
+        
+        <resource-bundle>
+            <base-name>com.ISM</base-name>
+            <var>ism</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/META-INF/Security</base-name>
+            <var>bundle</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/META-INF/Bundle</base-name>
+            <var>bundle</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/Lab</base-name>
+            <var>lab</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/META-INF/Lab</base-name>
+            <var>lab</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/META-INF/LAR</base-name>
+            <var>lAR</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/META-INF/LABB</base-name>
+            <var>lABB</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/toDel</base-name>
+            <var>toDel</var>
+        </resource-bundle>
+        
+    </application>
+   
+    
+     
+      
+        
+    <name>ism</name>
+    <component>
+        <component-type>org.primefaces.ism.component.Ribbon</component-type>
+        <component-class>org.primefaces.ism.component.ribbon.Ribbon</component-class>
+    </component>
+
+    <component>
+        <component-type>org.primefaces.ism.component.RibbonGroup</component-type>
+        <component-class>org.primefaces.ism.component.ribbon.RibbonGroup</component-class>
+    </component>
+        
+    <component>
+        <component-type>org.primefaces.ism.component.RibbonGroupSet</component-type>
+        <component-class>org.primefaces.ism.component.ribbon.RibbonGroupSet</component-class>
+    </component>
+        
+
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.ism.component</component-family>
+            <renderer-type>org.primefaces.ism.component.RibbonRenderer</renderer-type>
+            <renderer-class>org.primefaces.ism.component.ribbon.RibbonRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.primefaces.ism.component</component-family>
+            <renderer-type>org.primefaces.ism.component.RibbonGroupRenderer</renderer-type>
+            <renderer-class>org.primefaces.ism.component.ribbon.RibbonGroupRenderer</renderer-class>
+        </renderer>
+        <renderer>
+            <component-family>org.primefaces.ism.component</component-family>
+            <renderer-type>org.primefaces.ism.component.RibbonGroupSetRenderer</renderer-type>
+            <renderer-class>org.primefaces.ism.component.ribbon.RibbonGroupSetRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+    
+
+</faces-config>

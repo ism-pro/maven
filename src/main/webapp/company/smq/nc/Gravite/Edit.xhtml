@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteGravityEditDlg" widgetVar="NonConformiteGravityEditDialog"
+                  dynamic="true" showEffect="clip"  hideEffect="clip" modal="true" resizable="false" appendTo="@(body)" header="#{ism.NonConformiteGravityTitleEdit}">
+            <h:form id="NonConformiteGravityEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nonConformiteGravityController.selected != null}">
+                        <p:outputLabel rendered="false" value="#{ism.NonConformiteGravityField_ncgId}" for="ncgId" />
+                        <p:inputText id="ncgId" rendered="false" value="#{nonConformiteGravityController.selected.ncgId}" title="#{ism.CreateNonConformiteGravityTitle_ncgId}" required="true" requiredMessage="#{ism.CreateNonConformiteGravityRequiredMessage_ncgId}"/>
+                        
+                        <p:outputLabel value="#{ism.NonConformiteGravityField_ncgGravity}" for="ncgGravity" />
+                        <p:inputText id="ncgGravity" value="#{nonConformiteGravityController.selected.ncgGravity}" title="#{ism.CreateNonConformiteGravityTitle_ncgGravity}" required="true" requiredMessage="#{ism.CreateNonConformiteGravityRequiredMessage_ncgGravity}"/>
+                        
+                        <p:outputLabel value="#{ism.NonConformiteGravityField_ncgDesignation}" for="ncgDesignation" />
+                        <p:inputText id="ncgDesignation" value="#{nonConformiteGravityController.selected.ncgDesignation}" title="#{ism.CreateNonConformiteGravityTitle_ncgDesignation}" required="true" requiredMessage="#{ism.CreateNonConformiteGravityRequiredMessage_ncgDesignation}"/>
+                        
+                        <p:outputLabel rendered="true" value="#{ism.NonConformiteGravityField_ncgDeleted}" for="ncgDeleted" />
+                        <p:selectBooleanCheckbox id="ncgDeleted" rendered="true" value="#{nonConformiteGravityController.selected.ncgDeleted}" required="true" requiredMessage="#{ism.EditNonConformiteGravityRequiredMessage_ncgDeleted}"/>
+                        
+                        <p:outputLabel rendered="false" value="#{ism.NonConformiteGravityField_ncgCreated}" for="ncgCreated" />
+                        <p:calendar id="ncgCreated" rendered="false" pattern="dd/MM/yyyy HH:mm:ss" value="#{nonConformiteGravityController.selected.ncgCreated}" title="#{ism.EditNonConformiteGravityTitle_ncgCreated}" required="true" requiredMessage="#{ism.EditNonConformiteGravityRequiredMessage_ncgCreated}" showOn="button"/>
+                        
+                        <p:outputLabel rendered="false" value="#{ism.NonConformiteGravityField_ncgChanged}" for="ncgChanged" />
+                        <p:calendar id="ncgChanged" rendered="false" pattern="dd/MM/yyyy HH:mm:ss" value="#{nonConformiteGravityController.selected.ncgChanged}" title="#{ism.EditNonConformiteGravityTitle_ncgChanged}" required="true" requiredMessage="#{ism.EditNonConformiteGravityRequiredMessage_ncgChanged}" showOn="button"/>
+                        
+                        
+                        <p:outputLabel value="#{ism.NonConformiteGravityField_ncgCompany}" for="ncgCompany" />
+                        <p:selectOneMenu id="ncgCompany" 
+                                         value="#{nonConformiteGravityController.selected.ncgCompany}" 
+                                         required="true" 
+                                         requiredMessage="#{ism.EditNonConformiteGravityRequiredMessage_ncgCompany}">
+                            <f:selectItem  itemValue="#{staffAuthController.company}"
+                                           itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nonConformiteGravityController.update}" value="#{ism.Save}" update="display,:NonConformiteGravityListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NonConformiteGravityEditDialog');"/>
+                    <p:commandButton value="#{ism.Cancel}" onclick="NonConformiteGravityEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

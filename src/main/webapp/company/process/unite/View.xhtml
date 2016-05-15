@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UniteViewDlg" widgetVar="UniteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lAR.ViewUniteTitle}">
+            <h:form id="UniteViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{uniteController.selected != null}">
+                        <h:outputText value="#{lAR.ViewUniteLabel_UId}"/>
+                        <h:outputText value="#{uniteController.selected.UId}" title="#{lAR.ViewUniteTitle_UId}"/>
+                        <h:outputText value="#{lAR.ViewUniteLabel_UUnite}"/>
+                        <h:outputText value="#{uniteController.selected.UUnite}" title="#{lAR.ViewUniteTitle_UUnite}"/>
+                        <h:outputText value="#{lAR.ViewUniteLabel_UDesignation}"/>
+                        <h:outputText value="#{uniteController.selected.UDesignation}" title="#{lAR.ViewUniteTitle_UDesignation}"/>
+                        <h:outputText value="#{lAR.ViewUniteLabel_UDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{uniteController.selected.UDeleted}" disabled="true"/>
+                        <h:outputText value="#{lAR.ViewUniteLabel_UCreated}"/>
+                        <h:outputText value="#{uniteController.selected.UCreated}" title="#{lAR.ViewUniteTitle_UCreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{lAR.ViewUniteLabel_UChanged}"/>
+                        <h:outputText value="#{uniteController.selected.UChanged}" title="#{lAR.ViewUniteTitle_UChanged}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{lAR.ViewUniteLabel_UCompany}"/>
+                        <h:outputText value="#{uniteController.selected.UCompany}" title="#{lAR.ViewUniteTitle_UCompany}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{lAR.Close}" onclick="UniteViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteRequestManageStateDlg" 
+                  widgetVar="NonConformiteRequestManageStateDialog"
+                  dynamic="true" showEffect="clip"  hideEffect="clip"
+                  modal="true" resizable="false" appendTo="@(body)" 
+                  header="#{ism.NonConformiteRequestTitleManageState}"
+                  closable="false"
+                  >
+
+            <h:form id="NonConformiteRequestManageStateForm">
+                <h:panelGroup id="display">
+
+                    <p:panelGrid columns="2" 
+                                 rendered="#{nonConformiteRequestController.selected != null}">
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrId}" 
+                                       for="ncrManageStateId" />
+
+
+                        <p:selectOneMenu id="ncrManageStateId" 
+                                         value="#{nonConformiteRequestController.selected.ncrId}" 
+                                         required="true" 
+                                         >
+                            <f:selectItem itemLabel="#{nonConformiteRequestController.selected.ncrId} - #{nonConformiteRequestController.selected.ncrTitle}"
+                                          itemValue="#{nonConformiteRequestController.selected.ncrId}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrState}" 
+                                       />
+                        <p:outputLabel value="#{nonConformiteRequestController.selected.ncrState.istate} - #{nonConformiteRequestController.selected.ncrState.statename}" 
+                                       />
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStatePrevious}" 
+                                       for="ncrManageState"/>
+                        <p:selectOneMenu id="ncrManageState"
+                                         value="#{nonConformiteRequestController.selected.ncrState}"
+                                         
+                                         required="true" 
+                                         requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrState}"
+                                         
+                                         >
+                            <f:selectItem itemValue="#{nonConformiteRequestController.selected.ncrState}"
+                                          itemLabel="#{nonConformiteRequestController.selected.ncrState.istate} - #{nonConformiteRequestController.selected.ncrState.statename}"
+                                          />
+                            <f:selectItems value="#{ismNcrstateController.itemsAvailableSelectOne}"
+                                           var="item"
+                                           itemLabel="#{item.istate} - #{item.statename}"
+                                           itemValue="#{item}"/>
+                        </p:selectOneMenu>
+
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nonConformiteRequestController.manageState}" 
+                                     value="#{ism.Save}" 
+                                     update="display,:NonConformiteRequestListForm:datalist,:growl" 
+                                     oncomplete="handleSubmit(args, 'NonConformiteRequestManageStateDialog');"/>
+                    <p:commandButton value="#{ism.Cancel}" 
+                                     icon="ismCancel"
+                                     update="display,:NonConformiteRequestListForm:datalist,:growl" 
+                                     onclick="PF('NonConformiteRequestManageStateDialog').hide();"
+                                     />
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

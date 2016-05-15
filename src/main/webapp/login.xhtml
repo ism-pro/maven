@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+        xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>#{ism.AppName}</title>
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+        <meta http-equiv="refresh" 
+              content="60;url=/ISM/faces/login.xhtml?faces-redirect=true"/>
+        
+        <h:outputStylesheet library="css" name="ism-login.css" />
+        <h:outputScript library="js" name="login.js" />
+        <h:outputScript library="js" name="jquery.leanModal.min.js" />
+    </h:head>
+
+    <h:body>
+
+
+
+        <div id="topbar"><a href="http://www.brasimba.com">BRASIMBA WEB SITE</a></div>
+
+
+
+
+        <div id="window">
+            <div id="content">
+                <center>
+                    <h:graphicImage value="#{resource['img/ism/favico.png']}"  
+                                    width="192px" 
+                                    height="64px"
+                                    />
+                    <div id="welcome">#{ism.Welcome}</div>
+                    <div id="loginMsg">#{ism.LoginMsg}</div>
+                </center>
+
+
+                <div align="center">
+                    <h:form >
+                        <table class="loginTable">
+                            <tr >
+                                <td><p:outputLabel  value="#{ism.Login}" for="j_username" /></td>
+                                <td><p:inputText id="j_username" 
+                                                 size="30"
+                                                 title="#{ism.AuthenticationFieldInfo_staff}"
+                                                 required="true"
+                                                 style="font: normal 8pt verdana, helvetica, sans-serif; width: 200px"
+                                                 label="#{ism.Login}"
+                                                 value="#{staffAuthController.staff.stStaff}"
+                                                 autocomplete="off"
+                                                 /></td>
+                            </tr>
+                            <tr>
+                                <td><p:outputLabel value="#{ism.Password}" for="j_password" /></td>
+                                <td><p:password  id="j_password"
+                                                 size="19"
+                                                 required="true"
+                                                 label="#{ism.Password}"
+                                                 title="#{ism.AuthenticationFieldInfo_password}"
+                                                 autocomplete="off"                                                 
+                                                 value="#{staffAuthController.staff.stPassword}"
+                                                 style="font: normal 8pt verdana, helvetica, sans-serif; width: 200px"
+                                                 /></td>
+                            </tr>
+                            <tr>
+                                <td><p:outputLabel value="#{ism.Company}" for="company" /></td>
+                                <td><p:selectOneMenu id="company"
+                                                     maxlength="60"
+                                                     value="#{staffAuthController.company}"
+                                                     style="font: normal 8pt verdana, helvetica, sans-serif; width: 210px"
+                                                     >
+                                        <f:selectItems value="#{companyController.itemsAvailableSelectOne}" 
+                                                       var="jCompanyItem"
+                                                       itemLabel="#{jCompanyItem.CCompany} - #{jCompanyItem.CDesignation}"
+                                                       itemValue="#{jCompanyItem}"
+                                                       />
+                                    </p:selectOneMenu></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <h:commandButton type="submit"
+                                                     value="#{ism.LogIn}"
+                                                     styleClass="flatbtn"
+                                                     action="#{staffAuthController.login}"
+                                                     />
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <p:growl id="growl" life="8000" />
+
+    </h:body>
+</html>
+
+

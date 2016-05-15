@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StaffManagerViewDlg" 
+                  widgetVar="StaffManagerViewDialog"  
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  
+                  modal="true" 
+                  resizable="false" appendTo="@(body)" 
+                  header="#{ism.StaffTitleView}">
+
+            <h:form id="StaffManagerViewForm">
+                <h:panelGroup id="display">
+
+                    <p:panelGrid columns="2" 
+                                 rendered="#{staffManagerController.staffCtrl.selected != null}">
+
+                        <h:panelGrid columns="2">
+                            <h:outputText value="#{ism.StaffField_stStaff}"/>
+                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stStaff}" 
+                                          title="#{ism.StaffFieldInfo_stStaff}"/>
+
+                            <h:outputText value="#{ism.StaffField_stPassword}" rendered="false"/>
+                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stPassword}" 
+                                          title="#{ism.StaffFieldInfo_stPassword}" rendered="false" />
+
+                            <h:outputText value="#{ism.StaffField_stLastname}"/>
+                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stLastname}" 
+                                          title="#{ism.StaffFieldInfo_stLastname}"/>
+
+                            <h:outputText value="#{ism.StaffField_stFirstname}"/>
+                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stFirstname}" 
+                                          title="#{ism.StaffFieldInfo_stFirstname}"/>
+
+                            <h:outputText value="#{ism.StaffField_stMiddlename}"/>
+                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stMiddlename}" 
+                                          title="#{ism.StaffFieldInfo_stMiddlename}"/>
+
+                            <h:outputText value="#{ism.StaffField_stBorned}"/>
+                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stBorned}" 
+                                          title="#{ism.StaffFieldInfo_stBorned}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+
+                            <h:outputText value="#{ism.StaffField_stGenre}"/>
+                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stGenre.genre} - #{staffManagerController.staffCtrl.selected.stGenre.genrename}" 
+                                          title="#{ism.StaffFieldInfo_stGenre}"/>
+
+                            <h:outputText value="#{ism.StaffField_stActivated}"/>
+                            <p:selectBooleanCheckbox 
+                                value="#{staffManagerController.staffCtrl.selected.stActivated}" disabled="true"/>
+                        </h:panelGrid>
+
+
+                        <p:panelGrid>
+
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel  value="#{ism.StaffCompaniesField_stcCompany}" for="accessTree" />
+                                    </p:column>
+                                    <p:column colspan="3">
+                                        <p:tree    id="accessTree"
+                                                   value="#{staffManagerController.accessTree}" 
+                                                   var="varCtrlAccess" 
+                                                   
+                                                   selection="#{staffManagerController.selectedAccessTree}"
+                                                   >
+                                            <p:treeNode >
+                                                <h:outputText value="#{varCtrlAccess}" />
+                                            </p:treeNode>
+                                        </p:tree>
+                                    </p:column>
+                                </p:row>
+
+                            </p:panelGrid>
+                    </p:panelGrid>
+
+                    <p:commandButton value="#{ism.Close}" 
+                                     onclick="StaffManagerViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

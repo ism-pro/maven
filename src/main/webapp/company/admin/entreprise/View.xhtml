@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EntrepriseViewDlg" widgetVar="EntrepriseViewDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewEntrepriseTitle}">
+            <h:form id="EntrepriseViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{entrepriseController.selected != null}">
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_EId}"/>
+                        <h:outputText value="#{entrepriseController.selected.EId}" title="#{bundle.ViewEntrepriseTitle_EId}"/>
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_EEntreprise}"/>
+                        <h:outputText value="#{entrepriseController.selected.EEntreprise}" title="#{bundle.ViewEntrepriseTitle_EEntreprise}"/>
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_EDesignation}"/>
+                        <h:outputText value="#{entrepriseController.selected.EDesignation}" title="#{bundle.ViewEntrepriseTitle_EDesignation}"/>
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_EBuilded}"/>
+                        <h:outputText value="#{entrepriseController.selected.EBuilded}" title="#{bundle.ViewEntrepriseTitle_EBuilded}"/>
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_EMain}"/>
+                        <p:selectBooleanCheckbox value="#{entrepriseController.selected.EMain}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_EActivated}"/>
+                        <p:selectBooleanCheckbox value="#{entrepriseController.selected.EActivated}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_EDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{entrepriseController.selected.EDeleted}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_ECreated}"/>
+                        <h:outputText value="#{entrepriseController.selected.ECreated}" title="#{bundle.ViewEntrepriseTitle_ECreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewEntrepriseLabel_EChanged}"/>
+                        <h:outputText value="#{entrepriseController.selected.EChanged}" title="#{bundle.ViewEntrepriseTitle_EChanged}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="EntrepriseViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
