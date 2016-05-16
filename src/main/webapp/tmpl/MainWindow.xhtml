@@ -103,6 +103,7 @@
                                                 style="min-width: 72px; min-height: 22px; background-color: #a1dbff;"
 
                                                 />
+
                         </div>
                     </div>
 
@@ -111,7 +112,7 @@
 
 
                     <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}"
-                               >
+                              >
                         <p:ajax event="tabChange" listener="#{viewRibbon.onChange}"  />
 
                         <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
@@ -121,7 +122,7 @@
                         <p:tab id="administration" title="#{ism.AdminPage}">
                             <pi:ribbonGroup id="ribbonGroupSMQ" label="SMQ"  >
                                 <pi:ribbonGroupSet id="ribbonGroupSetSMQ" ribbonSet="big" >
-                                    <p:commandButton id="btnSMQProcessus" widgetVar="btnSMQProcessus"
+                                    <p:commandButton id="btnSMQProcessus"
                                                      rendered="#{request.isUserInRole('CO_SMQPROCESSUS_R')}"
                                                      actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                      title="Processus"
@@ -393,10 +394,10 @@
                 <p:panelGrid rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?false:true}">
                     <ui:include src="./sidebar/ncRequestView.xhtml"  />
                 </p:panelGrid>
-
+                
                 <h:outputText style="margin: 5px;color: white;max-width: 120px;"
-                              escape="true"
-                              value="#{request.pathInfo}" /><br />
+                               escape="true"
+                               value="#{request.pathInfo}" /><br />
             </div>
         </div>
 
@@ -428,10 +429,32 @@
         <meta http-equiv="refresh" 
               content="0;url=/ISM/faces/login.xhtml?faces-redirect=true"/>
     </h:body>
-
-
+    
+    
     <p:blockUI block="body" 
-               trigger="ribbon-form:shortcut-btn-theme"
+               trigger="ribbon-form:shortcut-btn-theme,
+                ribbon-form:shortcut-btn-logout, 
+                ribbon-form:ism-ribbon:main,
+                ribbon-form:ism-ribbon:administration,
+                ribbon-form:ism-ribbon:resources,
+                ribbon-form:ism-ribbon:btnSMQProcessus, 
+                ribbon-form:ism-ribbon:btnSMQDocType, 
+                ribbon-form:ism-ribbon:btnSMQDocument,
+                ribbon-form:ism-ribbon:btnSMQNC,       
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCUnit, 
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCNature, 
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCGravity, 
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCFrequency, 
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCRequest,
+                ribbon-form:ism-ribbon:resources, 
+                ribbon-form:ism-ribbon:btnStaffGroup, 
+                ribbon-form:ism-ribbon:btnStaffRole, 
+                ribbon-form:ism-ribbon:btnStaffRoleTree, 
+                ribbon-form:ism-ribbon:btnStaffCompany, 
+                ribbon-form:ism-ribbon:btnStaffToGroup, 
+                ribbon-form:ism-ribbon:btnStaffCreate, 
+                ribbon-form:ism-ribbon:btnStaffList, 
+                ribbon-form:ism-ribbon:btnStaffManageList"
                >
         <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>

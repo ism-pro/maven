@@ -67,7 +67,7 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
                 UIComponent child = children.get(i);
                 writer.startElement("div", null);
                 writer.writeAttribute("class", Ribbon.RIBBON_SET_BIG_BUTTON, null);
-                writer.writeAttribute("id", child.getId() + "-parent", null);
+                writer.writeAttribute("id", child.getId(), null);
                 renderChild(context, child);
                 writer.endElement("div");
             }
