@@ -43,7 +43,7 @@ public class ViewRibbon implements Serializable {
     private String ncRequestProcessusFilter = null;
     @RequestScoped
     private Integer reminingTimeSession = 0;
-    private Integer reminingTimeSessionWakeUp_s = 50;
+    private Integer reminingTimeSessionWakeUp_s = 60;
 
     @PostConstruct
     public void init() {
