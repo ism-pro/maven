@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1>
+                <h:outputText value="#{ism.StaffProfileTitleInformations}" />
+            </h1>
+            <hr />
+
+
+            <h:form id="StaffProfileCreateForm">
+
+                <div style="float:left; width: 120px; height: 130px; align-content: center;">
+                    <p:graphicImage value="#{staffAuthController.staff.stGenre=='N' ? 
+                                             '/resources/img/ism/hr/u_both.png' :
+                                             staffController.selected.stGenre.genre=='H' ?
+                                             '/resources/img/ism/hr/u_male.png' :
+                                             '/resources/img/ism/hr/u_female.png'}" 
+                                    width="108px" height="128px" >
+                    </p:graphicImage>
+                </div>
+
+                <p:panelGrid   style="color: blue;">
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{ism.StaffField_stStaff}" for="stStaff" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="stStaff" 
+                                          value="#{staffController.selected.stStaff}" 
+                                          title="#{ism.StaffFieldInfo_stStaff}" 
+                                          />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{ism.StaffField_stLastname}" for="stLastname" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="stLastname" 
+                                          value="#{staffController.selected.stLastname}" 
+                                          title="#{ism.StaffFieldInfo_stLastname}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{ism.StaffField_stFirstname}" for="stFirstname" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="stFirstname" 
+                                          value="#{staffController.selected.stFirstname}" 
+                                          title="#{ism.StaffFieldInfo_stFirstname}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{ism.StaffField_stMiddlename}" for="stMiddlename" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="stMiddlename" 
+                                          value="#{staffController.selected.stMiddlename}" 
+                                          title="#{ism.StaffFieldInfo_stMiddlename}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{ism.StaffField_stBorned}" for="stBorned" />
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:calendar id="stBorned" pattern="dd/MM/yyyy" 
+                                        value="#{staffController.selected.stBorned}" 
+                                        title="#{ism.StaffFieldInfo_stBorned}" 
+                                        locale="fr"
+                                        disabled="true"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{ism.StaffField_stActivated}" for="stActivated" />
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:selectBooleanCheckbox id="stActivated" 
+                                                     value="#{staffController.selected.stActivated}" 
+                                                     disabled="true"
+                                                     />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+
+                <br />
+
+                <h:panelGrid >
+                    <p:panel header="#{ism.StaffField_stPassword}" collapsed="true" toggleable="true">
+                        <p:panelGrid id="passwordGrid">
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="#{ism.StaffField_stPassword}" for="pwd1" />
+                                </p:column>
+                                <p:column colspan="2">
+                                    <p:password id="pwd1" value="#{staffController.selected.stPassword}" 
+                                                title="#{ism.StaffFieldInfo_stPassword}" 
+                                                redisplay="true"
+                                                required="true" 
+                                                requiredMessage="#{ism.StaffRequiredMsg_stPassword}"
+                                                feedback="true"
+                                                promptLabel="#{ism.StaffField_stPasswordPromptLabel}"
+                                                weakLabel="#{ism.StaffField_stPasswordWeakLabel}"
+                                                goodLabel="#{ism.StaffField_stPasswordGoodLabel}"
+                                                strongLabel="#{ism.StaffField_stPasswordStrongLabel}"
+                                                label="Password 1"
+                                                style="width: 190px;"
+                                                />
+                                    <p:message for="pwd1"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel value="#{ism.StaffField_stPasswordConf}" for="pwd2" />
+                                </p:column>
+                                <p:column colspan="2">
+                                    <p:password id="pwd2" value="#{staffController.selected.stPasswordConf}"
+                                                redisplay="true" label="Password 2"
+                                                required="true"
+                                                style="width: 190px;"
+                                                />
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:commandButton id="btnProfilUpdate"
+                                         value="#{ism.Change}"
+                                         actionListener="#{staffController.update()}"
+                                         update="passwordGrid,:growl" 
+                                         styleClass="ui-button-std"
+                                         />
+                        <p:commandButton id="btnProfilClear"
+                                         value="#{ism.Clear}"
+                                         actionListener="#{staffController.clearCurrentPassword()}"
+                                         update="passwordGrid,:growl" 
+                                         styleClass="ui-button-std"
+                                         />
+                    </p:panel>
+                    <p:blockUI block="passwordGrid" trigger="passwordGrid">
+                            LOADING<br />
+                            <p:graphicImage name="demo/images/ajaxloadingbar.gif"/>
+                        </p:blockUI>
+                </h:panelGrid>
+
+                <hr />
+                <h:panelGrid>
+                    <p:panel header="#{ism.StaffCompaniesField_stcCompany}" collapsed="true" toggleable="true">
+                        <p:tree    id="accessTree" value="#{staffAuthController.accessTree}" 
+                                   var="varCtrlAccess" 
+                                   selection="#{staffAuthController.selectedAccessTree}"
+                                   style="border:none;"
+                                   animate="true" cache="true" 
+                                   >
+                            <p:treeNode>
+                                <h:outputText value="#{varCtrlAccess}" />
+                            </p:treeNode>
+                        </p:tree>
+                    </p:panel>
+                </h:panelGrid>
+
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IsmGenreCreateDlg" widgetVar="IsmGenreCreateDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateIsmGenreTitle}">
+            <h:form id="IsmGenreCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ismGenreController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateIsmGenreLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{ismGenreController.selected.id}" title="#{bundle.CreateIsmGenreTitle_id}" required="true" requiredMessage="#{bundle.CreateIsmGenreRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateIsmGenreLabel_genre}" for="genre" />
+                        <p:inputText id="genre" value="#{ismGenreController.selected.genre}" title="#{bundle.CreateIsmGenreTitle_genre}" required="true" requiredMessage="#{bundle.CreateIsmGenreRequiredMessage_genre}"/>
+                        <p:outputLabel value="#{bundle.CreateIsmGenreLabel_genrename}" for="genrename" />
+                        <p:inputText id="genrename" value="#{ismGenreController.selected.genrename}" title="#{bundle.CreateIsmGenreTitle_genrename}" required="true" requiredMessage="#{bundle.CreateIsmGenreRequiredMessage_genrename}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ismGenreController.create}" value="#{bundle.Save}" update="display,:IsmGenreListForm:datalist,:growl" oncomplete="handleSubmit(args,'IsmGenreCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="IsmGenreCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StaffSetupEditDlg" widgetVar="StaffSetupEditDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditStaffSetupTitle}">
+            <h:form id="StaffSetupEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{staffSetupController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditStaffSetupLabel_stsId}" for="stsId" />
+                        <p:inputText id="stsId" value="#{staffSetupController.selected.stsId}" title="#{bundle.EditStaffSetupTitle_stsId}" required="true" requiredMessage="#{bundle.EditStaffSetupRequiredMessage_stsId}"/>
+                        <p:outputLabel value="#{bundle.EditStaffSetupLabel_stsmenuIndex}" for="stsmenuIndex" />
+                        <p:inputText id="stsmenuIndex" value="#{staffSetupController.selected.stsmenuIndex}" title="#{bundle.EditStaffSetupTitle_stsmenuIndex}" required="true" requiredMessage="#{bundle.EditStaffSetupRequiredMessage_stsmenuIndex}"/>
+                        <p:outputLabel value="#{bundle.EditStaffSetupLabel_ststimeOutSession}" for="ststimeOutSession" />
+                        <p:inputText id="ststimeOutSession" value="#{staffSetupController.selected.ststimeOutSession}" title="#{bundle.EditStaffSetupTitle_ststimeOutSession}" required="true" requiredMessage="#{bundle.EditStaffSetupRequiredMessage_ststimeOutSession}"/>
+                        <p:outputLabel value="#{bundle.EditStaffSetupLabel_stsCreated}" for="stsCreated" />
+                        <p:calendar id="stsCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{staffSetupController.selected.stsCreated}" title="#{bundle.EditStaffSetupTitle_stsCreated}" required="true" requiredMessage="#{bundle.EditStaffSetupRequiredMessage_stsCreated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditStaffSetupLabel_stsChanged}" for="stsChanged" />
+                        <p:calendar id="stsChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{staffSetupController.selected.stsChanged}" title="#{bundle.EditStaffSetupTitle_stsChanged}" required="true" requiredMessage="#{bundle.EditStaffSetupRequiredMessage_stsChanged}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditStaffSetupLabel_stsStaff}" for="stsStaff" />
+                        <p:selectOneMenu id="stsStaff" value="#{staffSetupController.selected.stsStaff}" required="true" requiredMessage="#{bundle.EditStaffSetupRequiredMessage_stsStaff}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="stsStaffItem"
+                                           itemValue="#{stsStaffItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{staffSetupController.update}" value="#{bundle.Save}" update="display,:StaffSetupListForm:datalist,:growl" oncomplete="handleSubmit(args, 'StaffSetupEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="StaffSetupEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

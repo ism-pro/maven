@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LabSamplePtViewDlg" widgetVar="LabSamplePtViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lab.ViewLabSamplePtTitle}">
+            <h:form id="LabSamplePtViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{labSamplePtController.selected != null}">
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspId}"/>
+                        <h:outputText value="#{labSamplePtController.selected.lspId}" title="#{lab.ViewLabSamplePtTitle_lspId}"/>
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspSamplePt}"/>
+                        <h:outputText value="#{labSamplePtController.selected.lspSamplePt}" title="#{lab.ViewLabSamplePtTitle_lspSamplePt}"/>
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspDesignation}"/>
+                        <h:outputText value="#{labSamplePtController.selected.lspDesignation}" title="#{lab.ViewLabSamplePtTitle_lspDesignation}"/>
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspDescription}"/>
+                        <h:outputText value="#{labSamplePtController.selected.lspDescription}" title="#{lab.ViewLabSamplePtTitle_lspDescription}"/>
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{labSamplePtController.selected.lspDeleted}" disabled="true"/>
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspCreated}"/>
+                        <h:outputText value="#{labSamplePtController.selected.lspCreated}" title="#{lab.ViewLabSamplePtTitle_lspCreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspChanged}"/>
+                        <h:outputText value="#{labSamplePtController.selected.lspChanged}" title="#{lab.ViewLabSamplePtTitle_lspChanged}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspCompany}"/>
+                        <h:outputText value="#{labSamplePtController.selected.lspCompany}" title="#{lab.ViewLabSamplePtTitle_lspCompany}"/>
+                        <h:outputText value="#{lab.ViewLabSamplePtLabel_lspEquipement}"/>
+                        <h:outputText value="#{labSamplePtController.selected.lspEquipement}" title="#{lab.ViewLabSamplePtTitle_lspEquipement}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{lab.Close}" onclick="LabSamplePtViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

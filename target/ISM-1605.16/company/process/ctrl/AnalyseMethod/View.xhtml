@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LabAnalyseMethodViewDlg" widgetVar="LabAnalyseMethodViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lab.ViewLabAnalyseMethodTitle}">
+            <h:form id="LabAnalyseMethodViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{labAnalyseMethodController.selected != null}">
+                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamId}"/>
+                        <h:outputText value="#{labAnalyseMethodController.selected.lamId}" title="#{lab.ViewLabAnalyseMethodTitle_lamId}"/>
+                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamMethod}"/>
+                        <h:outputText value="#{labAnalyseMethodController.selected.lamMethod}" title="#{lab.ViewLabAnalyseMethodTitle_lamMethod}"/>
+                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamDesignation}"/>
+                        <h:outputText value="#{labAnalyseMethodController.selected.lamDesignation}" title="#{lab.ViewLabAnalyseMethodTitle_lamDesignation}"/>
+                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamDescription}"/>
+                        <h:outputText value="#{labAnalyseMethodController.selected.lamDescription}" title="#{lab.ViewLabAnalyseMethodTitle_lamDescription}"/>
+                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{labAnalyseMethodController.selected.lamDeleted}" disabled="true"/>
+                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamCreated}"/>
+                        <h:outputText value="#{labAnalyseMethodController.selected.lamCreated}" title="#{lab.ViewLabAnalyseMethodTitle_lamCreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamChanged}"/>
+                        <h:outputText value="#{labAnalyseMethodController.selected.lamChanged}" title="#{lab.ViewLabAnalyseMethodTitle_lamChanged}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamCompany}"/>
+                        <h:outputText value="#{labAnalyseMethodController.selected.lamCompany}" title="#{lab.ViewLabAnalyseMethodTitle_lamCompany}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{lab.Close}" onclick="LabAnalyseMethodViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

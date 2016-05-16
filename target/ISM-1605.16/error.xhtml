@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" 
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>#{ism.AppName}</title>
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+        <meta http-equiv="refresh" 
+              content="300;url=/ISM/faces/login.xhtml?faces-redirect=true"/>
+
+        <h:outputStylesheet library="css" name="ism-login.css" />
+        <h:outputScript library="js" name="login.js" />
+        <h:outputScript library="js" name="jquery.leanModal.min.js" />
+    </h:head>
+
+    <h:body>
+
+
+
+        <div id="topbar"><a href="http://www.brasimba.com">BRASIMBA WEB SITE</a></div>
+
+
+
+
+        <div id="window">
+            <div id="content">
+                <center>
+                    <h:graphicImage value="#{resource['img/ism/favico.png']}"  
+                                    width="192px" 
+                                    height="64px"
+                                    />
+                    <div id="welcome">Error Code: #{errorHandler.statusCode}</div>
+                    <div id="loginMsg">#{errorHandler.message}</div>
+                </center>
+
+
+                <div >
+                    <h:form >
+                        <h:outputText value="Error Code: #{errorHandler.statusCode}"></h:outputText>
+                        <br />
+                        <h:outputText value="Error Desscription: #{errorHandler.message}"></h:outputText>
+                        <br />
+                        <h:outputText value="Exception Type: #{errorHandler.exceptionType}"></h:outputText>
+                        <br />
+                        <h:outputText value="Exception Calss: #{errorHandler.exception}"></h:outputText>
+                        <br />
+                        <h:outputText value="Request URI : #{errorHandler.requestURI}"></h:outputText>
+                    
+                        <center>
+                            <br />
+                            <br />
+                            <p:commandButton value="ISM" action="/ISM/faces/login.xhtml" onclick="window.location = '#{request.contextPath}/faces/login.xhtml'" />
+                        </center>
+                    
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <p:growl id="growl" life="8000" />
+
+    </h:body>
+</html>
+

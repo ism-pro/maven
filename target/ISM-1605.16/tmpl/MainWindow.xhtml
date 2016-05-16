@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pi="http://primefaces.org/ui/ism"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title><ui:insert name="title">#{ism.AppName}</ui:insert></title>
+        <link rel="shortcut icon" href="#{resource['img/company/ismMain3.png']}" type="image/x-png" /> 
+        <meta http-equiv="refresh" 
+              content="#{viewRibbon.advanceSessionMaxInactiveInterval()};url=/ISM/faces/login.xhtml?faces-redirect=true"/>
+
+
+        <f:facet name="last">
+            <h:outputStylesheet library="css" name="ribbon/ism-ribbon.css" />
+            <h:outputStylesheet library="css" name="ribbon/ism-MainMenu.css" />
+            <h:outputStylesheet library="css" name="ism-global.css" />
+            <h:outputStylesheet library="css" name="ism-index.css" />
+            <h:outputStylesheet library="css" name="admin/ism-smq-nc.css" />
+
+            <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+            <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
+            <h:outputScript library="js" name="ism-global.js" />
+
+        </f:facet>
+    </h:head>
+
+    <h:body id="body" rendered="#{request.session.getAttribute('authenticated')}">
+        <p:growl id="growl" life="5000" />
+        <p:dialog header="Déconnexion imminante" 
+                  widgetVar="dlgReminingTimeSessionWakeUp" 
+                  modal="true" height="50" width="400" closable="false" footer="ISM" resizable="false" >
+            <h:outputText value="Continuer avec ISM ..." /> <br /><br />
+
+            <f:facet name="footer" >
+                <p:commandButton id="dlgReminingTimeSessionWakeUpYes" 
+                                 value="#{ism.Accept}"
+                                 onclick="PF('dlgReminingTimeSessionWakeUp').hide();"
+                                 action="/company/index.xhtml?faces-redirect=true"
+                                 />
+                <p:commandButton id="dlgReminingTimeSessionWakeUpNo" 
+                                 value="#{ism.Refused}"
+                                 onclick="PF('dlgReminingTimeSessionWakeUp').hide();"
+                                 action="#{staffAuthController.logout()}"
+                                 />
+            </f:facet>
+        </p:dialog> 
+
+
+
+        <div id="layout-top">
+            <h:form id="ribbon-form">
+                <p:poll id="poll" interval="1" listener="#{viewRibbon.updateReminingTimeSession()}" update="shortcut-label-reminingTimeout"  />
+                <div id="ribbon-layout">
+                    <div id="ribbon-layout-shortcut">
+                        <div id="shortcut-main" >
+                            <p:menuButton id="shortcut-selector" value=""  >
+                                <p:menuitem actionListener="#{viewRibbon.findComponent('btn_1')}" value="btn 1" update="@form" />
+                                <p:menuitem actionListener="#{viewRibbon.findComponent('btn_2')}" value="btn 2" update="@form" />
+                                <p:separator />
+                                <p:menuitem actionListener="#{viewRibbon.findComponent('shortcut-btn-theme')}" value="#{ism.Themes}" update="@form" />
+                                <p:menuitem actionListener="#{viewRibbon.findComponent('shortcut-btn-logout')}" value="#{ism.Authentication_Disconnect}" update="@form" />
+                                <p:menuitem actionListener="#{viewRibbon.findComponent('shortcut-label-reminingTimeout')}" value="TimeOut" update="@form" />
+                            </p:menuButton>
+                        </div>
+                        <div id="shortcut-left">
+                            <p:commandButton id="btn_1"  value='' rendered="false" />
+                            <p:commandButton id="btn_2" value=''  rendered="false" />
+                        </div>
+                        <div id="shortcut-center">
+                            <p:outputLabel value="#{ism.AppNameA} [ #{ism.AppVersion} ]  -  #{ism.CompanyName} - #{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"/>
+                        </div>
+                        <div id="shortcut-right">
+                            <p:selectOneMenu  id="shortcut-btn-theme" 
+                                              value="#{staffSetupController.theme}" 
+                                              var="t" onchange="submit()"
+                                              valueChangeListener="#{staffSetupController.applyThemeEvent}"
+                                              filter="true" filterMatchMode="contains"
+                                              title="Thème recommandé (Flick Smothness, redmond , cupertino, aristo, bitzer, hot-sneaks, Excite Bike" 
+                                              >
+                                <f:selectItem   itemLabel="#{staffSetupController.selected.stsTheme}"
+                                                itemValue="#{themeService.getStrTheme(staffSetupController.selected.stsTheme)}"
+                                                />
+                                <f:selectItems value="#{themeService.themes}" 
+                                               var="th"  itemValue="#{th}"
+                                               />
+
+                                <p:column>
+                                    <h:outputText value="#{t.displayName}" />
+                                </p:column>
+                            </p:selectOneMenu>
+                            <p:commandButton id="shortcut-btn-logout" 
+                                             icon="ui-icon-key"  value="#{ism.Authentication_Disconnect}" rendered="true"
+                                             action="#{staffAuthController.logout}"
+                                             actionListener="#{viewRibbon.setActiveIndex(0)}"
+                                             />
+                            <p:outputLabel      id="shortcut-label-reminingTimeout"
+                                                value="#{viewRibbon.reminingTimeSession}/#{request.session.maxInactiveInterval}"
+                                                rendered="true"
+                                                style="min-width: 72px; min-height: 22px; background-color: #a1dbff;"
+
+                                                />
+
+                        </div>
+                    </div>
+
+
+
+
+
+                    <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}"
+                              >
+                        <p:ajax event="tabChange" listener="#{viewRibbon.onChange}"  />
+
+                        <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
+
+                        </p:tab>
+
+                        <p:tab id="administration" title="#{ism.AdminPage}">
+                            <pi:ribbonGroup id="ribbonGroupSMQ" label="SMQ"  >
+                                <pi:ribbonGroupSet id="ribbonGroupSetSMQ" ribbonSet="big" >
+                                    <p:commandButton id="btnSMQProcessus"
+                                                     rendered="#{request.isUserInRole('CO_SMQPROCESSUS_R')}"
+                                                     actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                     title="Processus"
+                                                     action="/company/smq/processus/List.xhtml?faces-redirect=true"
+                                                     icon="ui-ribbonicon-new" 
+                                                     value="Processus"
+                                                     />
+                                    <p:commandButton id="btnSMQDocType"
+                                                     rendered="#{request.isUserInRole('CO_SMQDOCTYPE_R')}"
+                                                     actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                     title="Type de document"
+                                                     action="/company/smq/docType/List.xhtml?faces-redirect=true"
+                                                     icon="ui-ribbonicon-new" 
+                                                     value="Type de document"
+                                                     />
+                                    <p:commandButton id="btnSMQDocument"
+                                                     rendered="#{request.isUserInRole('CO_SMQDOCEXPLORER_R')}"
+                                                     actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                     title="Liste de document"
+                                                     action="/company/smq/docExplorer/List.xhtml?faces-redirect=true"
+                                                     icon="ui-ribbonicon-new" 
+                                                     value="Documentation"
+                                                     />
+                                </pi:ribbonGroupSet>
+                            </pi:ribbonGroup>
+
+                            <pi:ribbonGroup id="RibbonGroupAdminNC" label="Non conformité" >
+                                <pi:ribbonGroupSet id="ribSetNC" ribbonSet="big">
+                                    <p:commandButton id="btnSMQNC"
+                                                     title="Gestion de non conformité"
+                                                     action="/company/smq/nc/Request/List.xhtml?faces-redirect=true"
+                                                     actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                     rendered="#{request.isUserInRole('CO_SMQNCREQUEST_R')}"
+                                                     icon="ui-icon-smqnc" 
+                                                     value="Gérer"
+                                                     />
+
+                                    <p:menuButton id="menubutton-smq-nc" 
+                                                  value="Configuration"
+                                                  styleClass="ui-menubutton-smqnc"
+                                                  >
+                                        <p:menuitem id="splitButtonMenuItemNCUnit"
+                                                    value="Unités"
+                                                    action="/company/smq/nc/Unite/List.xhtml?faces-redirect=true"
+                                                    actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                    rendered="#{request.isUserInRole('CO_SMQNCUNITE_R')}"
+                                                    icon="ui-icon-smqnc-unit"
+                                                    />
+                                        <p:menuitem id="splitButtonMenuItemNCNature"
+                                                    value="Nature" 
+                                                    action="/company/smq/nc/Nature/List.xhtml?faces-redirect=true"
+                                                    actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                    rendered="#{request.isUserInRole('CO_SMQNCNATURE_R')}"
+                                                    icon="ui-icon-smqnc-nature"
+                                                    />
+                                        <p:menuitem id="splitButtonMenuItemNCGravity"
+                                                    value="Gravités" 
+                                                    action="/company/smq/nc/Gravite/List.xhtml?faces-redirect=true"
+                                                    actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                    rendered="#{request.isUserInRole('CO_SMQNCGRAVITE_R')}"
+                                                    icon="ui-icon-smqnc-gravite"
+                                                    />
+                                        <p:menuitem id="splitButtonMenuItemNCFrequency"
+                                                    value="Fréquences" 
+                                                    action="/company/smq/nc/Frequence/List.xhtml?faces-redirect=true"
+                                                    actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                    rendered="#{request.isUserInRole('CO_SMQNCFREQUENCE_R')}"
+                                                    icon="ui-icon-smqnc-frequence"/>
+                                        <p:separator />
+                                        <p:menuitem id="splitButtonMenuItemNCRequest"
+                                                    value="Non conformité" 
+                                                    action="/company/smq/nc/Request/List.xhtml?faces-redirect=true"
+                                                    actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                    rendered="#{request.isUserInRole('CO_SMQNCREQUEST_R')}"
+                                                    icon="ui-icon-smqnc-request" />
+                                    </p:menuButton>
+                                </pi:ribbonGroupSet>
+                            </pi:ribbonGroup>
+                        </p:tab>
+
+                        <p:tab id="resources" title="#{ism.HRPage}">
+                            <pi:ribbonGroup id="RibbonGroupResources" label="Staff">
+                                <pi:ribbonGroupSet id="ribbonGroupSetStaff" ribbonSet="small">
+                                    <p:commandButton id="btnStaffGroup"
+                                                     rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEF_R')}"
+                                                     actionListener="#{viewRibbon.setActiveIndex(2)}"
+                                                     title="Gérer vos groupes de staff donnant accès au utilisateur"
+                                                     action="/company/hr/staffGroupDef/List.xhtml?faces-redirect=true"
+                                                     value="Groupes" 
+                                                     icon="ui-icon-hrstaffgroups" />
+                                    <p:commandButton id="btnStaffRole"
+                                                     rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEFROLE_R')}"
+                                                     actionListener="#{viewRibbon.setActiveIndex(2)}"
+                                                     title="Associer des rôles d'accès au groupes de staff sous forme tabulaire"
+                                                     action="/company/hr/staffGroupDefRole/List.xhtml?faces-redirect=true"
+                                                     value="Rôle List" 
+                                                     icon="ui-icon-hrstaffroles" />
+                                    <p:commandButton id="btnStaffRoleTree"
+                                                     rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEFROLE_R')}"
+                                                     actionListener="#{staffGroupDefRoleController.prepareCreateTree}"
+                                                     title="Associer des rôles d'accès au groupes de staff sous forme d'arbre"
+                                                     action="/company/hr/staffGroupDefRole/CreateTree.xhtml?faces-redirect=true"
+                                                     value="Rôle Tree" 
+                                                     icon="ui-icon-hrstaffroles" />
+
+                                    <p:commandButton id="btnStaffCompany"
+                                                     rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEFROLE_R')}"
+                                                     actionListener="#{viewRibbon.setActiveIndex(2)}"
+                                                     title="Lier l'utilisateur à une compagnie"
+                                                     action="/company/hr/staffCompany/List.xhtml?faces-redirect=true"
+                                                     value="Société"
+                                                     icon="ui-icon-hrstaffcompany" />
+                                    <p:commandButton id="btnStaffToGroup"
+                                                     rendered="#{request.isUserInRole('CO_HRSTAFFGROUPS_R')}"
+                                                     actionListener="#{viewRibbon.setActiveIndex(2)}"
+                                                     title="Lier des utilisateur à un groupe d'accès"
+                                                     action="/company/hr/staffGroups/List.xhtml?faces-redirect=true"
+                                                     value="Accès"
+                                                     icon="ui-icon-hrstaffacces"  />
+                                </pi:ribbonGroupSet>
+                                <pi:ribbonGroupSet id="ribbonGroupSetStaffCreate" ribbonSet="big">
+
+                                    <p:commandButton id="btnStaffCreate"
+                                                     rendered="#{request.isUserInRole('CO_HRSTAFFMANAGER_W')}"
+                                                     actionListener="#{staffManagerController.prepareCreate}"
+                                                     title="Créer un utilisateur"
+                                                     action="/company/hr/staffManager/Create.xhtml?faces-redirect=true"
+                                                     value="Staff Création" 
+                                                     icon="ui-icon-hrstaffcreate" />
+
+
+                                    <p:commandButton id="btnStaffList"
+                                                     rendered="#{request.isUserInRole('CO_HRSTAFFMANAGER_R')}"
+                                                     actionListener="#{viewRibbon.setActiveIndex(2)}"
+                                                     title="Tableau de la liste du staffs (utilisateurs)"
+                                                     action="/company/hr/staff/List.xhtml?faces-redirect=true"
+                                                     value="Staff List" 
+                                                     icon="ui-icon-hrstafflist" />
+
+                                    <p:commandButton id="btnStaffManageList"
+                                                     rendered="#{request.isUserInRole('CO_HRSTAFFMANAGER_R')}"
+                                                     actionListener="#{staffManagerController.prepareCreate}"
+                                                     title="Grille de la liste du staffs (utilisateurs)"
+                                                     action="/company/hr/staffManager/List.xhtml?faces-redirect=true"
+                                                     value="Staff List" 
+                                                     icon="ui-icon-hrstaffusers" />
+                                </pi:ribbonGroupSet>
+                            </pi:ribbonGroup>
+                        </p:tab>
+
+                        <p:tab id="tabProcess" title="Process" rendered="false" >
+                            <pi:ribbonGroup id="RibbonGroupPStd" label="Standard">
+                                <h:panelGrid id="PanelGridStd" columns="1">
+                                    <h:commandButton id="btnPStdEquipement"
+                                                     title="Définition des équipements"
+                                                     action="/company/process/equipement/List.xhtml?faces-redirect=true"
+                                                     image="/resources/img/me/brewery_icon.jpg"
+                                                     styleClass="btnSmall"
+
+                                                     actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                     />
+                                    <h:commandButton id="btnPStdUnite"
+                                                     title="Définition des unités d'usage"
+                                                     action="/company/process/unite/List.xhtml?faces-redirect=true"
+                                                     image="/resources/img/ctrl/measure_units.png"
+                                                     styleClass="btnSmall"
+
+                                                     actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                     />
+                                </h:panelGrid>
+                            </pi:ribbonGroup>
+                            <pi:ribbonGroup id="RibbonGroupPCtrl" label="Contrôle">
+                                <h:panelGrid id="PanelGridPCtrl" columns="5">
+                                    <h:panelGrid columns="3" >
+                                        <p:splitButton id="splitButtonProcessCtrlType"  
+                                                       icon="ism-menu-icon-ProcessCtrlType" 
+                                                       styleClass="ism-menu-icon-ProcessCtrlType"
+                                                       title="Définition des types d'analyse"
+                                                       action="/company/process/ctrl/AnalyseType/List.xhtml?faces-redirect=true"
+                                                       rendered="true"
+                                                       actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                       >
+
+                                            <p:menuitem id="splitButtonMenuItemProcessCtrlTypeType" 
+                                                        icon="ism-menu-icon-ProcessCtrlType"   
+                                                        value="#{ism.PCtrlTypeTitleList}" 
+                                                        title="Définition des types d'analyse"
+                                                        action="/company/process/ctrl/AnalyseType/List.xhtml?faces-redirect=true"
+                                                        rendered="true"
+                                                        />
+                                            <p:separator />
+                                            <p:menuitem id="splitButtonMenuItemProcessCtrlTypeMethod" 
+                                                        icon="ism-menu-icon-ProcessCtrlTypeMethod"   
+                                                        value="#{ism.PCtrlMethodField_Method}" 
+                                                        title="Définition des méthode d'analyse"
+                                                        action="/company/process/ctrl/AnalyseMethod/List.xhtml?faces-redirect=true"
+                                                        rendered="true"
+                                                        />
+                                            <p:menuitem id="splitButtonMenuItemProcessCtrlTypeCategory" 
+                                                        icon="ism-menu-icon-ProcessCtrlTypeCategory"   
+                                                        value="#{ism.PCtrlCategoryField_Category}" 
+                                                        title="Définition des catégories d'analyse"
+                                                        action="/company/process/ctrl/AnalyseCategory/List.xhtml?faces-redirect=true"
+                                                        rendered="true"
+                                                        />
+
+                                        </p:splitButton>
+
+
+                                        <p:splitButton id="splitButtonProcessCtrlSample"  
+                                                       icon="ism-menu-icon-ProcessCtrlSample" 
+                                                       styleClass="ism-menu-icon-ProcessCtrlSample"
+                                                       title="Liste des valeurs d'analyse d'échantillon"
+                                                       action="/company/process/ctrl/Sample/List.xhtml?faces-redirect=true"
+                                                       rendered="true"
+                                                       actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                       >
+
+                                            <p:menuitem id="splitButtonMenuItemProcessCtrlSample" 
+                                                        icon="ism-menu-icon-ProcessCtrlSample"   
+                                                        value="Valeur d'échantillon" 
+                                                        title="Liste des valeurs d'analyse d'échantillon"
+                                                        action="/company/process/ctrl/Sample/List.xhtml?faces-redirect=true"
+                                                        rendered="true"
+                                                        />
+                                            <p:separator />
+                                            <p:menuitem id="splitButtonMenuItemProcessCtrlSampleSamplePt" 
+                                                        icon="ism-menu-icon-ProcessCtrlSampleSamplePt"   
+                                                        value="Points d'échantillonage" 
+                                                        title="Définition des points d'échantillonage"
+                                                        action="/company/process/ctrl/SamplePt/List.xhtml?faces-redirect=true"
+                                                        rendered="true"
+                                                        />
+                                            <p:menuitem id="splitButtonMenuItemProcessCtrlSampleSamplePtAnalyse" 
+                                                        icon="ism-menu-icon-ProcessCtrlSampleSamplePtAnalyse"   
+                                                        value="Echantill. - Type" 
+                                                        title="Définition des types d'analyse par point d'échantillonage"
+                                                        action="/company/process/ctrl/SamplePtAnalyses/List.xhtml?faces-redirect=true"
+                                                        rendered="true"
+                                                        />
+
+                                        </p:splitButton>
+
+                                        <p:menuButton value="Options"
+                                                      style="width: 32px; height: 32px;">
+                                            <p:menuitem value="Save"  icon="ui-icon-disk"/>
+                                            <p:menuitem value="Update"   icon="ui-icon-arrowrefresh-1-w"/>
+                                            <p:menuitem value="Delete"  ajax="false" icon="ui-icon-close"/>
+                                            <p:separator />
+                                            <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink"/>
+                                        </p:menuButton>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </pi:ribbonGroup>
+                        </p:tab>
+
+                    </pi:ribbon>
+                </div>
+
+            </h:form>
+        </div>
+
+        <div id="sidebar">
+            <div id="sidebar-options" title="Cliquer pour visualiser ou cacher les options disponibles">
+                <h:graphicImage id="sidebar-options-icon" 
+                                library="img" name="ism/std/Options.png" />
+            </div>
+            <div id="sidebar-content">
+                <p:panelGrid rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?false:true}">
+                    <ui:include src="./sidebar/ncRequestView.xhtml"  />
+                </p:panelGrid>
+                
+                <h:outputText style="margin: 5px;color: white;max-width: 120px;"
+                               escape="true"
+                               value="#{request.pathInfo}" /><br />
+            </div>
+        </div>
+
+
+        <div id="file-layout">
+            <p:panelGrid rendered="#{viewRibbon.activeIndex!=0?false:true}">
+                <ui:include src="./MainMenu.xhtml" rendered="#{viewRibbon.activeIndex!=0?false:true}" />
+            </p:panelGrid>
+            <div id="layout-content">
+                <ui:insert id="body" name="body" />
+            </div>
+
+        </div>
+
+
+
+        <p:confirmDialog global="true">
+            <p:commandButton value="#{ism.ConfirmYes}" type="button" 
+                             styleClass="ui-confirmdialog-yes"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="#{ism.ConfirmNo}" type="button" 
+                             styleClass="ui-confirmdialog-no"
+                             icon="ui-icon-close"/>
+        </p:confirmDialog>
+
+    </h:body>
+
+    <h:body rendered="#{!request.session.getAttribute('authenticated')}">
+        <meta http-equiv="refresh" 
+              content="0;url=/ISM/faces/login.xhtml?faces-redirect=true"/>
+    </h:body>
+    
+    
+    <p:blockUI block="body" 
+               trigger="ribbon-form:shortcut-btn-theme,
+                ribbon-form:shortcut-btn-logout, 
+                ribbon-form:ism-ribbon:main,
+                ribbon-form:ism-ribbon:administration,
+                ribbon-form:ism-ribbon:resources,
+                ribbon-form:ism-ribbon:btnSMQProcessus, 
+                ribbon-form:ism-ribbon:btnSMQDocType, 
+                ribbon-form:ism-ribbon:btnSMQDocument,
+                ribbon-form:ism-ribbon:btnSMQNC,       
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCUnit, 
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCNature, 
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCGravity, 
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCFrequency, 
+                ribbon-form:ism-ribbon:splitButtonMenuItemNCRequest,
+                ribbon-form:ism-ribbon:resources, 
+                ribbon-form:ism-ribbon:btnStaffGroup, 
+                ribbon-form:ism-ribbon:btnStaffRole, 
+                ribbon-form:ism-ribbon:btnStaffRoleTree, 
+                ribbon-form:ism-ribbon:btnStaffCompany, 
+                ribbon-form:ism-ribbon:btnStaffToGroup, 
+                ribbon-form:ism-ribbon:btnStaffCreate, 
+                ribbon-form:ism-ribbon:btnStaffList, 
+                ribbon-form:ism-ribbon:btnStaffManageList"
+               >
+        <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+    </p:blockUI>
+</html>
+

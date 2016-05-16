@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+
+            <h1> 
+                <h:outputText value="#{ism.DocTypeTitleList}"/>
+            </h1>
+
+
+            <h:form id="DocTypeListForm" >
+                <p:dataTable id="datalist" value="#{docTypeController.items}" var="item"
+                             selectionMode="single" selection="#{docTypeController.selected}"
+                             rowKey="#{item.dctType}"
+                             paginator="#{tableView.paginator}" 
+                             rows="#{tableView.rows}" 
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             >
+
+                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.DocTypeField_dctId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dctId}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.DocTypeField_dctType}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dctType}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.DocTypeField_dctDesignation}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dctDesignation}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.DocTypeField_dctDeleted}"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.dctDeleted}" disabled="true"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.DocTypeField_dctCreated}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dctCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.DocTypeField_dctChanged}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dctChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.DocTypeField_dctCompany}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dctCompany.CCompany} - #{item.dctCompany.CDesignation}"/>
+                    </p:column>
+
+
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   
+                                         value="#{ism.Create}" 
+                                         actionListener="#{docTypeController.prepareCreate}" 
+                                         update=":DocTypeCreateForm" 
+                                         oncomplete="PF('DocTypeCreateDialog').show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" 
+                                         value="#{ism.View}" update=":DocTypeViewForm" 
+                                         oncomplete="PF('DocTypeViewDialog').show()" 
+                                         disabled="#{empty docTypeController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" 
+                                         value="#{ism.Edit}" update=":DocTypeEditForm" 
+                                         oncomplete="PF('DocTypeEditDialog').show()" 
+                                         disabled="#{empty docTypeController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  
+                                         value="#{ism.Delete}" 
+                                         actionListener="#{docTypeController.destroy}" 
+                                         update=":growl,datalist" 
+                                         disabled="#{empty docTypeController.selected}">
+                            <p:confirm header="#{ism.DocTypeTitleList} - #{ism.ConfirmDeleteTitle}" 
+                                       message="#{ism.ConfirmDeleteMessage}" 
+                                       icon="ui-icon-alert"/>
+                            <p:confirmDialog global="true">
+                                <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
+                                                 icon="ui-icon-check"/>
+                                <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
+                                                 icon="ui-icon-close"/>
+                            </p:confirmDialog>
+                        </p:commandButton>
+                    </f:facet>
+
+                </p:dataTable>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

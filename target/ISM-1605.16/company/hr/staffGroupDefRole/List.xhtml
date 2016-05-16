@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1>
+                <h:outputText value="#{ism.StaffGroupsTitleList}" />
+            </h1>
+
+            <h:form id="StaffGroupDefRoleListForm">
+
+                <p:dataTable id="datalist" value="#{staffGroupDefRoleController.items}" var="item"
+                             selectionMode="single" selection="#{staffGroupDefRoleController.selected}"
+                             paginator="true" resizableColumns="true"
+                             rowKey="#{item.stgdrId}"
+                             rows="20"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
+
+                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.StaffGroupDefRoleField_stgdrId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.stgdrId}"/>
+                    </p:column>
+
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.StaffGroupDefRoleField_stgdrGroupDef}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.stgdrGroupDef.stgdDesignation}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.StaffGroupDefRoleField_stgdrRole}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.stgdrRole.rolename}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.StaffGroupDefRoleField_stgdrActivated}"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.stgdrActivated}" disabled="true"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.StaffGroupDefRoleField_stgdrCreated}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.stgdrCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.StaffGroupDefRoleField_stgdrChanged}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.stgdrChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{ism.StaffGroupDefRoleField_stgdrCompany}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.stgdrCompany.CCompany} - #{item.stgdrCompany.CDesignation}"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="createbyTree" 
+                                    icon="ui-icon-unlocked"   
+                                    value="#{ism.CreateTree}" 
+                                    title="Ajout de rôle aux groupes d'accès"
+                                    action="/public/company/hr/staffGroupDefRole/CreateTree.xhtml?faces-redirect=true"
+                                    rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEFROLE_R')}"
+                                    actionListener="#{staffGroupDefRoleController.prepareCreateTree}"/>
+
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{ism.Create}" 
+                                         actionListener="#{staffGroupDefRoleController.prepareCreate}" 
+                                         update=":StaffGroupDefRoleCreateForm" 
+                                         oncomplete="PF('StaffGroupDefRoleCreateDialog').show()"/>
+
+
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{ism.View}" update=":StaffGroupDefRoleViewForm" oncomplete="PF('StaffGroupDefRoleViewDialog').show()" disabled="#{empty staffGroupDefRoleController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{ism.Edit}" update=":StaffGroupDefRoleEditForm" oncomplete="PF('StaffGroupDefRoleEditDialog').show()" disabled="#{empty staffGroupDefRoleController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{ism.Delete}" 
+                                         action="#{staffGroupDefRoleController.destroy}" 
+                                         update=":growl,datalist" 
+                                         disabled="#{empty staffGroupDefRoleController.selected}"
+                                         actionListener="#{staffAuthController.updateAllowsRole()}"
+                                         >
+                            <p:confirm header="#{ism.StaffGroupDefTitleList} - #{ism.ConfirmDeleteTitle}" 
+                                       message="#{ism.ConfirmDeleteMessage}" 
+                                       icon="ui-icon-alert"/>
+                            <p:confirmDialog global="true">
+                                <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
+                                                 icon="ui-icon-check"/>
+                                <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
+                                                 icon="ui-icon-close"/>
+                            </p:confirmDialog>
+                        </p:commandButton>
+                    </f:facet>
+
+                </p:dataTable>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

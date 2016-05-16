@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IsmNcrstateCreateDlg" widgetVar="IsmNcrstateCreateDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{iism.CreateIsmNcrstateTitle}">
+            <h:form id="IsmNcrstateCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ismNcrstateController.selected != null}">
+                        <p:outputLabel value="#{iism.CreateIsmNcrstateLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{ismNcrstateController.selected.id}" title="#{iism.CreateIsmNcrstateTitle_id}" required="true" requiredMessage="#{iism.CreateIsmNcrstateRequiredMessage_id}"/>
+                        <p:outputLabel value="#{iism.CreateIsmNcrstateLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{ismNcrstateController.selected.state}" title="#{iism.CreateIsmNcrstateTitle_state}" required="true" requiredMessage="#{iism.CreateIsmNcrstateRequiredMessage_state}"/>
+                        <p:outputLabel value="#{iism.CreateIsmNcrstateLabel_statename}" for="statename" />
+                        <p:inputText id="statename" value="#{ismNcrstateController.selected.statename}" title="#{iism.CreateIsmNcrstateTitle_statename}" required="true" requiredMessage="#{iism.CreateIsmNcrstateRequiredMessage_statename}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ismNcrstateController.create}" value="#{iism.Save}" update="display,:IsmNcrstateListForm:datalist,:growl" oncomplete="handleSubmit(args,'IsmNcrstateCreateDialog');"/>
+                    <p:commandButton value="#{iism.Cancel}" onclick="IsmNcrstateCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

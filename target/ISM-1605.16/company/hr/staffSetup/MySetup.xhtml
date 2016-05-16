@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1>
+                <h:outputText value="#{ism.StaffSetupTitleMySetup}" />
+            </h1>
+
+            <h:form id="MySetupForm">
+
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="#{ism.StaffSetupField_stsMenuIndex}" for="stsmenuIndex" />
+                    <p:selectOneMenu id="stsmenuIndex"
+                                     value="#{staffSetupController.selected.stsmenuIndex}" 
+                                     required="true" 
+                                     requiredMessage="#{ism.StaffSetupRequiredMsg_stsMenuIndex}"
+                                     >
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItem itemValue="0" itemLabel="0 - Staff" />
+                        <f:selectItem itemValue="1" itemLabel="1 - Administration" />
+                        <f:selectItem itemValue="2" itemLabel="2 - Ressources Humaines" />
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel value="#{ism.StaffSetupField_stsTimeOutSession}" for="ststimeOutSession" />
+                    <p:spinner id="ststimeOutSession" 
+                               value="#{staffAuthController.maxInactiveIntervalMinute}" 
+                               title="#{ism.StaffSetupFieldInfo_stsTimeOutSession}" 
+                               required="true" 
+                               requiredMessage="#{ism.StaffSetupRequiredMsg_stsTimeOutSession}"
+                               min="1"
+                               max="30"
+                               />
+                </p:panelGrid>
+                <br />
+                <p:commandButton id="btnSave"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{staffSetupController.update()}"
+                                 oncomplete="submit()"
+                                 ajax="#{staffController.updateStaffMaxTimeInterval(staffAuthController.staff)}"
+                                 />
+                <p:separator />
+            </h:form>
+
+            <h:form id="MySetupThemeForm">
+
+                <h:panelGrid columns="2" style="margin-bottom:10px" >
+                    <p:outputLabel for="advanced" value="Choix du thème :" /> 
+                    <p:selectOneMenu id="advanced" value="#{selectOneView.theme}" 
+                                     var="t" 
+                                     filter="true" filterMatchMode="contains"
+                                     valueChangeListener="#{staffSetupController.listenerApplyThemeEvent}"
+                                     onchange="submit()"
+                                     >
+                        <f:selectItem   itemLabel="#{staffSetupController.selected.stsTheme}"
+                                        itemValue="#{themeService.getStrTheme(staffSetupController.selected.stsTheme)}"
+                                        />
+                        <f:selectItems value="#{themeService.themes}" 
+                                       var="th"  itemValue="#{th}"
+                                       />
+
+                        <p:column>
+                            <h:outputText value="#{t.displayName}" />
+                        </p:column>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:separator />
+            </h:form>
+
+            <p:blockUI  trigger="MySetupForm:btnSave">
+                LOADING<br />
+                <p:graphicImage width="48px" height="48px" value="/resources/img/me/sablier-temps-icone-5376-128.png"/>
+            </p:blockUI>
+        </ui:define>
+    </ui:composition>
+</html>

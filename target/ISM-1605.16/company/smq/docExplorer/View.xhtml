@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DocExplorerViewDlg" widgetVar="DocExplorerViewDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"
+                  modal="true" resizable="false" appendTo="@(body)" 
+                  header="#{ism.DocExplorerTitleView}">
+
+            <h:form id="DocExplorerViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{docExplorerController.selected != null}">
+                        
+                        <h:outputText value="#{ism.DocExplorerField_Id}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcId}" 
+                                      title="#{ism.DocExplorerFieldInfo_Id}"/>
+                        
+                        
+                        <h:outputText value="#{ism.DocExplorerField_Processus}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcProcessus.PProcessus} - #{docExplorerController.selected.dcProcessus.PDesignation}" 
+                                      title="#{ism.DocExplorerFieldInfo_Processus}"/>
+
+                        <h:outputText value="#{ism.DocExplorerField_DocType}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcType.dctType} - #{docExplorerController.selected.dcType.dctDesignation}" 
+                                      title="#{ism.DocExplorerFieldInfo_DocType}"/>
+                        
+                        <h:outputText value="#{ism.DocExplorerField_Name}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcDesignation}" 
+                                      title="#{ism.DocExplorerFieldInfo_Name}"/>
+
+                        <h:outputText value="#{ism.DocExplorerField_Version}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcVersion}" 
+                                      title="#{ism.DocExplorerFieldInfo_Version}"/>
+                        
+                        <h:outputText value="#{ism.DocExplorerField_Commentaire}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcComment}" 
+                                      title="#{ism.DocExplorerFieldInfo_Commentaire}"/>
+
+                        <h:outputText value="#{ism.DocExplorerField_Link}"/>
+                        <p:commandLink    target="_blank"
+                                          title="#{docExplorerController.selected.dcLink}"
+                                          action="#{fileController.downloadPDF(docExplorerController.selected.dcLink)}"
+                                          ajax="false" immediate="false" 
+                                          style="margin: 0px; padding: 0px;"
+                                          >
+                            <h:graphicImage library="img" 
+                                            name="/me/acroread-icone-3755-128.png"
+                                            width="14px"
+                                            height="16px"
+                                            style="margin: 0px; padding: 0px;"
+                                            />
+                        </p:commandLink>
+                        
+                        <h:outputText value="#{ism.DocExplorerField_DateApprouved}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcApprouved}" 
+                                      title="#{ism.DocExplorerFieldInfo_DateApprouved}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{ism.DocExplorerField_Activated}"/>
+                        <p:selectBooleanCheckbox 
+                            value="#{docExplorerController.selected.dcActivated}" 
+                            disabled="true"/>
+                        
+                        <h:outputText value="#{ism.DocExplorerField_Created}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcCreated}" 
+                                      title="#{ism.DocExplorerFieldInfo_Created}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{ism.DocExplorerField_Timestamp}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcChanged}" 
+                                      title="#{ism.DocExplorerFieldInfo_Timestamp}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{ism.DocExplorerField_Company}"/>
+                        <h:outputText value="#{docExplorerController.selected.dcCompany.CCompany} - #{docExplorerController.selected.dcCompany.CDesignation}" 
+                                      title="#{ism.DocExplorerFieldInfo_Company}"/>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{ism.Close}" 
+                                     onclick="DocExplorerViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

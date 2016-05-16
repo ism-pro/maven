@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteRequestActionDlg" 
+                  widgetVar="NonConformiteRequestActionDialog"
+                  dynamic="true" showEffect="clip"  hideEffect="clip"
+                  modal="true" resizable="false" appendTo="@(body)" 
+                  header="#{ism.NonConformiteRequestTitleAction}"
+                  closable="false"
+                  >
+
+            <h:form id="NonConformiteRequestActionForm">
+                <h:panelGroup id="display">
+
+                    <p:panelGrid columns="2" rendered="#{nonConformiteRequestController.selected != null}">
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStaff}" 
+                                       for="ncrStaffOnAction" />
+
+                        <p:selectOneMenu id="ncrStaffOnAction" 
+                                         value="#{nonConformiteRequestController.selected.ncrstaffOnAction}" 
+                                         required="true" 
+                                         requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrStaffOnAction}">
+                            <f:selectItem itemLabel="#{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"
+                                          itemValue="#{staffAuthController.staff}"/>
+                        </p:selectOneMenu>
+
+                        <p:commandLink  onclick="PF('v_ncrDescOnAction').clear();">
+                             <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescOnAction}" for="ncrDescOnAction"   />
+                        </p:commandLink>
+                        <p:editor id="ncrDescOnAction" width="275" height="200"
+                                  value="#{nonConformiteRequestController.selected.ncrdescOnAction}"
+                                  widgetVar="v_ncrDescOnAction"
+                                  required="true" 
+                                  controls="bold italic underline strikethrough font size style color highlight bullets numbering"
+                                  requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrDescOnAction}"
+                                  />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrEnddingAction}" for="ncrEnddingAction" />
+                        <p:calendar id="ncrEnddingAction" pattern="dd/MM/yyyy" 
+                                    value="#{nonConformiteRequestController.selected.ncrenddingAction}" 
+                                    title="#{ism.NonConformiteRequestFieldInfo_ncrEnddingAction}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrEnddingAction}" 
+                                    mode="popup" showOn="button"
+                                    locale="fr" navigator="true"
+                                    showButtonPanel="true"
+                                    effect="slideDown"
+                                    />
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nonConformiteRequestController.action}" 
+                                     value="#{ism.Save}" 
+                                     update="display,:NonConformiteRequestListForm:datalist,:growl" 
+                                     oncomplete="handleSubmit(args, 'NonConformiteRequestActionDialog');"/>
+                    <p:commandButton value="#{ism.Cancel}" 
+                                     icon="ismCancel"
+                                     update="display,:NonConformiteRequestListForm:datalist,:growl" 
+                                     onclick="PF('NonConformiteRequestActionDialog').hide();"
+                                     />
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

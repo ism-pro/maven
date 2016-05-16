@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StaffGroupDefViewDlg" widgetVar="StaffGroupDefViewDialog"  
+                  dynamic="true" showEffect="clip"  hideEffect="clip" 
+                  modal="true" resizable="false" appendTo="@(body)" 
+                  header="#{ism.StaffGroupDefTitleView}">
+            <h:form id="StaffGroupDefViewForm">
+                
+                <h:panelGroup id="display">
+                    
+                    <p:panelGrid columns="2" rendered="#{staffGroupDefController.selected != null}">
+                        
+                        <h:outputText value="#{ism.StaffGroupDefField_stgdId}"/>
+                        <h:outputText value="#{staffGroupDefController.selected.stgdId}" 
+                                      title="#{ism.StaffGroupDefFieldInfo_stgdId}"/>
+                        
+                        <h:outputText value="#{ism.StaffGroupDefField_stgdGroupDef}"/>
+                        <h:outputText value="#{staffGroupDefController.selected.stgdGroupDef}" 
+                                      title="#{ism.StaffGroupDefFieldInfo_stgdGroupDef}"/>
+                        
+                        <h:outputText value="#{ism.StaffGroupDefField_stgdDesignation}"/>
+                        <h:outputText value="#{staffGroupDefController.selected.stgdDesignation}" 
+                                      title="#{ism.StaffGroupDefFieldInfo_stgdDesignation}"/>
+                        
+                        <h:outputText value="#{ism.StaffGroupDefField_stgdDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{staffGroupDefController.selected.stgdDeleted}" disabled="true"/>
+                        
+                        <h:outputText value="#{ism.StaffGroupDefField_stgdCreated}"/>
+                        <h:outputText value="#{staffGroupDefController.selected.stgdCreated}" 
+                                      title="#{ism.StaffGroupDefFieldInfo_stgdCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{ism.StaffGroupDefField_stgdChanged}"/>
+                        <h:outputText value="#{staffGroupDefController.selected.stgdChanged}" 
+                                      title="#{ism.StaffGroupDefFieldInfo_stgdChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{ism.StaffGroupDefField_stgdCompany}"/>
+                        <h:outputText value="#{staffGroupDefController.selected.stgdCompany.CCompany} - #{staffGroupDefController.selected.stgdCompany.CDesignation}" 
+                                      title="#{ism.StaffGroupDefFieldInfo_stgdCompany}"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{ism.Close}" 
+                                     onclick="StaffGroupDefViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

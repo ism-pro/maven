@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteGravityViewDlg" widgetVar="NonConformiteGravityViewDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"
+                  modal="true" resizable="false" appendTo="@(body)" 
+                  header="#{ism.NonConformiteGravityTitleView}">
+            <h:form id="NonConformiteGravityViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nonConformiteGravityController.selected != null}">
+                        <h:outputText value="#{ism.NonConformiteGravityField_ncgId}"/>
+                        <h:outputText value="#{nonConformiteGravityController.selected.ncgId}" title="#{ism.NonConformiteGravityFieldInfo_ncgId}"/>
+                        
+                        <h:outputText value="#{ism.NonConformiteGravityField_ncgGravity}"/>
+                        <h:outputText value="#{nonConformiteGravityController.selected.ncgGravity}" title="#{ism.NonConformiteGravityFieldInfo_ncgGravity}"/>
+                        
+                        <h:outputText value="#{ism.NonConformiteGravityField_ncgDesignation}"/>
+                        <h:outputText value="#{nonConformiteGravityController.selected.ncgDesignation}" title="#{ism.NonConformiteGravityFieldInfo_ncgDesignation}"/>
+                        
+                        <h:outputText value="#{ism.NonConformiteGravityField_ncgDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{nonConformiteGravityController.selected.ncgDeleted}" disabled="true"/>
+                        
+                        <h:outputText value="#{ism.NonConformiteGravityField_ncgCreated}"/>
+                        <h:outputText value="#{nonConformiteGravityController.selected.ncgCreated}" title="#{ism.NonConformiteGravityFieldInfo_ncgCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{ism.NonConformiteGravityField_ncgChanged}"/>
+                        <h:outputText value="#{nonConformiteGravityController.selected.ncgChanged}" title="#{ism.NonConformiteGravityFieldInfo_ncgChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="#{ism.NonConformiteGravityField_ncgCompany}"/>
+                        <h:outputText value="#{nonConformiteGravityController.selected.ncgCompany}" title="#{ism.NonConformiteGravityFieldInfo_ncgCompany}"/>
+                    
+                    </p:panelGrid>
+                    <p:commandButton value="#{ism.Close}" onclick="NonConformiteGravityViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

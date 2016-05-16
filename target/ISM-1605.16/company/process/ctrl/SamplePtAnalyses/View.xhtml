@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LabSamplePtAnalysesViewDlg" widgetVar="LabSamplePtAnalysesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lABB.ViewLabSamplePtAnalysesTitle}">
+            <h:form id="LabSamplePtAnalysesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{labSamplePtAnalysesController.selected != null}">
+                        <h:outputText value="#{lABB.ViewLabSamplePtAnalysesLabel_lspaId}"/>
+                        <h:outputText value="#{labSamplePtAnalysesController.selected.lspaId}" title="#{lABB.ViewLabSamplePtAnalysesTitle_lspaId}"/>
+                        <h:outputText value="#{lABB.ViewLabSamplePtAnalysesLabel_lspaObservation}"/>
+                        <h:outputText value="#{labSamplePtAnalysesController.selected.lspaObservation}" title="#{lABB.ViewLabSamplePtAnalysesTitle_lspaObservation}"/>
+                        <h:outputText value="#{lABB.ViewLabSamplePtAnalysesLabel_lspaDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{labSamplePtAnalysesController.selected.lspaDeleted}" disabled="true"/>
+                        <h:outputText value="#{lABB.ViewLabSamplePtAnalysesLabel_lspaCreated}"/>
+                        <h:outputText value="#{labSamplePtAnalysesController.selected.lspaCreated}" title="#{lABB.ViewLabSamplePtAnalysesTitle_lspaCreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{lABB.ViewLabSamplePtAnalysesLabel_lspaChanged}"/>
+                        <h:outputText value="#{labSamplePtAnalysesController.selected.lspaChanged}" title="#{lABB.ViewLabSamplePtAnalysesTitle_lspaChanged}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{lABB.ViewLabSamplePtAnalysesLabel_lspaCompany}"/>
+                        <h:outputText value="#{labSamplePtAnalysesController.selected.lspaCompany}" title="#{lABB.ViewLabSamplePtAnalysesTitle_lspaCompany}"/>
+                        <h:outputText value="#{lABB.ViewLabSamplePtAnalysesLabel_lspaSamplePt}"/>
+                        <h:outputText value="#{labSamplePtAnalysesController.selected.lspaSamplePt}" title="#{lABB.ViewLabSamplePtAnalysesTitle_lspaSamplePt}"/>
+                        <h:outputText value="#{lABB.ViewLabSamplePtAnalysesLabel_lspaType}"/>
+                        <h:outputText value="#{labSamplePtAnalysesController.selected.lspaType}" title="#{lABB.ViewLabSamplePtAnalysesTitle_lspaType}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{lABB.Close}" onclick="LabSamplePtAnalysesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

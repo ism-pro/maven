@@ -1,0 +1,519 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteRequestTitleList}" /></h1>
+            <hr />
+
+            <h:form id="NonConformiteRequestListForm">
+                <p:dataTable id="datalist" 
+                             value="#{nonConformiteRequestController.items}" 
+                             var="item"
+                             filteredValue="#{filterNCRequestView.nonConformiteRequestFiltered}"
+                             widgetVar="vNCRequest"
+                             selectionMode="single" 
+                             selection="#{nonConformiteRequestController.selected}"
+                             paginator="true"
+                             rowIndexVar="currentRow"
+                             rowKey="#{item.ncrId}" 
+                             rows="10" resizableColumns="true"
+                             rowsPerPageTemplate="10,15,20,25,30"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}"
+                             currentPageReportTemplate="{startRecord} - {endRecord} sur {totalRecords}"
+                             >
+
+                    <p:ajax event="rowSelect"   update="@(.editBtnClass) @(.validateBtnClass) @(.actionBtnClass) @(.clotureBtnClass) @(.refuseBtnClass) @(.deleteBtnClass) @(.manageStateBtnClass)" />
+                    <p:ajax event="rowUnselect" update="@(.editBtnClass) @(.validateBtnClass) @(.actionBtnClass) @(.clotureBtnClass) @(.refuseBtnClass) @(.deleteBtnClass) @(.manageStateBtnClass)" />
+
+
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+                        <p:columnToggler datasource="datalist" trigger="toggler" />
+                    </f:facet>
+
+                    <p:column style="width: 12px; height: 12px;">
+                        <p:rowToggler   />
+                    </p:column>
+
+                    <p:column headerText="#{ism.Options}"
+                              id="Button"
+                              resizable="true"
+                              >
+
+                        <p:commandButton id="createBtn"      icon="ui-icon-plus"   title="#{ism.Create}" 
+                                         actionListener="#{nonConformiteRequestController.prepareCreate}" 
+                                         oncomplete="PF('NonConformiteRequestCreateDialog').show()"
+                                         update=":NonConformiteRequestCreateForm" 
+                                         />
+                        <p:commandButton id="editBtn"        icon="ui-icon-pencil" title="#{ism.Edit}" 
+                                         styleClass="editBtnClass"
+                                         actionListener="#{nonConformiteRequestController.prepareEdit(item)}"
+                                         update=":NonConformiteRequestEditForm" 
+                                         oncomplete="PF('NonConformiteRequestEditDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) 
+                                                     or (nonConformiteRequestController.selected.ncrState.id!=1) 
+                                                     or (item!=nonConformiteRequestController.selected) ? true : false}"/>
+
+                        <p:commandButton id="validateBtn"    icon="ui-icon-circle-check" title="#{ism.Validate}"   
+                                         styleClass="validateBtnClass"
+                                         actionListener="#{nonConformiteRequestController.prepareValidate(item)}" 
+                                         update=":NonConformiteRequestValidateForm" 
+                                         oncomplete="PF('NonConformiteRequestValidateDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) 
+                                                     or (nonConformiteRequestController.selected.ncrState.id!=1) 
+                                                     or (item!=nonConformiteRequestController.selected) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"/>
+
+                        <p:commandButton id="actionBtn"      icon="ui-icon-note" title="#{ism.Action}"    
+                                         styleClass="actionBtnClass"
+                                         actionListener="#{nonConformiteRequestController.action}"
+                                         update=":NonConformiteRequestActionForm" 
+                                         oncomplete="PF('NonConformiteRequestActionDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) 
+                                                     or (nonConformiteRequestController.selected.ncrState.id!=3) 
+                                                     or (item!=nonConformiteRequestController.selected) ? true : false}"/>
+
+                        <p:commandButton id="clotureBtn"      icon="ui-icon-locked" title="#{ism.Cloture}"    
+                                         styleClass="clotureBtnClass"
+                                         actionListener="#{nonConformiteRequestController.cloture(item)}" 
+                                         update=":growl,datalist" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or 
+                                                     (nonConformiteRequestController.selected.ncrState.id==2) or 
+                                                     (nonConformiteRequestController.selected.ncrState.id==3) or
+                                                     (nonConformiteRequestController.selected.ncrState.id==6) or
+                                                     (nonConformiteRequestController.selected.ncrState.id==7) 
+                                                     or (item!=nonConformiteRequestController.selected) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCCLOTURE_W')}"/>
+
+                        <p:commandButton id="refuseBtn"      icon="ui-icon-closethick" title="#{ism.Refused}"    
+                                         styleClass="refuseBtnClass"
+                                         actionListener="#{nonConformiteRequestController.refuse(item)}" 
+                                         update=":NonConformiteRequestRefusedForm" 
+                                         oncomplete="PF('NonConformiteRequestRefusedDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) 
+                                                     or (nonConformiteRequestController.selected.ncrState.id!=1) 
+                                                     or (item!=nonConformiteRequestController.selected) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCREFUSE_W')}" />
+
+                        <p:commandButton id="deleteBtn"      icon="ui-icon-trash"  title="#{ism.Delete}" 
+                                         styleClass="deleteBtnClass"
+                                         actionListener="#{nonConformiteRequestController.destroy(item)}" 
+                                         update=":growl,datalist" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) 
+                                                     or (nonConformiteRequestController.selected.ncrState.id!=1) 
+                                                     or (item!=nonConformiteRequestController.selected) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}">
+                            <p:confirm header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}" 
+                                       message="#{ism.ConfirmDeleteMessage}" 
+                                       icon="ui-icon-alert"/>
+
+                        </p:commandButton>
+
+                        <p:commandButton id="manageStateBtn"      
+                                         icon="ui-icon-wrench" title="#{ism.NonConformiteRequestField_ncrState}"    
+                                         actionListener="#{nonConformiteRequestController.manageState(item)}" 
+                                         update=":NonConformiteRequestManageStateForm" 
+                                         oncomplete="PF('NonConformiteRequestManageStateDialog').show()" 
+                                         rendered="#{request.isUserInRole('CO_SMQNCMANAGESTATE_W')}" />
+
+
+                    </p:column>
+
+                    <!--
+                    <p:column headerText="#{ism.record}"
+                              style="width: 24px; height: 12px; text-align: right;">
+                        <h:outputText value="#{currentRow+1}"/>
+                    </p:column>
+                    -->
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrId}"
+                              sortBy="#{item.ncrId}"
+                              style="width: 24px; height: 12px;  text-align: right;">
+                        <h:outputText value="#{item.ncrId}"/>
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrTitle}"
+                              sortBy="#{item.ncrTitle}"
+                              style="width: 78px; height: 12px;">
+                        <h:outputText value="#{item.ncrTitle}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrProcessus}"
+                              sortBy="#{item.ncrProcessus.PProcessus} - #{item.ncrProcessus.PDesignation}"
+                              filterBy="#{item.ncrProcessus}"
+                              >
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('vNCRequest').filter()" 
+                                             >
+                                <f:selectItem itemLabel="Select One" 
+                                              itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{filterNCRequestView.processus}" 
+                                               var="vProcessus"
+                                               itemLabel="#{vProcessus.PProcessus} - #{vProcessus.PDesignation}"
+                                               itemValue="#{vProcessus}"
+                                               />
+                            </p:selectOneMenu>
+                        </f:facet>
+
+                        <h:outputText value="#{item.ncrProcessus.PProcessus} - #{item.ncrProcessus.PDesignation}"/>
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrStaff}"
+                              sortBy="#{item.ncrStaff.stStaff} - #{item.ncrStaff.stFirstname} #{item.ncrStaff.stMiddlename} #{item.ncrStaff.stLastname}">
+                        <h:outputText value="#{item.ncrStaff.stStaff} - #{item.ncrStaff.stFirstname} #{item.ncrStaff.stMiddlename} #{item.ncrStaff.stLastname}"/>
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrState}"
+                              sortBy="#{item.ncrState.istate} - #{item.ncrState.statename}"
+                              filterBy="#{item.ncrState}">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('vNCRequest').filter()" >
+                                <f:selectItem itemLabel="Select One" 
+                                              itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{filterNCRequestView.ismNcrstate}" 
+                                               var="vState"
+                                               itemLabel="#{vState.istate} - #{vState.statename}"
+                                               itemValue="#{vState}"
+                                               />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrState.istate} - #{item.ncrState.statename}"
+                                      style="#{item.ncrState.istate=='B'? 'color:pink;' : item.ncrState.istate=='C'? 'color:orange;': item.ncrState.istate=='D'? 'color:green;' : item.ncrState.istate=='E'? 'color:red;':''}"
+                                      />
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrNature}"
+                              sortBy="#{item.ncrNature.ncnNature} - #{item.ncrNature.ncnDesignation}">
+                        <h:outputText value="#{item.ncrNature.ncnNature} - #{item.ncrNature.ncnDesignation}"/>
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrGravity}"
+                              sortBy="#{item.ncrGravity.ncgGravity} - #{item.ncrGravity.ncgDesignation}">
+                        <h:outputText value="#{item.ncrGravity.ncgGravity} - #{item.ncrGravity.ncgDesignation}"/>
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrFrequency}"
+                              sortBy="#{item.ncrFrequency.ncfFrequency} - #{item.ncrFrequency.ncfDesignation}">
+                        <h:outputText value="#{item.ncrFrequency.ncfFrequency} - #{item.ncrFrequency.ncfDesignation}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrOccured}"
+                              sortBy="#{item.ncrOccured}"
+                              style="width: 52px; height: 12px;">
+                        <h:outputText value="#{item.ncrOccured}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrChanged}"
+                              sortBy="#{item.ncrChanged}"
+                              style="width: 78px; height: 12px;">
+                        <h:outputText value="#{item.ncrChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrEnddingAction}"
+                              sortBy="#{item.ncrenddingAction}"
+                              style="width: 52px; height: 12px;#{(item.ncrenddingAction eq null) ? '': ((tem.ncrState.istate eq 'F') and (item.ncrenddingAction lt item.ncrChanged)) ? 'background-color: greenyellow;':  ((tem.ncrState.istate eq 'F') and (item.ncrenddingAction gt item.ncrChanged)) ? 'background-color: darkolivegreen;':  (item.ncrenddingAction gt nonConformiteRequestController.now()) ? 'background-color:green;': (item.ncrenddingAction le nonConformiteRequestController.now()) ? 'background-color:red;': ''}">
+                        <h:outputText value="#{item.ncrenddingAction}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <!--
+                    <p:rowExpansion >
+
+                        <p:panelGrid columns="3" style="margin: 0px; padding: 0px;">
+                            <h:panelGroup>
+                                <strong><h:outputText value="#{ism.NonConformiteRequestField_ncrProduct} : "/></strong>
+                                <h:outputText value="#{item.ncrProduct}"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <strong><h:outputText value="#{ism.NonConformiteRequestField_ncrTrace} : "/></strong>
+                                <h:outputText value="#{item.ncrTrace}"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <strong>
+                                    <h:outputText value="#{ism.NonConformiteRequestField_ncrQuantity} : "/>
+                                </strong>
+                                <h:outputText value="#{item.ncrQuantity}"/>
+                                <h:outputText value=" #{item.ncrUnite.ncuDesignation}"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <strong>
+                                    <h:outputText value="#{ism.NonConformiteRequestField_ncrLink} : "/>
+                                </strong>
+                                <h:outputText value="#{item.ncrLink}"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <strong>
+                                    <h:outputText value="#{ism.NonConformiteRequestField_ncrCreated} : "/>
+                                </strong>
+                                <h:outputText value="#{item.ncrCreated}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <strong>
+                                    <h:outputText value="#{ism.NonConformiteRequestField_ncrChanged} : "/>
+                                </strong>
+                                <h:outputText value="#{item.ncrChanged}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </h:panelGroup>
+
+                        </p:panelGrid>
+
+
+                        <p:tabView orientation="top" effect="fade" effectDuration="fast" style="margin:0px;" >
+
+                            <p:tab title="#{ism.NonConformiteRequestField_ncrDescription}">
+                                <p:panelGrid >
+                                    <p:row>
+                                        <p:column style="background-color:#cccccc;">
+                                            <h:outputText value="#{ism.NonConformiteRequestField_ncrDescription}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{item.ncrStaff.stStaff} - #{item.ncrStaff.stFirstname} #{item.ncrStaff.stMiddlename} #{item.ncrStaff.stLastname}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputFormat value="Date : {0, date, dd/MM/yyyy}"><f:param value="#{item.ncrOccured}" /></h:outputFormat>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="3" style="background-color: lightgray; padding: 0px;">
+                                            <p:editor value="#{item.ncrDescription}" styleClass="hideToolbar" 
+                                                      height="100" disabled="true"  />
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:tab>
+
+                            <p:tab title="#{ism.NonConformiteRequestField_ncrDescOnValidate}">
+                                <p:panelGrid >
+                                    <p:row>
+                                        <p:column style="background-color:#cccccc;">
+                                            <h:outputText value="#{ism.NonConformiteRequestField_ncrDescOnValidate}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{item.ncrstaffOnValidate.stStaff} - #{item.ncrstaffOnValidate.stFirstname} #{item.ncrstaffOnValidate.stMiddlename} #{item.ncrstaffOnValidate.stLastname}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputFormat value="Date : {0, date, dd/MM/yyyy}"><f:param value="#{item.ncroccuredValidate}" /></h:outputFormat>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="3" style="background-color: lightgray; padding: 0px;">
+                                            <p:editor value="#{item.ncrdescOnValidate==null?'-':item.ncrdescOnValidate}" styleClass="hideToolbar" 
+                                                      height="100" disabled="true"  />
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:tab>
+
+                            <p:tab title="#{ism.NonConformiteRequestField_ncrDescOnAction}" rendered="#{item.ncrdescOnAction!=null}">
+                                <p:panelGrid >
+                                    <p:row>
+                                        <p:column style="background-color:#cccccc;">
+                                            <h:outputText value="#{ism.NonConformiteRequestField_ncrDescOnAction}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{item.ncrstaffOnAction.stStaff} - #{item.ncrstaffOnAction.stFirstname} #{item.ncrstaffOnAction.stMiddlename} #{item.ncrstaffOnAction.stLastname}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputFormat value="Date : {0, date, dd/MM/yyyy}"><f:param value="#{item.ncroccuredAction}" /></h:outputFormat>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="3" style="background-color: lightgray; padding: 0px;">
+                                            <p:editor value="#{item.ncrdescOnAction==null?'-':item.ncrdescOnAction}" styleClass="hideToolbar" 
+                                                      height="100" disabled="true"  />
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:tab>
+
+                            <p:tab title="#{ism.NonConformiteRequestField_ncrDescOnRefuse}" rendered="#{item.ncrdescOnRefuse!=null}">
+                                <p:panelGrid >
+                                    <p:row>
+                                        <p:column style="background-color:#cccccc;">
+                                            <h:outputText value="#{ism.NonConformiteRequestField_ncrDescOnRefuse}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{item.ncrstaffOnRefuse.stStaff} - #{item.ncrstaffOnRefuse.stFirstname} #{item.ncrstaffOnRefuse.stMiddlename} #{item.ncrstaffOnRefuse.stLastname}" />
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputFormat value="Date : {0, date, dd/MM/yyyy}"><f:param value="#{item.ncroccuredRefuse}" /></h:outputFormat>
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column colspan="3" style="background-color: lightgray; padding: 0px;">
+                                            <p:editor value="#{item.ncrdescOnRefuse==null?'-':item.ncrdescOnRefuse}" styleClass="hideToolbar" 
+                                                      height="100" disabled="true"  />
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:tab>
+
+                        </p:tabView>
+                    </p:rowExpansion>
+                    -->
+
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton"      icon="ui-icon-plus"   value="#{ism.Create}" 
+                                         actionListener="#{nonConformiteRequestController.prepareCreate}" 
+                                         oncomplete="PF('NonConformiteRequestCreateDialog').show()"
+                                         update=":NonConformiteRequestCreateForm" 
+                                         />
+                        <p:commandButton id="editButton"        icon="ui-icon-pencil" value="#{ism.Edit}"       
+                                         update=":NonConformiteRequestEditForm" 
+                                         oncomplete="PF('NonConformiteRequestEditDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"/>
+                        <p:commandButton id="validateButton"    icon="ui-icon-circle-check" value="#{ism.Validate}"   
+                                         actionListener="#{nonConformiteRequestController.prepareValidate}" 
+                                         update=":NonConformiteRequestValidateForm" 
+                                         oncomplete="PF('NonConformiteRequestValidateDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"/>
+
+                        <p:commandButton id="actionButton"      icon="ui-icon-note" value="#{ism.Action}"    
+                                         update=":NonConformiteRequestActionForm" 
+                                         oncomplete="PF('NonConformiteRequestActionDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=3) ? true : false}"/>
+
+                        <p:commandButton id="clotureButton"      icon="ui-icon-locked" value="#{ism.Cloture}"    
+                                         actionListener="#{nonConformiteRequestController.cloture}" update=":growl,datalist" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or 
+                                                     (nonConformiteRequestController.selected.ncrState.id==2) or 
+                                                     (nonConformiteRequestController.selected.ncrState.id==3) or
+                                                     (nonConformiteRequestController.selected.ncrState.id==6) or
+                                                     (nonConformiteRequestController.selected.ncrState.id==7) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCCLOTURE_W')}"/>
+
+                        <p:commandButton id="refuseButton"      icon="ui-icon-closethick" value="#{ism.Refused}"    
+                                         update=":NonConformiteRequestRefusedForm" 
+                                         oncomplete="PF('NonConformiteRequestRefusedDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCREFUSE_W')}" />
+
+                        <p:commandButton id="deleteButton"      icon="ui-icon-trash"  value="#{ism.Delete}" actionListener="#{nonConformiteRequestController.destroy}" update=":growl,datalist" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}">
+                            <p:confirm header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}" 
+                                       message="#{ism.ConfirmDeleteMessage}" 
+                                       icon="ui-icon-alert"/>
+
+                        </p:commandButton>
+
+                        <p:commandButton id="manageStateButton"      icon="ui-icon-note" value="#{ism.NonConformiteField_ncState}"    
+                                         update=":NonConformiteRequestManageStateForm" 
+                                         oncomplete="PF('NonConformiteRequestManageStateDialog').show()" 
+                                         rendered="#{request.isUserInRole('CO_SMQNCMANAGESTATE_W')}"/>
+
+
+                    </f:facet>
+
+                </p:dataTable>
+
+            </h:form>
+
+
+            <p:panel header="Code couleur">
+                <p:panelGrid columns="2">
+
+                    <p:panelGrid >
+                        <p:row>
+                            <p:column colspan="2" style="background-color: dodgerblue;">
+                                <h:outputText value="Couleur d'état" style="color: white;  text-align: center;"/></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color:#000;"><h:outputText value="A-F" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Créée ou Terminée" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: pink;"><h:outputText value="B" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="En cours de validation" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: lightsalmon;"><h:outputText value="C" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="En attente de solution" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: green;"><h:outputText value="D" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="En cours" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: red;"><h:outputText value="E" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Annulée" /></p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                    <p:panelGrid >
+                        <p:row >
+                            <p:column colspan="2" style="background-color: dodgerblue;">
+                                <h:outputText value="Couleur de résolution" style="color: white;  text-align: center;"/></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column ><h:outputText value="A" /></p:column>
+                            <p:column ><h:outputText value="Pas d'action" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: green;"><h:outputText value="B" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Période d'action en cours" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: greenyellow;"><h:outputText value="C" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Action terminée à échéance" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: darkolivegreen;"><h:outputText value="D" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Action terminée après échéance" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: red;"><h:outputText value="E" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Action en retard" /></p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                </p:panelGrid>
+            </p:panel>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="Validate.xhtml"/>
+            <ui:include src="Action.xhtml"/>
+            <ui:include src="Refuse.xhtml"/>
+            <ui:include src="MangeState.xhtml"/>
+            <p:confirmDialog global="true">
+                <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="ui-icon-check"/>
+                <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
+                                 icon="ui-icon-close"/>
+            </p:confirmDialog>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

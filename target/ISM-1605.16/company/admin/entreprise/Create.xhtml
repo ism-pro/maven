@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EntrepriseCreateDlg" widgetVar="EntrepriseCreateDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEntrepriseTitle}">
+            <h:form id="EntrepriseCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{entrepriseController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_EId}" for="EId" />
+                        <p:inputText id="EId" value="#{entrepriseController.selected.EId}" title="#{bundle.CreateEntrepriseTitle_EId}" required="true" requiredMessage="#{bundle.CreateEntrepriseRequiredMessage_EId}"/>
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_EEntreprise}" for="EEntreprise" />
+                        <p:inputText id="EEntreprise" value="#{entrepriseController.selected.EEntreprise}" title="#{bundle.CreateEntrepriseTitle_EEntreprise}" required="true" requiredMessage="#{bundle.CreateEntrepriseRequiredMessage_EEntreprise}"/>
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_EDesignation}" for="EDesignation" />
+                        <p:inputText id="EDesignation" value="#{entrepriseController.selected.EDesignation}" title="#{bundle.CreateEntrepriseTitle_EDesignation}" />
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_EBuilded}" for="EBuilded" />
+                        <p:inputText id="EBuilded" value="#{entrepriseController.selected.EBuilded}" title="#{bundle.CreateEntrepriseTitle_EBuilded}" />
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_EMain}" for="EMain" />
+                        <p:selectBooleanCheckbox id="EMain" value="#{entrepriseController.selected.EMain}" required="true" requiredMessage="#{bundle.EditEntrepriseRequiredMessage_EMain}"/>
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_EActivated}" for="EActivated" />
+                        <p:selectBooleanCheckbox id="EActivated" value="#{entrepriseController.selected.EActivated}" required="true" requiredMessage="#{bundle.EditEntrepriseRequiredMessage_EActivated}"/>
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_EDeleted}" for="EDeleted" />
+                        <p:selectBooleanCheckbox id="EDeleted" value="#{entrepriseController.selected.EDeleted}" required="true" requiredMessage="#{bundle.EditEntrepriseRequiredMessage_EDeleted}"/>
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_ECreated}" for="ECreated" />
+                        <p:calendar id="ECreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{entrepriseController.selected.ECreated}" title="#{bundle.EditEntrepriseTitle_ECreated}" required="true" requiredMessage="#{bundle.EditEntrepriseRequiredMessage_ECreated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateEntrepriseLabel_EChanged}" for="EChanged" />
+                        <p:calendar id="EChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{entrepriseController.selected.EChanged}" title="#{bundle.EditEntrepriseTitle_EChanged}" required="true" requiredMessage="#{bundle.EditEntrepriseRequiredMessage_EChanged}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{entrepriseController.create}" value="#{bundle.Save}" update="display,:EntrepriseListForm:datalist,:growl" oncomplete="handleSubmit(args,'EntrepriseCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="EntrepriseCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

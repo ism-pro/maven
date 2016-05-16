@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LabAnalyseCategoryCreateDlg" widgetVar="LabAnalyseCategoryCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lab.CreateLabAnalyseCategoryTitle}">
+            <h:form id="LabAnalyseCategoryCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{labAnalyseCategoryController.selected != null}">
+                        <p:outputLabel value="#{lab.CreateLabAnalyseCategoryLabel_lacId}" for="lacId" />
+                        <p:inputText id="lacId" value="#{labAnalyseCategoryController.selected.lacId}" title="#{lab.CreateLabAnalyseCategoryTitle_lacId}" required="true" requiredMessage="#{lab.CreateLabAnalyseCategoryRequiredMessage_lacId}"/>
+                        <p:outputLabel value="#{lab.CreateLabAnalyseCategoryLabel_lacCategory}" for="lacCategory" />
+                        <p:inputText id="lacCategory" value="#{labAnalyseCategoryController.selected.lacCategory}" title="#{lab.CreateLabAnalyseCategoryTitle_lacCategory}" required="true" requiredMessage="#{lab.CreateLabAnalyseCategoryRequiredMessage_lacCategory}"/>
+                        <p:outputLabel value="#{lab.CreateLabAnalyseCategoryLabel_lacDesignation}" for="lacDesignation" />
+                        <p:inputText id="lacDesignation" value="#{labAnalyseCategoryController.selected.lacDesignation}" title="#{lab.CreateLabAnalyseCategoryTitle_lacDesignation}" required="true" requiredMessage="#{lab.CreateLabAnalyseCategoryRequiredMessage_lacDesignation}"/>
+                        <p:outputLabel value="#{lab.CreateLabAnalyseCategoryLabel_lacDescription}" for="lacDescription" />
+                        <p:inputTextarea rows="4" cols="30" id="lacDescription" value="#{labAnalyseCategoryController.selected.lacDescription}" title="#{lab.CreateLabAnalyseCategoryTitle_lacDescription}" />
+                        <p:outputLabel value="#{lab.CreateLabAnalyseCategoryLabel_lacDeleted}" for="lacDeleted" />
+                        <p:selectBooleanCheckbox id="lacDeleted" value="#{labAnalyseCategoryController.selected.lacDeleted}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacDeleted}"/>
+                        <p:outputLabel value="#{lab.CreateLabAnalyseCategoryLabel_lacCreated}" for="lacCreated" />
+                        <p:calendar id="lacCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{labAnalyseCategoryController.selected.lacCreated}" title="#{lab.EditLabAnalyseCategoryTitle_lacCreated}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacCreated}" showOn="button"/>
+                        <p:outputLabel value="#{lab.CreateLabAnalyseCategoryLabel_lacChanged}" for="lacChanged" />
+                        <p:calendar id="lacChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{labAnalyseCategoryController.selected.lacChanged}" title="#{lab.EditLabAnalyseCategoryTitle_lacChanged}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacChanged}" showOn="button"/>
+                        <p:outputLabel value="#{lab.CreateLabAnalyseCategoryLabel_lacCompany}" for="lacCompany" />
+                        <p:selectOneMenu id="lacCompany" value="#{labAnalyseCategoryController.selected.lacCompany}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacCompany}">
+                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
+                                           var="lacCompanyItem"
+                                           itemValue="#{lacCompanyItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{labAnalyseCategoryController.create}" value="#{lab.Save}" update="display,:LabAnalyseCategoryListForm:datalist,:growl" oncomplete="handleSubmit(args,'LabAnalyseCategoryCreateDialog');"/>
+                    <p:commandButton value="#{lab.Cancel}" onclick="LabAnalyseCategoryCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

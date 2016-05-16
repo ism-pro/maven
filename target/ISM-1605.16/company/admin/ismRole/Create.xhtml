@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IsmRoleCreateDlg" widgetVar="IsmRoleCreateDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateIsmRoleTitle}">
+            <h:form id="IsmRoleCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ismRoleController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateIsmRoleLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{ismRoleController.selected.id}" title="#{bundle.CreateIsmRoleTitle_id}" required="true" requiredMessage="#{bundle.CreateIsmRoleRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateIsmRoleLabel_role}" for="role" />
+                        <p:inputText id="role" value="#{ismRoleController.selected.role}" title="#{bundle.CreateIsmRoleTitle_role}" required="true" requiredMessage="#{bundle.CreateIsmRoleRequiredMessage_role}"/>
+                        <p:outputLabel value="#{bundle.CreateIsmRoleLabel_rolename}" for="rolename" />
+                        <p:inputText id="rolename" value="#{ismRoleController.selected.rolename}" title="#{bundle.CreateIsmRoleTitle_rolename}" required="true" requiredMessage="#{bundle.CreateIsmRoleRequiredMessage_rolename}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ismRoleController.create}" value="#{bundle.Save}" update="display,:IsmRoleListForm:datalist,:growl" oncomplete="handleSubmit(args,'IsmRoleCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="IsmRoleCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

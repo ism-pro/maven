@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IsmNcrstateViewDlg" widgetVar="IsmNcrstateViewDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{iism.ViewIsmNcrstateTitle}">
+            <h:form id="IsmNcrstateViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ismNcrstateController.selected != null}">
+                        <h:outputText value="#{iism.ViewIsmNcrstateLabel_id}"/>
+                        <h:outputText value="#{ismNcrstateController.selected.id}" title="#{iism.ViewIsmNcrstateTitle_id}"/>
+                        <h:outputText value="#{iism.ViewIsmNcrstateLabel_state}"/>
+                        <h:outputText value="#{ismNcrstateController.selected.state}" title="#{iism.ViewIsmNcrstateTitle_state}"/>
+                        <h:outputText value="#{iism.ViewIsmNcrstateLabel_statename}"/>
+                        <h:outputText value="#{ismNcrstateController.selected.statename}" title="#{iism.ViewIsmNcrstateTitle_statename}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{iism.Close}" onclick="IsmNcrstateViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

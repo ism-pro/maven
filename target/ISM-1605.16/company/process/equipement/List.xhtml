@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:outputStylesheet library="css" name="jsfcrud.css"/>
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1>
+                <h:outputText value="#{ism.PEquipementTitleList}" />
+            </h1>
+
+            <h:form id="EquipementListForm">
+                <h:panelGrid>
+                    <p:dataTable id="datalist" value="#{equipementController.items}" var="item"
+                                 selectionMode="single" selection="#{equipementController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.EId}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.EId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Equipement}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.EEquipement}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Designation}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.EDesignation}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Cf}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ECf}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Famille}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.EFamille}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_SsFamille}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ESsFamille}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Groupe}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.EGroupe}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Responsable}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.EResponsable}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Description}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.EDescription}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Deleted}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.EDeleted}" disabled="true"/>
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Created}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ECreated}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Changed}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.EChanged}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column rendered="false">
+                            <f:facet name="header">
+                                <h:outputText value="#{ism.PEquipementField_Company}" rendered="false" />
+                            </f:facet>
+                            <h:outputText value="#{item.ECompany}" rendered="false" />
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{ism.Create}" actionListener="#{equipementController.prepareCreate}" update=":EquipementCreateForm" oncomplete="PF('EquipementCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{ism.View}" update=":EquipementViewForm" oncomplete="PF('EquipementViewDialog').show()" disabled="#{empty equipementController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{ism.Edit}" update=":EquipementEditForm" oncomplete="PF('EquipementEditDialog').show()" disabled="#{empty equipementController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{ism.Delete}" actionListener="#{equipementController.destroy}" update=":growl,datalist" disabled="#{empty equipementController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </h:panelGrid>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

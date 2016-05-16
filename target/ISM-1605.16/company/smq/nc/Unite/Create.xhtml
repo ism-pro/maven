@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteUniteCreateDlg" widgetVar="NonConformiteUniteCreateDialog" 
+                  dynamic="true" showEffect="clip"  hideEffect="clip"
+                  modal="true" resizable="false" appendTo="@(body)" 
+                  header="#{ism.NonConformiteTitleCreate}">
+            
+            <h:form id="NonConformiteUniteCreateForm">
+                
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nonConformiteUniteController.selected != null}">
+                        
+                        <p:outputLabel value="#{ism.NonConformiteUniteField_ncuId}" for="ncuId" rendered="false"/>
+                        <p:inputText id="ncuId" value="#{nonConformiteUniteController.selected.ncuId}" 
+                                     title="#{ism.NonConformiteUniteFieldInfo_ncuId}" 
+                                     required="true"  rendered="false"
+                                     requiredMessage="#{ism.NonConformiteUniteRiquiredMsg_ncuId}"/>
+                        
+                        <p:outputLabel value="#{ism.NonConformiteUniteField_ncuUnite}" for="ncuUnite" />
+                        <p:inputText id="ncuUnite" value="#{nonConformiteUniteController.selected.ncuUnite}" 
+                                     title="#{ism.NonConformiteUniteFieldInfo_ncuUnite}" 
+                                     required="true" 
+                                     requiredMessage="#{ism.NonConformiteUniteRiquiredMsg_ncuUnite}"/>
+                        
+                        <p:outputLabel value="#{ism.NonConformiteUniteField_ncuDesignation}" for="ncuDesignation" />
+                        <p:inputText id="ncuDesignation" 
+                                     value="#{nonConformiteUniteController.selected.ncuDesignation}" 
+                                     title="#{ism.NonConformiteUniteFieldInfo_ncuDesignation}" 
+                                     required="true" 
+                                     requiredMessage="#{ism.NonConformiteUniteRiquiredMsg_ncuDesignation}"/>
+                        
+                        <p:outputLabel value="#{ism.NonConformiteUniteField_ncuDeleted}" for="ncuDeleted" rendered="false" />
+                        <p:selectBooleanCheckbox 
+                            id="ncuDeleted"             
+                            value="#{nonConformiteUniteController.selected.ncuDeleted}" 
+                            required="true" rendered="false"
+                            requiredMessage="#{ism.NonConformiteUniteRiquiredMsg_ncuDeleted}"/>
+                        
+                        <p:outputLabel value="#{ism.NonConformiteUniteField_ncuCreated}" for="ncuCreated" rendered="false" />
+                        <p:calendar id="ncuCreated" pattern="dd/MM/yyyy HH:mm:ss" 
+                                    value="#{nonConformiteUniteController.selected.ncuCreated}" 
+                                    title="#{ism.NonConformiteUniteFieldInfo_ncuCreated}" 
+                                    required="true" rendered="false"
+                                    requiredMessage="#{ism.NonConformiteUniteRiquiredMsg_ncuCreated}" 
+                                    showOn="button"/>
+                        
+                        <p:outputLabel value="#{ism.NonConformiteUniteField_ncuChanged}" for="ncuChanged" rendered="false" />
+                        <p:calendar id="ncuChanged" pattern="dd/MM/yyyy HH:mm:ss" 
+                                    value="#{nonConformiteUniteController.selected.ncuChanged}" 
+                                    title="#{ism.NonConformiteUniteFieldInfo_ncuChanged}" 
+                                    required="true" rendered="false"
+                                    requiredMessage="#{ism.NonConformiteUniteRiquiredMsg_ncuChanged}" 
+                                    showOn="button"/>
+                        
+                        <p:outputLabel value="#{ism.NonConformiteUniteField_ncuCompany}" for="ncuCompany" />
+                        <p:selectOneMenu id="ncuCompany" 
+                                         value="#{nonConformiteUniteController.selected.ncuCompany}" 
+                                         required="true" 
+                                         requiredMessage="#{ism.NonConformiteUniteRiquiredMsg_ncuCompany}">
+                            <f:selectItem  itemValue="#{staffAuthController.company}"
+                                           itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        </p:selectOneMenu>
+                        
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nonConformiteUniteController.create}" value="#{ism.Save}" update="display,:NonConformiteUniteListForm:datalist,:growl" oncomplete="handleSubmit(args,'NonConformiteUniteCreateDialog');"/>
+                    <p:commandButton value="#{ism.Cancel}" onclick="NonConformiteUniteCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
