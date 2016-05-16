@@ -60,7 +60,7 @@ body, html {
     right: 0;
     top: 151px;
 
-    height: 32px;
+    /*height: 32px;*/
     
     position: fixed;
 
@@ -74,16 +74,23 @@ body, html {
 #sidebar-options{
     width: 100%;
     min-width: 48px;
-    height: 48px;
+    /*height: 48px;*/
+    text-align: center;
+    margin: auto;
+}
+#sidebar-options:hover{
+    background: #33CC00;
+    border: none;
 }
 
 #sidebar-options img{
-    width: 48px;
-    height: 48px;
+    margin-top: 2px;
+    width: 28px;
+    height: 28px;
 }
 
 #sidebar-content{
-    min-width: 120px;
+    min-width: 220px;
     height: 100%;
     display: none;
 }
@@ -97,6 +104,18 @@ body, html {
     background: #33CC00;
     border: none;
 }
+.menu-btn .ui-icon{
+    margin:0px;
+    padding: 0px;
+    margin-top: -3px;
+    width: 28px;
+    height: 28px;
+}
+.menu-btn .ui-button-text.ui-c{
+    margin-left: 20px;
+}
+
+
 /* =============================================================================
  * GENERAL DEFAULT SETTING
  * ===========================================================================*/
@@ -160,6 +179,14 @@ tr th span.ui-column-title, label{
     width: 100%;
     align-content: center;
 }
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Open{
+    background: url("#{resource['img/ism/std/Open.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Create{
+    background: url("#{resource['img/ism/std/Create.png']}") no-repeat;
+    background-size:contain;
+}
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Edit{
     background: url("#{resource['img/ism/std/Edit.png']}") no-repeat;
     background-size:contain;
@@ -176,9 +203,20 @@ tr th span.ui-column-title, label{
     background: url("#{resource['img/ism/std/Delete.png']}") no-repeat;
     background-size:contain;
 }
-
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Approuve{
     background: url("#{resource['img/ism/std/Approuve.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Refuse{
+    background: url("#{resource['img/ism/std/Refuse.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Actions{
+    background: url("#{resource['img/ism/std/Actions.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Cloture{
+    background: url("#{resource['img/ism/std/Cloture.png']}") no-repeat;
     background-size:contain;
 }
 

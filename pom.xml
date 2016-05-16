@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>16.05-10</version>
+    <version>1605.16</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -103,7 +103,7 @@
         </plugins>
     </build>
     
-    <!--
+
     <repositories>
         <repository>
             <id>prime-repo</id>
@@ -112,16 +112,15 @@
             <layout>default</layout>
         </repository>
     </repositories>
-    -->
     <description>Industrial System Manager - ISM
 
-Il s'agit d'un outil d'aide à la gestion d'une entité industriel. L'outil comprend :
- + La gestion de staff (connexion, accès, informations personnelle),
- + La gestion de l'entreprise - société
- + La gestion de la documentation SMQ
- + La gestion des non conformités SMQ
- + La gestion du process industriel :
-    - Définition des machine
-    - Définition des unités industriel
-    - Gestion des analyses</description>
+        Il s'agit d'un outil d'aide à la gestion d'une entité industriel. L'outil comprend :
+        + La gestion de staff (connexion, accès, informations personnelle),
+        + La gestion de l'entreprise - société
+        + La gestion de la documentation SMQ
+        + La gestion des non conformités SMQ
+        + La gestion du process industriel :
+        - Définition des machine
+        - Définition des unités industriel
+        - Gestion des analyses</description>
 </project>

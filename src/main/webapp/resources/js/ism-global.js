@@ -7,11 +7,11 @@
 $(function () {
     var _sidebar = $("#sidebar");
     var _sidebarOptions = $("#sidebar-options");
-    var _sidebarOptionsIconOn = $("sidebar-options-icon-on");
-    var _sidebarOptionsIconOff = $("sidebar-options-icon-off");
+    var _sidebarOptionsIconOn = $("#sidebar-options-icon-on");
+    var _sidebarOptionsIconOff = $("#sidebar-options-icon-off");
     var _sidebarContent = $("#sidebar-content");
-    
-    
+
+
     $("#main").click(function () {
         /*$("#file-layout").css("padding-top", "58");*/
         $("#file-layout").animate({
@@ -22,22 +22,27 @@ $(function () {
         }, "slow");
     });
 
-    _sidebarOptions.click(function(){
+    _sidebarOptions.click(function () {
         var displayVal = _sidebarContent.css("display");
-        if(displayVal.toString()==="inline"){
-           _sidebarContent.css("display", "none");
-           _sidebar.css("height", "32px");
-           _sidebarOptionsIconOn.css("display", "inline");
-           _sidebarOptionsIconOff.css("display", "none");
-        }else{
+
+        if (displayVal.toString() === "inline") { // Hide CONTENT
+            _sidebar.css("min-width", "32px");
+            _sidebar.css("height", "32px");
+            _sidebarContent.css("display", "none");
+            _sidebarOptionsIconOn.css("display", "inline");
+        } else { //SHOW CONTENT
+            _sidebar.css("min-width", "150px");
+            _sidebar.css("height", "100%");
             _sidebarContent.css("display", "inline");
             _sidebarOptionsIconOn.css("display", "none");
-            _sidebarOptionsIconOff.css("display", "inline");
-            _sidebar.css("height", "100%");
         }
-    })
+    });
+
     
-    
+    $("_smqNCPanelInfos").mouseenter(function(){
+        alert("Mouse over");
+    });
+
 });
 
 
@@ -83,27 +88,27 @@ $(function () {
   */
 
 /*
-$(function () {
-
-    var $sidebar = $("#sidebar"),
-            $window = $(window),
-            offset = $sidebar.offset(),
-            topPadding = 250;
-
-    $window.scroll(function () {
-        if ($window.scrollTop() > offset.top) {
-            $sidebar.stop().animate({
-                marginTop: $window.scrollTop() - offset.top + topPadding
-            });
-        } else {
-            $sidebar.stop().animate({
-                marginTop: 300
-            });
-        }
-    });
-
-});
-*/
+ $(function () {
+ 
+ var $sidebar = $("#sidebar"),
+ $window = $(window),
+ offset = $sidebar.offset(),
+ topPadding = 250;
+ 
+ $window.scroll(function () {
+ if ($window.scrollTop() > offset.top) {
+ $sidebar.stop().animate({
+ marginTop: $window.scrollTop() - offset.top + topPadding
+ });
+ } else {
+ $sidebar.stop().animate({
+ marginTop: 300
+ });
+ }
+ });
+ 
+ });
+ */
 
 
 

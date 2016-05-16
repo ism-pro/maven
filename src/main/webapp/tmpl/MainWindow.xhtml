@@ -28,7 +28,7 @@
         </f:facet>
     </h:head>
 
-    <h:body rendered="#{request.session.getAttribute('authenticated')}">
+    <h:body id="body" rendered="#{request.session.getAttribute('authenticated')}">
         <p:growl id="growl" life="5000" />
         <p:dialog header="Déconnexion imminante" 
                   widgetVar="dlgReminingTimeSessionWakeUp" 
@@ -103,7 +103,6 @@
                                                 style="min-width: 72px; min-height: 22px; background-color: #a1dbff;"
 
                                                 />
-
                         </div>
                     </div>
 
@@ -112,7 +111,7 @@
 
 
                     <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}"
-                              >
+                               >
                         <p:ajax event="tabChange" listener="#{viewRibbon.onChange}"  />
 
                         <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
@@ -122,7 +121,7 @@
                         <p:tab id="administration" title="#{ism.AdminPage}">
                             <pi:ribbonGroup id="ribbonGroupSMQ" label="SMQ"  >
                                 <pi:ribbonGroupSet id="ribbonGroupSetSMQ" ribbonSet="big" >
-                                    <p:commandButton id="btnSMQProcessus"
+                                    <p:commandButton id="btnSMQProcessus" widgetVar="btnSMQProcessus"
                                                      rendered="#{request.isUserInRole('CO_SMQPROCESSUS_R')}"
                                                      actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                      title="Processus"
@@ -386,22 +385,18 @@
         </div>
 
         <div id="sidebar">
-            <div id="sidebar-options">
-                <h:graphicImage id="sidebar-options-icon-on" library="img" name="ism/std/Options.png" />
-                <h:graphicImage id="sidebar-options-icon-off" style="display:none;" library="img" name="ism/std/Close.png" />
+            <div id="sidebar-options" title="Cliquer pour visualiser ou cacher les options disponibles">
+                <h:graphicImage id="sidebar-options-icon" 
+                                library="img" name="ism/std/Options.png" />
             </div>
             <div id="sidebar-content">
-                <p:commandButton value="Btn 1" styleClass="menu-btn"/>
-                <br />
-                <p:commandButton value="Btn 2" styleClass="menu-btn"/>
-                <br />
-                <p:commandButton value="Btn 3" styleClass="menu-btn"/>
-                <br />
-                <p:commandButton value="Btn 4" styleClass="menu-btn"/>
-                <br />
-                <p:commandButton value="Btn 5" styleClass="menu-btn"/>
-                <br />
-                <p:commandButton value="Btn 6" styleClass="menu-btn"/>
+                <p:panelGrid rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?false:true}">
+                    <ui:include src="./sidebar/ncRequestView.xhtml"  />
+                </p:panelGrid>
+
+                <h:outputText style="margin: 5px;color: white;max-width: 120px;"
+                              escape="true"
+                              value="#{request.pathInfo}" /><br />
             </div>
         </div>
 
@@ -433,35 +428,12 @@
         <meta http-equiv="refresh" 
               content="0;url=/ISM/faces/login.xhtml?faces-redirect=true"/>
     </h:body>
-    <!--
-    
-    <p:blockUI block="body" animate="false"  trigger="MainWindowForm:buttonHome,
-               MainWindowForm:splitButtonStaffUser,
-               MainWindowForm:splitButtonMenuItemStaffUser,
-               MainWindowForm:splitButtonMenuItemStaffConfig,
-               MainWindowForm:splitButtonMenuItemStaffProfile,
-               MainWindowForm:splitButtonMenuItemStaffLogout,
-               MainWindowForm:btnAdminSMQProcessus,
-               MainWindowForm:btnAdminSMQDocType,
-               MainWindowForm:btnAdminSMQDcoument,
-               MainWindowForm:splitButtonAdminNC,
-               MainWindowForm:splitButtonMenuItemNCUnit, 
-               MainWindowForm:splitButtonMenuItemNCNature, 
-               MainWindowForm:splitButtonMenuItemNCGravity, 
-               MainWindowForm:splitButtonMenuItemNCFrequency, 
-               MainWindowForm:splitButtonMenuItemNCRequest, 
-               MainWindowForm:btnRHStaffGroup,
-               MainWindowForm:splitButtonRHStaffRole, 
-               MainWindowForm:splitButtonMenuItemStaffGroupDefRole, 
-               MainWindowForm:btnRHStaffCompanies, 
-               MainWindowForm:btnRHStaffToGroups, 
-               MainWindowForm:btnRHStaffCreate, 
-               MainWindowForm:btnRHStaffList,
-               MainWindowForm:StaffManagerListButton"
+
+
+    <p:blockUI block="body" 
+               trigger="ribbon-form:shortcut-btn-theme"
                >
-        LOADING<br />
-        <p:graphicImage width="48px" height="48px" value="/resources/img/me/sablier-temps-icone-5376-128.png"/>
+        <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>
-    -->
 </html>
 

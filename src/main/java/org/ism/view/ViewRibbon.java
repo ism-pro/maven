@@ -145,5 +145,4 @@ public class ViewRibbon implements Serializable {
         resetReminingTimeSession();
         return request.getSession().getMaxInactiveInterval();
     }
-
 }

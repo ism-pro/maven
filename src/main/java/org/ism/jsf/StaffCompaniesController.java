@@ -22,8 +22,8 @@ import javax.faces.convert.FacesConverter;
 import org.ism.entities.Company;
 import org.ism.entities.Staff;
 
-@Named("staffCompaniesController")
 @SessionScoped
+@Named("staffCompaniesController")
 public class StaffCompaniesController implements Serializable {
     private static final long serialVersionUID = 1L;
 
