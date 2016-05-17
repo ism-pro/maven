@@ -17,22 +17,41 @@ body, html {
     height: 100%;
 }
 
-#layout-top{
-    position: fixed;
-    margin-top: 0px;
-    width: 100%;
-    background-color: #f2f2f2;
-    height: 56px;
-    z-index: 200;
+
+/* =============================================================================
+ * MANAGING LAYOUT
+ * ===========================================================================*/
+/** NORTH   *************************************/
+.ui-layout-north {
+    border: none;
+    padding: 0px!important;
+    margin: 0px!important;
+    min-height: 152px;  
+    z-index:40 !important;
+    overflow:visible !important;
+}
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}
+/** WEST   *************************************/
+.ui-layout-west {
+    padding: 0px!important;
+    margin: 0px!important;
+    max-width: 200px; 
+    width: 200px;
+    /*z-index:40 !important;*/
+    overflow:visible !important;
+    background-color: #333;
+    color: white;
+}
+.ui-layout-west .ui-layout-unit-content {
+    overflow:visible !important;
 }
 
-#file-layout{
-    margin:0px;
-    width: 100%;
-    padding-top: 148px;
-    float: left;
-    position: relative;
-}
+/* =============================================================================
+ * SETTING MENU
+ * ===========================================================================*/
+
 
 #layout-menu {
     margin: 0px;
@@ -51,7 +70,6 @@ body, html {
     width: 32px;
     height: 32px;
 }
-
 
 /* =============================================================================
  * Managing sidebar

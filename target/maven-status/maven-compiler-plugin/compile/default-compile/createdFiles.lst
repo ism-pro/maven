@@ -149,6 +149,7 @@ org\ism\entities\Staff_.class
 org\ism\jsf\LabSampleController.class
 org\ism\sessions\NonConformiteGravityFacade.class
 org\ism\entities\NonConformite_.class
+org\ism\view\FullLayoutController.class
 org\ism\jsf\StaffSetupController.class
 org\ism\listener\SessionCounterListener.class
 org\ism\jsf\StaffGroupDefRoleController.class

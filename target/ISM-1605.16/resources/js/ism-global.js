@@ -11,7 +11,10 @@ $(function () {
     var _sidebarOptionsIconOff = $("#sidebar-options-icon-off");
     var _sidebarContent = $("#sidebar-content");
 
-    $("#main").mouseover(function () {
+    $("#main").mousedown(function () {
+        $("#file-layout").css("padding-top", "58");
+    });
+    $("#main").mouseup(function () {
         $("#file-layout").css("padding-top", "58");
     });
     $("#main").click(function () {
