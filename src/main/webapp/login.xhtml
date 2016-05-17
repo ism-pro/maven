@@ -10,20 +10,14 @@
         <title>#{ism.AppName}</title>
         <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
         <meta http-equiv="refresh" 
-              content="60;url=/ISM/faces/login.xhtml?faces-redirect=true"/>
+              content="60;url=#{request.contextPath}#{request.servletPath}#{request.pathInfo}?faces-redirect=true"/>
 
         <h:outputStylesheet library="css" name="ism-login.css" />
-        <!--
-        <h:outputScript library="js" name="login.js" />
-        <h:outputScript library="js" name="jquery.leanModal.min.js" />
-        -->
     </h:head>
 
     <h:body id="pBody">
 
             <div id="topbar"><a href="http://www.brasimba.com">BRASIMBA WEB SITE</a></div>
-
-
 
 
             <div id="window">
