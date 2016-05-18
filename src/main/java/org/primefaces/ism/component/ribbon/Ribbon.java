@@ -52,7 +52,7 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
 
     protected enum PropertyKeys {
 
-        		widgetVar
+        	widgetVar
 		,activeIndex
 		,effect
 		,effectDuration

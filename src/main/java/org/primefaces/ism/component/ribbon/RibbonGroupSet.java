@@ -33,7 +33,7 @@ public class RibbonGroupSet extends UIComponentBase {
 
 	protected enum PropertyKeys {
 
-		ribbonSet
+		set
                 ,style
 		,styleClass;
 
@@ -58,11 +58,11 @@ public class RibbonGroupSet extends UIComponentBase {
 		return COMPONENT_FAMILY;
 	}
 
-	public java.lang.String getRibbonSet() {
-		return (java.lang.String) getStateHelper().eval(PropertyKeys.ribbonSet, null);
+	public java.lang.String getSet() {
+		return (java.lang.String) getStateHelper().eval(PropertyKeys.set, null);
 	}
-	public void setRibbonSet(java.lang.String _ribbonSet) {
-		getStateHelper().put(PropertyKeys.ribbonSet, _ribbonSet);
+	public void setSet(java.lang.String _set) {
+		getStateHelper().put(PropertyKeys.set, _set);
 	}
 
 	public java.lang.String getStyle() {

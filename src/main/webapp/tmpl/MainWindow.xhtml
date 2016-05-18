@@ -115,7 +115,7 @@
 
                             <p:tab id="administration" title="#{ism.AdminPage}">
                                 <pi:ribbonGroup id="ribbonGroupSMQ" label="SMQ"  >
-                                    <pi:ribbonGroupSet id="ribbonGroupSetSMQ" ribbonSet="big" >
+                                    <pi:ribbonGroupSet id="ribbonGroupSetSMQ" set="big" >
                                         <p:commandButton id="btnSMQProcessus"
                                                          rendered="#{request.isUserInRole('CO_SMQPROCESSUS_R')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(1)}"
@@ -144,7 +144,7 @@
                                 </pi:ribbonGroup>
 
                                 <pi:ribbonGroup id="RibbonGroupAdminNC" label="Non conformité" >
-                                    <pi:ribbonGroupSet id="ribSetNC" ribbonSet="big">
+                                    <pi:ribbonGroupSet id="ribSetNC" set="big">
                                         <p:commandButton id="btnSMQNC"
                                                          title="Gestion de non conformité"
                                                          action="/company/smq/nc/Request/List.xhtml?faces-redirect=true"
@@ -199,7 +199,7 @@
 
                             <p:tab id="resources" title="#{ism.HRPage}">
                                 <pi:ribbonGroup id="RibbonGroupResources" label="Staff">
-                                    <pi:ribbonGroupSet id="ribbonGroupSetStaff" ribbonSet="small">
+                                    <pi:ribbonGroupSet id="ribbonGroupSetStaff" set="small">
                                         <p:commandButton id="btnStaffGroup"
                                                          rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEF_R')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(2)}"
@@ -237,7 +237,7 @@
                                                          value="Accès"
                                                          icon="ui-icon-hrstaffacces"  />
                                     </pi:ribbonGroupSet>
-                                    <pi:ribbonGroupSet id="ribbonGroupSetStaffCreate" ribbonSet="big">
+                                    <pi:ribbonGroupSet id="ribbonGroupSetStaffCreate" set="big">
 
                                         <p:commandButton id="btnStaffCreate"
                                                          rendered="#{request.isUserInRole('CO_HRSTAFFMANAGER_W')}"

@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import org.ism.entities.StaffGroupDefRole;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-17T17:34:13")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-18T22:17:36")
 @StaticMetamodel(IsmRole.class)
 public class IsmRole_ { 
 

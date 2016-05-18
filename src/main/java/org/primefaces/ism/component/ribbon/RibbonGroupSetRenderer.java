@@ -30,17 +30,17 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
         RibbonGroupSet groupSet = (RibbonGroupSet) component;
 
         // Manage child depending on ribbon set
-        if (groupSet.getRibbonSet().matches(Ribbon.RIBBON_SET_BIG_BUTTON)) { // Manage big button
+        if (groupSet.getSet().matches(Ribbon.RIBBON_SET_BIG_BUTTON)) { // Manage big button
             encodeChildBigButtonSet(context, groupSet);
-        } else if (groupSet.getRibbonSet().matches(Ribbon.RIBBON_SET_MID_BUTTON)) { // Manage mid button
+        } else if (groupSet.getSet().matches(Ribbon.RIBBON_SET_MID_BUTTON)) { // Manage middle button
             encodeChildMidButtonSet(context, groupSet);
-        } else if (groupSet.getRibbonSet().matches(Ribbon.RIBBON_SET_SMALL_BUTTON)) { // Manage big button
+        } else if (groupSet.getSet().matches(Ribbon.RIBBON_SET_SMALL_BUTTON)) { // Manage small button
             encodeChildSmallButtonSet(context, groupSet);
-        } else if (groupSet.getRibbonSet().matches(Ribbon.RIBBON_SET_TINY_BIG_BUTTON)) { // Manage big button
+        } else if (groupSet.getSet().matches(Ribbon.RIBBON_SET_TINY_BIG_BUTTON)) { // Manage tiny-big button
             encodeChildTinyBigButtonSet(context, groupSet);
-        } else if (groupSet.getRibbonSet().matches(Ribbon.RIBBON_SET_TINY_MID_BUTTON)) { // Manage mid button
+        } else if (groupSet.getSet().matches(Ribbon.RIBBON_SET_TINY_MID_BUTTON)) { // Manage tiny-middle button
             encodeChildTinyMidButtonSet(context, groupSet);
-        } else if (groupSet.getRibbonSet().matches(Ribbon.RIBBON_SET_TINY_SMALL_BUTTON)) { // Manage big button
+        } else if (groupSet.getSet().matches(Ribbon.RIBBON_SET_TINY_SMALL_BUTTON)) { // Manage tiny-small button
             encodeChildTinySmallButtonSet(context, groupSet);
         }
 
@@ -81,7 +81,7 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
         String ribbonSetClass = groupSet.getStyleClass();
         ribbonSetClass = (ribbonSetClass == null) ? Ribbon.GROUP_SET_CLASS : Ribbon.GROUP_SET_CLASS + " " + ribbonSetClass;
         String style = groupSet.getStyle();
-        String set = groupSet.getRibbonSet();
+        String set = groupSet.getSet();
 
         writer.startElement("div", null);
         writer.writeAttribute("class", ribbonSetClass + " " + Ribbon.RIBBON_SET_BIG_BUTTON, null);
@@ -116,7 +116,7 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
         String ribbonSetClass = groupSet.getStyleClass();
         ribbonSetClass = (ribbonSetClass == null) ? Ribbon.GROUP_SET_CLASS : Ribbon.GROUP_SET_CLASS + " " + ribbonSetClass;
         String style = groupSet.getStyle();
-        String set = groupSet.getRibbonSet();
+        String set = groupSet.getSet();
 
         writer.startElement("div", null);
         writer.writeAttribute("class", ribbonSetClass + " ." + Ribbon.RIBBON_SET_SMALL_BUTTON, null);
