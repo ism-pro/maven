@@ -35,17 +35,18 @@ body, html {
 }
 /** WEST   *************************************/
 .ui-layout-west {
+    /*
     padding: 0px!important;
     margin: 0px!important;
     max-width: 200px; 
     width: 200px;
     /*z-index:40 !important;*/
-    overflow:visible !important;
+    /*overflow:visible !important;
     background-color: #333;
-    color: white;
+    color: white;*/
 }
 .ui-layout-west .ui-layout-unit-content {
-    overflow:visible !important;
+    /*overflow:visible !important;*/
 }
 
 /* =============================================================================

@@ -87,6 +87,7 @@ org\ism\sessions\LabAnalyseCategoryFacade.class
 org\ism\sessions\StaffCompaniesFacade.class
 org\ism\jsf\DocExplorerController.class
 org\ism\beans\CtrlAccessService.class
+org\ism\view\ViewLayout.class
 org\ism\jsf\util\JsfSecurity.class
 org\ism\entities\LabAnalyseType_.class
 org\ism\jsf\LabSamplePtAnalysesController$LabSamplePtAnalysesControllerConverter.class
@@ -149,7 +150,6 @@ org\ism\entities\Staff_.class
 org\ism\jsf\LabSampleController.class
 org\ism\sessions\NonConformiteGravityFacade.class
 org\ism\entities\NonConformite_.class
-org\ism\view\FullLayoutController.class
 org\ism\jsf\StaffSetupController.class
 org\ism\listener\SessionCounterListener.class
 org\ism\jsf\StaffGroupDefRoleController.class

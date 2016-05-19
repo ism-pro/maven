@@ -1,0 +1,2 @@
+
+.menu-btn .ui-button-text{text-align:left}.menu-btn .ui-icon-person{background:url("#{resource['img/ism/hr/staff.png']}") no-repeat;background-size:contain}.menu-btn .ui-icon-wrench{background:url("#{resource['img/ism/hr/u_setup.png']}") no-repeat;background-size:contain}.menu-btn{height:44px;margin:2px;background:0;border:0;width:100%;text-align:left;font-family:"Trebuchet MS",Helvetica,calibri,sans-serif!important;font-size:10pt;color:#f9f9f9}.menu-btn:hover{background-color:#093}#layout-content{height:100%;margin-top:-20px}

@@ -12,7 +12,7 @@
         <ui:define name="body">
             <h1><h:outputText value="#{ism.ProcessusTitleList}"/></h1>
 
-            <h:form id="ProcessusListForm" >
+            <!--<h:form id="ProcessusListForm" >-->
                 <p:dataTable id="datalist" 
                              value="#{processusController.items}" var="item"
                              selectionMode="single" selection="#{processusController.selected}"
@@ -70,15 +70,15 @@
                         <p:commandButton id="createButton" icon="ui-icon-plus"   
                                          value="#{ism.Create}" 
                                          actionListener="#{processusController.prepareCreate}" 
-                                         update=":ProcessusCreateForm" oncomplete="PF('ProcessusCreateDialog').show()"/>
+                                          oncomplete="PF('ProcessusCreateDialog').show()"/>
                         <p:commandButton id="viewButton" icon="ui-icon-search" 
                                          value="#{ism.View}" 
-                                         update=":ProcessusViewForm" 
+                                         
                                          oncomplete="PF('ProcessusViewDialog').show()" 
                                          disabled="#{empty processusController.selected}"/>
                         <p:commandButton id="editButton" icon="ui-icon-pencil" 
                                          value="#{ism.Edit}" 
-                                         update=":ProcessusEditForm" 
+                                         
                                          oncomplete="PF('ProcessusEditDialog').show()" 
                                          disabled="#{empty processusController.selected}"/>
                         <p:commandButton id="deleteButton" icon="ui-icon-trash"  
@@ -98,11 +98,12 @@
                         </p:commandButton>
                     </f:facet>
                 </p:dataTable>
-            </h:form>
-
+            <!--</h:form>
+            
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>
+            -->
         </ui:define>
     </ui:composition>
 
