@@ -24,6 +24,12 @@ public class ViewLayout implements Serializable {
     private static final long serialVersionUID = 20120925L;
 
     private LayoutOptions layoutOptions;    //!< Main Setup layout
+    private LayoutOptions northLayout;      //!< West pane layout
+    private LayoutOptions westLayout;       //!< West pane layout
+    private LayoutOptions centerLayout;     //!< West pane layout
+    private LayoutOptions eastLayout;       //!< West pane layout
+    private LayoutOptions southLayout;      //!< West pane layout
+    
 
     @PostConstruct
     protected void initialize() {
@@ -35,57 +41,34 @@ public class ViewLayout implements Serializable {
         panes.addOption("resizeWhileDragging", false);
         layoutOptions.setPanesOptions(panes);
 
-        // options for center pane  
-        LayoutOptions center = new LayoutOptions();
-        layoutOptions.setCenterOptions(center);
-
-        // options for nested center layout  
-        LayoutOptions childCenterOptions = new LayoutOptions();
-        center.setChildOptions(childCenterOptions);
-
-        // options for center-north pane  
-        LayoutOptions centerNorth = new LayoutOptions();
-        centerNorth.addOption("size", "50%");
-        childCenterOptions.setNorthOptions(centerNorth);
-
-        // options for center-center pane  
-        LayoutOptions centerCenter = new LayoutOptions();
-        centerCenter.addOption("minHeight", 60);
-        childCenterOptions.setCenterOptions(centerCenter);
-
+        
         // options for west pane  
-        LayoutOptions west = new LayoutOptions();
-        west.addOption("size", 200);
-        layoutOptions.setWestOptions(west);
+        westLayout = new LayoutOptions();
+        westLayout.addOption("size", 200);
+        westLayout.addOption("initClosed", true);
+        layoutOptions.setWestOptions(westLayout);
+        
+        
+        // options for center pane  
+        centerLayout = new LayoutOptions();
+        centerLayout.addOption("minHeight", 60);
+        layoutOptions.setCenterOptions(centerLayout);
 
-        // options for nested west layout  
-        LayoutOptions childWestOptions = new LayoutOptions();
-        west.setChildOptions(childWestOptions);
-
-        // options for west-north pane  
-        LayoutOptions westNorth = new LayoutOptions();
-        westNorth.addOption("size", "33%");
-        childWestOptions.setNorthOptions(westNorth);
-
-        // options for west-center pane  
-        LayoutOptions westCenter = new LayoutOptions();
-        westCenter.addOption("minHeight", "60");
-        childWestOptions.setCenterOptions(westCenter);
-
-        // options for west-south pane  
-        LayoutOptions westSouth = new LayoutOptions();
-        westSouth.addOption("size", "33%");
-        childWestOptions.setSouthOptions(westSouth);
-
+        
+        
         // options for east pane  
-        LayoutOptions east = new LayoutOptions();
-        east.addOption("size", 200);
-        layoutOptions.setEastOptions(east);
+        eastLayout = new LayoutOptions();
+        eastLayout.addOption("size", 200);
+        eastLayout.addOption("initClosed", true);
+        layoutOptions.setEastOptions(eastLayout);
 
+        
         // options for south pane  
-        LayoutOptions south = new LayoutOptions();
-        south.addOption("size", 80);
-        layoutOptions.setSouthOptions(south);
+        southLayout = new LayoutOptions();
+        southLayout.addOption("size", 10);
+        //south.addOption("initHidden", true);
+        southLayout.addOption("initClosed", true);
+        layoutOptions.setSouthOptions(southLayout);
     }
 
     
@@ -93,6 +76,16 @@ public class ViewLayout implements Serializable {
         return layoutOptions;
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
     public void handleClose(CloseEvent event) {
         FacesMessage msg
                 = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane closed",
@@ -119,4 +112,50 @@ public class ViewLayout implements Serializable {
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+*/
+
+    public LayoutOptions getNorthLayout() {
+        return northLayout;
+    }
+
+    public void setNorthLayout(LayoutOptions northLayout) {
+        this.northLayout = northLayout;
+    }
+
+    public LayoutOptions getWestLayout() {
+        return westLayout;
+    }
+
+    public void setWestLayout(LayoutOptions westLayout) {
+        this.westLayout = westLayout;
+    }
+
+    public LayoutOptions getCenterLayout() {
+        return centerLayout;
+    }
+
+    public void setCenterLayout(LayoutOptions centerLayout) {
+        this.centerLayout = centerLayout;
+    }
+
+    public LayoutOptions getEastLayout() {
+        return eastLayout;
+    }
+
+    public void setEastLayout(LayoutOptions eastLayout) {
+        this.eastLayout = eastLayout;
+    }
+
+    public LayoutOptions getSouthLayout() {
+        return southLayout;
+    }
+
+    public void setSouthLayout(LayoutOptions southLayout) {
+        this.southLayout = southLayout;
+    }
+    
+    
+    
+    
+    
 }

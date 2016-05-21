@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import org.ism.entities.Company;
 import org.ism.entities.DocExplorer;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-19T22:49:16")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-22T00:42:25")
 @StaticMetamodel(DocType.class)
 public class DocType_ { 
 

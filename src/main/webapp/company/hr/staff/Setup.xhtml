@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -14,30 +15,35 @@
                 <h:outputText value="#{ism.StaffSetupTitleMySetup}" />
             </h1>
 
-            <h:form id="MySetupForm">
-                <p:panelGrid id="setupCtrl" columns="2" style="border: none;">
-                        <p:outputLabel value="#{ism.StaffSetupField_stsTimeOutSession}" for="ststimeOutSession" />
-                        <p:spinner id="ststimeOutSession" 
-                                   value="#{staffController.maxInactiveIntervalMinute}" 
-                                   title="#{ism.StaffSetupFieldInfo_stsTimeOutSession}" 
-                                   required="true" 
-                                   requiredMessage="#{ism.StaffSetupRequiredMsg_stsTimeOutSession}"
-                                   min="1"
-                                   max="60"
-                                   />
+            <p:panelGrid id="setupCtrl" columns="2" style="border: none;">
+                <p:outputLabel value="#{ism.StaffSetupField_stsTimeOutSession}" for="ststimeOutSession" />
+                <p:spinner id="ststimeOutSession" 
+                           value="#{staffController.maxInactiveIntervalMinute}" 
+                           title="#{ism.StaffSetupFieldInfo_stsTimeOutSession}" 
+                           required="true" 
+                           requiredMessage="#{ism.StaffSetupRequiredMsg_stsTimeOutSession}"
+                           min="1"
+                           max="60"
+                           />
 
-                    </p:panelGrid>
-                    <p:commandButton id="btnSetupUpdate"
-                                     value="#{ism.Change}" 
-                                     actionListener="#{staffController.updateMaxInactiveInterval()}"
-                                     update="@all,:growl" 
-                                     styleClass="ui-button-std"
-                                     ajax="#{viewRibbon.resetReminingTimeSession()}"
-                                     />
-            </h:form>
+            </p:panelGrid>
+            <p:commandButton id="btnSetupUpdate"
+                             value="#{ism.Change}" 
+                             action="./Setup.xhtml"
+                             actionListener="#{staffController.updateMaxInactiveInterval()}"
+                             update="mainForm:centerLayout,:growl" 
+                             styleClass="ui-button-std"
+                             style="margin-top: 10px;"
+                             ajax="#{viewRibbon.resetReminingTimeSession()}"
+                             />
+
+
             <hr />
 
-
+            <pe:blockUI source="btnSetupUpdate" target="body"
+                       >
+                <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+            </pe:blockUI>
 
         </ui:define>
     </ui:composition>

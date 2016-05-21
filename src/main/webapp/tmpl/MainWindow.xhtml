@@ -36,23 +36,14 @@
         <h:form id="mainForm">
 
 
-            <pe:layout id="fullPage" options="#{fullLayoutController.layoutOptions}"  
-                       stateCookie="true" widgetVar="fpLayoutWidget"> 
-                >
-                <p:ajax event="open" listener="#{fullLayoutController.handleOpen}" update="msg"/>  
-                <p:ajax event="close" listener="#{fullLayoutController.handleClose}" update="msg"/>  
-                <p:ajax event="resize" listener="#{fullLayoutController.handleResize}" update=":growl"/>  
+            <pe:layout id="fullPage" stateCookie="true"
+                       options="#{viewLayout.layoutOptions}" 
+                       widgetVar="fpLayoutWidget"> 
 
 
 
-                <pe:layoutPane  position="north" 
-                                resizable="true"
-                                spacingOpen="0"
-                                >
+                <pe:layoutPane  position="north" resizable="true" spacingOpen="0" >
 
-                    <!--
-                    <h:form id="ribbon-form">
-                    -->
                     <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
                             listener="#{viewRibbon.updateReminingTimeSession()}" 
                             update="shortcut-label-reminingTimeout"  />
@@ -113,8 +104,7 @@
 
 
 
-                        <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}"
-                                   >
+                        <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}">
                             <p:ajax event="tabChange" listener="#{viewRibbon.onChange}"  />
 
                             <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
@@ -383,88 +373,39 @@
 
                             <p:tab id="manageLayout" title="AFFICHAGE">
                                 <pi:ribbonGroup id="managedLayoutGroup">
-                                    <pi:ribbonGroupSet id="managedLayoutSet" set="big" >
-                                        <p:commandButton value="Toggle South" type="button"  
-                                                         onclick="PF('fpLayoutWidget').toggle('south')"/>  
-                                        <p:commandButton value="Toggle West-North" type="button"  
-                                                         onclick="PF('fpLayoutWidget').toggle('west_north')"/>  
-                                        <p:commandButton value="Close Center-North" type="button"  
-                                                         onclick="PF('fpLayoutWidget').close('center_north')"/>  
-                                        <p:commandButton value="Open Center-North" type="button"  
-                                                         onclick="PF('fpLayoutWidget').open('center_north')"/>  
-                                        <p:commandButton value="Size East Pane" type="button"  
-                                                         onclick="PF('fpLayoutWidget').sizePane('east', 350)"/>  
-                                        <p:commandButton value="Size West-South Pane" type="button"  
-                                                         onclick="PF('fpLayoutWidget').sizePane('west_south', 80)"/>  
-                                    </pi:ribbonGroupSet>
+                                    <h:outputText style="margin: 5px;color: white;max-width: 120px;"
+                                                  escape="true"
+                                                  value="#{request.pathInfo}" /><br />
                                 </pi:ribbonGroup>
                             </p:tab>
                         </pi:ribbon>
                     </div>
 
-                    <!--
-                    </h:form>
-                    -->
                 </pe:layoutPane>
 
 
 
-                <pe:layoutPane position="west">  
-                    <pe:layoutPane position="north" closable="true" initClosed="true" 
-                                   rendered="#{viewRibbon.activeIndex!=0?false:true}">  
-                        <ui:include src="./MainMenu.xhtml" rendered="#{viewRibbon.activeIndex!=0?false:true}" /> 
-                    </pe:layoutPane> 
+                <pe:layoutPane position="west" >
+                    <p:outputLabel value="#{ism.EmptyList}" 
+                                   rendered="#{request.pathInfo.startsWith('/company/hr/')?false:true}" />
+                    <ui:include src="./menu/main.xhtml"  
+                                rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?false:true}"/>
                 </pe:layoutPane>  
 
 
 
 
-                <pe:layoutPane position="center" class="margin: 4px;">
-                    <!--
-                    <div style="padding:10px; margin-bottom:6px; border:1px solid red;"  
-                         class="ui-widget-content ui-corner-all">  
-                        This is a custom content between layout panes.  
-                        <br/><br/>  
-                        Any elements can be placed here.  
-                    </div> 
-                    -->
-                    <div class="ui-layout-content">  
-                        <!--
-                        <pe:layoutPane position="north">  
-                            <f:facet name="header">  
-                                <h:outputText value="Options"/>  
-                            </f:facet>  
-                            Secondary menu
-                        </pe:layoutPane>  
-                        -->
-                        <pe:layoutPane position="center">  
-                            <!--
-                            <div id="layout-content">-->
-                            <ui:insert id="body" name="body" />
-                            <!--</div>-->
-                        </pe:layoutPane>  
-                    </div>
-
+                <pe:layoutPane id="centerLayout" position="center" class="margin: 4px;">
+                    <ui:insert id="body" name="body" />
                 </pe:layoutPane>
 
 
 
-
-
                 <pe:layoutPane position="east">
-                    <div id="sidebar-options" title="Cliquer pour visualiser ou cacher les options disponibles">
-                        <h:graphicImage id="sidebar-options-icon" 
-                                        library="img" name="ism/std/Options.png" />
-                    </div>
-                    <div id="sidebar-content">
-                        <p:panelGrid rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?false:true}">
-                            <ui:include src="./sidebar/ncRequestView.xhtml"  />
-                        </p:panelGrid>
-
-                        <h:outputText style="margin: 5px;color: white;max-width: 120px;"
-                                      escape="true"
-                                      value="#{request.pathInfo}" /><br />
-                    </div>
+                    <p:outputLabel value="#{ism.EmptyList} : #{request.pathInfo}"
+                                   rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?true:false}" />
+                    <ui:include src="./menu/ncRequest.xhtml"  
+                                rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?false:true}"/>
                 </pe:layoutPane>
 
 
@@ -527,6 +468,7 @@
 
     </h:body>
 
+    
     <h:body rendered="#{!request.session.getAttribute('authenticated')}">
         <meta http-equiv="refresh" 
               content="0;url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
@@ -556,7 +498,10 @@
                mainForm:ism-ribbon:btnStaffToGroup, 
                mainForm:ism-ribbon:btnStaffCreate, 
                mainForm:ism-ribbon:btnStaffList, 
-               mainForm:ism-ribbon:btnStaffManageList"
+               mainForm:ism-ribbon:btnStaffManageList,
+               mainForm:btnStaffProfil,
+               mainForm:btnStaffConfig,
+               mainForm:btnLogOut"
                >
         <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>

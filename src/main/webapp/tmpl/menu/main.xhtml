@@ -7,12 +7,14 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
+        
         <div id="layout-menu">
             <div style="width:100%; padding: 20px;">
                 <h:graphicImage library="img" name="ism/hr/menu.png" style="padding: 10px; align-content: center;" />
             </div>
 
-            <p:commandButton styleClass="menu-btn" 
+            <p:commandButton id="btnStaffProfil"
+                             styleClass="menu-btn" 
                              value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename} [ #{staffAuthController.staff.stStaff} ]"
                              icon="ui-icon-person"
                              rendered="#{request.isUserInRole('USER')}"
@@ -20,7 +22,8 @@
                              actionListener="#{staffController.prepareUpdate(staffAuthController.staff.stStaff)}"
                              />
             <br />
-            <p:commandButton styleClass="menu-btn" 
+            <p:commandButton id="btnStaffConfig"
+                             styleClass="menu-btn" 
                              value="Staff Configuration"
                              icon="ui-icon-wrench"
                              rendered="#{request.isUserInRole('USER')}"
@@ -28,7 +31,8 @@
                              actionListener="#{staffController.prepareUpdate(staffAuthController.staff.stStaff)}"
                              />
             <br />
-            <p:commandButton styleClass="menu-btn" 
+            <p:commandButton id="btnLogOut"
+                             styleClass="menu-btn" 
                              icon="ui-icon-key"  value="#{ism.Authentication_Disconnect}"
                              rendered="#{request.isUserInRole('USER')}"
                              action="#{staffAuthController.logout()}"/>
