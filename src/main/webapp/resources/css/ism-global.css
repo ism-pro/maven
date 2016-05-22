@@ -74,25 +74,26 @@ body, html {
 /* =============================================================================
  * Managing sidebar
  * ===========================================================================*/
+/*
 #sidebar{
     right: 0;
     top: 151px;
 
-    /*height: 32px;*/
+    
     
     position: fixed;
 
     border: 1px #f2f2f2 solid;
     background-color: #333;
     opacity: 0.9;
-    filter: alpha(opacity=90); /* For IE8 and earlier */
+    filter: alpha(opacity=90); /* For IE8 and earlier *//*
     z-index: 150;
 }
 
 #sidebar-options{
     width: 100%;
     min-width: 48px;
-    /*height: 48px;*/
+    /*height: 48px;*//*
     text-align: center;
     margin: auto;
 }
@@ -132,7 +133,7 @@ body, html {
 .menu-btn .ui-button-text.ui-c{
     margin-left: 20px;
 }
-
+*/
 
 /* =============================================================================
  * GENERAL DEFAULT SETTING

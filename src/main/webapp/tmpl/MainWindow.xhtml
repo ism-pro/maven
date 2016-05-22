@@ -42,7 +42,7 @@
 
 
 
-                <pe:layoutPane  position="north" resizable="true" spacingOpen="0" >
+                <pe:layoutPane id="northLayout" position="north" resizable="true" spacingOpen="0" >
 
                     <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
                             listener="#{viewRibbon.updateReminingTimeSession()}" 
@@ -68,24 +68,25 @@
                                 <p:outputLabel value="#{ism.AppNameA} [ #{ism.AppVersion} ]  -  #{ism.CompanyName} - #{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"/>
                             </div>
                             <div id="shortcut-right">
+
                                 <p:selectOneMenu  id="shortcut-btn-theme" 
                                                   value="#{staffSetupController.theme}" 
-                                                  var="t" onchange="submit()"
+                                                  var="t" 
                                                   valueChangeListener="#{staffSetupController.applyThemeEvent}"
                                                   filter="true" filterMatchMode="contains"
                                                   title="Thème recommandé (Flick Smothness, redmond , cupertino, aristo, bitzer, hot-sneaks, Excite Bike" 
                                                   >
+                                    <p:ajax oncomplete="location.reload();" />
                                     <f:selectItem   itemLabel="#{staffSetupController.selected.stsTheme}"
                                                     itemValue="#{themeService.getStrTheme(staffSetupController.selected.stsTheme)}"
                                                     />
                                     <f:selectItems value="#{themeService.themes}" 
-                                                   var="th"  itemValue="#{th}"
-                                                   />
-
+                                                   var="th"  itemValue="#{th}"  />
                                     <p:column>
                                         <h:outputText value="#{t.displayName}" />
                                     </p:column>
                                 </p:selectOneMenu>
+
                                 <p:commandButton id="shortcut-btn-logout" 
                                                  icon="ui-icon-key"  value="#{ism.Authentication_Disconnect}" rendered="true"
                                                  action="#{staffAuthController.logout}"
@@ -94,7 +95,7 @@
                                 <p:outputLabel      id="shortcut-label-reminingTimeout"
                                                     value="#{viewRibbon.reminingTimeSession}/#{request.session.maxInactiveInterval}"
                                                     rendered="true"
-                                                    style="min-width: 72px; min-height: 22px; background-color: #a1dbff;"
+                                                    style="margin-right: 3px; min-width: 72px; min-height: 22px; background-color: #a1dbff;"
 
                                                     />
                             </div>
@@ -105,7 +106,7 @@
 
 
                         <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}">
-                            <p:ajax event="tabChange" listener="#{viewRibbon.onChange}"  />
+                            <p:ajax event="tabChange" listener="#{viewRibbon.onChange}" />
 
                             <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
 
@@ -265,7 +266,7 @@
                                 </pi:ribbonGroup>
                             </p:tab>
 
-                            <p:tab id="tabProcess" title="Process" rendered="false" >
+                            <p:tab id="tabProcess" title="Process" rendered="true" >
                                 <pi:ribbonGroup id="RibbonGroupPStd" label="Standard">
                                     <h:panelGrid id="PanelGridStd" columns="1">
                                         <h:commandButton id="btnPStdEquipement"
@@ -372,10 +373,25 @@
                             </p:tab>
 
                             <p:tab id="manageLayout" title="AFFICHAGE">
-                                <pi:ribbonGroup id="managedLayoutGroup">
-                                    <h:outputText style="margin: 5px;color: white;max-width: 120px;"
-                                                  escape="true"
-                                                  value="#{request.pathInfo}" /><br />
+                                <pi:ribbonGroup id="managedLayoutGroup" label="Fenêtre">
+                                    <pi:ribbonGroupSet id="manageLayoutAuto" set="big">
+                                        <p:commandButton id="btnLayoutAuto"
+                                                         icon="ui-icon-layoutInit"
+                                                         value="Réinitialiser"
+                                                         onclick="PF('fpLayoutWidget').sizePane('north', 153)"/>  
+                                    </pi:ribbonGroupSet>
+                                    <pi:ribbonGroupSet id="manageLayoutOC" set="small" >
+                                        <p:commandButton value="Menu" type="button"  
+                                                         icon="ui-icon-layoutWest"
+                                                         onclick="PF('fpLayoutWidget').toggle('west')"/>  
+                                        <p:commandButton value="Options" type="button"  
+                                                         icon="ui-icon-layoutEast"
+                                                         onclick="PF('fpLayoutWidget').toggle('east')"/>  
+                                        <p:commandButton value="Log" type="button"  
+                                                         icon="ui-icon-layoutSouth"
+                                                         onclick="PF('fpLayoutWidget').toggle('south')"/>  
+                                    </pi:ribbonGroupSet>
+
                                 </pi:ribbonGroup>
                             </p:tab>
                         </pi:ribbon>
@@ -385,11 +401,9 @@
 
 
 
-                <pe:layoutPane position="west" >
-                    <p:outputLabel value="#{ism.EmptyList}" 
-                                   rendered="#{request.pathInfo.startsWith('/company/hr/')?false:true}" />
-                    <ui:include src="./menu/main.xhtml"  
-                                rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?false:true}"/>
+                <pe:layoutPane id="westLayout" position="west" >
+                    <f:facet name="header"><h:outputText value="Menu"/></f:facet> 
+                    <ui:insert id="west" name="west" />
                 </pe:layoutPane>  
 
 
@@ -401,21 +415,22 @@
 
 
 
-                <pe:layoutPane position="east">
-                    <p:outputLabel value="#{ism.EmptyList} : #{request.pathInfo}"
-                                   rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?true:false}" />
-                    <ui:include src="./menu/ncRequest.xhtml"  
-                                rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?false:true}"/>
+                <pe:layoutPane id="eastLayout" position="east" >
+                    <f:facet name="header"><h:graphicImage library="img" name="ism/std/Options.png" width="22px" height="22px" /> <h:outputText value="Options"/> </f:facet>  
+                    <ui:insert id="east" name="east" />
                 </pe:layoutPane>
 
 
-                <pe:layoutPane position="south">  
+                <pe:layoutPane id="southLayout" position="south">  
                     <p:messages id="msg" showDetail="true" showSummary="true">  
                         <p:effect type="pulsate" event="load" delay="0">  
                             <f:param name="mode" value="'show'"/>  
                             <f:param name="times" value="'1'"/>  
                         </p:effect>  
                     </p:messages>  
+                    <p:outputLabel value="#{ism.EmptyList} : #{request.pathInfo}"
+                                   rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?true:false}" />
+                    
                 </pe:layoutPane>  
 
             </pe:layout>
@@ -468,7 +483,7 @@
 
     </h:body>
 
-    
+
     <h:body rendered="#{!request.session.getAttribute('authenticated')}">
         <meta http-equiv="refresh" 
               content="0;url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
@@ -498,10 +513,7 @@
                mainForm:ism-ribbon:btnStaffToGroup, 
                mainForm:ism-ribbon:btnStaffCreate, 
                mainForm:ism-ribbon:btnStaffList, 
-               mainForm:ism-ribbon:btnStaffManageList,
-               mainForm:btnStaffProfil,
-               mainForm:btnStaffConfig,
-               mainForm:btnLogOut"
+               mainForm:ism-ribbon:btnStaffManageList"
                >
         <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>

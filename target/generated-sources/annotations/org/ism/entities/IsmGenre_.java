@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import org.ism.entities.Staff;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-22T00:42:25")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-22T14:57:51")
 @StaticMetamodel(IsmGenre.class)
 public class IsmGenre_ { 
 

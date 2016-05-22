@@ -13,91 +13,91 @@
             <h1><h:outputText value="#{ism.ProcessusTitleList}"/></h1>
 
             <!--<h:form id="ProcessusListForm" >-->
-                <p:dataTable id="datalist" 
-                             value="#{processusController.items}" var="item"
-                             selectionMode="single" selection="#{processusController.selected}"
-                             rowIndexVar="currentRow"
-                             rowKey="#{item.PProcessus}"
-                             paginator="#{tableView.paginator}" 
-                             rows="#{tableView.rows}" 
-                             resizableColumns="#{tableView.resizableColumns}"
-                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
-                             paginatorTemplate="#{tableView.paginatorTemplate}"
-                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
-                             >
+            <p:dataTable id="datalist" 
+                         value="#{processusController.items}" var="item"
+                         selectionMode="single" selection="#{processusController.selected}"
+                         rowIndexVar="currentRow"
+                         rowKey="#{item.PProcessus}"
+                         paginator="#{tableView.paginator}" 
+                         rows="#{tableView.rows}" 
+                         resizableColumns="#{tableView.resizableColumns}"
+                         rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                         paginatorTemplate="#{tableView.paginatorTemplate}"
+                         currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                         >
 
-                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                    <p:column headerText="#{ism.ProcessusField_pId}"
-                              style="width: 24px;">
-                        <h:outputText value="#{item.PId}"/>
-                    </p:column>
+                <p:column headerText="#{ism.ProcessusField_pId}"
+                          style="width: 24px;">
+                    <h:outputText value="#{item.PId}"/>
+                </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pProcessus}">
-                        <h:outputText value="#{item.PProcessus}"/>
-                    </p:column>
+                <p:column headerText="#{ism.ProcessusField_pProcessus}">
+                    <h:outputText value="#{item.PProcessus}"/>
+                </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pDesignation}">
-                        <h:outputText value="#{item.PDesignation}"/>
-                    </p:column>
+                <p:column headerText="#{ism.ProcessusField_pDesignation}">
+                    <h:outputText value="#{item.PDesignation}"/>
+                </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pStaffManager}">
-                        <h:outputText value="[#{item.PStaffmanager.stStaff}] #{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname}"/>
-                    </p:column>
+                <p:column headerText="#{ism.ProcessusField_pStaffManager}">
+                    <h:outputText value="[#{item.PStaffmanager.stStaff}] #{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname}"/>
+                </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pDeleted}">
-                        <p:selectBooleanCheckbox value="#{item.PDeleted}" disabled="true"/>
-                    </p:column>
+                <p:column headerText="#{ism.ProcessusField_pDeleted}">
+                    <p:selectBooleanCheckbox value="#{item.PDeleted}" disabled="true"/>
+                </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pCreated}">
-                        <h:outputText value="#{item.PCreated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                        </h:outputText>
-                    </p:column>
+                <p:column headerText="#{ism.ProcessusField_pCreated}">
+                    <h:outputText value="#{item.PCreated}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pChanged}">
-                        <h:outputText value="#{item.PChanged}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                        </h:outputText>
-                    </p:column>
+                <p:column headerText="#{ism.ProcessusField_pChanged}">
+                    <h:outputText value="#{item.PChanged}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pCompany}">
-                        <h:outputText value="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}"/>
-                    </p:column>
+                <p:column headerText="#{ism.ProcessusField_pCompany}">
+                    <h:outputText value="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}"/>
+                </p:column>
 
-                    <f:facet name="footer">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   
-                                         value="#{ism.Create}" 
-                                         actionListener="#{processusController.prepareCreate}" 
-                                          oncomplete="PF('ProcessusCreateDialog').show()"/>
-                        <p:commandButton id="viewButton" icon="ui-icon-search" 
-                                         value="#{ism.View}" 
-                                         
-                                         oncomplete="PF('ProcessusViewDialog').show()" 
-                                         disabled="#{empty processusController.selected}"/>
-                        <p:commandButton id="editButton" icon="ui-icon-pencil" 
-                                         value="#{ism.Edit}" 
-                                         
-                                         oncomplete="PF('ProcessusEditDialog').show()" 
-                                         disabled="#{empty processusController.selected}"/>
-                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  
-                                         value="#{ism.Delete}" 
-                                         actionListener="#{processusController.destroy}" 
-                                         update=":growl,datalist" 
-                                         disabled="#{empty processusController.selected}">
-                            <p:confirm header="#{ism.ProcessusTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                       message="#{ism.ConfirmDeleteMessage}" 
-                                       icon="ui-icon-alert"/>
-                            <p:confirmDialog global="true">
-                                <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
-                                                 icon="ui-icon-check"/>
-                                <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
-                                                 icon="ui-icon-close"/>
-                            </p:confirmDialog>
-                        </p:commandButton>
-                    </f:facet>
-                </p:dataTable>
+                <f:facet name="footer">
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   
+                                     value="#{ism.Create}" 
+                                     actionListener="#{processusController.prepareCreate}" 
+                                     oncomplete="PF('ProcessusCreateDialog').show()"/>
+                    <p:commandButton id="viewButton" icon="ui-icon-search" 
+                                     value="#{ism.View}" 
+
+                                     oncomplete="PF('ProcessusViewDialog').show()" 
+                                     disabled="#{empty processusController.selected}"/>
+                    <p:commandButton id="editButton" icon="ui-icon-pencil" 
+                                     value="#{ism.Edit}" 
+
+                                     oncomplete="PF('ProcessusEditDialog').show()" 
+                                     disabled="#{empty processusController.selected}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  
+                                     value="#{ism.Delete}" 
+                                     actionListener="#{processusController.destroy}" 
+                                     update=":growl,datalist" 
+                                     disabled="#{empty processusController.selected}">
+                        <p:confirm header="#{ism.ProcessusTitleList} - #{ism.ConfirmDeleteTitle}" 
+                                   message="#{ism.ConfirmDeleteMessage}" 
+                                   icon="ui-icon-alert"/>
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check"/>
+                            <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"/>
+                        </p:confirmDialog>
+                    </p:commandButton>
+                </f:facet>
+            </p:dataTable>
             <!--</h:form>
             
             <ui:include src="Create.xhtml"/>
@@ -105,6 +105,53 @@
             <ui:include src="View.xhtml"/>
             -->
         </ui:define>
+
+
+        <ui:define name="east">
+            <p:commandButton value="#{ism.Create}" 
+                             icon="ui-btn-Create"
+                             styleClass="menu-btn"/>
+            <br />
+            <p:commandButton action="Editer.xhtml?faces-redirect=true"
+                             styleClass="menu-btn"
+                             title="Editer l'information et la description"
+                             icon="ui-btn-Edit"
+                             value="#{ism.Edit} description"
+                             disabled="#{nonConformiteRequestController.selected.ncrState.id gt 2}"
+                             />
+            <br />
+            <p:commandButton value="#{ism.Save}" 
+                             icon="ui-btn-Save"
+                             styleClass="menu-btn"/>
+            <br />
+            <p:commandButton value="#{ism.Cancel}" 
+                             icon="ui-btn-Cancel"
+                             styleClass="menu-btn"/>
+            <br />
+            <p:commandButton value="#{ism.Delete}" 
+                             icon="ui-btn-Delete"
+                             styleClass="menu-btn"/>
+            <br />
+            <p:commandButton value="Approuver" 
+                             icon="ui-btn-Approuve"
+                             styleClass="menu-btn"/>
+            <br />
+            <p:commandButton value="#{ism.Refused}" 
+                             icon="ui-btn-Refuse"
+                             styleClass="menu-btn"/>
+            <br />
+            <p:commandButton value="#{ism.Action}" 
+                             icon="ui-btn-Actions"
+                             styleClass="menu-btn"/>
+            <br />
+            <p:commandButton value="#{ism.Cloture}" 
+                             icon="ui-btn-Cloture"
+                             styleClass="menu-btn"/>
+            <h:outputText style="margin: 5px;color: white;max-width: 120px;"
+                          escape="true"
+                          value="#{request.pathInfo}" /><br />
+        </ui:define>
+
     </ui:composition>
 
 </html>

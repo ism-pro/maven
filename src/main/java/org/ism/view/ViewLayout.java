@@ -41,6 +41,12 @@ public class ViewLayout implements Serializable {
         panes.addOption("resizeWhileDragging", false);
         layoutOptions.setPanesOptions(panes);
 
+        // options for west pane  
+        northLayout = new LayoutOptions();
+        northLayout.addOption("size", 153);
+        northLayout.addOption("maxHeight", 153);
+        northLayout.addOption("minHeight", 35);
+        layoutOptions.setWestOptions(westLayout);
         
         // options for west pane  
         westLayout = new LayoutOptions();

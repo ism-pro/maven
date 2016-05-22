@@ -136,7 +136,10 @@
     text-align: center;
 }
 
-/* RIBBON SMALL BUTTON SETUP */
+/* RIBBON BIG BUTTON SETUP */
+.ui-ribbon-group-set{
+    float:left;
+}
 .ui-ribbon-group-set.big .big{
     float: left;
     width: 86px;

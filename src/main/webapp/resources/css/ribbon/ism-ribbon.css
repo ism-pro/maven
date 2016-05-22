@@ -337,62 +337,25 @@ ul.ui-ribbon-groups #RibbonGroupResources  {
 }
 
 
-
-/* ============================================================================
-    SPLIT BUTTON
-==============================================================================*/
-/*
-div .ui-icon-smq-setup{
-    width: 86px;
-    height: 72px;
-    margin:0px;
-    padding:0px;
-    border: none;
+/*******************************************************************************
+* AFFICHAGE / CONFIGURATION
+*******************************************************************************/
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-layoutInit{
+    background: url("#{resource['img/ism/window/layoutInit.png']}") no-repeat;
+    background-size:contain;
 }
-
-div .ui-icon-smq-setup .ui-button{
-    width: 86px;
-    height: 58px;
-    margin:0px;
-    padding:0px;
-    border: none;
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-layoutWest{
+    background: url("#{resource['img/ism/window/layoutWest.png']}") no-repeat;
+    background-size:contain;
 }
-
-div .ui-icon-smq-setup .ui-button span.ui-button-icon-left{
-    width: 44px;
-    height: 44px;
-    margin-left: -22px;
-    margin-top: -22px;
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-layoutEast{
+    background: url("#{resource['img/ism/window/layoutEast.png']}") no-repeat;
+    background-size:contain;
 }
-div .ui-icon-smq-setup .ui-button:hover{
-    background-color: #6cd8ba; 
-}
-
-.ui-icon-smq-setup span.ui-button-icon-left {
-    background: url("#{resource['img/ism/admin/smq_nc.png']}") no-repeat;
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-layoutSouth{
+    background: url("#{resource['img/ism/window/layoutSouth.png']}") no-repeat;
     background-size:contain;
 }
 
-div .ui-icon-smq-setup .ui-splitbutton-menubutton.ui-button{
-    margin: 0px;
-    padding:0px;
-    margin-top: 60px;
-    margin-left: -85px;
-    height: 12px;
-    width: 86px;
-}
 
-div .ui-icon-smq-setup .ui-splitbutton-menubutton.ui-button span.ui-button-icon-left{
-    width: 10px;
-    height: 10px;
-    margin: 0px;
-    padding:0px;
-    margin-top: -6px;
-    margin-left: 30px;
-    background-color: #009933;
-    background: url("#{resource['img/ism/std/menu_down.gif']}") no-repeat;
-    background-size:contain;
-    border: 1px solid #33CC00;
-}
-*/
 
