@@ -198,6 +198,11 @@ tr th span.ui-column-title, label{
     width: 100%;
     align-content: center;
 }
+.btn-crud-zone{
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+}
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Open{
     background: url("#{resource['img/ism/std/Open.png']}") no-repeat;
     background-size:contain;
@@ -249,7 +254,18 @@ tr th span.ui-column-title, label{
 .columnContentClass{
     width: 100%;
 }
+.columnContentClass input,
+.columnContentClass select{
+    width: 400px;
+}
 
-
-
+.columnContentClass .ui-selectonemenu {
+    min-width: 395px;
+    max-width: 395px;
+}
+/*
+.columnContentClass .ui-selectonemenu label{
+    min-height: 16px;
+}
+*/
 

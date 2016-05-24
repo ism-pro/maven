@@ -74,7 +74,7 @@
         <location>/error.xhtml</location>
     </error-page>
     
-    
+    <!--
     <filter>
         <filter-name>NoCacheFilter</filter-name>
         <filter-class>org.ism.filters.NoCacheFilter</filter-class>
@@ -87,6 +87,7 @@
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
+    -->
     <listener>
         <listener-class>org.ism.listener.SessionCounterListener</listener-class>
     </listener>

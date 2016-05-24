@@ -49,6 +49,20 @@
      
       
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     <name>ism</name>
     <component>
         <component-type>org.primefaces.ism.component.Ribbon</component-type>
@@ -84,5 +98,40 @@
         </renderer>
     </render-kit>
     
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <navigation-rule>
+        <from-view-id>/company/smq/processus/List.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>smqProcessusListToCreate</from-outcome>
+            <to-view-id>/company/smq/processus/Create.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>smqProcessusListToEdit</from-outcome>
+            <to-view-id>/company/smq/processus/Edit.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>smqProcessusListToView</from-outcome>
+            <to-view-id>/company/smq/processus/View.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </faces-config>

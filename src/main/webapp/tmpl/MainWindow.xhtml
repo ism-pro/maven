@@ -33,17 +33,18 @@
 
         <p:growl id="growl" life="5000" showDetail="true" showSummary="true"/>  
 
-        <h:form id="mainForm">
-
-
-            <pe:layout id="fullPage" stateCookie="true"
-                       options="#{viewLayout.layoutOptions}" 
-                       widgetVar="fpLayoutWidget"> 
 
 
 
-                <pe:layoutPane id="northLayout" position="north" resizable="true" spacingOpen="0" >
+        <p:layout id="fullPage" stateful="true" 
+                  widgetVar="fpLayoutWidget"
+                  > 
 
+
+
+            <p:layoutUnit position="north" resizable="false" collapsible="true" collapseSize="2" effect="fade"  >
+
+                <h:form id="mainForm">
                     <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
                             listener="#{viewRibbon.updateReminingTimeSession()}" 
                             update="shortcut-label-reminingTimeout"  />
@@ -396,47 +397,47 @@
                             </p:tab>
                         </pi:ribbon>
                     </div>
-
-                </pe:layoutPane>
-
-
-
-                <pe:layoutPane id="westLayout" position="west" >
-                    <f:facet name="header"><h:outputText value="Menu"/></f:facet> 
-                    <ui:insert id="west" name="west" />
-                </pe:layoutPane>  
+                </h:form>
+            </p:layoutUnit>
 
 
 
-
-                <pe:layoutPane id="centerLayout" position="center" class="margin: 4px;">
-                    <ui:insert id="body" name="body" />
-                </pe:layoutPane>
-
-
-
-                <pe:layoutPane id="eastLayout" position="east" >
-                    <f:facet name="header"><h:graphicImage library="img" name="ism/std/Options.png" width="22px" height="22px" /> <h:outputText value="Options"/> </f:facet>  
-                    <ui:insert id="east" name="east" />
-                </pe:layoutPane>
+            <p:layoutUnit position="west" resizable="true" collapsible="true" size="#{viewLayout.westSize}">
+                <f:facet name="header"><h:outputText value="Menu"/></f:facet> 
+                <ui:insert id="west" name="west" />
+            </p:layoutUnit>  
 
 
-                <pe:layoutPane id="southLayout" position="south">  
-                    <p:messages id="msg" showDetail="true" showSummary="true">  
-                        <p:effect type="pulsate" event="load" delay="0">  
-                            <f:param name="mode" value="'show'"/>  
-                            <f:param name="times" value="'1'"/>  
-                        </p:effect>  
-                    </p:messages>  
-                    <p:outputLabel value="#{ism.EmptyList} : #{request.pathInfo}"
-                                   rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?true:false}" />
-                    
-                </pe:layoutPane>  
-
-            </pe:layout>
 
 
-        </h:form>
+            <p:layoutUnit position="center" class="margin: 4px;">
+                <ui:insert id="body" name="body" />
+            </p:layoutUnit>
+
+
+
+            <p:layoutUnit position="east" resizable="true" collapsible="true" size="#{viewLayout.eastSize}" >
+                <f:facet name="header"><h:graphicImage library="img" name="ism/std/Options.png" width="22px" height="22px" /> <h:outputText value="Options"/> </f:facet>  
+                <ui:insert id="east" name="east" />
+            </p:layoutUnit>
+
+
+            <p:layoutUnit position="south" resizable="true" collapsible="true" size="#{viewLayout.southSize}" >
+                <p:messages id="msg" showDetail="true" showSummary="true">  
+                    <p:effect type="pulsate" event="load" delay="0">  
+                        <f:param name="mode" value="'show'"/>  
+                        <f:param name="times" value="'1'"/>  
+                    </p:effect>  
+                </p:messages>  
+                <p:outputLabel value="#{ism.EmptyList} : #{request.pathInfo}"
+                               rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?true:false}" />
+
+            </p:layoutUnit>  
+
+        </p:layout>
+
+
+
 
 
 
@@ -486,7 +487,7 @@
 
     <h:body rendered="#{!request.session.getAttribute('authenticated')}">
         <meta http-equiv="refresh" 
-              content="0;url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
+              content="5;url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
     </h:body>
 
 

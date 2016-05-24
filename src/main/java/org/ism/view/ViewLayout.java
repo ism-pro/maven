@@ -11,11 +11,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import org.primefaces.extensions.component.layout.LayoutPane;
-import org.primefaces.extensions.event.CloseEvent;
-import org.primefaces.extensions.event.OpenEvent;
-import org.primefaces.extensions.event.ResizeEvent;
-import org.primefaces.extensions.model.layout.LayoutOptions;
+import org.primefaces.component.layout.LayoutUnit;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.event.CloseEvent;
+import org.primefaces.event.ResizeEvent;
 
 @ManagedBean
 @ViewScoped
@@ -23,88 +22,37 @@ public class ViewLayout implements Serializable {
 
     private static final long serialVersionUID = 20120925L;
 
-    private LayoutOptions layoutOptions;    //!< Main Setup layout
-    private LayoutOptions northLayout;      //!< West pane layout
-    private LayoutOptions westLayout;       //!< West pane layout
-    private LayoutOptions centerLayout;     //!< West pane layout
-    private LayoutOptions eastLayout;       //!< West pane layout
-    private LayoutOptions southLayout;      //!< West pane layout
+    private Integer northSize   = 200;      //!< North size
+    private Integer westSize    = 200;      //!< West size
+    private Integer eastSize    = 200;      //!< East size
+    private Integer southSize   = 200;      //!< South Size
+    
+    
     
 
     @PostConstruct
     protected void initialize() {
-        layoutOptions = new LayoutOptions();
-
-        // options for all panes  
-        LayoutOptions panes = new LayoutOptions();
-        panes.addOption("slidable", false);
-        panes.addOption("resizeWhileDragging", false);
-        layoutOptions.setPanesOptions(panes);
-
-        // options for west pane  
-        northLayout = new LayoutOptions();
-        northLayout.addOption("size", 153);
-        northLayout.addOption("maxHeight", 153);
-        northLayout.addOption("minHeight", 35);
-        layoutOptions.setWestOptions(westLayout);
-        
-        // options for west pane  
-        westLayout = new LayoutOptions();
-        westLayout.addOption("size", 200);
-        westLayout.addOption("initClosed", true);
-        layoutOptions.setWestOptions(westLayout);
-        
-        
-        // options for center pane  
-        centerLayout = new LayoutOptions();
-        centerLayout.addOption("minHeight", 60);
-        layoutOptions.setCenterOptions(centerLayout);
-
-        
-        
-        // options for east pane  
-        eastLayout = new LayoutOptions();
-        eastLayout.addOption("size", 200);
-        eastLayout.addOption("initClosed", true);
-        layoutOptions.setEastOptions(eastLayout);
-
-        
-        // options for south pane  
-        southLayout = new LayoutOptions();
-        southLayout.addOption("size", 10);
-        //south.addOption("initHidden", true);
-        southLayout.addOption("initClosed", true);
-        layoutOptions.setSouthOptions(southLayout);
+        northSize = 200;
+        westSize = 200;
+        eastSize = 200;
+        southSize = 200;
     }
 
-    
-    public LayoutOptions getLayoutOptions() {
-        return layoutOptions;
-    }
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    public void handleClose(CloseEvent event) {
+    public void handleToggle(ToggleEvent event) {
         FacesMessage msg
-                = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane closed",
-                        "Position:" + ((LayoutPane) event.getComponent()).getPosition());
+                = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane Toggle",
+                        "Position:" + ((LayoutUnit) event.getComponent()).getPosition());
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-
     
-    public void handleOpen(OpenEvent event) {
+    
+    public void handleClose(CloseEvent event) {
         FacesMessage msg
-                = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane opened",
-                        "Position:" + ((LayoutPane) event.getComponent()).getPosition());
+                = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane closed",
+                        "Position:" + ((LayoutUnit) event.getComponent()).getPosition());
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -113,55 +61,49 @@ public class ViewLayout implements Serializable {
     public void handleResize(ResizeEvent event) {
         FacesMessage msg
                 = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane resized",
-                        "Position:" + ((LayoutPane) event.getComponent()).getPosition() + ", new width = "
+                        "Position:" + ((LayoutUnit) event.getComponent()).getPosition() + ", new width = "
                         + event.getWidth() + "px, new height = " + event.getHeight() + "px");
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-*/
 
-    public LayoutOptions getNorthLayout() {
-        return northLayout;
+
+    public Integer getNorthSize() {
+        return northSize;
     }
 
-    public void setNorthLayout(LayoutOptions northLayout) {
-        this.northLayout = northLayout;
+    public void setNorthSize(Integer northSize) {
+        this.northSize = northSize;
     }
 
-    public LayoutOptions getWestLayout() {
-        return westLayout;
+    public Integer getWestSize() {
+        return westSize;
     }
 
-    public void setWestLayout(LayoutOptions westLayout) {
-        this.westLayout = westLayout;
+    public void setWestSize(Integer westSize) {
+        this.westSize = westSize;
     }
 
-    public LayoutOptions getCenterLayout() {
-        return centerLayout;
+    public Integer getEastSize() {
+        return eastSize;
     }
 
-    public void setCenterLayout(LayoutOptions centerLayout) {
-        this.centerLayout = centerLayout;
+    public void setEastSize(Integer eastSize) {
+        this.eastSize = eastSize;
     }
 
-    public LayoutOptions getEastLayout() {
-        return eastLayout;
+    public Integer getSouthSize() {
+        return southSize;
     }
 
-    public void setEastLayout(LayoutOptions eastLayout) {
-        this.eastLayout = eastLayout;
+    public void setSouthSize(Integer southSize) {
+        this.southSize = southSize;
     }
 
-    public LayoutOptions getSouthLayout() {
-        return southLayout;
-    }
-
-    public void setSouthLayout(LayoutOptions southLayout) {
-        this.southLayout = southLayout;
-    }
     
     
     
+
     
     
 }
