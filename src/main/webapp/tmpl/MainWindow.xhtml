@@ -18,6 +18,7 @@
         <f:facet name="last">
             <h:outputStylesheet library="css" name="ribbon/ism-ribbon.min.css" />
             <h:outputStylesheet library="css" name="ribbon/ism-MainMenu.min.css" />
+            <h:outputStylesheet library="css" name="ism-layout.min.css" />
             <h:outputStylesheet library="css" name="ism-global.min.css" />
             <h:outputStylesheet library="css" name="ism-index.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
@@ -36,13 +37,33 @@
 
 
 
-        <p:layout id="fullPage" stateful="true" 
+        <p:layout id="fullPage" fullPage="#{viewLayout.layout.fullPage}"
+                  resizeTitle="Ajuster la dimenssion"
+                  collapseTitle="Réduire la taille"
+                  expandTitle="Etirer"
+                  closeTitle="Fermer"
+                  stateful="false" 
                   widgetVar="fpLayoutWidget"
                   > 
+            <p:ajax event="resize" listener="#{viewLayout.handleResize}" update="growl"/>
+            <p:ajax event="close" listener="#{viewLayout.handleClose}" update="growl"/>
+            <p:ajax event="toggle" listener="#{viewLayout.handleToggle}" update="growl"/>
 
 
-
-            <p:layoutUnit position="north" resizable="false" collapsible="true" collapseSize="2" effect="fade"  >
+            <p:layoutUnit id="unitNorth" position="north" 
+                          size="#{viewLayout.northUnit.size}"
+                          resizable="#{viewLayout.northUnit.resizable}" 
+                          closable="#{viewLayout.northUnit.closable}"
+                          collapsible="#{viewLayout.northUnit.collapsible}"
+                          minSize="#{viewLayout.northUnit.minSize}"
+                          maxSize="#{viewLayout.northUnit.maxSize}"
+                          gutter="#{viewLayout.northUnit.gutter}"
+                          visible="#{viewLayout.northUnit.visible}"
+                          collapsed="#{viewLayout.northUnit.collapsed}"
+                          collapseSize="#{viewLayout.northUnit.collapseSize}"
+                          effect="#{viewLayout.northUnit.effect}"
+                          effectSpeed="#{viewLayout.northUnit.effectSpeed}"
+                          >
 
                 <h:form id="mainForm">
                     <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
@@ -379,7 +400,8 @@
                                         <p:commandButton id="btnLayoutAuto"
                                                          icon="ui-icon-layoutInit"
                                                          value="Réinitialiser"
-                                                         onclick="PF('fpLayoutWidget').sizePane('north', 153)"/>  
+                                                         actionListener="#{viewLayout.handleInitLayout()}"
+                                                         update="fullPage"/>
                                     </pi:ribbonGroupSet>
                                     <pi:ribbonGroupSet id="manageLayoutOC" set="small" >
                                         <p:commandButton value="Menu" type="button"  
@@ -402,27 +424,58 @@
 
 
 
-            <p:layoutUnit position="west" resizable="true" collapsible="true" size="#{viewLayout.westSize}">
+            <p:layoutUnit   id="unitWest" position="west" 
+                          size="#{viewLayout.westUnit.size}"
+                          resizable="#{viewLayout.westUnit.resizable}" 
+                          closable="#{viewLayout.westUnit.closable}"
+                          collapsible="#{viewLayout.westUnit.collapsible}"
+                          minSize="#{viewLayout.westUnit.minSize}"
+                          maxSize="#{viewLayout.westUnit.maxSize}"
+                          gutter="#{viewLayout.westUnit.gutter}"
+                          visible="#{viewLayout.westUnit.visible}"
+                          collapsed="#{viewLayout.westUnit.collapsed}"
+                          collapseSize="#{viewLayout.westUnit.collapseSize}"
+                          effect="#{viewLayout.westUnit.effect}"
+                          effectSpeed="#{viewLayout.westUnit.effectSpeed}"
+                          >
                 <f:facet name="header"><h:outputText value="Menu"/></f:facet> 
                 <ui:insert id="west" name="west" />
             </p:layoutUnit>  
 
 
-
-
-            <p:layoutUnit position="center" class="margin: 4px;">
-                <ui:insert id="body" name="body" />
-            </p:layoutUnit>
-
-
-
-            <p:layoutUnit position="east" resizable="true" collapsible="true" size="#{viewLayout.eastSize}" >
+            <p:layoutUnit id="unitEast" position="east" 
+                          size="#{viewLayout.eastUnit.size}"
+                          resizable="#{viewLayout.eastUnit.resizable}" 
+                          closable="#{viewLayout.eastUnit.closable}"
+                          collapsible="#{viewLayout.eastUnit.collapsible}"
+                          minSize="#{viewLayout.eastUnit.minSize}"
+                          maxSize="#{viewLayout.eastUnit.maxSize}"
+                          gutter="#{viewLayout.eastUnit.gutter}"
+                          visible="#{viewLayout.eastUnit.visible}"
+                          collapsed="#{viewLayout.eastUnit.collapsed}"
+                          collapseSize="#{viewLayout.eastUnit.collapseSize}"
+                          effect="#{viewLayout.eastUnit.effect}"
+                          effectSpeed="#{viewLayout.eastUnit.effectSpeed}"
+                          >
                 <f:facet name="header"><h:graphicImage library="img" name="ism/std/Options.png" width="22px" height="22px" /> <h:outputText value="Options"/> </f:facet>  
-                <ui:insert id="east" name="east" />
+                    <ui:insert id="east" name="east" />
             </p:layoutUnit>
 
 
-            <p:layoutUnit position="south" resizable="true" collapsible="true" size="#{viewLayout.southSize}" >
+            <p:layoutUnit id="unitSouth" position="south" 
+                          size="#{viewLayout.southUnit.size}"
+                          resizable="#{viewLayout.southUnit.resizable}" 
+                          closable="#{viewLayout.southUnit.closable}"
+                          collapsible="#{viewLayout.southUnit.collapsible}"
+                          minSize="#{viewLayout.southUnit.minSize}"
+                          maxSize="#{viewLayout.southUnit.maxSize}"
+                          gutter="#{viewLayout.southUnit.gutter}"
+                          visible="#{viewLayout.southUnit.visible}"
+                          collapsed="#{viewLayout.southUnit.collapsed}"
+                          collapseSize="#{viewLayout.southUnit.collapseSize}"
+                          effect="#{viewLayout.southUnit.effect}"
+                          effectSpeed="#{viewLayout.southUnit.effectSpeed}"
+                          >
                 <p:messages id="msg" showDetail="true" showSummary="true">  
                     <p:effect type="pulsate" event="load" delay="0">  
                         <f:param name="mode" value="'show'"/>  
@@ -433,6 +486,15 @@
                                rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?true:false}" />
 
             </p:layoutUnit>  
+
+
+            <p:layoutUnit position="center" size="100">
+                <ui:insert id="body" name="body" />
+            </p:layoutUnit>
+
+
+
+
 
         </p:layout>
 

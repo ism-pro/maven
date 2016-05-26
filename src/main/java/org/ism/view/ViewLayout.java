@@ -9,101 +9,265 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import org.ism.jsf.util.JsfUtil;
+import org.primefaces.component.layout.Layout;
 import org.primefaces.component.layout.LayoutUnit;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.ResizeEvent;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ViewLayout implements Serializable {
 
     private static final long serialVersionUID = 20120925L;
 
-    private Integer northSize   = 200;      //!< North size
-    private Integer westSize    = 200;      //!< West size
-    private Integer eastSize    = 200;      //!< East size
-    private Integer southSize   = 200;      //!< South Size
-    
-    
-    
+    private Layout layout;
+    private LayoutUnit northUnit;
+    private LayoutUnit westUnit;
+    private LayoutUnit eastUnit;
+    private LayoutUnit southUnit;
+    private LayoutUnit centerUnit;
 
     @PostConstruct
     protected void initialize() {
-        northSize = 200;
-        westSize = 200;
-        eastSize = 200;
-        southSize = 200;
+        // General setup
+        Integer gutter = 4;             //!< 2px
+        Integer collapseSize = 20;      //!< 20px
+        String effect = "blind";         //!< effect : blind, bounce, clip, drop, explode, fold, highlight, puff, pulsate, scale, shake, size and slide.
+        String effectSpeed = "1500";    //!< ms effect
+
+        // Layout
+        layout = new Layout();
+        layout.setFullPage(true);
+        layout.setStateful(true);
+
+        // NorthUnit
+        {
+            northUnit = new LayoutUnit();
+            northUnit.setSize(String.valueOf(153));
+            northUnit.setResizable(true);
+            northUnit.setClosable(true);
+            northUnit.setCollapsible(true);
+            northUnit.setMinSize(152);
+            northUnit.setMaxSize(200);
+            northUnit.setGutter(gutter);
+            //>>> default
+            northUnit.setVisible(true);
+            northUnit.setCollapsed(false);
+            northUnit.setCollapseSize(collapseSize);
+            northUnit.setEffect(effect);
+            northUnit.setEffectSpeed(effectSpeed);
+        }
+        // WestUnit
+        {
+            westUnit = new LayoutUnit();
+            westUnit.setSize(String.valueOf(200));
+            westUnit.setResizable(true);
+            westUnit.setClosable(true);
+            westUnit.setCollapsible(true);
+            westUnit.setMinSize(150);
+            westUnit.setMaxSize(200);
+            westUnit.setGutter(gutter);
+            //>>> default
+            westUnit.setVisible(true);
+            westUnit.setCollapsed(false);
+            westUnit.setCollapseSize(collapseSize);
+            westUnit.setEffect(effect);
+            westUnit.setEffectSpeed(effectSpeed);
+        }
+
+        // EastUnit
+        {
+            eastUnit = new LayoutUnit();
+            eastUnit.setSize(String.valueOf(200));
+            eastUnit.setResizable(true);
+            eastUnit.setClosable(true);
+            eastUnit.setCollapsible(true);
+            eastUnit.setMinSize(150);
+            eastUnit.setMaxSize(200);
+            eastUnit.setGutter(gutter);
+            //>>> default
+            eastUnit.setVisible(true);
+            eastUnit.setCollapsed(false);
+            eastUnit.setCollapseSize(collapseSize);
+            eastUnit.setEffect(effect);
+            eastUnit.setEffectSpeed(effectSpeed);
+        }
+
+        // SouthUnit
+        {
+            southUnit = new LayoutUnit();
+            southUnit.setSize(String.valueOf(50));
+            southUnit.setResizable(true);
+            southUnit.setClosable(true);
+            southUnit.setCollapsible(true);
+            southUnit.setMinSize(30);
+            southUnit.setMaxSize(200);
+            southUnit.setGutter(gutter);
+            //>>> default
+            southUnit.setVisible(false);
+            southUnit.setCollapsed(true);
+            southUnit.setCollapseSize(collapseSize);
+            southUnit.setEffect(effect);
+            southUnit.setEffectSpeed(effectSpeed);
+        }
+
+        // CenterUnit
+        centerUnit = new LayoutUnit();
+
     }
 
+    public void handleInitLayout() {
+        initialize();
+    }
 
-    
+    /**
+     * ************************************************************************
+     *
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @param event
+     */
     public void handleToggle(ToggleEvent event) {
-        FacesMessage msg
-                = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane Toggle",
-                        "Position:" + ((LayoutUnit) event.getComponent()).getPosition());
-
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        LayoutUnit unit = ((LayoutUnit) event.getComponent());
+        if (null != unit.getPosition()) {
+            switch (unit.getPosition()) {
+                case "north":
+                    northUnit.setCollapsed(unit.isCollapsed());
+                    break;
+                case "west":
+                    westUnit.setCollapsed(unit.isCollapsed());
+                    break;
+                case "east":
+                    eastUnit.setCollapsed(unit.isCollapsed());
+                    break;
+                case "south":
+                    southUnit.setCollapsed(unit.isCollapsed());
+                    break;
+                default:
+                    break;
+            }
+        }
+        JsfUtil.addSuccessMessage("Layout Pane resized"
+                + "Position:" + unit.getPosition() + ", isVisibility = "
+                + event.getVisibility());
     }
-    
-    
+
     public void handleClose(CloseEvent event) {
-        FacesMessage msg
-                = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane closed",
-                        "Position:" + ((LayoutUnit) event.getComponent()).getPosition());
-
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        LayoutUnit unit = ((LayoutUnit) event.getComponent());
+        if (null != unit.getPosition()) {
+            switch (unit.getPosition()) {
+                case "north":
+                    //northUnit.setClosable(unit.ge);
+                    break;
+                case "west":
+                    //westUnit.setCollapsed(unit.isCollapsed());
+                    break;
+                case "east":
+                    //eastUnit.setCollapsed(unit.isCollapsed());
+                    break;
+                case "south":
+                    //southUnit.setCollapsed(unit.isCollapsed());
+                    break;
+                default:
+                    break;
+            }
+        }
+        JsfUtil.addSuccessMessage("Layout Pane resized"
+                + "Position:" + unit.getPosition() + ", Closed = "
+                );
     }
 
-    
     public void handleResize(ResizeEvent event) {
-        FacesMessage msg
-                = new FacesMessage(FacesMessage.SEVERITY_INFO, "Layout Pane resized",
-                        "Position:" + ((LayoutUnit) event.getComponent()).getPosition() + ", new width = "
-                        + event.getWidth() + "px, new height = " + event.getHeight() + "px");
-
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        LayoutUnit unit = ((LayoutUnit) event.getComponent());
+        if (null != unit.getPosition()) {
+            switch (unit.getPosition()) {
+                case "north":
+                    northUnit.setSize(unit.getSize());
+                    break;
+                case "west":
+                    westUnit.setSize(unit.getSize());
+                    break;
+                case "east":
+                    eastUnit.setSize(unit.getSize());
+                    break;
+                case "south":
+                    southUnit.setSize(unit.getSize());
+                    break;
+                default:
+                    break;
+            }
+        }
+        JsfUtil.addSuccessMessage("Layout Pane resized"
+                + "Position:" + unit.getPosition() + ", new width = "
+                + event.getWidth() + "px, new height = " + event.getHeight() + "px");
     }
 
-
-    public Integer getNorthSize() {
-        return northSize;
+    /**
+     * ************************************************************************
+     *
+     *
+     * ************************************************************************
+     */
+    public Layout getLayout() {
+        return layout;
     }
 
-    public void setNorthSize(Integer northSize) {
-        this.northSize = northSize;
+    public void setLayout(Layout layout) {
+        this.layout = layout;
     }
 
-    public Integer getWestSize() {
-        return westSize;
+    public LayoutUnit getNorthUnit() {
+        return northUnit;
     }
 
-    public void setWestSize(Integer westSize) {
-        this.westSize = westSize;
+    public void setNorthUnit(LayoutUnit northUnit) {
+        this.northUnit = northUnit;
     }
 
-    public Integer getEastSize() {
-        return eastSize;
+    public LayoutUnit getWestUnit() {
+        return westUnit;
     }
 
-    public void setEastSize(Integer eastSize) {
-        this.eastSize = eastSize;
+    public void setWestUnit(LayoutUnit westUnit) {
+        this.westUnit = westUnit;
     }
 
-    public Integer getSouthSize() {
-        return southSize;
+    public LayoutUnit getEastUnit() {
+        return eastUnit;
     }
 
-    public void setSouthSize(Integer southSize) {
-        this.southSize = southSize;
+    public void setEastUnit(LayoutUnit eastUnit) {
+        this.eastUnit = eastUnit;
     }
 
-    
-    
-    
+    public LayoutUnit getSouthUnit() {
+        return southUnit;
+    }
 
-    
-    
+    public void setSouthUnit(LayoutUnit southUnit) {
+        this.southUnit = southUnit;
+    }
+
+    public LayoutUnit getCenterUnit() {
+        return centerUnit;
+    }
+
+    public void setCenterUnit(LayoutUnit centerUnit) {
+        this.centerUnit = centerUnit;
+    }
+
+    /**
+     * ************************************************************************
+     *
+     *
+     * ************************************************************************
+     */
 }

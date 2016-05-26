@@ -54,6 +54,7 @@ org\ism\converter\ThemeConverter.class
 org\ism\entities\NonConformiteUnite_.class
 org\ism\entities\StaffSetup_.class
 org\ism\sessions\CompanyFacade.class
+org\ism\view\ViewCrud.class
 org\ism\sessions\NonConformiteFrequencyFacade.class
 org\ism\entities\StaffGroupDef.class
 org\ism\filters\NoCacheFilter.class

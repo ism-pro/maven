@@ -32,9 +32,8 @@
         <session-timeout>1</session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/public/company/index.xhtml</welcome-file>
+        <welcome-file>faces/login.xhtml</welcome-file>
     </welcome-file-list>
-    
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>ISMAuth</realm-name>
@@ -43,38 +42,34 @@
             <form-error-page>/faces/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-    
     <context-param>
         <param-name>org.openfaces.validation.clientValidation</param-name>
         <param-value>onSubmit</param-value>
     </context-param>
-    
     <error-page>
         <error-code>403</error-code>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/faces/login.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.IllegalStateException</exception-type>
         <location>/error.xhtml</location>
     </error-page>
-    
-    <!--
     <filter>
         <filter-name>NoCacheFilter</filter-name>
         <filter-class>org.ism.filters.NoCacheFilter</filter-class>
@@ -87,14 +82,9 @@
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
-    -->
     <listener>
         <listener-class>org.ism.listener.SessionCounterListener</listener-class>
     </listener>
-    
-    
-    
-    
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Allowed resources</web-resource-name>

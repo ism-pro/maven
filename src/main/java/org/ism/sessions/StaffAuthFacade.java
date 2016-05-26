@@ -160,7 +160,7 @@ public class StaffAuthFacade implements Serializable {
      */
     public HttpSession getSession() {
         getRequest();
-        session = request.getSession(false);    // Récupération de la session existante
+        session = request.getSession(true);    // Récupération de la session existante
         return session;
     }
 

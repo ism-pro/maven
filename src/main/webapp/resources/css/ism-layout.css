@@ -1,0 +1,44 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 26-mai-2016, 23:33:10
+    Author     : r.hendrick
+*/
+
+
+/* class
+    ui-layout-resizer ui-layout-resizer-west ui-draggable-handle ui-layout-resizer-open ui-layout-resizer-west-open
+*/  
+#unitWest-resizer{
+    /*background-color: yellow;*/
+}
+
+#unitWest-resizer:hover{
+    background-color: greenyellow;
+    
+}
+/** class
+ui-layout-toggler ui-layout-toggler-west ui-layout-toggler-open ui-layout-toggler-west-open
+*/
+#unitWest-toggler{
+    width: 10px!important;
+    height: 100%!important;
+    background-color: blue;
+}
+#unitWest-toggler span .content.content-closed{
+    background-color: red!important;
+    width: 5px!important;
+    height: 50px!important;
+}
+
+#unitWest-toggler a .ui-layout-unit-expand-icon.ui-state-default.ui-corner-all{
+    
+}
+
+#unitWest-toggler span .ui-icon.ui-icon-arrow-4diag{
+    
+}
+

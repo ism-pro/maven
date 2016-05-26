@@ -122,18 +122,11 @@ body, html {
 #sidebar .ui-button:hover{
     background: #33CC00;
     border: none;
-}
-.menu-btn .ui-icon{
-    margin:0px;
-    padding: 0px;
-    margin-top: -3px;
-    width: 28px;
-    height: 28px;
-}
-.menu-btn .ui-button-text.ui-c{
-    margin-left: 20px;
-}
-*/
+}*/
+
+
+
+
 
 /* =============================================================================
  * GENERAL DEFAULT SETTING
@@ -198,11 +191,17 @@ tr th span.ui-column-title, label{
     width: 100%;
     align-content: center;
 }
-.btn-crud-zone{
-    margin: 0px;
+.menu-btn .ui-icon{
+    margin:0px;
     padding: 0px;
-    padding-top: 10px;
+    margin-top: -3px;
+    width: 28px;
+    height: 28px;
 }
+.menu-btn .ui-button-text.ui-c{
+    margin-left: 20px;
+}
+
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Open{
     background: url("#{resource['img/ism/std/Open.png']}") no-repeat;
     background-size:contain;
@@ -260,8 +259,8 @@ tr th span.ui-column-title, label{
 }
 
 .columnContentClass .ui-selectonemenu {
-    min-width: 395px;
-    max-width: 395px;
+    min-width: 405px;
+    max-width: 405px;
 }
 /*
 .columnContentClass .ui-selectonemenu label{

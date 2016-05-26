@@ -14,7 +14,7 @@ import org.ism.entities.LabSamplePt;
 import org.ism.entities.LabSamplePtAnalyses;
 import org.ism.entities.Unite;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-24T23:04:30")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-26T23:54:51")
 @StaticMetamodel(Company.class)
 public class Company_ { 
 

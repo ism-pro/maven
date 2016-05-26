@@ -5,46 +5,12 @@
  */
 
 $(function () {
-    /*
-     var _sidebar = $("#sidebar");
-     var _sidebarOptions = $("#sidebar-options");
-     var _sidebarOptionsIconOn = $("#sidebar-options-icon-on");
-     var _sidebarOptionsIconOff = $("#sidebar-options-icon-off");
-     var _sidebarContent = $("#sidebar-content");
-     */
 
-
-
-    /*
-     $("#main").mousedown(function () {
-     $("#file-layout").css("padding-top", "58");
-     });
-     $("#main").mouseup(function () {
-     $("#file-layout").css("padding-top", "58");
-     });
-     $("#main").click(function () {
-     $("#file-layout").css("padding-top", "58");
-     });
-     
-     _sidebarOptions.click(function () {
-     var displayVal = _sidebarContent.css("display");
-     if (displayVal.toString() === "inline") { // Hide CONTENT
-     _sidebar.css("min-width", "32px");
-     _sidebar.css("height", "32px");
-     _sidebarContent.css("display", "none");
-     _sidebarOptionsIconOn.css("display", "inline");
-     } else { //SHOW CONTENT
-     _sidebar.css("min-width", "150px");
-     _sidebar.css("height", "100%");
-     _sidebarContent.css("display", "inline");
-     _sidebarOptionsIconOn.css("display", "none");
-     }
-     });
-     */
 
     $("_smqNCPanelInfos").mouseenter(function () {
         alert("Mouse over");
     });
+
 
 });
 

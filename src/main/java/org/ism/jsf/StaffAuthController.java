@@ -43,8 +43,6 @@ public class StaffAuthController implements Serializable {
      * Creates a new instance of AuthenticationController
      */
     public StaffAuthController() {
-        getStaff();
-        getCompany();
     }
 
     @PostConstruct

@@ -43,16 +43,12 @@ public class ProcessusController implements Serializable {
     protected void setEmbeddableKeys() {
     }
 
-    protected void initializeEmbeddableKey() {
-    }
-
     private ProcessusFacade getFacade() {
         return ejbFacade;
     }
 
     public Processus prepareCreate() {
         selected = new Processus();
-        initializeEmbeddableKey();
         return selected;
     }
 
@@ -62,6 +58,7 @@ public class ProcessusController implements Serializable {
         persist(PersistAction.CREATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
+            selected = new Processus();
         }
     }
 
@@ -72,15 +69,17 @@ public class ProcessusController implements Serializable {
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceDeleted"));
         if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public List<Processus> getItems() {
-        //if (items == null) {
-            items = getFacade().findAll();
-        //}
+        items = getFacade().findAll();
+        return items;
+    }
+
+    public List<Processus> getItemsByLastChanged() {
+        items = getFacade().findAllByLastChanged();
         return items;
     }
 
@@ -124,7 +123,7 @@ public class ProcessusController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Processus.class)
+    @FacesConverter(value = "processusCtrlConverter", forClass = Processus.class)
     public static class ProcessusControllerConverter implements Converter {
 
         @Override
@@ -156,6 +155,7 @@ public class ProcessusController implements Serializable {
             }
             if (object instanceof Processus) {
                 Processus o = (Processus) object;
+                String str = o.getPProcessus() + " - " + o.getPDesignation();
                 return getStringKey(o.getPId());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Processus.class.getName()});

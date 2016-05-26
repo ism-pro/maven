@@ -12,62 +12,63 @@
         <ui:define name="body">
             <h1><h:outputText value="#{ism.ProcessusTitleList}"/></h1>
 
+            <h:form id="bodyForm">
+                <p:dataTable id="datalist" 
+                             value="#{processusController.itemsByLastChanged}" var="item"
+                             selectionMode="single" selection="#{processusController.selected}"
+                             rowIndexVar="currentRow"
+                             rowKey="#{item.PProcessus}"
+                             paginator="#{tableView.paginator}" 
+                             rows="#{tableView.rows}" 
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
 
-            <p:dataTable id="datalist" 
-                         value="#{processusController.items}" var="item"
-                         selectionMode="single" selection="#{processusController.selected}"
-                         rowIndexVar="currentRow"
-                         rowKey="#{item.PProcessus}"
-                         paginator="#{tableView.paginator}" 
-                         rows="#{tableView.rows}" 
-                         resizableColumns="#{tableView.resizableColumns}"
-                         rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
-                         paginatorTemplate="#{tableView.paginatorTemplate}"
-                         currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
-                         >
+                             >
 
-                <!--
-                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-                -->
-                <p:column headerText="#{ism.ProcessusField_pId}"
-                          style="width: 24px;">
-                    <h:outputText value="#{item.PId}"/>
-                </p:column>
+                    <!--
+                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                    -->
+                    <p:column headerText="#{ism.ProcessusField_pId}"
+                              style="width: 24px;">
+                        <h:outputText value="#{item.PId}"/>
+                    </p:column>
 
-                <p:column headerText="#{ism.ProcessusField_pProcessus}">
-                    <h:outputText value="#{item.PProcessus}"/>
-                </p:column>
+                    <p:column headerText="#{ism.ProcessusField_pProcessus}">
+                        <h:outputText value="#{item.PProcessus}"/>
+                    </p:column>
 
-                <p:column headerText="#{ism.ProcessusField_pDesignation}">
-                    <h:outputText value="#{item.PDesignation}"/>
-                </p:column>
+                    <p:column headerText="#{ism.ProcessusField_pDesignation}">
+                        <h:outputText value="#{item.PDesignation}"/>
+                    </p:column>
 
-                <p:column headerText="#{ism.ProcessusField_pStaffManager}">
-                    <h:outputText value="[#{item.PStaffmanager.stStaff}] #{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname}"/>
-                </p:column>
+                    <p:column headerText="#{ism.ProcessusField_pStaffManager}">
+                        <h:outputText value="[#{item.PStaffmanager.stStaff}] #{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname}"/>
+                    </p:column>
 
-                <p:column headerText="#{ism.ProcessusField_pDeleted}">
-                    <p:selectBooleanCheckbox value="#{item.PDeleted}" disabled="true"/>
-                </p:column>
+                    <p:column headerText="#{ism.ProcessusField_pDeleted}">
+                        <p:selectBooleanCheckbox value="#{item.PDeleted}" disabled="true"/>
+                    </p:column>
 
-                <p:column headerText="#{ism.ProcessusField_pCreated}">
-                    <h:outputText value="#{item.PCreated}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                    </h:outputText>
-                </p:column>
+                    <p:column headerText="#{ism.ProcessusField_pCreated}">
+                        <h:outputText value="#{item.PCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
 
-                <p:column headerText="#{ism.ProcessusField_pChanged}">
-                    <h:outputText value="#{item.PChanged}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                    </h:outputText>
-                </p:column>
+                    <p:column headerText="#{ism.ProcessusField_pChanged}">
+                        <h:outputText value="#{item.PChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
 
-                <p:column headerText="#{ism.ProcessusField_pCompany}">
-                    <h:outputText value="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}"/>
-                </p:column>
-            </p:dataTable>
-
+                    <p:column headerText="#{ism.ProcessusField_pCompany}">
+                        <h:outputText value="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </ui:define>
 
 
