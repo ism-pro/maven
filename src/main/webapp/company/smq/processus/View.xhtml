@@ -10,7 +10,7 @@
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1><h:outputText value="#{ism.ProcessusTitleCreate}"/></h1>
+            <h1><h:outputText value="#{ism.ProcessusTitleView}"/></h1>
 
             <h:form id="bodyForm">
 
@@ -56,20 +56,86 @@
 
                 </p:panelGrid>
 
-
-                <h:panelGroup id="btn-crud-zone_id"  style="margin:10px;">
-                    <p:commandButton value="#{ism.Cancel}" 
-                                     update=":bodyForm,:growl"
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet de visualiser le processus sélectionné."
+                                     disabled="#{empty processusController.selected 
+                                                 or empty processusController.selected.PId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
                                      action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le processus sélectionné !"
+                                     actionListener="#{processusController.destroy()}"
+                                     update=":bodyForm,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.ProcessusDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.ProcessusDlgMessage)}
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty processusController.selected 
+                                                 or empty processusController.selected.PId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
                                      immediate="true"
                                      />
+
                 </h:panelGroup>
-
-
-                <p:messages />
 
             </h:form>
 
+        </ui:define>
+
+
+
+
+
+        <ui:define name="east" id="east">
+            <h:panelGroup id="eastGroup">
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser le processus sélectionné."
+                                 disabled="#{empty processusController.selected 
+                                             or empty processusController.selected.PId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le processus sélectionné !"
+                                 actionListener="#{processusController.destroy()}"
+                                 update=":bodyForm,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.ProcessusDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.ProcessusDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty processusController.selected 
+                                             or empty processusController.selected.PId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
         </ui:define>
     </ui:composition>
 </html>

@@ -13,7 +13,7 @@
             <h1><h:outputText value="#{ism.ProcessusTitleCreate}"/></h1>
 
             <h:form id="bodyForm">
-                
+
                 <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
                              rendered="#{processusController.selected != null}">
 
@@ -28,6 +28,7 @@
                         <p:inputText id="PProcessus" 
                                      value="#{processusController.selected.PProcessus}" 
                                      title="#{ism.ProcessusFieldInfo_pProcessus}" 
+                                     
                                      required="true"
                                      requiredMessage="#{ism.ProcessusRequiredMsg_pProcessus}"/>
                         <p:message for="PProcessus"   />
@@ -50,7 +51,9 @@
                         <p:selectOneMenu id="PStaffmanager" 
                                          filter="true" filterMatchMode="contains"
                                          value="#{processusController.selected.PStaffmanager}" 
-                                         required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pStaffManager}"
+                                         required="true" 
+                                         
+                                         requiredMessage="#{ism.ProcessusRequiredMsg_pStaffManager}"
                                          >
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
@@ -91,7 +94,7 @@
 
                     <p:outputLabel value="#{ism.ProcessusField_pCompany}" for="PCompany" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                        <p:inputText id="PCompany" 
+                        <p:inputText id="PCompany" widgetVar="PCompany"
                                      value="#{processusController.selected.PCompany = staffAuthController.company}" 
                                      style="display: none" 
                                      required="true" disabled="true" 
@@ -103,30 +106,42 @@
 
 
 
+                
+                
+                
+                
 
                 <h:panelGroup id="btn-crud-zone_id"  >
-                    <p:outputLabel   value="Création multiple" />
-                    <p:selectBooleanButton  value="#{viewCrud.toggleBtn}" 
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{processusController.isOnMultiCreation}" 
                                             onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
                                             onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                            style="margin:10px;"
+                                            styleClass="ui-btn"
                                             >
-                        <p:ajax update=":bodyForm:btn-crud-zone_id" listener="#{viewCrud.handleFake()}"  />
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,:growl" listener="#{processusController.toggleMultiCreationFake()}"  />
                     </p:selectBooleanButton>
 
-                    <p:commandButton    actionListener="#{processusController.create}" 
-                                        value="#{ism.Save}" 
-                                        onstart="#{p:widgetVar('bodyForm:PCompany')}.enable();"
-                                        update=":bodyForm,:growl" rendered="#{viewCrud.toggleBtn}"
-                                        />
-                    <p:commandButton actionListener="#{processusController.create}" 
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
                                      value="#{ism.Save}" 
+                                     actionListener="#{processusController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:PCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{processusController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{processusController.createUnReleasded()}" 
                                      onstart="#{p:widgetVar('bodyForm:PCompany')}.enable();"
                                      update=":bodyForm,:growl"
                                      action="List.xhtml?faces-redirect=true"
-                                     rendered="#{viewCrud.toggleBtn==false}"
+                                     rendered="#{!processusController.isOnMultiCreation}"
                                      />
-                    <p:commandButton value="#{ism.Cancel}" 
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
                                      update=":bodyForm,:growl"
                                      actionListener="#{processusController.prepareCreate()}"
                                      action="./List.xhtml?faces-redirect=true"
@@ -135,7 +150,8 @@
 
                 </h:panelGroup>
 
-                <p:messages />
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
 
 
             </h:form>

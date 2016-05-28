@@ -7,7 +7,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pi="http://primefaces.org/ui/ism"
       xmlns:pe="http://primefaces.org/ui/extensions"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+      id="html">
     <h:head>
         <title><ui:insert name="title">#{ism.AppName}</ui:insert></title>
         <link rel="shortcut icon" href="#{resource['img/company/ismMain3.png']}" type="image/x-png" /> 
@@ -32,7 +33,12 @@
 
     <h:body id="body" rendered="#{request.session.getAttribute('authenticated')}">
 
-        <p:growl id="growl" life="5000" showDetail="true" showSummary="true"/>  
+        <!--    Reste affiché pendant 5s
+                Montre un résumer et affiche les détails
+                Seul les messages sans id sont affiché
+        -->
+        <p:growl id="growl" life="5000" 
+                 showDetail="true" showSummary="true" escape="false"/>  
 
 
 
@@ -603,9 +609,8 @@
                mainForm:ism-ribbon:btnStaffToGroup, 
                mainForm:ism-ribbon:btnStaffCreate, 
                mainForm:ism-ribbon:btnStaffList, 
-               mainForm:ism-ribbon:btnStaffManageList"
-               
-               
+               mainForm:ism-ribbon:btnStaffManageList
+               "
                >
         <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>

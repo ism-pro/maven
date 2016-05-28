@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -28,16 +29,17 @@ public class ProcessusController implements Serializable {
     private org.ism.sessions.ProcessusFacade ejbFacade;
     private List<Processus> items = null;
     private Processus selected;
+    private Processus edited;
+    private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
+    private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
 
     public ProcessusController() {
     }
 
-    public Processus getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Processus selected) {
-        this.selected = selected;
+    @PostConstruct
+    protected void initialize() {
+        isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
+        isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
     }
 
     protected void setEmbeddableKeys() {
@@ -47,30 +49,207 @@ public class ProcessusController implements Serializable {
         return ejbFacade;
     }
 
+    /**
+     * ************************************************************************
+     * CRUD OPTIONS
+     *
+     * ************************************************************************
+     */
     public Processus prepareCreate() {
         selected = new Processus();
         return selected;
     }
+    
+    public Processus prepareEdit(){
+        edited = selected;
+        return edited;
+    }
 
+    /**
+     * This method is useful to release actual selected ! That way nothing is
+     * selected
+     */
+    public void releaseSelected() {
+        isReleaseSelected = true;
+        selected = null;
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusReleaseSelectedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusReleaseSelectedDetail"));
+    }
+
+    /**
+     * Allow to toggle from on creation mode to multicreation mode
+     */
+    public void toggleMultiCreation() {
+        isOnMultiCreation = !isOnMultiCreation;
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusToggleMultiCreationSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusToggleMultiCreationDetail") + isOnMultiCreation);
+    }
+
+    /**
+     * Facke togle event : this is useful to use with
+     */
+    public void toggleMultiCreationFake() {
+        /*isOnMultiCreation = !isOnMultiCreation;*/
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusToggleMultiCreationSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusToggleMultiCreationDetail") + isOnMultiCreation);
+    }
+
+    /**
+     * Allow to check if the current selected is not a duplication of one in the
+     * system. This method is useful before creation perspective
+     */
+    private Boolean isDuplication() {
+        List<Processus> codes = getItemsByCode(selected.getPProcessus());
+        Boolean byCode = false;
+        if (codes != null) {
+            byCode = true;
+            JsfUtil.addErrorMessage(
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("ProcessusDuplicationCodeSummary"),
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("ProcessusDuplicationCodeDetail") + selected.getPProcessus());
+        }
+
+        List<Processus> designations = getItemsByDesignation(selected.getPDesignation());
+        Boolean byDesignation = false;
+        if (designations != null) {
+            byDesignation = true;
+            JsfUtil.addErrorMessage(
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("ProcessusDuplicationDesignationSummary"),
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("ProcessusDuplicationDesignationDetail") + selected.getPDesignation());
+        }
+
+        return (byCode || byDesignation);
+    }
+
+    /**
+     * ************************************************************************
+     * CRUD OPTIONS
+     *
+     * ************************************************************************
+     */
     public void create() {
+        // Set time on creation action
         selected.setPChanged(new Date());
         selected.setPCreated(new Date());
-        persist(PersistAction.CREATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceCreated"));
+
+        // Check none duplication of code or designation
+        if (isDuplication()) {
+            return;
+        }
+
+        persist(PersistAction.CREATE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusPersistenceCreatedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusPersistenceCreatedDetail")
+                + selected.getPProcessus() + " <br > " + selected.getPDesignation());
+
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
-            selected = new Processus();
+            if (isReleaseSelected) {
+                selected = null;
+            }
+            if (isOnMultiCreation) {
+                selected = new Processus();
+
+            } else {
+                JsfUtil.out("is not on multicreation");
+                List<Processus> processus = getFacade().findAll();
+                selected = processus.get(processus.size() - 1);
+            }
         }
+    }
+
+    public void createUnReleasded() {
+        isReleaseSelected = false;
+        create();
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        // Set time on creation action
+        selected.setPChanged(new Date());
+        
+        Processus existing = getFacade().find(selected.getPId());
+        
+        
+        persist(PersistAction.UPDATE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusPersistenceUpdatedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusPersistenceUpdatedDetail")
+                + selected.getPProcessus() + " <br > " + selected.getPDesignation());
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceDeleted"));
+        persist(PersistAction.DELETE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusPersistenceDeletedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("ProcessusPersistenceDeletedDetail")
+                + selected.getPProcessus() + " <br > " + selected.getPDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+    }
+
+    private void persist(PersistAction persistAction, String summary, String detail) {
+        if (selected != null) {
+            setEmbeddableKeys();
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(summary, detail);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(summary, msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, summary,
+                            ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, summary, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    private void persist(PersistAction persistAction, String detail) {
+        persist(persistAction, detail, detail);
+    }
+
+    /**
+     * ************************************************************************
+     * JPA
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public Processus getProcessus(java.lang.Integer id) {
+        return getFacade().find(id);
     }
 
     public List<Processus> getItems() {
@@ -83,36 +262,12 @@ public class ProcessusController implements Serializable {
         return items;
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
-            }
-        }
+    public List<Processus> getItemsByCode(String code) {
+        return getFacade().findByCode(code);
     }
 
-    public Processus getProcessus(java.lang.Integer id) {
-        return getFacade().find(id);
+    public List<Processus> getItemsByDesignation(String designation) {
+        return getFacade().findByDesignation(designation);
     }
 
     public List<Processus> getItemsAvailableSelectMany() {
@@ -123,6 +278,47 @@ public class ProcessusController implements Serializable {
         return getFacade().findAll();
     }
 
+    /**
+     * ************************************************************************
+     * GETTER / SETTER
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @return
+     */
+    public Processus getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Processus selected) {
+        this.selected = selected;
+    }
+
+    public Boolean getIsReleaseSelected() {
+        return isReleaseSelected;
+    }
+
+    public void setIsReleaseSelected(Boolean isReleaseSelected) {
+        this.isReleaseSelected = isReleaseSelected;
+    }
+
+    public Boolean getIsOnMultiCreation() {
+        return isOnMultiCreation;
+    }
+
+    public void setIsOnMultiCreation(Boolean isOnMultiCreation) {
+        this.isOnMultiCreation = isOnMultiCreation;
+    }
+
+    /**
+     * ************************************************************************
+     * CONVERTER
+     *
+     *
+     * ************************************************************************
+     */
     @FacesConverter(value = "processusCtrlConverter", forClass = Processus.class)
     public static class ProcessusControllerConverter implements Converter {
 

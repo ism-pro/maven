@@ -420,3 +420,30 @@
     filter: Alpha(Opacity=30); /* support: IE8 */
     border-radius: 8px;
 }
+
+
+
+
+/* =============================================================================
+    ISM
+===============================================================================*/
+span.ui-column-title{
+    max-height: 8px!important;
+}
+.ui-outputlabel{
+    max-height: 12px!important;
+    font-size: 10pt!important;
+}
+
+/* =============================================================================
+    Champ de tableau
+===============================================================================*/
+.ui-widget-content.ui-datatable-odd{
+    font-family: Arial, Helvetica,"Trebuchet MS",  sans-serif; /*Arial,Helvetica,sans-serif;*/
+    font-size: 9pt;
+}
+.ui-widget-content.ui-datatable-even{
+    font-family: Arial, Helvetica,"Trebuchet MS",  sans-serif; /*Arial,Helvetica,sans-serif;*/
+    font-size: 9pt;
+}
+

@@ -169,18 +169,6 @@ time, mark, audio, video {
 }
 
 
-thead tr{
-    /*max-height: 18px;*/
-}
-
-tr th span.ui-column-title{
-    /*max-height: 8px!important;*/
-}
-
-tr th span.ui-column-title, label{
-    /*max-height: 12px!important;
-    font-size: 10pt!important*/
-}
 
 /* =============================================================================
  * Manage CRUD BUTTON / OPTIONS
@@ -191,6 +179,11 @@ tr th span.ui-column-title, label{
     width: 100%;
     align-content: center;
 }
+
+.ui-btn{
+    margin-top: 10px;
+}
+
 
 #bodyForm\3a btn-crud-zone_id button{
     margin-top: 10px;
@@ -258,6 +251,10 @@ tr th span.ui-column-title, label{
     background: url("#{resource['img/ism/std/Save.png']}") no-repeat;
     background-size:contain;
 }
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-SaveOne{
+    background: url("#{resource['img/ism/std/SaveOne.png']}") no-repeat;
+    background-size:contain;
+}
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Cancel{
     background: url("#{resource['img/ism/std/Cancel.png']}") no-repeat;
     background-size:contain;
@@ -282,6 +279,10 @@ tr th span.ui-column-title, label{
     background: url("#{resource['img/ism/std/Cloture.png']}") no-repeat;
     background-size:contain;
 }
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Refresh{
+    background: url("#{resource['img/ism/std/Refresh.png']}") no-repeat;
+    background-size:contain;
+}
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgCritical{
     background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
     background-size:contain;
@@ -294,6 +295,8 @@ tr th span.ui-column-title, label{
     background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
     background-size:contain;
 }
+
+
 .ui-icon.ui-confirm-dialog-severity{
     display: none;
 }

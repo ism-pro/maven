@@ -36,11 +36,14 @@ DOC EXPLORER :
 
 
 Configuration :
+    + Finaliser le blockUI pour les boutons d'options / les boutons à la visualisation
     + Possibilité de configurer la fenêtre de confirmation globale voir bas de la page main 
       Notemment les effets à l'ouverture ...
     + Ajouter le bouton Editer / Supprimer lors de l'affichage de la visualisation
-    + Finaliser le blockUI pour les boutons d'options / les boutons à la visualisation
-    + Lors de la suppression empêcher la sélection multiple, laisser la selection vide
+    + Lors de l'edition empêcher la modification de la société
+    + Lors de l'edition afficher les messages d'éléments requis
+    
+    
     + Gestion des colonnes de tableau avec possibilité d'affichage par défaut
     + Gestion des tris sur les colonnes de tableau (filtre, ordre, ...)
     + Gestion des lignes possiblité d'ouvrir en vue une ligne de table par double click ou write click
@@ -50,8 +53,28 @@ Configuration :
     + Enregistrer les paramètres de layout
 
 
+
 Etape standard à la création de crud
-    1. Copier coller les entêtes 
+    1. Modifier le controller :
+    1.1. Ajouter les variable boolean 
+         private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
+         private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
+    2.2. Ajouter la méthode postcontruct pour initialiser les variables
+        @PostConstruct
+        protected void initialize() {
+            isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
+            isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
+        }   
+    2.3. Ajouter les getter et setter  juste avant le faceConverter 
+    2.4. Modifier les actions crud afin de réagir  au boolean ci-dessus
+            /**
+            * This method activate
+            */
+            public void releaseSelected(){
+                isReleaseSelected = true;
+                selected = null;
+            }
+
 
 ================================================================================
 15XXXX XXXX : R.HENDRICK
