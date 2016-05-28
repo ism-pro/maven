@@ -23,7 +23,7 @@ public class ViewCrud implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    private Boolean toggleBtn = true;
+    private Boolean toggleBtn = false;
     
     public ViewCrud(){
         
@@ -31,15 +31,10 @@ public class ViewCrud implements Serializable{
     
     @PostConstruct
     public void init() {
-        toggleBtn = true;
+        toggleBtn = false;
     }
 
-    
-    
-    
-    
-    
-    
+
     /**
      * This listener allow to make no action
      */

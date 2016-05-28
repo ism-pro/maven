@@ -9,36 +9,51 @@ and open the template in the editor.
 */
 
 
-/* class
-    ui-layout-resizer ui-layout-resizer-west ui-draggable-handle ui-layout-resizer-open ui-layout-resizer-west-open
-*/  
+
 #unitWest-resizer{
-    /*background-color: yellow;*/
+    background-color: lightgrey;
+    margin:0px!important;
 }
-
 #unitWest-resizer:hover{
-    background-color: greenyellow;
-    
+    background-color: grey;
 }
-/** class
-ui-layout-toggler ui-layout-toggler-west ui-layout-toggler-open ui-layout-toggler-west-open
-*/
 #unitWest-toggler{
-    width: 10px!important;
-    height: 100%!important;
-    background-color: blue;
+    margin-top: 100px!important;
 }
-#unitWest-toggler span .content.content-closed{
-    background-color: red!important;
-    width: 5px!important;
-    height: 50px!important;
+#unitWest-toggler >  span .content.content-closed{
+    display: none;
 }
 
-#unitWest-toggler a .ui-layout-unit-expand-icon.ui-state-default.ui-corner-all{
-    
+#unitWest-toggler > span > a > span{
+    background-color: lightyellow;
+    background-position: -32px -16px;
 }
 
-#unitWest-toggler span .ui-icon.ui-icon-arrow-4diag{
-    
+
+
+
+#unitEast-resizer{
+    background-color: lightgrey;
+    margin:0px!important;
 }
+#unitEast-resizer:hover{
+    background-color: grey;
+}
+#unitEast-toggler{
+    margin-top: 100px!important;
+}
+#unitEast-toggler >  span .content.content-closed{
+    display: none;
+}
+
+#unitEast-toggler > span > a > span{
+    background-color: lightyellow;
+    background-position: -96px -16px;
+}
+
+
+
+
+
+
 

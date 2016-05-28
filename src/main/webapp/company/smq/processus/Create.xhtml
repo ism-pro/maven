@@ -13,7 +13,8 @@
             <h1><h:outputText value="#{ism.ProcessusTitleCreate}"/></h1>
 
             <h:form id="bodyForm">
-                <p:panelGrid columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
                              rendered="#{processusController.selected != null}">
 
                     <p:outputLabel value="#{ism.ProcessusField_pId}" rendered="false" for="PId" />
@@ -103,8 +104,6 @@
 
 
 
-
-
                 <h:panelGroup id="btn-crud-zone_id"  >
                     <p:outputLabel   value="Création multiple" />
                     <p:selectBooleanButton  value="#{viewCrud.toggleBtn}" 
@@ -128,10 +127,10 @@
                                      rendered="#{viewCrud.toggleBtn==false}"
                                      />
                     <p:commandButton value="#{ism.Cancel}" 
-                                     onstart="#{p:widgetVar('bodyForm')}.disable();"
                                      update=":bodyForm,:growl"
                                      actionListener="#{processusController.prepareCreate()}"
                                      action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
                                      />
 
                 </h:panelGroup>
@@ -141,10 +140,6 @@
 
             </h:form>
 
-
-
         </ui:define>
-
     </ui:composition>
-
 </html>

@@ -42,34 +42,33 @@
             <form-error-page>/faces/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-    <context-param>
-        <param-name>org.openfaces.validation.clientValidation</param-name>
-        <param-value>onSubmit</param-value>
-    </context-param>
+
+    
     <error-page>
         <error-code>403</error-code>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.IllegalStateException</exception-type>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
+    
     <filter>
         <filter-name>NoCacheFilter</filter-name>
         <filter-class>org.ism.filters.NoCacheFilter</filter-class>

@@ -170,20 +170,20 @@ time, mark, audio, video {
 
 
 thead tr{
-    max-height: 18px;
+    /*max-height: 18px;*/
 }
 
 tr th span.ui-column-title{
-    max-height: 8px!important;
+    /*max-height: 8px!important;*/
 }
 
 tr th span.ui-column-title, label{
-    max-height: 12px!important;
-    font-size: 10pt!important
+    /*max-height: 12px!important;
+    font-size: 10pt!important*/
 }
 
 /* =============================================================================
- * Manage CRUD BUTTON
+ * Manage CRUD BUTTON / OPTIONS
  * ===========================================================================*/
 .ui-btn-set{
     border: 1px solid #f2f2f2;
@@ -191,19 +191,59 @@ tr th span.ui-column-title, label{
     width: 100%;
     align-content: center;
 }
+
+#bodyForm\3a btn-crud-zone_id button{
+    margin-top: 10px;
+}
+
+
 .menu-btn .ui-icon{
     margin:0px;
     padding: 0px;
-    margin-top: -3px;
-    width: 28px;
-    height: 28px;
+    margin-top: -6px;
+    width: 22px;
+    height: 22px;
 }
 .menu-btn .ui-button-text.ui-c{
     margin-left: 20px;
 }
+.options-btn {
+    padding:0px;
+    margin:0px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 100%;
+    height: 28px;
+    border-radius: 0px;
+}
+.options-btn .ui-icon{
+    
+    margin:0px;
+    padding: 0px;
+    /*
+    margin-top: -9px;
+    width: 22px;
+    height: 22px;*/
+}
+.options-btn .ui-button-text.ui-c{
+    margin-left: 14px;
+    text-align: left;
+}
 
+
+/* =============================================================================
+ * Manage CRUD BUTTON ICON
+ * ===========================================================================*/
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Open{
     background: url("#{resource['img/ism/std/Open.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-View{
+    background: url("#{resource['img/ism/std/View.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Accept{
+    background: url("#{resource['img/ism/std/Accept.png']}") no-repeat;
     background-size:contain;
 }
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Create{
@@ -242,7 +282,21 @@ tr th span.ui-column-title, label{
     background: url("#{resource['img/ism/std/Cloture.png']}") no-repeat;
     background-size:contain;
 }
-
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgCritical{
+    background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgInfos{
+    background: url("#{resource['img/ism/std/DlgInfos.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgWarning{
+    background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-icon.ui-confirm-dialog-severity{
+    display: none;
+}
 
 /* =============================================================================
  * GESTION D'AFFICHAGE DES FORMULAIRE

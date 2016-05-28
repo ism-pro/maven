@@ -35,6 +35,24 @@ DOC EXPLORER :
     + Permettre d'avoir un classement en fonction d'une catégorie et un groupe surtout pour les processus volumineux.
 
 
+Configuration :
+    + Possibilité de configurer la fenêtre de confirmation globale voir bas de la page main 
+      Notemment les effets à l'ouverture ...
+    + Ajouter le bouton Editer / Supprimer lors de l'affichage de la visualisation
+    + Finaliser le blockUI pour les boutons d'options / les boutons à la visualisation
+    + Lors de la suppression empêcher la sélection multiple, laisser la selection vide
+    + Gestion des colonnes de tableau avec possibilité d'affichage par défaut
+    + Gestion des tris sur les colonnes de tableau (filtre, ordre, ...)
+    + Gestion des lignes possiblité d'ouvrir en vue une ligne de table par double click ou write click
+    + Gestion des lignes possibilité de supprimer une ligne par right click options
+    + Gestion du layout sur l'onglet affichage
+    + Gestion du layout réguler sur les actions de l'utilisateur
+    + Enregistrer les paramètres de layout
+
+
+Etape standard à la création de crud
+    1. Copier coller les entêtes 
+
 ================================================================================
 15XXXX XXXX : R.HENDRICK
 ================================================================================

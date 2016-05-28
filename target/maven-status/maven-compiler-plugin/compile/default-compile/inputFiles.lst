@@ -8,6 +8,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\entities\StaffGroups.java
 D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\ribbon\RibbonGroup.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffGroupsFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\util\JsfSecurity.java
+D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewConfirmDialog.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\LabSamplePtAnalyses.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffCompaniesFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\DocTypeController.java

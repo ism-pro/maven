@@ -38,9 +38,9 @@
 
 
         <p:layout id="fullPage" fullPage="#{viewLayout.layout.fullPage}"
-                  resizeTitle="Ajuster la dimenssion"
+                  resizeTitle="Réduire ou Double click pour réduire"
                   collapseTitle="Réduire la taille"
-                  expandTitle="Etirer"
+                  expandTitle="Etirer ou Double click pour restaurer"
                   closeTitle="Fermer"
                   stateful="false" 
                   widgetVar="fpLayoutWidget"
@@ -425,19 +425,19 @@
 
 
             <p:layoutUnit   id="unitWest" position="west" 
-                          size="#{viewLayout.westUnit.size}"
-                          resizable="#{viewLayout.westUnit.resizable}" 
-                          closable="#{viewLayout.westUnit.closable}"
-                          collapsible="#{viewLayout.westUnit.collapsible}"
-                          minSize="#{viewLayout.westUnit.minSize}"
-                          maxSize="#{viewLayout.westUnit.maxSize}"
-                          gutter="#{viewLayout.westUnit.gutter}"
-                          visible="#{viewLayout.westUnit.visible}"
-                          collapsed="#{viewLayout.westUnit.collapsed}"
-                          collapseSize="#{viewLayout.westUnit.collapseSize}"
-                          effect="#{viewLayout.westUnit.effect}"
-                          effectSpeed="#{viewLayout.westUnit.effectSpeed}"
-                          >
+                            size="#{viewLayout.westUnit.size}"
+                            resizable="#{viewLayout.westUnit.resizable}" 
+                            closable="#{viewLayout.westUnit.closable}"
+                            collapsible="#{viewLayout.westUnit.collapsible}"
+                            minSize="#{viewLayout.westUnit.minSize}"
+                            maxSize="#{viewLayout.westUnit.maxSize}"
+                            gutter="#{viewLayout.westUnit.gutter}"
+                            visible="#{viewLayout.westUnit.visible}"
+                            collapsed="#{viewLayout.westUnit.collapsed}"
+                            collapseSize="#{viewLayout.westUnit.collapseSize}"
+                            effect="#{viewLayout.westUnit.effect}"
+                            effectSpeed="#{viewLayout.westUnit.effectSpeed}"
+                            >
                 <f:facet name="header"><h:outputText value="Menu"/></f:facet> 
                 <ui:insert id="west" name="west" />
             </p:layoutUnit>  
@@ -457,8 +457,10 @@
                           effect="#{viewLayout.eastUnit.effect}"
                           effectSpeed="#{viewLayout.eastUnit.effectSpeed}"
                           >
-                <f:facet name="header"><h:graphicImage library="img" name="ism/std/Options.png" width="22px" height="22px" /> <h:outputText value="Options"/> </f:facet>  
-                    <ui:insert id="east" name="east" />
+                <f:facet name="header">
+                    <h:graphicImage library="img" name="ism/std/Options.png" width="22px" height="22px" style="float:left;" /> 
+                    <h:outputText value="Options"/> </f:facet>  
+                <ui:insert id="east" name="east" />
             </p:layoutUnit>
 
 
@@ -488,7 +490,9 @@
             </p:layoutUnit>  
 
 
-            <p:layoutUnit position="center" size="100">
+
+
+            <p:layoutUnit position="center" collapseSize="4" gutter="4" style="margin:0px;margin-left: -15px;">
                 <ui:insert id="body" name="body" />
             </p:layoutUnit>
 
@@ -534,13 +538,36 @@
                 </f:facet>
             </p:dialog> 
 
-            <p:confirmDialog global="true">
-                <p:commandButton value="#{ism.ConfirmYes}" type="button" 
+            <p:confirmDialog id="mainConfirmDialog" 
+                             global="#{viewConfirmDialog.dlg.global}"
+                             header="#{viewConfirmDialog.dlg.header}"
+                             severity="#{viewConfirmDialog.dlg.severity}"
+                             width="#{viewConfirmDialog.dlg.width}"
+                             height="#{viewConfirmDialog.dlg.height}"
+                             closable="#{viewConfirmDialog.dlg.closable}"
+                             showEffect="#{viewConfirmDialog.dlg.showEffect}"
+                             hideEffect="#{viewConfirmDialog.dlg.hideEffect}"
+                             closeOnEscape="#{viewConfirmDialog.dlg.closeOnEscape}"
+                             widgetVar="mainConfirmDialog"
+                             >
+                <f:facet name="message">
+                    <p:graphicImage library="img" 
+                                    name="#{viewConfirmDialog.dlg.severity=='alert'?'ism/std/DlgWarning.png':'ism/std/DlgInfos.png'}"
+                                    width="48" height="48" style="float: left;" />
+                    <h:outputFormat value="#{viewConfirmDialog.dlg.message}" escape="false"/>
+                </f:facet>
+                
+                <p:commandButton type="button" value="#{ism.ConfirmYes}" 
                                  styleClass="ui-confirmdialog-yes"
-                                 icon="ui-icon-check"/>
-                <p:commandButton value="#{ism.ConfirmNo}" type="button" 
+                                 icon="ui-btn-Accept"
+                                 update="#{viewConfirmDialog.update}"
+                                 oncomplete="PF('mainConfirmDialog').hide()"
+                                 />
+                <p:commandButton type="button" value="#{ism.ConfirmNo}" 
                                  styleClass="ui-confirmdialog-no"
-                                 icon="ui-icon-close"/>
+                                 icon="ui-btn-Cancel"
+                                 oncomplete="PF('mainConfirmDialog').hide()"
+                                 />
             </p:confirmDialog>
         </h:form>
 
@@ -577,6 +604,8 @@
                mainForm:ism-ribbon:btnStaffCreate, 
                mainForm:ism-ribbon:btnStaffList, 
                mainForm:ism-ribbon:btnStaffManageList"
+               
+               
                >
         <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>

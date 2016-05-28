@@ -36,8 +36,8 @@ public class ViewLayout implements Serializable {
     protected void initialize() {
         // General setup
         Integer gutter = 4;             //!< 2px
-        Integer collapseSize = 20;      //!< 20px
-        String effect = "blind";         //!< effect : blind, bounce, clip, drop, explode, fold, highlight, puff, pulsate, scale, shake, size and slide.
+        Integer collapseSize = 4;      //!< 20px
+        String effect = "fade";         //!< effect : blind, bounce, clip, drop, explode, fold, highlight, puff, pulsate, scale, shake, size and slide.
         String effectSpeed = "1500";    //!< ms effect
 
         // Layout
@@ -155,9 +155,10 @@ public class ViewLayout implements Serializable {
                     break;
             }
         }
+        /*
         JsfUtil.addSuccessMessage("Layout Pane resized"
                 + "Position:" + unit.getPosition() + ", isVisibility = "
-                + event.getVisibility());
+                + event.getVisibility());*/
     }
 
     public void handleClose(CloseEvent event) {
@@ -180,9 +181,10 @@ public class ViewLayout implements Serializable {
                     break;
             }
         }
+        /*
         JsfUtil.addSuccessMessage("Layout Pane resized"
                 + "Position:" + unit.getPosition() + ", Closed = "
-                );
+                );*/
     }
 
     public void handleResize(ResizeEvent event) {
@@ -205,9 +207,10 @@ public class ViewLayout implements Serializable {
                     break;
             }
         }
+        /*
         JsfUtil.addSuccessMessage("Layout Pane resized"
                 + "Position:" + unit.getPosition() + ", new width = "
-                + event.getWidth() + "px, new height = " + event.getHeight() + "px");
+                + event.getWidth() + "px, new height = " + event.getHeight() + "px");*/
     }
 
     /**
