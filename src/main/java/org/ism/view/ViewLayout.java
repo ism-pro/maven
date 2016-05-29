@@ -36,7 +36,7 @@ public class ViewLayout implements Serializable {
     protected void initialize() {
         // General setup
         Integer gutter = 4;             //!< 2px
-        Integer collapseSize = 4;      //!< 20px
+        Integer collapseSize = 6;      //!< 20px
         String effect = "fade";         //!< effect : blind, bounce, clip, drop, explode, fold, highlight, puff, pulsate, scale, shake, size and slide.
         String effectSpeed = "1500";    //!< ms effect
 

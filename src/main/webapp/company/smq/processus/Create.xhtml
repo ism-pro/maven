@@ -28,10 +28,9 @@
                         <p:inputText id="PProcessus" 
                                      value="#{processusController.selected.PProcessus}" 
                                      title="#{ism.ProcessusFieldInfo_pProcessus}" 
-                                     
-                                     required="true"
-                                     requiredMessage="#{ism.ProcessusRequiredMsg_pProcessus}"/>
-                        <p:message for="PProcessus"   />
+                                     validator="ProcessusCodeValidator"
+                                     required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pProcessus}"/>
+                        <p:message for="PProcessus" />
                     </h:panelGrid>
 
 
@@ -39,8 +38,9 @@
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="PDesignation" 
                                      value="#{processusController.selected.PDesignation}"
-                                     required="true"
-                                     title="#{ism.ProcessusFieldInfo_pDesignation}" />
+                                     title="#{ism.ProcessusFieldInfo_pDesignation}" 
+                                     validator="ProcessusDesignationValidator"
+                                     required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pDesignation}"/>
                         <p:message for="PDesignation"   />
                     </h:panelGrid>
 
@@ -52,7 +52,7 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{processusController.selected.PStaffmanager}" 
                                          required="true" 
-                                         
+
                                          requiredMessage="#{ism.ProcessusRequiredMsg_pStaffManager}"
                                          >
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
@@ -106,10 +106,10 @@
 
 
 
-                
-                
-                
-                
+
+
+
+
 
                 <h:panelGroup id="btn-crud-zone_id"  >
                     <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
@@ -118,7 +118,7 @@
                                             onIcon="ui-icon-check" offIcon="ui-icon-close" 
                                             styleClass="ui-btn"
                                             >
-                        <p:ajax update=":bodyForm:btn-crud-zone_id,:growl" listener="#{processusController.toggleMultiCreationFake()}"  />
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{processusController.toggleMultiCreationFake()}"  />
                     </p:selectBooleanButton>
 
                     <p:commandButton icon="ui-btn-Save"
@@ -156,6 +156,42 @@
 
             </h:form>
 
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{processusController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:PCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{processusController.isOnMultiCreation}"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{processusController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:PCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!processusController.isOnMultiCreation}"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{processusController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
         </ui:define>
     </ui:composition>
 </html>
