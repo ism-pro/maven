@@ -41,14 +41,17 @@ Configuration :
       Notemment les effets à l'ouverture ...
     
     
-    + Gestion des colonnes de tableau avec possibilité d'affichage par défaut
     + Gestion des tris sur les colonnes de tableau (filtre, ordre, ...)
     + Gestion des lignes possibilité de supprimer une ligne par right click options
+    
     + Gestion du layout sur l'onglet affichage
     + Gestion du layout réguler sur les actions de l'utilisateur
     + Enregistrer les paramètres de layout
 
 
+Options processus
+    + Le refraîchissement rafréchit aussi le tableau
+    + Gestion de la visibilité des colonnes possible grâce à p:columnToggler
     
     
 

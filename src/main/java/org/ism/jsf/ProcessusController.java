@@ -6,6 +6,7 @@ import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.ProcessusFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,6 +27,8 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.Visibility;
 
 @Named("processusController")
 @SessionScoped
@@ -38,6 +41,7 @@ public class ProcessusController implements Serializable {
     private Processus edited;
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
     private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
+    private List<Boolean> visibleColumns;           //!< Allow to keep in memory visible columns
 
     public ProcessusController() {
     }
@@ -46,6 +50,18 @@ public class ProcessusController implements Serializable {
     protected void initialize() {
         isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
         isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
+        // Setup initial visibility
+        visibleColumns = new ArrayList<Boolean>();
+        visibleColumns.add(0,true);    //!< zone d'option
+        visibleColumns.add(1,false);    //!< numéro
+        visibleColumns.add(2,true);    //!< code
+        visibleColumns.add(3,true);    //!< désignation
+        visibleColumns.add(4,true);    //!< responsable
+        visibleColumns.add(5,true);    //!< suppression
+        visibleColumns.add(6,false);    //!< creation
+        visibleColumns.add(7,true);    //!< Modification
+        visibleColumns.add(8,false);    //!< Société
+        
     }
 
     protected void setEmbeddableKeys() {
@@ -109,7 +125,22 @@ public class ProcessusController implements Serializable {
                 getString("ProcessusToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
-
+    /**
+     * ************************************************************************
+     * TABLE OPTIONS
+     *
+     * ************************************************************************
+     */
+    /**
+     * 
+     * @param e 
+     */
+    public void handleColumnToggle(ToggleEvent e) {
+        visibleColumns.set((Integer) e.getData(),
+                e.getVisibility() == Visibility.VISIBLE);
+        JsfUtil.addSuccessMessage("Processus : TabColum",
+                "Column n° " + e.getData() + " is now " + e.getVisibility());
+    }
 
     /**
      * ************************************************************************
@@ -287,6 +318,16 @@ public class ProcessusController implements Serializable {
     public void setIsOnMultiCreation(Boolean isOnMultiCreation) {
         this.isOnMultiCreation = isOnMultiCreation;
     }
+
+    public List<Boolean> getVisibleColumns() {
+        return visibleColumns;
+    }
+
+    public void setVisibleColumns(List<Boolean> visibleColumns) {
+        this.visibleColumns = visibleColumns;
+    }
+    
+    
 
     /**
      * ************************************************************************

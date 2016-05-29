@@ -9,7 +9,7 @@ import org.ism.entities.Company;
 import org.ism.entities.NonConformite;
 import org.ism.entities.NonConformiteRequest;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-29T21:09:08")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-05-29T23:26:15")
 @StaticMetamodel(NonConformiteGravity.class)
 public class NonConformiteGravity_ { 
 

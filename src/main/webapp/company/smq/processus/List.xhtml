@@ -13,6 +13,8 @@
             <h1><h:outputText value="#{ism.ProcessusTitleList}"/></h1>
 
             <h:form id="bodyForm">
+
+
                 <p:dataTable id="datalist" 
                              value="#{processusController.itemsByLastChanged}" var="item"
                              selectionMode="single" selection="#{processusController.selected}"
@@ -26,13 +28,23 @@
                              currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
                              liveResize="true"
                              >
-
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" />
+                        <p:columnToggler  datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update="datalist,:growl"
+                                    listener="#{processusController.handleColumnToggle}" />
+                        </p:columnToggler>
+                    </f:facet>
 
                     <p:ajax event="rowSelect"   update="westGroup"/>
                     <p:ajax event="rowUnselect" update="westGroup"/>
                     <p:ajax event="rowDblselect" onstart="$(location).attr('href','View.xhtml');"  />
 
-                    <p:column style="width:32px;text-align: center">
+                    
+
+                    <p:column headerText="Option" style="width:32px;text-align: center" 
+                              visible="#{processusController.visibleColumns[0]}">
                         <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
                                          title="#{ism.View}" action="View.xhtml?faces-redirect=true">
                             <f:setPropertyActionListener value="#{item}" target="#{processusController.selected}" />
@@ -40,39 +52,47 @@
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pId}"
-                              style="width: 24px;">
+                              style="width: 24px;" 
+                              visible="#{processusController.visibleColumns[1]}">
                         <h:outputText value="#{item.PId}"/>
                     </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pProcessus}">
+                    <p:column headerText="#{ism.ProcessusField_pProcessus}" 
+                              visible="#{processusController.visibleColumns[2]}">
                         <h:outputText value="#{item.PProcessus}"/>
                     </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pDesignation}">
+                    <p:column headerText="#{ism.ProcessusField_pDesignation}" 
+                              visible="#{processusController.visibleColumns[3]}">
                         <h:outputText value="#{item.PDesignation}"/>
                     </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pStaffManager}">
+                    <p:column headerText="#{ism.ProcessusField_pStaffManager}" 
+                              visible="#{processusController.visibleColumns[4]}">
                         <h:outputText value="[#{item.PStaffmanager.stStaff}] #{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname}"/>
                     </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pDeleted}">
+                    <p:column headerText="#{ism.ProcessusField_pDeleted}" 
+                              visible="#{processusController.visibleColumns[5]}">
                         <p:selectBooleanCheckbox value="#{item.PDeleted}" disabled="true"/>
                     </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pCreated}">
+                    <p:column headerText="#{ism.ProcessusField_pCreated}" 
+                              visible="#{processusController.visibleColumns[6]}">
                         <h:outputText value="#{item.PCreated}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pChanged}">
+                    <p:column headerText="#{ism.ProcessusField_pChanged}" 
+                              visible="#{processusController.visibleColumns[7]}">
                         <h:outputText value="#{item.PChanged}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pCompany}">
+                    <p:column headerText="#{ism.ProcessusField_pCompany}" 
+                              visible="#{processusController.visibleColumns[8]}">
                         <h:outputText value="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}"/>
                     </p:column>
 
@@ -136,7 +156,7 @@
                                  value="#{ism.Refresh}"
                                  title="Permet de rafraichir la table des processus "
                                  actionListener="#{processusController.releaseSelected()}"
-                                 update=":bodyForm,westGroup,:growl"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
                                  disabled="#{empty processusController.selected 
                                              or empty processusController.selected.PId}"
                                  />
