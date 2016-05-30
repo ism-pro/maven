@@ -103,7 +103,6 @@ org\ism\jsf\LabAnalyseCategoryController.class
 org\ism\beans\ErrorHandler.class
 org\primefaces\ism\component\ribbon\Ribbon.class
 org\ism\jsf\StaffGroupsController.class
-org\primefaces\ism\component\columntoggler\ColumnToggler.class
 org\ism\jsf\LabAnalyseMethodController$LabAnalyseMethodControllerConverter.class
 org\ism\entities\DocExplorer.class
 org\ism\beans\CtrlAccess$AccessType.class
@@ -127,7 +126,6 @@ org\ism\entities\DocType_.class
 org\ism\sessions\StaffSetupFacade.class
 org\ism\jsf\IsmGenreController.class
 org\ism\jsf\EquipementController$EquipementControllerConverter.class
-org\primefaces\ism\component\columntoggler\ColumnToggler$PropertyKeys.class
 org\ism\jsf\LabSamplePtAnalysesController.class
 org\ism\sessions\LabAnalyseCategoryFacade.class
 org\ism\sessions\StaffCompaniesFacade.class
@@ -143,7 +141,6 @@ org\ism\entities\Unite_.class
 org\ism\entities\Processus_.class
 org\ism\view\FilterNCRequestView.class
 org\ism\jsf\StaffAuthController.class
-org\primefaces\ism\component\columntoggler\ColumnTogglerRenderer.class
 org\ism\jsf\LabAnalyseMethodController.class
 org\ism\entities\LabAnalyseMethod.class
 org\ism\jsf\util\FileController.class
