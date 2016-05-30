@@ -49,10 +49,8 @@ Configuration :
     + Enregistrer les paramètres de layout
 
 
-Options processus
-    + Le refraîchissement rafréchit aussi le tableau
-    + Gestion de la visibilité des colonnes possible grâce à p:columnToggler
-    
+Processus :
+    + Gestion du click droit pour effectuer les opérations sur le tableau
     
 
 

@@ -438,6 +438,16 @@ span.ui-column-title{
 /* =============================================================================
     Champ de tableau
 ===============================================================================*/
+.ui-columntoggler.ui-widget.ui-widget-content.ui-shadow.ui-corner-all{
+    min-width: 150px;
+}
+ul .ui-columntoggler-items{
+    
+}
+li .ui-columntoggler-item{
+    
+}
+
 .ui-widget-content.ui-datatable-odd{
     font-family: Arial, Helvetica,"Trebuchet MS",  sans-serif; /*Arial,Helvetica,sans-serif;*/
     font-size: 9pt;

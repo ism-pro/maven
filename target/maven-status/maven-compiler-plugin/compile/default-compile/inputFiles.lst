@@ -35,6 +35,7 @@ D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\ribbon\Ribbo
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffSetupController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\UniteController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabAnalyseTypeFacade.java
+D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\columntoggler\ColumnTogglerRenderer.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\EquipementController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffGroupsController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffGroupDefRoleController.java
@@ -93,6 +94,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\sessions\IsmRoleFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\ProcessusFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\IsmGenre.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffManagerController.java
+D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\columntoggler\ColumnToggler.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\NonConformiteNatureFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\IsmRole.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\NonConformiteGravityFacade.java

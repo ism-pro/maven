@@ -227,7 +227,84 @@ time, mark, audio, video {
 /* =============================================================================
  * Manage CRUD BUTTON ICON
  * ===========================================================================*/
-.ui-button-icon-left.ui-icon.ui-c.ui-btn-Open{
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Open, .ui-menuitem-icon.ui-icon.ui-btn-Open{
+    background: url("#{resource['img/ism/std/Open.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-View, .ui-menuitem-icon.ui-icon.ui-btn-View{
+    background: url("#{resource['img/ism/std/View.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Accept, .ui-menuitem-icon.ui-icon.ui-btn-Accept{
+    background: url("#{resource['img/ism/std/Accept.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Create, .ui-menuitem-icon.ui-icon.ui-btn-Create{
+    background: url("#{resource['img/ism/std/Create.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Edit, .ui-menuitem-icon.ui-icon.ui-btn-Edit{
+    background: url("#{resource['img/ism/std/Edit.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Save, .ui-menuitem-icon.ui-icon.ui-btn-Save{
+    background: url("#{resource['img/ism/std/Save.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-SaveOne, .ui-menuitem-icon.ui-icon.ui-btn-SaveOne{
+    background: url("#{resource['img/ism/std/SaveOne.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Cancel, .ui-menuitem-icon.ui-icon.ui-btn-Cancel{
+    background: url("#{resource['img/ism/std/Cancel.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Delete, .ui-menuitem-icon.ui-icon.ui-btn-Delete{
+    background: url("#{resource['img/ism/std/Delete.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Approuve, .ui-menuitem-icon.ui-icon.ui-btn-Approuve{
+    background: url("#{resource['img/ism/std/Approuve.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Refuse, .ui-menuitem-icon.ui-icon.ui-btn-Refuse{
+    background: url("#{resource['img/ism/std/Refuse.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Actions, .ui-menuitem-icon.ui-icon.ui-btn-Actions{
+    background: url("#{resource['img/ism/std/Actions.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Cloture, .ui-menuitem-icon.ui-icon.ui-btn-Cloture{
+    background: url("#{resource['img/ism/std/Cloture.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Refresh, .ui-menuitem-icon.ui-icon.ui-btn-Refresh{
+    background: url("#{resource['img/ism/std/Refresh.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgCritical{
+    background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgInfos{
+    background: url("#{resource['img/ism/std/DlgInfos.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgWarning{
+    background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
+    background-size:contain;
+}
+
+
+.ui-icon.ui-confirm-dialog-severity{
+    display: none;
+}
+
+/* =============================================================================
+ * Manage CRUD MENUITEM ICON
+ * ===========================================================================*/
+.ui-menuitem-icon.ui-icon.ui-btn-Delete{
     background: url("#{resource['img/ism/std/Open.png']}") no-repeat;
     background-size:contain;
 }
@@ -297,9 +374,6 @@ time, mark, audio, video {
 }
 
 
-.ui-icon.ui-confirm-dialog-severity{
-    display: none;
-}
 
 /* =============================================================================
  * GESTION D'AFFICHAGE DES FORMULAIRE
