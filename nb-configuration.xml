@@ -12,6 +12,13 @@ Without this configuration present, some functionality in the IDE may be limited
             <file localPath="src/main/webapp/js/libs/jets/jets.min.js" path="jets.min.js"/>
         </library>
     </libraries>
+    <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
+        <configurations>
+            <configuration id="Debug" profiles="Debug">
+                <property name="g"/>
+            </configuration>
+        </configurations>
+    </config-data>
     <properties xmlns="http://www.netbeans.org/ns/maven-properties-data/1">
         <!--
 Properties that influence various parts of the IDE, especially code formatting and the like. 

@@ -74,9 +74,14 @@
                              rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
                              paginatorTemplate="#{tableView.paginatorTemplate}"
                              currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
-                             liveResize="true"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
                              >
 
+                    
+                    
+                    
                     <f:facet name="header">
                         <p:commandButton id="toggler" type="button" value="Columns" 
                                          style="float:left;" icon="ui-icon-calculator" />
@@ -88,15 +93,18 @@
                     </f:facet>
 
 
+                    
 
                     <p:ajax event="rowSelect"   update="westGroup bodyForm"/>
                     <p:ajax event="rowUnselect" update="westGroup bodyForm"/>
-                    <p:ajax event="rowDblselect" onstart="$(location).attr('href','View.xhtml');"  />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}"   />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processusController.handleColumnReorder}" />
 
+                    
+                    
 
-
-                    <p:column headerText="Option" style="width:32px;text-align: center" 
-                              visible="#{processusController.visibleColumns[0]}">
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center" 
+                              visible="#{processusController.getIsVisibleColKey(ism.CtrlShort)}">
                         <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
                                          title="#{ism.View}" action="View.xhtml?faces-redirect=true">
                             <f:setPropertyActionListener value="#{item}" target="#{processusController.selected}" />
@@ -105,46 +113,46 @@
 
                     <p:column headerText="#{ism.ProcessusField_pId}"
                               style="width: 24px;" 
-                              visible="#{processusController.visibleColumns[1]}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pId)}">
                         <h:outputText value="#{item.PId}"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pProcessus}" 
-                              visible="#{processusController.visibleColumns[2]}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pProcessus)}">
                         <h:outputText value="#{item.PProcessus}"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pDesignation}" 
-                              visible="#{processusController.visibleColumns[3]}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDesignation)}">
                         <h:outputText value="#{item.PDesignation}"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pStaffManager}" 
-                              visible="#{processusController.visibleColumns[4]}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pStaffManager)}">
                         <h:outputText value="[#{item.PStaffmanager.stStaff}] #{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname}"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pDeleted}" 
-                              visible="#{processusController.visibleColumns[5]}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDeleted)}">
                         <p:selectBooleanCheckbox value="#{item.PDeleted}" disabled="true"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pCreated}" 
-                              visible="#{processusController.visibleColumns[6]}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pCreated)}">
                         <h:outputText value="#{item.PCreated}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pChanged}" 
-                              visible="#{processusController.visibleColumns[7]}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pChanged)}">
                         <h:outputText value="#{item.PChanged}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pCompany}" 
-                              visible="#{processusController.visibleColumns[8]}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pCompany)}">
                         <h:outputText value="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}"/>
                     </p:column>
 

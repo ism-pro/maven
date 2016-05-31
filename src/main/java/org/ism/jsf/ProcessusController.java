@@ -7,8 +7,11 @@ import org.ism.sessions.ProcessusFacade;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +29,14 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import org.primefaces.component.api.UIColumn;
+import org.primefaces.component.column.Column;
+import org.primefaces.component.columntoggler.ColumnToggler;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.component.dnd.Draggable;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.event.DragDropEvent;
+import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 
@@ -41,7 +51,9 @@ public class ProcessusController implements Serializable {
     private Processus edited;
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
     private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
-    private List<Boolean> visibleColumns;           //!< Allow to keep in memory visible columns
+
+    private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
+    private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
     public ProcessusController() {
     }
@@ -51,17 +63,28 @@ public class ProcessusController implements Serializable {
         isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
         isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
         // Setup initial visibility
-        visibleColumns = new ArrayList<Boolean>();
-        visibleColumns.add(0,true);    //!< zone d'option
-        visibleColumns.add(1,false);    //!< numéro
-        visibleColumns.add(2,true);    //!< code
-        visibleColumns.add(3,true);    //!< désignation
-        visibleColumns.add(4,true);    //!< responsable
-        visibleColumns.add(5,true);    //!< suppression
-        visibleColumns.add(6,false);    //!< creation
-        visibleColumns.add(7,true);    //!< Modification
-        visibleColumns.add(8,false);    //!< Société
-        
+        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
+        headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pId"));
+        headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pProcessus"));
+        headerTextMap.put(3, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pDesignation"));
+        headerTextMap.put(4, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pStaffManager"));
+        headerTextMap.put(5, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pDeleted"));
+        headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pCreated"));
+        headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pChanged"));
+        headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pCompany"));
+
+        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pId"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pProcessus"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pDesignation"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pStaffManager"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pDeleted"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pCreated"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pChanged"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pCompany"), false);
+
     }
 
     protected void setEmbeddableKeys() {
@@ -132,14 +155,34 @@ public class ProcessusController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
-     * @param e 
+     *
+     * @param e
      */
     public void handleColumnToggle(ToggleEvent e) {
-        visibleColumns.set((Integer) e.getData(),
+        visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
                 e.getVisibility() == Visibility.VISIBLE);
-        JsfUtil.addSuccessMessage("Processus : TabColum",
+
+        JsfUtil.addSuccessMessage("Processus : Toggle Column",
                 "Column n° " + e.getData() + " is now " + e.getVisibility());
+
+    }
+
+    public void handleColumnReorder(javax.faces.event.AjaxBehaviorEvent e) {
+        DataTable table = (DataTable) e.getSource();
+        String columns = "";
+        int i = 0;
+        for (UIColumn column : table.getColumns()) {
+            UIComponent uic = (UIComponent) column;
+            String headerText = (String) uic.getAttributes().get((Object) "headerText");
+            Boolean visible = (Boolean) uic.getAttributes().get((Object) "visible");
+            headerTextMap.replace(i, headerText);
+            visibleColMap.replace(headerText, visible);
+            columns += headerText + "(" + visible + ") <br >";
+            i++;
+        }
+        JsfUtil.addSuccessMessage("Processus : Reorder Column",
+                "Columns : <br>" + columns);
+
     }
 
     /**
@@ -319,15 +362,17 @@ public class ProcessusController implements Serializable {
         this.isOnMultiCreation = isOnMultiCreation;
     }
 
-    public List<Boolean> getVisibleColumns() {
-        return visibleColumns;
+    public Map<String, Boolean> getVisibleColMap() {
+        return visibleColMap;
     }
 
-    public void setVisibleColumns(List<Boolean> visibleColumns) {
-        this.visibleColumns = visibleColumns;
+    public void setVisibleColMap(Map<String, Boolean> visibleColMap) {
+        this.visibleColMap = visibleColMap;
     }
-    
-    
+
+    public Boolean getIsVisibleColKey(String key) {
+        return this.visibleColMap.get(key);
+    }
 
     /**
      * ************************************************************************

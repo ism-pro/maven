@@ -89,7 +89,7 @@
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
-                    <debug>false</debug>
+                    <debug>true</debug>
                 </configuration>
             </plugin>
             <plugin>

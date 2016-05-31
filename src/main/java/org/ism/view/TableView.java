@@ -6,10 +6,13 @@
 package org.ism.view;
 
 
+import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.listener.SessionCounterListener;
 import org.primefaces.component.tabview.Tab;
@@ -62,6 +65,10 @@ public class TableView implements Serializable {
     private String  sortMode                    = "single";
 
     private String lazy                         = "true";
+    
+    private Boolean liveResize                  = true;                     //!< Directly see rizesing
+    private Boolean reflow                      = true;                     //!< Auto-agency
+    private Boolean draggableColumns            = true;                     //!< Activate draggable
     
     
 
@@ -244,6 +251,16 @@ public class TableView implements Serializable {
         this.emptyMessage = emptyMessage;
     }
 
+    public Boolean getLiveResize() {
+        return liveResize;
+    }
+
+    public void setLiveResize(Boolean liveResize) {
+        this.liveResize = liveResize;
+    }
+
+    
+    
     public Boolean getLiveScroll() {
         return liveScroll;
     }
@@ -284,8 +301,46 @@ public class TableView implements Serializable {
         this.first = first;
     }
 
+    public Boolean getReflow() {
+        return reflow;
+    }
+
+    public void setReflow(Boolean reflow) {
+        this.reflow = reflow;
+    }
+
+    public Boolean getDraggableColumns() {
+        return draggableColumns;
+    }
+
+    public void setDraggableColumns(Boolean draggableColumns) {
+        this.draggableColumns = draggableColumns;
+    }
+    
     
 
     
+
+    /**
+     * ************************************************************************
+     * Evènement double click sur une ligne du tableau permet d'ouvrir l'édition
+     * de la non conformité pour visualisation. Une initialisation des
+     * paramètres par défaut vérification de selected et des booléenes
+     *
+     * @throws IOException
+     * ***********************************************************************
+     */
+    public void handleRowDoubleClick() throws IOException {
+        // PREPARATION DE LA PAGE DE CHARGEMENT
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        String dir = ec.getRequestPathInfo();
+        String[] dirs = dir.split("/");
+        dir = "/";
+        for (int i = 0; i < dirs.length - 1; i++) {
+            dir += dirs[i] + "/";
+        }
+        dir += "View.xhtml";
+        ec.redirect(ec.getRequestContextPath() + ec.getRequestServletPath() + dir);
+    }
     
 }
