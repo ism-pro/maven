@@ -13,6 +13,7 @@ org\ism\jsf\ProcessusController$ProcessusCodeValidator.class
 org\ism\jsf\StaffManagerController.class
 org\ism\jsf\DocExplorerController$DocExplorerControllerConverter.class
 org\ism\entities\NonConformiteRequest.class
+org\ism\view\ViewTabManager.class
 org\ism\jsf\StaffGroupDefRoleController$IsmRoleConverter.class
 org\ism\entities\DocExplorer_.class
 org\ism\jsf\StaffGroupDefController.class

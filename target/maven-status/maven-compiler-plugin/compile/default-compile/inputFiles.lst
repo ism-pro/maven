@@ -85,6 +85,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffSetupFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabSampleController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\Entreprise.java
 D:\Applications\Java\ISM\src\main\java\org\ism\listener\SessionCounterListener.java
+D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewTabManager.java
 D:\Applications\Java\ISM\src\main\java\org\ism\filters\NoCacheFilter.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\LabAnalyseMethod.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\Processus.java

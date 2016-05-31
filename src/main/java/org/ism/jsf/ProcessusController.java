@@ -6,8 +6,6 @@ import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.ProcessusFacade;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.StateHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -30,17 +25,14 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
-import org.primefaces.component.column.Column;
-import org.primefaces.component.columntoggler.ColumnToggler;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.dnd.Draggable;
 import org.primefaces.component.inputtext.InputText;
-import org.primefaces.event.DragDropEvent;
-import org.primefaces.event.ReorderEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedBean;
 
-@Named("processusController")
+@ManagedBean(name="processusController")
 @SessionScoped
 public class ProcessusController implements Serializable {
 

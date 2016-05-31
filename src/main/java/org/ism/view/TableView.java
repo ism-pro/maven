@@ -62,7 +62,7 @@ public class TableView implements Serializable {
     
     private Object  sortBy                      ;                           //null Object Property to be used for default sorting.
     private String  sortOrder                   = "descending";             //“ascending” or “descending”.
-    private String  sortMode                    = "single";
+    private String  sortMode                    = "multiple";               //!< single or multiple
 
     private String lazy                         = "true";
     

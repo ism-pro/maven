@@ -4,8 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:pi="http://primefaces.org/ui/ism">
+      xmlns:p="http://primefaces.org/ui">
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -63,8 +62,10 @@
                                 />
                 </p:contextMenu>
 
-                <p:dataTable id="datalist" 
-                             value="#{processusController.itemsByLastChanged}" var="item"
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.processus}" var="item"
+                             filteredValue="#{viewTabManager.processusFiltered}"
+                             
                              selectionMode="single" selection="#{processusController.selected}"
                              rowIndexVar="_rowIndex"
                              rowKey="#{item.PId}"
@@ -77,82 +78,106 @@
                              liveResize="#{tableView.liveResize}"
                              reflow="#{tableView.reflow}"
                              draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+                             
+                             emptyMessage="#{ism.EmptyList}"
+                             
+                             
                              >
 
-                    
-                    
-                    
+
+
+
                     <f:facet name="header">
                         <p:commandButton id="toggler" type="button" value="Columns" 
-                                         style="float:left;" icon="ui-icon-calculator" />
-                        
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+
                         <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
                             <p:ajax event="toggle" update=":growl"
                                     listener="#{processusController.handleColumnToggle}" />
                         </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="Enter keyword" />
+                        </p:outputPanel>
                     </f:facet>
 
 
-                    
 
                     <p:ajax event="rowSelect"   update="westGroup bodyForm"/>
                     <p:ajax event="rowUnselect" update="westGroup bodyForm"/>
                     <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}"   />
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processusController.handleColumnReorder}" />
 
-                    
-                    
+
+
 
                     <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center" 
-                              visible="#{processusController.getIsVisibleColKey(ism.CtrlShort)}">
+                              visible="#{processusController.getIsVisibleColKey(ism.CtrlShort)}" >
                         <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
                                          title="#{ism.View}" action="View.xhtml?faces-redirect=true">
                             <f:setPropertyActionListener value="#{item}" target="#{processusController.selected}" />
                         </p:commandButton>
                     </p:column>
 
+
                     <p:column headerText="#{ism.ProcessusField_pId}"
                               style="width: 24px;" 
-                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pId)}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pId)}"
+                              sortBy="#{item.PId}" filterBy="#{item.PId}">
                         <h:outputText value="#{item.PId}"/>
                     </p:column>
 
+
                     <p:column headerText="#{ism.ProcessusField_pProcessus}" 
-                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pProcessus)}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pProcessus)}"
+                              sortBy="#{item.PProcessus}" 
+                              filterBy="#{item.PProcessus}" filterMatchMode="contains">
                         <h:outputText value="#{item.PProcessus}"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pDesignation}" 
-                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDesignation)}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDesignation)}"
+                              sortBy="#{item.PDesignation}" 
+                              filterBy="#{item.PDesignation}" filterMatchMode="contains">
                         <h:outputText value="#{item.PDesignation}"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pStaffManager}" 
-                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pStaffManager)}">
-                        <h:outputText value="[#{item.PStaffmanager.stStaff}] #{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname}"/>
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pStaffManager)}"
+                              sortBy="#{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]" 
+                              filterBy="#{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]">
+                        <h:outputText value="#{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pDeleted}" 
-                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDeleted)}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDeleted)}"
+                              sortBy="#{item.PDeleted}" filterBy="#{item.PDeleted}">
                         <p:selectBooleanCheckbox value="#{item.PDeleted}" disabled="true"/>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pCreated}" 
-                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pCreated)}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pCreated)}"
+                              sortBy="#{item.PCreated}" filterBy="#{item.PCreated}">
                         <h:outputText value="#{item.PCreated}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pChanged}" 
-                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pChanged)}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pChanged)}"
+                              sortBy="#{item.PChanged}" filterBy="#{item.PChanged}">
                         <h:outputText value="#{item.PChanged}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pCompany}" 
-                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pCompany)}">
+                              visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pCompany)}"
+                              sortBy="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}" filterBy="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}">
                         <h:outputText value="#{item.PCompany.CCompany} - #{item.PCompany.CDesignation}"/>
                     </p:column>
 
