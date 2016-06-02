@@ -448,6 +448,51 @@ li .ui-columntoggler-item{
     
 }
 
+/** FILTER - INPUTEXT */
+th .ui-column-filter.ui-inputfield.ui-inputtext.ui-widget.ui-state-default.ui-corner-all{
+    max-height: 20px;
+}
+th .ui-column-customfilter{
+    max-height: 20px;
+}
+
+/**  FILTER - BOOLEAN    **/
+th .ui-btn-filters div {
+    width: 20px;
+    height: 20px;
+}
+th .ui-btn-filters div:hover {
+    background-color: lightgrey;
+}
+th .ui-btn-filters span {
+    margin:     0px!important;
+    padding:    0px!important;
+    width: 20px;
+    height: 20px;
+    background-position: left center;
+}
+th .ui-btn-filters div:first-child span {
+    background: url("#{resource['img/ism/std/CheckedAll.png']}") no-repeat!important;
+    background-size:contain!important;
+}
+th .ui-btn-filters div:nth-child(2) span {
+    background: url("#{resource['img/ism/std/CheckedYes.png']}") no-repeat!important;
+    background-size:contain!important;
+    
+}
+th .ui-btn-filters div:nth-child(3) span {
+    background: url("#{resource['img/ism/std/CheckedNo.png']}") no-repeat!important;
+    background-size:contain!important;
+}
+
+th div .ui-inputfield.ui-widget.ui-state-default.ui-corner-all.hasDatepicker{
+    max-height: 20px;
+    max-width: 76px;
+    text-align: center;
+}
+
+
+/**  GESTION DES LIGNES    **/
 .ui-widget-content.ui-datatable-odd{
     font-family: Arial, Helvetica,"Trebuchet MS",  sans-serif; /*Arial,Helvetica,sans-serif;*/
     font-size: 9pt;

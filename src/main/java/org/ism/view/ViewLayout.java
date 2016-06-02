@@ -92,7 +92,7 @@ public class ViewLayout implements Serializable {
             eastUnit.setGutter(gutter);
             //>>> default
             eastUnit.setVisible(true);
-            eastUnit.setCollapsed(false);
+            eastUnit.setCollapsed(true);
             eastUnit.setCollapseSize(collapseSize);
             eastUnit.setEffect(effect);
             eastUnit.setEffectSpeed(effectSpeed);

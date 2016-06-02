@@ -3,6 +3,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabAnalyseMethodFacade.j
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabSamplePtFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\CompanyController.java
+D:\Applications\Java\ISM\src\main\java\org\ism\services\ThemeService.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\StaffGroupDefRole.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\StaffGroups.java
 D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\ribbon\RibbonGroup.java
@@ -14,7 +15,6 @@ D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffCompaniesFacade.jav
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\DocTypeController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmGenreController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmNcrstateController.java
-D:\Applications\Java\ISM\src\main\java\org\ism\beans\ErrorHandler.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformite.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\EquipementFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\DocExplorer.java
@@ -30,7 +30,6 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabAnalyseCategoryController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\NonConformiteUniteController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\CompanyFacade.java
-D:\Applications\Java\ISM\src\main\java\org\ism\beans\Theme.java
 D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\ribbon\RibbonGroupSetRenderer.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffSetupController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\UniteController.java
@@ -48,6 +47,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\NonConformiteRequestControlle
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\NonConformiteRequestFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\LabAnalyseType.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\IsmGenreFacade.java
+D:\Applications\Java\ISM\src\main\java\org\ism\services\CtrlAccess.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabSamplePtAnalysesFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\NonConformiteFrequencyFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffGroupDefRoleFacade.java
@@ -55,11 +55,11 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\ProcessusController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\EntrepriseFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabAnalyseMethodController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabAnalyseTypeController.java
+D:\Applications\Java\ISM\src\main\java\org\ism\services\CtrlAccessService.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\util\FileController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\StaffGroupAccessTree.java
 D:\Applications\Java\ISM\src\main\java\org\ism\converter\ThemeConverter.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewRibbon.java
-D:\Applications\Java\ISM\src\main\java\org\ism\beans\ThemeService.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\StaffCompanies.java
 D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\ribbon\RibbonGroupSet.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabSamplePtAnalysesController.java
@@ -70,12 +70,13 @@ D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabAnalyseCategoryFacade
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\DocTypeFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\FilterSMQDocExplorerView.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\NonConformiteFrequencyController.java
+D:\Applications\Java\ISM\src\main\java\org\ism\services\ErrorHandler.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\Staff.java
-D:\Applications\Java\ISM\src\main\java\org\ism\beans\CtrlAccess.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformiteRequest.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\StaffGroupDef.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\Equipement.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformiteGravity.java
+D:\Applications\Java\ISM\src\main\java\org\ism\services\Theme.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\DocExplorerFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\IsmNcrstateFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewNonConformiteRequest.java
@@ -101,7 +102,6 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\NonConformiteGravityControlle
 D:\Applications\Java\ISM\src\main\java\org\ism\view\TableView.java
 D:\Applications\Java\ISM\src\main\java\org\tools\MDGenerator.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\DocType.java
-D:\Applications\Java\ISM\src\main\java\org\ism\beans\CtrlAccessService.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\Unite.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\DocExplorerController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\FilterNCRequestView.java

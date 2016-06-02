@@ -6,10 +6,15 @@
 package org.ism.view;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.ism.entities.DocExplorer;
@@ -18,13 +23,13 @@ import org.ism.entities.Processus;
 import org.ism.jsf.DocExplorerController;
 import org.ism.jsf.DocTypeController;
 import org.ism.jsf.ProcessusController;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
  * @author r.hendrick
  */
- 
-@ManagedBean(name="viewTabManager")
+@ManagedBean(name = "viewTabManager")
 @ViewScoped
 public class ViewTabManager implements Serializable {
 
@@ -33,49 +38,48 @@ public class ViewTabManager implements Serializable {
     private ProcessusController processusCtrl;
     private List<Processus> processus;
     private List<Processus> processusFiltered;
-    
+    private DateTwin processusFilteredDateChanged;
+    private String processusFilteredFieldChangedRange;
+
     private DocTypeController docTypeCtrl;
     private List<DocType> docType;
-    
+
     private DocExplorerController docExplorerCtrl;
     private List<DocExplorer> docExplorer;
     private List<DocExplorer> docExplorerFiltered;
-     
+
     /*
     @ManagedProperty("org.ism.jsf.processusController")
     private ProcessusController     processusCtrl;
-    */
+     */
     /**
      * Creates a new instance of FilterNCRequestView
      */
     public ViewTabManager() {
     }
-    
+
     /**
      * Init. processus controller
      */
     @PostConstruct
     public void init() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-
+        processusFilteredFieldChangedRange = "";
         // Setup staff controller
         processusCtrl = (ProcessusController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "processusController");
         processus = processusCtrl.getItemsByLastChanged();
-        
+
         docTypeCtrl = (DocTypeController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docTypeController");
         docType = docTypeCtrl.getItems();
-        
-        
+
         docExplorerCtrl = (DocExplorerController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docExplorerController");
         docExplorer = docExplorerCtrl.getItems();
-        
+
     }
-    
-    
-    
+
     public List<Processus> getProcessus() {
         return processus;
     }
@@ -91,7 +95,6 @@ public class ViewTabManager implements Serializable {
     public void setProcessusFiltered(List<Processus> processusFiltered) {
         this.processusFiltered = processusFiltered;
     }
-
 
     public List<DocExplorer> getDocExplorer() {
         return docExplorer;
@@ -116,6 +119,105 @@ public class ViewTabManager implements Serializable {
     public void setDocType(List<DocType> docType) {
         this.docType = docType;
     }
-    
-    
+
+    public DateTwin getProcessusFilteredDateChanged() {
+        if (processusFilteredDateChanged == null) {
+            processusFilteredDateChanged = new DateTwin();
+        }
+        return processusFilteredDateChanged;
+    }
+
+    public void setProcessusFilteredDateChanged(DateTwin processusFilteredDateChanged) {
+        getProcessusFilteredDateChanged();
+        this.processusFilteredDateChanged = processusFilteredDateChanged;
+    }
+
+    public String getProcessusFilteredFieldChangedRange() {
+        return processusFilteredFieldChangedRange;
+    }
+
+    public void setProcessusFilteredFieldChangedRange(String processusFilteredFieldChangedRange) {
+        this.processusFilteredFieldChangedRange = processusFilteredFieldChangedRange;
+    }
+
+    /**
+     * ************************************************************************
+     *
+     *
+     * ************************************************************************
+     */
+    public void handleProcessusFilterFieldChanged(SelectEvent e) {
+        getProcessusFilteredDateChanged();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Formatter formatter = new Formatter();
+        formatter.format("%1$2s;%2$2s",
+                df.format(processusFilteredDateChanged.begin),
+                df.format(processusFilteredDateChanged.end));
+        processusFilteredFieldChangedRange = formatter.toString();
+    }
+
+    public boolean handleProcessusFilterFieldChanged(Object value, Object filter, Locale locale) throws ParseException {
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+        if (value == null) {
+            return false;
+        }
+        
+        String dates[] = filterText.split(";");
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
+        Date begin = format.parse(dates[0]);
+        Date end = format.parse(dates[1]);
+        
+        if (value instanceof Date) {
+            Date date = (Date) value;
+            if (date.before(begin)) {
+                return false;
+            }
+            if (date.after(end)) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public class DateTwin {
+
+        private Date begin = new Date();
+        private Date end = new Date();
+
+        DateTwin() {
+        }
+
+        public Date getBegin() {
+            if (begin == null) {
+                begin = new Date();
+            }
+            return begin;
+        }
+
+        public void setBegin(Date begin) {
+            if (begin == null) {
+                begin = new Date();
+            }
+            this.begin = begin;
+        }
+
+        public Date getEnd() {
+            if (end == null) {
+                end = new Date();
+            }
+            return end;
+        }
+
+        public void setEnd(Date end) {
+            if (end == null) {
+                end = new Date();
+            }
+            this.end = end;
+        }
+
+    }
 }

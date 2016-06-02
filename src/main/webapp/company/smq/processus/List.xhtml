@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ism="http://xmlns.jcp.org/jsf/composite/ismcc">
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -65,7 +66,7 @@
                 <p:dataTable id="datalist" widgetVar="datalist"
                              value="#{viewTabManager.processus}" var="item"
                              filteredValue="#{viewTabManager.processusFiltered}"
-                             
+
                              selectionMode="single" selection="#{processusController.selected}"
                              rowIndexVar="_rowIndex"
                              rowKey="#{item.PId}"
@@ -79,10 +80,10 @@
                              reflow="#{tableView.reflow}"
                              draggableColumns="#{tableView.draggableColumns}"
                              sortMode="#{tableView.sortMode}"
-                             
+
                              emptyMessage="#{ism.EmptyList}"
-                             
-                             
+
+
                              >
 
 
@@ -99,10 +100,13 @@
                         </p:columnToggler>
 
                         <p:outputPanel style="float:right;">
-                            <h:outputText value="#{ism.search}"  />
+                            <h:outputText value="#{ism.Search}"  />
                             <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
-                                         style="width:150px;" placeholder="Enter keyword" />
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
                         </p:outputPanel>
+
+
+
                     </f:facet>
 
 
@@ -127,7 +131,8 @@
                     <p:column headerText="#{ism.ProcessusField_pId}"
                               style="width: 24px;" 
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pId)}"
-                              sortBy="#{item.PId}" filterBy="#{item.PId}">
+                              sortBy="#{item.PId}" 
+                              filterBy="#{item.PId}" filterMatchMode="contains">
                         <h:outputText value="#{item.PId}"/>
                     </p:column>
 
@@ -148,14 +153,23 @@
 
                     <p:column headerText="#{ism.ProcessusField_pStaffManager}" 
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pStaffManager)}"
-                              sortBy="#{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]" 
-                              filterBy="#{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]">
-                        <h:outputText value="#{item.PStaffmanager.stFirstname} - #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]"/>
+                              sortBy="#{item.PStaffmanager.stFirstname} #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]" 
+                              filterBy="#{item.PStaffmanager.stFirstname} #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]" 
+                              filterMatchMode="contains">
+                        <h:outputText value="#{item.PStaffmanager.stFirstname} #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]"/>
                     </p:column>
 
-                    <p:column headerText="#{ism.ProcessusField_pDeleted}" 
+                    <p:column headerText="#{ism.ProcessusField_pDeleted}"
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDeleted)}"
-                              sortBy="#{item.PDeleted}" filterBy="#{item.PDeleted}">
+                              sortBy="#{item.PDeleted}" filterBy="#{item.PDeleted}" filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
                         <p:selectBooleanCheckbox value="#{item.PDeleted}" disabled="true"/>
                     </p:column>
 
@@ -163,16 +177,43 @@
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pCreated)}"
                               sortBy="#{item.PCreated}" filterBy="#{item.PCreated}">
                         <h:outputText value="#{item.PCreated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pChanged}" 
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pChanged)}"
-                              sortBy="#{item.PChanged}" filterBy="#{item.PChanged}">
+                              sortBy="#{item.PChanged}" filterBy="#{item.PChanged}" filterMatchMode="in"
+                              filterFunction="#{viewTabManager.handleProcessusFilterFieldChanged}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterFieldChanged" onchange="PF('datalist').filter()" 
+                                         value="#{viewTabManager.processusFilteredFieldChangedRange}" 
+                                         style="max-height: 10px; max-width: 10px;"
+                                         >
+                                <p:ajax event="change" update=":growl" />
+                                <p:calendar  pattern="dd/MM/yyyy" locale="fr" navigator="true" style="float: left;"
+                                             showButtonPanel="true"
+                                             effect="slideDown"
+                                             mindate="01/01/1930" maxdate="31/12/2099" value="#{viewTabManager.processusFilteredDateChanged.begin}">
+                                    <p:ajax event="dateSelect"  listener="#{viewTabManager.handleProcessusFilterFieldChanged}" 
+                                            oncomplete="PF('datalist').filter();" 
+                                            update="datalist,:growl"/>
+                                </p:calendar>
+                                <p:calendar  pattern="dd/MM/yyyy" locale="fr" navigator="true" style="float: right;"
+                                             showButtonPanel="true"
+                                             effect="slideDown"
+                                             mindate="01/01/1930" maxdate="31/12/2099" value="#{viewTabManager.processusFilteredDateChanged.end}">
+                                    <p:ajax event="dateSelect"  listener="#{viewTabManager.handleProcessusFilterFieldChanged}" 
+                                            oncomplete="PF('datalist').filter()" 
+                                            update="datalist,:growl"/>
+                                </p:calendar>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.PChanged}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
+
                     </p:column>
 
                     <p:column headerText="#{ism.ProcessusField_pCompany}" 
@@ -246,7 +287,11 @@
                                              or empty processusController.selected.PId}"
                                  />
             </h:panelGroup>
+
+
+
         </ui:define>
+
 
     </ui:composition>
     <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" />

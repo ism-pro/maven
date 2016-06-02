@@ -5,10 +5,12 @@
  */
 package org.ism.view;
 
-
 import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -27,60 +29,65 @@ import org.primefaces.event.TabChangeEvent;
 public class TableView implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    
-    private String  widgetVar                   ="_wv";                     //  Name of the client side widget.
-    private String  rowIndexVar                 ="_riv";                    // null String Name of iterator to refer each row index.
-    
-    private Object  selection                   ;                           //selection null Object Reference to the selection data.
-    
-    private Integer first                       =0;                         // Index of the first row to be displayed
-    private Integer rows                        =10;
-    
-    private Boolean paginator                   =true ; 
-    private String  paginatorTemplate           ="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}";
-    private String  rowsPerPageTemplate         ="5,10,15,20,30,40,50,100"; //Template of the rowsPerPage dropdown.
-    private String  rowsPerPageLabel            = ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("TableNumberRowPerPage");         // Label for the rowsPerPage dropdown.
-    private String  currentPageReportTemplate   ="{startRecord} - {endRecord} sur {totalRecords}";
-    private Integer pageLinks                   =5;                         // Integer Maximum number of page links to display.
-    private String  paginatorPosition           ="both";                    //  String Position of the paginator.
-    private Boolean paginatorAlwaysVisible      =true;                      // Boolean Defines if paginator should be hidden if total data count is less than number of rows per page.
-    
-    private Boolean scrollable                  =false;                     // Boolean Makes data scrollable with fixed header.
-    private Integer scrollHeight                =800;                       //null Integer Scroll viewport height.
-    private Integer scrollWidth                 =500;                       //null Integer Scroll viewport width.
-    
-    private String  selectionMode               = "single";                 //String Enables row selection, valid values are “single” and “multiple”.
-    private Boolean dblClickSelect              =true;                      // false Boolean Enables row selection on double click.
-    
-    private String  emptyMessage                =ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("EmptyList");   // String Text to display when there is no data to display. Alternative is emptyMessage facet.
 
-    private Boolean liveScroll                  =false;                     // Boolean Enables live scrolling.
-    private Integer scrollRows                  =0;                         //Number of rows to load on live scroll.
-    
-    private Boolean resizableColumns            =true;
-    
-    private Object  sortBy                      ;                           //null Object Property to be used for default sorting.
-    private String  sortOrder                   = "descending";             //“ascending” or “descending”.
-    private String  sortMode                    = "multiple";               //!< single or multiple
+    private List<String> boolFilter = new ArrayList<String>();
 
-    private String lazy                         = "true";
-    
-    private Boolean liveResize                  = true;                     //!< Directly see rizesing
-    private Boolean reflow                      = true;                     //!< Auto-agency
-    private Boolean draggableColumns            = true;                     //!< Activate draggable
-    
-    
+    private String widgetVar = "_wv";                     //  Name of the client side widget.
+    private String rowIndexVar = "_riv";                    // null String Name of iterator to refer each row index.
 
-    
-    
-    
-    
-    
+    private Object selection;                           //selection null Object Reference to the selection data.
+
+    private Integer first = 0;                         // Index of the first row to be displayed
+    private Integer rows = 10;
+
+    private Boolean paginator = true;
+    private String paginatorTemplate = "{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}";
+    private String rowsPerPageTemplate = "5,10,15,20,30,40,50,100"; //Template of the rowsPerPage dropdown.
+    private String rowsPerPageLabel = ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("TableNumberRowPerPage");         // Label for the rowsPerPage dropdown.
+    private String currentPageReportTemplate = "{startRecord} - {endRecord} sur {totalRecords}";
+    private Integer pageLinks = 5;                         // Integer Maximum number of page links to display.
+    private String paginatorPosition = "both";                    //  String Position of the paginator.
+    private Boolean paginatorAlwaysVisible = true;                      // Boolean Defines if paginator should be hidden if total data count is less than number of rows per page.
+
+    private Boolean scrollable = false;                     // Boolean Makes data scrollable with fixed header.
+    private Integer scrollHeight = 800;                       //null Integer Scroll viewport height.
+    private Integer scrollWidth = 500;                       //null Integer Scroll viewport width.
+
+    private String selectionMode = "single";                 //String Enables row selection, valid values are “single” and “multiple”.
+    private Boolean dblClickSelect = true;                      // false Boolean Enables row selection on double click.
+
+    private String emptyMessage = ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("EmptyList");   // String Text to display when there is no data to display. Alternative is emptyMessage facet.
+
+    private Boolean liveScroll = false;                     // Boolean Enables live scrolling.
+    private Integer scrollRows = 0;                         //Number of rows to load on live scroll.
+
+    private Boolean resizableColumns = true;
+
+    private Object sortBy;                           //null Object Property to be used for default sorting.
+    private String sortOrder = "descending";             //“ascending” or “descending”.
+    private String sortMode = "multiple";               //!< single or multiple
+
+    private String lazy = "true";
+
+    private Boolean liveResize = true;                     //!< Directly see rizesing
+    private Boolean reflow = true;                     //!< Auto-agency
+    private Boolean draggableColumns = true;                     //!< Activate draggable
+
     /**
      * Creates a new instance of RibbonView
      */
     public TableView() {
+        boolFilter.add("");
+        boolFilter.add("true");
+        boolFilter.add("false");
+    }
+
+    public List<String> getBoolFilter() {
+        return boolFilter;
+    }
+
+    public void setBoolFilter(List<String> boolFilter) {
+        this.boolFilter = boolFilter;
     }
 
     public Boolean getPaginator() {
@@ -259,8 +266,6 @@ public class TableView implements Serializable {
         this.liveResize = liveResize;
     }
 
-    
-    
     public Boolean getLiveScroll() {
         return liveScroll;
     }
@@ -316,10 +321,6 @@ public class TableView implements Serializable {
     public void setDraggableColumns(Boolean draggableColumns) {
         this.draggableColumns = draggableColumns;
     }
-    
-    
-
-    
 
     /**
      * ************************************************************************
@@ -342,5 +343,7 @@ public class TableView implements Serializable {
         dir += "View.xhtml";
         ec.redirect(ec.getRequestContextPath() + ec.getRequestServletPath() + dir);
     }
-    
+
+
+
 }

@@ -23,8 +23,8 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
-import org.ism.beans.Theme;
-import org.ism.beans.ThemeService;
+import org.ism.services.Theme;
+import org.ism.services.ThemeService;
 import org.ism.entities.Staff;
 
 @Named("staffSetupController")

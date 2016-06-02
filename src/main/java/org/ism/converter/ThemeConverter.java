@@ -12,8 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
-import org.ism.beans.Theme;
-import org.ism.beans.ThemeService;
+import org.ism.services.Theme;
+import org.ism.services.ThemeService;
 import org.ism.jsf.util.JsfUtil;
 
 /**

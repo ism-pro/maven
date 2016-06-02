@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.ism.beans.CtrlAccessService;
+import org.ism.services.CtrlAccessService;
 import org.ism.entities.Company;
 import org.ism.entities.Staff;
 import org.ism.entities.StaffCompanies;
