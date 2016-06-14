@@ -3,58 +3,65 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <!-- INTERFACE -->
-    <cc:interface>
+    <cc:interface >
+        <h:outputScript library="js" name="ism-global.js" />
         <cc:attribute name="id" />
+        <cc:attribute name="value" default="#{inputFilterDate.input}" />
+        <cc:attribute name="style" default="max-height: 20px; max-width: 100px;" />
+        <cc:attribute name="widgetVar"  />
+
+        <cc:attribute name="update" default="datalist,:growl" />
+        <!--
+        
         <cc:attribute name="value" />
         <cc:attribute name="onPfFilter" />
-        <cc:attribute name="style" default="max-height: 10px; max-width: 10px;" />
-        <cc:attribute name="styleClass" />
         
+        <cc:attribute name="styleClass" />
+
         <cc:attribute name="pattern" default="dd/MM/yyyy" />
         <cc:attribute name="locale" default="fr" />
         <cc:attribute name="navigator" default="true" />
         <cc:attribute name="mindate" default="01/01/1930" />
-        <cc:attribute name="maxdate" default="31/12/2099" shortDescription="Max date is default #{cc.attrs.maxdate}"/>
-        
+        <cc:attribute name="maxdate" default="31/12/2099" shortDescription="Max date is default" />
+
         <cc:attribute name="begin"   />
         <cc:attribute name="end"  />
+
         
-        <cc:attribute name="update" default="datalist,:growl" />
-        
+
         <cc:attribute name="listener" method-signature="java.lang.String "/>
         <cc:attribute name="loginButtonAction" 
-                             method-signature="java.lang.String login()" />
+                      method-signature="java.lang.String login()" />
+        -->
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <p:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}"
-                     onchange="#{cc.attrs.onPfFilter}" style="#{cc.attrs.style}"
-                     styleClass="#{cc.attrs.styleClass}" >
-            <p:calendar  id="#{cc.attrs.id}-begin" pattern="#{cc.attrs.pattern}" locale="#{cc.attrs.locale}" navigator="#{cc.attrs.navigator}" style="float: left;"
-                         showButtonPanel="true" effect="slideDown"
-                         mindate="#{cc.attrs.mindate}" maxdate="#{cc.attrs.maxdate}" 
-                         value="#{cc.attrs.begin}">
-                <p:ajax event="dateSelect"  listener="#{viewTabManager.handleProcessusFilterFieldChanged}" 
-                        oncomplete="#{cc.attrs.onPfFilter}" 
-                        update="#{cc.attrs.update}" >
-                    <f:setPropertyActionListener value="#{cc.attrs.value}" target="#{inputFilterDate.input}" />
-                </p:ajax>
-            </p:calendar>
-            <p:calendar  id="#{cc.attrs.id}-end" pattern="#{cc.attrs.pattern}" locale="#{cc.attrs.locale}" navigator="#{cc.attrs.navigator}" style="float: right;"
-                         showButtonPanel="true" effect="slideDown"
-                         mindate="#{cc.attrs.mindate}" maxdate="#{cc.attrs.maxdate}" 
-                         value="#{cc.attrs.end}">
-                <p:ajax event="dateSelect"  listener="#{viewTabManager.handleProcessusFilterFieldChanged}" 
-                        oncomplete="#{cc.attrs.onPfFilter}" 
-                        update="#{cc.attrs.update}" >
-                    <f:setPropertyActionListener value="#{cc.attrs.value}" target="#{inputFilterDate.input}" />
-                </p:ajax>
-            </p:calendar>
-        </p:inputText> 
-        
+        <div>
+            <p:inputText id="filterFieldChanged" onchange="PF('datalist').filter()" 
+                         value="#{viewTabManager.processusFieldChanged}"
+                         >
+                <p:calendar id="filterFieldChanged-begin" pattern="dd/MM/yyyy" locale="fr" navigator="true" style="float: left;"
+                            showButtonPanel="true" effect="slideDown"
+                            mindate="01/01/1930" maxdate="31/12/2099" 
+                            value="#{viewTabManager.processusFieldChangedDates.begin}">
+                    <p:ajax event="dateSelect"   listener="#{viewTabManager.handleProcessusFilterChanged}" 
+                            oncomplete="PF('datalist').filter();" 
+                            update="datalist"/>
+                </p:calendar>
+                <p:calendar id="filterFieldChanged-end"  pattern="dd/MM/yyyy" locale="fr" navigator="true" style="float: right;"
+                            showButtonPanel="true" effect="slideDown"
+                            mindate="01/01/1930" maxdate="31/12/2099" 
+                            value="#{viewTabManager.processusFieldChangedDates.end}">
+                    <p:ajax event="dateSelect"  listener="#{viewTabManager.handleProcessusFilterChanged}" 
+                            oncomplete="PF('datalist').filter()" 
+                            update="datalist"/>
+                </p:calendar>
+            </p:inputText>
+        </div>
     </cc:implementation>
 </html>

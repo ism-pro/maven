@@ -30,7 +30,7 @@ public class InputFilterDate {
     
     
     
-    public void handleProcessusFilterFieldChanged(SelectEvent e) {
+    public void handleChanged(SelectEvent e) {
         getDate();
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Formatter formatter = new Formatter();
@@ -39,6 +39,14 @@ public class InputFilterDate {
                 df.format(date.end));
         input = formatter.toString();
     }
+    
+    public void handleInput(String input){
+        input = this.input;
+    }
+    
+    
+    
+    
 
     public DateTwin getDate() {
         if(date==null)  date = new DateTwin();

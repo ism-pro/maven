@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import org.ism.entities.Company;
 import org.ism.entities.LabSamplePt;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-02T10:24:49")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-14T22:52:42")
 @StaticMetamodel(Equipement.class)
 public class Equipement_ { 
 

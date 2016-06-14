@@ -6,7 +6,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pi="http://primefaces.org/ui/ism"
-      xmlns:pe="http://primefaces.org/ui/extensions"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
       id="html">
     <h:head>
@@ -27,7 +26,7 @@
             <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
             <h:outputScript library="js" name="ism-global.min.js" />
-
+            <h:outputScript library="primefaces" name="calendar/calendar.min.js" /> 
         </f:facet>
     </h:head>
 
@@ -561,7 +560,7 @@
                                     width="48" height="48" style="float: left;" />
                     <h:outputFormat value="#{viewConfirmDialog.dlg.message}" escape="false"/>
                 </f:facet>
-                
+
                 <p:commandButton type="button" value="#{ism.ConfirmYes}" 
                                  styleClass="ui-confirmdialog-yes"
                                  icon="ui-btn-Accept"
@@ -574,7 +573,8 @@
                                  oncomplete="PF('mainConfirmDialog').hide()"
                                  />
             </p:confirmDialog>
-             
+            
+
         </h:form>
 
     </h:body>

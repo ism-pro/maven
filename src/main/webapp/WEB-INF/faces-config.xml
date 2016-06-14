@@ -65,7 +65,11 @@
         
     <name>ism</name>
     
-
+    <component>
+        <component-type>org.primefaces.ism.component.Calendar</component-type>
+        <component-class>org.primefaces.ism.component.calendar.Calendar</component-class>
+    </component>
+    
     <component>
         <component-type>org.primefaces.ism.component.Ribbon</component-type>
         <component-class>org.primefaces.ism.component.ribbon.Ribbon</component-class>
@@ -83,6 +87,11 @@
         
 
     <render-kit>
+        <renderer>
+            <component-family>org.primefaces.ism.component</component-family>
+            <renderer-type>org.primefaces.ism.component.CalendarRenderer</renderer-type>
+            <renderer-class>org.primefaces.ism.component.calendar.CalendarRenderer</renderer-class>
+        </renderer>
         <renderer>
             <component-family>org.primefaces.ism.component</component-family>
             <renderer-type>org.primefaces.ism.component.RibbonRenderer</renderer-type>

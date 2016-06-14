@@ -23,6 +23,7 @@ import org.ism.entities.Processus;
 import org.ism.jsf.DocExplorerController;
 import org.ism.jsf.DocTypeController;
 import org.ism.jsf.ProcessusController;
+import org.ism.jsf.util.JsfUtil;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -38,8 +39,8 @@ public class ViewTabManager implements Serializable {
     private ProcessusController processusCtrl;
     private List<Processus> processus;
     private List<Processus> processusFiltered;
-    private DateTwin processusFilteredDateChanged;
-    private String processusFilteredFieldChangedRange;
+    private DateTwin processusFieldChangedDates;
+    private String processusFieldChanged;
 
     private DocTypeController docTypeCtrl;
     private List<DocType> docType;
@@ -64,7 +65,7 @@ public class ViewTabManager implements Serializable {
     @PostConstruct
     public void init() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        processusFilteredFieldChangedRange = "";
+        processusFieldChanged = "";
         // Setup staff controller
         processusCtrl = (ProcessusController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "processusController");
@@ -120,48 +121,68 @@ public class ViewTabManager implements Serializable {
         this.docType = docType;
     }
 
-    public DateTwin getProcessusFilteredDateChanged() {
-        if (processusFilteredDateChanged == null) {
-            processusFilteredDateChanged = new DateTwin();
-        }
-        return processusFilteredDateChanged;
+    public String getProcessusFieldChanged() {
+        return processusFieldChanged;
     }
 
-    public void setProcessusFilteredDateChanged(DateTwin processusFilteredDateChanged) {
-        getProcessusFilteredDateChanged();
-        this.processusFilteredDateChanged = processusFilteredDateChanged;
+    public void setProcessusFieldChanged(String processusFieldChanged) {
+        this.processusFieldChanged = processusFieldChanged;
+    }
+    
+    
+    public DateTwin getProcessusFieldChangedDates() {
+        if (processusFieldChangedDates == null) {
+            processusFieldChangedDates = new DateTwin();
+        }
+        return processusFieldChangedDates;
+    }
+
+    public void setProcessusFieldChangedDates(DateTwin processusFilteredDateChanged) {
+        getProcessusFieldChangedDates();
+        this.processusFieldChangedDates = processusFilteredDateChanged;
     }
 
     public String getProcessusFilteredFieldChangedRange() {
-        return processusFilteredFieldChangedRange;
+        return processusFieldChanged;
     }
 
     public void setProcessusFilteredFieldChangedRange(String processusFilteredFieldChangedRange) {
-        this.processusFilteredFieldChangedRange = processusFilteredFieldChangedRange;
+        this.processusFieldChanged = processusFilteredFieldChangedRange;
     }
 
+    
+    
+    
+    
     /**
      * ************************************************************************
      *
      *
      * ************************************************************************
      */
-    public void handleProcessusFilterFieldChanged(SelectEvent e) {
-        getProcessusFilteredDateChanged();
+    public void handleProcessusFilterChanged(SelectEvent e) {
+        getProcessusFieldChangedDates();
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Formatter formatter = new Formatter();
         formatter.format("%1$2s;%2$2s",
-                df.format(processusFilteredDateChanged.begin),
-                df.format(processusFilteredDateChanged.end));
-        processusFilteredFieldChangedRange = formatter.toString();
+                df.format(processusFieldChangedDates.begin),
+                df.format(processusFieldChangedDates.end));
+        processusFieldChanged = formatter.toString();
     }
 
-    public boolean handleProcessusFilterFieldChanged(Object value, Object filter, Locale locale) throws ParseException {
+    
+    
+    public boolean handleDateRangeFilters(Object value, Object filter, Locale locale) throws ParseException {
         String filterText = (filter == null) ? null : filter.toString().trim();
         if (filterText == null || filterText.equals("")) {
             return true;
         }
         if (value == null) {
+            return false;
+        }
+        
+        
+        if(!filterText.contains(";")){
             return false;
         }
         
