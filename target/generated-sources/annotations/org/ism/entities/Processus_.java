@@ -11,7 +11,7 @@ import org.ism.entities.NonConformite;
 import org.ism.entities.NonConformiteRequest;
 import org.ism.entities.Staff;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-14T22:52:42")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-15T23:36:35")
 @StaticMetamodel(Processus.class)
 public class Processus_ { 
 

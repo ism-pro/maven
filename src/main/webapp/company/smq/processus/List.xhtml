@@ -47,9 +47,9 @@
                                 onstart=";
                                 #{viewConfirmDialog.dlg.setHeader(ism.ProcessusDlgHeader)};
                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
-                                #{viewConfirmDialog.dlg.setMessage(ism.ProcessusDlgMessage)}
-                                PF('mainConfirmDialog').show()"
-                                disabled="#{empty processusController.selected }"
+                                #{viewConfirmDialog.dlg.setMessage(ism.ProcessusDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty processusController.selected}"
                                 >
                         <p:confirm  />
                     </p:menuitem>
@@ -175,7 +175,16 @@
 
                     <p:column headerText="#{ism.ProcessusField_pCreated}" 
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pCreated)}"
-                              sortBy="#{item.PCreated}" filterBy="#{item.PCreated}">
+                              sortBy="#{item.PCreated}" filterBy="#{item.PCreated}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.PCreated}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
@@ -187,12 +196,11 @@
                               filterFunction="#{viewTabManager.handleDateRangeFilters}"
                               >
                         <f:facet name="filter">
-                            <pi:calendar id="filterChangedStart" 
-                                         value="#{viewTabManager.processusFilteredFieldChangedRange}" style="width: 100px!important;"   >
-                                <p:ajax event="dateSelect" 
-                                        oncomplete="PF('datalist').filter()" 
-                                        update="datalist"/>
-                            </pi:calendar>
+                            <p:inputText id="filterChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.PChanged}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />

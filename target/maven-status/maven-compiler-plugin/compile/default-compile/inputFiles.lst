@@ -6,7 +6,6 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\CompanyController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\services\ThemeService.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\StaffGroupDefRole.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\StaffGroups.java
-D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\calendar\converter\PatternConverter.java
 D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\ribbon\RibbonGroup.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffGroupsFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\util\JsfSecurity.java
@@ -14,14 +13,12 @@ D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewConfirmDialog.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\LabSamplePtAnalyses.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffCompaniesFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\DocTypeController.java
-D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\calendar\converter\TimePatternConverter.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmGenreController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmNcrstateController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformite.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\EquipementFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\DocExplorer.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewLayout.java
-D:\Applications\Java\ISM\src\main\java\org\ism\cc\DateRangeFilter.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffCompaniesController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewCrud.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\LabSample.java
@@ -54,15 +51,12 @@ D:\Applications\Java\ISM\src\main\java\org\ism\services\CtrlAccess.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabSamplePtAnalysesFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\NonConformiteFrequencyFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffGroupDefRoleFacade.java
-D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\calendar\Calendar.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\ProcessusController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\EntrepriseFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabAnalyseMethodController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabAnalyseTypeController.java
-D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\calendar\CalendarUtils.java
 D:\Applications\Java\ISM\src\main\java\org\ism\services\CtrlAccessService.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\util\FileController.java
-D:\Applications\Java\ISM\src\main\java\org\ism\cc\InputFilterDate.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\StaffGroupAccessTree.java
 D:\Applications\Java\ISM\src\main\java\org\ism\converter\ThemeConverter.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewRibbon.java
@@ -71,7 +65,6 @@ D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\ribbon\Ribbo
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabSamplePtAnalysesController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\UniteFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\ChartView.java
-D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\calendar\CalendarRenderer.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformiteFrequency.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabAnalyseCategoryFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\DocTypeFacade.java
@@ -113,7 +106,6 @@ D:\Applications\Java\ISM\src\main\java\org\ism\entities\Unite.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\DocExplorerController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\FilterNCRequestView.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\LabAnalyseCategory.java
-D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\calendar\converter\DatePatternConverter.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\NonConformiteUniteFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\AbstractFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffGroupDefController.java

@@ -490,6 +490,15 @@ th div .ui-inputfield.ui-widget.ui-state-default.ui-corner-all.hasDatepicker{
     max-width: 76px;
     text-align: center;
 }
+th .ui-inputfield{
+    height: 20px!important;
+    max-height: 20px!important;
+}
+
+th button {
+    height: 20px!important;
+    max-height: 20px!important;
+}
 
 
 /**  GESTION DES LIGNES    **/

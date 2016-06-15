@@ -22,11 +22,19 @@
             <h:outputStylesheet library="css" name="ism-global.min.css" />
             <h:outputStylesheet library="css" name="ism-index.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
-
+            
+            <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
+            
+            
             <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
-            <h:outputScript library="js" name="ism-global.min.js" />
-            <h:outputScript library="primefaces" name="calendar/calendar.min.js" /> 
+            
+            <h:outputScript library="js" name="jquery/jquery-2.2.3.min.js" target="head" />
+            <h:outputScript library="js" name="jquery/jquery-ui.min.js" target="head" />
+            <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
+            <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
+            
+            <h:outputScript library="js" name="ism-global.js" />
         </f:facet>
     </h:head>
 
@@ -531,7 +539,8 @@
                 <f:facet name="footer" >
                     <p:commandButton id="dlgReminingTimeSessionWakeUpYes" 
                                      value="#{ism.Accept}"
-                                     onclick="PF('dlgReminingTimeSessionWakeUp').hide();submit();"
+                                     onclick="PF('dlgReminingTimeSessionWakeUp').hide();
+                                             submit();"
                                      action="#{viewRibbon.currentPath}"
                                      />
                     <p:commandButton id="dlgReminingTimeSessionWakeUpNo" 
@@ -573,7 +582,7 @@
                                  oncomplete="PF('mainConfirmDialog').hide()"
                                  />
             </p:confirmDialog>
-            
+
 
         </h:form>
 

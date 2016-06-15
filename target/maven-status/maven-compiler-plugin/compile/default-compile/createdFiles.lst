@@ -5,7 +5,6 @@ org\primefaces\ism\component\ribbon\RibbonRenderer.class
 org\ism\sessions\IsmNcrstateFacade.class
 org\ism\entities\Entreprise_.class
 org\ism\entities\IsmNcrstate_.class
-org\primefaces\ism\component\calendar\converter\PatternConverter.class
 org\ism\entities\LabSamplePt.class
 org\ism\sessions\StaffFacade.class
 org\ism\entities\LabAnalyseCategory.class
@@ -19,7 +18,6 @@ org\ism\jsf\StaffGroupDefRoleController$IsmRoleConverter.class
 org\ism\entities\DocExplorer_.class
 org\ism\jsf\StaffGroupDefController.class
 org\ism\sessions\DocTypeFacade.class
-org\primefaces\ism\component\calendar\converter\TimePatternConverter.class
 org\ism\services\CtrlAccessService.class
 org\ism\sessions\LabAnalyseMethodFacade.class
 org\ism\jsf\StaffGroupsController$StaffGroupsControllerConverter.class
@@ -39,13 +37,10 @@ org\ism\jsf\NonConformiteNatureController.class
 org\ism\sessions\NonConformiteNatureFacade.class
 org\ism\entities\Company_.class
 org\ism\jsf\NonConformiteFrequencyController.class
-org\ism\cc\InputFilterDate.class
 org\ism\jsf\EquipementController.class
-org\primefaces\ism\component\calendar\Calendar.class
 org\ism\jsf\StaffController.class
 org\ism\sessions\StaffAuthFacade.class
 org\ism\jsf\StaffGroupDefRoleController$StaffGroupDefRoleControllerConverter.class
-org\ism\view\ViewTabManager$DateTwin.class
 org\ism\jsf\LabSamplePtController$LabSamplePtControllerConverter.class
 org\ism\sessions\LabSamplePtAnalysesFacade.class
 org\ism\entities\NonConformiteGravity_.class
@@ -61,13 +56,11 @@ org\ism\entities\LabSamplePt_.class
 org\ism\entities\Staff.class
 org\ism\jsf\NonConformiteGravityController$NonConformiteGravityControllerConverter.class
 org\ism\entities\LabSamplePtAnalyses_.class
-org\primefaces\ism\component\calendar\Calendar$PropertyKeys.class
 org\ism\sessions\LabAnalyseTypeFacade.class
 org\ism\entities\StaffGroupDefRole.class
 org\ism\entities\NonConformiteUnite.class
 org\ism\entities\StaffCompanies.class
 org\ism\entities\Unite.class
-org\ism\cc\InputFilterDate$DateTwin.class
 org\ism\jsf\IsmNcrstateController.class
 org\ism\jsf\NonConformiteRequestController.class
 org\ism\entities\LabAnalyseCategory_.class
@@ -106,10 +99,8 @@ org\ism\entities\StaffCompanies_.class
 org\ism\entities\IsmGenre.class
 org\ism\entities\LabAnalyseMethod_.class
 org\ism\entities\Entreprise.class
-org\primefaces\ism\component\calendar\converter\DatePatternConverter.class
 org\primefaces\ism\component\ribbon\RibbonGroup$PropertyKeys.class
 org\ism\jsf\LabAnalyseCategoryController.class
-org\primefaces\ism\component\calendar\CalendarUtils.class
 org\primefaces\ism\component\ribbon\Ribbon.class
 org\ism\jsf\StaffGroupsController.class
 org\ism\jsf\LabAnalyseMethodController$LabAnalyseMethodControllerConverter.class
@@ -153,7 +144,6 @@ org\ism\jsf\StaffAuthController.class
 org\ism\jsf\LabAnalyseMethodController.class
 org\ism\services\ThemeService$ThemeServiceConverter.class
 org\ism\entities\LabAnalyseMethod.class
-org\primefaces\ism\component\calendar\CalendarRenderer.class
 org\ism\jsf\util\FileController.class
 org\ism\jsf\StaffManagerController$CompanyControllerConverter.class
 org\ism\services\ThemeService.class
@@ -193,6 +183,5 @@ org\ism\view\StaffGroupAccessTree.class
 org\ism\services\CtrlAccess$TypeCtrl.class
 org\primefaces\ism\component\ribbon\RibbonGroupSetRenderer.class
 org\ism\entities\NonConformiteFrequency_.class
-org\ism\cc\DateRangeFilter.class
 org\ism\view\ViewNonConformiteRequest.class
 org\ism\jsf\LabAnalyseCategoryController$LabAnalyseCategoryControllerConverter.class
