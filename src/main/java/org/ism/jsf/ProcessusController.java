@@ -188,11 +188,6 @@ public class ProcessusController implements Serializable {
         selected.setPChanged(new Date());
         selected.setPCreated(new Date());
 
-        // Check none duplication of code or designation
-        /*
-        if (isDuplication()) {
-            return;
-        }*/
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("ProcessusPersistenceCreatedSummary"),
@@ -405,7 +400,6 @@ public class ProcessusController implements Serializable {
             }
             if (object instanceof Processus) {
                 Processus o = (Processus) object;
-                String str = o.getPProcessus() + " - " + o.getPDesignation();
                 return getStringKey(o.getPId());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Processus.class.getName()});

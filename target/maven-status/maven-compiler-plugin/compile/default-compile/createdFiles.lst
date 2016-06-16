@@ -51,6 +51,7 @@ org\ism\jsf\IsmNcrstateController$IsmNcrstateControllerConverter.class
 org\primefaces\ism\component\ribbon\Ribbon$PropertyKeys.class
 org\ism\entities\Equipement_.class
 org\ism\jsf\LabAnalyseTypeController$LabAnalyseTypeControllerConverter.class
+org\ism\jsf\DocTypeController$DocTypeCodeValidator.class
 org\ism\jsf\ProcessusController$ProcessusDesignationValidator.class
 org\ism\entities\LabSamplePt_.class
 org\ism\entities\Staff.class
@@ -155,6 +156,7 @@ org\ism\sessions\UniteFacade.class
 org\ism\jsf\UniteController$UniteControllerConverter.class
 org\ism\entities\NonConformiteGravity.class
 org\ism\entities\NonConformiteNature.class
+org\ism\jsf\DocTypeController$DocTypeDesignationValidator.class
 org\ism\sessions\IsmRoleFacade.class
 org\ism\jsf\StaffSetupController$StaffSetupControllerConverter.class
 org\ism\view\ViewRibbon.class

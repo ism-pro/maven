@@ -4,8 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:pi="http://primefaces.org/ui/ism">
+      xmlns:p="http://primefaces.org/ui">
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -63,6 +62,11 @@
                                 />
                 </p:contextMenu>
 
+                
+                
+                
+                
+                
                 <p:dataTable id="datalist" widgetVar="datalist"
                              value="#{viewTabManager.processus}" var="item"
                              filteredValue="#{viewTabManager.processusFiltered}"
@@ -82,13 +86,12 @@
                              sortMode="#{tableView.sortMode}"
 
                              emptyMessage="#{ism.EmptyList}"
-
-
                              >
 
 
 
 
+                   
                     <f:facet name="{Exporters}">
                         <div style="float:right" >
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
@@ -135,8 +138,10 @@
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processusController.handleColumnReorder}" />
 
 
-
-
+                    
+                    
+                    
+                    
                     <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
                               exportable="false"
                               visible="#{processusController.getIsVisibleColKey(ism.CtrlShort)}" >

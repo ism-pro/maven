@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import org.ism.entities.Company;
 import org.ism.entities.LabAnalyseType;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-16T21:56:28")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-17T00:04:55")
 @StaticMetamodel(LabAnalyseCategory.class)
 public class LabAnalyseCategory_ { 
 

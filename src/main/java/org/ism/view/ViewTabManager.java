@@ -43,6 +43,7 @@ public class ViewTabManager implements Serializable {
 
     private DocTypeController docTypeCtrl;
     private List<DocType> docType;
+    private List<DocType> docTypeFiltered;
 
     private DocExplorerController docExplorerCtrl;
     private List<DocExplorer> docExplorer;
@@ -71,7 +72,7 @@ public class ViewTabManager implements Serializable {
 
         docTypeCtrl = (DocTypeController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docTypeController");
-        docType = docTypeCtrl.getItems();
+        docType = docTypeCtrl.getItemsByLastChanged();
 
         docExplorerCtrl = (DocExplorerController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docExplorerController");
@@ -119,6 +120,15 @@ public class ViewTabManager implements Serializable {
         this.docType = docType;
     }
 
+    public List<DocType> getDocTypeFiltered() {
+        return docTypeFiltered;
+    }
+
+    public void setDocTypeFiltered(List<DocType> docTypeFiltered) {
+        this.docTypeFiltered = docTypeFiltered;
+    }
+    
+    
 
     
     

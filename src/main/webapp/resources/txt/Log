@@ -60,8 +60,6 @@ Configuration :
     ++ Ajouter les configurations d'options de table et de layout
 
     + PROCESSUS :
-    ++ Ajout d'impression basique du resultat actuelle du tableau.
-    ++ Ajouter une fonction d'exportation de tableau en xls et pdf
     ++ Ajouter une page de recherche + result + exportation
 
     + DOC EXPLORER :
@@ -69,6 +67,7 @@ Configuration :
 
 
 
+    
 
 
 ================================================================================

@@ -44,7 +44,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "DocType.findByDctDesignation", query = "SELECT d FROM DocType d WHERE d.dctDesignation = :dctDesignation"),
     @NamedQuery(name = "DocType.findByDctDeleted", query = "SELECT d FROM DocType d WHERE d.dctDeleted = :dctDeleted"),
     @NamedQuery(name = "DocType.findByDctCreated", query = "SELECT d FROM DocType d WHERE d.dctCreated = :dctCreated"),
-    @NamedQuery(name = "DocType.findByDctChanged", query = "SELECT d FROM DocType d WHERE d.dctChanged = :dctChanged")})
+    @NamedQuery(name = "DocType.findByDctChanged", query = "SELECT d FROM DocType d WHERE d.dctChanged = :dctChanged"),
+    @NamedQuery(name = "DocType.selectAllByLastChange", query = "SELECT d FROM DocType d ORDER BY d.dctChanged DESC")
+
+})
 public class DocType implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
