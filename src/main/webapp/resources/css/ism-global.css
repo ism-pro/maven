@@ -373,7 +373,26 @@ time, mark, audio, video {
     background-size:contain;
 }
 
-
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-ExtXLS{
+    background: url("#{resource['img/ism/std/ExtXLS.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-ExtXLSX{
+    background: url("#{resource['img/ism/std/ExtXLSX.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-ExtPDF{
+    background: url("#{resource['img/ism/std/ExtPDF.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-ExtCSV{
+    background: url("#{resource['img/ism/std/ExtCSV.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-ExtXML{
+    background: url("#{resource['img/ism/std/ExtXML.png']}") no-repeat;
+    background-size:contain;
+}
 
 /* =============================================================================
  * GESTION D'AFFICHAGE DES FORMULAIRE

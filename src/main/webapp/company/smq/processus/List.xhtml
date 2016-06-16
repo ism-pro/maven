@@ -89,10 +89,27 @@
 
 
 
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.ProcessusTitleList}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.ProcessusTitleList}" />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+                    
                     <f:facet name="header">
                         <p:commandButton id="toggler" type="button" value="Columns" 
                                          style="float:left;" icon="ui-icon-calculator" 
                                          />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
 
                         <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
                             <p:ajax event="toggle" update=":growl"
@@ -105,13 +122,14 @@
                                          style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
                         </p:outputPanel>
 
-
-
                     </f:facet>
 
 
+                    
 
-                    <p:ajax event="rowSelect"   update="westGroup bodyForm"/>
+
+
+                    <p:ajax event="rowSelect" onstart="" oncomplete=""  update="westGroup bodyForm"/>
                     <p:ajax event="rowUnselect" update="westGroup bodyForm"/>
                     <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}"   />
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processusController.handleColumnReorder}" />
@@ -119,7 +137,8 @@
 
 
 
-                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center" 
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
                               visible="#{processusController.getIsVisibleColKey(ism.CtrlShort)}" >
                         <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
                                          title="#{ism.View}" action="View.xhtml?faces-redirect=true">
@@ -284,9 +303,10 @@
 
 
         </ui:define>
-
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
 
     </ui:composition>
-    <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" />
 
 </html>

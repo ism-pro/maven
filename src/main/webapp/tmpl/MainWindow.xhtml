@@ -22,18 +22,18 @@
             <h:outputStylesheet library="css" name="ism-global.min.css" />
             <h:outputStylesheet library="css" name="ism-index.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
-            
+
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
-            
-            
+
+
             <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
-            
+
             <h:outputScript library="js" name="jquery/jquery-2.2.3.min.js" target="head" />
             <h:outputScript library="js" name="jquery/jquery-ui.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
-            
+
             <h:outputScript library="js" name="ism-global.js" />
         </f:facet>
     </h:head>
@@ -583,6 +583,19 @@
                                  />
             </p:confirmDialog>
 
+
+            <script type="text/javascript">
+                function showStatus() {
+                    PF('statusDialog').show();
+                }
+                function hideStatus() {
+                    PF('statusDialog').hide();
+                }
+            </script>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false"
+                      closable="false">
+                <p:graphicImage library="img" name="ism/std/ajax-loader.gif" />
+            </p:dialog>
 
         </h:form>
 

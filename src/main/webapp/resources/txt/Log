@@ -31,28 +31,44 @@ A Faire :
         
 
 
-DOC EXPLORER :
-    + Permettre d'avoir un classement en fonction d'une catégorie et un groupe surtout pour les processus volumineux.
 
 
 Configuration :
-    + Finaliser le blockUI pour les boutons d'options / les boutons à la visualisation
-    + Possibilité de configurer la fenêtre de confirmation globale voir bas de la page main 
+    + RUBAN :
+    ++ Gestion des accès utilisateurs
+
+    + GENERALITES :
+    ++ Options blockUI : 
+       - Mettre en place pour tous les boutons options,
+       - Les boutons de visualisation,
+    ++ Fenêtre de déconnexion :
+       - Au moment d'accepter rester sur la même page
+    ++ Possibilité de configurer la fenêtre de confirmation globale voir bas de la page main 
       Notemment les effets à l'ouverture ...
     
+    + LAYOUT :
+    ++ Options Affichage :
+       - Fournir les options de restauration, ouverture et fermeture de chaque zone
+    ++ Réagir automatiquement au action de l'utilisateur
+    ++ Enregistrer l'état du layout entre les sessions
 
-    + Gestion du layout sur l'onglet affichage
-    + Gestion du layout réguler sur les actions de l'utilisateur
-    + Enregistrer les paramètres de layout
+    + CRUD :
+    ++ Enregistrer les options de viewTab entre les sessions.
 
-    
+    + ONGLET ACCEUIL :
+    ++ Corriger problème sur l'affichage de la page configuration utilisateur
+    ++ Ajouter les configurations d'options de table et de layout
+
+    + PROCESSUS :
+    ++ Ajout d'impression basique du resultat actuelle du tableau.
+    ++ Ajouter une fonction d'exportation de tableau en xls et pdf
+    ++ Ajouter une page de recherche + result + exportation
+
+    + DOC EXPLORER :
+    + Permettre d'avoir un classement en fonction d'une catégorie et un groupe surtout pour les processus volumineux.
 
 
 
-    
-span id
-    input id_input
-        div editor
 
 
 ================================================================================

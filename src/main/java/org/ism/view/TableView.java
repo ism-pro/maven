@@ -15,6 +15,15 @@ import java.util.ResourceBundle;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.listener.SessionCounterListener;
 import org.primefaces.component.tabview.Tab;
@@ -41,7 +50,7 @@ public class TableView implements Serializable {
     private Integer rows = 10;
 
     private Boolean paginator = true;
-    private String paginatorTemplate = "{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport}";
+    private String paginatorTemplate = "{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {Exporters}";
     private String rowsPerPageTemplate = "5,10,15,20,30,40,50,100"; //Template of the rowsPerPage dropdown.
     private String rowsPerPageLabel = ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("TableNumberRowPerPage");         // Label for the rowsPerPage dropdown.
     private String currentPageReportTemplate = "{startRecord} - {endRecord} sur {totalRecords}";
@@ -344,6 +353,23 @@ public class TableView implements Serializable {
         ec.redirect(ec.getRequestContextPath() + ec.getRequestServletPath() + dir);
     }
 
-
+    /**
+     * ************************************************************************
+     * Gestion des document au format XLS
+     *
+     * @param document
+     * ***********************************************************************
+     */
+    public void handlePostProcessXLS(Object document) {
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        HSSFRow header = sheet.getRow(0);
+        HSSFCellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+            header.getCell(i).setCellStyle(cellStyle);
+        }
+    }
 
 }
