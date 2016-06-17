@@ -21,6 +21,7 @@ org\ism\sessions\DocTypeFacade.class
 org\ism\services\CtrlAccessService.class
 org\ism\sessions\LabAnalyseMethodFacade.class
 org\ism\jsf\StaffGroupsController$StaffGroupsControllerConverter.class
+org\ism\jsf\DocExplorerController$DocExplorerDesignationValidator.class
 org\ism\view\FilterSMQDocExplorerView.class
 org\ism\jsf\LabSamplePtController.class
 org\ism\services\ErrorHandler.class
@@ -89,6 +90,7 @@ org\ism\entities\LabSample_.class
 org\ism\entities\StaffGroups_.class
 org\primefaces\ism\component\ribbon\RibbonGroupSet.class
 org\ism\entities\NonConformiteNature_.class
+org\ism\jsf\DocExplorerController$DocExplorerCodeValidator.class
 org\ism\jsf\DocTypeController.class
 org\ism\sessions\LabSamplePtFacade.class
 org\ism\entities\IsmNcrstate.class

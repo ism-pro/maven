@@ -495,9 +495,17 @@ th .ui-inputfield{
     max-height: 20px!important;
 }
 
-th button {
+th button ui-selectonemenu{
     height: 20px!important;
     max-height: 20px!important;
+}
+th .ui-selectonemenu {
+    height: 20px!important;
+    max-height: 20px!important;
+}
+
+th .ui-selectonemenu-label{
+    font-size: 0.9em!important;
 }
 
 

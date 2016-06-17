@@ -28,9 +28,9 @@ public class DocTypeFacade extends AbstractFacade<DocType> {
         return em;
     }
     
-    private final String DOCTYPE_SELECTALLBYLASTCHANGED           = "DocType.selectAllByLastChange";
-    private final String DOCTYPE_FIND_BY_PROCESSUS                = "DocType.findByDctType";            // query = "SELECT d FROM DocType d WHERE d.dctType = :dctType"
-    private final String DOCTYPE_FIND_BY_DESIGNATION              = "DocType.findByDctDesignation";     // query = "SELECT d FROM DocType d WHERE d.dctDesignation = :dctDesignation"
+    private final String SELECTALLBYLASTCHANGED           = "DocType.selectAllByLastChange";
+    private final String FIND_BY_PROCESSUS                = "DocType.findByDctType";            // query = "SELECT d FROM DocType d WHERE d.dctType = :dctType"
+    private final String FIND_BY_DESIGNATION              = "DocType.findByDctDesignation";     // query = "SELECT d FROM DocType d WHERE d.dctDesignation = :dctDesignation"
     
     
     
@@ -41,7 +41,7 @@ public class DocTypeFacade extends AbstractFacade<DocType> {
 
     public List<DocType> findAllByLastChanged() {
         em.flush();
-        Query q = em.createNamedQuery(DOCTYPE_SELECTALLBYLASTCHANGED);
+        Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
         if(count > 0){
@@ -51,9 +51,9 @@ public class DocTypeFacade extends AbstractFacade<DocType> {
     }
     
     
-    public List<DocType> findByCode(String docType) {
+    public List<DocType> findByCode(String code) {
         em.flush();
-        Query q = em.createNamedQuery(DOCTYPE_FIND_BY_PROCESSUS).setParameter("dctType", docType);
+        Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("dctType", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
         if(count > 0){
@@ -62,9 +62,9 @@ public class DocTypeFacade extends AbstractFacade<DocType> {
         return null;
     }
     
-    public List<DocType> findByDesignation(String docTypeDesignation) {
+    public List<DocType> findByDesignation(String designation) {
         em.flush();
-        Query q = em.createNamedQuery(DOCTYPE_FIND_BY_DESIGNATION).setParameter("dctDesignation", docTypeDesignation);
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("dctDesignation", designation);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
         if(count > 0){

@@ -70,9 +70,15 @@ Configuration :
 Test après changement :
     + Modifier les entités : ajouter une fonction du type getItemByLast
     + Modifier la EJB en ajoutant 3 fonctions
+    + Modifier les propriétés de message
     + Modifier le contrôler en utilisant bien le bean
-    + Modifier le viewTabManager pour utiliser les filtres
-    
+    + Modifier le viewTabManager 
+        - Créer les paramètre (controleur, list pour tri, list pour filtre)
+        - Initialiser le context et affecter la liste de tri avec getItemsByLastChange
+        - Créer les getter et setter (List tri, liste filtre)
+        - Créer une ligne dans handleTableChanges pour récupéer la dernière list
+        - Créer une ligne dans handleDestroy pour mettre à jour après suppression de ligne
+    + Modifier List - View - Create - Edit
 
 
 ================================================================================

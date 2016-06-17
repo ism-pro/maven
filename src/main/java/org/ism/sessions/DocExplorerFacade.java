@@ -5,9 +5,12 @@
  */
 package org.ism.sessions;
 
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.ism.entities.DocExplorer;
 
 /**
@@ -19,6 +22,12 @@ public class DocExplorerFacade extends AbstractFacade<DocExplorer> {
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
+    private final String SELECTALLBYLASTCHANGED         = "DocExplorer.selectAllByLastChange";  // query = "SELECT d FROM DocExplorer d ORDER BY d.dcChanged DESC"
+    private final String FIND_BY_CODE                   = "DocExplorer.findByDcId";             // query = "SELECT d FROM DocExplorer d WHERE d.dcId = :dcId"
+    private final String FIND_BY_DESIGNATION            = "DocExplorer.findByDcDesignation";    // query = "SELECT d FROM DocExplorer d WHERE d.dcDesignation = :dcDesignation"
+    
+    
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -27,5 +36,39 @@ public class DocExplorerFacade extends AbstractFacade<DocExplorer> {
     public DocExplorerFacade() {
         super(DocExplorer.class);
     }
+
+    public List<DocExplorer> findAllByLastChanged() {
+        em.flush();
+        Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if(count > 0){
+            return q.getResultList();
+        }
+        return null;
+    }
     
+    
+    public List<DocExplorer> findByCode(String code) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_CODE).setParameter("dcId", code);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if(count > 0){
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+    public List<DocExplorer> findByDesignation(String designation) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("dcDesignation", designation);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if(count > 0){
+            return q.getResultList();
+        }
+        return null;
+    }
+
 }

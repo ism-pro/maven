@@ -10,7 +10,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -20,14 +19,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
 import org.ism.jsf.util.JsfUtil;
-import org.ism.listener.SessionCounterListener;
-import org.primefaces.component.tabview.Tab;
-import org.primefaces.event.TabChangeEvent;
 
 /**
  *
@@ -365,10 +357,11 @@ public class TableView implements Serializable {
         HSSFSheet sheet = wb.getSheetAt(0);
         HSSFRow header = sheet.getRow(0);
         HSSFCellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
+        cellStyle.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
         cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
             header.getCell(i).setCellStyle(cellStyle);
+            sheet.autoSizeColumn(i);
         }
     }
 

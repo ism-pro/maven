@@ -13,14 +13,13 @@
             <h1><h:outputText value="#{ism.ProcessusTitleList}"/></h1>
 
             <h:form id="bodyForm">
-                <h:panelGroup id="display">
                 <p:contextMenu id="contextMenu" for="datalist" >
                     <p:menuitem icon="ui-btn-Create"
                                 styleClass="options-btn"
                                 value="#{ism.Create}" 
                                 actionListener="#{processusController.prepareCreate()}"
                                 action="Create.xhtml?faces-redirect=true"
-                                title="Permet de créer une nouveau processus"
+                                title="Permet de créer un nouveau processus"
                                 />
                     <p:separator />
                     <p:menuitem icon="ui-btn-View" iconPos="left"
@@ -34,7 +33,7 @@
                                 styleClass="options-btn"
                                 value="#{ism.Edit}"
                                 action="Edit.xhtml?faces-redirect=true"
-                                title="Permet de visualiser le processus sélectionné."
+                                title="Permet d'editer le processus sélectionné."
                                 disabled="#{empty processusController.selected }"
                                 />
                     <p:menuitem icon="ui-btn-Delete"
@@ -242,7 +241,6 @@
                     </p:column>
 
                 </p:dataTable>
-                </h:panelGroup>
             </h:form>
 
         </ui:define>
@@ -257,7 +255,7 @@
                                  value="#{ism.Create}" 
                                  actionListener="#{processusController.prepareCreate()}"
                                  action="Create.xhtml?faces-redirect=true"
-                                 title="Permet de créer une nouveau processus"
+                                 title="Permet de créer un nouveau processus"
                                  />
                 <br />
                 <p:commandButton id="viewButton"
@@ -275,7 +273,7 @@
                                  styleClass="options-btn"
                                  value="#{ism.Edit}"
                                  action="Edit.xhtml?faces-redirect=true"
-                                 title="Permet de visualiser le processus sélectionné."
+                                 title="Permet d'editer le processus sélectionné."
                                  disabled="#{empty processusController.selected 
                                              or empty processusController.selected.PId}"
                                  />

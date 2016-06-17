@@ -71,7 +71,7 @@ public class ViewTabManager implements Serializable {
 
         docExplorerCtrl = (DocExplorerController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docExplorerController");
-        docExplorer = docExplorerCtrl.getItems();
+        docExplorer = docExplorerCtrl.getItemsByLastChanged();
 
         docTypeCtrl = (DocTypeController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docTypeController");
@@ -205,30 +205,37 @@ public class ViewTabManager implements Serializable {
     }
 
     /**
-     * Cette méthode permet de rafraîchir le résultat en cas de modifaction et 
+     * Cette méthode permet de rafraîchir le résultat en cas de modifaction et
      * ou suppression
      */
     public void handleTableChanges() {
         processus = processusCtrl.getItemsByLastChanged();
-
-        docExplorer = docExplorerCtrl.getItems();
-
+        docExplorer = docExplorerCtrl.getItemsByLastChanged();
         docType = docTypeCtrl.getItemsByLastChanged();
     }
-    
-    
+
     /**
      * Use to update datalist when destroy occured
-     * @param ctrl 
+     *
+     * @param ctrl
      */
-    public void handleDestroy(String ctrl){
-        if(ctrl.matches("processus")){
-            processusCtrl.destroy();
-            processus = processusCtrl.getItemsByLastChanged();
-        }else if(ctrl.matches("docType")){
-            docTypeCtrl.destroy();
-            docType = docTypeCtrl.getItemsByLastChanged();
+    public void handleDestroy(String ctrl) {
+        switch (ctrl) {
+            case "processus":
+                processusCtrl.destroy();
+                processus = processusCtrl.getItemsByLastChanged();
+                break;
+            case "docExplorer":
+                docExplorerCtrl.destroy();
+                docExplorer = docExplorerCtrl.getItemsByLastChanged();
+                break;
+            case "docType":
+                docTypeCtrl.destroy();
+                docType = docTypeCtrl.getItemsByLastChanged();
+                break;
+            default:
+                String allowedCtrl = " Allowed :  processus / docExplorer / docType / ";
+                throw new IllegalArgumentException("Invalid controller: " + ctrl + allowedCtrl);
         }
-        
     }
 }
