@@ -9,12 +9,13 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.ism.entities.DocExplorer;
@@ -23,8 +24,6 @@ import org.ism.entities.Processus;
 import org.ism.jsf.DocExplorerController;
 import org.ism.jsf.DocTypeController;
 import org.ism.jsf.ProcessusController;
-import org.ism.jsf.util.JsfUtil;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -39,18 +38,18 @@ public class ViewTabManager implements Serializable {
     private ProcessusController processusCtrl;
     private List<Processus> processus;
     private List<Processus> processusFiltered;
-    
-
-    private DocTypeController docTypeCtrl;
-    private List<DocType> docType;
-    private List<DocType> docTypeFiltered;
 
     private DocExplorerController docExplorerCtrl;
     private List<DocExplorer> docExplorer;
     private List<DocExplorer> docExplorerFiltered;
 
+    private DocTypeController docTypeCtrl;
+    private List<DocType> docType;
+    private List<DocType> docTypeFiltered;
+
+
     /*
-    @ManagedProperty("org.ism.jsf.processusController")
+    @ManagedProperty("#{processusController}")
     private ProcessusController     processusCtrl;
      */
     /**
@@ -70,16 +69,21 @@ public class ViewTabManager implements Serializable {
                 getValue(facesContext.getELContext(), null, "processusController");
         processus = processusCtrl.getItemsByLastChanged();
 
-        docTypeCtrl = (DocTypeController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "docTypeController");
-        docType = docTypeCtrl.getItemsByLastChanged();
-
         docExplorerCtrl = (DocExplorerController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docExplorerController");
         docExplorer = docExplorerCtrl.getItems();
 
+        docTypeCtrl = (DocTypeController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "docTypeController");
+        docType = docTypeCtrl.getItemsByLastChanged();
+
     }
 
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
     public List<Processus> getProcessus() {
         return processus;
     }
@@ -96,6 +100,11 @@ public class ViewTabManager implements Serializable {
         this.processusFiltered = processusFiltered;
     }
 
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
     public List<DocExplorer> getDocExplorer() {
         return docExplorer;
     }
@@ -112,6 +121,11 @@ public class ViewTabManager implements Serializable {
         this.docExplorerFiltered = docExplorerFiltered;
     }
 
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
     public List<DocType> getDocType() {
         return docType;
     }
@@ -127,20 +141,21 @@ public class ViewTabManager implements Serializable {
     public void setDocTypeFiltered(List<DocType> docTypeFiltered) {
         this.docTypeFiltered = docTypeFiltered;
     }
-    
-    
 
-    
-    
-    
-    
     /**
      * ************************************************************************
      *
      *
      * ************************************************************************
      */
-    
+    /**
+     *
+     * @param value
+     * @param filter
+     * @param locale
+     * @return
+     * @throws ParseException
+     */
     public boolean handleDateRangeFilters(Object value, Object filter, Locale locale) throws ParseException {
         String filterText = (filter == null) ? null : filter.toString().trim();
         if (filterText == null || filterText.equals("")) {
@@ -149,26 +164,39 @@ public class ViewTabManager implements Serializable {
         if (value == null) {
             return false;
         }
-        
+
         //{"start":"2016-04-18","end":"2016-05-31"}
-        if(!filterText.contains("start")){
+        if (!filterText.contains("start")) {
             return false;
         }
         String strDate = filterText;
-        strDate = strDate.replace("\"", "").replace(":","")
+        strDate = strDate.replace("\"", "").replace(":", "")
                 .replace("{", "").replace("}", "")
                 .replace("start", "").replace("end", "");
-        String dates[] = strDate.split(",");                
+        String dates[] = strDate.split(",");
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRENCH);
         Date begin = format.parse(dates[0]);
         Date end = format.parse(dates[1]);
-        
+
+        //Extend limite in order to make it containt
+        Calendar calValue = Calendar.getInstance();
+        Calendar calBegin = Calendar.getInstance();
+        Calendar calEnd = Calendar.getInstance();
+        calValue.setTime((Date) value);
+        calBegin.setTime((Date) begin);
+        calEnd.setTime((Date) end);
+        calBegin.add(Calendar.DAY_OF_MONTH, -1);
+        calEnd.add(Calendar.DAY_OF_MONTH, +1);
+        begin = calBegin.getTime();
+        end = calEnd.getTime();
+
+        //Check contain
         if (value instanceof Date) {
             Date date = (Date) value;
-            if (date.before(begin)) {
+            if (date.before(begin) && !date.equals(begin)) {
                 return false;
             }
-            if (date.after(end)) {
+            if (date.after(end) && !date.equals(end)) {
                 return false;
             }
             return true;
@@ -176,5 +204,31 @@ public class ViewTabManager implements Serializable {
         return false;
     }
 
-   
+    /**
+     * Cette méthode permet de rafraîchir le résultat en cas de modifaction et 
+     * ou suppression
+     */
+    public void handleTableChanges() {
+        processus = processusCtrl.getItemsByLastChanged();
+
+        docExplorer = docExplorerCtrl.getItems();
+
+        docType = docTypeCtrl.getItemsByLastChanged();
+    }
+    
+    
+    /**
+     * Use to update datalist when destroy occured
+     * @param ctrl 
+     */
+    public void handleDestroy(String ctrl){
+        if(ctrl.matches("processus")){
+            processusCtrl.destroy();
+            processus = processusCtrl.getItemsByLastChanged();
+        }else if(ctrl.matches("docType")){
+            docTypeCtrl.destroy();
+            docType = docTypeCtrl.getItemsByLastChanged();
+        }
+        
+    }
 }

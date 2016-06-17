@@ -153,7 +153,7 @@
                                         <p:commandButton id="btnSMQProcessus"
                                                          rendered="#{request.isUserInRole('CO_SMQPROCESSUS_R')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(1)}"
-                                                         title="Processus"
+                                                         title="Visualiser les processus"
                                                          action="/company/smq/processus/List.xhtml?faces-redirect=true"
                                                          icon="ui-ribbonicon-new" 
                                                          value="Processus"
@@ -161,7 +161,7 @@
                                         <p:commandButton id="btnSMQDocType"
                                                          rendered="#{request.isUserInRole('CO_SMQDOCTYPE_R')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(1)}"
-                                                         title="Type de document"
+                                                         title="Visualiser les types de document"
                                                          action="/company/smq/docType/List.xhtml?faces-redirect=true"
                                                          icon="ui-ribbonicon-new" 
                                                          value="Type de document"
@@ -504,7 +504,7 @@
 
 
 
-            <p:layoutUnit position="center" collapseSize="4" gutter="4" style="margin:0px;margin-left: -15px;">
+            <p:layoutUnit id="unitCenter" position="center" collapseSize="4" gutter="4" style="margin:0px;margin-left: -15px;">
                 <ui:insert id="body" name="body" />
             </p:layoutUnit>
 

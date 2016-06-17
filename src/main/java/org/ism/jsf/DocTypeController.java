@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -32,7 +32,7 @@ import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 
-@ManagedBean(name = "docTypeController")
+@ManagedBean(name="docTypeController")
 @SessionScoped
 public class DocTypeController implements Serializable {
 
@@ -179,7 +179,7 @@ public class DocTypeController implements Serializable {
             columns += headerText + "(" + visible + ") <br >";
             i++;
         }
-        JsfUtil.addSuccessMessage("Processus : Reorder Column",
+        JsfUtil.addSuccessMessage("DocType : Reorder Column",
                 "Columns : <br>" + columns);
 
     }
@@ -335,6 +335,7 @@ public class DocTypeController implements Serializable {
      * @return
      */
     public DocType getSelected() {
+        if(selected==null)   selected = new DocType();
         return selected;
     }
 

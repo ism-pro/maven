@@ -13,7 +13,7 @@
             <h1><h:outputText value="#{ism.ProcessusTitleList}"/></h1>
 
             <h:form id="bodyForm">
-
+                <h:panelGroup id="display">
                 <p:contextMenu id="contextMenu" for="datalist" >
                     <p:menuitem icon="ui-btn-Create"
                                 styleClass="options-btn"
@@ -41,8 +41,8 @@
                                 styleClass="options-btn"
                                 value="#{ism.Delete}"
                                 title="Permet de supprimer le processus sélectionné !"
-                                actionListener="#{processusController.destroy()}"
-                                update=":bodyForm:datalist,westGroup,:growl"
+                                actionListener="#{viewTabManager.handleDestroy('processus')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
                                 onstart=";
                                 #{viewConfirmDialog.dlg.setHeader(ism.ProcessusDlgHeader)};
                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
@@ -132,7 +132,7 @@
 
 
 
-                    <p:ajax event="rowSelect" onstart="" oncomplete=""  update="westGroup bodyForm"/>
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"/>
                     <p:ajax event="rowUnselect" update="westGroup bodyForm"/>
                     <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}"   />
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processusController.handleColumnReorder}" />
@@ -168,6 +168,7 @@
                         <h:outputText value="#{item.PProcessus}"/>
                     </p:column>
 
+                    
                     <p:column headerText="#{ism.ProcessusField_pDesignation}" 
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDesignation)}"
                               sortBy="#{item.PDesignation}" 
@@ -175,6 +176,7 @@
                         <h:outputText value="#{item.PDesignation}"/>
                     </p:column>
 
+                    
                     <p:column headerText="#{ism.ProcessusField_pStaffManager}" 
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pStaffManager)}"
                               sortBy="#{item.PStaffmanager.stFirstname} #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]" 
@@ -240,6 +242,7 @@
                     </p:column>
 
                 </p:dataTable>
+                </h:panelGroup>
             </h:form>
 
         </ui:define>
@@ -281,7 +284,7 @@
                                  styleClass="options-btn"
                                  value="#{ism.Delete}"
                                  title="Permet de supprimer le processus sélectionné !"
-                                 actionListener="#{processusController.destroy()}"
+                                 actionListener="#{viewTabManager.handleDestroy('processus')}"
                                  update=":bodyForm:datalist,westGroup,:growl"
                                  onstart=";
                                  #{viewConfirmDialog.dlg.setHeader(ism.ProcessusDlgHeader)};

@@ -41,8 +41,8 @@
                                 styleClass="options-btn"
                                 value="#{ism.Delete}"
                                 title="Permet de supprimer le type de document sélectionné !"
-                                actionListener="#{docTypeController.destroy()}"
-                                update=":bodyForm:datalist,westGroup,:growl"
+                                actionListener="#{viewTabManager.handleDestroy('docType')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
                                 onstart=";
                                 #{viewConfirmDialog.dlg.setHeader(ism.DocTypeDlgHeader)};
                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
@@ -73,7 +73,7 @@
 
                              selectionMode="single" selection="#{docTypeController.selected}"
                              rowIndexVar="_rowIndex"
-                             rowKey="#{item.dctType}"
+                             rowKey="#{item.dctId}"
                              paginator="#{tableView.paginator}" 
                              rows="#{tableView.rows}" 
                              resizableColumns="#{tableView.resizableColumns}"
@@ -131,7 +131,7 @@
 
 
 
-                    <p:ajax event="rowSelect" onstart="" oncomplete=""  update="westGroup bodyForm"/>
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"/>
                     <p:ajax event="rowUnselect" update="westGroup bodyForm"/>
                     <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}"   />
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{docTypeController.handleColumnReorder}" />
@@ -152,6 +152,7 @@
 
 
                     <p:column headerText="#{ism.DocTypeField_dctId}"
+                              style="width: 24px;" 
                               visible="#{docTypeController.getIsVisibleColKey(ism.DocTypeField_dctId)}"
                               sortBy="#{item.dctId}" 
                               filterBy="#{item.dctId}" filterMatchMode="contains">
@@ -274,7 +275,7 @@
                                  styleClass="options-btn"
                                  value="#{ism.Delete}"
                                  title="Permet de supprimer le type de document sélectionné !"
-                                 actionListener="#{docTypeController.destroy()}"
+                                 actionListener="#{viewTabManager.handleDestroy('docType')}"
                                  update=":bodyForm:datalist,westGroup,:growl"
                                  onstart=";
                                  #{viewConfirmDialog.dlg.setHeader(ism.DocTypeDlgHeader)};

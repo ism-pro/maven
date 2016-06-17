@@ -1,91 +1,180 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="DocTypeCreateDlg" widgetVar="DocTypeCreateDialog" 
-                  dynamic="true" showEffect="clip"  hideEffect="clip"
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.DocTypeTitleCreate}">
-            
-            <h:form id="DocTypeCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{docTypeController.selected != null}">
-                        
-                        <p:outputLabel value="#{ism.DocTypeField_dctId}" 
-                                       rendered="false" for="dctId" />
-                        <p:inputText id="dctId" rendered="false"
-                                     value="#{docTypeController.selected.dctId}" 
-                                     title="#{ism.DocTypeFieldInfo_dctId}" 
-                                     required="true" 
-                                     requiredMessage="#{ism.DocTypeRequiredMsg_dctId}"/>
-                        
-                        <p:outputLabel value="#{ism.DocTypeField_dctType}" for="dctType" />
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.DocTypeTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{docTypeController.selected != null}">
+
+                    <p:outputLabel value="#{ism.DocTypeField_dctId}" rendered="false" for="dctId" />
+                    <p:inputText id="dctId" rendered="false"
+                                 value="#{docTypeController.selected.dctId}" 
+                                 title="#{ism.DocTypeFieldInfo_dctId}" />
+
+                    <p:outputLabel value="#{ism.DocTypeField_dctType}" for="dctType" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="dctType" 
                                      value="#{docTypeController.selected.dctType}" 
                                      title="#{ism.DocTypeFieldInfo_dctType}" 
-                                     required="true" 
-                                     requiredMessage="#{ism.DocTypeRequiredMsg_dctType}"/>
-                        
-                        <p:outputLabel value="#{ism.DocTypeField_dctDesignation}" for="dctDesignation" />
-                        <p:inputText id="dctDesignation" 
-                                     value="#{docTypeController.selected.dctDesignation}" 
-                                     title="#{ism.DocTypeFieldInfo_dctDesignation}" />
-                        
-                        <p:outputLabel value="#{ism.DocTypeField_dctDeleted}" for="dctDeleted" />
-                        <p:selectBooleanCheckbox 
-                            id="dctDeleted" 
-                            value="#{docTypeController.selected.dctDeleted}" 
-                            required="true" 
-                            requiredMessage="#{ism.DocTypeRequiredMsg_dctDeleted}"/>
-                        
-                        <p:outputLabel  rendered="false" 
-                                        value="#{ism.DocTypeField_dctCreated}" for="dctCreated" />
-                        <p:calendar id="dctCreated"  rendered="false"
-                                    pattern="dd/MM/yyyy HH:mm:ss" 
-                                    value="#{docTypeController.selected.dctCreated}" 
-                                    title="#{ism.DocTypeFieldInfo_dctCreated}" 
-                                    required="true" 
-                                    requiredMessage="#{ism.DocTypeRequiredMsg_dctCreated}" 
-                                    showOn="button"/>
-                        
-                        <p:outputLabel value="#{ism.DocTypeField_dctChanged}" rendered="false" for="dctChanged" />
-                        <p:calendar id="dctChanged"  rendered="false"
-                                    pattern="dd/MM/yyyy HH:mm:ss" 
-                                    value="#{docTypeController.selected.dctChanged}" 
-                                    title="#{ism.DocTypeFieldInfo_dctChanged}" 
-                                    required="true" 
-                                    requiredMessage="#{ism.DocTypeRequiredMsg_dctChanged}" 
-                                    showOn="button"/>
-                        
-                        <p:outputLabel value="#{ism.DocTypeField_dctCompany}" 
-                                       for="dctCompany" />
-                        <p:selectOneMenu id="dctCompany" 
-                                         value="#{docTypeController.selected.dctCompany}" 
-                                         required="true" 
-                                         requiredMessage="#{ism.DocTypeRequiredMsg_dctCompany}">
-                            <f:selectItem  itemValue="#{staffAuthController.company}"
-                                           itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}"
-                                           />
-                        </p:selectOneMenu>
-                    
-                    </p:panelGrid>
-                    
-                    <p:commandButton actionListener="#{docTypeController.create}" 
-                                     value="#{ism.Save}" 
-                                     update="display,:DocTypeListForm:datalist,:growl" 
-                                     oncomplete="handleSubmit(args,'DocTypeCreateDialog');"/>
-                    <p:commandButton value="#{ism.Cancel}" 
-                                     onclick="DocTypeCreateDialog.hide()"/>
-                    
-                </h:panelGroup>
-            </h:form>
-        </p:dialog>
+                                     validator="DocTypeCodeValidator"
+                                     required="true" requiredMessage="#{ism.DocTypeRequiredMsg_dctType}"/>
+                        <p:message for="dctType" />
+                    </h:panelGrid>
 
+
+                    <p:outputLabel value="#{ism.DocTypeField_dctDesignation}" for="dctDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="dctDesignation" 
+                                     value="#{docTypeController.selected.dctDesignation}"
+                                     title="#{ism.DocTypeFieldInfo_dctDesignation}" 
+                                     validator="DocTypeDesignationValidator"
+                                     required="true" requiredMessage="#{ism.DocTypeRequiredMsg_dctDesignation}"/>
+                        <p:message for="dctDesignation"   />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.DocTypeField_dctDeleted}" for="dctDeleted" />
+                    <p:selectBooleanCheckbox id="dctDeleted" 
+                                             value="#{docTypeController.selected.dctDeleted}" 
+                                             required="true" 
+                                             requiredMessage="#{ism.DocTypeRequiredMsg_dctDeleted}"/>
+
+
+
+                    <p:outputLabel value="#{ism.DocTypeField_dctCreated}" 
+                                   rendered="false" for="dctCreated" />
+                    <p:calendar id="dctCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
+                                value="#{docTypeController.selected.dctCreated}" 
+                                title="#{ism.DocTypeFieldInfo_dctCreated}" 
+                                required="true" 
+                                requiredMessage="#{ism.DocTypeRequiredMsg_dctCreated}" 
+                                showOn="button"/>
+
+
+
+                    <p:outputLabel value="#{ism.DocTypeField_dctChanged}" 
+                                   rendered="false" for="dctChanged" />
+                    <p:calendar id="dctChanged"  rendered="false"
+                                pattern="dd/MM/yyyy HH:mm:ss" 
+                                value="#{docTypeController.selected.dctChanged}" 
+                                title="#{ism.DocTypeFieldInfo_dctChanged}" 
+                                required="true" 
+                                requiredMessage="#{ism.DocTypeRequiredMsg_dctChanged}" 
+                                showOn="button"/>
+
+
+                    <p:outputLabel value="#{ism.DocTypeField_dctCompany}" for="dctCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="dctCompany" widgetVar="dctCompany"
+                                     value="#{docTypeController.selected.dctCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.DocTypeRequiredMsg_dctCompany}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{docTypeController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{docTypeController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{docTypeController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:dctCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{docTypeController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{docTypeController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:dctCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!docTypeController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{docTypeController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+       </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{docTypeController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:dctCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{docTypeController.isOnMultiCreation}"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{docTypeController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:dctCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!docTypeController.isOnMultiCreation}"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{docTypeController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

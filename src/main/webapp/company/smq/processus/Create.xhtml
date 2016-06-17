@@ -20,8 +20,7 @@
                     <p:outputLabel value="#{ism.ProcessusField_pId}" rendered="false" for="PId" />
                     <p:inputText id="PId" rendered="false"
                                  value="#{processusController.selected.PId}" 
-                                 title="#{ism.ProcessusFieldInfo_pId}" 
-                                 requiredMessage="#{ism.ProcessusRequiredMsg_pId}"/>
+                                 title="#{ism.ProcessusFieldInfo_pId}" />
 
                     <p:outputLabel value="#{ism.ProcessusField_pProcessus}" for="PProcessus" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
@@ -73,6 +72,8 @@
                                              required="true" 
                                              requiredMessage="#{ism.ProcessusRequiredMsg_pDeleted}"/>
 
+                    
+                    
                     <p:outputLabel value="#{ism.ProcessusField_pCreated}" 
                                    rendered="false" for="PCreated" />
                     <p:calendar id="PCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
@@ -82,6 +83,8 @@
                                 requiredMessage="#{ism.ProcessusRequiredMsg_pCreated}" 
                                 showOn="button"/>
 
+                    
+                    
                     <p:outputLabel value="#{ism.ProcessusField_pChanged}" 
                                    rendered="false" for="PChanged" />
                     <p:calendar id="PChanged"  rendered="false"

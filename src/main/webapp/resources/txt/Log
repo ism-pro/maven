@@ -67,6 +67,11 @@ Configuration :
 
 
 
+Test après changement :
+    + Modifier les entités : ajouter une fonction du type getItemByLast
+    + Modifier la EJB en ajoutant 3 fonctions
+    + Modifier le contrôler en utilisant bien le bean
+    + Modifier le viewTabManager pour utiliser les filtres
     
 
 
