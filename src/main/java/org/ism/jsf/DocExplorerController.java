@@ -96,7 +96,7 @@ public class DocExplorerController implements Serializable {
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_DateApprouved"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Activated"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Created"), false);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Timestamp"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Timestamp"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Company"), false);
 
     }

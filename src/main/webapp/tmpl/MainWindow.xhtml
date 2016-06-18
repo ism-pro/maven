@@ -491,12 +491,7 @@
                           effect="#{viewLayout.southUnit.effect}"
                           effectSpeed="#{viewLayout.southUnit.effectSpeed}"
                           >
-                <p:messages id="msg" showDetail="true" showSummary="true">  
-                    <p:effect type="pulsate" event="load" delay="0">  
-                        <f:param name="mode" value="'show'"/>  
-                        <f:param name="times" value="'1'"/>  
-                    </p:effect>  
-                </p:messages>  
+                <p:messages />
                 <p:outputLabel value="#{ism.EmptyList} : #{request.pathInfo}"
                                rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?true:false}" />
             </p:layoutUnit>  
@@ -584,18 +579,14 @@
             </p:confirmDialog>
 
 
-            <script type="text/javascript">
-                function showStatus() {
-                    PF('statusDialog').show();
-                }
-                function hideStatus() {
-                    PF('statusDialog').hide();
-                }
-            </script>
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false"
                       closable="false">
-                <p:graphicImage library="img" name="ism/std/ajax-loader.gif" />
+                <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
             </p:dialog>
+            <p:ajaxStatus onstart="PF('statusDialog').show()" 
+                          oncomplete="PF('statusDialog').hide();"/>
+                
+
 
         </h:form>
 

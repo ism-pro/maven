@@ -28,6 +28,7 @@
                                 action="View.xhtml?faces-redirect=true"
                                 title="Permet de visualiser le processus sélectionné."
                                 disabled="#{empty processusController.selected }"
+                                onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
                                 />
                     <p:menuitem icon="ui-btn-Edit"
                                 styleClass="options-btn"
@@ -131,10 +132,10 @@
 
 
 
-                    <p:ajax event="rowSelect" update="westGroup bodyForm"/>
-                    <p:ajax event="rowUnselect" update="westGroup bodyForm"/>
-                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}"   />
-                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processusController.handleColumnReorder}" />
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processusController.handleColumnReorder}"  />
 
 
                     
