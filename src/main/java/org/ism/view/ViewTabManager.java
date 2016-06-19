@@ -23,6 +23,7 @@ import org.ism.entities.DocType;
 import org.ism.entities.NonConformiteFrequency;
 import org.ism.entities.NonConformiteGravity;
 import org.ism.entities.NonConformiteNature;
+import org.ism.entities.NonConformiteRequest;
 import org.ism.entities.NonConformiteUnite;
 import org.ism.entities.Processus;
 import org.ism.jsf.DocExplorerController;
@@ -30,6 +31,7 @@ import org.ism.jsf.DocTypeController;
 import org.ism.jsf.NonConformiteFrequencyController;
 import org.ism.jsf.NonConformiteGravityController;
 import org.ism.jsf.NonConformiteNatureController;
+import org.ism.jsf.NonConformiteRequestController;
 import org.ism.jsf.NonConformiteUniteController;
 import org.ism.jsf.ProcessusController;
 
@@ -66,6 +68,10 @@ public class ViewTabManager implements Serializable {
     private NonConformiteNatureController ncNatureCtrl;
     private List<NonConformiteNature> ncNature;
     private List<NonConformiteNature> ncNatureFiltered;
+
+    private NonConformiteRequestController ncRequestCtrl;
+    private List<NonConformiteRequest> ncRequest;
+    private List<NonConformiteRequest> ncRequestFiltered;
 
     private NonConformiteUniteController ncUniteCtrl;
     private List<NonConformiteUnite> ncUnite;
@@ -112,6 +118,10 @@ public class ViewTabManager implements Serializable {
         ncNatureCtrl = (NonConformiteNatureController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteNatureController");
         ncNature = ncNatureCtrl.getItemsByLastChanged();
+
+        ncRequestCtrl = (NonConformiteRequestController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "nonConformiteRequestController");
+        ncRequest = ncRequestCtrl.getItemsByLastChanged();
 
         ncUniteCtrl = (NonConformiteUniteController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteUniteController");
@@ -249,6 +259,27 @@ public class ViewTabManager implements Serializable {
      * @return
      * *************************************************************************
      */
+    public List<NonConformiteRequest> getNcRequest() {
+        return ncRequest;
+    }
+
+    public void setNcRequest(List<NonConformiteRequest> ncRequest) {
+        this.ncRequest = ncRequest;
+    }
+
+    public List<NonConformiteRequest> getNcRequestFiltered() {
+        return ncRequestFiltered;
+    }
+
+    public void setNcRequestFiltered(List<NonConformiteRequest> ncRequestFiltered) {
+        this.ncRequestFiltered = ncRequestFiltered;
+    }
+
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
     public List<NonConformiteUnite> getNcUnite() {
         return ncUnite;
     }
@@ -339,6 +370,7 @@ public class ViewTabManager implements Serializable {
         ncFrequency = ncFrequencyCtrl.getItemsByLastChanged();
         ncGravity = ncGravityCtrl.getItemsByLastChanged();
         ncNature = ncNatureCtrl.getItemsByLastChanged();
+        ncRequest = ncRequestCtrl.getItemsByLastChanged();
         ncUnite = ncUniteCtrl.getItemsByLastChanged();
     }
 
@@ -373,12 +405,17 @@ public class ViewTabManager implements Serializable {
                 ncNatureCtrl.destroy();
                 ncNature = ncNatureCtrl.getItemsByLastChanged();
                 break;
+            case "nonConformiteRequest":
+                ncRequestCtrl.destroy();
+                ncRequest = ncRequestCtrl.getItemsByLastChanged();
+                break;
             case "nonConformiteUnite":
                 ncUniteCtrl.destroy();
                 ncUnite = ncUniteCtrl.getItemsByLastChanged();
                 break;
             default:
-                String allowedCtrl = " Allowed :  processus / docExplorer / docType / ";
+                String allowedCtrl = " Allowed :  processus / docExplorer / docType / nonConformiteFrequency / " +
+                       "nonConformiteGravity / nonConformiteNature / nonConformiteRequest / nonConformiteUnite" ;
                 throw new IllegalArgumentException("Invalid controller: " + ctrl + allowedCtrl);
         }
     }

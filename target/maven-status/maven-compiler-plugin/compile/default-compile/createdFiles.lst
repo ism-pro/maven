@@ -168,10 +168,12 @@ org\ism\entities\NonConformiteNature.class
 org\ism\jsf\DocTypeController$DocTypeDesignationValidator.class
 org\ism\jsf\NonConformiteUniteController$NonConformiteUniteDesignationValidator.class
 org\ism\sessions\IsmRoleFacade.class
+org\ism\jsf\NonConformiteRequestController$NonConformiteRequestCodeValidator.class
 org\ism\jsf\StaffSetupController$StaffSetupControllerConverter.class
 org\ism\view\ViewRibbon.class
 org\ism\sessions\IsmGenreFacade.class
 org\ism\jsf\util\JsfUtil.class
+org\ism\jsf\NonConformiteRequestController$NonConformiteRequestDesignationValidator.class
 org\ism\jsf\IsmGenreController$IsmGenreControllerConverter.class
 org\ism\jsf\NonConformiteGravityController.class
 org\ism\jsf\CompanyController.class

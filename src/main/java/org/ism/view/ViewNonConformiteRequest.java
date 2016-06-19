@@ -45,6 +45,6 @@ public class ViewNonConformiteRequest implements Serializable {
 
     public void doCancel(){
         NonConformiteRequestController ncRequestCtrl = getNCRequestCtrl();
-        ncRequestCtrl.setIsEditInfos(false);
+        //ncRequestCtrl.setIsEditInfos(false);
     }
 }

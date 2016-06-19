@@ -55,7 +55,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NonConformiteRequest.findByNcrFrequency", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrFrequency.ncfFrequency = :ncrFrequency"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnValidate", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnValidate.stStaff = :ncrstaffOnValidate"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnAction", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnAction.stStaff = :ncrstaffOnAction"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnRefuse", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnRefuse.stStaff = :ncrstaffOnRefuse")})
+    @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnRefuse", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnRefuse.stStaff = :ncrstaffOnRefuse"),
+    @NamedQuery(name = "NonConformiteRequest.selectAllByLastChange", query = "SELECT n FROM NonConformiteRequest n ORDER BY n.ncrChanged DESC")
+})
 public class NonConformiteRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;

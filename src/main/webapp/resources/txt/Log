@@ -71,13 +71,7 @@ Configuration :
     
 
     # SPECIFIQUE
-    ## NonConformite : Frequency-Gravity-Nature-Unite
-    + Mise à jour Entité
-    + Mise à jour Facade
-    + Mise à jour controler
-    + Mise à jour message
-    + Mise à jour viewtabManager
-    + Modification List - View - Create - Edit
+    ## NonConformite
     
 
 
@@ -94,6 +88,63 @@ Test après changement :
         - Créer une ligne dans handleDestroy pour mettre à jour après suppression de ligne
     + Modifier List - View - Create - Edit
 
+
+
+
+
+<f:facet name="footer">
+                        <p:commandButton id="createButton"      icon="ui-icon-plus"   value="#{ism.Create}" 
+                                         actionListener="#{nonConformiteRequestController.prepareCreate}" 
+                                         oncomplete="PF('NonConformiteRequestCreateDialog').show()"
+                                         update=":NonConformiteRequestCreateForm" 
+                                         />
+                        <p:commandButton id="editButton"        icon="ui-icon-pencil" value="#{ism.Edit}"       
+                                         update=":NonConformiteRequestEditForm" 
+                                         oncomplete="PF('NonConformiteRequestEditDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"/>
+                        <p:commandButton id="validateButton"    icon="ui-icon-circle-check" value="#{ism.Validate}"   
+                                         actionListener="#{nonConformiteRequestController.prepareValidate}" 
+                                         update=":NonConformiteRequestValidateForm" 
+                                         oncomplete="PF('NonConformiteRequestValidateDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"/>
+
+                        <p:commandButton id="actionButton"      icon="ui-icon-note" value="#{ism.Action}"    
+                                         update=":NonConformiteRequestActionForm" 
+                                         oncomplete="PF('NonConformiteRequestActionDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=3) ? true : false}"/>
+
+                        <p:commandButton id="clotureButton"      icon="ui-icon-locked" value="#{ism.Cloture}"    
+                                         actionListener="#{nonConformiteRequestController.cloture}" update=":growl,datalist" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or 
+                                                     (nonConformiteRequestController.selected.ncrState.id==2) or 
+                                                     (nonConformiteRequestController.selected.ncrState.id==3) or
+                                                     (nonConformiteRequestController.selected.ncrState.id==6) or
+                                                     (nonConformiteRequestController.selected.ncrState.id==7) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCCLOTURE_W')}"/>
+
+                        <p:commandButton id="refuseButton"      icon="ui-icon-closethick" value="#{ism.Refused}"    
+                                         update=":NonConformiteRequestRefusedForm" 
+                                         oncomplete="PF('NonConformiteRequestRefusedDialog').show()" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCREFUSE_W')}" />
+
+                        <p:commandButton id="deleteButton"      icon="ui-icon-trash"  value="#{ism.Delete}" actionListener="#{nonConformiteRequestController.destroy}" update=":growl,datalist" 
+                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                                         rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}">
+                            <p:confirm header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}" 
+                                       message="#{ism.ConfirmDeleteMessage}" 
+                                       icon="ui-icon-alert"/>
+
+                        </p:commandButton>
+
+                        <p:commandButton id="manageStateButton"      icon="ui-icon-note" value="#{ism.NonConformiteField_ncState}"    
+                                         update=":NonConformiteRequestManageStateForm" 
+                                         oncomplete="PF('NonConformiteRequestManageStateDialog').show()" 
+                                         rendered="#{request.isUserInRole('CO_SMQNCMANAGESTATE_W')}"/>
+
+
+                    </f:facet>
 
 ================================================================================
 15XXXX XXXX : R.HENDRICK

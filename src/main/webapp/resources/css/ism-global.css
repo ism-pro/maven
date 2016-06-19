@@ -421,4 +421,23 @@ time, mark, audio, video {
     max-width: 382px;
 }
 
+#bodyForm\3apanelRequest .ui-panel.ui-widget.ui-widget-content.ui-corner-all.panelRequest{
+    background-color: blue;
+}
+
+#bodyForm\3apanelRequest .ui-panel-titlebar.ui-widget-header.ui-helper-clearfix.ui-corner-all{
+    /*border-color: yellow;*/
+    background-color: darkgrey;
+}
+/*
+div ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-all
+
+span ui-panel-title
+
+span ui-outputlabel ui-widget
+
+a ui-panel-titlebar-icon ui-corner-all ui-state-default
+
+a span ui-icon ui-icon-minusthick
+*/
 
