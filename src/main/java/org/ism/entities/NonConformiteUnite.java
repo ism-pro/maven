@@ -44,7 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteUnite.findByNcuDesignation", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuDesignation = :ncuDesignation"),
     @NamedQuery(name = "NonConformiteUnite.findByNcuDeleted", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuDeleted = :ncuDeleted"),
     @NamedQuery(name = "NonConformiteUnite.findByNcuCreated", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuCreated = :ncuCreated"),
-    @NamedQuery(name = "NonConformiteUnite.findByNcuChanged", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuChanged = :ncuChanged")})
+    @NamedQuery(name = "NonConformiteUnite.findByNcuChanged", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuChanged = :ncuChanged"),
+    @NamedQuery(name = "NonConformiteUnite.selectAllByLastChange", query = "SELECT n FROM NonConformiteUnite n ORDER BY n.ncuChanged DESC")
+})
 public class NonConformiteUnite implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

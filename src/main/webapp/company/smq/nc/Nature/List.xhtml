@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -10,105 +10,304 @@
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1>
-                <h:outputText value="#{ism.NonConformiteTitleList}" />
-            </h1>
+            <h1><h:outputText value="#{ism.NonConformiteNatureTitleList}"/></h1>
 
-            <h:form id="NonConformiteNatureListForm">
+            <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}" 
+                                actionListener="#{nonConformiteNatureController.prepareCreate()}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer une nouvelle nature de non conformité"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser une nature de non conformité sélectionné."
+                                disabled="#{empty nonConformiteNatureController.selected }"
+                                onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer une nature de non conformité sélectionné."
+                                disabled="#{empty nonConformiteNatureController.selected }"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer une nature de non conformité sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('nonConformiteNature')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteNatureDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteNatureDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty nonConformiteNatureController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des nature de non conformité "
+                                actionListener="#{nonConformiteNatureController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty nonConformiteNatureController.selected }"
+                                />
+                </p:contextMenu>
+
                 
-                <p:dataTable id="datalist" value="#{nonConformiteNatureController.items}" var="item"
-                                 selectionMode="single" selection="#{nonConformiteNatureController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.ncnId}"
-                                 rows="10" resizableColumns="true"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+                
+                
+                
+                
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.ncNature}" var="item"
+                             filteredValue="#{viewTabManager.ncNatureFiltered}"
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                             selectionMode="single" selection="#{nonConformiteNatureController.selected}"
+                             rowIndexVar="_rowIndex"
+                             rowKey="#{item.ncnId}"
+                             paginator="#{tableView.paginator}" 
+                             rows="#{tableView.rows}" 
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.NonConformiteNatureField_ncnId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ncnId}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.NonConformiteNatureField_ncnNature}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ncnNature}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.NonConformiteNatureField_ncnDesignation}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ncnDesignation}"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.NonConformiteNatureField_ncnDeleted}"/>
-                            </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.ncnDeleted}" disabled="true"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.NonConformiteNatureField_ncnCreated}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ncnCreated}">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.NonConformiteNatureField_ncnChanged}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ncnChanged}">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.NonConformiteNatureField_ncnCompany}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ncnCompany.CCompany} - #{item.ncnCompany.CDesignation}"/>
-                        </p:column>
-                        
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{ism.Create}" actionListener="#{nonConformiteNatureController.prepareCreate}" update=":NonConformiteNatureCreateForm" oncomplete="PF('NonConformiteNatureCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{ism.View}" update=":NonConformiteNatureViewForm" oncomplete="PF('NonConformiteNatureViewDialog').show()" disabled="#{empty nonConformiteNatureController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{ism.Edit}" update=":NonConformiteNatureEditForm" oncomplete="PF('NonConformiteNatureEditDialog').show()" disabled="#{empty nonConformiteNatureController.selected}"/>
-                            <p:commandButton id="deleteButton" 
-                                             icon="ui-icon-trash"  
-                                             value="#{ism.Delete}" 
-                                             actionListener="#{nonConformiteNatureController.destroy}" 
-                                             update=":growl,datalist" 
-                                             disabled="#{empty nonConformiteNatureController.selected}">
-                                <p:confirm header="#{ism.NonConformiteNatureTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                       message="#{ism.ConfirmDeleteMessage}" 
-                                       icon="ui-icon-alert"/>
-                            <p:confirmDialog global="true">
-                                <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
-                                                 icon="ui-icon-check"/>
-                                <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
-                                                 icon="ui-icon-close"/>
-                            </p:confirmDialog>
+                             emptyMessage="#{ism.EmptyList}"
+                             >
+
+
+
+
+                   
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.NonConformiteNatureTitleList}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.NonConformiteNatureTitleList}" />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+                    
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
                         </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{nonConformiteNatureController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+                    
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{nonConformiteNatureController.handleColumnReorder}"  />
+
+
+                    
+                    
+                    
+                    
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{nonConformiteNatureController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{nonConformiteNatureController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteNatureField_ncnId}"
+                              style="width: 24px;" 
+                              visible="#{nonConformiteNatureController.getIsVisibleColKey(ism.NonConformiteNatureField_ncnId)}"
+                              sortBy="#{item.ncnId}" 
+                              filterBy="#{item.ncnId}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ncnId}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteNatureField_ncnNature}" 
+                              visible="#{nonConformiteNatureController.getIsVisibleColKey(ism.NonConformiteNatureField_ncnNature)}"
+                              sortBy="#{item.ncnNature}" 
+                              filterBy="#{item.ncnNature}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ncnNature}"/>
+                    </p:column>
+
+                    
+                    <p:column headerText="#{ism.NonConformiteNatureField_ncnDesignation}" 
+                              visible="#{nonConformiteNatureController.getIsVisibleColKey(ism.NonConformiteNatureField_ncnDesignation)}"
+                              sortBy="#{item.ncnDesignation}" 
+                              filterBy="#{item.ncnDesignation}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ncnDesignation}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteNatureField_ncnDeleted}"
+                              visible="#{nonConformiteNatureController.getIsVisibleColKey(ism.NonConformiteNatureField_ncnDeleted)}"
+                              sortBy="#{item.ncnDeleted}" filterBy="#{item.ncnDeleted}" filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
                         </f:facet>
-                    </p:dataTable>
-                
+                        <p:selectBooleanCheckbox value="#{item.ncnDeleted}" disabled="true"/>
+                    </p:column>
+                    
+
+
+                    <p:column headerText="#{ism.NonConformiteNatureField_ncnCreated}" 
+                              visible="#{nonConformiteNatureController.getIsVisibleColKey(ism.NonConformiteNatureField_ncnCreated)}"
+                              sortBy="#{item.ncnCreated}" filterBy="#{item.ncnCreated}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{item.ncnCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteNatureField_ncnChanged}" 
+                              visible="#{nonConformiteNatureController.getIsVisibleColKey(ism.NonConformiteNatureField_ncnChanged)}"
+                              sortBy="#{item.ncnChanged}" filterBy="#{item.ncnChanged}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{item.ncnChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteNatureField_ncnCompany}" 
+                              visible="#{nonConformiteNatureController.getIsVisibleColKey(ism.NonConformiteNatureField_ncnCompany)}"
+                              sortBy="#{item.ncnCompany.CCompany} - #{item.ncnCompany.CDesignation}" 
+                              filterBy="#{item.ncnCompany.CCompany} - #{item.ncnCompany.CDesignation}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ncnCompany.CCompany} - #{item.ncnCompany.CDesignation}"/>
+                    </p:column>
+
+                </p:dataTable>
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{nonConformiteNatureController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer une nouvelle nature de non conformité"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser une nature de non conformité sélectionné."
+                                 disabled="#{empty nonConformiteNatureController.selected 
+                                             or empty nonConformiteNatureController.selected.ncnId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer une nature de non conformité sélectionné."
+                                 disabled="#{empty nonConformiteNatureController.selected 
+                                             or empty nonConformiteNatureController.selected.ncnId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer une nature de non conformité sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('nonConformiteNature')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteNatureDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteNatureDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty nonConformiteNatureController.selected 
+                                             or empty nonConformiteNatureController.selected.ncnId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des natures de non conformité "
+                                 actionListener="#{nonConformiteNatureController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty nonConformiteNatureController.selected 
+                                             or empty nonConformiteNatureController.selected.ncnId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
     </ui:composition>
 
 </html>

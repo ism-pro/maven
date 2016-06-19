@@ -44,7 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteFrequency.findByNcfDesignation", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfDesignation = :ncfDesignation"),
     @NamedQuery(name = "NonConformiteFrequency.findByNcfDeleted", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfDeleted = :ncfDeleted"),
     @NamedQuery(name = "NonConformiteFrequency.findByNcfCreated", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfCreated = :ncfCreated"),
-    @NamedQuery(name = "NonConformiteFrequency.findByNcfChanged", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfChanged = :ncfChanged")})
+    @NamedQuery(name = "NonConformiteFrequency.findByNcfChanged", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfChanged = :ncfChanged"),
+    @NamedQuery(name = "NonConformiteFrequency.selectAllByLastChange", query = "SELECT n FROM NonConformiteFrequency n ORDER BY n.ncfChanged DESC")
+})
 public class NonConformiteFrequency implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

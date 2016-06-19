@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -10,103 +10,304 @@
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1>
-                <h:outputText value="#{ism.NonConformiteGravityTitleList}" />
-            </h1>
+            <h1><h:outputText value="#{ism.NonConformiteGravityTitleList}"/></h1>
 
-            <h:form id="NonConformiteGravityListForm">
+            <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}" 
+                                actionListener="#{nonConformiteGravityController.prepareCreate()}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer une nouvelle gravité de non conformité"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser une gravité de non conformité sélectionné."
+                                disabled="#{empty nonConformiteGravityController.selected }"
+                                onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer une gravité de non conformité sélectionné."
+                                disabled="#{empty nonConformiteGravityController.selected }"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer une gravité de non conformité sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('nonConformiteGravity')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteGravityDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteGravityDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty nonConformiteGravityController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des gravité de non conformité "
+                                actionListener="#{nonConformiteGravityController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty nonConformiteGravityController.selected }"
+                                />
+                </p:contextMenu>
 
-                <p:dataTable id="datalist" value="#{nonConformiteGravityController.items}" var="item"
+                
+                
+                
+                
+                
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.ncGravity}" var="item"
+                             filteredValue="#{viewTabManager.ncGravityFiltered}"
+
                              selectionMode="single" selection="#{nonConformiteGravityController.selected}"
-                             paginator="true" resizableColumns="true"
+                             rowIndexVar="_rowIndex"
                              rowKey="#{item.ncgId}"
-                             rows="10"
-                             rowsPerPageTemplate="10,20,30,40,50"
+                             paginator="#{tableView.paginator}" 
+                             rows="#{tableView.rows}" 
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+
+                             emptyMessage="#{ism.EmptyList}"
                              >
 
-                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteGravityField_ncgId}"/>
-                        </f:facet>
+
+
+                   
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.NonConformiteGravityTitleList}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.NonConformiteGravityTitleList}" />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+                    
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{nonConformiteGravityController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+                    
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{nonConformiteGravityController.handleColumnReorder}"  />
+
+
+                    
+                    
+                    
+                    
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{nonConformiteGravityController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{nonConformiteGravityController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteGravityField_ncgId}"
+                              style="width: 24px;" 
+                              visible="#{nonConformiteGravityController.getIsVisibleColKey(ism.NonConformiteGravityField_ncgId)}"
+                              sortBy="#{item.ncgId}" 
+                              filterBy="#{item.ncgId}" filterMatchMode="contains">
                         <h:outputText value="#{item.ncgId}"/>
                     </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteGravityField_ncgGravity}"/>
-                        </f:facet>
+
+
+                    <p:column headerText="#{ism.NonConformiteGravityField_ncgGravity}" 
+                              visible="#{nonConformiteGravityController.getIsVisibleColKey(ism.NonConformiteGravityField_ncgGravity)}"
+                              sortBy="#{item.ncgGravity}" 
+                              filterBy="#{item.ncgGravity}" filterMatchMode="contains">
                         <h:outputText value="#{item.ncgGravity}"/>
                     </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteGravityField_ncgDesignation}"/>
-                        </f:facet>
+
+                    
+                    <p:column headerText="#{ism.NonConformiteGravityField_ncgDesignation}" 
+                              visible="#{nonConformiteGravityController.getIsVisibleColKey(ism.NonConformiteGravityField_ncgDesignation)}"
+                              sortBy="#{item.ncgDesignation}" 
+                              filterBy="#{item.ncgDesignation}" filterMatchMode="contains">
                         <h:outputText value="#{item.ncgDesignation}"/>
                     </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteGravityField_ncgDeleted}"/>
+
+
+                    <p:column headerText="#{ism.NonConformiteGravityField_ncgDeleted}"
+                              visible="#{nonConformiteGravityController.getIsVisibleColKey(ism.NonConformiteGravityField_ncgDeleted)}"
+                              sortBy="#{item.ncgDeleted}" filterBy="#{item.ncgDeleted}" filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
                         </f:facet>
                         <p:selectBooleanCheckbox value="#{item.ncgDeleted}" disabled="true"/>
                     </p:column>
                     
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteGravityField_ncgCreated}"/>
+
+
+                    <p:column headerText="#{ism.NonConformiteGravityField_ncgCreated}" 
+                              visible="#{nonConformiteGravityController.getIsVisibleColKey(ism.NonConformiteGravityField_ncgCreated)}"
+                              sortBy="#{item.ncgCreated}" filterBy="#{item.ncgCreated}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.ncgCreated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteGravityField_ncgChanged}"/>
+
+                    <p:column headerText="#{ism.NonConformiteGravityField_ncgChanged}" 
+                              visible="#{nonConformiteGravityController.getIsVisibleColKey(ism.NonConformiteGravityField_ncgChanged)}"
+                              sortBy="#{item.ncgChanged}" filterBy="#{item.ncgChanged}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.ncgChanged}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
+
                     </p:column>
-                    
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteGravityField_ncgCompany}"/>
-                        </f:facet>
+
+                    <p:column headerText="#{ism.NonConformiteGravityField_ncgCompany}" 
+                              visible="#{nonConformiteGravityController.getIsVisibleColKey(ism.NonConformiteGravityField_ncgCompany)}"
+                              sortBy="#{item.ncgCompany.CCompany} - #{item.ncgCompany.CDesignation}" 
+                              filterBy="#{item.ncgCompany.CCompany} - #{item.ncgCompany.CDesignation}" filterMatchMode="contains">
                         <h:outputText value="#{item.ncgCompany.CCompany} - #{item.ncgCompany.CDesignation}"/>
                     </p:column>
-                    
-                    <f:facet name="footer">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{ism.Create}" actionListener="#{nonConformiteGravityController.prepareCreate}" update=":NonConformiteGravityCreateForm" oncomplete="PF('NonConformiteGravityCreateDialog').show()"/>
-                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{ism.View}" update=":NonConformiteGravityViewForm" oncomplete="PF('NonConformiteGravityViewDialog').show()" disabled="#{empty nonConformiteGravityController.selected}"/>
-                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{ism.Edit}" update=":NonConformiteGravityEditForm" oncomplete="PF('NonConformiteGravityEditDialog').show()" disabled="#{empty nonConformiteGravityController.selected}"/>
-                        <p:commandButton id="deleteButton" 
-                                         icon="ui-icon-trash"  
-                                         value="#{ism.Delete}" 
-                                         actionListener="#{nonConformiteGravityController.destroy}" 
-                                         update=":growl,datalist" 
-                                         disabled="#{empty nonConformiteGravityController.selected}">
-                            <p:confirm header="#{ism.NonConformiteGravityTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                       message="#{ism.ConfirmDeleteMessage}" 
-                                       icon="ui-icon-alert"/>
-                            <p:confirmDialog global="true">
-                                <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
-                                                 icon="ui-icon-check"/>
-                                <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
-                                                 icon="ui-icon-close"/>
-                            </p:confirmDialog>
-                        </p:commandButton>
-                    </f:facet>
-                </p:dataTable>
 
+                </p:dataTable>
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{nonConformiteGravityController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer une nouvelle gravité de non conformité"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser une gravité de non conformité sélectionné."
+                                 disabled="#{empty nonConformiteGravityController.selected 
+                                             or empty nonConformiteGravityController.selected.ncgId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer une gravité de non conformité sélectionné."
+                                 disabled="#{empty nonConformiteGravityController.selected 
+                                             or empty nonConformiteGravityController.selected.ncgId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer une gravité de non conformité sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('nonConformiteGravity')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteGravityDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteGravityDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty nonConformiteGravityController.selected 
+                                             or empty nonConformiteGravityController.selected.ncgId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des gravités de non conformité "
+                                 actionListener="#{nonConformiteGravityController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty nonConformiteGravityController.selected 
+                                             or empty nonConformiteGravityController.selected.ncgId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
     </ui:composition>
 
 </html>

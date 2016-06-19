@@ -68,20 +68,16 @@ Configuration :
 
     Commit :
     # GENERALITES :
-    + Dans les fenêtres vue Ajoute d'un bouton d'impression dans le menu et en bas
-    de présentation
-    + Retirer des contrôleurs la definition de face converter par le nom,
-    + Ajouter au contrôleurs à la méthode get selected une condition de vérification 
-    d'existance qui oblige la création d'un item vide
-    + Modification des calendars en français
     
 
     # SPECIFIQUE
-    ## DOCEXPLORER :
-    + List modification des menus déroulant de filtre par rapport au contrôleur
-    et non à viewTabManager
-    + Réalisation de l'options view avec affichage de l'icone et le lien
-    + Fin de List-View-Create-Edit
+    ## NonConformite : Frequency-Gravity-Nature-Unite
+    + Mise à jour Entité
+    + Mise à jour Facade
+    + Mise à jour controler
+    + Mise à jour message
+    + Mise à jour viewtabManager
+    + Modification List - View - Create - Edit
     
 
 

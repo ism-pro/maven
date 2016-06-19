@@ -20,9 +20,17 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.ism.entities.DocExplorer;
 import org.ism.entities.DocType;
+import org.ism.entities.NonConformiteFrequency;
+import org.ism.entities.NonConformiteGravity;
+import org.ism.entities.NonConformiteNature;
+import org.ism.entities.NonConformiteUnite;
 import org.ism.entities.Processus;
 import org.ism.jsf.DocExplorerController;
 import org.ism.jsf.DocTypeController;
+import org.ism.jsf.NonConformiteFrequencyController;
+import org.ism.jsf.NonConformiteGravityController;
+import org.ism.jsf.NonConformiteNatureController;
+import org.ism.jsf.NonConformiteUniteController;
 import org.ism.jsf.ProcessusController;
 
 /**
@@ -46,6 +54,22 @@ public class ViewTabManager implements Serializable {
     private DocTypeController docTypeCtrl;
     private List<DocType> docType;
     private List<DocType> docTypeFiltered;
+
+    private NonConformiteFrequencyController ncFrequencyCtrl;
+    private List<NonConformiteFrequency> ncFrequency;
+    private List<NonConformiteFrequency> ncFrequencyFiltered;
+
+    private NonConformiteGravityController ncGravityCtrl;
+    private List<NonConformiteGravity> ncGravity;
+    private List<NonConformiteGravity> ncGravityFiltered;
+
+    private NonConformiteNatureController ncNatureCtrl;
+    private List<NonConformiteNature> ncNature;
+    private List<NonConformiteNature> ncNatureFiltered;
+
+    private NonConformiteUniteController ncUniteCtrl;
+    private List<NonConformiteUnite> ncUnite;
+    private List<NonConformiteUnite> ncUniteFiltered;
 
 
     /*
@@ -77,6 +101,21 @@ public class ViewTabManager implements Serializable {
                 getValue(facesContext.getELContext(), null, "docTypeController");
         docType = docTypeCtrl.getItemsByLastChanged();
 
+        ncFrequencyCtrl = (NonConformiteFrequencyController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "nonConformiteFrequencyController");
+        ncFrequency = ncFrequencyCtrl.getItemsByLastChanged();
+
+        ncGravityCtrl = (NonConformiteGravityController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "nonConformiteGravityController");
+        ncGravity = ncGravityCtrl.getItemsByLastChanged();
+
+        ncNatureCtrl = (NonConformiteNatureController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "nonConformiteNatureController");
+        ncNature = ncNatureCtrl.getItemsByLastChanged();
+
+        ncUniteCtrl = (NonConformiteUniteController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "nonConformiteUniteController");
+        ncUnite = ncUniteCtrl.getItemsByLastChanged();
     }
 
     /**
@@ -140,6 +179,90 @@ public class ViewTabManager implements Serializable {
 
     public void setDocTypeFiltered(List<DocType> docTypeFiltered) {
         this.docTypeFiltered = docTypeFiltered;
+    }
+
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<NonConformiteFrequency> getNcFrequency() {
+        return ncFrequency;
+    }
+
+    public void setNcFrequency(List<NonConformiteFrequency> ncFrequency) {
+        this.ncFrequency = ncFrequency;
+    }
+
+    public List<NonConformiteFrequency> getNcFrequencyFiltered() {
+        return ncFrequencyFiltered;
+    }
+
+    public void setNcFrequencyFiltered(List<NonConformiteFrequency> ncFrequencyFiltered) {
+        this.ncFrequencyFiltered = ncFrequencyFiltered;
+    }
+
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<NonConformiteGravity> getNcGravity() {
+        return ncGravity;
+    }
+
+    public void setNcGravity(List<NonConformiteGravity> ncGravity) {
+        this.ncGravity = ncGravity;
+    }
+
+    public List<NonConformiteGravity> getNcGravityFiltered() {
+        return ncGravityFiltered;
+    }
+
+    public void setNcGravityFiltered(List<NonConformiteGravity> ncGravityFiltered) {
+        this.ncGravityFiltered = ncGravityFiltered;
+    }
+
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<NonConformiteNature> getNcNature() {
+        return ncNature;
+    }
+
+    public void setNcNature(List<NonConformiteNature> ncNature) {
+        this.ncNature = ncNature;
+    }
+
+    public List<NonConformiteNature> getNcNatureFiltered() {
+        return ncNatureFiltered;
+    }
+
+    public void setNcNatureFiltered(List<NonConformiteNature> ncNatureFiltered) {
+        this.ncNatureFiltered = ncNatureFiltered;
+    }
+
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<NonConformiteUnite> getNcUnite() {
+        return ncUnite;
+    }
+
+    public void setNcUnite(List<NonConformiteUnite> ncUnite) {
+        this.ncUnite = ncUnite;
+    }
+
+    public List<NonConformiteUnite> getNcUniteFiltered() {
+        return ncUniteFiltered;
+    }
+
+    public void setNcUniteFiltered(List<NonConformiteUnite> ncUniteFiltered) {
+        this.ncUniteFiltered = ncUniteFiltered;
     }
 
     /**
@@ -212,6 +335,11 @@ public class ViewTabManager implements Serializable {
         processus = processusCtrl.getItemsByLastChanged();
         docExplorer = docExplorerCtrl.getItemsByLastChanged();
         docType = docTypeCtrl.getItemsByLastChanged();
+
+        ncFrequency = ncFrequencyCtrl.getItemsByLastChanged();
+        ncGravity = ncGravityCtrl.getItemsByLastChanged();
+        ncNature = ncNatureCtrl.getItemsByLastChanged();
+        ncUnite = ncUniteCtrl.getItemsByLastChanged();
     }
 
     /**
@@ -232,6 +360,22 @@ public class ViewTabManager implements Serializable {
             case "docType":
                 docTypeCtrl.destroy();
                 docType = docTypeCtrl.getItemsByLastChanged();
+                break;
+            case "nonConformiteFrequency":
+                ncFrequencyCtrl.destroy();
+                ncFrequency = ncFrequencyCtrl.getItemsByLastChanged();
+                break;
+            case "nonConformiteGravity":
+                ncGravityCtrl.destroy();
+                ncGravity = ncGravityCtrl.getItemsByLastChanged();
+                break;
+            case "nonConformiteNature":
+                ncNatureCtrl.destroy();
+                ncNature = ncNatureCtrl.getItemsByLastChanged();
+                break;
+            case "nonConformiteUnite":
+                ncUniteCtrl.destroy();
+                ncUnite = ncUniteCtrl.getItemsByLastChanged();
                 break;
             default:
                 String allowedCtrl = " Allowed :  processus / docExplorer / docType / ";

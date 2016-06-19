@@ -1,58 +1,147 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="NonConformiteNatureViewDlg" widgetVar="NonConformiteNatureViewDialog" 
-                  dynamic="true" showEffect="clip"  hideEffect="clip"
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.NonConformiteNatureTitleView}">
-            
-            <h:form id="NonConformiteNatureViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{nonConformiteNatureController.selected != null}">
-                        
-                        <h:outputText value="#{ism.NonConformiteNatureField_ncnId}"/>
-                        <h:outputText value="#{nonConformiteNatureController.selected.ncnId}" 
-                                      title="#{ism.NonConformiteNatureFieldInfo_ncnId}"/>
-                        
-                        <h:outputText value="#{ism.NonConformiteNatureField_ncnNature}"/>
-                        <h:outputText value="#{nonConformiteNatureController.selected.ncnNature}" 
-                                      title="#{ism.NonConformiteNatureFieldInfo_ncnNature}"/>
-                        
-                        <h:outputText value="#{ism.NonConformiteNatureField_ncnDesignation}"/>
-                        <h:outputText value="#{nonConformiteNatureController.selected.ncnDesignation}" 
-                                      title="#{ism.NonConformiteNatureFieldInfo_ncnDesignation}"/>
-                        
-                        <h:outputText value="#{ism.NonConformiteNatureField_ncnDeleted}"/>
-                        <p:selectBooleanCheckbox value="#{nonConformiteNatureController.selected.ncnDeleted}" disabled="true"/>
-                        
-                        <h:outputText value="#{ism.NonConformiteNatureField_ncnCreated}"/>
-                        <h:outputText value="#{nonConformiteNatureController.selected.ncnCreated}" 
-                                      title="#{ism.NonConformiteNatureFieldInfo_ncnCreated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        
-                        <h:outputText value="#{ism.NonConformiteNatureField_ncnChanged}"/>
-                        <h:outputText value="#{nonConformiteNatureController.selected.ncnChanged}" 
-                                      title="#{ism.NonConformiteNatureFieldInfo_ncnChanged}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        
-                        <h:outputText value="#{ism.NonConformiteNatureField_ncnCompany}"/>
-                        <h:outputText value="#{nonConformiteNatureController.selected.ncnCompany.CCompany} - #{nonConformiteNatureController.selected.ncnCompany.CDesignation}" 
-                                      title="#{ism.NonConformiteNatureFieldInfo_ncnCompany}"/>
-                    
-                    </p:panelGrid>
-                    <p:commandButton value="#{ism.Close}" onclick="NonConformiteNatureViewDialog.hide()"/>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteNatureTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{nonConformiteNatureController.selected != null}">
+
+
+                    <h:outputText value="#{ism.NonConformiteNatureField_ncnId}"/>
+                    <h:outputText value="#{nonConformiteNatureController.selected.ncnId}" 
+                                  title="#{ism.NonConformiteNatureFieldInfo_ncnId}"/>
+
+                    <h:outputText value="#{ism.NonConformiteNatureField_ncnNature}"/>
+                    <h:outputText value="#{nonConformiteNatureController.selected.ncnNature}" 
+                                  title="#{ism.NonConformiteNatureFieldInfo_ncnNature}"/>
+
+                    <h:outputText value="#{ism.NonConformiteNatureField_ncnDesignation}"/>
+                    <h:outputText value="#{nonConformiteNatureController.selected.ncnDesignation}" 
+                                  title="#{ism.NonConformiteNatureFieldInfo_ncnDesignation}"/>
+
+                    <h:outputText value="#{ism.NonConformiteNatureField_ncnDeleted}"/>
+                    <p:selectBooleanCheckbox 
+                        value="#{nonConformiteNatureController.selected.ncnDeleted}" disabled="true"/>
+
+                    <h:outputText value="#{ism.NonConformiteNatureField_ncnCreated}"/>
+                    <h:outputText value="#{nonConformiteNatureController.selected.ncnCreated}" 
+                                  title="#{ism.NonConformiteNatureFieldInfo_ncnCreated}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.NonConformiteNatureField_ncnChanged}"/>
+                    <h:outputText value="#{nonConformiteNatureController.selected.ncnChanged}" 
+                                  title="#{ism.NonConformiteNatureFieldInfo_ncnChanged}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.NonConformiteNatureField_ncnCompany}"/>
+                    <h:outputText value="#{nonConformiteNatureController.selected.ncnCompany}" 
+                                  title="#{ism.NonConformiteNatureFieldInfo_ncnCompany}"/>
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer la nature sélectionné."
+                                     disabled="#{empty nonConformiteNatureController.selected 
+                                                 or empty nonConformiteNatureController.selected.ncnId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer  la nature sélectionné !"
+                                     actionListener="#{nonConformiteNatureController.destroy()}"
+                                     update=":bodyForm,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteNatureDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteNatureDlgMessage)}
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty nonConformiteNatureController.selected 
+                                                 or empty nonConformiteNatureController.selected.ncnId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer la nature sélectionné."
+                                 disabled="#{empty nonConformiteNatureController.selected 
+                                             or empty nonConformiteNatureController.selected.ncnId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer la nature sélectionné !"
+                                 actionListener="#{nonConformiteNatureController.destroy()}"
+                                 update=":bodyForm,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteNatureDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteNatureDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty nonConformiteNatureController.selected 
+                                             or empty nonConformiteNatureController.selected.ncnId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

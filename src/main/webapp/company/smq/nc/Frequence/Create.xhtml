@@ -1,51 +1,178 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="NonConformiteFrequencyCreateDlg" 
-                  widgetVar="NonConformiteFrequencyCreateDialog" 
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.NonConformiteFrequencyTitleCreate}">
-            
-            <h:form id="NonConformiteFrequencyCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{nonConformiteFrequencyController.selected != null}">
-                        <p:outputLabel rendered="false" value="#{ism.NonConformiteFrequencyField_ncfId}" for="ncfId" />
-                        <p:inputText id="ncfId" rendered="false" value="#{nonConformiteFrequencyController.selected.ncfId}" title="#{ism.CreateNonConformiteFrequencyTitle_ncfId}" required="true" requiredMessage="#{ism.CreateNonConformiteFrequencyRequiredMessage_ncfId}"/>
-                        
-                        <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfFrequency}" for="ncfFrequency" />
-                        <p:inputText id="ncfFrequency" value="#{nonConformiteFrequencyController.selected.ncfFrequency}" title="#{ism.CreateNonConformiteFrequencyTitle_ncfFrequency}" required="true" requiredMessage="#{ism.CreateNonConformiteFrequencyRequiredMessage_ncfFrequency}"/>
-                        
-                        <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfDesignation}" for="ncfDesignation" />
-                        <p:inputText id="ncfDesignation" value="#{nonConformiteFrequencyController.selected.ncfDesignation}" title="#{ism.CreateNonConformiteFrequencyTitle_ncfDesignation}" required="true" requiredMessage="#{ism.CreateNonConformiteFrequencyRequiredMessage_ncfDesignation}"/>
-                        
-                        <p:outputLabel rendered="false" value="#{ism.NonConformiteFrequencyField_ncfDeleted}" for="ncfDeleted" />
-                        <p:selectBooleanCheckbox id="ncfDeleted" rendered="false" value="#{nonConformiteFrequencyController.selected.ncfDeleted}" required="true" requiredMessage="#{ism.EditNonConformiteFrequencyRequiredMessage_ncfDeleted}"/>
-                        
-                        <p:outputLabel rendered="false" value="#{ism.NonConformiteFrequencyField_ncfCreated}" for="ncfCreated" />
-                        <p:calendar id="ncfCreated" rendered="false" pattern="dd/MM/yyyy HH:mm:ss" value="#{nonConformiteFrequencyController.selected.ncfCreated}" title="#{ism.EditNonConformiteFrequencyTitle_ncfCreated}" required="true" requiredMessage="#{ism.EditNonConformiteFrequencyRequiredMessage_ncfCreated}" showOn="button"/>
-                        
-                        <p:outputLabel rendered="false" value="#{ism.NonConformiteFrequencyField_ncfChanged}" for="ncfChanged" />
-                        <p:calendar id="ncfChanged" rendered="false" pattern="dd/MM/yyyy HH:mm:ss" value="#{nonConformiteFrequencyController.selected.ncfChanged}" title="#{ism.EditNonConformiteFrequencyTitle_ncfChanged}" required="true" requiredMessage="#{ism.EditNonConformiteFrequencyRequiredMessage_ncfChanged}" showOn="button"/>
-                        
-                        <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfCompany}" for="ncfCompany" />
-                        <p:selectOneMenu id="ncfCompany" value="#{nonConformiteFrequencyController.selected.ncfCompany}" required="true" requiredMessage="#{ism.EditNonConformiteFrequencyRequiredMessage_ncfCompany}">
-                            <f:selectItem  itemValue="#{staffAuthController.company}"
-                                           itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
-                        </p:selectOneMenu>
-                        
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{nonConformiteFrequencyController.create}" value="#{ism.Save}" update="display,:NonConformiteFrequencyListForm:datalist,:growl" oncomplete="handleSubmit(args,'NonConformiteFrequencyCreateDialog');"/>
-                    <p:commandButton value="#{ism.Cancel}" onclick="NonConformiteFrequencyCreateDialog.hide()"/>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteFrequencyTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{nonConformiteFrequencyController.selected != null}">
+
+                    <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfId}" rendered="false" for="ncfId" />
+                    <p:inputText id="ncfId" rendered="false"
+                                 value="#{nonConformiteFrequencyController.selected.ncfId}" 
+                                 title="#{ism.NonConformiteFrequencyFieldInfo_ncfId}" />
+
+                    
+                    <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfFrequency}" for="ncfFrequency" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncfFrequency" 
+                                     value="#{nonConformiteFrequencyController.selected.ncfFrequency}" 
+                                     title="#{ism.NonConformiteFrequencyFieldInfo_ncfFrequency}" 
+                                     validator="NonConformiteFrequencyCodeValidator"
+                                     required="true" requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfFrequency}"/>
+                        <p:message for="ncfFrequency" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfDesignation}" for="ncfDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncfDesignation" 
+                                     value="#{nonConformiteFrequencyController.selected.ncfDesignation}"
+                                     title="#{ism.NonConformiteFrequencyFieldInfo_ncfDesignation}" 
+                                     validator="NonConformiteFrequencyDesignationValidator"
+                                     required="true" requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfDesignation}"/>
+                        <p:message for="ncfDesignation"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfDeleted}" for="ncfDeleted" />
+                    <p:selectBooleanCheckbox id="ncfDeleted" 
+                                             value="#{nonConformiteFrequencyController.selected.ncfDeleted}" 
+                                             required="true" 
+                                             requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfDeleted}"/>
+                    
+                    
+                    <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfCreated}" 
+                                   rendered="false" for="ncfCreated" />
+                    <p:calendar id="ncfCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
+                                value="#{nonConformiteFrequencyController.selected.ncfCreated}" 
+                                title="#{ism.NonConformiteFrequencyFieldInfo_ncfCreated}" 
+                                required="true" 
+                                requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfCreated}" 
+                                showOn="button"/>
+
+                    
+                    
+                    <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfChanged}" 
+                                   rendered="false" for="ncfChanged" />
+                    <p:calendar id="ncfChanged" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
+                                value="#{nonConformiteFrequencyController.selected.ncfChanged}" 
+                                title="#{ism.NonConformiteFrequencyFieldInfo_ncfChanged}" 
+                                required="true" 
+                                requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfChanged}" 
+                                showOn="button"/>
+                    
+
+                    <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfCompany}" for="ncfCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncfCompany" widgetVar="ncfCompany"
+                                     value="#{nonConformiteFrequencyController.selected.ncfCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfCompany}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{nonConformiteFrequencyController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{nonConformiteFrequencyController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{nonConformiteFrequencyController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:ncfCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{nonConformiteFrequencyController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{nonConformiteFrequencyController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:ncfCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!nonConformiteFrequencyController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{nonConformiteFrequencyController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{nonConformiteFrequencyController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:ncfCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{nonConformiteFrequencyController.isOnMultiCreation}"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{nonConformiteFrequencyController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:ncfCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!nonConformiteFrequencyController.isOnMultiCreation}"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{nonConformiteFrequencyController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

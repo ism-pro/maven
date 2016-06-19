@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -10,97 +10,304 @@
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1>
-                <h:outputText value="#{ism.NonConformiteFrequencyTitleList}" />
-            </h1>
+            <h1><h:outputText value="#{ism.NonConformiteFrequencyTitleList}"/></h1>
 
-            <h:form id="NonConformiteFrequencyListForm">
-                <p:dataTable id="datalist" value="#{nonConformiteFrequencyController.items}" var="item"
+            <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}" 
+                                actionListener="#{nonConformiteFrequencyController.prepareCreate()}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer une nouvelle fréquence de non conformité"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser une fréquence de non conformité sélectionné."
+                                disabled="#{empty nonConformiteFrequencyController.selected }"
+                                onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer une fréquence de non conformité sélectionné."
+                                disabled="#{empty nonConformiteFrequencyController.selected }"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer une fréquence de non conformité sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('nonConformiteFrequency')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteFrequencyDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteFrequencyDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty nonConformiteFrequencyController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des fréquence de non conformité "
+                                actionListener="#{nonConformiteFrequencyController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty nonConformiteFrequencyController.selected }"
+                                />
+                </p:contextMenu>
+
+                
+                
+                
+                
+                
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.ncFrequency}" var="item"
+                             filteredValue="#{viewTabManager.ncFrequencyFiltered}"
+
                              selectionMode="single" selection="#{nonConformiteFrequencyController.selected}"
-                             paginator="true"
+                             rowIndexVar="_rowIndex"
                              rowKey="#{item.ncfId}"
-                             rows="10"
-                             rowsPerPageTemplate="10,20,30,40,50"
+                             paginator="#{tableView.paginator}" 
+                             rows="#{tableView.rows}" 
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+
+                             emptyMessage="#{ism.EmptyList}"
                              >
 
-                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteFrequencyField_ncfId}"/>
-                        </f:facet>
+
+
+                   
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.NonConformiteFrequencyTitleList}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.NonConformiteFrequencyTitleList}" />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+                    
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{nonConformiteFrequencyController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+                    
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{nonConformiteFrequencyController.handleColumnReorder}"  />
+
+
+                    
+                    
+                    
+                    
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{nonConformiteFrequencyController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{nonConformiteFrequencyController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteFrequencyField_ncfId}"
+                              style="width: 24px;" 
+                              visible="#{nonConformiteFrequencyController.getIsVisibleColKey(ism.NonConformiteFrequencyField_ncfId)}"
+                              sortBy="#{item.ncfId}" 
+                              filterBy="#{item.ncfId}" filterMatchMode="contains">
                         <h:outputText value="#{item.ncfId}"/>
                     </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteFrequencyField_ncfFrequency}"/>
-                        </f:facet>
+
+
+                    <p:column headerText="#{ism.NonConformiteFrequencyField_ncfFrequency}" 
+                              visible="#{nonConformiteFrequencyController.getIsVisibleColKey(ism.NonConformiteFrequencyField_ncfFrequency)}"
+                              sortBy="#{item.ncfFrequency}" 
+                              filterBy="#{item.ncfFrequency}" filterMatchMode="contains">
                         <h:outputText value="#{item.ncfFrequency}"/>
                     </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteFrequencyField_ncfDesignation}"/>
-                        </f:facet>
+
+                    
+                    <p:column headerText="#{ism.NonConformiteFrequencyField_ncfDesignation}" 
+                              visible="#{nonConformiteFrequencyController.getIsVisibleColKey(ism.NonConformiteFrequencyField_ncfDesignation)}"
+                              sortBy="#{item.ncfDesignation}" 
+                              filterBy="#{item.ncfDesignation}" filterMatchMode="contains">
                         <h:outputText value="#{item.ncfDesignation}"/>
                     </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteFrequencyField_ncfDeleted}"/>
+
+
+                    <p:column headerText="#{ism.NonConformiteFrequencyField_ncfDeleted}"
+                              visible="#{nonConformiteFrequencyController.getIsVisibleColKey(ism.NonConformiteFrequencyField_ncfDeleted)}"
+                              sortBy="#{item.ncfDeleted}" filterBy="#{item.ncfDeleted}" filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
                         </f:facet>
                         <p:selectBooleanCheckbox value="#{item.ncfDeleted}" disabled="true"/>
                     </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteFrequencyField_ncfCreated}"/>
+                    
+
+
+                    <p:column headerText="#{ism.NonConformiteFrequencyField_ncfCreated}" 
+                              visible="#{nonConformiteFrequencyController.getIsVisibleColKey(ism.NonConformiteFrequencyField_ncfCreated)}"
+                              sortBy="#{item.ncfCreated}" filterBy="#{item.ncfCreated}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.ncfCreated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteFrequencyField_ncfChanged}"/>
+
+                    <p:column headerText="#{ism.NonConformiteFrequencyField_ncfChanged}" 
+                              visible="#{nonConformiteFrequencyController.getIsVisibleColKey(ism.NonConformiteFrequencyField_ncfChanged)}"
+                              sortBy="#{item.ncfChanged}" filterBy="#{item.ncfChanged}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.ncfChanged}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
+
                     </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.NonConformiteFrequencyField_ncfCompany}"/>
-                        </f:facet>
+
+                    <p:column headerText="#{ism.NonConformiteFrequencyField_ncfCompany}" 
+                              visible="#{nonConformiteFrequencyController.getIsVisibleColKey(ism.NonConformiteFrequencyField_ncfCompany)}"
+                              sortBy="#{item.ncfCompany.CCompany} - #{item.ncfCompany.CDesignation}" 
+                              filterBy="#{item.ncfCompany.CCompany} - #{item.ncfCompany.CDesignation}" filterMatchMode="contains">
                         <h:outputText value="#{item.ncfCompany.CCompany} - #{item.ncfCompany.CDesignation}"/>
                     </p:column>
-                    <f:facet name="footer">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{ism.Create}" actionListener="#{nonConformiteFrequencyController.prepareCreate}" update=":NonConformiteFrequencyCreateForm" oncomplete="PF('NonConformiteFrequencyCreateDialog').show()"/>
-                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{ism.View}" update=":NonConformiteFrequencyViewForm" oncomplete="PF('NonConformiteFrequencyViewDialog').show()" disabled="#{empty nonConformiteFrequencyController.selected}"/>
-                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{ism.Edit}" update=":NonConformiteFrequencyEditForm" oncomplete="PF('NonConformiteFrequencyEditDialog').show()" disabled="#{empty nonConformiteFrequencyController.selected}"/>
-                        <p:commandButton id="deleteButton" 
-                                         icon="ui-icon-trash"  
-                                         value="#{ism.Delete}" 
-                                         actionListener="#{nonConformiteFrequencyController.destroy}" 
-                                         update=":growl,datalist" 
-                                         disabled="#{empty nonConformiteFrequencyController.selected}">
-                            <p:confirm header="#{ism.NonConformiteFrequencyTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                       message="#{ism.ConfirmDeleteMessage}" 
-                                       icon="ui-icon-alert"/>
-                            <p:confirmDialog global="true">
-                                <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
-                                                 icon="ui-icon-check"/>
-                                <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
-                                                 icon="ui-icon-close"/>
-                            </p:confirmDialog>
-                        </p:commandButton>
-                    </f:facet>
-                </p:dataTable>
 
+                </p:dataTable>
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{nonConformiteFrequencyController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer une nouvelle fréquence de non conformité"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser une fréquence de non conformité sélectionné."
+                                 disabled="#{empty nonConformiteFrequencyController.selected 
+                                             or empty nonConformiteFrequencyController.selected.ncfId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer une fréquence de non conformité sélectionné."
+                                 disabled="#{empty nonConformiteFrequencyController.selected 
+                                             or empty nonConformiteFrequencyController.selected.ncfId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer une fréquence de non conformité sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('nonConformiteFrequency')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteFrequencyDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteFrequencyDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty nonConformiteFrequencyController.selected 
+                                             or empty nonConformiteFrequencyController.selected.ncfId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des fréquences de non conformité "
+                                 actionListener="#{nonConformiteFrequencyController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty nonConformiteFrequencyController.selected 
+                                             or empty nonConformiteFrequencyController.selected.ncfId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
     </ui:composition>
 
 </html>

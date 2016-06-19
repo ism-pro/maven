@@ -44,7 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteGravity.findByNcgDesignation", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgDesignation = :ncgDesignation"),
     @NamedQuery(name = "NonConformiteGravity.findByNcgDeleted", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgDeleted = :ncgDeleted"),
     @NamedQuery(name = "NonConformiteGravity.findByNcgCreated", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgCreated = :ncgCreated"),
-    @NamedQuery(name = "NonConformiteGravity.findByNcgChanged", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgChanged = :ncgChanged")})
+    @NamedQuery(name = "NonConformiteGravity.findByNcgChanged", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgChanged = :ncgChanged"),
+    @NamedQuery(name = "NonConformiteGravity.selectAllByLastChange", query = "SELECT n FROM NonConformiteGravity n ORDER BY n.ncgChanged DESC")
+})
 public class NonConformiteGravity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
