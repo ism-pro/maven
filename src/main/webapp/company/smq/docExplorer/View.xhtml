@@ -1,95 +1,181 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="DocExplorerViewDlg" widgetVar="DocExplorerViewDialog" 
-                  dynamic="true" showEffect="clip"  hideEffect="clip"
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.DocExplorerTitleView}">
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-            <h:form id="DocExplorerViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{docExplorerController.selected != null}">
-                        
-                        <h:outputText value="#{ism.DocExplorerField_Id}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcId}" 
-                                      title="#{ism.DocExplorerFieldInfo_Id}"/>
-                        
-                        
-                        <h:outputText value="#{ism.DocExplorerField_Processus}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcProcessus.PProcessus} - #{docExplorerController.selected.dcProcessus.PDesignation}" 
-                                      title="#{ism.DocExplorerFieldInfo_Processus}"/>
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.DocExplorerTitleView}"/></h1>
 
-                        <h:outputText value="#{ism.DocExplorerField_DocType}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcType.dctType} - #{docExplorerController.selected.dcType.dctDesignation}" 
-                                      title="#{ism.DocExplorerFieldInfo_DocType}"/>
-                        
-                        <h:outputText value="#{ism.DocExplorerField_Name}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcDesignation}" 
-                                      title="#{ism.DocExplorerFieldInfo_Name}"/>
+            <h:form id="bodyForm">
 
-                        <h:outputText value="#{ism.DocExplorerField_Version}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcVersion}" 
-                                      title="#{ism.DocExplorerFieldInfo_Version}"/>
-                        
-                        <h:outputText value="#{ism.DocExplorerField_Commentaire}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcComment}" 
-                                      title="#{ism.DocExplorerFieldInfo_Commentaire}"/>
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{docExplorerController.selected != null}">
 
-                        <h:outputText value="#{ism.DocExplorerField_Link}"/>
-                        <p:commandLink    target="_blank"
-                                          title="#{docExplorerController.selected.dcLink}"
-                                          action="#{fileController.downloadPDF(docExplorerController.selected.dcLink)}"
-                                          ajax="false" immediate="false" 
-                                          style="margin: 0px; padding: 0px;"
-                                          >
-                            <h:graphicImage library="img" 
-                                            name="/me/acroread-icone-3755-128.png"
-                                            width="14px"
-                                            height="16px"
-                                            style="margin: 0px; padding: 0px;"
-                                            />
-                        </p:commandLink>
-                        
-                        <h:outputText value="#{ism.DocExplorerField_DateApprouved}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcApprouved}" 
-                                      title="#{ism.DocExplorerFieldInfo_DateApprouved}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                        
-                        <h:outputText value="#{ism.DocExplorerField_Activated}"/>
-                        <p:selectBooleanCheckbox 
-                            value="#{docExplorerController.selected.dcActivated}" 
-                            disabled="true"/>
-                        
-                        <h:outputText value="#{ism.DocExplorerField_Created}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcCreated}" 
-                                      title="#{ism.DocExplorerFieldInfo_Created}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                        
-                        <h:outputText value="#{ism.DocExplorerField_Timestamp}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcChanged}" 
-                                      title="#{ism.DocExplorerFieldInfo_Timestamp}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                        
-                        <h:outputText value="#{ism.DocExplorerField_Company}"/>
-                        <h:outputText value="#{docExplorerController.selected.dcCompany.CCompany} - #{docExplorerController.selected.dcCompany.CDesignation}" 
-                                      title="#{ism.DocExplorerFieldInfo_Company}"/>
+                    <h:outputText value="#{ism.DocExplorerField_Id}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcId}" 
+                                  title="#{ism.DocExplorerFieldInfo_Id}"/>
 
-                    </p:panelGrid>
-                    <p:commandButton value="#{ism.Close}" 
-                                     onclick="DocExplorerViewDialog.hide()"/>
+                    <h:outputText value="#{ism.DocExplorerField_Processus}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcProcessus.PProcessus} - #{docExplorerController.selected.dcProcessus.PDesignation}" 
+                                  title="#{ism.DocExplorerFieldInfo_Processus}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_DocType}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcType.dctType} - #{docExplorerController.selected.dcType.dctDesignation}" 
+                                  title="#{ism.DocExplorerFieldInfo_DocType}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Name}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcDesignation}" 
+                                  title="#{ism.DocExplorerFieldInfo_Name}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Version}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcVersion}" 
+                                  title="#{ism.DocExplorerFieldInfo_Version}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Commentaire}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcComment}" 
+                                  title="#{ism.DocExplorerFieldInfo_Commentaire}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Link}"/>
+                    <p:commandLink    target="_blank"
+                                      title="#{docExplorerController.selected.dcLink}"
+                                      action="#{fileController.downloadPDF(docExplorerController.selected.dcLink)}"
+                                      ajax="false" immediate="false" 
+                                      style="margin: 0px; padding: 0px;"
+                                      >
+                        <h:graphicImage library="img" 
+                                        name="ism/std/ExtPDF.png"
+                                        width="14px"
+                                        height="16px"
+                                        style="margin: 0px; padding: 0px;"
+                                        />
+                        <h:outputText value="#{docExplorerController.selected.dcLink}" />
+                    </p:commandLink>
+
+                    <h:outputText value="#{ism.DocExplorerField_DateApprouved}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcApprouved}" 
+                                  title="#{ism.DocExplorerFieldInfo_DateApprouved}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.DocExplorerField_Activated}"/>
+                    <p:selectBooleanCheckbox 
+                        value="#{docExplorerController.selected.dcActivated}" disabled="true"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Created}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcCreated}" 
+                                  title="#{ism.DocExplorerFieldInfo_Created}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.DocExplorerField_Timestamp}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcChanged}" 
+                                  title="#{ism.DocExplorerFieldInfo_Timestamp}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.DocExplorerField_Company}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcCompany.CCompany} - #{docExplorerController.selected.dcCompany.CDesignation}" 
+                                  title="#{ism.DocExplorerFieldInfo_Company}"/>
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le document sélectionné."
+                                     disabled="#{empty docExplorerController.selected 
+                                                 or empty docExplorerController.selected.dcId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le document sélectionné !"
+                                     actionListener="#{docExplorerController.destroy()}"
+                                     update=":bodyForm,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.DocExplorerDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.DocExplorerDlgMessage)}
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty docExplorerController.selected 
+                                                 or empty docExplorerController.selected.dcId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le document sélectionné."
+                                 disabled="#{empty docExplorerController.selected 
+                                             or empty docExplorerController.selected.dcId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le document sélectionné !"
+                                 actionListener="#{docExplorerController.destroy()}"
+                                 update=":bodyForm,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.DocExplorerDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.DocExplorerDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty docExplorerController.selected 
+                                             or empty docExplorerController.selected.dcId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

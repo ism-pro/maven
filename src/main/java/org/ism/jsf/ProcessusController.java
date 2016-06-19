@@ -326,6 +326,7 @@ public class ProcessusController implements Serializable {
      * @return
      */
     public Processus getSelected() {
+        if(selected==null)   selected = new Processus();
         return selected;
     }
 
@@ -368,7 +369,7 @@ public class ProcessusController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(value = "processusCtrlConverter", forClass = Processus.class)
+    @FacesConverter(forClass = Processus.class)
     public static class ProcessusControllerConverter implements Converter {
 
         @Override

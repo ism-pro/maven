@@ -5,7 +5,7 @@
  */
 // https://code.google.com/p/primefaces/wiki/PrimeFacesLocales
 // 
-
+ 
 
 // Arabic
 PrimeFaces.locales ['ar'] = {
@@ -177,10 +177,10 @@ PrimeFaces.locales ['fr'] = {
     prevText: 'Précédent',
     nextText: 'Suivant',
     monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
-    monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ],
+    monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ],
     dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
     dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-    dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+    dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
     weekHeader: 'Semaine',
     firstDay: 1,
     isRTL: false,

@@ -1,150 +1,238 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="DocExplorerCreateDlg" widgetVar="DocExplorerCreateDialog" 
-                  dynamic="true" showEffect="clip"  hideEffect="clip"
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.DocExplorerTitleCreate}">
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-            <h:form id="DocExplorerCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{docExplorerController.selected != null}">
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.DocExplorerTitleCreate}"/></h1>
 
-                        <p:outputLabel rendered="false" 
-                                       value="#{ism.DocExplorerField_Id}" 
-                                       for="dcId" />
-                        <p:inputText rendered="false"  id="dcId" 
-                                     value="#{docExplorerController.selected.dcId}" 
-                                     title="#{ism.DocExplorerFieldInfo_Id}" 
-                                     required="false" 
-                                     requiredMessage="#{ism.DocExplorerRequiredMsg_Id}"/>
+            <h:form id="bodyForm" enctype="multipart/form-data">
 
-                        <p:outputLabel value="#{ism.DocExplorerField_Processus}" 
-                                       for="dcProcessus" />
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{processusController.selected != null}">
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Id}" rendered="false" for="dcId" />
+                    <p:inputText id="dcId" rendered="false"
+                                 value="#{docExplorerController.selected.dcId}" 
+                                 title="#{ism.DocExplorerFieldInfo_Id}" />
+
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Processus}" for="dcProcessus" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectOneMenu id="dcProcessus" 
-                                         value="#{docExplorerController.selected.dcProcessus}" 
-                                         required="true" 
-                                         requiredMessage="#{ism.DocExplorerRequiredMsg_Processus}">
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{docExplorerController.selected.dcProcessus}"
+                                         title="#{ism.DocExplorerFieldInfo_Processus}" 
+                                         required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Processus}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
                                            var="dcProcessusItem"
                                            itemLabel="#{dcProcessusItem.PProcessus} - #{dcProcessusItem.PDesignation}"
                                            itemValue="#{dcProcessusItem}"/>
                         </p:selectOneMenu>
+                        <p:message for="dcProcessus" />
+                    </h:panelGrid>
 
-                        <p:outputLabel value="#{ism.DocExplorerField_DocType}" 
-                                       for="dcType" />
+
+                    <p:outputLabel value="#{ism.DocExplorerField_DocType}" for="dcType" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectOneMenu id="dcType" 
+                                         filter="true" filterMatchMode="contains"
                                          value="#{docExplorerController.selected.dcType}" 
-                                         required="true" 
-                                         requiredMessage="#{ism.DocExplorerRequiredMsg_DocType}">
+                                         title="#{ism.DocExplorerFieldInfo_DocType}" 
+                                         required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_DocType}">
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{docTypeController.itemsAvailableSelectOne}"
                                            var="dcTypeItem"
                                            itemLabel="#{dcTypeItem.dctType} - #{dcTypeItem.dctDesignation}"
                                            itemValue="#{dcTypeItem}">
                             </f:selectItems>
                         </p:selectOneMenu>
-                        
-                        <p:outputLabel value="#{ism.DocExplorerField_Name}" 
-                                       for="dcDesignation" />
+                        <p:message for="dcType" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Name}" for="dcDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="dcDesignation" 
                                      value="#{docExplorerController.selected.dcDesignation}" 
                                      title="#{ism.DocExplorerFieldInfo_Name}" 
-                                     required="true" 
-                                     requiredMessage="#{ism.DocExplorerRequiredMsg_Name}"/>
+                                     validator="DocExplorerDesignationValidator"
+                                     required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Name}"/>
+                        <p:message for="dcDesignation" />
+                    </h:panelGrid>
 
-                        <p:outputLabel value="#{ism.DocExplorerField_Version}" 
-                                       for="dcVersion" />
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Version}" for="dcVersion" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="dcVersion" 
                                      value="#{docExplorerController.selected.dcVersion}" 
-                                     title="#{ism.DocExplorerFieldInfo_Version}" />
+                                     title="#{ism.DocExplorerFieldInfo_Version}" 
+                                     validator="DocExplorerCodeValidator"
+                                     required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Version}"/>
+                        <p:message for="dcVersion" />
+                    </h:panelGrid>
 
-                        <p:outputLabel value="#{ism.DocExplorerField_Commentaire}"
-                                       for="dcComment" />
-                        <p:inputTextarea rows="4" cols="30" id="dcComment"
-                                         value="#{docExplorerController.selected.dcComment}" 
-                                         title="#{ism.DocExplorerFieldInfo_Commentaire}" />
+                    <p:outputLabel value="#{ism.DocExplorerField_Commentaire}" for="dcComment" />
+                    <p:inputTextarea rows="4" cols="30" id="dcComment"
+                                     value="#{docExplorerController.selected.dcComment}" 
+                                     title="#{ism.DocExplorerFieldInfo_Commentaire}" />
 
-                        <p:outputLabel value="#{ism.DocExplorerField_Link}" for="dcLink" />
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Link}" for="dcLink" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="dcLink" 
                                      value="#{docExplorerController.selected.dcLink}" 
                                      title="#{ism.DocExplorerFieldInfo_Link}"
-                                     required="true" 
-                                     requiredMessage="#{ism.DocExplorerRequiredMsg_Link}"/>
-
-                        
-                        
-                        <p:outputLabel value="#{ism.DocExplorerField_DateApprouved}" 
-                                       for="dcApprouved" />
-                        <p:calendar id="dcApprouved" pattern="dd/MM/yyyy" 
-                                    value="#{docExplorerController.selected.dcApprouved}" 
-                                    title="#{ism.DocExplorerFieldInfo_DateApprouved}"  
-                                    showOn="button"/>
-
-                        <p:outputLabel value="#{ism.DocExplorerField_Activated}" 
-                                       for="dcActivated" />
-                        <p:selectBooleanCheckbox 
-                            id="dcActivated"    
-                            value="#{docExplorerController.selected.dcActivated}"                
-                            required="true"         
-                            requiredMessage="#{ism.DocExplorerRequiredMsg_Activated}"/>
-
-                        <p:outputLabel rendered="false"
-                                       value="#{ism.DocExplorerField_Created}" for="dcCreated" />
-                        <p:calendar id="dcCreated" rendered="false"
-                                    pattern="dd/MM/yyyy" 
-                                    value="#{docExplorerController.selected.dcCreated}" 
-                                    title="#{ism.DocExplorerFieldInfo_Created}" 
-                                    required="false" 
-                                    requiredMessage="#{ism.DocExplorerRequiredMsg_Created}" 
-                                    showOn="button"/>
-
-                        <p:outputLabel rendered="false" 
-                                       value="#{ism.DocExplorerField_Timestamp}" 
-                                       for="dcChanged" />
-                        <p:calendar rendered="false" id="dcChanged" 
-                                    pattern="dd/MM/yyyy" 
-                                    value="#{docExplorerController.selected.dcChanged}" 
-                                    title="#{ism.DocExplorerFieldInfo_Timestamp}" 
-                                    required="false" 
-                                    requiredMessage="#{ism.DocExplorerRequiredMsg_Timestamp}" 
-                                    showOn="button"/>
-
-                        <p:outputLabel value="#{ism.DocExplorerField_Company}" 
-                                       for="dcCompany" />
-                        <p:selectOneMenu id="dcCompany" 
-                                         value="#{docExplorerController.selected.dcCompany}" 
-                                         required="false" 
-                                         requiredMessage="#{ism.DocExplorerRequiredMsg_Company}">
-                            <f:selectItem  itemValue="#{staffAuthController.company}"
-                                           itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}"
-                                           />
-                        </p:selectOneMenu>
-
-                        
+                                     required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Link}"/>
+                        <p:message for="dcLink" />
+                    </h:panelGrid>
 
 
 
-                    </p:panelGrid>
+                    <p:outputLabel value="#{ism.DocExplorerField_DateApprouved}" for="dcApprouved" />
+                    <p:calendar id="dcApprouved" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" 
+                                value="#{docExplorerController.selected.dcApprouved}" 
+                                title="#{ism.DocExplorerFieldInfo_DateApprouved}"  
+                                />
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Activated}" for="dcActivated" />
+                    <p:selectBooleanCheckbox 
+                        id="dcActivated" 
+                        value="#{docExplorerController.selected.dcActivated}"
+                        required="true"  requiredMessage="#{ism.DocExplorerRequiredMsg_Activated}" />
 
 
-                    <p:commandButton actionListener="#{docExplorerController.create}" 
+                    <p:outputLabel rendered="false"
+                                   value="#{ism.DocExplorerField_Created}" for="dcCreated" />
+                    <p:calendar id="dcCreated" rendered="false"
+                                pattern="dd/MM/yyyy" 
+                                value="#{docExplorerController.selected.dcCreated}" 
+                                title="#{ism.DocExplorerFieldInfo_Created}" 
+                                required="false" 
+                                requiredMessage="#{ism.DocExplorerRequiredMsg_Created}" 
+                                showOn="button"/>
+
+                    <p:outputLabel rendered="false" 
+                                   value="#{ism.DocExplorerField_Timestamp}" 
+                                   for="dcChanged" />
+                    <p:calendar rendered="false" id="dcChanged" 
+                                pattern="dd/MM/yyyy" 
+                                value="#{docExplorerController.selected.dcChanged}" 
+                                title="#{ism.DocExplorerFieldInfo_Timestamp}" 
+                                required="false" 
+                                requiredMessage="#{ism.DocExplorerRequiredMsg_Timestamp}" 
+                                showOn="button"/>
+
+
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Company}" for="dcCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="dcCompany" widgetVar="dcCompany"
+                                     value="#{docExplorerController.selected.dcCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.DocExplorerRequiredMsg_Company}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{docExplorerController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{processusController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
                                      value="#{ism.Save}" 
-                                     update="display,:DocExplorerListForm:datalist,:growl" 
-                                     oncomplete="handleSubmit(args,'DocExplorerCreateDialog');"/>
-                    <p:commandButton value="#{ism.Cancel}" 
-                                     onclick="PF('DocExplorerCreateDialog').hide();"
+                                     actionListener="#{docExplorerController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:dcCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{docExplorerController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{docExplorerController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:dcCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!docExplorerController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{docExplorerController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
                                      />
 
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{docExplorerController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:dcCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{docExplorerController.isOnMultiCreation}"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{docExplorerController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:dcCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!docExplorerController.isOnMultiCreation}"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{docExplorerController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

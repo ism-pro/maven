@@ -23,7 +23,7 @@ public class DocExplorerFacade extends AbstractFacade<DocExplorer> {
     private EntityManager em;
 
     private final String SELECTALLBYLASTCHANGED         = "DocExplorer.selectAllByLastChange";  // query = "SELECT d FROM DocExplorer d ORDER BY d.dcChanged DESC"
-    private final String FIND_BY_CODE                   = "DocExplorer.findByDcId";             // query = "SELECT d FROM DocExplorer d WHERE d.dcId = :dcId"
+    private final String FIND_BY_CODE                   = "DocExplorer.findByDcVersion";             // query = "SELECT d FROM DocExplorer d WHERE WHERE d.dcVersion = :dcVersion"
     private final String FIND_BY_DESIGNATION            = "DocExplorer.findByDcDesignation";    // query = "SELECT d FROM DocExplorer d WHERE d.dcDesignation = :dcDesignation"
     
     
@@ -51,7 +51,7 @@ public class DocExplorerFacade extends AbstractFacade<DocExplorer> {
     
     public List<DocExplorer> findByCode(String code) {
         em.flush();
-        Query q = em.createNamedQuery(FIND_BY_CODE).setParameter("dcId", code);
+        Query q = em.createNamedQuery(FIND_BY_CODE).setParameter("dcVersion", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
         if(count > 0){

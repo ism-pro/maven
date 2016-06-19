@@ -5,25 +5,35 @@
  */
 package org.ism.jsf.util;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import javax.inject.Named;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.servlet.http.Part;
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.component.fileupload.FileUpload;
+import org.primefaces.event.FileUploadEvent;
+
+import org.primefaces.model.UploadedFile;
 
 /**
  *
  * @author r.hendrick
  */
-@Named(value = "fileUploaderController")
+@ManagedBean(name = "fileUploaderController")
 @SessionScoped
-public class FileUploaderController  implements Serializable {
+public class FileUploaderController implements Serializable {
 
     private Part file = null;
     private String text;
+    private String saveFileName;
 
     /**
      * Creates a new instance of FileUploaderController
@@ -93,8 +103,46 @@ public class FileUploaderController  implements Serializable {
                 text = new Scanner(is).useDelimiter("\\A").next();
             } catch (IOException ex) {
             }
-        }else{
-            
+        } else {
+
         }
     }
+
+    public void handleFileUpload(FileUploadEvent event) throws IOException {
+        UploadedFile uploadedFile = event.getFile();
+        FileUpload fu = (FileUpload) event.getSource();
+        String fileName = uploadedFile.getFileName();
+        String contentType = uploadedFile.getContentType();
+        
+        InputStream is = null;
+        FileOutputStream fos = null;
+        Boolean success = (new File("C:/ISMFILES/SMQ/Documents")).mkdirs();
+        try {
+            is = uploadedFile.getInputstream();
+            fos = new FileOutputStream("\\C:\\ISMFiles\\SMQ\\Documents\\" + fileName);
+
+            int c;
+            while ((c = is.read()) != -1) {
+                fos.write(c);
+            }
+            saveFileName = "C:/ISMFILES/SMQ/Documents/" + fileName;
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+            if (fos != null) {
+                fos.close();
+            }
+        }
+    }
+
+    public String getSaveFileName() {
+        return saveFileName;
+    }
+
+    public void setSaveFileName(String saveFileName) {
+        this.saveFileName = saveFileName;
+    }
+    
+    
 }

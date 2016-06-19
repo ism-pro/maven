@@ -34,7 +34,8 @@
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
 
-            <h:outputScript library="js" name="ism-global.js" />
+            <h:outputScript library="js" name="ism-global.min.js" />
+            <h:outputScript library="js" name="lang.min.js" />
         </f:facet>
     </h:head>
 
@@ -81,7 +82,7 @@
                 <h:form id="mainForm">
                     <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
                             listener="#{viewRibbon.updateReminingTimeSession()}" 
-                            update="shortcut-label-reminingTimeout"  />
+                            update="shortcut-label-reminingTimeout" global="false"  />
 
                     <div id="ribbon-layout">
                         <div id="ribbon-layout-shortcut">

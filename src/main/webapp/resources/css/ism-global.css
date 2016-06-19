@@ -283,6 +283,10 @@ time, mark, audio, video {
     background: url("#{resource['img/ism/std/Refresh.png']}") no-repeat;
     background-size:contain;
 }
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Print, .ui-menuitem-icon.ui-icon.ui-btn-Print{
+    background: url("#{resource['img/ism/std/Print.png']}") no-repeat;
+    background-size:contain;
+}
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgCritical{
     background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
     background-size:contain;
@@ -404,17 +408,17 @@ time, mark, audio, video {
     width: 100%;
 }
 .columnContentClass input,
-.columnContentClass select{
-    width: 400px;
+.columnContentClass select,
+.columnContentClass textarea{
+    width: 410px;
+}
+.columnContentClass textarea{
+    width: 410px!important;
 }
 
 .columnContentClass .ui-selectonemenu {
-    min-width: 405px;
-    max-width: 405px;
+    min-width: 382px;
+    max-width: 382px;
 }
-/*
-.columnContentClass .ui-selectonemenu label{
-    min-height: 16px;
-}
-*/
+
 

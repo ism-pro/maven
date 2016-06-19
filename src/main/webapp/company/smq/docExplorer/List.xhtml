@@ -172,7 +172,7 @@
                             <p:selectOneMenu onchange="PF('datalist').filter()" >
                                 <f:selectItem itemLabel="#{ism.SelectList}" 
                                               itemValue="#{null}" noSelectionOption="true" />
-                                <f:selectItems value="#{viewTabManager.processus}" 
+                                <f:selectItems value="#{processusController.itemsAvailableSelectOne}" 
                                                var="vProcessus"
                                                itemLabel="#{vProcessus.PProcessus} - #{vProcessus.PDesignation}"
                                                itemValue="#{vProcessus}"
@@ -191,7 +191,7 @@
                             <p:selectOneMenu onchange="PF('datalist').filter()" >
                                 <f:selectItem itemLabel="#{ism.SelectList}" 
                                               itemValue="#{null}" noSelectionOption="true" />
-                                <f:selectItems value="#{viewTabManager.docType}" 
+                                <f:selectItems value="#{docTypeController.itemsAvailableSelectOne}" 
                                                var="vDocType"
                                                itemLabel="#{vDocType.dctType} - #{vDocType.dctDesignation}"
                                                itemValue="#{vDocType}"

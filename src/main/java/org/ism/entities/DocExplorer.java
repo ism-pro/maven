@@ -74,7 +74,7 @@ public class DocExplorer implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "dc_activated", nullable = false)
-    private boolean dcActivated;
+    private boolean dcActivated = true;
     @Basic(optional = false)
     @NotNull
     @Column(name = "dc_created", nullable = false)

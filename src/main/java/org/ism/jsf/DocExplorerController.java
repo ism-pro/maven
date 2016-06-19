@@ -347,6 +347,7 @@ public class DocExplorerController implements Serializable {
      * @return
      */
     public DocExplorer getSelected() {
+        if(selected==null)  selected=new DocExplorer();
         return selected;
     }
 
@@ -389,7 +390,7 @@ public class DocExplorerController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(value = "docExplorerControllerConverter", forClass = DocExplorer.class)
+    @FacesConverter(forClass = DocExplorer.class)
     public static class DocExplorerControllerConverter implements Converter {
 
         @Override

@@ -66,6 +66,24 @@ Configuration :
     + Permettre d'avoir un classement en fonction d'une catégorie et un groupe surtout pour les processus volumineux.
 
 
+    Commit :
+    # GENERALITES :
+    + Dans les fenêtres vue Ajoute d'un bouton d'impression dans le menu et en bas
+    de présentation
+    + Retirer des contrôleurs la definition de face converter par le nom,
+    + Ajouter au contrôleurs à la méthode get selected une condition de vérification 
+    d'existance qui oblige la création d'un item vide
+    + Modification des calendars en français
+    
+
+    # SPECIFIQUE
+    ## DOCEXPLORER :
+    + List modification des menus déroulant de filtre par rapport au contrôleur
+    et non à viewTabManager
+    + Réalisation de l'options view avec affichage de l'icone et le lien
+    + Fin de List-View-Create-Edit
+    
+
 
 Test après changement :
     + Modifier les entités : ajouter une fonction du type getItemByLast

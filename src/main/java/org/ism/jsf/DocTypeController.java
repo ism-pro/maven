@@ -379,7 +379,7 @@ public class DocTypeController implements Serializable {
      * ************************************************************************
      */
 
-    @FacesConverter(value = "docTypeCtrlConverter", forClass = DocType.class)
+    @FacesConverter(forClass = DocType.class)
     public static class DocTypeControllerConverter implements Converter {
 
         @Override

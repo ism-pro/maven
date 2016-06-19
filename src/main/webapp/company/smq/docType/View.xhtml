@@ -54,6 +54,10 @@
                 </p:panelGrid>
 
                 <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
                     <p:commandButton icon="ui-btn-Edit"
                                      styleClass="ui-btn"
                                      value="#{ism.Edit}"
@@ -99,6 +103,11 @@
 
         <ui:define name="west" id="west">
             <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
                 <p:commandButton icon="ui-btn-Edit"
                                  styleClass="options-btn"
                                  value="#{ism.Edit}"
