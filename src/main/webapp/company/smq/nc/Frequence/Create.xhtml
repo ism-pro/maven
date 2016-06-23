@@ -152,6 +152,7 @@
                                  onstart="#{p:widgetVar('bodyForm:ncfCompany')}.enable();"
                                  update=":bodyForm,:growl" 
                                  rendered="#{nonConformiteFrequencyController.isOnMultiCreation}"
+                                 form="bodyForm"
                                  />
                 <p:commandButton icon="ui-btn-SaveOne"
                                  styleClass="options-btn"
@@ -161,6 +162,7 @@
                                  update=":bodyForm,:growl"
                                  action="List.xhtml?faces-redirect=true"
                                  rendered="#{!nonConformiteFrequencyController.isOnMultiCreation}"
+                                 form="bodyForm"
                                  />
 
                 <p:commandButton icon="ui-btn-Cancel"

@@ -70,11 +70,11 @@ public class ViewConfirmDialog {
     }
 
     /*
-                    <p:confirm   header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}"
-                             message="#{ism.ConfirmDeleteMessage}" 
-                             icon="ui-icon-alert"
-                             
-                             />
+    <p:confirm   header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}"
+             message="#{ism.ConfirmDeleteMessage}" 
+             icon="ui-icon-alert"
+
+             />
     */
 
     public ConfirmDialog getDlg() {
@@ -83,6 +83,30 @@ public class ViewConfirmDialog {
 
     public void setDlg(ConfirmDialog dlg) {
         this.dlg = dlg;
+    }
+    
+    public void setHeader(String header){
+        this.dlg.setHeader(header);
+    }
+    
+    public String getHeader(){
+        return this.dlg.getHeader();
+    }
+    
+    public void setMessage(String message){
+        this.dlg.setMessage(message);
+    }
+    
+    public String getMessage(){
+        return this.dlg.getMessage();
+    }
+    
+    public void setSeverity(String severity){
+        this.dlg.setSeverity(severity);
+    }
+    
+    public String getSeverity(){
+        return this.dlg.getSeverity();
     }
 
     public String getUpdate() {

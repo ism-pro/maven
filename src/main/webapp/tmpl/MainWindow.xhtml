@@ -549,8 +549,8 @@
 
             <p:confirmDialog id="mainConfirmDialog" 
                              global="#{viewConfirmDialog.dlg.global}"
-                             header="#{viewConfirmDialog.dlg.header}"
-                             severity="#{viewConfirmDialog.dlg.severity}"
+                             header="#{viewConfirmDialog.header}"
+                             severity="#{viewConfirmDialog.severity}"
                              width="#{viewConfirmDialog.dlg.width}"
                              height="#{viewConfirmDialog.dlg.height}"
                              closable="#{viewConfirmDialog.dlg.closable}"
@@ -561,9 +561,9 @@
                              >
                 <f:facet name="message">
                     <p:graphicImage library="img" 
-                                    name="#{viewConfirmDialog.dlg.severity=='alert'?'ism/std/DlgWarning.png':'ism/std/DlgInfos.png'}"
+                                    name="#{viewConfirmDialog.severity=='alert'?'ism/std/DlgWarning.png':'ism/std/DlgInfos.png'}"
                                     width="48" height="48" style="float: left;" />
-                    <h:outputFormat value="#{viewConfirmDialog.dlg.message}" escape="false"/>
+                    <h:outputFormat value="#{viewConfirmDialog.message}" escape="false"/>
                 </f:facet>
 
                 <p:commandButton type="button" value="#{ism.ConfirmYes}" 
@@ -579,6 +579,7 @@
                                  />
             </p:confirmDialog>
 
+            
 
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false"
                       closable="false">
@@ -586,7 +587,7 @@
             </p:dialog>
             <p:ajaxStatus onstart="PF('statusDialog').show()" 
                           oncomplete="PF('statusDialog').hide();"/>
-                
+
 
 
         </h:form>

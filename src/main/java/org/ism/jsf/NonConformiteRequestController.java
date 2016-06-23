@@ -1,5 +1,7 @@
 package org.ism.jsf;
 
+import com.sun.faces.component.visit.FullVisitContext;
+import static com.sun.faces.facelets.util.Path.context;
 import java.io.IOException;
 import org.ism.entities.NonConformiteRequest;
 import org.ism.jsf.util.JsfUtil;
@@ -33,6 +35,11 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.component.visit.VisitCallback;
+import javax.faces.component.visit.VisitContext;
+import javax.faces.component.visit.VisitResult;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.extensions.component.inputnumber.InputNumber;
 
 @ManagedBean(name = "nonConformiteRequestController")
 @SessionScoped
@@ -113,7 +120,7 @@ public class NonConformiteRequestController implements Serializable {
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrStaff"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrTitle"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrProcessus"), true);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrState"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrState"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrNature"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrGravity"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrFrequency"), false);
@@ -233,10 +240,7 @@ public class NonConformiteRequestController implements Serializable {
         // Set time on creation action
         selected.setNcrChanged(new Date());
         selected.setNcrCreated(new Date());
-        IsmNcrstate state = new IsmNcrstate();
-        state.setId(1);
-        state.setIstate("A");
-        selected.setNcrState(state);
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.CREATE_ID));
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
@@ -276,6 +280,12 @@ public class NonConformiteRequestController implements Serializable {
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteRequestPersistenceUpdatedDetail")
                 + selected.getNcrTitle());
+    }
+    
+    public void updateOnValidate() {
+        selected.setNcroccuredValidate(new Date());
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
+        update();
     }
 
     public void destroy() {
@@ -351,6 +361,18 @@ public class NonConformiteRequestController implements Serializable {
 
     public List<NonConformiteRequest> getItemsByCode(String code) {
         return getFacade().findByCode(code);
+    }
+
+    public Integer countByProcessus(String processusCode) {
+        return getFacade().countByState(processusCode);
+    }
+
+    public Integer countByStaff(String staffCode) {
+        return getFacade().countByState(staffCode);
+    }
+
+    public Integer countByState(String stateCode) {
+        return getFacade().countByState(stateCode);
     }
 
     public List<NonConformiteRequest> getItemsByDesignation(String designation) {
@@ -462,6 +484,13 @@ public class NonConformiteRequestController implements Serializable {
 
     }
 
+    /**
+     * ************************************************************************
+     * VALIDATOR
+     *
+     *
+     * ************************************************************************
+     */
     @FacesValidator(value = "NonConformiteRequestCodeValidator")
     public static class NonConformiteRequestCodeValidator implements Validator {
 
@@ -536,7 +565,161 @@ public class NonConformiteRequestController implements Serializable {
         }
     }
 
+    /**
+     * Ce validateur permet de valider soit qu'une trace ou qu'un produit aie
+     * été définit dans les champs de création
+     */
+    @FacesValidator(value = "NonConformiteRequestTraceValidator")
+    public static class NonConformiteRequestTraceValidator implements Validator {
+
+        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "NonConformiteRequestTraceFields_Summary";
+        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "NonConformiteRequestTraceFields_Detail";
+
+        @Override
+        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+            String value = o.toString();
+            if ((fc == null) || (uic == null)) {
+                throw new NullPointerException();
+            }
+            if (!(uic instanceof InputText)) {
+                return;
+            }
+
+            UIComponent uicProduct = null;
+            UIComponent uicTrace = null;
+            uicProduct = JsfUtil.findComponent("ncrProduct");
+            uicTrace = JsfUtil.findComponent("ncrTrace");
+
+            if (uicProduct == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        "Component ncrProduct does not exist !");
+                throw new ValidatorException(facesMsg);
+            }
+
+            if (uicTrace == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        "Component ncrTrace does not exist !");
+                throw new ValidatorException(facesMsg);
+            }
+
+            InputText inputProduct = (InputText) uicProduct;
+            InputText inputTrace = (InputText) uicTrace;
+
+            if (inputProduct.getSubmittedValue() == null
+                    && inputTrace.getSubmittedValue() == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
+                        + value);
+                throw new ValidatorException(facesMsg);
+            }
+            int i = 0;
+            if (inputProduct.getSubmittedValue() != null) {
+                if (inputProduct.getSubmittedValue().toString().trim().isEmpty()) {
+                    i++;
+                }
+            }
+            if (inputTrace.getSubmittedValue() != null) {
+                if (inputTrace.getSubmittedValue().toString().trim().isEmpty()) {
+                    i++;
+                }
+            }
+
+            if (i == 2) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
+                        + value);
+                throw new ValidatorException(facesMsg);
+            }
+
+        }
+    }
+
+    /**
+     * Ce validateur permet de valider qu'en présence d'une quantité, une unité
+     * soit définie.
+     */
+    @FacesValidator(value = "NonConformiteRequestQuantityValidator")
+    public static class NonConformiteRequestQuantityValidator implements Validator {
+
+        public static final String P_Q_SUMMARY_ID = "NonConformiteRequestQuantityFields_Summary";
+        public static final String P_Q_DETAIL_ID = "NonConformiteRequestQuantityFields_Detail";
+        public static final String P_QU_SUMMARY_ID = "NonConformiteRequestQuantityUniteFields_Summary";
+        public static final String P_QU_DETAIL_ID = "NonConformiteRequestQuantityUniteFields_Detail";
+
+        @Override
+        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+            if ((fc == null) || (uic == null)) {
+                throw new NullPointerException();
+            }
+            if (!(uic instanceof InputText)
+                    && !(uic instanceof InputNumber)
+                    && !(uic instanceof SelectOneMenu)) {
+                return;
+            }
+
+            UIComponent uicQuantity = JsfUtil.findComponent("ncrQuantity");
+            UIComponent uicUnite = JsfUtil.findComponent("ncrUnite");
+
+            if (uicQuantity == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_Q_SUMMARY_ID),
+                        "Component ncrQuantity does not exist !");
+                throw new ValidatorException(facesMsg);
+            }
+
+            if (uicUnite == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_Q_SUMMARY_ID),
+                        "Component ncrUnite does not exist !");
+                throw new ValidatorException(facesMsg);
+            }
+
+            InputNumber inputQuantity = (InputNumber) uicQuantity;
+            SelectOneMenu inputUnite = (SelectOneMenu) uicUnite;
+
+            int i = 0;
+            // Manage unite when quantity is specify
+            if (inputQuantity.getSubmittedValue() != null) {
+                if (!inputQuantity.getSubmittedValue().toString().trim().isEmpty()) {
+                    // Wait for unit when quantity is specify
+                    if (inputUnite.getSubmittedValue() != null) {
+                        if (inputUnite.getSubmittedValue().toString().trim().isEmpty()) {
+                            FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                                    getString(P_Q_SUMMARY_ID),
+                                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                                    getString(P_Q_DETAIL_ID));
+                            throw new ValidatorException(facesMsg);
+                        }
+                    }
+                } // Manage unite when quantity is not specify but unit is
+                else if (inputUnite.getSubmittedValue() != null) {
+                    /*if (!inputUnite.getSubmittedValue().toString().trim().isEmpty()) {
+                        FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                                getString(P_QU_SUMMARY_ID),
+                                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                                getString(P_QU_DETAIL_ID));
+                        throw new ValidatorException(facesMsg);
+                    }*/
+                }
+            }
+        }
+    }
 }
+
 /*
     private Boolean isEditInfos = false;
     private Boolean isEditRefuse = false;
@@ -544,10 +727,7 @@ public class NonConformiteRequestController implements Serializable {
     private Boolean isEditAction = false;
     private Boolean isEditCloture = false;
 
-    public NonConformiteRequest prepareCreate() {
-        selected = new NonConformiteRequest();
-        return selected;
-    }
+
 
     public void prepareEdit(NonConformiteRequest nc) {
         selected = nc;
@@ -558,22 +738,6 @@ public class NonConformiteRequestController implements Serializable {
         getSelected();          // si non initialisé, il le sera
     }
 
-    public void create() {
-        selected.setNcrChanged(new Date());
-        selected.setNcrCreated(new Date());
-        IsmNcrstate state = new IsmNcrstate();
-        state.setId(1);
-        state.setIstate("A");
-        selected.setNcrState(state);
-        persist(PersistAction.CREATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
-    }
 
     public void prepareValidate(NonConformiteRequest nc) {
         selected = nc;
@@ -767,17 +931,7 @@ public class NonConformiteRequestController implements Serializable {
         return getFacade().findAll();
     }
 
-    public Integer countByProcessus(String processusCode) {
-        return getFacade().countByState(processusCode);
-    }
-
-    public Integer countByStaff(String staffCode) {
-        return getFacade().countByState(staffCode);
-    }
-
-    public Integer countByState(String stateCode) {
-        return getFacade().countByState(stateCode);
-    }
+    
 
     /**
      * ************************************************************************
@@ -785,13 +939,7 @@ public class NonConformiteRequestController implements Serializable {
      * ***********************************************************************
  */
  /*
-    public NonConformiteRequest getSelected() {
-        return selected;
-    }
 
-    public void setSelected(NonConformiteRequest selected) {
-        this.selected = selected;
-    }
 
     public Boolean getIsEditInfos() {
         return isEditInfos;

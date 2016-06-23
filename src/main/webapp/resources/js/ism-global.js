@@ -16,6 +16,7 @@ function hideStatus() {
 }
 
 
+
 /*******************************************************************************
  * 
  * 
@@ -23,12 +24,14 @@ function hideStatus() {
 $(function () {
 
 
+
+
+
+
+
     $("_smqNCPanelInfos").mouseenter(function () {
         alert("Mouse over");
     });
-
-
-
 
 });
 

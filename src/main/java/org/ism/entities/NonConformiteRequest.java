@@ -56,7 +56,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnValidate", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnValidate.stStaff = :ncrstaffOnValidate"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnAction", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnAction.stStaff = :ncrstaffOnAction"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnRefuse", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnRefuse.stStaff = :ncrstaffOnRefuse"),
-    @NamedQuery(name = "NonConformiteRequest.selectAllByLastChange", query = "SELECT n FROM NonConformiteRequest n ORDER BY n.ncrChanged DESC")
+    @NamedQuery(name = "NonConformiteRequest.selectAllByLastChange", query = "SELECT n FROM NonConformiteRequest n ORDER BY n.ncrChanged DESC"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrApprouver", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrApprouver.stStaff = :ncrApprouver"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrApprouvedDate", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrApprouvedDate = :ncrApprouvedDate"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrApprouved", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrApprouved = :ncrApprouved"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrActions", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrActions = :ncrActions")
 })
 public class NonConformiteRequest implements Serializable {
 
@@ -194,6 +198,29 @@ public class NonConformiteRequest implements Serializable {
     @ManyToOne(optional = false)
     private Processus ncrProcessus;
     
+    
+    @JoinColumn(name = "ncr_approuver", referencedColumnName = "st_staff")
+    @ManyToOne
+    private Staff ncrApprouver;
+    
+    @Column(name = "ncr_approuvedDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ncrApprouvedDate;
+    
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "ncr_approuvedDesc", length = 65535)
+    private String ncrApprouvedDesc;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ncr_approuved", nullable = false)
+    private boolean ncrApprouved;
+    
+    @JoinColumn(name = "ncr_actions", referencedColumnName = "nca_nonconformite")
+    @ManyToOne
+    private NonConformiteActions ncrActions;
+
     
     
     public NonConformiteRequest() {

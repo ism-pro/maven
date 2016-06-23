@@ -62,11 +62,11 @@
                                 />
                 </p:contextMenu>
 
-                
-                
-                
-                
-                
+
+
+
+
+
                 <p:dataTable id="datalist" widgetVar="datalist"
                              value="#{viewTabManager.ncRequest}" var="item"
                              filteredValue="#{viewTabManager.ncRequestFiltered}"
@@ -91,7 +91,7 @@
 
 
 
-                   
+
                     <f:facet name="{Exporters}">
                         <div style="float:right" >
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
@@ -105,7 +105,7 @@
                             </p:commandLink>
                         </div>
                     </f:facet>
-                    
+
                     <f:facet name="header">
                         <p:commandButton id="toggler" type="button" value="Columns" 
                                          style="float:left;" icon="ui-icon-calculator" 
@@ -128,7 +128,7 @@
                     </f:facet>
 
 
-                    
+
 
 
 
@@ -138,10 +138,10 @@
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{nonConformiteRequestController.handleColumnReorder}"  />
 
 
-                    
-                    
-                    
-                    
+
+
+
+
                     <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
                               exportable="false"
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.CtrlShort)}" >
@@ -160,15 +160,15 @@
                         <h:outputText value="#{item.ncrId}"/>
                     </p:column>
 
-                    
+
                     <p:column headerText="#{ism.NonConformiteRequestField_ncrStaff}" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrStaff)}"
                               sortBy="#{item.ncrStaff.stFirstname} #{item.ncrStaff.stLastname} #{item.ncrStaff.stMiddlename} [#{item.ncrStaff.stStaff}]" 
                               filterBy="#{item.ncrStaff.stFirstname} #{item.ncrStaff.stLastname} #{item.ncrStaff.stMiddlename} [#{item.ncrStaff.stStaff}]" filterMatchMode="contains">
                         <h:outputText value="#{item.ncrStaff.stFirstname} #{item.ncrStaff.stLastname} #{item.ncrStaff.stMiddlename} [#{item.ncrStaff.stStaff}]"/>
                     </p:column>
-                    
-                    
+
+
                     <p:column headerText="#{ism.NonConformiteRequestField_ncrTitle}" 
                               style="min-width: 100px;" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrTitle)}"
@@ -202,7 +202,7 @@
                               sortBy="#{item.ncrState.istate} - #{item.ncrState.statename}"
                               filterBy="#{item.ncrState}">
                         <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('datalist').filter()" >
+                            <p:selectOneMenu onchange="PF('datalist').filter()"  >
                                 <f:selectItem itemLabel="#{ism.SelectList}" 
                                               itemValue="#{null}" noSelectionOption="true" />
                                 <f:selectItems value="#{ismNcrstateController.itemsAvailableSelectOne}" 
@@ -290,8 +290,8 @@
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    
-                    
+
+
                     <p:column headerText="#{ism.NonConformiteRequestField_ncrCreated}" 
                               style="width: 72px;" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrCreated)}"
@@ -309,8 +309,8 @@
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    
-                    
+
+
                     <p:column headerText="#{ism.NonConformiteRequestField_ncrChanged}" 
                               style="width: 72px;" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrChanged)}"
@@ -328,8 +328,8 @@
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    
-                    
+
+
                     <p:column headerText="#{ism.NonConformiteRequestField_ncrEnddingAction}" 
                               style="width: 72px;" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrEnddingAction)}"
@@ -450,8 +450,46 @@
                                  action="Edit.xhtml?faces-redirect=true"
                                  title="Permet d'editer la non conformité sélectionné."
                                  disabled="#{empty nonConformiteRequestController.selected 
-                                             or empty nonConformiteRequestController.selected.ncrId}"
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
                                  />
+                <div class="ui-btn-Approuve" style="text-align: center;margin: auto;">
+                    <p:commandButton id="validateButton"   
+                                     icon="ui-btn-Approuve"
+                                     style="width: 49%;margin: auto;margin-right: 1%;"
+                                     value="#{ism.Validate}" 
+                                     title="Permet de valider la non conformité sélectionné !"
+                                     actionListener="#{nonConformiteRequestController.updateOnValidate()}"
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId
+                                                 or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                     update=":bodyForm:datalist,westGroup,:growl"
+                                     >
+                        <p:confirm header="#{ism.NonConformiteRequestValidateDlgHeader}"
+                                   message="#{ism.NonConformiteRequestValidateDlgMessage}"
+                                   />
+                    </p:commandButton>
+
+
+                    <p:commandButton id="refusedButton"   
+                                     icon="ui-btn-Refuse"
+                                     style="width: 49%;margin: auto;"
+                                     value="#{ism.Refused}" 
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId
+                                                 or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                     update=":bodyForm:datalist,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteRequestValidateDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestValidateDlgMessage)}
+                                     PF('mainConfirmDialog').show()"
+
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                </div>
+
                 <p:commandButton id="deleteButton"
                                  icon="ui-btn-Delete"
                                  styleClass="options-btn"
@@ -465,9 +503,9 @@
                                  #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestDlgMessage)}
                                  PF('mainConfirmDialog').show()"
                                  disabled="#{empty nonConformiteRequestController.selected 
-                                             or empty nonConformiteRequestController.selected.ncrId}"
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
                                  >
-                    <p:confirm  />
                 </p:commandButton>
                 <p:commandButton id="refreshButton"
                                  icon="ui-btn-Refresh"
@@ -484,7 +522,7 @@
 
 
         </ui:define>
-        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton, approuveButton, refusedButton" >
             <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
         </p:blockUI>
 

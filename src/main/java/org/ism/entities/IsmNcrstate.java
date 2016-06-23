@@ -56,6 +56,20 @@ public class IsmNcrstate implements Serializable {
     @OneToMany(mappedBy = "ncState")
     private Collection<NonConformite> nonConformiteCollection;
 
+    public static final Integer CREATE_ID           = 1;  // Créée
+    public static final Integer WAITFORSOLUTION_ID  = 2;  // En attente de solution
+    public static final Integer INPROGRESS_ID       = 3;  // En cours
+    public static final Integer FINISH_ID           = 4;  // Terminée / Clôturé
+    public static final Integer CANCEL_ID           = 5;  // Annulée
+    
+    public static final String CREATE               = "A";  // Créée
+    public static final String WAITFORSOLUTION      = "B";  // En attente de solution
+    public static final String INPROGRESS           = "C";  // En cours
+    public static final String FINISH               = "D";  // Terminée / Clôturé
+    public static final String CANCEL               = "E";  // Annulée
+    
+    
+    
     public IsmNcrstate() {
     }
 

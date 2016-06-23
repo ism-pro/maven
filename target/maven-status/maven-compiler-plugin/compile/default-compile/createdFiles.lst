@@ -13,6 +13,7 @@ org\ism\jsf\ProcessusController$ProcessusCodeValidator.class
 org\ism\jsf\StaffManagerController.class
 org\ism\jsf\DocExplorerController$DocExplorerControllerConverter.class
 org\ism\entities\NonConformiteRequest.class
+org\ism\view\ViewUtil.class
 org\ism\view\ViewTabManager.class
 org\ism\jsf\StaffGroupDefRoleController$IsmRoleConverter.class
 org\ism\entities\DocExplorer_.class
@@ -82,6 +83,7 @@ org\ism\listener\SessionCounterListener.class
 org\ism\jsf\StaffGroupDefRoleController.class
 org\ism\entities\NonConformiteFrequency.class
 org\ism\jsf\NonConformiteRequestController$NonConformiteRequestControllerConverter.class
+org\ism\jsf\NonConformiteRequestController$NonConformiteRequestQuantityValidator.class
 org\ism\jsf\NonConformiteFrequencyController$NonConformiteFrequencyControllerConverter.class
 org\ism\jsf\UniteController.class
 org\ism\jsf\ProcessusController$ProcessusControllerConverter.class
@@ -158,6 +160,7 @@ org\ism\jsf\util\FileController.class
 org\ism\jsf\StaffManagerController$CompanyControllerConverter.class
 org\ism\services\ThemeService.class
 org\ism\entities\StaffSetup.class
+org\ism\jsf\NonConformiteRequestController$NonConformiteRequestTraceValidator.class
 org\ism\jsf\StaffController$StaffControllerConverter.class
 org\ism\filters\NoCacheFilter$ResponseWrapper.class
 org\ism\view\ChartView.class
@@ -197,5 +200,6 @@ org\ism\view\StaffGroupAccessTree.class
 org\ism\services\CtrlAccess$TypeCtrl.class
 org\primefaces\ism\component\ribbon\RibbonGroupSetRenderer.class
 org\ism\entities\NonConformiteFrequency_.class
+org\ism\jsf\util\JsfUtil$1.class
 org\ism\view\ViewNonConformiteRequest.class
 org\ism\jsf\LabAnalyseCategoryController$LabAnalyseCategoryControllerConverter.class

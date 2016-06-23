@@ -1,5 +1,6 @@
 package org.ism.jsf.util;
 
+import com.sun.faces.component.visit.FullVisitContext;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +8,9 @@ import java.util.List;
 import java.util.TimeZone;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.visit.VisitCallback;
+import javax.faces.component.visit.VisitContext;
+import javax.faces.component.visit.VisitResult;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.faces.convert.Converter;
@@ -119,8 +123,6 @@ public class JsfUtil {
         UPDATE
     }
 
-
-
     /**
      * Logging message on server
      *
@@ -149,5 +151,30 @@ public class JsfUtil {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         df.setTimeZone(TimeZone.getDefault());
         System.out.println(Group + " " + df.format(new Date()) + " >> " + msg);
+    }
+
+    
+    /**
+     * Allow to retrive a component specify by an id 
+     * @param id
+     * @return 
+     */
+    public static UIComponent findComponent(final String id) {
+        final UIComponent[] found = new UIComponent[1];
+
+        FacesContext.getCurrentInstance().getViewRoot().
+                visitTree(new FullVisitContext(FacesContext.getCurrentInstance()), new VisitCallback() {
+                    @Override
+                    public VisitResult visit(VisitContext context, UIComponent component) {
+                        if (component.getId().equals(id)) {
+                            found[0] = component;
+                            return VisitResult.COMPLETE;
+                        }
+                        return VisitResult.ACCEPT;
+                    }
+                });
+
+        return found[0];
+
     }
 }

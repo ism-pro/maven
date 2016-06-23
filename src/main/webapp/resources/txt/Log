@@ -68,10 +68,23 @@ Configuration :
 
     Commit :
     # GENERALITES :
-    
+    + Les menus qui compte la fonction Edit ne comportait pas de validation de 
+    formulaire. L'options "form" à été ajouté à tous les boutons pour permettre
+    de valider le formule : form="bodyForm".
+    + La mise à jour de plusieurs fichier dans le menu ont été réalisé car ils
+    réalisait une création et non une modification.
+
 
     # SPECIFIQUE
-    ## NonConformite
+    ## IsmNcrstate :
+    + Ajout d'options static permettant de facilement définir l'état de la NC
+
+    ## NonConformite :
+    + Ajout des validateurs :
+    NonConformiteRequestTraceValidator  : permet qu'une trace existe entre le champ produit ou référence
+    NonConformiteRequestQuantityValidator : permet que lors de la saisie d'une quantitée, l'unité soit précisée
+
+    
     
 
 
@@ -146,6 +159,52 @@ Test après changement :
 
                     </f:facet>
 
+<f:facet name="actions">
+                        <p:commandButton    actionListener="#{nonConformiteRequestController.setIsEditApprouve(true)}"
+                                            action="View.xhtml?faces-redirect=true"
+                                            styleClass="smq-nc-btnClass"
+                                            icon="ui-btn-Approuve"
+                                            update="bodyForm"
+                                            value="Approuver"
+
+                                            />
+                        <p:commandButton    actionListener="#{nonConformiteRequestController.setIsEditApprouve(true)}"
+                                            action="View.xhtml?faces-redirect=true"
+                                            styleClass="smq-nc-btnClass"
+                                            icon="ui-btn-Edit"
+                                            update="bodyForm"
+                                            value="#{ism.Edit}"
+
+                                            />
+                        <p:commandButton    actionListener="#{nonConformiteRequestController.updateOnEditInfos()}"
+                                            styleClass="smq-nc-btnClass"
+                                            update="bodyForm,:growl"
+                                            icon="ui-btn-Save"
+                                            value="#{ism.Save}"
+
+                                            />
+                        <p:commandButton    actionListener="#{nonConformiteRequestController.cancelEdit()}"
+                                            styleClass="smq-nc-btnClass"
+                                            immediate="true"
+                                            update="bodyForm,:growl"
+                                            icon="ui-btn-Cancel"
+                                            value="#{ism.Cancel}"
+
+                                            />
+                        <p:commandButton    actionListener="#{nonConformiteRequestController.destroy(nonConformiteRequestController.selected)}" 
+                                            action="company/smq/nc/Request/View.xhtml?faces-redirect=true"
+                                            styleClass="smq-nc-btnClass"
+                                            icon="ui-btn-Delete"
+                                            update=":growl"
+                                            value="#{ism.Delete}"
+                                            disabled="#{
+                                            nonConformiteRequestController.selected.ncrState.id > 2}"
+                                            >
+                            <p:confirm header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}" 
+                                       message="#{ism.ConfirmDeleteMessage}" 
+                                       icon="ui-icon-alert"/>
+                        </p:commandButton>
+                    </f:facet>
 ================================================================================
 15XXXX XXXX : R.HENDRICK
 ================================================================================

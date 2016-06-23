@@ -140,12 +140,12 @@ public class ChartView implements Serializable {
         pieSMQNCStateModel = new PieChartModel();
         
         Iterator<IsmNcrstate> iterState = ncStateCtrl.getItems().iterator();
-        /*
+        
         while(iterState.hasNext()){
             IsmNcrstate ncState = iterState.next();
             int cntNCState = ncRequestCtrl.countByState(ncState.getIstate());
             pieSMQNCStateModel.set(ncState.getStatename(), cntNCState);
-        }*/
+        }
 
         pieSMQNCStateModel.setTitle("Etat de NC");
         pieSMQNCStateModel.setLegendPosition("e");

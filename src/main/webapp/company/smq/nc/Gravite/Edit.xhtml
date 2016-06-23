@@ -93,33 +93,13 @@
 
 
                 <h:panelGroup id="btn-crud-zone_id"  >
-                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
-                    <p:selectBooleanButton  value="#{nonConformiteGravityController.isOnMultiCreation}" 
-                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
-                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
-                                            styleClass="ui-btn"
-                                            >
-                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{nonConformiteGravityController.toggleMultiCreationFake()}"  />
-                    </p:selectBooleanButton>
-
                     <p:commandButton icon="ui-btn-Save"
                                      styleClass="ui-btn"
-                                     value="#{ism.Save}" 
-                                     actionListener="#{nonConformiteGravityController.create}" 
-                                     onstart="#{p:widgetVar('bodyForm:ncgCompany')}.enable();"
-                                     update=":bodyForm,:growl" 
-                                     rendered="#{nonConformiteGravityController.isOnMultiCreation}"
-                                     />
-                    <p:commandButton icon="ui-btn-SaveOne"
-                                     styleClass="ui-btn"
-                                     value="#{ism.Save}" 
-                                     actionListener="#{nonConformiteGravityController.createUnReleasded()}" 
-                                     onstart="#{p:widgetVar('bodyForm:ncgCompany')}.enable();"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{nonConformiteGravityController.update}" 
                                      update=":bodyForm,:growl"
                                      action="List.xhtml?faces-redirect=true"
-                                     rendered="#{!nonConformiteGravityController.isOnMultiCreation}"
                                      />
-
                     <p:commandButton icon="ui-btn-Cancel"
                                      styleClass="ui-btn"
                                      value="#{ism.Cancel}" 
@@ -147,28 +127,17 @@
             <h:panelGroup id="westGroup">
                 <p:commandButton icon="ui-btn-Save"
                                  styleClass="options-btn"
-                                 value="#{ism.Save}" 
-                                 actionListener="#{nonConformiteGravityController.create}" 
-                                 onstart="#{p:widgetVar('bodyForm:ncgCompany')}.enable();"
-                                 update=":bodyForm,:growl" 
-                                 rendered="#{nonConformiteGravityController.isOnMultiCreation}"
-                                 />
-                <p:commandButton icon="ui-btn-SaveOne"
-                                 styleClass="options-btn"
-                                 value="#{ism.Save}" 
-                                 actionListener="#{nonConformiteGravityController.createUnReleasded()}" 
-                                 onstart="#{p:widgetVar('bodyForm:ncgCompany')}.enable();"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{nonConformiteGravityController.update}" 
                                  update=":bodyForm,:growl"
                                  action="List.xhtml?faces-redirect=true"
-                                 rendered="#{!nonConformiteGravityController.isOnMultiCreation}"
+                                 form="bodyForm"
                                  />
-
                 <p:commandButton icon="ui-btn-Cancel"
                                  styleClass="options-btn"
                                  value="#{ism.Cancel}" 
-                                 update=":bodyForm,:growl"
-                                 actionListener="#{nonConformiteGravityController.prepareCreate()}"
                                  action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
                                  immediate="true"
                                  />
 

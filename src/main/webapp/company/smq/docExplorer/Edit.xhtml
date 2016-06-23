@@ -188,10 +188,11 @@
             <h:panelGroup id="westGroup">
                     <p:commandButton icon="ui-btn-Save"
                                      styleClass="options-btn"
-                                     value="#{ism.Save}" 
+                                     value="#{ism.Change}" 
                                      actionListener="#{docExplorerController.update}" 
                                      update=":bodyForm,:growl"
                                      action="List.xhtml?faces-redirect=true"
+                                     form="bodyForm"
                                      />
 
                     <p:commandButton icon="ui-btn-Cancel"

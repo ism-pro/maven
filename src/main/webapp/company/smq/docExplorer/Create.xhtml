@@ -212,6 +212,7 @@
                                  onstart="#{p:widgetVar('bodyForm:dcCompany')}.enable();"
                                  update=":bodyForm,:growl" 
                                  rendered="#{docExplorerController.isOnMultiCreation}"
+                                 form="bodyForm"
                                  />
                 <p:commandButton icon="ui-btn-SaveOne"
                                  styleClass="options-btn"
@@ -221,6 +222,7 @@
                                  update=":bodyForm,:growl"
                                  action="List.xhtml?faces-redirect=true"
                                  rendered="#{!docExplorerController.isOnMultiCreation}"
+                                 form="bodyForm"
                                  />
 
                 <p:commandButton icon="ui-btn-Cancel"

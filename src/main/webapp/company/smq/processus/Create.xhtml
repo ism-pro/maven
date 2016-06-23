@@ -173,6 +173,7 @@
                                  onstart="#{p:widgetVar('bodyForm:PCompany')}.enable();"
                                  update=":bodyForm,:growl" 
                                  rendered="#{processusController.isOnMultiCreation}"
+                                 form="bodyForm"
                                  />
                 <p:commandButton icon="ui-btn-SaveOne"
                                  styleClass="options-btn"
@@ -182,6 +183,7 @@
                                  update=":bodyForm,:growl"
                                  action="List.xhtml?faces-redirect=true"
                                  rendered="#{!processusController.isOnMultiCreation}"
+                                 form="bodyForm"
                                  />
 
                 <p:commandButton icon="ui-btn-Cancel"
