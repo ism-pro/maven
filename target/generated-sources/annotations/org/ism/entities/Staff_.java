@@ -7,22 +7,22 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import org.ism.entities.IsmGenre;
 import org.ism.entities.LabSample;
+import org.ism.entities.NonConformiteActions;
 import org.ism.entities.NonConformiteRequest;
 import org.ism.entities.Processus;
 import org.ism.entities.StaffCompanies;
 import org.ism.entities.StaffGroups;
 import org.ism.entities.StaffSetup;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-23T00:41:18")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-25T01:17:28")
 @StaticMetamodel(Staff.class)
 public class Staff_ { 
 
     public static volatile SingularAttribute<Staff, Date> stBorned;
-    public static volatile CollectionAttribute<Staff, NonConformiteRequest> nonConformiteRequestCollection1;
-    public static volatile CollectionAttribute<Staff, NonConformiteRequest> nonConformiteRequestCollection3;
     public static volatile CollectionAttribute<Staff, NonConformiteRequest> nonConformiteRequestCollection2;
     public static volatile CollectionAttribute<Staff, LabSample> labSampleCollection;
     public static volatile SingularAttribute<Staff, String> stMiddlename;
+    public static volatile CollectionAttribute<Staff, NonConformiteRequest> nonConformiteRequestCollection4;
     public static volatile CollectionAttribute<Staff, StaffGroups> staffGroupsCollection;
     public static volatile SingularAttribute<Staff, Integer> stId;
     public static volatile SingularAttribute<Staff, Date> stCreated;
@@ -35,6 +35,7 @@ public class Staff_ {
     public static volatile SingularAttribute<Staff, String> stFirstname;
     public static volatile SingularAttribute<Staff, Integer> stMaxInactiveInterval;
     public static volatile SingularAttribute<Staff, String> stPassword;
+    public static volatile CollectionAttribute<Staff, NonConformiteActions> nonConformiteActionsCollection;
     public static volatile SingularAttribute<Staff, String> stStaff;
     public static volatile SingularAttribute<Staff, Date> stChanged;
     public static volatile CollectionAttribute<Staff, Processus> processusCollection;

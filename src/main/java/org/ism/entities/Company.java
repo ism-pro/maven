@@ -49,6 +49,19 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Company.findByCCreated", query = "SELECT c FROM Company c WHERE c.cCreated = :cCreated"),
     @NamedQuery(name = "Company.findByCChanged", query = "SELECT c FROM Company c WHERE c.cChanged = :cChanged")})
 public class Company implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrCompany")
+    private Collection<NonConformiteRequest> nonConformiteRequestCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncfCompany")
+    private Collection<NonConformiteFrequency> nonConformiteFrequencyCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncnCompany")
+    private Collection<NonConformiteNature> nonConformiteNatureCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncuCompany")
+    private Collection<NonConformiteUnite> nonConformiteUniteCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncgCompany")
+    private Collection<NonConformiteGravity> nonConformiteGravityCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pCompany")
+    private Collection<Processus> processusCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -289,5 +302,56 @@ public class Company implements Serializable {
     public String toString() {
         return "org.ism.entities.Company[ cId=" + cId + " ]";
     }
+
+    @XmlTransient
+    public Collection<NonConformiteRequest> getNonConformiteRequestCollection() {
+        return nonConformiteRequestCollection;
+    }
+
+    public void setNonConformiteRequestCollection(Collection<NonConformiteRequest> nonConformiteRequestCollection) {
+        this.nonConformiteRequestCollection = nonConformiteRequestCollection;
+    }
+
+    @XmlTransient
+    public Collection<NonConformiteFrequency> getNonConformiteFrequencyCollection() {
+        return nonConformiteFrequencyCollection;
+    }
+
+    public void setNonConformiteFrequencyCollection(Collection<NonConformiteFrequency> nonConformiteFrequencyCollection) {
+        this.nonConformiteFrequencyCollection = nonConformiteFrequencyCollection;
+    }
+
+    @XmlTransient
+    public Collection<NonConformiteNature> getNonConformiteNatureCollection() {
+        return nonConformiteNatureCollection;
+    }
+
+    public void setNonConformiteNatureCollection(Collection<NonConformiteNature> nonConformiteNatureCollection) {
+        this.nonConformiteNatureCollection = nonConformiteNatureCollection;
+    }
+
+    @XmlTransient
+    public Collection<NonConformiteUnite> getNonConformiteUniteCollection() {
+        return nonConformiteUniteCollection;
+    }
+
+    public void setNonConformiteUniteCollection(Collection<NonConformiteUnite> nonConformiteUniteCollection) {
+        this.nonConformiteUniteCollection = nonConformiteUniteCollection;
+    }
+
+    @XmlTransient
+    public Collection<NonConformiteGravity> getNonConformiteGravityCollection() {
+        return nonConformiteGravityCollection;
+    }
+
+    public void setNonConformiteGravityCollection(Collection<NonConformiteGravity> nonConformiteGravityCollection) {
+        this.nonConformiteGravityCollection = nonConformiteGravityCollection;
+    }
+
+    @XmlTransient
+    public Collection<Processus> getProcessusCollection() {
+        return processusCollection;
+    }
+
     
 }

@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "IsmNcrstate.findByIstate", query = "SELECT i FROM IsmNcrstate i WHERE i.istate = :istate"),
     @NamedQuery(name = "IsmNcrstate.findByStatename", query = "SELECT i FROM IsmNcrstate i WHERE i.statename = :statename")})
 public class IsmNcrstate implements Serializable {
+
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -148,5 +150,8 @@ public class IsmNcrstate implements Serializable {
     public String toString() {
         return "org.ism.entities.IsmNcrstate[ id=" + id + " ]";
     }
-    
+
+
+
+
 }

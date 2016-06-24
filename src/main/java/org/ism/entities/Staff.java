@@ -57,8 +57,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Staff.findByActiveUndeleted", query = "SELECT s FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1 AND s.stDeleted=0")
 })
 public class Staff implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    private static String  stPasswordConf = "";   //!< Password confirmation for formulaire only
+    private static String stPasswordConf = "";   //!< Password confirmation for formulaire only
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -108,17 +109,23 @@ public class Staff implements Serializable {
     @Column(name = "st_changed", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date stChanged;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrStaff")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
-    @OneToMany(mappedBy = "ncrstaffOnValidate")
-    private Collection<NonConformiteRequest> nonConformiteRequestCollection1;
+
     @OneToMany(mappedBy = "ncrstaffOnAction")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection2;
-    @OneToMany(mappedBy = "ncrstaffOnRefuse")
-    private Collection<NonConformiteRequest> nonConformiteRequestCollection3;
+    @OneToMany(mappedBy = "ncrApprouver")
+    private Collection<NonConformiteRequest> nonConformiteRequestCollection4;
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncaStaff")
+    private Collection<NonConformiteActions> nonConformiteActionsCollection;
+
     @JoinColumn(name = "st_genre", referencedColumnName = "genre")
     @ManyToOne
     private IsmGenre stGenre;
+
     @OneToMany(mappedBy = "pStaffmanager")
     private Collection<Processus> processusCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stcStaff")
@@ -130,8 +137,6 @@ public class Staff implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lsSampler")
     private Collection<LabSample> labSampleCollection;
 
-    
-    
     public Staff() {
     }
 
@@ -139,7 +144,7 @@ public class Staff implements Serializable {
         this.stId = stId;
     }
 
-    public Staff(Integer stId, String stStaff, String stPassword, int stMaxInactiveInterval,  boolean stActivated, boolean stDeleted, Date stCreated, Date stChanged) {
+    public Staff(Integer stId, String stStaff, String stPassword, int stMaxInactiveInterval, boolean stActivated, boolean stDeleted, Date stCreated, Date stChanged) {
         this.stId = stId;
         this.stStaff = stStaff;
         this.stPassword = stPassword;
@@ -206,8 +211,6 @@ public class Staff implements Serializable {
         this.stBorned = stBorned;
     }
 
-    
-    
     public boolean getStActivated() {
         return stActivated;
     }
@@ -248,8 +251,6 @@ public class Staff implements Serializable {
         this.stMaxInactiveInterval = stMaxInactiveInterval;
     }
 
-    
-
     public String getStPasswordConf() {
         return stPasswordConf;
     }
@@ -258,8 +259,6 @@ public class Staff implements Serializable {
         this.stPasswordConf = stPasswordConf;
     }
 
-    
-    
     @XmlTransient
     public Collection<NonConformiteRequest> getNonConformiteRequestCollection() {
         return nonConformiteRequestCollection;
@@ -269,14 +268,7 @@ public class Staff implements Serializable {
         this.nonConformiteRequestCollection = nonConformiteRequestCollection;
     }
 
-    @XmlTransient
-    public Collection<NonConformiteRequest> getNonConformiteRequestCollection1() {
-        return nonConformiteRequestCollection1;
-    }
-
-    public void setNonConformiteRequestCollection1(Collection<NonConformiteRequest> nonConformiteRequestCollection1) {
-        this.nonConformiteRequestCollection1 = nonConformiteRequestCollection1;
-    }
+    
 
     public Collection<NonConformiteRequest> getNonConformiteRequestCollection2() {
         return nonConformiteRequestCollection2;
@@ -286,14 +278,24 @@ public class Staff implements Serializable {
         this.nonConformiteRequestCollection2 = nonConformiteRequestCollection2;
     }
 
-    public Collection<NonConformiteRequest> getNonConformiteRequestCollection3() {
-        return nonConformiteRequestCollection3;
+    
+    public Collection<NonConformiteRequest> getNonConformiteRequestCollection4() {
+        return nonConformiteRequestCollection4;
     }
 
-    public void setNonConformiteRequestCollection3(Collection<NonConformiteRequest> nonConformiteRequestCollection3) {
-        this.nonConformiteRequestCollection3 = nonConformiteRequestCollection3;
+    public void setNonConformiteRequestCollection4(Collection<NonConformiteRequest> nonConformiteRequestCollection4) {
+        this.nonConformiteRequestCollection4 = nonConformiteRequestCollection4;
     }
     
+    @XmlTransient
+    public Collection<NonConformiteActions> getNonConformiteActionsCollection() {
+        return nonConformiteActionsCollection;
+    }
+
+    public void setNonConformiteActionsCollection(Collection<NonConformiteActions> nonConformiteActionsCollection) {
+        this.nonConformiteActionsCollection = nonConformiteActionsCollection;
+    }
+
     @XmlTransient
     public Collection<LabSample> getLabSampleCollection() {
         return labSampleCollection;
@@ -302,7 +304,7 @@ public class Staff implements Serializable {
     public void setLabSampleCollection(Collection<LabSample> labSampleCollection) {
         this.labSampleCollection = labSampleCollection;
     }
-    
+
     public IsmGenre getStGenre() {
         return stGenre;
     }
@@ -346,7 +348,7 @@ public class Staff implements Serializable {
     public void setStaffSetupCollection(Collection<StaffSetup> staffSetupCollection) {
         this.staffSetupCollection = staffSetupCollection;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -370,6 +372,5 @@ public class Staff implements Serializable {
     public String toString() {
         return "org.ism.entities.Staff[ stId=" + stId + " ]";
     }
-    
 
 }

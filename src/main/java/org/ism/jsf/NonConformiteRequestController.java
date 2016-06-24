@@ -1,8 +1,5 @@
 package org.ism.jsf;
 
-import com.sun.faces.component.visit.FullVisitContext;
-import static com.sun.faces.facelets.util.Path.context;
-import java.io.IOException;
 import org.ism.entities.NonConformiteRequest;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.jsf.util.JsfUtil.PersistAction;
@@ -35,9 +32,6 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.component.visit.VisitCallback;
-import javax.faces.component.visit.VisitContext;
-import javax.faces.component.visit.VisitResult;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 
@@ -283,7 +277,7 @@ public class NonConformiteRequestController implements Serializable {
     }
     
     public void updateOnValidate() {
-        selected.setNcroccuredValidate(new Date());
+        selected.setNcrapprouvedDate(new Date());
         selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
         update();
     }

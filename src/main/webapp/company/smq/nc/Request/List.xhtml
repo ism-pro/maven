@@ -27,7 +27,8 @@
                                 value="#{ism.View}"
                                 action="View.xhtml?faces-redirect=true"
                                 title="Permet de visualiser la non conformité sélectionné."
-                                disabled="#{empty nonConformiteRequestController.selected }"
+                                disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId}"
                                 onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
                                 />
                     <p:menuitem icon="ui-btn-Edit"
@@ -35,7 +36,18 @@
                                 value="#{ism.Edit}"
                                 action="Edit.xhtml?faces-redirect=true"
                                 title="Permet d'editer la non conformité sélectionné."
-                                disabled="#{empty nonConformiteRequestController.selected }"
+                                disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                />
+                    <p:menuitem icon="ui-btn-Approuve"
+                                styleClass="options-btn"
+                                value="#{ism.Validate}"
+                                action="Validate.xhtml?faces-redirect=true"
+                                title="Permet d'accepter ou refuser la non conformité sélectionné."
+                                disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
                                 />
                     <p:menuitem icon="ui-btn-Delete"
                                 styleClass="options-btn"
@@ -48,7 +60,9 @@
                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
                                 #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestDlgMessage)};
                                 PF('mainConfirmDialog').show();"
-                                disabled="#{empty nonConformiteRequestController.selected}"
+                                disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
                                 >
                         <p:confirm  />
                     </p:menuitem>
@@ -453,43 +467,18 @@
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or nonConformiteRequestController.selected.ncrState.id!=1}"
                                  />
-                <div class="ui-btn-Approuve" style="text-align: center;margin: auto;">
-                    <p:commandButton id="validateButton"   
-                                     icon="ui-btn-Approuve"
-                                     style="width: 49%;margin: auto;margin-right: 1%;"
-                                     value="#{ism.Validate}" 
-                                     title="Permet de valider la non conformité sélectionné !"
-                                     actionListener="#{nonConformiteRequestController.updateOnValidate()}"
-                                     disabled="#{empty nonConformiteRequestController.selected 
-                                                 or empty nonConformiteRequestController.selected.ncrId
-                                                 or nonConformiteRequestController.selected.ncrState.id!=1}"
-                                     update=":bodyForm:datalist,westGroup,:growl"
-                                     >
-                        <p:confirm header="#{ism.NonConformiteRequestValidateDlgHeader}"
-                                   message="#{ism.NonConformiteRequestValidateDlgMessage}"
-                                   />
-                    </p:commandButton>
-
-
-                    <p:commandButton id="refusedButton"   
-                                     icon="ui-btn-Refuse"
-                                     style="width: 49%;margin: auto;"
-                                     value="#{ism.Refused}" 
-                                     disabled="#{empty nonConformiteRequestController.selected 
-                                                 or empty nonConformiteRequestController.selected.ncrId
-                                                 or nonConformiteRequestController.selected.ncrState.id!=1}"
-                                     update=":bodyForm:datalist,westGroup,:growl"
-                                     onstart=";
-                                     #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteRequestValidateDlgHeader)};
-                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
-                                     #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestValidateDlgMessage)}
-                                     PF('mainConfirmDialog').show()"
-
-                                     >
-                        <p:confirm  />
-                    </p:commandButton>
-                </div>
-
+                <br />
+                <p:commandButton id="validateButton"
+                                 icon="ui-btn-Approuve"
+                                 styleClass="options-btn"
+                                 value="#{ism.Validate}"
+                                 action="Validate.xhtml?faces-redirect=true"
+                                 title="Permet d'accepter ou refuser la non conformité sélectionné."
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 />
+                <br />
                 <p:commandButton id="deleteButton"
                                  icon="ui-btn-Delete"
                                  styleClass="options-btn"
@@ -522,7 +511,7 @@
 
 
         </ui:define>
-        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton, approuveButton, refusedButton" >
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, validateButton, deleteButton" >
             <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
         </p:blockUI>
 

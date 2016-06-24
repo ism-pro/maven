@@ -8,15 +8,16 @@
 
     <ui:composition>
 
-        <p:dialog id="NonConformiteRequestEditDlg" widgetVar="NonConformiteRequestEditDialog"
+        <p:dialog id="NonConformiteRequestValidateDlg" widgetVar="NonConformiteRequestValidateDialog"
                   dynamic="true" showEffect="clip"  hideEffect="clip"
                   modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.NonConformiteRequestTitleEdit}"
+                  header="#{ism.NonConformiteRequestTitleValidate}"
                   closable="false"
                   >
 
-            <h:form id="NonConformiteRequestEditForm">
+            <h:form id="NonConformiteRequestValidateForm">
                 <h:panelGroup id="display">
+
                     <p:panelGrid columns="2" rendered="#{nonConformiteRequestController.selected != null}" >
                         <p:panelGrid columns="2" >
 
@@ -139,22 +140,20 @@
                                          style="width: 256px;"
                                          />
 
-
-                            <p:commandLink  onclick="PF('v_ncrDescription').clear();">
-                                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescription}" for="ncrDescription" />
+                            <p:commandLink  onclick="PF('v_ncrDescOnValidate').clear();">
+                                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescOnValidate}" for="ncrDescOnValidate" />
                             </p:commandLink>
-                            <p:editor id="ncrDescription" width="275" height="200"
-                                      value="#{nonConformiteRequestController.selected.ncrDescription}" 
-                                      widgetVar="v_ncrDescription"
+                            <p:editor id="ncrDescOnValidate" width="275" height="200"
+                                      widgetVar="v_ncrDescOnValidate"
+                                      value="#{nonConformiteRequestController.selected.ncrdescOnValidate}" 
                                       controls="bold italic underline strikethrough font size style color highlight bullets numbering"
-                                      required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrDescription}"
                                       />
 
-
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStaff}" for="ncrStaff" />
-                            <p:selectOneMenu id="ncrStaff" value="#{nonConformiteRequestController.selected.ncrStaff}" required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrStaff}"
-                                             style="width: 256px;"
-                                             >
+                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStaffOnValidate}" for="ncrStaffOnValidate" />
+                            <p:selectOneMenu id="ncrStaffOnValidate" 
+                                             value="#{nonConformiteRequestController.selected.ncrstaffOnValidate}" 
+                                             required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrStaffOnValidate}"
+                                             style="width: 256px;">
                                 <f:selectItem itemLabel="#{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"
                                               itemValue="#{staffAuthController.staff}"/>
                             </p:selectOneMenu>
@@ -168,13 +167,13 @@
                         </p:panelGrid>
                     </p:panelGrid>
 
-                    <p:commandButton actionListener="#{nonConformiteRequestController.update}" 
+                    <p:commandButton actionListener="#{nonConformiteRequestController.validate}" 
                                      value="#{ism.Save}" 
                                      update="display,:NonConformiteRequestListForm:datalist,:growl" 
-                                     oncomplete="handleSubmit(args, 'NonConformiteRequestEditDialog');"/>
+                                     oncomplete="handleSubmit(args, 'NonConformiteRequestValidateDialog');"/>
                     <p:commandButton value="#{ism.Cancel}" 
                                      icon="ismCancel"
-                                     onclick="PF('NonConformiteRequestEditDialog').hide();"
+                                     onclick="PF('NonConformiteRequestValidateDialog').hide();"
                                      />
                 </h:panelGroup>
             </h:form>

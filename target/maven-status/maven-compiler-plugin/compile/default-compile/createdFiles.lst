@@ -33,6 +33,7 @@ org\ism\entities\StaffGroupDef.class
 org\ism\filters\NoCacheFilter.class
 org\ism\jsf\NonConformiteFrequencyController$NonConformiteFrequencyDesignationValidator.class
 org\ism\view\ViewRibbon$1.class
+org\ism\entities\NonConformiteActions.class
 org\ism\services\CtrlAccess$AccessType.class
 org\ism\view\TableView.class
 org\ism\entities\IsmRole.class
@@ -48,6 +49,7 @@ org\ism\jsf\StaffGroupDefRoleController$StaffGroupDefRoleControllerConverter.cla
 org\ism\jsf\LabSamplePtController$LabSamplePtControllerConverter.class
 org\ism\sessions\LabSamplePtAnalysesFacade.class
 org\ism\jsf\NonConformiteFrequencyController$NonConformiteFrequencyCodeValidator.class
+org\ism\entities\NonConformiteActions_.class
 org\ism\entities\NonConformiteGravity_.class
 org\ism\jsf\NonConformiteUniteController$NonConformiteUniteControllerConverter.class
 org\ism\jsf\StaffCompaniesController.class
@@ -68,6 +70,7 @@ org\ism\entities\StaffGroupDefRole.class
 org\ism\entities\NonConformiteUnite.class
 org\ism\entities\StaffCompanies.class
 org\ism\entities\Unite.class
+org\ism\entities\IsmNcastate.class
 org\ism\jsf\NonConformiteUniteController$NonConformiteUniteCodeValidator.class
 org\ism\jsf\IsmNcrstateController.class
 org\ism\jsf\NonConformiteRequestController.class
@@ -191,6 +194,7 @@ org\ism\entities\IsmGenre_.class
 org\ism\sessions\EntrepriseFacade.class
 org\ism\entities\Equipement.class
 org\ism\sessions\ProcessusFacade.class
+org\ism\entities\IsmNcastate_.class
 org\ism\sessions\EquipementFacade.class
 org\ism\entities\IsmRole_.class
 org\ism\jsf\StaffGroupDefController$StaffGroupDefControllerConverter.class

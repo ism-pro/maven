@@ -1,183 +1,240 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="NonConformiteRequestValidateDlg" widgetVar="NonConformiteRequestValidateDialog"
-                  dynamic="true" showEffect="clip"  hideEffect="clip"
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.NonConformiteRequestTitleValidate}"
-                  closable="false"
-                  >
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-            <h:form id="NonConformiteRequestValidateForm">
-                <h:panelGroup id="display">
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteRequestTitleValidate}"/></h1>
 
-                    <p:panelGrid columns="2" rendered="#{nonConformiteRequestController.selected != null}" >
-                        <p:panelGrid columns="2" >
+            <h:form id="bodyForm">
 
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{nonConformiteRequestController.selected != null}">
 
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrOccured}" for="ncrOccured" />
-                            <p:calendar id="ncrOccured" pattern="dd/MM/yyyy" 
-                                        value="#{nonConformiteRequestController.selected.ncrOccured}" 
-                                        title="#{ism.NonConformiteRequestFieldInfo_ncrOccured}" 
-                                        maxdate="#{appUtil.maintenant}"
-                                        required="true" 
-                                        requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrOccured}" 
-                                        mode="popup" showOn="button"
-                                        locale="fr" navigator="true"
-                                        showButtonPanel="true"
-                                        effect="slideDown"
-                                        size="33"
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrApprouved}" for="ncrApprouved" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneButton id="ncrApprouved"
+                                           value="#{nonConformiteRequestController.selected.ncrApprouved}"
+                                           required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrApprouved}"
+                                           >
+                            <p:ajax event="change" update="panelForm" />
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}" />
+                            <f:selectItem itemLabel="#{ism.Yes}" itemValue="#{true}" />
+                            <f:selectItem itemLabel="#{ism.No}" itemValue="#{false}" />
+                        </p:selectOneButton>
+                        <p:message for="ncrApprouved" />
+                    </h:panelGrid>
 
-                                        />
+                    <p:commandLink id="ncrApprouvedDescLabel" rendered="#{!nonConformiteRequestController.selected.ncrApprouved}"  onclick="PF('ncrDescription').clear();" title="Activate">
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrApprouvedDesc}" for="ncrApprouvedDesc" />
+                    </p:commandLink>
+                    <h:panelGrid id="nacrApprouvedDescGrid" rendered="#{!nonConformiteRequestController.selected.ncrApprouved}" columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:editor id="ncrApprouvedDesc" widgetVar="ncrApprouvedDesc"
+                                  value="#{nonConformiteRequestController.selected.ncrapprouvedDesc}"
+                                  required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrApprouvedDesc}"
+                                  />
+                        <p:message for="ncrApprouvedDesc"   />
+                    </h:panelGrid>
 
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" for="ncrProcessus" />
-                            <p:selectOneMenu id="ncrProcessus" value="#{nonConformiteRequestController.selected.ncrProcessus}" 
-                                             required="true" 
-                                             requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"
-                                             style="width: 256px;"
-                                             >
-                                <f:selectItem itemLabel="#{ism.NonConformiteRequestMsgSelectProcessus}" itemValue=""/>
-                                <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
-                                               var="item"
-                                               itemLabel="#{item.PProcessus} - #{item.PDesignation}"
-                                               itemValue="#{item}"/>
-                            </p:selectOneMenu>
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrApprouver}" for="ncrApprouver" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrApprouver" widgetVar="ncrApprouver"
+                                     value="#{nonConformiteRequestController.selected.ncrApprouver = staffAuthController.staff}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrApprouver}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename} [#{staffAuthController.staff.stStaff}]" />
+                    </h:panelGrid>
 
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProduct}" for="ncrProduct" />
-                            <p:inputText id="ncrProduct" 
-                                         value="#{nonConformiteRequestController.selected.ncrProduct}" 
-                                         title="#{ism.NonConformiteRequestFieldInfo_ncrProduct}" 
-                                         size="33"
-                                         />
-
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrTrace}" for="ncrTrace" />
-                            <p:inputText id="ncrTrace" 
-                                         value="#{nonConformiteRequestController.selected.ncrTrace}" 
-                                         title="#{ism.NonConformiteRequestFieldInfo_ncrTrace}"
-                                         size="33"
-                                         />
-
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrQuantity}" for="ncrQuantity" />
-                            <p:inputText id="ncrQuantity" 
-                                         value="#{nonConformiteRequestController.selected.ncrQuantity}" 
-                                         title="#{ism.NonConformiteRequestFieldInfo_ncrQuantity}" 
-                                         size="33"
-                                         />
-
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrUnite}" for="ncrUnite"    />
-                            <p:selectOneMenu id="ncrUnite" 
-                                             value="#{nonConformiteRequestController.selected.ncrUnite}" 
-                                             required="true" 
-                                             requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrUnite}"
-                                             style="width: 256px;"
-                                             >
-                                <f:selectItem itemLabel="#{ism.NonConformiteRequestMsgSelectUnite}" itemValue=""/>
-                                <f:selectItems value="#{nonConformiteUniteController.itemsAvailableSelectOne}"
-                                               var="ncrUniteItem"
-                                               itemLabel="#{ncrUniteItem.ncuUnite} - #{ncrUniteItem.ncuDesignation}"
-                                               itemValue="#{ncrUniteItem}"
-                                               />
-                            </p:selectOneMenu>
+                </p:panelGrid>
 
 
 
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrNature}" for="ncrNature" />
-                            <p:selectOneMenu id="ncrNature" 
-                                             value="#{nonConformiteRequestController.selected.ncrNature}"
-                                             required="true"
-                                             requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrNature}" 
-                                             style="width: 256px;"
-                                             >
-                                <f:selectItem itemLabel="#{ism.NonConformiteRequestMsgSelectNature}" itemValue=""/>
-                                <f:selectItems value="#{nonConformiteNatureController.itemsAvailableSelectOne}"
-                                               var="ncrNatureItem"
-                                               itemLabel="#{ncrNatureItem.ncnNature} - #{ncrNatureItem.ncnDesignation}"
-                                               itemValue="#{ncrNatureItem}" />
-                            </p:selectOneMenu>
-
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrGravity}" for="ncrGravity" />
-                            <p:selectOneMenu id="ncrGravity" value="#{nonConformiteRequestController.selected.ncrGravity}" 
-                                             required="true" 
-                                             requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrGravity}"
-                                             style="width: 256px;"
-                                             >
-                                <f:selectItem itemLabel="#{ism.NonConformiteRequestMsgSelectGravity}" itemValue=""/>
-                                <f:selectItems value="#{nonConformiteGravityController.itemsAvailableSelectOne}"
-                                               var="ncrGravityItem"
-                                               itemLabel="#{ncrGravityItem.ncgGravity} - #{ncrGravityItem.ncgDesignation}"
-                                               itemValue="#{ncrGravityItem}"/>
-                            </p:selectOneMenu>
-
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrFrequency}" for="ncrFrequency" />
-                            <p:selectOneMenu id="ncrFrequency" value="#{nonConformiteRequestController.selected.ncrFrequency}" 
-                                             required="true" 
-                                             requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrFrequency}"
-                                             style="width: 256px;"
-                                             >
-                                <f:selectItem itemLabel="#{ism.NonConformiteRequestMsgSelectFrequency}" itemValue=""/>
-                                <f:selectItems value="#{nonConformiteFrequencyController.itemsAvailableSelectOne}"
-                                               var="ncrFrequencyItem"
-                                               itemLabel="#{ncrFrequencyItem.ncfFrequency} - #{ncrFrequencyItem.ncfDesignation}"
-                                               itemValue="#{ncrFrequencyItem}"/>
-                            </p:selectOneMenu>
-                        </p:panelGrid>
-
-
-                        <p:panelGrid columns="2" >
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrTitle}" 
-                                           for="ncrTitle" />
-                            <p:inputText id="ncrTitle" 
-                                         value="#{nonConformiteRequestController.selected.ncrTitle}" 
-                                         required="true"  
-                                         title="#{ism.NonConformiteRequestFieldInfo_ncrTitle}" 
-                                         style="width: 256px;"
-                                         />
-
-                            <p:commandLink  onclick="PF('v_ncrDescOnValidate').clear();">
-                                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescOnValidate}" for="ncrDescOnValidate" />
-                            </p:commandLink>
-                            <p:editor id="ncrDescOnValidate" width="275" height="200"
-                                      widgetVar="v_ncrDescOnValidate"
-                                      value="#{nonConformiteRequestController.selected.ncrdescOnValidate}" 
-                                      controls="bold italic underline strikethrough font size style color highlight bullets numbering"
-                                      />
-
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStaffOnValidate}" for="ncrStaffOnValidate" />
-                            <p:selectOneMenu id="ncrStaffOnValidate" 
-                                             value="#{nonConformiteRequestController.selected.ncrstaffOnValidate}" 
-                                             required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrStaffOnValidate}"
-                                             style="width: 256px;">
-                                <f:selectItem itemLabel="#{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"
-                                              itemValue="#{staffAuthController.staff}"/>
-                            </p:selectOneMenu>
-
-                            <p:outputLabel value="#{ism.NonConformiteRequestField_ncrCompany}" for="ncrCompany" />
-                            <p:selectOneMenu id="ncrCompany" value="#{nonConformiteRequestController.selected.ncrCompany}" required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrCompany}"
-                                             style="width: 256px;">
-                                <f:selectItem  itemValue="#{staffAuthController.company}"
-                                               itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
-                            </p:selectOneMenu>
-                        </p:panelGrid>
-                    </p:panelGrid>
-
-                    <p:commandButton actionListener="#{nonConformiteRequestController.validate}" 
-                                     value="#{ism.Save}" 
-                                     update="display,:NonConformiteRequestListForm:datalist,:growl" 
-                                     oncomplete="handleSubmit(args, 'NonConformiteRequestValidateDialog');"/>
-                    <p:commandButton value="#{ism.Cancel}" 
-                                     icon="ismCancel"
-                                     onclick="PF('NonConformiteRequestValidateDialog').hide();"
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Validate}" 
+                                     actionListener="#{nonConformiteRequestController.updateOnValidate()}" 
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{nonConformiteRequestController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
                                      />
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+
+
+
+
+
+
+            <p:panel collapsed="true"  toggleTitle="Réduire" toggleable="true"
+                     header="#{nonConformiteRequestController.selected.ncrTitle}">
+                <h2 id="smq-nc-titles">
+                    <span id="smq-nc-mainTitle">
+                        Non conformitée : 
+                    </span>
+                    <p:outputLabel styleClass="smq-nc-title" 
+                                   value="#{nonConformiteRequestController.selected.ncrTitle}" 
+                                   />
+                    <hr />
+                    <span >
+                        <div style="float: left;margin-right: 10px;">
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_waiting.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==1?true:false}"/>
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_actions.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==2?true:false}"/>
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_inprogress.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==3?true:false}"/>
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_terminate.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==4?true:false}"/>
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_refuse.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==5?true:false}"/>
+                        </div>
+                        <div>
+                            #{ism.State} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrState.istate} - #{nonConformiteRequestController.selected.ncrState.statename}" />]
+                            <br />
+                            #{ism.LastChange} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrChanged}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>]
+                        </div>
+                    </span>
+                </h2>
+
+
+
+
+                <!-- INFORMATIONS    -->
+
+                <h2><span style="font-style: initial">INFROMATIONS</span></h2>
+                <hr />
+                <p:panelGrid columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass">
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrId}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrId}"/>
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrCompany}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrCompany.CCompany} - #{nonConformiteRequestController.selected.ncrCompany.CDesignation}"/>
+
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrProcessus.PProcessus} - #{nonConformiteRequestController.selected.ncrProcessus.PDesignation}"
+                                  />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrNature}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrNature.ncnNature} - #{nonConformiteRequestController.selected.ncrNature.ncnDesignation}"
+                                  />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrGravity}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrGravity.ncgGravity} - #{nonConformiteRequestController.selected.ncrGravity.ncgDesignation}"
+                                  />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrFrequency}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrFrequency.ncfFrequency} - #{nonConformiteRequestController.selected.ncrFrequency.ncfDesignation}"
+                                  />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrOccured}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrOccured}" 
+                                  ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProduct}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrProduct}"
+                                  />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrTrace}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrTrace}"
+                                  />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrQuantity}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrQuantity}"
+                                  />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrUnite}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrUnite.ncuUnite} #{nonConformiteRequestController.selected.ncrUnite.ncuDesignation}"
+                                  />
+                </p:panelGrid>
+
+
+
+                <h2><span style="font-style: initial">DESCRIPTION</span></h2>
+                <hr />
+                <p:panelGrid columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass">
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStaff}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrStaff.stStaff} - #{nonConformiteRequestController.selected.ncrStaff.stFirstname} #{nonConformiteRequestController.selected.ncrStaff.stLastname} #{nonConformiteRequestController.selected.ncrStaff.stMiddlename}"
+                                  />
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrCreated}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrCreated}"
+                                  ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescription}" />
+                    <p:editor  value="#{nonConformiteRequestController.selected.ncrDescription}"  
+                               styleClass="hideToolbar" disabled="true"  
+                               />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrLink}" />
+                    <h:outputText value="#{nonConformiteRequestController.selected.ncrLink}"
+                                  />
+
+                </p:panelGrid>
+
+            </p:panel>
+
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Validate}" 
+                                 actionListener="#{nonConformiteRequestController.updateOnValidate()}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

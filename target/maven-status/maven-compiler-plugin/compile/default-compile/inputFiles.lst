@@ -13,6 +13,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewConfirmDialog.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\LabSamplePtAnalyses.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffCompaniesFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\DocTypeController.java
+D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformiteActions.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmGenreController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmNcrstateController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformite.java
@@ -39,6 +40,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffGroupsController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffGroupDefRoleController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabSampleFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffAuthController.java
+D:\Applications\Java\ISM\src\main\java\org\ism\entities\IsmNcastate.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\IsmNcrstate.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\StaffGroupDefFacade.java
 D:\Applications\Java\ISM\src\main\java\org\primefaces\ism\component\ribbon\Ribbon.java

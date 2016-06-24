@@ -35,15 +35,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "IsmGenre.findByGenre", query = "SELECT i FROM IsmGenre i WHERE i.genre = :genre"),
     @NamedQuery(name = "IsmGenre.findByGenrename", query = "SELECT i FROM IsmGenre i WHERE i.genrename = :genrename")})
 public class IsmGenre implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(nullable = false, length = 10)
+    @Column(name = "genre", nullable = false, length = 10)
     private String genre;
     @Basic(optional = false)
     @NotNull
@@ -97,9 +98,6 @@ public class IsmGenre implements Serializable {
         return staffCollection;
     }
 
-    public void setStaffCollection(Collection<Staff> staffCollection) {
-        this.staffCollection = staffCollection;
-    }
 
     @Override
     public int hashCode() {
@@ -125,5 +123,11 @@ public class IsmGenre implements Serializable {
         return "org.ism.entities.IsmGenre[ id=" + id + " ]";
     }
 
+
+
+
+
+
+   
     
 }
