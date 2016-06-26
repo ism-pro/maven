@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IsmNcastateEditDlg" widgetVar="IsmNcastateEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.EditIsmNcastateTitle}">
+            <h:form id="IsmNcastateEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ismNcastateController.selected != null}">
+                        <p:outputLabel value="#{bundle1.EditIsmNcastateLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{ismNcastateController.selected.id}" title="#{bundle1.EditIsmNcastateTitle_id}" required="true" requiredMessage="#{bundle1.EditIsmNcastateRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle1.EditIsmNcastateLabel_istate}" for="istate" />
+                        <p:inputText id="istate" value="#{ismNcastateController.selected.istate}" title="#{bundle1.EditIsmNcastateTitle_istate}" required="true" requiredMessage="#{bundle1.EditIsmNcastateRequiredMessage_istate}"/>
+                        <p:outputLabel value="#{bundle1.EditIsmNcastateLabel_statename}" for="statename" />
+                        <p:inputText id="statename" value="#{ismNcastateController.selected.statename}" title="#{bundle1.EditIsmNcastateTitle_statename}" required="true" requiredMessage="#{bundle1.EditIsmNcastateRequiredMessage_statename}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ismNcastateController.update}" value="#{bundle1.Save}" update="display,:IsmNcastateListForm:datalist,:growl" oncomplete="handleSubmit(args, 'IsmNcastateEditDialog');"/>
+                    <p:commandButton value="#{bundle1.Cancel}" onclick="IsmNcastateEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

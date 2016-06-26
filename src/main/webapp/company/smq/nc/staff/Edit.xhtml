@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StaffEditDlg" widgetVar="StaffEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.EditStaffTitle}">
+            <h:form id="StaffEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{staffController.selected != null}">
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stId}" for="stId" />
+                        <p:inputText id="stId" value="#{staffController.selected.stId}" title="#{bundle1.EditStaffTitle_stId}" required="true" requiredMessage="#{bundle1.EditStaffRequiredMessage_stId}"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stStaff}" for="stStaff" />
+                        <p:inputText id="stStaff" value="#{staffController.selected.stStaff}" title="#{bundle1.EditStaffTitle_stStaff}" required="true" requiredMessage="#{bundle1.EditStaffRequiredMessage_stStaff}"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stPassword}" for="stPassword" />
+                        <p:inputText id="stPassword" value="#{staffController.selected.stPassword}" title="#{bundle1.EditStaffTitle_stPassword}" required="true" requiredMessage="#{bundle1.EditStaffRequiredMessage_stPassword}"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stLastname}" for="stLastname" />
+                        <p:inputText id="stLastname" value="#{staffController.selected.stLastname}" title="#{bundle1.EditStaffTitle_stLastname}" />
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stFirstname}" for="stFirstname" />
+                        <p:inputText id="stFirstname" value="#{staffController.selected.stFirstname}" title="#{bundle1.EditStaffTitle_stFirstname}" />
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stMiddlename}" for="stMiddlename" />
+                        <p:inputText id="stMiddlename" value="#{staffController.selected.stMiddlename}" title="#{bundle1.EditStaffTitle_stMiddlename}" />
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stBorned}" for="stBorned" />
+                        <p:calendar id="stBorned" pattern="MM/dd/yyyy" value="#{staffController.selected.stBorned}" title="#{bundle1.EditStaffTitle_stBorned}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stActivated}" for="stActivated" />
+                        <p:selectBooleanCheckbox id="stActivated" value="#{staffController.selected.stActivated}" required="true" requiredMessage="#{bundle1.EditStaffRequiredMessage_stActivated}"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stDeleted}" for="stDeleted" />
+                        <p:selectBooleanCheckbox id="stDeleted" value="#{staffController.selected.stDeleted}" required="true" requiredMessage="#{bundle1.EditStaffRequiredMessage_stDeleted}"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stCreated}" for="stCreated" />
+                        <p:calendar id="stCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{staffController.selected.stCreated}" title="#{bundle1.EditStaffTitle_stCreated}" required="true" requiredMessage="#{bundle1.EditStaffRequiredMessage_stCreated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stChanged}" for="stChanged" />
+                        <p:calendar id="stChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{staffController.selected.stChanged}" title="#{bundle1.EditStaffTitle_stChanged}" required="true" requiredMessage="#{bundle1.EditStaffRequiredMessage_stChanged}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stMaxInactiveInterval}" for="stMaxInactiveInterval" />
+                        <p:inputText id="stMaxInactiveInterval" value="#{staffController.selected.stMaxInactiveInterval}" title="#{bundle1.EditStaffTitle_stMaxInactiveInterval}" required="true" requiredMessage="#{bundle1.EditStaffRequiredMessage_stMaxInactiveInterval}"/>
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stPasswordConf}" for="stPasswordConf" />
+                        <p:inputText id="stPasswordConf" value="#{staffController.selected.stPasswordConf}" title="#{bundle1.EditStaffTitle_stPasswordConf}" />
+                        <p:outputLabel value="#{bundle1.EditStaffLabel_stGenre}" for="stGenre" />
+                        <p:selectOneMenu id="stGenre" value="#{staffController.selected.stGenre}" >
+                            <f:selectItem itemLabel="#{bundle1.SelectOneMessage}"/>
+                            <f:selectItems value="#{ismGenreController.itemsAvailableSelectOne}"
+                                           var="stGenreItem"
+                                           itemValue="#{stGenreItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{staffController.update}" value="#{bundle1.Save}" update="display,:StaffListForm:datalist,:growl" oncomplete="handleSubmit(args, 'StaffEditDialog');"/>
+                    <p:commandButton value="#{bundle1.Cancel}" onclick="StaffEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

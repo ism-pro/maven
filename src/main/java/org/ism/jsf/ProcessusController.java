@@ -32,7 +32,7 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean(name="processusController")
+@ManagedBean(name = "processusController")
 @SessionScoped
 public class ProcessusController implements Serializable {
 
@@ -326,7 +326,9 @@ public class ProcessusController implements Serializable {
      * @return
      */
     public Processus getSelected() {
-        if(selected==null)   selected = new Processus();
+        if (selected == null) {
+            selected = new Processus();
+        }
         return selected;
     }
 

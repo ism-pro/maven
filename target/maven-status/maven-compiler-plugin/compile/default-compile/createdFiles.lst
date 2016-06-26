@@ -19,6 +19,7 @@ org\ism\jsf\StaffGroupDefRoleController$IsmRoleConverter.class
 org\ism\entities\DocExplorer_.class
 org\ism\jsf\StaffGroupDefController.class
 org\ism\sessions\DocTypeFacade.class
+org\ism\jsf\IsmNcastateController.class
 org\ism\services\CtrlAccessService.class
 org\ism\sessions\LabAnalyseMethodFacade.class
 org\ism\jsf\StaffGroupsController$StaffGroupsControllerConverter.class
@@ -65,6 +66,8 @@ org\ism\entities\LabSamplePt_.class
 org\ism\entities\Staff.class
 org\ism\jsf\NonConformiteGravityController$NonConformiteGravityControllerConverter.class
 org\ism\entities\LabSamplePtAnalyses_.class
+org\ism\sessions\NonConformiteActionsFacade.class
+org\ism\sessions\IsmNcastateFacade.class
 org\ism\sessions\LabAnalyseTypeFacade.class
 org\ism\entities\StaffGroupDefRole.class
 org\ism\entities\NonConformiteUnite.class
@@ -82,6 +85,7 @@ org\ism\jsf\LabSampleController$LabSampleControllerConverter.class
 org\ism\jsf\util\JsfUtil$PersistAction.class
 org\tools\MDGenerator.class
 org\ism\jsf\NonConformiteNatureController$NonConformiteNatureControllerConverter.class
+org\ism\jsf\NonConformiteActionsController$NonConformiteActionsControllerConverter.class
 org\ism\listener\SessionCounterListener.class
 org\ism\jsf\StaffGroupDefRoleController.class
 org\ism\entities\NonConformiteFrequency.class
@@ -119,11 +123,13 @@ org\primefaces\ism\component\ribbon\Ribbon.class
 org\ism\jsf\StaffGroupsController.class
 org\ism\jsf\LabAnalyseMethodController$LabAnalyseMethodControllerConverter.class
 org\ism\entities\DocExplorer.class
+org\ism\jsf\IsmNcastateController$IsmNcastateControllerConverter.class
 org\primefaces\ism\component\ribbon\RibbonGroupSet$PropertyKeys.class
 org\ism\services\CtrlAccess.class
 org\primefaces\ism\component\ribbon\RibbonGroup.class
 org\ism\sessions\StaffGroupsFacade.class
 org\ism\jsf\NonConformiteNatureController$NonConformiteNatureDesignationValidator.class
+org\ism\jsf\NonConformiteActionsController$NonConformiteActionsCodeValidator.class
 org\ism\sessions\DocExplorerFacade.class
 org\ism\sessions\NonConformiteUniteFacade.class
 org\ism\converter\ThemeConverter.class
@@ -142,6 +148,7 @@ org\ism\sessions\StaffSetupFacade.class
 org\ism\jsf\IsmGenreController.class
 org\ism\jsf\EquipementController$EquipementControllerConverter.class
 org\ism\jsf\LabSamplePtAnalysesController.class
+org\ism\jsf\NonConformiteActionsController.class
 org\ism\sessions\LabAnalyseCategoryFacade.class
 org\ism\sessions\StaffCompaniesFacade.class
 org\ism\jsf\DocExplorerController.class
@@ -156,6 +163,7 @@ org\ism\entities\Unite_.class
 org\ism\entities\Processus_.class
 org\ism\view\FilterNCRequestView.class
 org\ism\jsf\StaffAuthController.class
+org\ism\jsf\NonConformiteActionsController$NonConformiteActionsDesignationValidator.class
 org\ism\jsf\LabAnalyseMethodController.class
 org\ism\services\ThemeService$ThemeServiceConverter.class
 org\ism\entities\LabAnalyseMethod.class

@@ -105,10 +105,12 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\NonConformiteGravityControlle
 D:\Applications\Java\ISM\src\main\java\org\ism\view\TableView.java
 D:\Applications\Java\ISM\src\main\java\org\tools\MDGenerator.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\DocType.java
+D:\Applications\Java\ISM\src\main\java\org\ism\jsf\NonConformiteActionsController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\Unite.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\DocExplorerController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\FilterNCRequestView.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\LabAnalyseCategory.java
+D:\Applications\Java\ISM\src\main\java\org\ism\sessions\NonConformiteActionsFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\NonConformiteUniteFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\AbstractFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffGroupDefController.java

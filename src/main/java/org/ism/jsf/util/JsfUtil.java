@@ -12,7 +12,6 @@ import javax.faces.component.visit.VisitCallback;
 import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 

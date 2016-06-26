@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteUniteEditDlg" widgetVar="NonConformiteUniteEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.EditNonConformiteUniteTitle}">
+            <h:form id="NonConformiteUniteEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nonConformiteUniteController.selected != null}">
+                        <p:outputLabel value="#{bundle1.EditNonConformiteUniteLabel_ncuId}" for="ncuId" />
+                        <p:inputText id="ncuId" value="#{nonConformiteUniteController.selected.ncuId}" title="#{bundle1.EditNonConformiteUniteTitle_ncuId}" required="true" requiredMessage="#{bundle1.EditNonConformiteUniteRequiredMessage_ncuId}"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteUniteLabel_ncuUnite}" for="ncuUnite" />
+                        <p:inputText id="ncuUnite" value="#{nonConformiteUniteController.selected.ncuUnite}" title="#{bundle1.EditNonConformiteUniteTitle_ncuUnite}" required="true" requiredMessage="#{bundle1.EditNonConformiteUniteRequiredMessage_ncuUnite}"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteUniteLabel_ncuDesignation}" for="ncuDesignation" />
+                        <p:inputText id="ncuDesignation" value="#{nonConformiteUniteController.selected.ncuDesignation}" title="#{bundle1.EditNonConformiteUniteTitle_ncuDesignation}" required="true" requiredMessage="#{bundle1.EditNonConformiteUniteRequiredMessage_ncuDesignation}"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteUniteLabel_ncuDeleted}" for="ncuDeleted" />
+                        <p:selectBooleanCheckbox id="ncuDeleted" value="#{nonConformiteUniteController.selected.ncuDeleted}" required="true" requiredMessage="#{bundle1.EditNonConformiteUniteRequiredMessage_ncuDeleted}"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteUniteLabel_ncuCreated}" for="ncuCreated" />
+                        <p:calendar id="ncuCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteUniteController.selected.ncuCreated}" title="#{bundle1.EditNonConformiteUniteTitle_ncuCreated}" required="true" requiredMessage="#{bundle1.EditNonConformiteUniteRequiredMessage_ncuCreated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteUniteLabel_ncuChanged}" for="ncuChanged" />
+                        <p:calendar id="ncuChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteUniteController.selected.ncuChanged}" title="#{bundle1.EditNonConformiteUniteTitle_ncuChanged}" required="true" requiredMessage="#{bundle1.EditNonConformiteUniteRequiredMessage_ncuChanged}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteUniteLabel_ncuCompany}" for="ncuCompany" />
+                        <p:selectOneMenu id="ncuCompany" value="#{nonConformiteUniteController.selected.ncuCompany}" required="true" requiredMessage="#{bundle1.EditNonConformiteUniteRequiredMessage_ncuCompany}">
+                            <f:selectItem itemLabel="#{bundle1.SelectOneMessage}"/>
+                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
+                                           var="ncuCompanyItem"
+                                           itemValue="#{ncuCompanyItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nonConformiteUniteController.update}" value="#{bundle1.Save}" update="display,:NonConformiteUniteListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NonConformiteUniteEditDialog');"/>
+                    <p:commandButton value="#{bundle1.Cancel}" onclick="NonConformiteUniteEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

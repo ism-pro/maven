@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProcessusViewDlg" widgetVar="ProcessusViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.ViewProcessusTitle}">
+            <h:form id="ProcessusViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{processusController.selected != null}">
+                        <h:outputText value="#{bundle1.ViewProcessusLabel_PId}"/>
+                        <h:outputText value="#{processusController.selected.PId}" title="#{bundle1.ViewProcessusTitle_PId}"/>
+                        <h:outputText value="#{bundle1.ViewProcessusLabel_PProcessus}"/>
+                        <h:outputText value="#{processusController.selected.PProcessus}" title="#{bundle1.ViewProcessusTitle_PProcessus}"/>
+                        <h:outputText value="#{bundle1.ViewProcessusLabel_PDesignation}"/>
+                        <h:outputText value="#{processusController.selected.PDesignation}" title="#{bundle1.ViewProcessusTitle_PDesignation}"/>
+                        <h:outputText value="#{bundle1.ViewProcessusLabel_PDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{processusController.selected.PDeleted}" disabled="true"/>
+                        <h:outputText value="#{bundle1.ViewProcessusLabel_PCreated}"/>
+                        <h:outputText value="#{processusController.selected.PCreated}" title="#{bundle1.ViewProcessusTitle_PCreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle1.ViewProcessusLabel_PChanged}"/>
+                        <h:outputText value="#{processusController.selected.PChanged}" title="#{bundle1.ViewProcessusTitle_PChanged}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle1.ViewProcessusLabel_PCompany}"/>
+                        <h:outputText value="#{processusController.selected.PCompany}" title="#{bundle1.ViewProcessusTitle_PCompany}"/>
+                        <h:outputText value="#{bundle1.ViewProcessusLabel_PStaffmanager}"/>
+                        <h:outputText value="#{processusController.selected.PStaffmanager}" title="#{bundle1.ViewProcessusTitle_PStaffmanager}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle1.Close}" onclick="ProcessusViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteNatureEditDlg" widgetVar="NonConformiteNatureEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.EditNonConformiteNatureTitle}">
+            <h:form id="NonConformiteNatureEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nonConformiteNatureController.selected != null}">
+                        <p:outputLabel value="#{bundle1.EditNonConformiteNatureLabel_ncnId}" for="ncnId" />
+                        <p:inputText id="ncnId" value="#{nonConformiteNatureController.selected.ncnId}" title="#{bundle1.EditNonConformiteNatureTitle_ncnId}" required="true" requiredMessage="#{bundle1.EditNonConformiteNatureRequiredMessage_ncnId}"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteNatureLabel_ncnNature}" for="ncnNature" />
+                        <p:inputText id="ncnNature" value="#{nonConformiteNatureController.selected.ncnNature}" title="#{bundle1.EditNonConformiteNatureTitle_ncnNature}" required="true" requiredMessage="#{bundle1.EditNonConformiteNatureRequiredMessage_ncnNature}"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteNatureLabel_ncnDesignation}" for="ncnDesignation" />
+                        <p:inputText id="ncnDesignation" value="#{nonConformiteNatureController.selected.ncnDesignation}" title="#{bundle1.EditNonConformiteNatureTitle_ncnDesignation}" required="true" requiredMessage="#{bundle1.EditNonConformiteNatureRequiredMessage_ncnDesignation}"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteNatureLabel_ncnDeleted}" for="ncnDeleted" />
+                        <p:selectBooleanCheckbox id="ncnDeleted" value="#{nonConformiteNatureController.selected.ncnDeleted}" required="true" requiredMessage="#{bundle1.EditNonConformiteNatureRequiredMessage_ncnDeleted}"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteNatureLabel_ncnCreated}" for="ncnCreated" />
+                        <p:calendar id="ncnCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteNatureController.selected.ncnCreated}" title="#{bundle1.EditNonConformiteNatureTitle_ncnCreated}" required="true" requiredMessage="#{bundle1.EditNonConformiteNatureRequiredMessage_ncnCreated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteNatureLabel_ncnChanged}" for="ncnChanged" />
+                        <p:calendar id="ncnChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteNatureController.selected.ncnChanged}" title="#{bundle1.EditNonConformiteNatureTitle_ncnChanged}" required="true" requiredMessage="#{bundle1.EditNonConformiteNatureRequiredMessage_ncnChanged}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditNonConformiteNatureLabel_ncnCompany}" for="ncnCompany" />
+                        <p:selectOneMenu id="ncnCompany" value="#{nonConformiteNatureController.selected.ncnCompany}" required="true" requiredMessage="#{bundle1.EditNonConformiteNatureRequiredMessage_ncnCompany}">
+                            <f:selectItem itemLabel="#{bundle1.SelectOneMessage}"/>
+                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
+                                           var="ncnCompanyItem"
+                                           itemValue="#{ncnCompanyItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nonConformiteNatureController.update}" value="#{bundle1.Save}" update="display,:NonConformiteNatureListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NonConformiteNatureEditDialog');"/>
+                    <p:commandButton value="#{bundle1.Cancel}" onclick="NonConformiteNatureEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

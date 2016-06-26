@@ -40,7 +40,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NonConformiteActions.findByNcaDeadline", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaDeadline = :ncaDeadline"),
     @NamedQuery(name = "NonConformiteActions.findByNcaAction", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaAction = :ncaAction"),
     @NamedQuery(name = "NonConformiteActions.findByNcaCreated", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaCreated = :ncaCreated"),
-    @NamedQuery(name = "NonConformiteActions.findByNcaChanged", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaChanged = :ncaChanged")})
+    @NamedQuery(name = "NonConformiteActions.findByNcaChanged", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaChanged = :ncaChanged"),
+    @NamedQuery(name = "NonConformiteActions.selectAllByLastChange", query = "SELECT n FROM NonConformiteActions n ORDER BY n.ncaChanged DESC"),
+    @NamedQuery(name = "NonConformiteActions.findAllByNCLastChange", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaChanged DESC")
+})
 public class NonConformiteActions implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle1.ListStaffTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="StaffListForm">
+                <p:panel header="#{bundle1.ListStaffTitle}">
+                    <p:dataTable id="datalist" value="#{staffController.items}" var="item"
+                                 selectionMode="single" selection="#{staffController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.stId}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stStaff}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stStaff}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stPassword}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stPassword}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stLastname}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stLastname}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stFirstname}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stFirstname}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stMiddlename}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stMiddlename}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stBorned}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stBorned}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stActivated}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.stActivated}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stDeleted}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.stDeleted}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stCreated}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stCreated}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stChanged}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stChanged}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stMaxInactiveInterval}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stMaxInactiveInterval}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stPasswordConf}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stPasswordConf}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle1.ListStaffTitle_stGenre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stGenre}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle1.Create}" actionListener="#{staffController.prepareCreate}" update=":StaffCreateForm" oncomplete="PF('StaffCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle1.View}" update=":StaffViewForm" oncomplete="PF('StaffViewDialog').show()" disabled="#{empty staffController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle1.Edit}" update=":StaffEditForm" oncomplete="PF('StaffEditDialog').show()" disabled="#{empty staffController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle1.Delete}" actionListener="#{staffController.destroy}" update=":growl,datalist" disabled="#{empty staffController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

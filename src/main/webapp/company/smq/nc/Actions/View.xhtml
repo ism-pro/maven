@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteActionsViewDlg" widgetVar="NonConformiteActionsViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{ncAction.ViewNonConformiteActionsTitle}">
+            <h:form id="NonConformiteActionsViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nonConformiteActionsController.selected != null}">
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaId}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaId}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaId}"/>
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaDescription}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaDescription}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaDescription}"/>
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaDeadline}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaDeadline}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaDeadline}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaAction}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaAction}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaAction}"/>
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaCreated}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaCreated}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaCreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaChanged}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaChanged}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaChanged}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaNc}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaNc}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaNc}"/>
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaStaff}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaStaff}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaStaff}"/>
+                        <h:outputText value="#{ncAction.ViewNonConformiteActionsLabel_ncaState}"/>
+                        <h:outputText value="#{nonConformiteActionsController.selected.ncaState}" title="#{ncAction.ViewNonConformiteActionsTitle_ncaState}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{ncAction.Close}" onclick="NonConformiteActionsViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CompanyEditDlg" widgetVar="CompanyEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.EditCompanyTitle}">
+            <h:form id="CompanyEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{companyController.selected != null}">
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CId}" for="CId" />
+                        <p:inputText id="CId" value="#{companyController.selected.CId}" title="#{bundle1.EditCompanyTitle_CId}" required="true" requiredMessage="#{bundle1.EditCompanyRequiredMessage_CId}"/>
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CCompany}" for="CCompany" />
+                        <p:inputText id="CCompany" value="#{companyController.selected.CCompany}" title="#{bundle1.EditCompanyTitle_CCompany}" required="true" requiredMessage="#{bundle1.EditCompanyRequiredMessage_CCompany}"/>
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CDesignation}" for="CDesignation" />
+                        <p:inputText id="CDesignation" value="#{companyController.selected.CDesignation}" title="#{bundle1.EditCompanyTitle_CDesignation}" />
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CBuilded}" for="CBuilded" />
+                        <p:inputText id="CBuilded" value="#{companyController.selected.CBuilded}" title="#{bundle1.EditCompanyTitle_CBuilded}" />
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CMain}" for="CMain" />
+                        <p:selectBooleanCheckbox id="CMain" value="#{companyController.selected.CMain}" required="true" requiredMessage="#{bundle1.EditCompanyRequiredMessage_CMain}"/>
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CActivated}" for="CActivated" />
+                        <p:selectBooleanCheckbox id="CActivated" value="#{companyController.selected.CActivated}" required="true" requiredMessage="#{bundle1.EditCompanyRequiredMessage_CActivated}"/>
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CDeleted}" for="CDeleted" />
+                        <p:selectBooleanCheckbox id="CDeleted" value="#{companyController.selected.CDeleted}" required="true" requiredMessage="#{bundle1.EditCompanyRequiredMessage_CDeleted}"/>
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CCreated}" for="CCreated" />
+                        <p:calendar id="CCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{companyController.selected.CCreated}" title="#{bundle1.EditCompanyTitle_CCreated}" required="true" requiredMessage="#{bundle1.EditCompanyRequiredMessage_CCreated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CChanged}" for="CChanged" />
+                        <p:calendar id="CChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{companyController.selected.CChanged}" title="#{bundle1.EditCompanyTitle_CChanged}" required="true" requiredMessage="#{bundle1.EditCompanyRequiredMessage_CChanged}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.EditCompanyLabel_CEntreprise}" for="CEntreprise" />
+                        <p:selectOneMenu id="CEntreprise" value="#{companyController.selected.CEntreprise}" required="true" requiredMessage="#{bundle1.EditCompanyRequiredMessage_CEntreprise}">
+                            <f:selectItem itemLabel="#{bundle1.SelectOneMessage}"/>
+                            <f:selectItems value="#{entrepriseController.itemsAvailableSelectOne}"
+                                           var="CEntrepriseItem"
+                                           itemValue="#{CEntrepriseItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{companyController.update}" value="#{bundle1.Save}" update="display,:CompanyListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CompanyEditDialog');"/>
+                    <p:commandButton value="#{bundle1.Cancel}" onclick="CompanyEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

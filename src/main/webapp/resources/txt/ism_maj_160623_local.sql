@@ -86,7 +86,7 @@ BEGIN
     DECLARE records INT;
 	DECLARE str varchar(45);
     
-	SET id = 158;
+	SET id = 1;
     SET str = '';
     
     WHILE id < (select COUNT(ncr_id) FROM non_conformite_request) DO
@@ -131,6 +131,52 @@ DROP INDEX `ncr_staffOnValidate` ;
 
 
 
+###
+### TFT DATA IN ACTION
+### 
+####################################################################
+DROP procedure IF EXISTS `tft_actions`;
+DELIMITER $$
+USE `ism`$$
+CREATE PROCEDURE `tft_actions` ()
+BEGIN
+	DECLARE id  INT;
+    DECLARE records INT;
+	DECLARE str varchar(45);
+    
+    DECLARE nca_nc 			INT;
+    DECLARE nca_staff 		varchar(45);
+    DECLARE nca_desc		text;
+    DECLARE nca_deadline 	datetime;
+    DECLARE nca_created		datetime;
+    
+    
+	SET id = 1;
+    SET str = '';
+    
+    WHILE id < (select COUNT(ncr_id) FROM non_conformite_request) DO
+		SET str = (select non_conformite_request.ncr_staffOnAction from non_conformite_request where non_conformite_request.ncr_id=id);
+
+		# SI UN STAFF EST DEFINI
+        IF (TRIM(str) <> '') THEN
+			SET nca_nc 			= (select non_conformite_request.ncr_id from non_conformite_request where non_conformite_request.ncr_id=id);
+            SET nca_staff 		= (select non_conformite_request.ncr_staff from non_conformite_request where non_conformite_request.ncr_id=id);
+            SET nca_desc 		= (select non_conformite_request.ncr_desc from non_conformite_request where non_conformite_request.ncr_id=id);
+            SET nca_deadline 	= (select non_conformite_request.ncr_enddingAction from non_conformite_request where non_conformite_request.ncr_id=id);
+            SET nca_created		= (select non_conformite_request.ncr_occuredAction from non_conformite_request where non_conformite_request.ncr_id=id);
+        
+			INSERT INTO `ism`.`non_conformite_actions` (`nca_nc`, `nca_staff`, `nca_description`, `nca_deadline`, `nca_state`, `nca_created`) 
+				VALUES (nca_nc, nca_staff, nca_desc, nca_deadline, '1', nca_created);
+		END IF;
+        
+        SET id = id + 1;   
+   END WHILE;
+
+END$$
+
+DELIMITER ;
+
+call tft_actions();
 
 
 

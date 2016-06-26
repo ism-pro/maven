@@ -83,9 +83,13 @@ Configuration :
     + Ajout des validateurs :
     NonConformiteRequestTraceValidator  : permet qu'une trace existe entre le champ produit ou référence
     NonConformiteRequestQuantityValidator : permet que lors de la saisie d'une quantitée, l'unité soit précisée
-
-    
-    
+    + Réalisation de l'option approbation
+    + Ajout de l'affichage en fonction de la ligne sélectionnée (Voir, editer, Approuver, supprimer)
+    + Modification de l'affichage sans ligne
+    + Jeux d'état dans le titre d'information pour signaler l'approbation
+    + Suppression de l'options refuse xhtml
+    + View : ajout de la vue des actions en liste
+    + Collapse également la description si des actions existent
 
 
 Test après changement :

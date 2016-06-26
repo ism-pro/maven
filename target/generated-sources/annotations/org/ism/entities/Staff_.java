@@ -14,7 +14,7 @@ import org.ism.entities.StaffCompanies;
 import org.ism.entities.StaffGroups;
 import org.ism.entities.StaffSetup;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-25T01:17:28")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-26T19:53:21")
 @StaticMetamodel(Staff.class)
 public class Staff_ { 
 

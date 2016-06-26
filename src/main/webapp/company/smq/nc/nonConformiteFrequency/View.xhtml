@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteFrequencyViewDlg" widgetVar="NonConformiteFrequencyViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.ViewNonConformiteFrequencyTitle}">
+            <h:form id="NonConformiteFrequencyViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nonConformiteFrequencyController.selected != null}">
+                        <h:outputText value="#{bundle1.ViewNonConformiteFrequencyLabel_ncfId}"/>
+                        <h:outputText value="#{nonConformiteFrequencyController.selected.ncfId}" title="#{bundle1.ViewNonConformiteFrequencyTitle_ncfId}"/>
+                        <h:outputText value="#{bundle1.ViewNonConformiteFrequencyLabel_ncfFrequency}"/>
+                        <h:outputText value="#{nonConformiteFrequencyController.selected.ncfFrequency}" title="#{bundle1.ViewNonConformiteFrequencyTitle_ncfFrequency}"/>
+                        <h:outputText value="#{bundle1.ViewNonConformiteFrequencyLabel_ncfDesignation}"/>
+                        <h:outputText value="#{nonConformiteFrequencyController.selected.ncfDesignation}" title="#{bundle1.ViewNonConformiteFrequencyTitle_ncfDesignation}"/>
+                        <h:outputText value="#{bundle1.ViewNonConformiteFrequencyLabel_ncfDeleted}"/>
+                        <p:selectBooleanCheckbox value="#{nonConformiteFrequencyController.selected.ncfDeleted}" disabled="true"/>
+                        <h:outputText value="#{bundle1.ViewNonConformiteFrequencyLabel_ncfCreated}"/>
+                        <h:outputText value="#{nonConformiteFrequencyController.selected.ncfCreated}" title="#{bundle1.ViewNonConformiteFrequencyTitle_ncfCreated}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle1.ViewNonConformiteFrequencyLabel_ncfChanged}"/>
+                        <h:outputText value="#{nonConformiteFrequencyController.selected.ncfChanged}" title="#{bundle1.ViewNonConformiteFrequencyTitle_ncfChanged}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle1.ViewNonConformiteFrequencyLabel_ncfCompany}"/>
+                        <h:outputText value="#{nonConformiteFrequencyController.selected.ncfCompany}" title="#{bundle1.ViewNonConformiteFrequencyTitle_ncfCompany}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle1.Close}" onclick="NonConformiteFrequencyViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

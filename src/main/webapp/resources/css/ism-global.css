@@ -421,13 +421,14 @@ time, mark, audio, video {
     max-width: 382px;
 }
 
-#bodyForm\3apanelRequest .ui-panel.ui-widget.ui-widget-content.ui-corner-all.panelRequest{
-    background-color: blue;
+
+
+.panelAccepted .ui-panel-titlebar.ui-widget-header.ui-helper-clearfix.ui-corner-all{
+    background-color: lawngreen;
 }
 
-#bodyForm\3apanelRequest .ui-panel-titlebar.ui-widget-header.ui-helper-clearfix.ui-corner-all{
-    /*border-color: yellow;*/
-    background-color: darkgrey;
+.panelRefused .ui-panel-titlebar.ui-widget-header.ui-helper-clearfix.ui-corner-all{
+    background-color: orange;
 }
 /*
 div ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-all

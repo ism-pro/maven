@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NonConformiteRequestCreateDlg" widgetVar="NonConformiteRequestCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.CreateNonConformiteRequestTitle}">
+            <h:form id="NonConformiteRequestCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nonConformiteRequestController.selected != null}">
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrId}" for="ncrId" />
+                        <p:inputText id="ncrId" value="#{nonConformiteRequestController.selected.ncrId}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrId}" required="true" requiredMessage="#{bundle1.CreateNonConformiteRequestRequiredMessage_ncrId}"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrOccured}" for="ncrOccured" />
+                        <p:calendar id="ncrOccured" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteRequestController.selected.ncrOccured}" title="#{bundle1.EditNonConformiteRequestTitle_ncrOccured}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrOccured}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrProduct}" for="ncrProduct" />
+                        <p:inputText id="ncrProduct" value="#{nonConformiteRequestController.selected.ncrProduct}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrProduct}" />
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrTrace}" for="ncrTrace" />
+                        <p:inputText id="ncrTrace" value="#{nonConformiteRequestController.selected.ncrTrace}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrTrace}" />
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrQuantity}" for="ncrQuantity" />
+                        <p:inputText id="ncrQuantity" value="#{nonConformiteRequestController.selected.ncrQuantity}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrQuantity}" />
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrTitle}" for="ncrTitle" />
+                        <p:inputText id="ncrTitle" value="#{nonConformiteRequestController.selected.ncrTitle}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrTitle}" required="true" requiredMessage="#{bundle1.CreateNonConformiteRequestRequiredMessage_ncrTitle}"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrDescription}" for="ncrDescription" />
+                        <p:inputTextarea rows="4" cols="30" id="ncrDescription" value="#{nonConformiteRequestController.selected.ncrDescription}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrDescription}" required="true" requiredMessage="#{bundle1.CreateNonConformiteRequestRequiredMessage_ncrDescription}"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrLink}" for="ncrLink" />
+                        <p:inputText id="ncrLink" value="#{nonConformiteRequestController.selected.ncrLink}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrLink}" />
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrdescOnAction}" for="ncrdescOnAction" />
+                        <p:inputTextarea rows="4" cols="30" id="ncrdescOnAction" value="#{nonConformiteRequestController.selected.ncrdescOnAction}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrdescOnAction}" />
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncroccuredAction}" for="ncroccuredAction" />
+                        <p:calendar id="ncroccuredAction" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteRequestController.selected.ncroccuredAction}" title="#{bundle1.EditNonConformiteRequestTitle_ncroccuredAction}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrenddingAction}" for="ncrenddingAction" />
+                        <p:calendar id="ncrenddingAction" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteRequestController.selected.ncrenddingAction}" title="#{bundle1.EditNonConformiteRequestTitle_ncrenddingAction}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrCreated}" for="ncrCreated" />
+                        <p:calendar id="ncrCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteRequestController.selected.ncrCreated}" title="#{bundle1.EditNonConformiteRequestTitle_ncrCreated}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrCreated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrChanged}" for="ncrChanged" />
+                        <p:calendar id="ncrChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteRequestController.selected.ncrChanged}" title="#{bundle1.EditNonConformiteRequestTitle_ncrChanged}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrChanged}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrApprouved}" for="ncrApprouved" />
+                        <p:selectBooleanCheckbox id="ncrApprouved" value="#{nonConformiteRequestController.selected.ncrApprouved}" />
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrapprouvedDate}" for="ncrapprouvedDate" />
+                        <p:calendar id="ncrapprouvedDate" pattern="MM/dd/yyyy HH:mm:ss" value="#{nonConformiteRequestController.selected.ncrapprouvedDate}" title="#{bundle1.EditNonConformiteRequestTitle_ncrapprouvedDate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrapprouvedDesc}" for="ncrapprouvedDesc" />
+                        <p:inputTextarea rows="4" cols="30" id="ncrapprouvedDesc" value="#{nonConformiteRequestController.selected.ncrapprouvedDesc}" title="#{bundle1.CreateNonConformiteRequestTitle_ncrapprouvedDesc}" />
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrCompany}" for="ncrCompany" />
+                        <p:selectOneMenu id="ncrCompany" value="#{nonConformiteRequestController.selected.ncrCompany}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrCompany}">
+                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
+                                           var="ncrCompanyItem"
+                                           itemValue="#{ncrCompanyItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrApprouver}" for="ncrApprouver" />
+                        <p:selectOneMenu id="ncrApprouver" value="#{nonConformiteRequestController.selected.ncrApprouver}" >
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="ncrApprouverItem"
+                                           itemValue="#{ncrApprouverItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrFrequency}" for="ncrFrequency" />
+                        <p:selectOneMenu id="ncrFrequency" value="#{nonConformiteRequestController.selected.ncrFrequency}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrFrequency}">
+                            <f:selectItems value="#{nonConformiteFrequencyController.itemsAvailableSelectOne}"
+                                           var="ncrFrequencyItem"
+                                           itemValue="#{ncrFrequencyItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrGravity}" for="ncrGravity" />
+                        <p:selectOneMenu id="ncrGravity" value="#{nonConformiteRequestController.selected.ncrGravity}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrGravity}">
+                            <f:selectItems value="#{nonConformiteGravityController.itemsAvailableSelectOne}"
+                                           var="ncrGravityItem"
+                                           itemValue="#{ncrGravityItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrNature}" for="ncrNature" />
+                        <p:selectOneMenu id="ncrNature" value="#{nonConformiteRequestController.selected.ncrNature}" >
+                            <f:selectItems value="#{nonConformiteNatureController.itemsAvailableSelectOne}"
+                                           var="ncrNatureItem"
+                                           itemValue="#{ncrNatureItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrProcessus}" for="ncrProcessus" />
+                        <p:selectOneMenu id="ncrProcessus" value="#{nonConformiteRequestController.selected.ncrProcessus}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrProcessus}">
+                            <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
+                                           var="ncrProcessusItem"
+                                           itemValue="#{ncrProcessusItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrStaff}" for="ncrStaff" />
+                        <p:selectOneMenu id="ncrStaff" value="#{nonConformiteRequestController.selected.ncrStaff}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrStaff}">
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="ncrStaffItem"
+                                           itemValue="#{ncrStaffItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrUnite}" for="ncrUnite" />
+                        <p:selectOneMenu id="ncrUnite" value="#{nonConformiteRequestController.selected.ncrUnite}" required="true" requiredMessage="#{bundle1.EditNonConformiteRequestRequiredMessage_ncrUnite}">
+                            <f:selectItems value="#{nonConformiteUniteController.itemsAvailableSelectOne}"
+                                           var="ncrUniteItem"
+                                           itemValue="#{ncrUniteItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrstaffOnAction}" for="ncrstaffOnAction" />
+                        <p:selectOneMenu id="ncrstaffOnAction" value="#{nonConformiteRequestController.selected.ncrstaffOnAction}" >
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="ncrstaffOnActionItem"
+                                           itemValue="#{ncrstaffOnActionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateNonConformiteRequestLabel_ncrState}" for="ncrState" />
+                        <p:selectOneMenu id="ncrState" value="#{nonConformiteRequestController.selected.ncrState}" >
+                            <f:selectItems value="#{ismNcrstateController.itemsAvailableSelectOne}"
+                                           var="ncrStateItem"
+                                           itemValue="#{ncrStateItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nonConformiteRequestController.create}" value="#{bundle1.Save}" update="display,:NonConformiteRequestListForm:datalist,:growl" oncomplete="handleSubmit(args,'NonConformiteRequestCreateDialog');"/>
+                    <p:commandButton value="#{bundle1.Cancel}" onclick="NonConformiteRequestCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

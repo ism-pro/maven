@@ -8,7 +8,7 @@ import org.ism.entities.Company;
 import org.ism.entities.DocType;
 import org.ism.entities.Processus;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-25T01:17:28")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-26T19:53:21")
 @StaticMetamodel(DocExplorer.class)
 public class DocExplorer_ { 
 

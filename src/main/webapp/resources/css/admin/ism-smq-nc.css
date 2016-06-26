@@ -75,19 +75,21 @@ and open the template in the editor.
 }
 
 .hideToolbar .ui-editor.ui-widget-content {
-    max-height: 220px;
+    max-height: 120px;
 }
 .hideToolbar .ui-editor-toolbar {
     display: none;
 }
 iframe {
-    min-height: 220px;
-    max-height: 220px;
+    min-height: 120px;
+    max-height: 120px;
     height: 100%;
     width: 100%;
 }
 
-
+.panel{
+    margin: 5px;
+}
 .ui-panel.ui-widget.ui-widget-content.ui-corner-all{
     /*padding: 0px;
     border: 1px solid #088cce;*/

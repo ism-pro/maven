@@ -16,6 +16,7 @@ import org.ism.entities.Company;
  */
 @Stateless
 public class CompanyFacade extends AbstractFacade<Company> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 

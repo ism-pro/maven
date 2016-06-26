@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProcessusCreateDlg" widgetVar="ProcessusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.CreateProcessusTitle}">
+            <h:form id="ProcessusCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{processusController.selected != null}">
+                        <p:outputLabel value="#{bundle1.CreateProcessusLabel_PId}" for="PId" />
+                        <p:inputText id="PId" value="#{processusController.selected.PId}" title="#{bundle1.CreateProcessusTitle_PId}" required="true" requiredMessage="#{bundle1.CreateProcessusRequiredMessage_PId}"/>
+                        <p:outputLabel value="#{bundle1.CreateProcessusLabel_PProcessus}" for="PProcessus" />
+                        <p:inputText id="PProcessus" value="#{processusController.selected.PProcessus}" title="#{bundle1.CreateProcessusTitle_PProcessus}" required="true" requiredMessage="#{bundle1.CreateProcessusRequiredMessage_PProcessus}"/>
+                        <p:outputLabel value="#{bundle1.CreateProcessusLabel_PDesignation}" for="PDesignation" />
+                        <p:inputText id="PDesignation" value="#{processusController.selected.PDesignation}" title="#{bundle1.CreateProcessusTitle_PDesignation}" />
+                        <p:outputLabel value="#{bundle1.CreateProcessusLabel_PDeleted}" for="PDeleted" />
+                        <p:selectBooleanCheckbox id="PDeleted" value="#{processusController.selected.PDeleted}" required="true" requiredMessage="#{bundle1.EditProcessusRequiredMessage_PDeleted}"/>
+                        <p:outputLabel value="#{bundle1.CreateProcessusLabel_PCreated}" for="PCreated" />
+                        <p:calendar id="PCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{processusController.selected.PCreated}" title="#{bundle1.EditProcessusTitle_PCreated}" required="true" requiredMessage="#{bundle1.EditProcessusRequiredMessage_PCreated}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.CreateProcessusLabel_PChanged}" for="PChanged" />
+                        <p:calendar id="PChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{processusController.selected.PChanged}" title="#{bundle1.EditProcessusTitle_PChanged}" required="true" requiredMessage="#{bundle1.EditProcessusRequiredMessage_PChanged}" showOn="button"/>
+                        <p:outputLabel value="#{bundle1.CreateProcessusLabel_PCompany}" for="PCompany" />
+                        <p:selectOneMenu id="PCompany" value="#{processusController.selected.PCompany}" required="true" requiredMessage="#{bundle1.EditProcessusRequiredMessage_PCompany}">
+                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
+                                           var="PCompanyItem"
+                                           itemValue="#{PCompanyItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle1.CreateProcessusLabel_PStaffmanager}" for="PStaffmanager" />
+                        <p:selectOneMenu id="PStaffmanager" value="#{processusController.selected.PStaffmanager}" >
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="PStaffmanagerItem"
+                                           itemValue="#{PStaffmanagerItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{processusController.create}" value="#{bundle1.Save}" update="display,:ProcessusListForm:datalist,:growl" oncomplete="handleSubmit(args,'ProcessusCreateDialog');"/>
+                    <p:commandButton value="#{bundle1.Cancel}" onclick="ProcessusCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IsmNcastateViewDlg" widgetVar="IsmNcastateViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle1.ViewIsmNcastateTitle}">
+            <h:form id="IsmNcastateViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ismNcastateController.selected != null}">
+                        <h:outputText value="#{bundle1.ViewIsmNcastateLabel_id}"/>
+                        <h:outputText value="#{ismNcastateController.selected.id}" title="#{bundle1.ViewIsmNcastateTitle_id}"/>
+                        <h:outputText value="#{bundle1.ViewIsmNcastateLabel_istate}"/>
+                        <h:outputText value="#{ismNcastateController.selected.istate}" title="#{bundle1.ViewIsmNcastateTitle_istate}"/>
+                        <h:outputText value="#{bundle1.ViewIsmNcastateLabel_statename}"/>
+                        <h:outputText value="#{ismNcastateController.selected.statename}" title="#{bundle1.ViewIsmNcastateTitle_statename}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle1.Close}" onclick="IsmNcastateViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
