@@ -133,6 +133,15 @@ public class NonConformiteActionsController implements Serializable {
         itemsNC = this.getItemsDesc(ncr);
         return selected;
     }
+    
+    public NonConformiteActions prepareReview(NonConformiteRequest ncr) {
+        itemsNC = this.getItemsDesc(ncr);
+        selected = new NonConformiteActions();
+        if(itemsNC!=null){
+            selected = itemsNC.get(0);
+        }
+        return selected;
+    }
 
     /**
      * This method is useful to release actual selected ! That way nothing is
@@ -275,7 +284,19 @@ public class NonConformiteActionsController implements Serializable {
                 getString("NonConformiteActionsPersistenceUpdatedDetail")
                 + selected.getNcaId());
     }
-
+    
+    public void updateOnReview(){
+        selected.setNcaState(new IsmNcastate(IsmNcastate.REVIEW_ID));
+        update();
+    }
+    
+    public void updateOnCloture(NonConformiteRequest nc){
+        selected = getItemsDesc(nc).get(0);
+        selected.setNcaState(new IsmNcastate(IsmNcastate.FINISH_ID));
+        update();
+        ncRequestCtrl.updateOnCloture();
+    }
+    
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
@@ -289,7 +310,7 @@ public class NonConformiteActionsController implements Serializable {
             selected = null;
         }
     }
-
+   
     private void persist(PersistAction persistAction, String summary, String detail) {
         if (selected != null) {
             setEmbeddableKeys();

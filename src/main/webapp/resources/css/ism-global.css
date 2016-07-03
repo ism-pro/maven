@@ -275,6 +275,10 @@ time, mark, audio, video {
     background: url("#{resource['img/ism/std/Actions.png']}") no-repeat;
     background-size:contain;
 }
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Postpone, .ui-menuitem-icon.ui-icon.ui-btn-Postpone{
+    background: url("#{resource['img/ism/std/Postpone.png']}") no-repeat;
+    background-size:contain;
+}
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Cloture, .ui-menuitem-icon.ui-icon.ui-btn-Cloture{
     background: url("#{resource['img/ism/std/Cloture.png']}") no-repeat;
     background-size:contain;

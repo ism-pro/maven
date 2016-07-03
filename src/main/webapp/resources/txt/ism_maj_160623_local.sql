@@ -1,7 +1,7 @@
 
 USE `ISM`;
 
-DROP TABLE `ism`.`non_conformite`;
+DROP TABLE IF EXISTS `ism`.`non_conformite`;
 #####
 ### ISM
 ####################################################################
@@ -17,7 +17,8 @@ COMMENT = 'Existing non conformity actions state for ism app';
 INSERT INTO ism_ncastate (istate, statename) VALUES 
     ('A',		'En cours'		),
     ('B',       'Ajournée'),
-    ('C',       'Terminée');
+    ('C',       'Terminée'),
+    ('D',       'Annulée');
 
 
 
@@ -149,6 +150,7 @@ BEGIN
     DECLARE nca_desc		text;
     DECLARE nca_deadline 	datetime;
     DECLARE nca_created		datetime;
+    DECLARE nca_state		varchar(45);
     
     
 	SET id = 1;
@@ -160,13 +162,24 @@ BEGIN
 		# SI UN STAFF EST DEFINI
         IF (TRIM(str) <> '') THEN
 			SET nca_nc 			= (select non_conformite_request.ncr_id from non_conformite_request where non_conformite_request.ncr_id=id);
-            SET nca_staff 		= (select non_conformite_request.ncr_staff from non_conformite_request where non_conformite_request.ncr_id=id);
-            SET nca_desc 		= (select non_conformite_request.ncr_desc from non_conformite_request where non_conformite_request.ncr_id=id);
+            SET nca_staff 		= (select non_conformite_request.ncr_staffOnAction from non_conformite_request where non_conformite_request.ncr_id=id);
+            SET nca_desc 		= (select non_conformite_request.ncr_descOnAction from non_conformite_request where non_conformite_request.ncr_id=id);
             SET nca_deadline 	= (select non_conformite_request.ncr_enddingAction from non_conformite_request where non_conformite_request.ncr_id=id);
             SET nca_created		= (select non_conformite_request.ncr_occuredAction from non_conformite_request where non_conformite_request.ncr_id=id);
-        
-			INSERT INTO `ism`.`non_conformite_actions` (`nca_nc`, `nca_staff`, `nca_description`, `nca_deadline`, `nca_state`, `nca_created`) 
+            SET nca_state		= (select non_conformite_request.ncr_state from non_conformite_request where non_conformite_request.ncr_id=id);
+            
+            IF nca_state = 'D' THEN
+				INSERT INTO `ism`.`non_conformite_actions` (`nca_nc`, `nca_staff`, `nca_description`, `nca_deadline`, `nca_state`, `nca_created`) 
+				VALUES (nca_nc, nca_staff, nca_desc, nca_deadline, '3', nca_created);
+            ELSEIF nca_state = 'E' THEN
+				INSERT INTO `ism`.`non_conformite_actions` (`nca_nc`, `nca_staff`, `nca_description`, `nca_deadline`, `nca_state`, `nca_created`) 
+				VALUES (nca_nc, nca_staff, nca_desc, nca_deadline, '4', nca_created);
+            ELSE
+				INSERT INTO `ism`.`non_conformite_actions` (`nca_nc`, `nca_staff`, `nca_description`, `nca_deadline`, `nca_state`, `nca_created`) 
 				VALUES (nca_nc, nca_staff, nca_desc, nca_deadline, '1', nca_created);
+            END IF;
+        
+			
 		END IF;
         
         SET id = id + 1;   
@@ -209,8 +222,4 @@ DROP COLUMN `ncr_descOnAction`,
 DROP COLUMN `ncr_staffOnAction`,
 DROP INDEX `ncr_staffOnAction` ;
 
-###
-### Lorsqu'une nouvelle action ce superpose à une autre la précédente est annulée
-### 
-####################################################################
-INSERT INTO `ism`.`ism_ncastate` (`istate`, `statename`) VALUES ('D', 'Annulée');
+

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteRequestTitleReview}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{nonConformiteActionsController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaId}" rendered="true" for="ncaId" />
+                    <p:outputLabel id="ncaId" rendered="true"
+                                   value="#{nonConformiteActionsController.selected.ncaId}" 
+                                   title="#{ism.NonConformiteActionsFieldInfo_ncaId}" />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaNc}" for="ncaNc" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncaNc" widgetVar="ncaNc"
+                                     value="#{nonConformiteActionsController.selected.ncaNc = nonConformiteRequestController.selected}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.NonConformiteActionsRequiredMsg_ncaNc}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{nonConformiteRequestController.selected.ncrId} - #{nonConformiteRequestController.selected.ncrTitle}" />
+                    </h:panelGrid>
+
+
+                    <p:commandLink  onclick="PF('ncaDescription').clear();" title="Activate">
+                        <p:outputLabel value="#{ism.NonConformiteActionsField_ncaDescApprouver}" for="ncaDescription" />
+                    </p:commandLink>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:editor id="ncaDescription" widgetVar="ncaDescription"
+                                  value="#{nonConformiteActionsController.selected.ncaDescApprouver}"
+                                  required="true" requiredMessage="#{ism.NonConformiteActionsRequiredMsg_ncaDescApprouver}"
+                                  />
+                        <p:message for="ncaDescription"   />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaStaffApprouver}" for="ncaStaffApprouver" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncaStaffApprouver" widgetVar="ncaStaffApprouver"
+                                     value="#{nonConformiteActionsController.selected.ncaStaffApprouver = staffAuthController.staff}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.NonConformiteActionsRequiredMsg_ncaStaffApprouver}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename} [#{staffAuthController.staff.stStaff}]" />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{nonConformiteActionsController.updateOnReview()}"
+                                     onstart="#{p:widgetVar('bodyForm:ncaStaffApprouver')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="View.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     action="./View.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false" escape="false"/>
+
+
+            </h:form>         
+
+
+
+            <p:panel rendered="#{nonConformiteActionsController.selected!=null}" style="margin-top: 40px;">
+                <h2 >#{ism.NonConformiteActionsTitleConcerne} </h2>
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             >
+                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaId}" />
+                    <h:outputText value="#{nonConformiteActionsController.selected.ncaId}" /> 
+
+                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaNc}" />
+                    <p:outputLabel style="margin-left: 5px;"
+                                       value="#{nonConformiteRequestController.selected.ncrId} - #{nonConformiteRequestController.selected.ncrTitle}" />
+
+                    <h:panelGroup>
+                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaStaff}" style="font-weight: bold;" /> : 
+                    <p:outputLabel value="#{nonConformiteActionsController.selected.ncaStaff.stFirstname} #{nonConformiteActionsController.selected.ncaStaff.stLastname} #{nonConformiteActionsController.selected.ncaStaff.stMiddlename} [#{nonConformiteActionsController.selected.ncaStaff.stStaff}]" /> 
+                    <br />
+                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaDeadline}" style="font-weight: bold;" /> : 
+                    <p:outputLabel value="#{nonConformiteActionsController.selected.ncaCreated}" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel> 
+                    </h:panelGroup>
+                    <h:outputText value="#{nonConformiteActionsController.selected.ncaDescription}" escape="false" style="white-space:pre-line;" />
+
+                </p:panelGrid>
+            </p:panel>
+            
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{nonConformiteActionsController.updateOnReview()}"
+                                 onstart="#{p:widgetVar('bodyForm:ncaStaffApprouver')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="View.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 action="./View.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+

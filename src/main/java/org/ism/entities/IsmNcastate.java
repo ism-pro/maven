@@ -57,12 +57,12 @@ public class IsmNcastate implements Serializable {
     private Collection<NonConformiteActions> nonConformiteActionsCollection;
 
     public static final Integer INPROGRESS_ID = 1;  // En cours
-    public static final Integer POSTPONE_ID = 2;  // Ajournée
+    public static final Integer REVIEW_ID = 2;  // Ajournée
     public static final Integer FINISH_ID = 3;  // Terminée / Clôturé
     public static final Integer CANCEL_ID = 4;  // Annulée
 
     public static final String INPROGRESS = "A";  // En cours
-    public static final String POSTPONE = "B";  // Ajournée
+    public static final String REVIEW = "B";  // Ajournée
     public static final String FINISH = "C";  // Terminée
     public static final String CANCEL = "D";  // Annulée
 

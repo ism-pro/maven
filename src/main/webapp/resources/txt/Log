@@ -69,21 +69,14 @@ Configuration :
 
     Commit :
     # GENERALITES :
-    + Suppression de l'ex entities NonConformite
 
     # SPECIFIQUE
-    ## IsmNcrstate :
-    + Ajout de paramètre statique d'état
 
     ## NonConformite :
-    + Ajout de la table actions de non conformité
-    + Suppression de la page principale la fonction action elle n'aura lieu que
-    dans la page de vue,
-    + La fonction ajournement par la page postponement a été créer pour réaliser
-    un ajournement 
-    + la table de base de donnée action a encore été modifié pour y insérer 
-    directement la cause d'ajournement.
-    + Fonction Actions fonctionnelle avec atualisation
+    + Réalisation de l'ajournement (Postpone) sur base de l'action car ce sont 
+    les mêmes champs qui doivent appraître.
+    + Fin de la mise en place des non conformités
+    + Avant chargement
 
 
 
@@ -103,61 +96,6 @@ Test après changement :
 
 
 
-
-
-    <f:facet name="footer">
-        <p:commandButton id="createButton"      icon="ui-icon-plus"   value="#{ism.Create}" 
-                         actionListener="#{nonConformiteRequestController.prepareCreate}" 
-                         oncomplete="PF('NonConformiteRequestCreateDialog').show()"
-                         update=":NonConformiteRequestCreateForm" 
-                         />
-        <p:commandButton id="editButton"        icon="ui-icon-pencil" value="#{ism.Edit}"       
-                         update=":NonConformiteRequestEditForm" 
-                         oncomplete="PF('NonConformiteRequestEditDialog').show()" 
-                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"/>
-        <p:commandButton id="validateButton"    icon="ui-icon-circle-check" value="#{ism.Validate}"   
-                         actionListener="#{nonConformiteRequestController.prepareValidate}" 
-                         update=":NonConformiteRequestValidateForm" 
-                         oncomplete="PF('NonConformiteRequestValidateDialog').show()" 
-                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
-                         rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"/>
-
-        <p:commandButton id="actionButton"      icon="ui-icon-note" value="#{ism.Action}"    
-                         update=":NonConformiteRequestActionForm" 
-                         oncomplete="PF('NonConformiteRequestActionDialog').show()" 
-                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=3) ? true : false}"/>
-
-        <p:commandButton id="clotureButton"      icon="ui-icon-locked" value="#{ism.Cloture}"    
-                         actionListener="#{nonConformiteRequestController.cloture}" update=":growl,datalist" 
-                         disabled="#{(empty nonConformiteRequestController.selected) or 
-                                     (nonConformiteRequestController.selected.ncrState.id==2) or 
-                                     (nonConformiteRequestController.selected.ncrState.id==3) or
-                                     (nonConformiteRequestController.selected.ncrState.id==6) or
-                                     (nonConformiteRequestController.selected.ncrState.id==7) ? true : false}"
-                         rendered="#{request.isUserInRole('CO_SMQNCCLOTURE_W')}"/>
-
-        <p:commandButton id="refuseButton"      icon="ui-icon-closethick" value="#{ism.Refused}"    
-                         update=":NonConformiteRequestRefusedForm" 
-                         oncomplete="PF('NonConformiteRequestRefusedDialog').show()" 
-                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
-                         rendered="#{request.isUserInRole('CO_SMQNCREFUSE_W')}" />
-
-        <p:commandButton id="deleteButton"      icon="ui-icon-trash"  value="#{ism.Delete}" actionListener="#{nonConformiteRequestController.destroy}" update=":growl,datalist" 
-                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
-                         rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}">
-            <p:confirm header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}" 
-                       message="#{ism.ConfirmDeleteMessage}" 
-                       icon="ui-icon-alert"/>
-
-        </p:commandButton>
-
-        <p:commandButton id="manageStateButton"      icon="ui-icon-note" value="#{ism.NonConformiteField_ncState}"    
-                         update=":NonConformiteRequestManageStateForm" 
-                         oncomplete="PF('NonConformiteRequestManageStateDialog').show()" 
-                         rendered="#{request.isUserInRole('CO_SMQNCMANAGESTATE_W')}"/>
-
-
-    </f:facet>
 
 
 

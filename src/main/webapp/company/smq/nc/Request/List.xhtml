@@ -39,6 +39,7 @@
                                 disabled="#{empty nonConformiteRequestController.selected 
                                             or empty nonConformiteRequestController.selected.ncrId
                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"
                                 />
                     <p:menuitem icon="ui-btn-Approuve"
                                 styleClass="options-btn"
@@ -419,6 +420,7 @@
                                  disabled="#{empty nonConformiteRequestController.selected 
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"
                                  />
                 <br />
                 <p:commandButton id="deleteButton"
@@ -436,6 +438,7 @@
                                  disabled="#{empty nonConformiteRequestController.selected 
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}"
                                  >
                 </p:commandButton>
                 <p:commandButton id="refreshButton"

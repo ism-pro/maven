@@ -292,6 +292,11 @@ public class NonConformiteRequestController implements Serializable {
         update();
     }
 
+    public void updateOnCloture() { // Passe de attente de solution à en cours
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.FINISH_ID));
+        update();
+    }
+
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).

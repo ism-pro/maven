@@ -76,7 +76,7 @@
                 <!-- INFORMATIONS    -->
                 <p:panel id="panelRequest" widgetVar="panelRequest" toggleTitle="Réduire" toggleable="true"
                          collapsed="#{nonConformiteActionsController.getItemsByNCLast(
-                                          nonConformiteRequestController.selected)!=null}"
+                                      nonConformiteRequestController.selected)!=null}"
                          styleClass="panel #{nonConformiteRequestController.selected.ncrapprouvedDate==null?'':
                                              nonConformiteRequestController.selected.ncrApprouved?'panelAccepted':
                                              'panelRefused'}">
@@ -177,7 +177,7 @@
 
 
                         <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescription}" />
-                        
+
                         <h:outputText value="#{nonConformiteRequestController.selected.ncrDescription}" escape="false" style="white-space:pre-line;" />
 
 
@@ -198,7 +198,7 @@
                 <!-- ON ACTION    -->
                 <p:panel toggleTitle="Réduire" toggleable="true" styleClass="panel" style="margin-top:40px;"
                          rendered="#{nonConformiteActionsController.getItemsByNCLast(
-                                          nonConformiteRequestController.selected)!=null}">
+                                     nonConformiteRequestController.selected)!=null}">
                     <f:facet name="header" >
                         <p:outputLabel value="#{ism.Action}"/>
                     </f:facet>
@@ -296,7 +296,7 @@
 
 
                         <p:column headerText="#{ism.NonConformiteActionsField_ncaStaff}" 
-                                  style="width: 100px;" 
+                                  style="width: 150px;" 
                                   visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaStaff)}"
                                   >
                             <h:outputText value="#{item.ncaStaff.stFirstname} #{item.ncaStaff.stLastname} #{item.ncaStaff.stMiddlename} [#{item.ncaStaff.stStaff}]" 
@@ -322,21 +322,21 @@
 
 
                         <p:column headerText="#{ism.NonConformiteActionsField_ncaStaffApprouver}" 
-                                  style="width: 100px;" 
+                                  style="width: 150px;" 
                                   visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaStaffApprouver)}"
                                   >
                             <h:outputText value="#{item.ncaStaffApprouver.stFirstname} #{item.ncaStaffApprouver.stLastname} #{item.ncaStaffApprouver.stMiddlename} [#{item.ncaStaffApprouver.stStaff}]" 
                                           escape="false" style="white-space:pre-line;width:50px;"/>
                         </p:column>
 
-                        
+
                         <p:column headerText="#{ism.NonConformiteActionsField_ncaDescApprouver}"
                                   visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaDescApprouver)}"
                                   >
-                            <h:outputText value="#{item.ncaDescription}" escape="false" style="white-space:pre-line;" />
+                            <h:outputText value="#{item.ncaDescApprouver}" escape="false" style="white-space:pre-line;" />
                         </p:column>
-                        
-                        
+
+
 
                         <p:column headerText="#{ism.NonConformiteActionsField_ncaCreated}" 
                                   style="width: 72px;" 
@@ -398,7 +398,8 @@
                                      title="Permet d'accepter ou refuser la non conformité sélectionné."
                                      disabled="#{empty nonConformiteRequestController.selected 
                                                  or empty nonConformiteRequestController.selected.ncrId}"
-                                     rendered="#{nonConformiteRequestController.selected.ncrState.id==1}"
+                                     rendered="#{nonConformiteRequestController.selected.ncrState.id==1
+                                                 and request.isUserInRole('CO_SMQNCVALIDATE_W')}"
                                      />
                     <p:commandButton icon="ui-btn-Actions"
                                      styleClass="ui-btn"
@@ -412,11 +413,13 @@
                                                  or (nonConformiteRequestController.selected.ncrState.id!=2 
                                                  and nonConformiteRequestController.selected.ncrState.id!=3)}"
                                      />
-                    <p:commandButton icon="ui-btn-Postponement"
+                    <p:commandButton icon="ui-btn-Postpone"
                                      styleClass="ui-btn"
-                                     value="#{ism.Postponement}"
-                                     action="Postponement.xhtml?faces-redirect=true"
-                                     title="Permet d'ajouter une action à la non conformité sélectionné."
+                                     value="#{ism.Review}"
+                                     action="Review.xhtml?faces-redirect=true"
+                                     title="Permet d'approuver l'action et donc de la postposer"
+                                     actionListener="#{nonConformiteActionsController.prepareReview(
+                                                       nonConformiteRequestController.selected)}"
                                      disabled="#{empty nonConformiteRequestController.selected 
                                                  or empty nonConformiteRequestController.selected.ncrId
                                                  or (nonConformiteRequestController.selected.ncrState.id!=2 
@@ -425,15 +428,21 @@
                     <p:commandButton icon="ui-btn-Cloture"
                                      styleClass="ui-btn"
                                      value="#{ism.Cloture}"
-                                     action="Action.xhtml?faces-redirect=true"
+                                     action="View.xhtml?faces-redirect=true"
                                      title="Permet d'ajouter une action à la non conformité sélectionné."
-                                     actionListener="#{nonConformiteActionsController.prepareAction(
+                                     actionListener="#{nonConformiteActionsController.updateOnCloture(
                                                        nonConformiteRequestController.selected)}"
                                      disabled="#{empty nonConformiteRequestController.selected 
                                                  or empty nonConformiteRequestController.selected.ncrId
                                                  or (nonConformiteRequestController.selected.ncrState.id!=2 
                                                  and nonConformiteRequestController.selected.ncrState.id!=3)}"
-                                     />
+                                     rendered="#{request.isUserInRole('CO_SMQNCCLOTURE_W') and 
+                                                 nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
+                                     >
+                        <p:confirm header="#{ism.NonConformiteRequestDlgHeader_Cloture}"
+                                   message="#{ism.NonConformiteRequestDlgMessage_Cloture}" 
+                                   icon="alert"/>
+                    </p:commandButton>
                     <p:commandButton icon="ui-btn-Delete"
                                      styleClass="ui-btn"
                                      value="#{ism.Delete}"
@@ -448,7 +457,8 @@
                                      PF('mainConfirmDialog').show()"
                                      disabled="#{empty nonConformiteRequestController.selected 
                                                  or empty nonConformiteRequestController.selected.ncrId}"
-                                     rendered="#{nonConformiteRequestController.selected.ncrState.id==1}"
+                                     rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')
+                                                and nonConformiteRequestController.selected.ncrState.id==1}"
                                      >
                         <p:confirm  />
                     </p:commandButton>
@@ -497,6 +507,8 @@
                                  disabled="#{empty nonConformiteRequestController.selected 
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 rendered="#{nonConformiteRequestController.selected.ncrState.id==1
+                                             and request.isUserInRole('CO_SMQNCVALIDATE_W')}"
                                  />
                 <p:commandButton id="actionsButton"
                                  icon="ui-btn-Actions"
@@ -511,6 +523,38 @@
                                              or (nonConformiteRequestController.selected.ncrState.id!=2 
                                              and nonConformiteRequestController.selected.ncrState.id!=3)}"
                                  />
+                <p:commandButton id="reviewButton"
+                                 icon="ui-btn-Postpone"
+                                 styleClass="options-btn"
+                                 value="#{ism.Review}"
+                                 action="Review.xhtml?faces-redirect=true"
+                                 title="En fonction de la dernière action approuvée on peut edemander de la revoir"
+                                 actionListener="#{nonConformiteActionsController.prepareReview(
+                                                   nonConformiteRequestController.selected)}"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                             and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                 />
+                <p:commandButton id="clotureButton"
+                                 icon="ui-btn-Cloture"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cloture}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de clôturer la non conformité sélectionné."
+                                 actionListener="#{nonConformiteActionsController.updateOnCloture(
+                                                   nonConformiteRequestController.selected)}"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                             and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                 rendered="#{request.isUserInRole('CO_SMQNCCLOTURE_W') and 
+                                                 nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
+                                 >
+                    <p:confirm header="#{ism.NonConformiteRequestDlgHeader_Clotrue}"
+                               message="#{ism.NonConformiteRequestDlgMessage_Clotrue}" 
+                               icon="alert"/>
+                </p:commandButton>
                 <p:commandButton icon="ui-btn-Delete"
                                  styleClass="options-btn"
                                  value="#{ism.Delete}"
@@ -526,6 +570,7 @@
                                  disabled="#{empty nonConformiteRequestController.selected 
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}"
                                  >
                     <p:confirm  />
                 </p:commandButton>
