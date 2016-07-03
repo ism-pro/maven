@@ -42,7 +42,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "StaffSetup.findByStstimeOutSession", query = "SELECT s FROM StaffSetup s WHERE s.ststimeOutSession = :ststimeOutSession"),
     @NamedQuery(name = "StaffSetup.findByStsTheme", query = "SELECT s FROM StaffSetup s WHERE s.stsTheme = :stsTheme"),
     @NamedQuery(name = "StaffSetup.findByStsCreated", query = "SELECT s FROM StaffSetup s WHERE s.stsCreated = :stsCreated"),
-    @NamedQuery(name = "StaffSetup.findByStsChanged", query = "SELECT s FROM StaffSetup s WHERE s.stsChanged = :stsChanged")})
+    @NamedQuery(name = "StaffSetup.findByStsChanged", query = "SELECT s FROM StaffSetup s WHERE s.stsChanged = :stsChanged"),
+    @NamedQuery(name = "StaffSetup.selectAllByLastChange", query = "SELECT s FROM StaffSetup s ORDER BY s.stsChanged DESC")
+})
 public class StaffSetup implements Serializable {
 
     private static final long serialVersionUID = 1L;

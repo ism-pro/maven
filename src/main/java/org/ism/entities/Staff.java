@@ -54,7 +54,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Staff.countAllowed", query = "SELECT count(s) FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1"),
     @NamedQuery(name = "Staff.findByAllowed", query = "SELECT s FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1"),
     @NamedQuery(name = "Staff.countActiveUndeleted", query = "SELECT count(s) FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1 AND s.stDeleted=0"),
-    @NamedQuery(name = "Staff.findByActiveUndeleted", query = "SELECT s FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1 AND s.stDeleted=0")
+    @NamedQuery(name = "Staff.findByActiveUndeleted", query = "SELECT s FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1 AND s.stDeleted=0"),
+    @NamedQuery(name = "Staff.selectAllByLastChange", query = "SELECT s FROM Staff s ORDER BY s.stChanged DESC")
 })
 public class Staff implements Serializable {
 

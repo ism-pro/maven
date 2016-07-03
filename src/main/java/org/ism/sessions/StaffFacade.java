@@ -28,6 +28,13 @@ public class StaffFacade extends AbstractFacade<Staff> {
         return em;
     }
 
+    private final String SELECTALLBYLASTCHANGED = "Staff.selectAllByLastChange";
+    private final String FIND_BY_CODE = "Staff.findByStStaff";       // query = "SELECT s FROM Staff s WHERE s.stStaff = :stStaff"
+    private final String FIND_BY_LASTNAME = "Staff.findByStLastname";     // query = "SELECT s FROM Staff s WHERE s.stLastname = :stLastname"
+    private final String FIND_BY_FIRSTNAME = "Staff.findByStFirstname";     // query = "SELECT s FROM Staff s WHERE s.stFirstname = :stFirstname"
+    private final String FIND_BY_MIDDLENAME = "Staff.findByStMiddlename";     // query = "SELECT s FROM Staff s WHERE s.stMiddlename = :stMiddlename"
+    
+
     public StaffFacade() {
         super(Staff.class);
     }
@@ -38,6 +45,61 @@ public class StaffFacade extends AbstractFacade<Staff> {
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
         if(countStaff > 0){
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+    public List<Staff> findAllByLastChanged() {
+        em.flush();
+        Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public List<Staff> findByCode(String code) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_CODE).setParameter("stStaff", code);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public List<Staff> findByLastName(String lastname) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_LASTNAME).setParameter("stLastname", lastname);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+    public List<Staff> findByFirstName(String firstname) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_FIRSTNAME).setParameter("stFirstname", firstname);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+    public List<Staff> findByMiddlename(String middlename) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_MIDDLENAME).setParameter("stMiddlename", middlename);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
             return q.getResultList();
         }
         return null;

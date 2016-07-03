@@ -82,6 +82,7 @@
                                                      icon="ui-btn-Connect"
                                                      styleClass="ui-btn-logIn"
                                                      action="#{staffAuthController.login}"
+                                                     update="logMsg,:growl"
                                                      />
                                 </td>
                             </tr>
@@ -91,7 +92,9 @@
                     </h:form>
                 </div>
             </div>
+            <p:messages id="logMsg"  showDetail="true" showSummary="false" escape="false"/>
         </div>
+        
         <p:growl id="growl" life="8000" />
     </h:body>
     <p:blockUI block="pBody" trigger="loginForm:logInBtn">

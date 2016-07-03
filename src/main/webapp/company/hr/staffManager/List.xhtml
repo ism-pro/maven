@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -10,11 +10,9 @@
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1>
-                <h:outputText value="#{ism.StaffTitleList}" />
-            </h1>
+            <h1><h:outputText value="#{ism.StaffTitleList}"/></h1>
 
-            <h:form id="StaffManagerListForm">
+            <h:form id="bodyForm">
 
                 <p:dataGrid value="#{staffManagerController.staffCtrl.items}" 
                             var="item" columns="5" 
@@ -83,7 +81,7 @@
 
                             <p:commandButton id="destroyButton"
                                              title="#{ism.Delete}"
-                                             update=":StaffManagerListForm"
+                                             update=":bodyForm"
                                              actionListener="#{staffManagerController.destroy(item)}" 
                                              icon="ui-icon-trash"
                                              style="width: 18px; height: 18px;"

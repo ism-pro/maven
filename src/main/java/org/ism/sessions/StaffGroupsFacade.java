@@ -30,6 +30,9 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
         return em;
     }
 
+    private final String SELECTALLBYLASTCHANGED = "StaffGroups.selectAllByLastChange";
+    
+
     public StaffGroupsFacade() {
         super(StaffGroups.class);
     }
@@ -60,4 +63,18 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
         return null;
     }
     
+    
+    
+    public List<StaffGroups> findAllByLastChanged() {
+        em.flush();
+        Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+
 }

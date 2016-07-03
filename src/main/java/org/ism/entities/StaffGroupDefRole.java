@@ -45,7 +45,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "StaffGroupDefRole.findByCompanyGroupsActivated", 
             query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrCompany = :stgdrCompany AND s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true"),
     @NamedQuery(name = "StaffGroupDefRole.countCompanyGroupsActivated", 
-            query = "SELECT count(s) FROM StaffGroupDefRole s WHERE s.stgdrCompany = :stgdrCompany AND s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true")
+            query = "SELECT count(s) FROM StaffGroupDefRole s WHERE s.stgdrCompany = :stgdrCompany AND s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true"),
+    @NamedQuery(name = "StaffGroupDefRole.selectAllByLastChange",
+            query = "SELECT s FROM StaffGroupDefRole s ORDER BY s.stgdrChanged DESC")
 })
 public class StaffGroupDefRole implements Serializable {
     private static final long serialVersionUID = 1L;

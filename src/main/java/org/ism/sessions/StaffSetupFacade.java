@@ -5,6 +5,7 @@
  */
 package org.ism.sessions;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
@@ -26,6 +27,8 @@ public class StaffSetupFacade extends AbstractFacade<StaffSetup> {
     protected EntityManager getEntityManager() {
         return em;
     }
+
+    private final String SELECTALLBYLASTCHANGED = "StaffSetup.selectAllByLastChange";
 
     public StaffSetupFacade() {
         super(StaffSetup.class);
@@ -53,4 +56,17 @@ public class StaffSetupFacade extends AbstractFacade<StaffSetup> {
         return null;
     }
     
+    
+    
+    public List<StaffSetup> findAllByLastChanged() {
+        em.flush();
+        Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
 }

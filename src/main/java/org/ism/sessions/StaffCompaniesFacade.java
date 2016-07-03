@@ -21,6 +21,7 @@ import org.ism.entities.StaffCompanies;
  */
 @Stateless
 public class StaffCompaniesFacade extends AbstractFacade<StaffCompanies> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -29,16 +30,19 @@ public class StaffCompaniesFacade extends AbstractFacade<StaffCompanies> {
         return em;
     }
 
+    private final String SELECTALLBYLASTCHANGED = "StaffCompanies.selectAllByLastChange";
+    
+    
     public StaffCompaniesFacade() {
         super(StaffCompanies.class);
     }
-    
+
     public List<StaffCompanies> findByStaff(Staff staff) {
         em.flush();
         Query q = em.createNamedQuery("StaffCompanies.findByStcStaff").setParameter("stcStaff", staff);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return q.getResultList();
         }
         return null;
@@ -51,9 +55,21 @@ public class StaffCompaniesFacade extends AbstractFacade<StaffCompanies> {
                 .setParameter("stcCompany", company);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return (StaffCompanies) q.getResultList().get(0);
         }
         return null;
     }
+
+    public List<StaffCompanies> findAllByLastChanged() {
+        em.flush();
+        Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
 }

@@ -99,7 +99,7 @@ public class StaffAuthFacade implements Serializable {
             q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
             Long countActiveUndeletedStaff = (Long) q.getSingleResult();
             if (countActiveUndeletedStaff < 1) { // Pas d'utilisateur avec les informations spécifié !
-                JsfUtil.out(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationNoActiveUndeletedStaff"));
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationNoActiveUndeletedStaff"));
                 msgList.add(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationNoActiveUndeletedStaff"));
                 return false;
             }
@@ -110,11 +110,11 @@ public class StaffAuthFacade implements Serializable {
             setStaff((Staff) q.getSingleResult());
 
             // Message de réussite
-            JsfUtil.out(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationYesActiveUndeletedStaff"));
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationYesActiveUndeletedStaff"));
             msgList.add(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationYesActiveUndeletedStaff"));
             return true;
         } catch (Exception e) {
-            JsfUtil.out(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationNoActiveUndeletedStaff"));
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationNoActiveUndeletedStaff"));
             msgList.add(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationNoActiveUndeletedStaff"));
             setStaff(null);
             return false;
@@ -181,7 +181,7 @@ public class StaffAuthFacade implements Serializable {
             //Validation de la session
             setAuthenticated(true);
             session.setAttribute("authenticated", true);
-            JsfUtil.out(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationPersistenceSuccessOccured"));
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationPersistenceSuccessOccured"));
             msgList.add(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationPersistenceSuccessOccured"));
             return authenticated;
 
@@ -193,11 +193,11 @@ public class StaffAuthFacade implements Serializable {
                 try {
                     request.logout();
                 } catch (ServletException ex1) {
-                    JsfUtil.out(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationIsue") + ex);
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationIsue") + ex);
                     msgList.add(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationIsue") + ex);
                 }
             }
-            JsfUtil.out(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationDecline"));
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationDecline"));
             msgList.add(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationDecline"));
             return false;
         } finally {

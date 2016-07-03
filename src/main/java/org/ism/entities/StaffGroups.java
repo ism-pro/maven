@@ -44,7 +44,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "StaffGroups.countStaffCompanyActivated", 
             query = "SELECT count(s) FROM StaffGroups s WHERE s.stgCompany = :stgCompany AND s.stgStaff = :stgStaff AND s.stgActivated=1"),
     @NamedQuery(name = "StaffGroups.findByStaffCompanyActivated", 
-            query = "SELECT s FROM StaffGroups s WHERE s.stgCompany = :stgCompany AND s.stgStaff = :stgStaff AND s.stgActivated=1")
+            query = "SELECT s FROM StaffGroups s WHERE s.stgCompany = :stgCompany AND s.stgStaff = :stgStaff AND s.stgActivated=1"),
+    @NamedQuery(name = "StaffGroups.selectAllByLastChange", 
+            query = "SELECT s FROM StaffGroups s ORDER BY s.stgChanged DESC")
 })
 public class StaffGroups implements Serializable {
     private static final long serialVersionUID = 1L;
