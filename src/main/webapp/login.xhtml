@@ -10,15 +10,17 @@
         <title>#{ism.AppName}</title>
         <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
         <meta http-equiv="refresh" 
-              content="60;url=#{request.contextPath}#{request.servletPath}#{request.pathInfo}?faces-redirect=true"/>
+              content="300;url=#{request.contextPath}#{request.servletPath}#{request.pathInfo}?faces-redirect=true"/>
 
-        <h:outputStylesheet library="css" name="ism-login.css" />
+
+        
+        <h:outputStylesheet library="css" name="ism-login.min.css" />
     </h:head>
 
     <h:body id="pBody">
 
         <div id="topbar"><a href="http://www.brasimba.com">BRASIMBA WEB SITE</a></div>
-        
+
 
         <div id="window">
             <div id="content">
@@ -61,16 +63,17 @@
                             <tr>
                                 <td><p:outputLabel value="#{ism.Company}" for="company" /></td>
                                 <td><p:selectOneMenu id="company"
-                                                     maxlength="60"
+
                                                      value="#{staffAuthController.company}"
-                                                     style="font: normal 8pt verdana, helvetica, sans-serif; width: 210px"
+                                                     style="width: 210px"
                                                      >
                                         <f:selectItems value="#{companyController.itemsAvailableSelectOne}" 
                                                        var="jCompanyItem"
                                                        itemLabel="#{jCompanyItem.CCompany} - #{jCompanyItem.CDesignation}"
                                                        itemValue="#{jCompanyItem}"
                                                        />
-                                    </p:selectOneMenu></td>
+                                    </p:selectOneMenu>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2" align="right">
