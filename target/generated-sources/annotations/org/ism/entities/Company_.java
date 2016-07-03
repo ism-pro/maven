@@ -20,7 +20,7 @@ import org.ism.entities.NonConformiteUnite;
 import org.ism.entities.Processus;
 import org.ism.entities.Unite;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-07-03T20:49:05")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-07-03T21:31:54")
 @StaticMetamodel(Company.class)
 public class Company_ { 
 

@@ -69,14 +69,13 @@ Configuration :
 
     Commit :
     # GENERALITES :
+    + Correction problème d'affichage des configurations du temps de déconnexion.
+    + Fenêtre d'alarme de déconnexion, problème corrigé plus de problème de ce 
+    déconnecter ou de rester connecté lorsque on appuie sur accepter
 
     # SPECIFIQUE
 
-    ## NonConformite :
-    + Réalisation de l'ajournement (Postpone) sur base de l'action car ce sont 
-    les mêmes champs qui doivent appraître.
-    + Fin de la mise en place des non conformités
-    + Avant chargement
+    
 
 
 

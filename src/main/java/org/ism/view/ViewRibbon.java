@@ -8,6 +8,7 @@ package org.ism.view;
 import com.sun.faces.component.visit.FullVisitContext;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -167,7 +168,13 @@ public class ViewRibbon implements Serializable {
     public String getCurrentPath(){
         FacesContext ctx = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
+        String[] lst = request.getPathInfo().split("/");
+        
         String currentPath = request.getContextPath() + request.getServletPath() + request.getPathInfo() + "?faces-redirect=true";
         return currentPath;
+    }
+    
+    public String reloadCurrentPath(){
+        return getCurrentPath();
     }
 }

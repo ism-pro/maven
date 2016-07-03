@@ -536,8 +536,8 @@
                     <p:commandButton id="dlgReminingTimeSessionWakeUpYes" 
                                      value="#{ism.Accept}"
                                      onclick="PF('dlgReminingTimeSessionWakeUp').hide();
-                                             submit();"
-                                     action="#{viewRibbon.currentPath}"
+                                             location.reload(true);"
+                                             action="#{viewRibbon.reloadCurrentPath()}"
                                      />
                     <p:commandButton id="dlgReminingTimeSessionWakeUpNo" 
                                      value="#{ism.Refused}"
