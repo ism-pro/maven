@@ -63,33 +63,29 @@ Configuration :
     ++ Ajouter une page de recherche + result + exportation
 
     + DOC EXPLORER :
-    + Permettre d'avoir un classement en fonction d'une catégorie et un groupe surtout pour les processus volumineux.
+    + Permettre d'avoir un classement en fonction d'une catégorie et un groupe 
+    surtout pour les processus volumineux.
 
 
     Commit :
     # GENERALITES :
-    + Les menus qui compte la fonction Edit ne comportait pas de validation de 
-    formulaire. L'options "form" à été ajouté à tous les boutons pour permettre
-    de valider le formule : form="bodyForm".
-    + La mise à jour de plusieurs fichier dans le menu ont été réalisé car ils
-    réalisait une création et non une modification.
-
+    + Suppression de l'ex entities NonConformite
 
     # SPECIFIQUE
     ## IsmNcrstate :
-    + Ajout d'options static permettant de facilement définir l'état de la NC
+    + Ajout de paramètre statique d'état
 
     ## NonConformite :
-    + Ajout des validateurs :
-    NonConformiteRequestTraceValidator  : permet qu'une trace existe entre le champ produit ou référence
-    NonConformiteRequestQuantityValidator : permet que lors de la saisie d'une quantitée, l'unité soit précisée
-    + Réalisation de l'option approbation
-    + Ajout de l'affichage en fonction de la ligne sélectionnée (Voir, editer, Approuver, supprimer)
-    + Modification de l'affichage sans ligne
-    + Jeux d'état dans le titre d'information pour signaler l'approbation
-    + Suppression de l'options refuse xhtml
-    + View : ajout de la vue des actions en liste
-    + Collapse également la description si des actions existent
+    + Ajout de la table actions de non conformité
+    + Suppression de la page principale la fonction action elle n'aura lieu que
+    dans la page de vue,
+    + La fonction ajournement par la page postponement a été créer pour réaliser
+    un ajournement 
+    + la table de base de donnée action a encore été modifié pour y insérer 
+    directement la cause d'ajournement.
+    + Fonction Actions fonctionnelle avec atualisation
+
+
 
 
 Test après changement :
@@ -109,106 +105,126 @@ Test après changement :
 
 
 
-<f:facet name="footer">
-                        <p:commandButton id="createButton"      icon="ui-icon-plus"   value="#{ism.Create}" 
-                                         actionListener="#{nonConformiteRequestController.prepareCreate}" 
-                                         oncomplete="PF('NonConformiteRequestCreateDialog').show()"
-                                         update=":NonConformiteRequestCreateForm" 
-                                         />
-                        <p:commandButton id="editButton"        icon="ui-icon-pencil" value="#{ism.Edit}"       
-                                         update=":NonConformiteRequestEditForm" 
-                                         oncomplete="PF('NonConformiteRequestEditDialog').show()" 
-                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"/>
-                        <p:commandButton id="validateButton"    icon="ui-icon-circle-check" value="#{ism.Validate}"   
-                                         actionListener="#{nonConformiteRequestController.prepareValidate}" 
-                                         update=":NonConformiteRequestValidateForm" 
-                                         oncomplete="PF('NonConformiteRequestValidateDialog').show()" 
-                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
-                                         rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"/>
+    <f:facet name="footer">
+        <p:commandButton id="createButton"      icon="ui-icon-plus"   value="#{ism.Create}" 
+                         actionListener="#{nonConformiteRequestController.prepareCreate}" 
+                         oncomplete="PF('NonConformiteRequestCreateDialog').show()"
+                         update=":NonConformiteRequestCreateForm" 
+                         />
+        <p:commandButton id="editButton"        icon="ui-icon-pencil" value="#{ism.Edit}"       
+                         update=":NonConformiteRequestEditForm" 
+                         oncomplete="PF('NonConformiteRequestEditDialog').show()" 
+                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"/>
+        <p:commandButton id="validateButton"    icon="ui-icon-circle-check" value="#{ism.Validate}"   
+                         actionListener="#{nonConformiteRequestController.prepareValidate}" 
+                         update=":NonConformiteRequestValidateForm" 
+                         oncomplete="PF('NonConformiteRequestValidateDialog').show()" 
+                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                         rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"/>
 
-                        <p:commandButton id="actionButton"      icon="ui-icon-note" value="#{ism.Action}"    
-                                         update=":NonConformiteRequestActionForm" 
-                                         oncomplete="PF('NonConformiteRequestActionDialog').show()" 
-                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=3) ? true : false}"/>
+        <p:commandButton id="actionButton"      icon="ui-icon-note" value="#{ism.Action}"    
+                         update=":NonConformiteRequestActionForm" 
+                         oncomplete="PF('NonConformiteRequestActionDialog').show()" 
+                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=3) ? true : false}"/>
 
-                        <p:commandButton id="clotureButton"      icon="ui-icon-locked" value="#{ism.Cloture}"    
-                                         actionListener="#{nonConformiteRequestController.cloture}" update=":growl,datalist" 
-                                         disabled="#{(empty nonConformiteRequestController.selected) or 
-                                                     (nonConformiteRequestController.selected.ncrState.id==2) or 
-                                                     (nonConformiteRequestController.selected.ncrState.id==3) or
-                                                     (nonConformiteRequestController.selected.ncrState.id==6) or
-                                                     (nonConformiteRequestController.selected.ncrState.id==7) ? true : false}"
-                                         rendered="#{request.isUserInRole('CO_SMQNCCLOTURE_W')}"/>
+        <p:commandButton id="clotureButton"      icon="ui-icon-locked" value="#{ism.Cloture}"    
+                         actionListener="#{nonConformiteRequestController.cloture}" update=":growl,datalist" 
+                         disabled="#{(empty nonConformiteRequestController.selected) or 
+                                     (nonConformiteRequestController.selected.ncrState.id==2) or 
+                                     (nonConformiteRequestController.selected.ncrState.id==3) or
+                                     (nonConformiteRequestController.selected.ncrState.id==6) or
+                                     (nonConformiteRequestController.selected.ncrState.id==7) ? true : false}"
+                         rendered="#{request.isUserInRole('CO_SMQNCCLOTURE_W')}"/>
 
-                        <p:commandButton id="refuseButton"      icon="ui-icon-closethick" value="#{ism.Refused}"    
-                                         update=":NonConformiteRequestRefusedForm" 
-                                         oncomplete="PF('NonConformiteRequestRefusedDialog').show()" 
-                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
-                                         rendered="#{request.isUserInRole('CO_SMQNCREFUSE_W')}" />
+        <p:commandButton id="refuseButton"      icon="ui-icon-closethick" value="#{ism.Refused}"    
+                         update=":NonConformiteRequestRefusedForm" 
+                         oncomplete="PF('NonConformiteRequestRefusedDialog').show()" 
+                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                         rendered="#{request.isUserInRole('CO_SMQNCREFUSE_W')}" />
 
-                        <p:commandButton id="deleteButton"      icon="ui-icon-trash"  value="#{ism.Delete}" actionListener="#{nonConformiteRequestController.destroy}" update=":growl,datalist" 
-                                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
-                                         rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}">
-                            <p:confirm header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                       message="#{ism.ConfirmDeleteMessage}" 
-                                       icon="ui-icon-alert"/>
+        <p:commandButton id="deleteButton"      icon="ui-icon-trash"  value="#{ism.Delete}" actionListener="#{nonConformiteRequestController.destroy}" update=":growl,datalist" 
+                         disabled="#{(empty nonConformiteRequestController.selected) or (nonConformiteRequestController.selected.ncrState.id!=1) ? true : false}"
+                         rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}">
+            <p:confirm header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}" 
+                       message="#{ism.ConfirmDeleteMessage}" 
+                       icon="ui-icon-alert"/>
 
-                        </p:commandButton>
+        </p:commandButton>
 
-                        <p:commandButton id="manageStateButton"      icon="ui-icon-note" value="#{ism.NonConformiteField_ncState}"    
-                                         update=":NonConformiteRequestManageStateForm" 
-                                         oncomplete="PF('NonConformiteRequestManageStateDialog').show()" 
-                                         rendered="#{request.isUserInRole('CO_SMQNCMANAGESTATE_W')}"/>
+        <p:commandButton id="manageStateButton"      icon="ui-icon-note" value="#{ism.NonConformiteField_ncState}"    
+                         update=":NonConformiteRequestManageStateForm" 
+                         oncomplete="PF('NonConformiteRequestManageStateDialog').show()" 
+                         rendered="#{request.isUserInRole('CO_SMQNCMANAGESTATE_W')}"/>
 
 
-                    </f:facet>
+    </f:facet>
 
-<f:facet name="actions">
-                        <p:commandButton    actionListener="#{nonConformiteRequestController.setIsEditApprouve(true)}"
-                                            action="View.xhtml?faces-redirect=true"
-                                            styleClass="smq-nc-btnClass"
-                                            icon="ui-btn-Approuve"
-                                            update="bodyForm"
-                                            value="Approuver"
 
-                                            />
-                        <p:commandButton    actionListener="#{nonConformiteRequestController.setIsEditApprouve(true)}"
-                                            action="View.xhtml?faces-redirect=true"
-                                            styleClass="smq-nc-btnClass"
-                                            icon="ui-btn-Edit"
-                                            update="bodyForm"
-                                            value="#{ism.Edit}"
 
-                                            />
-                        <p:commandButton    actionListener="#{nonConformiteRequestController.updateOnEditInfos()}"
-                                            styleClass="smq-nc-btnClass"
-                                            update="bodyForm,:growl"
-                                            icon="ui-btn-Save"
-                                            value="#{ism.Save}"
 
-                                            />
-                        <p:commandButton    actionListener="#{nonConformiteRequestController.cancelEdit()}"
-                                            styleClass="smq-nc-btnClass"
-                                            immediate="true"
-                                            update="bodyForm,:growl"
-                                            icon="ui-btn-Cancel"
-                                            value="#{ism.Cancel}"
 
-                                            />
-                        <p:commandButton    actionListener="#{nonConformiteRequestController.destroy(nonConformiteRequestController.selected)}" 
-                                            action="company/smq/nc/Request/View.xhtml?faces-redirect=true"
-                                            styleClass="smq-nc-btnClass"
-                                            icon="ui-btn-Delete"
-                                            update=":growl"
-                                            value="#{ism.Delete}"
-                                            disabled="#{
-                                            nonConformiteRequestController.selected.ncrState.id > 2}"
-                                            >
-                            <p:confirm header="#{ism.NonConformiteRequestTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                       message="#{ism.ConfirmDeleteMessage}" 
-                                       icon="ui-icon-alert"/>
-                        </p:commandButton>
-                    </f:facet>
+
+
+            <p:panel header="Code couleur">
+                <p:panelGrid columns="2">
+
+                    <p:panelGrid >
+                        <p:row>
+                            <p:column colspan="2" style="background-color: dodgerblue;">
+                                <h:outputText value="Couleur d'état" style="color: white;  text-align: center;"/></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color:#000;"><h:outputText value="A-F" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Créée ou Terminée" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: pink;"><h:outputText value="B" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="En cours de validation" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: lightsalmon;"><h:outputText value="C" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="En attente de solution" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: green;"><h:outputText value="D" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="En cours" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: red;"><h:outputText value="E" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Annulée" /></p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                    <p:panelGrid >
+                        <p:row >
+                            <p:column colspan="2" style="background-color: dodgerblue;">
+                                <h:outputText value="Couleur de résolution" style="color: white;  text-align: center;"/></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column ><h:outputText value="A" /></p:column>
+                            <p:column ><h:outputText value="Pas d'action" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: green;"><h:outputText value="B" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Période d'action en cours" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: greenyellow;"><h:outputText value="C" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Action terminée à échéance" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: darkolivegreen;"><h:outputText value="D" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Action terminée après échéance" /></p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background-color: red;"><h:outputText value="E" style="color: white"/></p:column>
+                            <p:column ><h:outputText value="Action en retard" /></p:column>
+                        </p:row>
+                    </p:panelGrid>
+
+                </p:panelGrid>
+            </p:panel>
+
 ================================================================================
 15XXXX XXXX : R.HENDRICK
 ================================================================================

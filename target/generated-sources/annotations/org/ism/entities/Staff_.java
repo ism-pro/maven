@@ -14,12 +14,12 @@ import org.ism.entities.StaffCompanies;
 import org.ism.entities.StaffGroups;
 import org.ism.entities.StaffSetup;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-26T19:53:21")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-07-03T17:04:40")
 @StaticMetamodel(Staff.class)
 public class Staff_ { 
 
     public static volatile SingularAttribute<Staff, Date> stBorned;
-    public static volatile CollectionAttribute<Staff, NonConformiteRequest> nonConformiteRequestCollection2;
+    public static volatile CollectionAttribute<Staff, NonConformiteActions> nonConformiteActionsCollection1;
     public static volatile CollectionAttribute<Staff, LabSample> labSampleCollection;
     public static volatile SingularAttribute<Staff, String> stMiddlename;
     public static volatile CollectionAttribute<Staff, NonConformiteRequest> nonConformiteRequestCollection4;

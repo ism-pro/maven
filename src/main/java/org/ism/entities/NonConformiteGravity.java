@@ -80,8 +80,6 @@ public class NonConformiteGravity implements Serializable {
     private Date ncgChanged;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrGravity")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncGravity")
-    private Collection<NonConformite> nonConformiteCollection;
     @JoinColumn(name = "ncg_company", referencedColumnName = "c_company", nullable = false)
     @ManyToOne(optional = false)
     private Company ncgCompany;
@@ -157,15 +155,6 @@ public class NonConformiteGravity implements Serializable {
 
     public void setNonConformiteRequestCollection(Collection<NonConformiteRequest> nonConformiteRequestCollection) {
         this.nonConformiteRequestCollection = nonConformiteRequestCollection;
-    }
-
-    @XmlTransient
-    public Collection<NonConformite> getNonConformiteCollection() {
-        return nonConformiteCollection;
-    }
-
-    public void setNonConformiteCollection(Collection<NonConformite> nonConformiteCollection) {
-        this.nonConformiteCollection = nonConformiteCollection;
     }
 
     public Company getNcgCompany() {

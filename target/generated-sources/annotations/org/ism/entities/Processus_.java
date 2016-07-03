@@ -7,11 +7,10 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import org.ism.entities.Company;
 import org.ism.entities.DocExplorer;
-import org.ism.entities.NonConformite;
 import org.ism.entities.NonConformiteRequest;
 import org.ism.entities.Staff;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-26T19:53:21")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-07-03T17:04:40")
 @StaticMetamodel(Processus.class)
 public class Processus_ { 
 
@@ -25,6 +24,5 @@ public class Processus_ {
     public static volatile SingularAttribute<Processus, Company> pCompany;
     public static volatile SingularAttribute<Processus, String> pProcessus;
     public static volatile SingularAttribute<Processus, Boolean> pDeleted;
-    public static volatile CollectionAttribute<Processus, NonConformite> nonConformiteCollection;
 
 }

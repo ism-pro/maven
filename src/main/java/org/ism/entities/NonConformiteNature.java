@@ -79,8 +79,6 @@ public class NonConformiteNature implements Serializable {
     private Date ncnChanged;
     @OneToMany(mappedBy = "ncrNature")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
-    @OneToMany(mappedBy = "ncNature")
-    private Collection<NonConformite> nonConformiteCollection;
     @JoinColumn(name = "ncn_company", referencedColumnName = "c_company", nullable = false)
     @ManyToOne(optional = false)
     private Company ncnCompany;
@@ -156,15 +154,6 @@ public class NonConformiteNature implements Serializable {
 
     public void setNonConformiteRequestCollection(Collection<NonConformiteRequest> nonConformiteRequestCollection) {
         this.nonConformiteRequestCollection = nonConformiteRequestCollection;
-    }
-
-    @XmlTransient
-    public Collection<NonConformite> getNonConformiteCollection() {
-        return nonConformiteCollection;
-    }
-
-    public void setNonConformiteCollection(Collection<NonConformite> nonConformiteCollection) {
-        this.nonConformiteCollection = nonConformiteCollection;
     }
 
     public Company getNcnCompany() {

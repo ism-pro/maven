@@ -113,14 +113,14 @@ public class Staff implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrStaff")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
 
-    @OneToMany(mappedBy = "ncrstaffOnAction")
-    private Collection<NonConformiteRequest> nonConformiteRequestCollection2;
     @OneToMany(mappedBy = "ncrApprouver")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection4;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncaStaff")
     private Collection<NonConformiteActions> nonConformiteActionsCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncaStaffApprouver")
+    private Collection<NonConformiteActions> nonConformiteActionsCollection1;
 
     @JoinColumn(name = "st_genre", referencedColumnName = "genre")
     @ManyToOne
@@ -269,16 +269,6 @@ public class Staff implements Serializable {
     }
 
     
-
-    public Collection<NonConformiteRequest> getNonConformiteRequestCollection2() {
-        return nonConformiteRequestCollection2;
-    }
-
-    public void setNonConformiteRequestCollection2(Collection<NonConformiteRequest> nonConformiteRequestCollection2) {
-        this.nonConformiteRequestCollection2 = nonConformiteRequestCollection2;
-    }
-
-    
     public Collection<NonConformiteRequest> getNonConformiteRequestCollection4() {
         return nonConformiteRequestCollection4;
     }
@@ -295,6 +285,16 @@ public class Staff implements Serializable {
     public void setNonConformiteActionsCollection(Collection<NonConformiteActions> nonConformiteActionsCollection) {
         this.nonConformiteActionsCollection = nonConformiteActionsCollection;
     }
+
+    public Collection<NonConformiteActions> getNonConformiteActionsCollection1() {
+        return nonConformiteActionsCollection1;
+    }
+
+    public void setNonConformiteActionsCollection1(Collection<NonConformiteActions> nonConformiteActionsCollection1) {
+        this.nonConformiteActionsCollection1 = nonConformiteActionsCollection1;
+    }
+    
+    
 
     @XmlTransient
     public Collection<LabSample> getLabSampleCollection() {

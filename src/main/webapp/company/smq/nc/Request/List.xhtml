@@ -28,7 +28,7 @@
                                 action="View.xhtml?faces-redirect=true"
                                 title="Permet de visualiser la non conformité sélectionné."
                                 disabled="#{empty nonConformiteRequestController.selected 
-                                             or empty nonConformiteRequestController.selected.ncrId}"
+                                            or empty nonConformiteRequestController.selected.ncrId}"
                                 onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
                                 />
                     <p:menuitem icon="ui-btn-Edit"
@@ -37,8 +37,8 @@
                                 action="Edit.xhtml?faces-redirect=true"
                                 title="Permet d'editer la non conformité sélectionné."
                                 disabled="#{empty nonConformiteRequestController.selected 
-                                             or empty nonConformiteRequestController.selected.ncrId
-                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                            or empty nonConformiteRequestController.selected.ncrId
+                                            or nonConformiteRequestController.selected.ncrState.id!=1}"
                                 />
                     <p:menuitem icon="ui-btn-Approuve"
                                 styleClass="options-btn"
@@ -46,8 +46,8 @@
                                 action="Validate.xhtml?faces-redirect=true"
                                 title="Permet d'accepter ou refuser la non conformité sélectionné."
                                 disabled="#{empty nonConformiteRequestController.selected 
-                                             or empty nonConformiteRequestController.selected.ncrId
-                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                            or empty nonConformiteRequestController.selected.ncrId
+                                            or nonConformiteRequestController.selected.ncrState.id!=1}"
                                 />
                     <p:menuitem icon="ui-btn-Delete"
                                 styleClass="options-btn"
@@ -61,8 +61,8 @@
                                 #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestDlgMessage)};
                                 PF('mainConfirmDialog').show();"
                                 disabled="#{empty nonConformiteRequestController.selected 
-                                             or empty nonConformiteRequestController.selected.ncrId
-                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                            or empty nonConformiteRequestController.selected.ncrId
+                                            or nonConformiteRequestController.selected.ncrState.id!=1}"
                                 >
                         <p:confirm  />
                     </p:menuitem>
@@ -372,65 +372,7 @@
                 </p:dataTable>
             </h:form>
 
-            <p:panel header="Code couleur">
-                <p:panelGrid columns="2">
 
-                    <p:panelGrid >
-                        <p:row>
-                            <p:column colspan="2" style="background-color: dodgerblue;">
-                                <h:outputText value="Couleur d'état" style="color: white;  text-align: center;"/></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color:#000;"><h:outputText value="A-F" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Créée ou Terminée" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: pink;"><h:outputText value="B" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="En cours de validation" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: lightsalmon;"><h:outputText value="C" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="En attente de solution" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: green;"><h:outputText value="D" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="En cours" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: red;"><h:outputText value="E" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Annulée" /></p:column>
-                        </p:row>
-                    </p:panelGrid>
-
-                    <p:panelGrid >
-                        <p:row >
-                            <p:column colspan="2" style="background-color: dodgerblue;">
-                                <h:outputText value="Couleur de résolution" style="color: white;  text-align: center;"/></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column ><h:outputText value="A" /></p:column>
-                            <p:column ><h:outputText value="Pas d'action" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: green;"><h:outputText value="B" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Période d'action en cours" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: greenyellow;"><h:outputText value="C" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Action terminée à échéance" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: darkolivegreen;"><h:outputText value="D" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Action terminée après échéance" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: red;"><h:outputText value="E" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Action en retard" /></p:column>
-                        </p:row>
-                    </p:panelGrid>
-
-                </p:panelGrid>
-            </p:panel>
         </ui:define>
 
 
@@ -511,7 +453,7 @@
 
 
         </ui:define>
-        <p:blockUI block="body" trigger="createButton, viewButton, editButton, validateButton, deleteButton" >
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, validateButton, actionButton, deleteButton" >
             <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
         </p:blockUI>
 

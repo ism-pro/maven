@@ -36,7 +36,8 @@
                                             rendered="#{nonConformiteRequestController.selected.ncrState.id==5?true:false}"/>
                         </div>
                         <div>
-                            #{ism.State} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrState.istate} - #{nonConformiteRequestController.selected.ncrState.statename}" />]
+                            #{ism.State} : [<h:outputText value="#{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).istate} 
+                                             - #{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).statename}" />]
                             <br />
                             #{ism.LastChange} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrChanged}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>]
                         </div>
@@ -74,13 +75,14 @@
 
                 <!-- INFORMATIONS    -->
                 <p:panel id="panelRequest" widgetVar="panelRequest" toggleTitle="Réduire" toggleable="true"
-                         collapsed="#{nonConformiteRequestController.selected.ncrstaffOnAction!=null}"
+                         collapsed="#{nonConformiteActionsController.getItemsByNCLast(
+                                          nonConformiteRequestController.selected)!=null}"
                          styleClass="panel #{nonConformiteRequestController.selected.ncrapprouvedDate==null?'':
                                              nonConformiteRequestController.selected.ncrApprouved?'panelAccepted':
                                              'panelRefused'}">
                     <f:facet name="header" >
                         #{nonConformiteRequestController.selected.ncrapprouvedDate==null?
-                          ism.NonConformiteTitleCreate:
+                          ism.NonConformiteRequestTitleCreate:
                           nonConformiteRequestController.selected.ncrApprouved?
                           ism.NonConformiteRequestSubTitle_Accepted:
                           ism.NonConformiteRequestSubTitle_Refused } 
@@ -175,9 +177,8 @@
 
 
                         <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescription}" />
-                        <p:editor  value="#{nonConformiteRequestController.selected.ncrDescription}"  
-                                   styleClass="hideToolbar" disabled="true"  
-                                   />
+                        
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrDescription}" escape="false" style="white-space:pre-line;" />
 
 
                         <p:outputLabel value="#{ism.NonConformiteRequestField_ncrLink}" />
@@ -196,7 +197,8 @@
 
                 <!-- ON ACTION    -->
                 <p:panel toggleTitle="Réduire" toggleable="true" styleClass="panel" style="margin-top:40px;"
-                         rendered="#{nonConformiteRequestController.selected.ncrstaffOnAction!=null}">
+                         rendered="#{nonConformiteActionsController.getItemsByNCLast(
+                                          nonConformiteRequestController.selected)!=null}">
                     <f:facet name="header" >
                         <p:outputLabel value="#{ism.Action}"/>
                     </f:facet>
@@ -205,10 +207,10 @@
 
 
                     <p:dataTable id="datalist" widgetVar="datalist"
-                                 value="#{nonConformiteActionsController.getItemsByNCLast(
+                                 value="#{nonConformiteActionsController.getItemsDesc(
                                           nonConformiteRequestController.selected)}" var="item"
 
-                                 selectionMode="single" selection="#{nonConformiteActionsController.selected}"
+                                 selectionMode="single" 
                                  rowIndexVar="_rowIndex"
                                  rowKey="#{item.ncaId}"
                                  paginator="#{tableView.paginator}" 
@@ -268,7 +270,7 @@
 
 
                         <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
-                                  exportable="false"
+                                  exportable="false" rendered="false"
                                   visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.CtrlShort)}" >
                             <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
                                              title="#{ism.View}" action="View.xhtml?faces-redirect=true">
@@ -303,12 +305,9 @@
 
 
                         <p:column headerText="#{ism.NonConformiteActionsField_ncaDescription}"
-                                  style="width: 50%" 
                                   visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaDescription)}"
                                   >
-                            <p:editor  value="#{item.ncaDescription}"  
-                                       styleClass="hideToolbar" disabled="true"  
-                                       />
+                            <h:outputText value="#{item.ncaDescription}" escape="false" style="white-space:pre-line;" />
                         </p:column>
 
 
@@ -322,14 +321,22 @@
                         </p:column>
 
 
-                        <p:column headerText="#{ism.NonConformiteActionsField_ncaAction}"
-                                  style="width: 24px;" 
-                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaAction)}"
-                                  sortBy="#{item.ncaAction}" 
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaStaffApprouver}" 
+                                  style="width: 100px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaStaffApprouver)}"
                                   >
-                            <h:outputText value="#{item.ncaAction}"/>
+                            <h:outputText value="#{item.ncaStaffApprouver.stFirstname} #{item.ncaStaffApprouver.stLastname} #{item.ncaStaffApprouver.stMiddlename} [#{item.ncaStaffApprouver.stStaff}]" 
+                                          escape="false" style="white-space:pre-line;width:50px;"/>
                         </p:column>
 
+                        
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaDescApprouver}"
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaDescApprouver)}"
+                                  >
+                            <h:outputText value="#{item.ncaDescription}" escape="false" style="white-space:pre-line;" />
+                        </p:column>
+                        
+                        
 
                         <p:column headerText="#{ism.NonConformiteActionsField_ncaCreated}" 
                                   style="width: 72px;" 
@@ -357,7 +364,7 @@
                                   >
                             <h:outputText value="#{item.ncaState.istate} - #{item.ncaState.statename}"/>
                         </p:column>
-                        
+
                     </p:dataTable>
 
                 </p:panel>
@@ -392,6 +399,40 @@
                                      disabled="#{empty nonConformiteRequestController.selected 
                                                  or empty nonConformiteRequestController.selected.ncrId}"
                                      rendered="#{nonConformiteRequestController.selected.ncrState.id==1}"
+                                     />
+                    <p:commandButton icon="ui-btn-Actions"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Action}"
+                                     action="Action.xhtml?faces-redirect=true"
+                                     title="Permet d'ajouter une action à la non conformité sélectionné."
+                                     actionListener="#{nonConformiteActionsController.prepareAction(
+                                                       nonConformiteRequestController.selected)}"
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId
+                                                 or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                                 and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                     />
+                    <p:commandButton icon="ui-btn-Postponement"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Postponement}"
+                                     action="Postponement.xhtml?faces-redirect=true"
+                                     title="Permet d'ajouter une action à la non conformité sélectionné."
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId
+                                                 or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                                 and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                     />
+                    <p:commandButton icon="ui-btn-Cloture"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cloture}"
+                                     action="Action.xhtml?faces-redirect=true"
+                                     title="Permet d'ajouter une action à la non conformité sélectionné."
+                                     actionListener="#{nonConformiteActionsController.prepareAction(
+                                                       nonConformiteRequestController.selected)}"
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId
+                                                 or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                                 and nonConformiteRequestController.selected.ncrState.id!=3)}"
                                      />
                     <p:commandButton icon="ui-btn-Delete"
                                      styleClass="ui-btn"
@@ -456,6 +497,19 @@
                                  disabled="#{empty nonConformiteRequestController.selected 
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 />
+                <p:commandButton id="actionsButton"
+                                 icon="ui-btn-Actions"
+                                 styleClass="options-btn"
+                                 value="#{ism.Action}"
+                                 action="Action.xhtml?faces-redirect=true"
+                                 title="Permet d'ajouter une action à la non conformité sélectionné."
+                                 actionListener="#{nonConformiteActionsController.prepareAction(
+                                                   nonConformiteRequestController.selected)}"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                             and nonConformiteRequestController.selected.ncrState.id!=3)}"
                                  />
                 <p:commandButton icon="ui-btn-Delete"
                                  styleClass="options-btn"

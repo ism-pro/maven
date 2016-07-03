@@ -81,53 +81,14 @@ and open the template in the editor.
     display: none;
 }
 iframe {
-    min-height: 120px;
-    max-height: 120px;
+    /*min-height: 120px;*/
+    /*max-height: 120px;*/
     height: 100%;
     width: 100%;
 }
 
 .panel{
     margin: 5px;
-}
-.ui-panel.ui-widget.ui-widget-content.ui-corner-all{
-    /*padding: 0px;
-    border: 1px solid #088cce;*/
-}
-
-.ui-panel-titlebar.ui-widget-header.ui-helper-clearfix.ui-corner-all{
-    /*margin: 0px;
-    padding: 0px;
-    height: 32px;
-    padding-top: 10px;*/
-    /*background-color: #377bb2 !important;*/
-}
-
-
-/* =============================================================================
- * BOUTON DE PANEL MODIFIE
- * ===========================================================================*/
-.smq-nc-panelClass .smq-nc-btnClass{
-    /*
-    margin: 0px;
-    margin-top: -15px;
-    margin-right: 3px;
-    padding: 0px;
-    padding: 2px;
-    height: 22px;
-    */
-}
-.smq-nc-btnClass .ui-button-text.ui-c {
-    /*
-    margin-top: -7px;
-    padding: 0px;
-    padding: 3px;
-    padding-left: 25px;
-    
-    height: 12px;
-    vertical-align: top;
-    text-align: left;
-    */
 }
 
 

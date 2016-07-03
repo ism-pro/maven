@@ -1,6 +1,7 @@
 
 USE `ISM`;
 
+DROP TABLE `ism`.`non_conformite`;
 #####
 ### ISM
 ####################################################################
@@ -14,10 +15,9 @@ COMMENT = 'Existing non conformity actions state for ism app';
 
 # DEFINE NCASTATE
 INSERT INTO ism_ncastate (istate, statename) VALUES 
-    ('A',		'Créée'		),
-    ('B',       'En cours'),
-    ('C',       'Ajournée'),
-    ('D',       'Terminée');
+    ('A',		'En cours'		),
+    ('B',       'Ajournée'),
+    ('C',       'Terminée');
 
 
 
@@ -179,4 +179,38 @@ DELIMITER ;
 call tft_actions();
 
 
+###
+### ALERT NC ACTIONS
+### 
+####################################################################
+ALTER TABLE `ism`.`non_conformite_actions` 
+CHANGE COLUMN `nca_action` `nca_descrefuse` TEXT NULL COMMENT 'Référence à la solution ayant aider à la résolution du problème' ,
+ADD COLUMN `nca_staffrefuse` VARCHAR(45) NULL AFTER `nca_deadline`;
+ALTER TABLE `ism`.`non_conformite_actions` 
+ADD CONSTRAINT `nca_staffrefuse`
+  FOREIGN KEY (`nca_staff`)
+  REFERENCES `ism`.`staff` (`st_staff`)
+  ON DELETE RESTRICT
+  ON UPDATE CASCADE;
+ALTER TABLE `ism`.`non_conformite_actions` 
+CHANGE COLUMN `nca_staffrefuse` `nca_staffApprouver` VARCHAR(45) NULL ,
+CHANGE COLUMN `nca_descrefuse` `nca_descApprouver` TEXT NULL COMMENT 'Description en cas de refus' ;
 
+
+###
+### REMOVE ACTIONS FUNCTION FROM NON CONFORMITE REQUEST
+### 
+####################################################################
+ALTER TABLE `ism`.`non_conformite_request` 
+DROP FOREIGN KEY `ncr_staffOnAction`;
+ALTER TABLE `ism`.`non_conformite_request` 
+DROP COLUMN `ncr_occuredAction`,
+DROP COLUMN `ncr_descOnAction`,
+DROP COLUMN `ncr_staffOnAction`,
+DROP INDEX `ncr_staffOnAction` ;
+
+###
+### Lorsqu'une nouvelle action ce superpose à une autre la précédente est annulée
+### 
+####################################################################
+INSERT INTO `ism`.`ism_ncastate` (`istate`, `statename`) VALUES ('D', 'Annulée');

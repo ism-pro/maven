@@ -80,8 +80,6 @@ public class NonConformiteUnite implements Serializable {
     private Date ncuChanged;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrUnite")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
-    @OneToMany(mappedBy = "ncUnite")
-    private Collection<NonConformite> nonConformiteCollection;
     @JoinColumn(name = "ncu_company", referencedColumnName = "c_company", nullable = false)
     @ManyToOne(optional = false)
     private Company ncuCompany;
@@ -159,14 +157,6 @@ public class NonConformiteUnite implements Serializable {
         this.nonConformiteRequestCollection = nonConformiteRequestCollection;
     }
 
-    @XmlTransient
-    public Collection<NonConformite> getNonConformiteCollection() {
-        return nonConformiteCollection;
-    }
-
-    public void setNonConformiteCollection(Collection<NonConformite> nonConformiteCollection) {
-        this.nonConformiteCollection = nonConformiteCollection;
-    }
 
     public Company getNcuCompany() {
         return ncuCompany;

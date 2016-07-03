@@ -38,11 +38,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NonConformiteActions.findAll", query = "SELECT n FROM NonConformiteActions n"),
     @NamedQuery(name = "NonConformiteActions.findByNcaId", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaId = :ncaId"),
     @NamedQuery(name = "NonConformiteActions.findByNcaDeadline", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaDeadline = :ncaDeadline"),
-    @NamedQuery(name = "NonConformiteActions.findByNcaAction", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaAction = :ncaAction"),
     @NamedQuery(name = "NonConformiteActions.findByNcaCreated", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaCreated = :ncaCreated"),
     @NamedQuery(name = "NonConformiteActions.findByNcaChanged", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaChanged = :ncaChanged"),
     @NamedQuery(name = "NonConformiteActions.selectAllByLastChange", query = "SELECT n FROM NonConformiteActions n ORDER BY n.ncaChanged DESC"),
-    @NamedQuery(name = "NonConformiteActions.findAllByNCLastChange", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaChanged DESC")
+    @NamedQuery(name = "NonConformiteActions.findAllByNCLastChange", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaChanged DESC"),
+    @NamedQuery(name = "NonConformiteActions.findDescByNC", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC")
 })
 public class NonConformiteActions implements Serializable {
 
@@ -63,8 +63,10 @@ public class NonConformiteActions implements Serializable {
     @Column(name = "nca_deadline", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date ncaDeadline;
-    @Column(name = "nca_action")
-    private Integer ncaAction;
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "nca_descApprouver", nullable = true, length = 65535)
+    private String ncaDescApprouver;
     @Basic(optional = false)
     @NotNull
     @Column(name = "nca_created", nullable = false)
@@ -81,9 +83,14 @@ public class NonConformiteActions implements Serializable {
     @JoinColumn(name = "nca_staff", referencedColumnName = "st_staff", nullable = false)
     @ManyToOne(optional = false)
     private Staff ncaStaff;
+    @JoinColumn(name = "nca_staffApprouver", referencedColumnName = "st_staff", nullable = true)
+    @ManyToOne(optional = true)
+    private Staff ncaStaffApprouver;
     @JoinColumn(name = "nca_state", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private IsmNcastate ncaState;
+    
+    
 
     public NonConformiteActions() {
     }
@@ -92,7 +99,8 @@ public class NonConformiteActions implements Serializable {
         this.ncaId = ncaId;
     }
 
-    public NonConformiteActions(Integer ncaId, String ncaDescription, Date ncaDeadline, Date ncaCreated, Date ncaChanged) {
+    public NonConformiteActions(Integer ncaId, String ncaDescription, 
+            Date ncaDeadline, Date ncaCreated, Date ncaChanged) {
         this.ncaId = ncaId;
         this.ncaDescription = ncaDescription;
         this.ncaDeadline = ncaDeadline;
@@ -122,14 +130,6 @@ public class NonConformiteActions implements Serializable {
 
     public void setNcaDeadline(Date ncaDeadline) {
         this.ncaDeadline = ncaDeadline;
-    }
-
-    public Integer getNcaAction() {
-        return ncaAction;
-    }
-
-    public void setNcaAction(Integer ncaAction) {
-        this.ncaAction = ncaAction;
     }
 
     public Date getNcaCreated() {
@@ -171,6 +171,25 @@ public class NonConformiteActions implements Serializable {
     public void setNcaState(IsmNcastate ncaState) {
         this.ncaState = ncaState;
     }
+
+    public String getNcaDescApprouver() {
+        return ncaDescApprouver;
+    }
+
+    public void setNcaDescApprouver(String ncaDescApprouver) {
+        this.ncaDescApprouver = ncaDescApprouver;
+    }
+
+    public Staff getNcaStaffApprouver() {
+        return ncaStaffApprouver;
+    }
+
+    public void setNcaStaffApprouver(Staff ncaStaffApprouver) {
+        this.ncaStaffApprouver = ncaStaffApprouver;
+    }
+
+   
+    
 
     @Override
     public int hashCode() {

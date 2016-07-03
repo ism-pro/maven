@@ -80,8 +80,6 @@ public class NonConformiteFrequency implements Serializable {
     private Date ncfChanged;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrFrequency")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncFrequency")
-    private Collection<NonConformite> nonConformiteCollection;
     @JoinColumn(name = "ncf_company", referencedColumnName = "c_company", nullable = false)
     @ManyToOne(optional = false)
     private Company ncfCompany;
@@ -157,15 +155,6 @@ public class NonConformiteFrequency implements Serializable {
 
     public void setNonConformiteRequestCollection(Collection<NonConformiteRequest> nonConformiteRequestCollection) {
         this.nonConformiteRequestCollection = nonConformiteRequestCollection;
-    }
-
-    @XmlTransient
-    public Collection<NonConformite> getNonConformiteCollection() {
-        return nonConformiteCollection;
-    }
-
-    public void setNonConformiteCollection(Collection<NonConformite> nonConformiteCollection) {
-        this.nonConformiteCollection = nonConformiteCollection;
     }
 
     public Company getNcfCompany() {

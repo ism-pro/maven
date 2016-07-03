@@ -16,7 +16,6 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\DocTypeController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformiteActions.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmGenreController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmNcrstateController.java
-D:\Applications\Java\ISM\src\main\java\org\ism\entities\NonConformite.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\EquipementFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\DocExplorer.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewLayout.java
@@ -38,6 +37,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabAnalyseTypeFacade.jav
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\EquipementController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffGroupsController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffGroupDefRoleController.java
+D:\Applications\Java\ISM\src\main\java\org\ism\jsf\IsmNcastateController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\LabSampleFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\StaffAuthController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\entities\IsmNcastate.java
@@ -57,6 +57,7 @@ D:\Applications\Java\ISM\src\main\java\org\ism\jsf\ProcessusController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\sessions\EntrepriseFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabAnalyseMethodController.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\LabAnalyseTypeController.java
+D:\Applications\Java\ISM\src\main\java\org\ism\sessions\IsmNcastateFacade.java
 D:\Applications\Java\ISM\src\main\java\org\ism\services\CtrlAccessService.java
 D:\Applications\Java\ISM\src\main\java\org\ism\view\ViewUtil.java
 D:\Applications\Java\ISM\src\main\java\org\ism\jsf\util\FileController.java

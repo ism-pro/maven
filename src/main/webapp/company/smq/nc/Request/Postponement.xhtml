@@ -36,9 +36,25 @@
                     </h:panelGrid>
 
 
-                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaDeadline}" for="ncaDeadline"/>
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                        <p:calendar id="ncaDeadline" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" mindate="#{viewUtil.aujourdhui}"
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrApprouved}" for="ncaApprouved" 
+                                   rendered="#{nonConformiteActionsController.itemsByNCFirst!=null}"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;"
+                                 rendered="#{nonConformiteActionsController.itemsByNCFirst!=null}">
+                        <p:selectOneButton id="ncaApprouved"
+                                           value="#{nonConformiteActionsController.selected.ncaApprouved}"
+                                           >
+                            <p:ajax event="change" update="panelForm" />
+                            <f:selectItem itemLabel="#{ism.Yes}" itemValue="#{true}" />
+                            <f:selectItem itemLabel="#{ism.No}" itemValue="#{false}" />
+                        </p:selectOneButton>
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaDeadline}" for="ncaDeadline"
+                                   rendered="#{nonConformiteActionsController.itemsByNCFirst==null}"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;"
+                                 rendered="#{nonConformiteActionsController.itemsByNCFirst==null}">
+                        <p:calendar id="ncaDeadline" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" maxdate="#{viewUtil.aujourdhui}"
                                     value="#{nonConformiteActionsController.selected.ncaDeadline}" 
                                     title="#{ism.NonConformiteActionsFieldInfo_ncaDeadline}"  
                                     required="true" requiredMessage="#{ism.NonConformiteActionsRequiredMsg_ncaDeadline}" 
@@ -47,10 +63,14 @@
                     </h:panelGrid>
 
 
-                    <p:commandLink  onclick="PF('ncaDescription').clear();" title="Activate">
+                    <p:commandLink  onclick="PF('ncaDescription').clear();" title="Activate"
+                                    rendered="#{nonConformiteActionsController.itemsByNCFirst==null
+                                                or nonConformiteActionsController.selected.ncaApprouved == false}">
                         <p:outputLabel value="#{ism.NonConformiteActionsField_ncaDescription}" for="ncaDescription" />
                     </p:commandLink>
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;"
+                                 rendered="#{nonConformiteActionsController.itemsByNCFirst==null
+                                             or nonConformiteActionsController.selected.ncaApprouved == false}">
                         <p:editor id="ncaDescription" widgetVar="ncaDescription"
                                   value="#{nonConformiteActionsController.selected.ncaDescription}"
                                   required="true" requiredMessage="#{ism.NonConformiteActionsRequiredMsg_ncaDescription}"
@@ -77,41 +97,41 @@
 
 
                 <h:panelGroup id="btn-crud-zone_id"  >
-                    <p:commandButton icon="ui-btn-Save"
+                    <p:commandButton icon="ui-btn-Create"
                                      styleClass="ui-btn"
-                                     value="#{ism.Save}" 
-                                     actionListener="#{nonConformiteActionsController.create()}"
-                                     onstart="#{p:widgetVar('bodyForm:ncaNc')}.enable();
-                                     #{p:widgetVar('bodyForm:ncaStaff')}.enable();"
+                                     value="#{ism.Validate}" 
+                                     actionListener="#{nonConformiteRequestController.updateOnValidate()}" 
                                      update=":bodyForm,:growl"
-                                     action="View.xhtml?faces-redirect=true"
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Accepte"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Validate}" 
+                                     actionListener="#{nonConformiteRequestController.updateOnValidate()}" 
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
                                      />
                     <p:commandButton icon="ui-btn-Cancel"
                                      styleClass="ui-btn"
                                      value="#{ism.Cancel}" 
                                      update=":bodyForm,:growl"
-                                     action="./View.xhtml?faces-redirect=true"
+                                     actionListener="#{nonConformiteRequestController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
                                      immediate="true"
                                      />
                 </h:panelGroup>
 
-                <p:messages showDetail="true" showSummary="false" escape="false"/>
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
 
 
             </h:form>         
 
-            <p:panel rendered="#{nonConformiteActionsController.itemsByNCFirst!=null}"
-                     style="margin-top: 20px;"
-                     >
-                <h2>#{ism.NonConformiteActionsTitleSolution} <span style="color: grey">[#{nonConformiteActionsController.itemsByNCFirst.ncaState.istate} - #{nonConformiteActionsController.itemsByNCFirst.ncaState.statename}]</span></h2>
-                <h:outputText value="#{nonConformiteActionsController.itemsByNCFirst.ncaId}" /> <br />
-                <h:outputText value="#{nonConformiteActionsController.itemsByNCFirst.ncaStaff.stFirstname} #{nonConformiteActionsController.itemsByNCFirst.ncaStaff.stLastname} #{nonConformiteActionsController.itemsByNCFirst.ncaStaff.stMiddlename} [#{nonConformiteActionsController.itemsByNCFirst.ncaStaff.stStaff}]" /> <br />
-                <h:outputText value="#{nonConformiteActionsController.itemsByNCFirst.ncaCreated}" >
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:outputText> <br />
-                <h:outputText value="#{nonConformiteActionsController.itemsByNCFirst.ncaDescription}" escape="false" style="white-space:pre-line;" />
-
-            </p:panel>
+            <hr style="margin-top: 50px;"/>
+            <h2>#{ism.NonConformiteActionsTitleSolution}</h2>
+            <p:editor styleClass="hideToolbar" 
+                      value="#{nonConformiteActionsController.itemsByNCFirst.ncaDescription}"
+                      />
 
         </ui:define>
 
@@ -123,21 +143,20 @@
             <h:panelGroup id="westGroup">
                 <p:commandButton icon="ui-btn-Save"
                                  styleClass="options-btn"
-                                 value="#{ism.Save}" 
-                                 actionListener="#{nonConformiteActionsController.create()}"
-                                 onstart="#{p:widgetVar('bodyForm:ncaNc')}.enable();
-                                 #{p:widgetVar('bodyForm:ncaStaff')}.enable();"
+                                 value="#{ism.Validate}" 
+                                 actionListener="#{nonConformiteRequestController.updateOnValidate()}" 
                                  update=":bodyForm,:growl"
-                                 action="View.xhtml?faces-redirect=true"
+                                 action="List.xhtml?faces-redirect=true"
                                  form="bodyForm"
                                  />
                 <p:commandButton icon="ui-btn-Cancel"
                                  styleClass="options-btn"
                                  value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
                                  update=":bodyForm,:growl"
-                                 action="./View.xhtml?faces-redirect=true"
                                  immediate="true"
                                  />
+
             </h:panelGroup>
         </ui:define>
     </ui:composition>

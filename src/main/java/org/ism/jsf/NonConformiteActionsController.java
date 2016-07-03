@@ -17,12 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -36,6 +30,9 @@ import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import org.ism.entities.IsmNcastate;
 import org.ism.entities.NonConformiteRequest;
 
 @ManagedBean(name = "nonConformiteActionsController")
@@ -44,7 +41,12 @@ public class NonConformiteActionsController implements Serializable {
 
     @EJB
     private org.ism.sessions.NonConformiteActionsFacade ejbFacade;
+    
+    @ManagedProperty(value = "#{nonConformiteRequestController}")
+    private NonConformiteRequestController ncRequestCtrl;
+    
     private List<NonConformiteActions> items = null;
+    private List<NonConformiteActions> itemsNC = null;  //!< This is items when a request with nc is apply
     private NonConformiteActions selected;
     private NonConformiteActions edited;
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
@@ -64,14 +66,15 @@ public class NonConformiteActionsController implements Serializable {
         NonConformiteActionsField_ncaId=N°
         NonConformiteActionsField_ncaDescription=Description
         NonConformiteActionsField_ncaDeadline=Echéance
-        NonConformiteActionsField_ncaAction=N°Action
+        NonConformiteActionsField_ncaStaffRefuse
+        NonConformiteActionsField_ncaDescRefuse
         NonConformiteActionsField_ncaCreated=Création
         NonConformiteActionsField_ncaChanged=Modif.
         NonConformiteActionsField_ncaNc=NC
         NonConformiteActionsField_ncaStaff=Staff
         NonConformiteActionsField_ncaState=Etat
-        */
-        
+         */
+
         // Setup initial visibility
         headerTextMap = new HashMap<Integer, String>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
@@ -79,11 +82,12 @@ public class NonConformiteActionsController implements Serializable {
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaStaff"));
         headerTextMap.put(3, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDescription"));
         headerTextMap.put(4, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDeadline"));
-        headerTextMap.put(5, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaAction"));
-        headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaCreated"));
-        headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaChanged"));
-        headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaNc"));
-        headerTextMap.put(9, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaState"));
+        headerTextMap.put(5, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaStaffApprouver"));
+        headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDescApprouver"));
+        headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaCreated"));
+        headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaChanged"));
+        headerTextMap.put(9, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaNc"));
+        headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaState"));
 
         visibleColMap = new HashMap<String, Boolean>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
@@ -91,7 +95,8 @@ public class NonConformiteActionsController implements Serializable {
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaStaff"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDescription"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDeadline"), true);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaAction"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaStaffApprouver"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDescApprouver"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaCreated"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaChanged"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaNc"), false);
@@ -120,6 +125,13 @@ public class NonConformiteActionsController implements Serializable {
     public NonConformiteActions prepareEdit() {
         edited = selected;
         return edited;
+    }
+
+    public NonConformiteActions prepareAction(NonConformiteRequest ncr) {
+        selected = new NonConformiteActions();
+        selected.setNcaNc(ncr);
+        itemsNC = this.getItemsDesc(ncr);
+        return selected;
     }
 
     /**
@@ -207,6 +219,10 @@ public class NonConformiteActionsController implements Serializable {
         // Set time on creation action
         selected.setNcaChanged(new Date());
         selected.setNcaCreated(new Date());
+        selected.setNcaState(new IsmNcastate(IsmNcastate.INPROGRESS_ID));
+
+        // Save preview actions list
+        itemsNC = getItemsDesc(selected.getNcaNc());
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
@@ -216,7 +232,19 @@ public class NonConformiteActionsController implements Serializable {
                 + selected.getNcaId());
 
         if (!JsfUtil.isValidationFailed()) {
+            // Gère l'action qui précède
+            if (itemsNC != null) {// Il existait une nc
+                NonConformiteActions saveSelected = selected;
+                selected = itemsNC.get(0);
+                selected.setNcaState(new IsmNcastate(IsmNcastate.CANCEL_ID));
+                update();
+                selected = saveSelected;
+            }
+            // Now update request state
+            ncRequestCtrl.updateOnActionCreate();
+
             items = null;    // Invalidate list of items to trigger re-query.
+            itemsNC = null;
             if (isReleaseSelected) {
                 selected = null;
             }
@@ -257,6 +285,7 @@ public class NonConformiteActionsController implements Serializable {
                 + selected.getNcaId());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
+            itemsNC = null;
             selected = null;
         }
     }
@@ -318,10 +347,53 @@ public class NonConformiteActionsController implements Serializable {
         items = getFacade().findAllByLastChanged();
         return items;
     }
-    
-    public List<NonConformiteActions> getItemsByNCLast(NonConformiteRequest nc){
-        items = getFacade().findAllByNCLast(nc);
-        return items;
+
+    public List<NonConformiteActions> getItemsNC() {
+        return itemsNC;
+    }
+
+    public void setItemsNC(List<NonConformiteActions> itemsNC) {
+        this.itemsNC = itemsNC;
+    }
+
+    public List<NonConformiteActions> getItemsByNCLast(NonConformiteRequest nc) {
+        itemsNC = getFacade().findAllByNCLast(nc);
+        return itemsNC;
+    }
+
+    public List<NonConformiteActions> getItemsDesc(NonConformiteRequest nc) {
+        itemsNC = getFacade().findDescByNC(nc);
+        return itemsNC;
+    }
+
+    public NonConformiteActions getItemsByNCFirst() {
+        if (itemsNC == null) {
+            if (selected == null) {
+                return null;
+            }
+            if (selected.getNcaNc() == null) {
+                return null;
+            }
+            if (getItemsByNCLast(selected.getNcaNc()) == null) {
+                return null;
+            }
+        }
+        return itemsNC.get(0);
+    }
+
+    public NonConformiteActions getItemsByNCLast() {
+        if (itemsNC == null) {
+            if (selected == null) {
+                return null;
+            }
+            if (selected.getNcaNc() == null) {
+                return null;
+            }
+            if (getItemsByNCLast(selected.getNcaNc()) == null) {
+                return null;
+            }
+        }
+        return itemsNC.get(itemsNC.size());
     }
 
     public List<NonConformiteActions> getItemsByCode(String code) {
@@ -351,9 +423,9 @@ public class NonConformiteActionsController implements Serializable {
      * @return
      */
     public NonConformiteActions getSelected() {
-        if (selected == null) {
+        /*if (selected == null) {
             selected = new NonConformiteActions();
-        }
+        }*/
         return selected;
     }
 
@@ -388,6 +460,23 @@ public class NonConformiteActionsController implements Serializable {
     public Boolean getIsVisibleColKey(String key) {
         return this.visibleColMap.get(key);
     }
+
+    /**
+     * ************************************************************************
+     * INJECTION GETTER & SETTER
+     *
+     *
+     * ************************************************************************
+     */
+    public NonConformiteRequestController getNcRequestCtrl() {
+        return ncRequestCtrl;
+    }
+
+    public void setNcRequestCtrl(NonConformiteRequestController ncRequestCtrl) {
+        this.ncRequestCtrl = ncRequestCtrl;
+    }
+    
+    
 
     /**
      * ************************************************************************

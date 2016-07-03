@@ -6,10 +6,9 @@ import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import org.ism.entities.Company;
-import org.ism.entities.NonConformite;
 import org.ism.entities.NonConformiteRequest;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-06-26T19:53:20")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-07-03T17:04:40")
 @StaticMetamodel(NonConformiteFrequency.class)
 public class NonConformiteFrequency_ { 
 
@@ -21,6 +20,5 @@ public class NonConformiteFrequency_ {
     public static volatile SingularAttribute<NonConformiteFrequency, String> ncfFrequency;
     public static volatile SingularAttribute<NonConformiteFrequency, Boolean> ncfDeleted;
     public static volatile CollectionAttribute<NonConformiteFrequency, NonConformiteRequest> nonConformiteRequestCollection;
-    public static volatile CollectionAttribute<NonConformiteFrequency, NonConformite> nonConformiteCollection;
 
 }

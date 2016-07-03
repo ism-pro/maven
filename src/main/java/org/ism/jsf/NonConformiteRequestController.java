@@ -252,7 +252,7 @@ public class NonConformiteRequestController implements Serializable {
                 selected = new NonConformiteRequest();
 
             } else {
-                JsfUtil.out("is not on multicreation");
+                //JsfUtil.out("is not on multicreation");
                 List<NonConformiteRequest> ncRequest = getFacade().findAll();
                 selected = ncRequest.get(ncRequest.size() - 1);
             }
@@ -275,10 +275,20 @@ public class NonConformiteRequestController implements Serializable {
                 getString("NonConformiteRequestPersistenceUpdatedDetail")
                 + selected.getNcrTitle());
     }
-    
+
     public void updateOnValidate() {
         selected.setNcrapprouvedDate(new Date());
-        selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
+        if (selected.getNcrApprouved()) {
+            selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
+        } else {
+            selected.setNcrState(new IsmNcrstate(IsmNcrstate.CANCEL_ID));
+        }
+        update();
+    }
+
+    public void updateOnActionCreate() { // Passe de attente de solution à en cours
+        selected.setNcrapprouvedDate(new Date());
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.INPROGRESS_ID));
         update();
     }
 

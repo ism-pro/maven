@@ -47,7 +47,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteRequest.findByNcrQuantity", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrQuantity = :ncrQuantity"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrTitle", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrLink", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrLink = :ncrLink"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcroccuredAction", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncroccuredAction = :ncroccuredAction"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrenddingAction", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrenddingAction = :ncrenddingAction"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrCreated", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated = :ncrCreated"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrChanged", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrChanged = :ncrChanged"),
@@ -61,8 +60,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteRequest.findByNcrNature", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrNature.ncnNature = :ncrNature"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrUnite", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrUnite.ncuUnite = :ncrUnite"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrGravity", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrGravity.ncgGravity = :ncrGravity"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrFrequency", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrFrequency.ncfFrequency = :ncrFrequency"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnAction", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnAction.stStaff = :ncrstaffOnAction")
+    @NamedQuery(name = "NonConformiteRequest.findByNcrFrequency", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrFrequency.ncfFrequency = :ncrFrequency")
 })
 public class NonConformiteRequest implements Serializable {
 
@@ -100,13 +98,6 @@ public class NonConformiteRequest implements Serializable {
     @Size(max = 512)
     @Column(name = "ncr_link", length = 512)
     private String ncrLink;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "ncr_descOnAction", length = 65535)
-    private String ncrdescOnAction;
-    @Column(name = "ncr_occuredAction")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncroccuredAction;
     @Column(name = "ncr_enddingAction")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ncrenddingAction;
@@ -153,9 +144,7 @@ public class NonConformiteRequest implements Serializable {
     @JoinColumn(name = "ncr_unite", referencedColumnName = "ncu_unite", nullable = false)
     @ManyToOne(optional = false)
     private NonConformiteUnite ncrUnite;
-    @JoinColumn(name = "ncr_staffOnAction", referencedColumnName = "st_staff")
-    @ManyToOne
-    private Staff ncrstaffOnAction;
+
     @JoinColumn(name = "ncr_state", referencedColumnName = "istate")
     @ManyToOne
     private IsmNcrstate ncrState;
@@ -242,22 +231,6 @@ public class NonConformiteRequest implements Serializable {
         this.ncrLink = ncrLink;
     }
 
-    
-    public String getNcrdescOnAction() {
-        return ncrdescOnAction;
-    }
-
-    public void setNcrdescOnAction(String ncrdescOnAction) {
-        this.ncrdescOnAction = ncrdescOnAction;
-    }
-
-    public Date getNcroccuredAction() {
-        return ncroccuredAction;
-    }
-
-    public void setNcroccuredAction(Date ncroccuredAction) {
-        this.ncroccuredAction = ncroccuredAction;
-    }
 
     public Date getNcrenddingAction() {
         return ncrenddingAction;
@@ -371,13 +344,6 @@ public class NonConformiteRequest implements Serializable {
         this.ncrUnite = ncrUnite;
     }
 
-    public Staff getNcrstaffOnAction() {
-        return ncrstaffOnAction;
-    }
-
-    public void setNcrstaffOnAction(Staff ncrstaffOnAction) {
-        this.ncrstaffOnAction = ncrstaffOnAction;
-    }
 
     public IsmNcrstate getNcrState() {
         return ncrState;

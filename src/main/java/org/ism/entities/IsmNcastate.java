@@ -56,6 +56,16 @@ public class IsmNcastate implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncaState")
     private Collection<NonConformiteActions> nonConformiteActionsCollection;
 
+    public static final Integer INPROGRESS_ID = 1;  // En cours
+    public static final Integer POSTPONE_ID = 2;  // Ajournée
+    public static final Integer FINISH_ID = 3;  // Terminée / Clôturé
+    public static final Integer CANCEL_ID = 4;  // Annulée
+
+    public static final String INPROGRESS = "A";  // En cours
+    public static final String POSTPONE = "B";  // Ajournée
+    public static final String FINISH = "C";  // Terminée
+    public static final String CANCEL = "D";  // Annulée
+
     public IsmNcastate() {
     }
 
@@ -126,5 +136,5 @@ public class IsmNcastate implements Serializable {
     public String toString() {
         return "org.ism.entities.IsmNcastate[ id=" + id + " ]";
     }
-    
+
 }

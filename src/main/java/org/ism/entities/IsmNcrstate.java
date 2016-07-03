@@ -55,8 +55,6 @@ public class IsmNcrstate implements Serializable {
     private String statename;
     @OneToMany(mappedBy = "ncrState")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
-    @OneToMany(mappedBy = "ncState")
-    private Collection<NonConformite> nonConformiteCollection;
 
     public static final Integer CREATE_ID           = 1;  // Créée
     public static final Integer WAITFORSOLUTION_ID  = 2;  // En attente de solution
@@ -118,14 +116,6 @@ public class IsmNcrstate implements Serializable {
         this.nonConformiteRequestCollection = nonConformiteRequestCollection;
     }
 
-    @XmlTransient
-    public Collection<NonConformite> getNonConformiteCollection() {
-        return nonConformiteCollection;
-    }
-
-    public void setNonConformiteCollection(Collection<NonConformite> nonConformiteCollection) {
-        this.nonConformiteCollection = nonConformiteCollection;
-    }
 
     @Override
     public int hashCode() {

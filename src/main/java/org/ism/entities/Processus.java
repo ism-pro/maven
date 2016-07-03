@@ -78,8 +78,6 @@ public class Processus implements Serializable {
     private Date pChanged;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrProcessus")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncProcessus")
-    private Collection<NonConformite> nonConformiteCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dcProcessus")
     private Collection<DocExplorer> docExplorerCollection;
     @JoinColumn(name = "p_company", referencedColumnName = "c_company", nullable = false)
@@ -159,15 +157,6 @@ public class Processus implements Serializable {
 
     public void setNonConformiteRequestCollection(Collection<NonConformiteRequest> nonConformiteRequestCollection) {
         this.nonConformiteRequestCollection = nonConformiteRequestCollection;
-    }
-
-    @XmlTransient
-    public Collection<NonConformite> getNonConformiteCollection() {
-        return nonConformiteCollection;
-    }
-
-    public void setNonConformiteCollection(Collection<NonConformite> nonConformiteCollection) {
-        this.nonConformiteCollection = nonConformiteCollection;
     }
 
     @XmlTransient
