@@ -26,9 +26,10 @@ body, html {
     border: none;
     padding: 0px!important;
     margin: 0px!important;
-    min-height: 152px;  
+    /*min-height: 152px;  
     z-index:40 !important;
     overflow:visible !important;
+    */
 }
 .ui-layout-north .ui-layout-unit-content {
     overflow:visible !important;
@@ -70,62 +71,6 @@ body, html {
     width: 32px;
     height: 32px;
 }
-
-/* =============================================================================
- * Managing sidebar
- * ===========================================================================*/
-/*
-#sidebar{
-    right: 0;
-    top: 151px;
-
-    
-    
-    position: fixed;
-
-    border: 1px #f2f2f2 solid;
-    background-color: #333;
-    opacity: 0.9;
-    filter: alpha(opacity=90); /* For IE8 and earlier *//*
-    z-index: 150;
-}
-
-#sidebar-options{
-    width: 100%;
-    min-width: 48px;
-    /*height: 48px;*//*
-    text-align: center;
-    margin: auto;
-}
-#sidebar-options:hover{
-    background: #33CC00;
-    border: none;
-}
-
-#sidebar-options img{
-    margin-top: 2px;
-    width: 28px;
-    height: 28px;
-}
-
-#sidebar-content{
-    min-width: 220px;
-    height: 100%;
-    display: none;
-}
-#sidebar .ui-button{
-    width: 100%;
-    margin-right: 2px;
-    background:none;
-    border: none;
-}
-#sidebar .ui-button:hover{
-    background: #33CC00;
-    border: none;
-}*/
-
-
-
 
 
 /* =============================================================================

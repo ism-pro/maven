@@ -14,6 +14,19 @@ function showStatus() {
 function hideStatus() {
     PF('statusDialog').hide();
 }
+/*
+ function handleRibbonTabHomeClick() {
+ PF('fpLayoutWidget').toggle('north');
+ alert('Hello handleRibbonTabHomeClick');
+ PF('fpLayoutWidget').toggle('north');
+ }
+ 
+ $("#main").click(function () {
+ alert("Tab Acceuil click");
+ PF('fpLayoutWidget').toggle('north')
+ });
+ */
+
 
 
 
@@ -22,84 +35,10 @@ function hideStatus() {
  * 
  ******************************************************************************/
 $(function () {
-
-
-
-
-
-
-
-    $("_smqNCPanelInfos").mouseenter(function () {
-        alert("Mouse over");
+    $('#main').click(function () {
+        //alert($('#unitNorth').height());
+        
     });
-
 });
-
-
-
-
-
-
-
-/*
- function App_Close() {
- netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserWrite");
- alert("This will close the window");
- window.open('', '_self');
- window.close();
- /*
- alert("App_Close");
- window.open('','_self',''); 
- window.close(); 
- /*
- if (confirm("Fermer la fenêtre ?")) {
- this.parent.close();
- }*//*
-  }
-  $.ready(function() {
-  var _maxInactiveInterval = $("#shortcut-label-timeout").val();
-  alert("Ready !" + _maxInactiveInterval);
-  
-  $("#test").hover(function(){
-  alert('hover');
-  showMe();
-  });
-  $("#test").click(function(){
-  alert('click');
-  showMe();
-  });
-  
-  
-  function showMe(){
-  var _maxInactiveInterval = $("#shortcut-label-reminingTimeout").html();
-  alert("Ready !" + _maxInactiveInterval);
-  }
-  });
-  */
-
-/*
- $(function () {
- 
- var $sidebar = $("#sidebar"),
- $window = $(window),
- offset = $sidebar.offset(),
- topPadding = 250;
- 
- $window.scroll(function () {
- if ($window.scrollTop() > offset.top) {
- $sidebar.stop().animate({
- marginTop: $window.scrollTop() - offset.top + topPadding
- });
- } else {
- $sidebar.stop().animate({
- marginTop: 300
- });
- }
- });
- 
- });
- */
-
-
 
 

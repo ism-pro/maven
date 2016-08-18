@@ -22,10 +22,7 @@ A Faire :
     + Effectuer un chargement partiel,
     + Effectuer la sauvegarde du choix de paramètre de sélection de processus
     + Réaliser un diagramme de planning en jalon pour les non-conformités entre date prévu et date résolution,
-    + Corriger problème de rafraichissement après création de NC, effectivement la colonne de status et contenu de nc ne sont pas mis à jour.
     + Fournir la possibilité d’ajouter une image.
-    + Fournir la possibilité d’impression d’une NC avant zone d’écriture des actions,
-    + Fournir la possibilité d’imprimer un tri de NC,
     + Lors de la saisie des actions ajouter la possibilité d’indiquer les causes possibles par ordre croissant de probabilité,
     + possibilité d'avoir un état d'impression
         
@@ -38,11 +35,6 @@ Configuration :
     ++ Gestion des accès utilisateurs
 
     + GENERALITES :
-    ++ Options blockUI : 
-       - Mettre en place pour tous les boutons options,
-       - Les boutons de visualisation,
-    ++ Fenêtre de déconnexion :
-       - Au moment d'accepter rester sur la même page
     ++ Possibilité de configurer la fenêtre de confirmation globale voir bas de la page main 
       Notemment les effets à l'ouverture ...
     
@@ -56,7 +48,7 @@ Configuration :
     ++ Enregistrer les options de viewTab entre les sessions.
 
     + ONGLET ACCEUIL :
-    ++ Corriger problème sur l'affichage de la page configuration utilisateur
+    
     ++ Ajouter les configurations d'options de table et de layout
 
     + PROCESSUS :
@@ -67,6 +59,7 @@ Configuration :
     surtout pour les processus volumineux.
 
 
+
     Commit :
     # GENERALITES :
     + Correction problème d'affichage des configurations du temps de déconnexion.
@@ -74,9 +67,27 @@ Configuration :
     déconnecter ou de rester connecté lorsque on appuie sur accepter
 
     # SPECIFIQUE
-    ##Staff* : Mise à niveau
-    + Des entités 
-    + Des EJB
+    ## Index : modification du rafraîchissement automatique de graphique à 60s
+    ## Ruban :
+    * Onglet Process :
+      * Ecriture de texte en majuscule
+      * Ajout d'un title paramétré
+    * Onglet Display : 
+      * Ecriture de texte paramétrer
+      * Ajout d'un title paramétré
+    * Déplacement de la barre shortcut
+      * Permet de réduire la barre d'affichage du ruban et maximiser l'espace de travail
+    ## Page de Login :
+    Après une 1 minutes de non utilisation, la session est désactivée.
+    On est alors renvoyé à une nouvelle page de retour vers la session dite
+    logout.
+    La page s'actualise à chaque fois que le temps d'intervale de la session
+    est expiré.
+    ## Page error :
+    La page d'erreur voit sont bouton non plus mener jusqu'à login mais jusqu'à
+    logout.
+    ## Onglet Acceuil
+    L'acceuil est actuellement présenter dans le ruban pour plus de simplicité.
     
 
 

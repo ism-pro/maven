@@ -7,11 +7,9 @@ package org.ism.view;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import org.ism.jsf.util.JsfUtil;
 import org.primefaces.component.layout.Layout;
 import org.primefaces.component.layout.LayoutUnit;
@@ -19,9 +17,11 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.ResizeEvent;
 
-@ManagedBean
+
+@Named
+@ManagedBean (name="viewLayout")
 @SessionScoped
-public class ViewLayout implements Serializable {
+public class ViewLayout {
 
     private static final long serialVersionUID = 20120925L;
 
@@ -45,15 +45,16 @@ public class ViewLayout implements Serializable {
         layout.setFullPage(true);
         layout.setStateful(true);
 
+
         // NorthUnit
         {
             northUnit = new LayoutUnit();
             northUnit.setSize(String.valueOf(153));
             northUnit.setResizable(true);
-            northUnit.setClosable(true);
+            northUnit.setClosable(false);
             northUnit.setCollapsible(true);
-            northUnit.setMinSize(152);
-            northUnit.setMaxSize(200);
+            northUnit.setMinSize(153);
+            northUnit.setMaxSize(153);
             northUnit.setGutter(gutter);
             //>>> default
             northUnit.setVisible(true);
@@ -61,7 +62,9 @@ public class ViewLayout implements Serializable {
             northUnit.setCollapseSize(collapseSize);
             northUnit.setEffect(effect);
             northUnit.setEffectSpeed(effectSpeed);
+            northUnit.setParent(layout);
         }
+        
         // WestUnit
         {
             westUnit = new LayoutUnit();
@@ -78,6 +81,7 @@ public class ViewLayout implements Serializable {
             westUnit.setCollapseSize(collapseSize);
             westUnit.setEffect(effect);
             westUnit.setEffectSpeed(effectSpeed);
+            westUnit.setParent(layout);
         }
 
         // EastUnit
@@ -96,6 +100,7 @@ public class ViewLayout implements Serializable {
             eastUnit.setCollapseSize(collapseSize);
             eastUnit.setEffect(effect);
             eastUnit.setEffectSpeed(effectSpeed);
+            eastUnit.setParent(layout);
         }
 
         // SouthUnit
@@ -114,10 +119,13 @@ public class ViewLayout implements Serializable {
             southUnit.setCollapseSize(collapseSize);
             southUnit.setEffect(effect);
             southUnit.setEffectSpeed(effectSpeed);
+            southUnit.setParent(layout);
         }
 
         // CenterUnit
         centerUnit = new LayoutUnit();
+        centerUnit.setParent(layout);
+        
 
     }
 
@@ -193,6 +201,7 @@ public class ViewLayout implements Serializable {
             switch (unit.getPosition()) {
                 case "north":
                     northUnit.setSize(unit.getSize());
+                    //JsfUtil.addSuccessMessage("NorthUnit Size to " + northUnit.getSize());
                     break;
                 case "west":
                     westUnit.setSize(unit.getSize());
@@ -213,6 +222,9 @@ public class ViewLayout implements Serializable {
                 + event.getWidth() + "px, new height = " + event.getHeight() + "px");*/
     }
 
+    public void handleCollapseNorthUnit(){
+        this.northUnit.setCollapsed(true);
+    }
     /**
      * ************************************************************************
      *

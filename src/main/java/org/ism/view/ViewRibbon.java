@@ -8,12 +8,10 @@ package org.ism.view;
 import com.sun.faces.component.visit.FullVisitContext;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -27,6 +25,9 @@ import org.ism.listener.SessionCounterListener;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
+import javax.inject.Inject;
+import org.ism.jsf.util.JsfUtil;
+import org.primefaces.component.layout.LayoutUnit;
 
 /**
  *
@@ -47,6 +48,10 @@ public class ViewRibbon implements Serializable {
     private Integer reminingTimeSessionClock = 30;          // refresh all 30s
     private Integer reminingTimeSessionWakeUp_s = 60;       // dialogue open 60before
 
+    
+    @Inject
+    private ViewLayout viewLayout;
+    
     @PostConstruct
     public void init() {
     }
@@ -74,6 +79,8 @@ public class ViewRibbon implements Serializable {
         Tab activeTab = event.getTab();
         FacesContext ctx = FacesContext.getCurrentInstance();
         //System.out.println("Click Tab :" + activeTab.getId() + " on active index : " + getActiveIndex() + "Path Menu :" + pathMenu);
+              
+        /*
         if (getActiveIndex() == 0) {    // Active le menu
             try {
                 activeIndexSave = getActiveIndex(); // save active index
@@ -91,6 +98,7 @@ public class ViewRibbon implements Serializable {
                 Logger.getLogger(ViewRibbon.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        */
         activeIndexSave = getActiveIndex(); // save active index
     }
 

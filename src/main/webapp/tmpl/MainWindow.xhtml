@@ -56,7 +56,7 @@
                   collapseTitle="Réduire la taille"
                   expandTitle="Etirer ou Double click pour restaurer"
                   closeTitle="Fermer"
-                  stateful="false" 
+                  stateful="true" 
                   widgetVar="fpLayoutWidget"
                   > 
             <p:ajax event="resize" listener="#{viewLayout.handleResize}" update="growl"/>
@@ -78,14 +78,13 @@
                           effect="#{viewLayout.northUnit.effect}"
                           effectSpeed="#{viewLayout.northUnit.effectSpeed}"
                           >
+                <f:facet name="header" class="unitNorthHeader">
+                    <h:form id="shortcutForm">
+                        <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
+                                listener="#{viewRibbon.updateReminingTimeSession()}" 
+                                update="shortcut-label-reminingTimeout" global="false"  />
 
-                <h:form id="mainForm">
-                    <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
-                            listener="#{viewRibbon.updateReminingTimeSession()}" 
-                            update="shortcut-label-reminingTimeout" global="false"  />
-
-                    <div id="ribbon-layout">
-                        <div id="ribbon-layout-shortcut">
+                        <div id="ribbon-layout-shortcut" >
                             <div id="shortcut-main" >
                                 <p:menuButton id="shortcut-selector" value=""  >
                                     <p:menuitem actionListener="#{viewRibbon.findComponent('btn_1')}" value="btn 1" update="@form" />
@@ -128,27 +127,78 @@
                                                  action="#{staffAuthController.logout}"
                                                  actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                  />
+
                                 <p:outputLabel      id="shortcut-label-reminingTimeout"
                                                     value="#{viewRibbon.reminingTimeSession}/#{request.session.maxInactiveInterval}"
                                                     rendered="true"
-                                                    style="margin-right: 3px; min-width: 72px; min-height: 22px; background-color: #a1dbff;"
+                                                    style="margin-top: 2px!important;margin-right: 3px; padding: 2px; min-width: 72px; min-height: 24px; background-color: #a1dbff;"
 
                                                     />
+
+                                <p:commandButton value=''
+                                                 style="float:right;margin-top: 5px;"
+                                                 onclick="PF('fpLayoutWidget').toggle('north')" />
+                                
                             </div>
                         </div>
+                    </h:form>
+                </f:facet>
+
+                <h:form id="mainForm">
 
 
+                    <div id="ribbon-layout">
+                        <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}"
+                                   widgetVar="ribbon">
+                            <p:ajax event="tabChange" 
+                                    listener="#{viewRibbon.onChange}"
+                                    />
 
+                            <p:tab id="main"
+                                   title="#{ism.Home}" titletip="#{ism.HomeTitle}"
+                                   >
+                                <pi:ribbonGroup id="ribbonGroupHome" label="#{ism.StaffField_stStaff}"  >
+                                    <pi:ribbonGroupSet id="ribbonGroupSetHome" set="small" >
+                                        <p:commandButton id="btnHomeHome"
+                                                         actionListener="#{viewRibbon.setActiveIndex(0)}"
+                                                         title="Visualiser la page d'acceuil"
+                                                         action="/company/index.xhtml?faces-redirect=true"
+                                                         icon="ui-ribbonicon-home" 
+                                                         value="Acceuil"
+                                                         />
+                                        <p:commandButton id="btnHomeLogOut"
+                                                         actionListener="#{viewRibbon.setActiveIndex(0)}"
+                                                         title="Quitter l'application"
+                                                         action="#{staffAuthController.logout()}"
+                                                         icon="ui-ribbonicon-exit"  
+                                                         value="#{ism.Logout}"
+                                                         />
+                                    </pi:ribbonGroupSet>
+                                    
+                                    <pi:ribbonGroupSet id="ribbonGroupSetHomeSetup" set="big" >
+                                        <p:commandButton id="btnHomeStaffProfil"
+                                                         actionListener="#{staffController.prepareUpdate(staffAuthController.staff.stStaff)}"
+                                                         title="Visualiser votre profile"
+                                                         action="/company/hr/staff/Profile.xhtml?faces-redirect=true"
+                                                         icon="ui-ribbonicon-person"
+                                                         value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"
+                                                         rendered="#{request.isUserInRole('USER')}"
+                                                         />
+                                        
+                                        <p:commandButton id="btnHomeStaffConfig"
+                                                         actionListener="#{staffController.prepareUpdate(staffAuthController.staff.stStaff)}"
+                                                         title="Visualiser vos configurations"
+                                                         action="/company/hr/staff/Setup.xhtml?faces-redirect=true"
+                                                         icon="ui-ribbonicon-config"
+                                                         value="#{ism.Configurations}"
+                                                         rendered="#{request.isUserInRole('USER')}"
+                                                         />
 
-
-                        <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}">
-                            <p:ajax event="tabChange" listener="#{viewRibbon.onChange}" />
-
-                            <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
-
+                                    </pi:ribbonGroupSet>
+                                </pi:ribbonGroup>
                             </p:tab>
 
-                            <p:tab id="administration" title="#{ism.AdminPage}">
+                            <p:tab id="administration" title="#{ism.AdminPage}" titletip="#{ism.AdminPageTitle}">
                                 <pi:ribbonGroup id="ribbonGroupSMQ" label="SMQ"  >
                                     <pi:ribbonGroupSet id="ribbonGroupSetSMQ" set="big" >
                                         <p:commandButton id="btnSMQProcessus"
@@ -232,7 +282,7 @@
                                 </pi:ribbonGroup>
                             </p:tab>
 
-                            <p:tab id="resources" title="#{ism.HRPage}">
+                            <p:tab id="resources" title="#{ism.HRPage}" titletip="#{ism.HRPageTitle}">
                                 <pi:ribbonGroup id="RibbonGroupResources" label="Staff">
                                     <pi:ribbonGroupSet id="ribbonGroupSetStaff" set="small">
                                         <p:commandButton id="btnStaffGroup"
@@ -302,7 +352,7 @@
                                 </pi:ribbonGroup>
                             </p:tab>
 
-                            <p:tab id="tabProcess" title="Process" rendered="true" >
+                            <p:tab id="tabProcess" title="#{ism.ProcessPage}" titletip="#{ism.ProcessPageTitle}" rendered="true" >
                                 <pi:ribbonGroup id="RibbonGroupPStd" label="Standard">
                                     <h:panelGrid id="PanelGridStd" columns="1">
                                         <h:commandButton id="btnPStdEquipement"
@@ -408,7 +458,7 @@
                                 </pi:ribbonGroup>
                             </p:tab>
 
-                            <p:tab id="manageLayout" title="AFFICHAGE">
+                            <p:tab id="manageLayout" title="#{ism.DisplayPage}" titletip="#{ism.DisplayPageTitle}" >
                                 <pi:ribbonGroup id="managedLayoutGroup" label="Fenêtre">
                                     <pi:ribbonGroupSet id="manageLayoutAuto" set="big">
                                         <p:commandButton id="btnLayoutAuto"
@@ -537,7 +587,7 @@
                                      value="#{ism.Accept}"
                                      onclick="PF('dlgReminingTimeSessionWakeUp').hide();
                                              location.reload(true);"
-                                             action="#{viewRibbon.reloadCurrentPath()}"
+                                     action="#{viewRibbon.reloadCurrentPath()}"
                                      />
                     <p:commandButton id="dlgReminingTimeSessionWakeUpNo" 
                                      value="#{ism.Refused}"
@@ -579,7 +629,7 @@
                                  />
             </p:confirmDialog>
 
-            
+
 
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false"
                       closable="false">
@@ -600,7 +650,7 @@
               content="5;url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
     </h:body>
 
-
+    <!-- 
     <p:blockUI block="body" 
                trigger="mainForm:shortcut-btn-theme,
                mainForm:shortcut-btn-logout, 
@@ -629,5 +679,6 @@
                >
         <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>
+    -->
 </html>
 

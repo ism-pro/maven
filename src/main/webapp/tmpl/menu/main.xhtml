@@ -15,7 +15,7 @@
 
             <p:commandButton id="btnStaffProfil"
                              styleClass="menu-btn" 
-                             value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename} [ #{staffAuthController.staff.stStaff} ]"
+                             value="#{staffAeuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename} [ #{staffAuthController.staff.stStaff} ]"
                              icon="ui-icon-person"
                              rendered="#{request.isUserInRole('USER')}"
                              action="/company/hr/staff/Profile.xhtml?faces-redirect=true"

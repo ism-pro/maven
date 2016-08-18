@@ -205,7 +205,9 @@ public class RibbonRenderer extends CoreRenderer {
         UIComponent titleFacet = tab.getFacet("title");
         
         //header container
+        String idString = tab.getClientId(context).split(":")[2];
         writer.startElement("li", null);
+        writer.writeAttribute("id", "P" + idString, null);
         writer.writeAttribute("class", styleClass, null);
         writer.writeAttribute("role", "tab", null);
         writer.writeAttribute("aria-expanded", String.valueOf(active), null);
@@ -216,7 +218,6 @@ public class RibbonRenderer extends CoreRenderer {
 
         //title
         writer.startElement("a", null);
-        String idString = tab.getClientId(context).split(":")[2];
         writer.writeAttribute("id", idString, null);
         writer.writeAttribute("href", "#" + tab.getClientId(context), null);
         writer.writeAttribute("tabindex", "-1", null);

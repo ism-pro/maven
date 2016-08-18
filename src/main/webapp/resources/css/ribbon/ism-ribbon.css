@@ -68,21 +68,56 @@ body {
 *  + shortcut-center
 *  + shortcut-right
 *******************************************************************************/
+#unitNorth{
+    /*height: 152px!important;*/
+}
+#unitNorth .ui-layout-unit-header.ui-widget-header.ui-corner-all{
+    padding: 0px;
+    margin: 0px;
+    height: 24px; 
+}
+#unitNorth .ui-layout-unit-header-title{
+    float: left;
+}
+#unitNorth .ui-layout-unit-content.ui-widget-content{
+    padding: 0px;
+    margin: 0px;
+    padding-top: 1px;
+}
+#unitNorth a.ui-layout-unit-header-icon.ui-state-default.ui-corner-all{
+    display: none;
+}
+
+
 #ribbon-layout-shortcut{
-    /*border: 1px #f4f3f3 dashed; */
     width: 100%;
-    max-height: 27px;
+    max-height: 26px;
     position: absolute; z-index: 2;
+    float:left;
 }
 #ribbon-layout-shortcut .ui-button{
     margin: 2px;
+    padding:0px;
     border: none;
     min-width:  24px;
-    min-height: 24px;
-    max-height: 24px;
+    min-height: 22px;
+    max-height: 22px;
     max-width: 24px;
-    /*///background-color: #4dbf41;*/
 }
+#shortcut-main span .ui-menubutton span.ui-button-icon-left.ui-icon.ui-c.ui-icon-triangle-1-s{
+    margin:0px;
+    padding:0px;
+    max-height: 22px;
+    max-width: 22px;
+    padding-left: -3px;
+}
+#shortcut-main span .ui-menubutton span.ui-button-text.ui-c{
+    max-height: 16px!important;
+    max-width: 16px!important;
+}
+
+
+
 #ribbon-layout-shortcut .ui-selectonemenu{
     float: left;
 }
@@ -127,6 +162,12 @@ body {
 
 
 
+/**************
+*/
+
+
+
+
 /*******************************************************************************
 * Gestion du ruban primefaces
 * ism-ribbon
@@ -137,7 +178,7 @@ body {
     background-color: #f4f3f3;*/
 }
 #ribbon-layout ul.ui-tabs-nav{
-    padding-top: 26px!important;
+    /*padding-top: 26px!important;*/
     padding-bottom: 2px;
     line-height: 15px;
     text-align: center;
@@ -195,6 +236,30 @@ body {
 *
 *
 *******************************************************************************/
+
+
+/*******************************************************************************
+* ACCEUIL / STAFF
+*******************************************************************************/
+#btnHomeHome .ui-ribbonicon-home{
+    background: url("#{resource['img/ism/admin/smq_processus.png']}") no-repeat;
+    background-size:contain;
+}
+
+#btnHomeLogOut .ui-ribbonicon-exit{
+    background: url("#{resource['img/ism/ribbon/home.png']}") no-repeat;
+    background-size:contain;
+}
+
+#btnHomeStaffProfil .ui-ribbonicon-person{
+    background: url("#{resource['img/ism/hr/staff.png']}") no-repeat;
+    background-size:contain;
+}
+
+#btnHomeStaffConfig  .ui-ribbonicon-config{
+    background: url("#{resource['img/ism/hr/u_setup.png']}") no-repeat;
+    background-size:contain;
+}
 
 /*******************************************************************************
 * ADMINISTRATION / SMQ

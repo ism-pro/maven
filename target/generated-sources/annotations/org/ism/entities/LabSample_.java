@@ -9,7 +9,7 @@ import org.ism.entities.LabAnalyseType;
 import org.ism.entities.LabSamplePt;
 import org.ism.entities.Staff;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-07-03T23:49:19")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-08-17T07:17:53")
 @StaticMetamodel(LabSample.class)
 public class LabSample_ { 
 

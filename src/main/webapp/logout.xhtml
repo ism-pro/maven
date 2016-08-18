@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" 
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>#{ism.AppName}</title>
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+        <meta http-equiv="refresh" 
+              content="${request.session.maxInactiveInterval};url=#{request.contextPath}#{request.servletPath}/logout.xhtml"/>
+
+        <h:outputStylesheet library="css" name="ism-login.min.css" />
+    </h:head>
+
+    <h:body id="pBody">
+
+        <div id="topbar"><a href="#">#{ism.Timeout}</a></div>
+
+
+        <div id="window">
+            <div id="content">
+                <center>
+
+                    <h:graphicImage value="#{resource['img/ism/favico.png']}"  
+                                    width="192px" 
+                                    height="64px" 
+                                    />
+                    <div id="welcome">#{ism.Welcome}</div>
+
+                    <div align="center">
+                        <h:form id="loginForm">
+                            <table class="loginTable">
+                                <tr>
+                                    <td>
+                                        <p:commandButton    action="login.xhtml"
+                                                            value="#{ism.LogIn} [#{request.session.maxInactiveInterval}]"
+                                                            actionListener="#{staffAuthController.logout()}"
+                                                            style="min-width: 240px; min-height: 42px;"
+                                                            />
+                                    </td>
+                                </tr>
+                            </table>
+                        </h:form>
+                    </div>
+                </center>
+            </div>
+        </div>
+
+
+    </h:body>
+</html>
+
+

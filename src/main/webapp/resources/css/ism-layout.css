@@ -9,6 +9,33 @@ and open the template in the editor.
 */
 
 
+.unitNorthHeader{
+    max-height: 10px; 
+}
+
+#unitNorth-resizer{
+    background-color: lightgrey;
+    margin:0px!important;
+}
+#unitNorth-resizer:hover{
+    background-color: grey;
+}
+#unitNorth-toggler{
+    width: 20%!important;
+    height: 100%!important;
+    margin-left: 40%!important;
+    padding: 0px!important;
+    background-color: #CCC;
+}
+#unitNorth-toggler >  span .content.content-closed{
+    display: none;
+}
+#unitNorth-toggler > span > a > span{
+    display: none;
+    background-color: lightyellow;
+    background-position: 0px -16px;
+}
+
 
 #unitWest-resizer{
     background-color: lightgrey;
@@ -27,7 +54,6 @@ and open the template in the editor.
 #unitWest-toggler >  span .content.content-closed{
     display: none;
 }
-
 #unitWest-toggler > span > a > span{
     display: none;
     background-color: lightyellow;
@@ -54,7 +80,6 @@ and open the template in the editor.
 #unitEast-toggler >  span .content.content-closed{
     display: none;
 }
-
 #unitEast-toggler > span > a > span{
     display: none;
     background-color: lightyellow;
