@@ -84,7 +84,7 @@
                                 listener="#{viewRibbon.updateReminingTimeSession()}" 
                                 update="shortcut-label-reminingTimeout" global="false"  />
 
-                        <div id="ribbon-layout-shortcut" >
+                        <div id="layout-shortcut" >
                             <div id="shortcut-main" >
                                 <p:menuButton id="shortcut-selector" value=""  >
                                     <p:menuitem actionListener="#{viewRibbon.findComponent('btn_1')}" value="btn 1" update="@form" />
@@ -105,6 +105,7 @@
                             <div id="shortcut-right">
 
                                 <p:selectOneMenu  id="shortcut-btn-theme" 
+                                                  style="float:left;"
                                                   value="#{staffSetupController.theme}" 
                                                   var="t" 
                                                   valueChangeListener="#{staffSetupController.applyThemeEvent}"
@@ -122,27 +123,32 @@
                                     </p:column>
                                 </p:selectOneMenu>
 
-                                <p:commandButton id="shortcut-btn-logout" 
-                                                 icon="ui-icon-key"  value="#{ism.Authentication_Disconnect}" rendered="true"
+                                <div id="shortcut-timeout">
+                                    <p:outputLabel  id="shortcut-label-reminingTimeout"
+                                                    value="#{viewRibbon.reminingTimeSession}/#{request.session.maxInactiveInterval}"
+                                                    rendered="true"
+                                                    />
+                                </div>
+
+
+                                <p:commandButton id="shortcut-collapse-nl" 
+                                                 icon="ui-btn-sign-up"
+                                                 styleClass="shortcut-btn"
+                                                 value="" 
+                                                 onclick="PF('fpLayoutWidget').toggle('north')"
+                                                 />
+                                <p:commandButton id="shortcut-btn-logout"
+                                                 icon="ui-btn-exit"
+                                                 styleClass="shortcut-btn"
+                                                 value="#{ism.Authentication_Disconnect}" 
                                                  action="#{staffAuthController.logout}"
                                                  actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                  />
-
-                                <p:outputLabel      id="shortcut-label-reminingTimeout"
-                                                    value="#{viewRibbon.reminingTimeSession}/#{request.session.maxInactiveInterval}"
-                                                    rendered="true"
-                                                    style="margin-top: 2px!important;margin-right: 3px; padding: 2px; min-width: 72px; min-height: 24px; background-color: #a1dbff;"
-
-                                                    />
-
-                                <p:commandButton value=''
-                                                 style="float:right;margin-top: 5px;"
-                                                 onclick="PF('fpLayoutWidget').toggle('north')" />
-                                
                             </div>
                         </div>
                     </h:form>
                 </f:facet>
+
 
                 <h:form id="mainForm">
 
@@ -174,7 +180,7 @@
                                                          value="#{ism.Logout}"
                                                          />
                                     </pi:ribbonGroupSet>
-                                    
+
                                     <pi:ribbonGroupSet id="ribbonGroupSetHomeSetup" set="big" >
                                         <p:commandButton id="btnHomeStaffProfil"
                                                          actionListener="#{staffController.prepareUpdate(staffAuthController.staff.stStaff)}"
@@ -184,7 +190,7 @@
                                                          value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"
                                                          rendered="#{request.isUserInRole('USER')}"
                                                          />
-                                        
+
                                         <p:commandButton id="btnHomeStaffConfig"
                                                          actionListener="#{staffController.prepareUpdate(staffAuthController.staff.stStaff)}"
                                                          title="Visualiser vos configurations"

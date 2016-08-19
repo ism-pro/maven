@@ -519,3 +519,22 @@ th .ui-selectonemenu-label{
     font-size: 9pt;
 }
 
+/* =============================================================================
+    Overlay menu
+===============================================================================*/
+div .ui-menu.ui-menu-dynamic.ui-widget.ui-widget-content.ui-corner-all.ui-helper-clearfix.ui-shadow{
+    
+}
+ul.ui-menu-list.ui-helper-reset{
+    padding: 0px;
+}
+li.ui-menuitem.ui-widget.ui-corner-all{
+    padding: 0px;
+    height: auto;
+}
+a.ui-menuitem-link.ui-corner-all{
+    padding: 0px;
+}
+span.ui-menuitem-text{
+    font-size: 8pt;
+}

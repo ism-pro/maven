@@ -62,32 +62,21 @@ Configuration :
 
     Commit :
     # GENERALITES :
-    + Correction problème d'affichage des configurations du temps de déconnexion.
-    + Fenêtre d'alarme de déconnexion, problème corrigé plus de problème de ce 
-    déconnecter ou de rester connecté lorsque on appuie sur accepter
+    # CSS menu overlay modification d'affichage pour le format ISM taille plus petite
 
     # SPECIFIQUE
-    ## Index : modification du rafraîchissement automatique de graphique à 60s
     ## Ruban :
-    * Onglet Process :
-      * Ecriture de texte en majuscule
-      * Ajout d'un title paramétré
-    * Onglet Display : 
-      * Ecriture de texte paramétrer
-      * Ajout d'un title paramétré
-    * Déplacement de la barre shortcut
-      * Permet de réduire la barre d'affichage du ruban et maximiser l'espace de travail
-    ## Page de Login :
-    Après une 1 minutes de non utilisation, la session est désactivée.
-    On est alors renvoyé à une nouvelle page de retour vers la session dite
-    logout.
-    La page s'actualise à chaque fois que le temps d'intervale de la session
-    est expiré.
-    ## Page error :
-    La page d'erreur voit sont bouton non plus mener jusqu'à login mais jusqu'à
-    logout.
-    ## Onglet Acceuil
-    L'acceuil est actuellement présenter dans le ruban pour plus de simplicité.
+    * Shortcut bar :
+    ** Modification format d'affichage de bouton :
+    *** Sans bordure
+    *** Sans icône par défaut
+    *** L'icône occupe l'entiéreté du bouton
+    ** Ajouter une icône au bouton de retraississement du ruban
+    ** Remplacement de l'icône pour quitter l'application
+    
+    ## Onglet ACCEUIL :
+    * Icône
+    ** Icône acceuil et déconnexion ne correspondait pas !! remplacé
     
 
 

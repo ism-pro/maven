@@ -60,110 +60,81 @@ body {
     font-size: 8pt;
 }
 
+
+
+
+
 /*******************************************************************************
 * Gestion de la bart de raccourci
-* ribbon-layout-shortcut : Barre de menu des raccourci du ruban 
+* layout-shortcut : Barre de menu des raccourci du ruban 
 *  + shortcut-main
 *  + shortcut-left
 *  + shortcut-center
 *  + shortcut-right
 *******************************************************************************/
-#unitNorth{
-    /*height: 152px!important;*/
-}
-#unitNorth .ui-layout-unit-header.ui-widget-header.ui-corner-all{
-    padding: 0px;
-    margin: 0px;
-    height: 24px; 
-}
-#unitNorth .ui-layout-unit-header-title{
-    float: left;
-}
-#unitNorth .ui-layout-unit-content.ui-widget-content{
-    padding: 0px;
-    margin: 0px;
-    padding-top: 1px;
-}
-#unitNorth a.ui-layout-unit-header-icon.ui-state-default.ui-corner-all{
-    display: none;
-}
-
-
-#ribbon-layout-shortcut{
+#layout-shortcut{
     width: 100%;
-    max-height: 26px;
-    position: absolute; z-index: 2;
+    max-height: 24px;
+    position: absolute; 
+    /*z-index: 2;*/
     float:left;
 }
-#ribbon-layout-shortcut .ui-button{
-    margin: 2px;
-    padding:0px;
-    border: none;
-    min-width:  24px;
+#layout-shortcut .ui-button{
+    margin: 1px;
+    padding:0px;    /*Supprime le padding de tous les boutons */
+    border: none;   /*Supprime les bordure de tous les button */
     min-height: 22px;
     max-height: 22px;
+    min-width:  24px;
     max-width: 24px;
 }
-#shortcut-main span .ui-menubutton span.ui-button-icon-left.ui-icon.ui-c.ui-icon-triangle-1-s{
-    margin:0px;
-    padding:0px;
-    max-height: 22px;
-    max-width: 22px;
-    padding-left: -3px;
+#layout-shortcut .ui-button-icon-left.ui-icon.ui-c.ui-icon-triangle-1-s{
+    display: none!important; /* Supprime l'affichage d'icône dans les bouttons de la barre shortcut */
+    margin-left: -5px!important;
 }
-#shortcut-main span .ui-menubutton span.ui-button-text.ui-c{
-    max-height: 16px!important;
-    max-width: 16px!important;
+#layout-shortcut .ui-button-text.ui-c{
+    display: none!important; /* Supprime l'affichage de texte des buttons dans shortcut*/
 }
 
-
-
-#ribbon-layout-shortcut .ui-selectonemenu{
-    float: left;
-}
-#ribbon-layout-shortcut #shortcut-main {
-    float: left;
-}
-#ribbon-layout-shortcut #shortcut-main .ui-icon{
+/* ====================== */
+#shortcutForm\3a shortcut-selector .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left{
+    /* Bordure et padding déjà supprimé avec layout=shortcut .ui-button */
     background: url("#{resource['img/ism/ribbon/shortcut.png']}") no-repeat;
     background-size:contain;
 }
-#ribbon-layout-shortcut #shortcut-left {
+
+#layout-shortcut #shortcut-main {
     float: left;
 }
-#ribbon-layout-shortcut #shortcut-center {
+#layout-shortcut #shortcut-left {
     float: left;
-    margin-top: -26px;
+}
+#layout-shortcut #shortcut-center {
+    margin-top: -20px;
+    float: left;
     text-align: center;
     width: 100%;
-}
-#ribbon-layout-shortcut #shortcut-center .ui-outputlabel{
+    font-weight: normal;
     font-size: 10pt;
     color: #4f4949;
 }
-#ribbon-layout-shortcut #shortcut-right {
+#layout-shortcut #shortcut-right {
     float: right;
-    margin-top: -30px;
+    margin-top: -25px;
+    max-height: 24px!important;
 }
-#ribbon-layout-shortcut #shortcut-right .ui-button{
-    max-width: 200px;
+#layout-shortcut #shortcut-right * {
+    margin-left: 2px;
+    font-size: 8pt;
+    float: left;
 }
-#ribbon-layout .ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all{
-    margin-top: 3px;
+#layout-shortcut #shortcut-timeout{
+    margin-top: 2px;
+    padding: 2px;
+    height: 18px;
+    text-align: center;
+    background-color: white;
 }
-#ribbon-layout-shortcut #shortcut-right .ui-icon.ui-icon-key{/*
-    ///background: url("#{resource['img/ism/ribbon/shortcut.png']}") no-repeat;
-    ///background-size:contain;*/
-}
-#ribbon-layout-shortcut #shortcut-right .ui-icon-closethick{/*
-    ///background: url("#{resource['img/ism/ribbon/shortcut-exit.png']}") no-repeat;
-    ///background-size:contain;*/
-}
-
-
-
-/**************
-*/
 
 
 
@@ -237,17 +208,29 @@ body {
 *
 *******************************************************************************/
 
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-sign-up{
+    margin-left: -4px!important;
+    margin-top: -12px!important;
+    background: url("#{resource['img/ism/window/up_symbol.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-exit{
+    margin-left: -4px!important;
+    margin-top: -12px!important;
+    background: url("#{resource['img/ism/ribbon/exit.png']}") no-repeat;
+    background-size:contain;
+}
 
 /*******************************************************************************
 * ACCEUIL / STAFF
 *******************************************************************************/
 #btnHomeHome .ui-ribbonicon-home{
-    background: url("#{resource['img/ism/admin/smq_processus.png']}") no-repeat;
+    background: url("#{resource['img/ism/admin/home.png']}") no-repeat;
     background-size:contain;
 }
 
 #btnHomeLogOut .ui-ribbonicon-exit{
-    background: url("#{resource['img/ism/ribbon/home.png']}") no-repeat;
+    background: url("#{resource['img/ism/ribbon/exit.png']}") no-repeat;
     background-size:contain;
 }
 
@@ -260,6 +243,8 @@ body {
     background: url("#{resource['img/ism/hr/u_setup.png']}") no-repeat;
     background-size:contain;
 }
+
+
 
 /*******************************************************************************
 * ADMINISTRATION / SMQ
@@ -391,8 +376,8 @@ ul.ui-ribbon-groups #RibbonGroupResources  {
     color:white;
 }
 .ui-menubutton-smqnc  .ui-button-icon-left.ui-icon.ui-c.ui-icon-triangle-1-s{
-   width: 44px;
-   height: 44px;
+    width: 44px;
+    height: 44px;
     margin: 0px;
     padding: 0px;
     margin-top: -32px;

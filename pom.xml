@@ -7,7 +7,7 @@
     <version>1608.31</version>
     <packaging>war</packaging>
 
-    <name>ISM</name>
+    <name>ISM</name> 
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

@@ -9,6 +9,25 @@ and open the template in the editor.
 */
 
 
+#unitNorth .ui-layout-unit-header.ui-widget-header.ui-corner-all{
+    padding: 0px;
+    margin: 0px;
+    height: 24px; 
+}
+#unitNorth .ui-layout-unit-header-title{
+    float: left;
+}
+#unitNorth .ui-layout-unit-content.ui-widget-content{
+    padding: 0px;
+    margin: 0px;
+    padding-top: 1px;
+}
+#unitNorth a.ui-layout-unit-header-icon.ui-state-default.ui-corner-all{
+    display: none;
+}
+
+
+/* ==============================================*/
 .unitNorthHeader{
     max-height: 10px; 
 }
@@ -36,7 +55,7 @@ and open the template in the editor.
     background-position: 0px -16px;
 }
 
-
+/* ==============================================*/
 #unitWest-resizer{
     background-color: lightgrey;
     margin:0px!important;
@@ -59,10 +78,7 @@ and open the template in the editor.
     background-color: lightyellow;
     background-position: -32px -16px;
 }
-
-
-
-
+/* ==============================================*/
 #unitEast-resizer{
     background-color: lightgrey;
     margin:0px!important;
