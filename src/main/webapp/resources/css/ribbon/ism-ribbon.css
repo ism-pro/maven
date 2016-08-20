@@ -225,7 +225,7 @@ body {
 * ACCEUIL / STAFF
 *******************************************************************************/
 #btnHomeHome .ui-ribbonicon-home{
-    background: url("#{resource['img/ism/admin/home.png']}") no-repeat;
+    background: url("#{resource['img/ism/ribbon/home.png']}") no-repeat;
     background-size:contain;
 }
 

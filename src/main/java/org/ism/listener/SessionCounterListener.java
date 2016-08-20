@@ -12,9 +12,14 @@ package org.ism.listener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import org.ism.entities.Staff;
+import org.ism.jsf.StaffAuthController;
+import org.ism.jsf.StaffController;
 
 public class SessionCounterListener implements HttpSessionListener {
 
@@ -24,9 +29,6 @@ public class SessionCounterListener implements HttpSessionListener {
     private static List<HttpSession> sessionList = new ArrayList<HttpSession>(); //!< List de toutes les sessions de l'application
     private static int sessionListSize = 0;                     //!< Conserve le nombre de sessions pour éviter de recalculer inutilement
 
-    
-    
-    
     public static int getTotalActiveSession() {
         return totalActiveSessions;
     }
@@ -36,8 +38,6 @@ public class SessionCounterListener implements HttpSessionListener {
         return totalActiveSessionsAuthenticated;
     }
 
-    
-    
     @Override
     public void sessionCreated(HttpSessionEvent arg0) {
         totalActiveSessions++;
@@ -52,24 +52,41 @@ public class SessionCounterListener implements HttpSessionListener {
         //System.out.println("sessionDestroyed - " + arg0.getSession().getId() + " - deduct one session from counter");
     }
 
-    public static void updateTotalActiveSessionAuthenticated(){
-       // System.out.println("Update Total Active Session Authenticated method !");
+    public static void updateTotalActiveSessionAuthenticated() {
+        // System.out.println("Update Total Active Session Authenticated method !");
         //if (sessionListSize != sessionList.size()) {
-            sessionListSize = 0; 
-            //System.out.println("SessionListSize different !");
-            Iterator<HttpSession> sessionIterator = sessionList.iterator();
-            while (sessionIterator.hasNext()) {
-                HttpSession s = sessionIterator.next();
-                //System.out.println("    In one session active counter");
-                if (s.getAttribute("authenticated") != null) {
-                    //System.out.println("    Authenticated attribut is define");
-                    if (((boolean) s.getAttribute("authenticated"))) {
-                        sessionListSize++;
-                        //System.out.println("    increment sessionList to " + sessionListSize);
-                    }
+        sessionListSize = 0;
+        //System.out.println("SessionListSize different !");
+        Iterator<HttpSession> sessionIterator = sessionList.iterator();
+        while (sessionIterator.hasNext()) {
+            HttpSession s = sessionIterator.next();
+            //System.out.println("    In one session active counter");
+            if (s.getAttribute("authenticated") != null) {
+                //System.out.println("    Authenticated attribut is define");
+                if (((boolean) s.getAttribute("authenticated"))) {
+                    sessionListSize++;
+                    //System.out.println("    increment sessionList to " + sessionListSize);
                 }
             }
+        }
         //}
         totalActiveSessionsAuthenticated = sessionListSize;
+    }
+
+    public static List<Staff> getActiveStaff() {
+        List<Staff> staffs = new ArrayList<>();
+        Iterator<HttpSession> sessionIterator = sessionList.iterator();
+        while (sessionIterator.hasNext()) {
+            HttpSession s = sessionIterator.next();
+            //System.out.println("    In one session active counter");
+            if (s.getAttribute("authenticated") != null) {
+                //System.out.println("    Authenticated attribut is define");
+                if (((boolean) s.getAttribute("authenticated"))) {
+                    Staff staff = (Staff) s.getAttribute("astaff"); // define from staffAuthFacade
+                    if(staff!=null) staffs.add(staff);
+                }
+            }
+        }
+        return staffs;
     }
 }

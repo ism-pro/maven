@@ -6,11 +6,10 @@ Proposition dans les préférences utilisateurs :
     - Ajouter le nombre d'éléments de résultat par table par défaut. (row)
 
 A Faire :
-1 - 
 
 2 - UTILISATEUR :
     2.3. Ajouter les options de programme comme :
-        - Le temps de déconnexion (timeout session),
+        
         - Les paramètres d'options de résultat
         Options de l'utilisateur connecter
     + Fournir la possibilité de mettre une image,
@@ -38,18 +37,8 @@ Configuration :
     ++ Possibilité de configurer la fenêtre de confirmation globale voir bas de la page main 
       Notemment les effets à l'ouverture ...
     
-    + LAYOUT :
-    ++ Options Affichage :
-       - Fournir les options de restauration, ouverture et fermeture de chaque zone
-    ++ Réagir automatiquement au action de l'utilisateur
-    ++ Enregistrer l'état du layout entre les sessions
-
     + CRUD :
     ++ Enregistrer les options de viewTab entre les sessions.
-
-    + ONGLET ACCEUIL :
-    
-    ++ Ajouter les configurations d'options de table et de layout
 
     + PROCESSUS :
     ++ Ajouter une page de recherche + result + exportation
@@ -61,23 +50,16 @@ Configuration :
 
 
     Commit :
-    # GENERALITES :
-    # CSS menu overlay modification d'affichage pour le format ISM taille plus petite
+    # Changement de la page d'index
 
+    # GENERALITES :
+    * Changement de la page d'index pour afficher les utilisateurs connectés sous forme de table
+    * Modification des intitulés de graphiques
+    
     # SPECIFIQUE
-    ## Ruban :
-    * Shortcut bar :
-    ** Modification format d'affichage de bouton :
-    *** Sans bordure
-    *** Sans icône par défaut
-    *** L'icône occupe l'entiéreté du bouton
-    ** Ajouter une icône au bouton de retraississement du ruban
-    ** Remplacement de l'icône pour quitter l'application
-    
-    ## Onglet ACCEUIL :
-    * Icône
-    ** Icône acceuil et déconnexion ne correspondait pas !! remplacé
-    
+    * Barre d'application shortcut :
+    ** Conversion des durées en minutes
+
 
 
 

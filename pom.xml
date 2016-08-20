@@ -4,10 +4,10 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1608.31</version>
+    <version>1608.20</version>
     <packaging>war</packaging>
 
-    <name>ISM</name> 
+    <name>ISM</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

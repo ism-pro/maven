@@ -132,8 +132,8 @@ public class ChartView implements Serializable {
         pieModel1.set("Actif", cntActSession);
         pieModel1.set("Inactif", cntUnActSession);
 
-        pieModel1.setTitle("Taux de session actif");
-        pieModel1.setLegendPosition("s");
+        pieModel1.setTitle("Online Sessions");
+        pieModel1.setLegendPosition("e");
     }
  
     private void createPieSMQNCStateModel() {

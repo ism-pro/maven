@@ -14,21 +14,36 @@
             <h:form>
                 <p:outputPanel id="SessionCounter">
                     <p>
-                        Temps de déconnexion : #{request.session.maxInactiveInterval}<br />                 
-                        Actuellement, 
+                        Bonjour #{staffAuthController.staff.stFirstname},
+                        Vous êtes connecté avec l'identifiant #{request.remoteUser}
+                        avec un temps de déconnexion de 
+                        #{request.session.maxInactiveInterval / 60} minutes              
                         <br />
-                        Le nombre de session est de #{viewRibbon.sessionCounter}  !
-                        <br />
-                        Le nombre de staff présent est de #{viewRibbon.totalActiveSessionsAuthenticated}/#{staffController.items.size()} 
-                        <br />
-                        User #{request.remoteUser} est #{request.authenticate(response)}
+                        Le nombre de session susceptible est de 
+                        #{viewSessionCounter.sessionCounter} seul 
+                        #{viewSessionCounter.totalActiveSessionsAuthenticated} 
+                        sur #{staffController.items.size()} sont identifiés !
 
                     </p>
-
+                    <hr />
+                    <h2>Flash Infos</h2>
                     <h:panelGrid columns="2">
                         <p:chart id="graphActSession" type="pie" model="#{chartView.pieModel1}" style="width:400px;height:300px" />
                         <p:chart id="graphNCState" type="pie" model="#{chartView.pieSMQNCStateModel}" style="width:400px;height:300px" />
                     </h:panelGrid>
+
+                    <hr />
+                    <h2>Staff</h2>
+                    <p:dataTable id="datalist" widgetVar="datalist"
+                                 value="#{viewSessionCounter.activeStaff}" var="item"
+                                 rowIndexVar="_rowIndex"
+                                 style="max-width: 240px;"
+                                 >
+                        <p:column headerText="Staff Online"
+                                  style="width: 64px;" >
+                            <h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]"/>
+                        </p:column>
+                    </p:dataTable>
 
                 </p:outputPanel>
 

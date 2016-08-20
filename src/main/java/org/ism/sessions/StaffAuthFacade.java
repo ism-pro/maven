@@ -181,6 +181,7 @@ public class StaffAuthFacade implements Serializable {
             //Validation de la session
             setAuthenticated(true);
             session.setAttribute("authenticated", true);
+            session.setAttribute("astaff", staff);
             JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationPersistenceSuccessOccured"));
             msgList.add(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationPersistenceSuccessOccured"));
             return authenticated;
@@ -189,6 +190,7 @@ public class StaffAuthFacade implements Serializable {
             setStaff(null);
             setAuthenticated(false);
             session.setAttribute("authenticated", false);
+            session.removeAttribute("astaff");
             if (request != null) {
                 try {
                     request.logout();

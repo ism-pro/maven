@@ -6,10 +6,7 @@
 package org.ism.view;
 
 import com.sun.faces.component.visit.FullVisitContext;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
@@ -21,13 +18,10 @@ import javax.faces.component.visit.VisitContext;
 import javax.faces.component.visit.VisitResult;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import org.ism.listener.SessionCounterListener;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
 import javax.inject.Inject;
-import org.ism.jsf.util.JsfUtil;
-import org.primefaces.component.layout.LayoutUnit;
 
 /**
  *
@@ -116,14 +110,6 @@ public class ViewRibbon implements Serializable {
 
     public void setNcRequestProcessusFilter(String ncRequestProcessusFilter) {
         this.ncRequestProcessusFilter = ncRequestProcessusFilter;
-    }
-
-    public Integer getSessionCounter() {
-        return SessionCounterListener.getTotalActiveSession();
-    }
-
-    public Integer getTotalActiveSessionsAuthenticated() {
-        return SessionCounterListener.getTotalActiveSessionsAuthenticated();
     }
 
     public Integer getReminingTimeSession() {
