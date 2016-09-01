@@ -6,7 +6,6 @@ import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.IsmNcastateFacade;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,25 +15,11 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
-import org.primefaces.component.api.UIColumn;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
-import org.primefaces.event.ToggleEvent;
-import org.primefaces.model.Visibility;
 import javax.faces.bean.ManagedBean;
 
 @ManagedBean(name = "ismNcastateController")

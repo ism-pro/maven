@@ -538,3 +538,23 @@ a.ui-menuitem-link.ui-corner-all{
 span.ui-menuitem-text{
     font-size: 8pt;
 }
+
+/* =============================================================================
+    TREE TABLE
+===============================================================================*/
+/** Main container element. */
+.ui-treetable {
+    
+}
+/** Header of treetable. */
+.ui-treetable-header {
+    font-size: 0.9em;
+}
+/** Body element of the table containing data */
+.ui-treetable-data {
+    font-size: 0.85em;
+}
+
+
+
+

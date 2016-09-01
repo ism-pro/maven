@@ -11,11 +11,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -27,7 +26,8 @@ import org.ism.services.Theme;
 import org.ism.services.ThemeService;
 import org.ism.entities.Staff;
 
-@Named("staffSetupController")
+
+@ManagedBean(name = "staffSetupController")
 @SessionScoped
 public class StaffSetupController implements Serializable {
 

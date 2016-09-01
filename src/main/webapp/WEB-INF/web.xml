@@ -13,11 +13,22 @@
     </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>#{staffSetupController.themeName}</param-value>
+        <param-value>#{staffSetupController.themeName!=null?staffSetupController.themeName:"ism"}</param-value>
     </context-param>
     <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/ism.taglib.xml</param-value>
+    </context-param>
+    <context-param>
+        <description>State saving method: 'client' or 'server'
+            (=default). See JSF Specification 2.5.2
+        </description>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>server</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.application.CONFIG_FILES</param-name>
+        <param-value>/WEB-INF/faces-config.xml</param-value>
     </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -28,6 +39,9 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener>
     <session-config>
         <session-timeout>1</session-timeout>
     </session-config>
@@ -42,8 +56,6 @@
             <form-error-page>/faces/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-
-    
     <error-page>
         <error-code>403</error-code>
         <location>/faces/error.xhtml</location>
@@ -57,6 +69,11 @@
         <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/faces/error.xhtml</location>
+    </error-page>
+    <!--
+    <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/faces/error.xhtml</location>
     </error-page>
@@ -68,11 +85,13 @@
         <exception-type>java.lang.IllegalStateException</exception-type>
         <location>/faces/error.xhtml</location>
     </error-page>
-    
+    -->
+    <!--
     <filter>
         <filter-name>NoCacheFilter</filter-name>
         <filter-class>org.ism.filters.NoCacheFilter</filter-class>
     </filter>
+    
     <filter-mapping>
         <filter-name>NoCacheFilter</filter-name>
         <servlet-name>Faces Servlet</servlet-name>
@@ -81,664 +100,2017 @@
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
+    -->
     <listener>
         <listener-class>org.ism.listener.SessionCounterListener</listener-class>
     </listener>
+    <!-- Resources security -->
     <security-constraint>
+        <display-name>Resources Security Constraint</display-name>
         <web-resource-collection>
-            <web-resource-name>Allowed resources</web-resource-name>
+            <web-resource-name>Resources Web Security</web-resource-name>
             <url-pattern>/javax.faces.resource/*</url-pattern>
         </web-resource-collection>
-        <!-- No Auth Contraint! -->
     </security-constraint>
     <security-constraint>
-        <display-name>SecurityUsers</display-name>
+        <display-name>Guest Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityUsers</web-resource-name>
-            <url-pattern>/faces/public/*</url-pattern>
+            <web-resource-name>Guest Web Security</web-resource-name>
+            <url-pattern>/faces/*</url-pattern>
         </web-resource-collection>
-        <auth-constraint>
-            <role-name>USER</role-name>
-        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco</display-name>
+        <display-name>Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco</web-resource-name>
-            <url-pattern>/faces/public/company/*</url-pattern>
+            <web-resource-name>Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO</role-name>
+            <role-name>STAFF</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_admi</display-name>
+        <display-name>Administration Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_admi</web-resource-name>
-            <url-pattern>/faces/public/company/admin/*</url-pattern>
+            <web-resource-name>Administration Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_ADMI</role-name>
+            <role-name>ADMIN</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_admicompany_r</display-name>
+        <display-name>Company Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_admicompany_r</web-resource-name>
-            <url-pattern>/faces/public/company/admin/company/List.xhtml</url-pattern>
+            <web-resource-name>Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/company/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_ADMICOMPANY_R</role-name>
+            <role-name>A_COMPANY</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_admicompany_w</display-name>
+        <display-name>Create Company Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_admicompany_w</web-resource-name>
-            <url-pattern>/faces/public/company/admin/company/*</url-pattern>
+            <web-resource-name>Create Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/company/Create.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_ADMICOMPANY_W</role-name>
+            <role-name>A_COMPANY_C</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_admientreprise_r</display-name>
+        <display-name>Edit Company Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_admientreprise_r</web-resource-name>
-            <url-pattern>/faces/public/company/admin/entreprise/List.xhtml</url-pattern>
+            <web-resource-name>Edit Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/company/Edit.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_ADMIENTREPRISE_R</role-name>
+            <role-name>A_COMPANY_E</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_admientreprise_w</display-name>
+        <display-name>List Company Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_admientreprise_w</web-resource-name>
-            <url-pattern>/faces/public/company/admin/entreprise/*</url-pattern>
+            <web-resource-name>List Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/company/List.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_ADMIENTREPRISE_W</role-name>
+            <role-name>A_COMPANY_L</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hr</display-name>
+        <display-name>View Company Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hr</web-resource-name>
-            <url-pattern>/faces/public/company/hr/*</url-pattern>
+            <web-resource-name>View Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/company/View.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HR</role-name>
+            <role-name>A_COMPANY_V</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaff_r</display-name>
+        <display-name>Entreprise Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaff_r</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staff/List.xhtml</url-pattern>
+            <web-resource-name>Entreprise Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/entreprise/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFF_R</role-name>
+            <role-name>A_ENTREPRISE</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaff_w</display-name>
+        <display-name>Create Entreprise Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaff_w</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staff/*</url-pattern>
+            <web-resource-name>Create Entreprise Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/entreprise/Create.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFF_W</role-name>
+            <role-name>A_ENTREPRISE_C</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffcompanies_r</display-name>
+        <display-name>Edit Entreprise Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffcompanies_r</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffCompanies/List.xhtml</url-pattern>
+            <web-resource-name>Edit Entreprise Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/entreprise/Edit.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFCOMPANIES_R</role-name>
+            <role-name>A_ENTREPRISE_E</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffcompanies_w</display-name>
+        <display-name>List Entreprise Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffcompanies_w</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffCompanies/*</url-pattern>
+            <web-resource-name>List Entreprise Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/entreprise/List.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFCOMPANIES_W</role-name>
+            <role-name>A_ENTREPRISE_L</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffgroupdef_r</display-name>
+        <display-name>View Entreprise Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffgroupdef_r</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffGroupDef/List.xhtml</url-pattern>
+            <web-resource-name>View Entreprise Web Security</web-resource-name>
+            <url-pattern>/faces/company/admin/entreprise/View.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFGROUPDEF_R</role-name>
+            <role-name>A_ENTREPRISE_V</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffgroupdef_w</display-name>
+        <display-name>Application Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffgroupdef_w</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffGroupDef/*</url-pattern>
+            <web-resource-name>Application Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFGROUPDEF_W</role-name>
+            <role-name>APP</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffgroupdefrole_r</display-name>
+        <display-name>App. Genre Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffgroupdefrole_r</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffGroupDefRole/List.xhtml</url-pattern>
+            <web-resource-name>App. Genre Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Genre/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFGROUPDEFROLE_R</role-name>
+            <role-name>AP_GENRE</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffgroupdefrole_w</display-name>
+        <display-name>Create App. Genre Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffgroupdefrole_w</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffGroupDefRole/*</url-pattern>
+            <web-resource-name>Create App. Genre Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Genre/Create.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFGROUPDEFROLE_W</role-name>
+            <role-name>AP_GENRE_C</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffgroups_r</display-name>
+        <display-name>Edit App. Genre Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffgroups_r</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffGroups/List.xhtml</url-pattern>
+            <web-resource-name>Edit App. Genre Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Genre/Edit.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFGROUPS_R</role-name>
+            <role-name>AP_GENRE_E</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffgroups_w</display-name>
+        <display-name>List App. Genre Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffgroups_w</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffGroups/*</url-pattern>
+            <web-resource-name>List App. Genre Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Genre/List.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFGROUPS_W</role-name>
+            <role-name>AP_GENRE_L</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffmanager_r</display-name>
+        <display-name>View App. Genre Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffmanager_r</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffManager/List.xhtml</url-pattern>
+            <web-resource-name>View App. Genre Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Genre/View.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFMANAGER_R</role-name>
+            <role-name>AP_GENRE_V</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffmanager_w</display-name>
+        <display-name>App. NC State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffmanager_w</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffManager/*</url-pattern>
+            <web-resource-name>App. NC State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCState/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFMANAGER_W</role-name>
+            <role-name>AP_NCSTATE</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffprofile_r</display-name>
+        <display-name>Create App. NC State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffprofile_r</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffProfile/*</url-pattern>
+            <web-resource-name>Create App. NC State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCState/Create.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFPROFILE_R</role-name>
+            <role-name>AP_NCSTATE_C</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffprofile_w</display-name>
+        <display-name>Edit App. NC State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffprofile_w</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffProfile/*</url-pattern>
+            <web-resource-name>Edit App. NC State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCState/Edit.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFPROFILE_W</role-name>
+            <role-name>AP_NCSTATE_E</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffsetup_r</display-name>
+        <display-name>List App. NC State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffsetup_r</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffSetup/List.xhtml</url-pattern>
+            <web-resource-name>List App. NC State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCState/List.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFSETUP_R</role-name>
+            <role-name>AP_NCSTATE_L</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_hrstaffsetup_w</display-name>
+        <display-name>View App. NC State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_hrstaffsetup_w</web-resource-name>
-            <url-pattern>/faces/public/company/hr/staffSetup/*</url-pattern>
+            <web-resource-name>View App. NC State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCState/View.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_HRSTAFFSETUP_W</role-name>
+            <role-name>AP_NCSTATE_V</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>SecurityCo_smq</display-name>
+        <display-name>App. NCR State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityCo_smq</web-resource-name>
-            <url-pattern>/faces/public/company/smq/*</url-pattern>
+            <web-resource-name>App. NCR State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCRState/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQ</role-name>
+            <role-name>AP_NCRSTATE</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqdocexplorer_r</display-name>
+        <display-name>Create App. NCR State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqdocexplorer_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/docExplorer/List.xhtml</url-pattern>
+            <web-resource-name>Create App. NCR State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCRState/Create.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQDOCEXPLORER_R</role-name>
+            <role-name>AP_NCRSTATE_C</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqdocexplorer_w</display-name>
+        <display-name>Edit App. NCR State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqdocexplorer_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/docExplorer/*</url-pattern>
+            <web-resource-name>Edit App. NCR State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCRState/Edit.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQDOCEXPLORER_W</role-name>
+            <role-name>AP_NCRSTATE_E</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqdoctype_r</display-name>
+        <display-name>List App. NCR State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqdoctype_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/docType/List.xhtml</url-pattern>
+            <web-resource-name>List App. NCR State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCRState/List.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQDOCTYPE_R</role-name>
+            <role-name>AP_NCRSTATE_L</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqdoctype_w</display-name>
+        <display-name>View App. NCR State Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqdoctype_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/docType/*</url-pattern>
+            <web-resource-name>View App. NCR State Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/NCRState/View.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQDOCTYPE_W</role-name>
+            <role-name>AP_NCRSTATE_V</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqprocessus_r</display-name>
+        <display-name>App. Role Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqprocessus_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/processus/List.xhtml</url-pattern>
+            <web-resource-name>App. Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Role/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQPROCESSUS_R</role-name>
+            <role-name>AP_ROLE</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqprocessus_w</display-name>
+        <display-name>Create App. Role Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqprocessus_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/processus/*</url-pattern>
+            <web-resource-name>Create App. Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Role/Create.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQPROCESSUS_W</role-name>
+            <role-name>AP_ROLE_C</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_r</display-name>
+        <display-name>Edit App. Role Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/*</url-pattern>
+            <web-resource-name>Edit App. Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Role/Edit.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNC_R</role-name>
+            <role-name>AP_ROLE_E</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_w</display-name>
+        <display-name>List App. Role Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/*</url-pattern>
+            <web-resource-name>List App. Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Role/List.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNC_W</role-name>
+            <role-name>AP_ROLE_L</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_frequence_r</display-name>
+        <display-name>View App. Role Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_frequence_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Frequence/List.xhtml</url-pattern>
+            <web-resource-name>View App. Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/app/Role/View.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCFREQUENCE_R</role-name>
+            <role-name>AP_ROLE_V</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_frequence_w</display-name>
+        <display-name>Human Resources Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_frequence_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Frequence/*</url-pattern>
+            <web-resource-name>Human Resources Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCFREQUENCE_W</role-name>
+            <role-name>HRESOURCES</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_gravite_r</display-name>
+        <display-name>HR. Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_gravite_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Gravite/List.xhtml</url-pattern>
+            <web-resource-name>HR. Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staff/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCGRAVITE_R</role-name>
+            <role-name>HR_STAFF</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_gravite_w</display-name>
+        <display-name>Create HR. Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_gravite_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Gravite/*</url-pattern>
+            <web-resource-name>Create HR. Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staff/Create.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCGRAVITE_W</role-name>
+            <role-name>HR_STAFF_C</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_nature_r</display-name>
+        <display-name>Edit HR. Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_nature_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Nature/List.xhtml</url-pattern>
+            <web-resource-name>Edit HR. Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staff/Edit.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCNATURE_R</role-name>
+            <role-name>HR_STAFF_E</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_nature_w</display-name>
+        <display-name>List HR. Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_nature_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Nature/*</url-pattern>
+            <web-resource-name>List HR. Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staff/List.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCNATURE_W</role-name>
+            <role-name>HR_STAFF_L</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_request_r</display-name>
+        <display-name>View HR. Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_request_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Request/List.xhtml</url-pattern>
+            <web-resource-name>View HR. Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staff/View.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCREQUEST_R</role-name>
+            <role-name>HR_STAFF_V</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_request_w</display-name>
+        <display-name>MainMenu HR. Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_request_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Request/*</url-pattern>
+            <web-resource-name>MainMenu HR. Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staff/MainMenu.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCREQUEST_W</role-name>
+            <role-name>HR_STAFF_M</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_unite_r</display-name>
+        <display-name>Profile HR. Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_unite_r</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Unite/List.xhtml</url-pattern>
+            <web-resource-name>Profile HR. Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staff/Profile.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCUNITE_R</role-name>
+            <role-name>HR_STAFF_P</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>Securityco_smqnc_unite_w</display-name>
+        <display-name>Setup HR. Staff Security onstraint</display-name>
         <web-resource-collection>
-            <web-resource-name>WebSecurityco_smqnc_unite_w</web-resource-name>
-            <url-pattern>/faces/public/company/smq/nc/Unite/*</url-pattern>
+            <web-resource-name>Setup HR. Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staff/Setup.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>CO_SMQNCUNITE_W</role-name>
+            <role-name>HR_STAFF_S</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
+    <security-constraint>
+        <display-name>HR. Company Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>HR. Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffCompany/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_COMPANY</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create HR. Company Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create HR. Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffCompany/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_COMPANY_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit HR. Company Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit HR. Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffCompany/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_COMPANY_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List HR. Company Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List HR. Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffCompany/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_COMPANY_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View HR. Company Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View HR. Company Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffCompany/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_COMPANY_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HR. Groups Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>HR. Groups Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDef/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUP</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create HR. Group Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create HR. Group Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDef/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUP_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit HR. Group Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit HR. Group Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDef/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUP_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List HR. Groups Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List HR. Groups Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDef/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUP_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View HR. Group Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View HR. Group Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDef/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUP_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HR. Groups Role Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>HR. Groups Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDefRole/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPROLE</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create HR. Group Role Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create HR. Group Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDefRole/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPROLE_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit HR. Group Role Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit HR. Group Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDefRole/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPROLE_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List HR. Group Role Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List HR. Group Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDefRole/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPROLE_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View HR. Group Role Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View HR. Group Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDefRole/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPROLE_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create by Tree HR. Group Role Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create by Tree HR. Group Role Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroupDefRole/CreateTree.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPROLE_CT</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HR. Groups staff Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>HR. Groups staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroups/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPSTAFF</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create HR. Group Staff Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create HR. Group Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroups/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPSTAFF_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit HR. Group Staff Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit HR. Group Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroups/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPSTAFF_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List HR. Group Staff Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List HR. Group Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroups/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPSTAFF_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View HR. Group Staff Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View HR. Group Staff Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffGroups/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_GROUPSTAFF_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HR. Manager Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>HR. Manager Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffManager/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_MANAGER</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create HR. Manager Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create HR. Manager Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffManager/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_MANAGER_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit HR. Manager Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit HR. Manager Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffManager/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_MANAGER_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List HR. Manager Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List HR. Manager Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffManager/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_MANAGER_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View HR. Manager Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View HR. Manager Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffManager/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_MANAGER_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>HR. Setup Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>HR. Setup Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffSetup/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_SETUP</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create HR. Setup Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create HR. Setup Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffSetup/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_SETUP_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit HR. Setup Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit HR. Setup Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffSetup/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_SETUP_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List HR. Setup Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List HR. Setup Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffSetup/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_SETUP_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View HR. Setup Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View HR. Setup Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffSetup/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_SETUP_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>My Setup HR. Setup Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>My Setup HR. Setup Web Security</web-resource-name>
+            <url-pattern>/faces/company/hr/staffSetup/MySetup.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_SETUP_M</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Sys. Management Qualité Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Sys. Management Qualité Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SMQ</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Documents Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Documents Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ Documents Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ Documents Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ Documents Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ Documents Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ Documents Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ Documents Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ Documents Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ Documents Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Type Document Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Type Document Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docType/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_TYPE</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ Type Document Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ Type Document Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docType/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_TYPE_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ Type Document Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ Type Document Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docType/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_TYPE_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ Type Document Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ Type Document Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docType/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_TYPE_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ Type Document Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ Type Document Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docType/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_TYPE_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Non Conformite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Non Conformite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Actions Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Actions Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Actions/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_ACTIONS</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ Actions Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ Actions Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Actions/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_ACTIONS_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ Actions Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ Actions Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Actions/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_ACTIONS_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ Actions Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ Actions Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Actions/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_ACTIONS_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ Actions Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ Actions Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Actions/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_ACTIONS_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Frequence Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Frequence Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Frequence/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_FREQUENCE</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ Frequence Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ Frequence Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Frequence/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_FREQUENCE_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ Frequence Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ Frequence Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Frequence/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_FREQUENCE_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ Frequence Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ Frequence Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Frequence/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_FREQUENCE_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ Frequence Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ Frequence Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Frequence/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_FREQUENCE_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Gravite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Gravite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Gravite/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_GRAVITE</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ Gravite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ Gravite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Gravite/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_GRAVITE_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ Gravite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ Gravite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Gravite/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_GRAVITE_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ Gravite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ Gravite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Gravite/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_GRAVITE_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ Gravite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ Gravite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Gravite/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_GRAVITE_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Nature Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Nature Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Nature/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_NATURE</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ Nature Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ Nature Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Nature/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_NATURE_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ Nature Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ Nature Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Nature/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_NATURE_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ Nature Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ Nature Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Nature/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_NATURE_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ Nature Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ Nature Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Nature/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_NATURE_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Request Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Request Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Request/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_REQUEST</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ Request Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ Request Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Request/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_REQUEST_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ Request Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ Request Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Request/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_REQUEST_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ Request Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ Request Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Request/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_REQUEST_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ Request Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ Request Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Request/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_REQUEST_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Action SMQ Request Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Action SMQ Request Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Request/Action.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_REQUEST_A</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Review SMQ Request Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Review SMQ Request Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Request/Review.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_REQUEST_R</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Validate SMQ Request Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Validate SMQ Request Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Request/Validate.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_REQUEST_VA</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ Unite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ Unite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Unite/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_UNITE</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ Unite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ Unite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Unite/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_UNITE_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ Unite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ Unite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Unite/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_UNITE_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ Unite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ Unite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Unite/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_UNITE_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ Unite Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ Unite Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/nc/Unite/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>SNC_UNITE_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>SMQ processus Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>SMQ processus Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/processus/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_PROCESSUS</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Create SMQ processus Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create SMQ processus Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/processus/Create.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_PROCESSUS_C</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit SMQ processus Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit SMQ processus Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/processus/Edit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_PROCESSUS_E</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List SMQ processus Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List SMQ processus Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/processus/List.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_PROCESSUS_L</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View SMQ processus Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View SMQ processus Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/processus/View.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_PROCESSUS_V</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+
     <security-role>
-        <description>Utilisateur</description>
-        <role-name>USER</role-name>
+        <role-name>GUEST</role-name>
     </security-role>
     <security-role>
-        <description>Compagnie</description>
-        <role-name>CO</role-name>
+        <role-name>STAFF</role-name>
     </security-role>
     <security-role>
-        <description>Administration</description>
-        <role-name>CO_ADMI</role-name>
+        <role-name>ADMIN</role-name>
     </security-role>
     <security-role>
-        <description>Compagnie Lecture</description>
-        <role-name>CO_ADMICOMPANY_R</role-name>
+        <role-name>A_COMPANY</role-name>
     </security-role>
     <security-role>
-        <description>Compagnie Ecriture</description>
-        <role-name>CO_ADMICOMPANY_W</role-name>
+        <role-name>A_COMPANY_C</role-name>
     </security-role>
     <security-role>
-        <description>Entreprise Lecture</description>
-        <role-name>CO_ADMIENTREPRISE_R</role-name>
+        <role-name>A_COMPANY_E</role-name>
     </security-role>
     <security-role>
-        <description>Entreprise Ecriture</description>
-        <role-name>CO_ADMIENTREPRISE_W</role-name>
+        <role-name>A_COMPANY_L</role-name>
     </security-role>
     <security-role>
-        <description>Rôle Lecture</description>
-        <role-name>CO_ADMIISMROLE_R</role-name>
+        <role-name>A_COMPANY_V</role-name>
     </security-role>
     <security-role>
-        <description>Genre Lecture</description>
-        <role-name>CO_ADMIISMGENRE_R</role-name>
+        <role-name>A_ENTREPRISE</role-name>
     </security-role>
     <security-role>
-        <description>Ressources Humaines</description>
-        <role-name>CO_HR</role-name>
+        <role-name>A_ENTREPRISE_C</role-name>
     </security-role>
     <security-role>
-        <description>Staff Lecture</description>
-        <role-name>CO_HRSTAFF_R</role-name>
+        <role-name>A_ENTREPRISE_E</role-name>
     </security-role>
     <security-role>
-        <description>Staff Ecriture</description>
-        <role-name>CO_HRSTAFF_W</role-name>
+        <role-name>A_ENTREPRISE_L</role-name>
     </security-role>
     <security-role>
-        <description>Staff Compagnie Lecture</description>
-        <role-name>CO_HRSTAFFCOMPANIES_R</role-name>
+        <role-name>A_ENTREPRISE_V</role-name>
     </security-role>
     <security-role>
-        <description>Staff Compagnie Ecriture</description>
-        <role-name>CO_HRSTAFFCOMPANIES_W</role-name>
+        <role-name>APP</role-name>
     </security-role>
     <security-role>
-        <description>Staff Définition Groupe Lecture</description>
-        <role-name>CO_HRSTAFFGROUPDEF_R</role-name>
+        <role-name>AP_GENRE</role-name>
     </security-role>
     <security-role>
-        <description>Staff Définition Groupe Ecriture</description>
-        <role-name>CO_HRSTAFFGROUPDEF_W</role-name>
+        <role-name>AP_GENRE_C</role-name>
     </security-role>
     <security-role>
-        <description>Staff Connexion role Lecture</description>
-        <role-name>CO_HRSTAFFGROUPDEFROLE_R</role-name>
+        <role-name>AP_GENRE_E</role-name>
     </security-role>
     <security-role>
-        <description>Staff Connexion role Ecriture</description>
-        <role-name>CO_HRSTAFFGROUPDEFROLE_W</role-name>
+        <role-name>AP_GENRE_L</role-name>
     </security-role>
     <security-role>
-        <description>Staff Groupe Lecture</description>
-        <role-name>CO_HRSTAFFGROUPS_R</role-name>
+        <role-name>AP_GENRE_V</role-name>
     </security-role>
     <security-role>
-        <description>Staff Groupe Ecriture</description>
-        <role-name>CO_HRSTAFFGROUPS_W</role-name>
+        <role-name>AP_NCSTATE</role-name>
     </security-role>
     <security-role>
-        <description>Syst. Management Qualité</description>
-        <role-name>CO_SMQ</role-name>
+        <role-name>AP_NCSTATE_C</role-name>
     </security-role>
     <security-role>
-        <description>Smq Exploration Document Lecture</description>
-        <role-name>CO_SMQDOCEXPLORER_R</role-name>
+        <role-name>AP_NCSTATE_E</role-name>
     </security-role>
     <security-role>
-        <description>Smq Exploration Document Ecriture</description>
-        <role-name>CO_SMQDOCEXPLORER_W</role-name>
+        <role-name>AP_NCSTATE_L</role-name>
     </security-role>
     <security-role>
-        <description>Smq Type de Document Lecture</description>
-        <role-name>CO_SMQDOCTYPE_R</role-name>
+        <role-name>AP_NCSTATE_V</role-name>
     </security-role>
     <security-role>
-        <description>Smq Type de Document Ecriture</description>
-        <role-name>CO_SMQDOCTYPE_W</role-name>
+        <role-name>AP_NCRSTATE</role-name>
     </security-role>
     <security-role>
-        <description>Smq Processus Lecture</description>
-        <role-name>CO_SMQPROCESSUS_R</role-name>
+        <role-name>AP_NCRSTATE_C</role-name>
     </security-role>
     <security-role>
-        <description>Smq Processus Ecriture</description>
-        <role-name>CO_SMQPROCESSUS_W</role-name>
+        <role-name>AP_NCRSTATE_E</role-name>
     </security-role>
     <security-role>
-        <description>Smq non conformite Lecture</description>
-        <role-name>CO_SMQNC_R</role-name>
+        <role-name>AP_NCRSTATE_L</role-name>
     </security-role>
     <security-role>
-        <description>Smq non conformite écriture</description>
-        <role-name>CO_SMQNC_W</role-name>
+        <role-name>AP_NCRSTATE_V</role-name>
     </security-role>
     <security-role>
-        <description>SMQ nc unité lecture</description>
-        <role-name>CO_SMQNCUNITE_R</role-name>
+        <role-name>AP_ROLE</role-name>
     </security-role>
     <security-role>
-        <description>SMQ nc unité écriture</description>
-        <role-name>CO_SMQNCUNITE_W</role-name>
+        <role-name>AP_ROLE_C</role-name>
     </security-role>
     <security-role>
-        <description>SMQ nc nature lecture</description>
-        <role-name>CO_SMQNCNATURE_R</role-name>
+        <role-name>AP_ROLE_E</role-name>
     </security-role>
     <security-role>
-        <description>SMQ nc nature écriture</description>
-        <role-name>CO_SMQNCNATURE_W</role-name>
+        <role-name>AP_ROLE_L</role-name>
     </security-role>
     <security-role>
-        <description>SMQ nc gravité lecture</description>
-        <role-name>CO_SMQNCGRAVITE_R</role-name>
+        <role-name>AP_ROLE_V</role-name>
     </security-role>
     <security-role>
-        <description>SMQ nc gravité écriture</description>
-        <role-name>CO_SMQNCGRAVITE_W</role-name>
+        <role-name>HRESOURCES</role-name>
     </security-role>
     <security-role>
-        <description>SMQ nc fréquence lecture</description>
-        <role-name>CO_SMQNCFREQUENCE_R</role-name>
+        <role-name>HR_STAFF</role-name>
     </security-role>
     <security-role>
-        <description>SMQ nc fréquence écriture</description>
-        <role-name>CO_SMQNCFREQUENCE_W</role-name>
+        <role-name>HR_STAFF_C</role-name>
     </security-role>
     <security-role>
-        <description>Smq nc request lecture</description>
-        <role-name>CO_SMQNCREQUEST_R</role-name>
+        <role-name>HR_STAFF_E</role-name>
     </security-role>
     <security-role>
-        <description>Smq nc request écriture</description>
-        <role-name>CO_SMQNCREQUEST_W</role-name>
+        <role-name>HR_STAFF_L</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC clôture - lecture</description>
-        <role-name>CO_SMQNCCLOTURE_R</role-name>
+        <role-name>HR_STAFF_V</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC clôture - ecriture</description>
-        <role-name>CO_SMQNCCLOTURE_W</role-name>
+        <role-name>HR_STAFF_M</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC refuser - lecture</description>
-        <role-name>CO_SMQNCREFUSE_R</role-name>
+        <role-name>HR_STAFF_P</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC refuser - ecriture</description>
-        <role-name>CO_SMQNCREFUSE_W</role-name>
+        <role-name>HR_STAFF_S</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC valider - lecture</description>
-        <role-name>CO_SMQNCVALIDATE_R</role-name>
+        <role-name>HR_COMPANY</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC valider - ecriture</description>
-        <role-name>CO_SMQNCVALIDATE_W</role-name>
+        <role-name>HR_COMPANY_C</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC action - lecture</description>
-        <role-name>CO_SMQNCACTION_R</role-name>
+        <role-name>HR_COMPANY_E</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC action - ecriture</description>
-        <role-name>CO_SMQNCACTION_W</role-name>
+        <role-name>HR_COMPANY_L</role-name>
     </security-role>
     <security-role>
-        <description>RH Staff manager - lecture</description>
-        <role-name>CO_HRSTAFFMANAGER_R</role-name>
+        <role-name>HR_COMPANY_V</role-name>
     </security-role>
     <security-role>
-        <description>RH Staff manager - ecriture</description>
-        <role-name>CO_HRSTAFFMANAGER_W</role-name>
+        <role-name>HR_GROUP</role-name>
     </security-role>
     <security-role>
-        <description>RH Staff profile - lecture</description>
-        <role-name>CO_HRSTAFFPROFILE_R</role-name>
+        <role-name>HR_GROUP_C</role-name>
     </security-role>
     <security-role>
-        <description>RH Staff profile - ecriture</description>
-        <role-name>CO_HRSTAFFPROFILE_W</role-name>
+        <role-name>HR_GROUP_E</role-name>
     </security-role>
     <security-role>
-        <description>RH Staff config - lecture</description>
-        <role-name>CO_HRSTAFFSETUP_R</role-name>
+        <role-name>HR_GROUP_L</role-name>
     </security-role>
     <security-role>
-        <description>RH Staff config - ecriture</description>
-        <role-name>CO_HRSTAFFSETUP_W</role-name>
+        <role-name>HR_GROUP_V</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC MANAGE STATE - Lecture</description>
-        <role-name>CO_SMQNCMANAGESTATE_R</role-name>
+        <role-name>HR_GROUPROLE</role-name>
     </security-role>
     <security-role>
-        <description>SMQ NC MANAGE STATE - Ecriture</description>
-        <role-name>CO_SMQNCMANAGESTATE_W</role-name>
+        <role-name>HR_GROUPROLE_C</role-name>
     </security-role>
+    <security-role>
+        <role-name>HR_GROUPROLE_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_GROUPROLE_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_GROUPROLE_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_GROUPROLE_CT</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_GROUPSTAFF</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_GROUPSTAFF_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_GROUPSTAFF_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_GROUPSTAFF_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_GROUPSTAFF_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_MANAGER</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_MANAGER_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_MANAGER_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_MANAGER_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_MANAGER_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_SETUP</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_SETUP_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_SETUP_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_SETUP_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_SETUP_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>HR_SETUP_M</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SMQ</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_EXPLORER</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_EXPLORER_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_EXPLORER_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_EXPLORER_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_EXPLORER_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_TYPE</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_TYPE_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_TYPE_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_TYPE_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_TYPE_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_ACTIONS</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_ACTIONS_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_ACTIONS_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_ACTIONS_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_ACTIONS_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_FREQUENCE</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_FREQUENCE_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_FREQUENCE_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_FREQUENCE_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_FREQUENCE_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_GRAVITE</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_GRAVITE_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_GRAVITE_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_GRAVITE_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_GRAVITE_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_NATURE</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_NATURE_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_NATURE_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_NATURE_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_NATURE_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_REQUEST</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_REQUEST_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_REQUEST_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_REQUEST_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_REQUEST_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_REQUEST_A</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_REQUEST_R</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_REQUEST_VA</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_UNITE</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_UNITE_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_UNITE_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_UNITE_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>SNC_UNITE_V</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_PROCESSUS</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_PROCESSUS_C</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_PROCESSUS_E</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_PROCESSUS_L</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_PROCESSUS_V</role-name>
+    </security-role>
+
+
 </web-app>

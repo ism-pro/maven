@@ -52,9 +52,8 @@ public class StaffAuthFacade implements Serializable {
     private final String NQ_STAFFCOMPANIES_COUNT = "StaffCompanies.countStaffCompanies";
     private final String NQ_STAFFGROUPS = "StaffGroups.findByStaffCompanyActivated";
     private final String NQ_STAFFGROUPS_COUNT = "StaffGroups.countStaffCompanyActivated";
-    private final String NQ_STAFFGROUPS_ROLE = "StaffGroupDefRole.findByCompanyGroupsActivated";
-    private final String NQ_STAFFGROUPS_ROLE_COUNT = "StaffGroupDefRole.countCompanyGroupsActivated";
 
+    
     public StaffAuthFacade() {
     }
 

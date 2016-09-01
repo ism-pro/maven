@@ -12,14 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("ismRoleController")
+@ManagedBean(name = "ismRoleController")
 @SessionScoped
 public class IsmRoleController implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -122,7 +122,7 @@ public class IsmRoleController implements Serializable {
         return getFacade().findAll();
     }
 
-    IsmRole getItemBy(String role) {
+    public IsmRole getItemBy(String role) {
         return getFacade().findByRole(role);
     }
 

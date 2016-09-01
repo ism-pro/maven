@@ -14,13 +14,14 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("companyController")
+@ManagedBean(name = "companyController")
 @SessionScoped
 public class CompanyController implements Serializable {
     private static final long serialVersionUID = 1L;

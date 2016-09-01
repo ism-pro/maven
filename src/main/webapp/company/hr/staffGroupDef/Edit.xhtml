@@ -1,79 +1,143 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="StaffGroupDefEditDlg" widgetVar="StaffGroupDefEditDialog"  
-                  dynamic="true" showEffect="clip"  hideEffect="clip" 
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.StaffGroupDefTitleEdit}">
-            
-            <h:form id="StaffGroupDefEditForm">
-                
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{staffGroupDefController.selected != null}">
-                        
-                        <p:outputLabel value="#{ism.StaffGroupDefField_stgdId}" for="stgdId"  />
-                        <p:inputText id="stgdId" value="#{staffGroupDefController.selected.stgdId}" 
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.StaffGroupDefTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{staffGroupDefController.selected != null}">
+
+                    <p:outputLabel value="#{ism.StaffGroupDefField_stgdId}" rendered="true" for="stgdId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="stgdId" rendered="false"
+                                     value="#{staffGroupDefController.selected.stgdId}" 
                                      title="#{ism.StaffGroupDefFieldInfo_stgdId}" 
-                                     required="true" disabled="true"
-                                     requiredMessage="#{ism.StaffGroupDefRequiredMessage_stgdId}"/>
-                        
-                        <p:outputLabel value="#{ism.StaffGroupDefField_stgdGroupDef}" for="stgdGroupDef" />
+                                     required="true" 
+                                     requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdId}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffGroupDefController.selected.stgdId}" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffGroupDefField_stgdGroupDef}" for="stgdGroupDef" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="stgdGroupDef" 
                                      value="#{staffGroupDefController.selected.stgdGroupDef}" 
                                      title="#{ism.StaffGroupDefFieldInfo_stgdGroupDef}" 
-                                     required="true" disabled="true"
-                                     requiredMessage="#{ism.StaffGroupDefRequiredMessage_stgdGroupDef}"/>
-                        
-                        <p:outputLabel value="#{ism.StaffGroupDefField_stgdDesignation}" for="stgdDesignation" />
-                        <p:inputText id="stgdDesignation" 
-                                     value="#{staffGroupDefController.selected.stgdDesignation}" 
-                                     title="#{ism.StaffGroupDefFieldInfo_stgdDesignation}" />
-                        
-                        <p:outputLabel value="#{ism.StaffGroupDefField_stgdDeleted}" for="stgdDeleted" />
-                        <p:selectBooleanCheckbox id="stgdDeleted" 
-                                                 value="#{staffGroupDefController.selected.stgdDeleted}" 
-                                                 required="true" 
-                                                 requiredMessage="#{ism.StaffGroupDefRequiredMessage_stgdDeleted}"/>
-                        
-                        <p:outputLabel value="#{ism.StaffGroupDefField_stgdCreated}" for="stgdCreated" rendered="false" />
-                        <p:calendar id="stgdCreated" pattern="MM/dd/yyyy HH:mm:ss" 
-                                    value="#{staffGroupDefController.selected.stgdCreated}" 
-                                    title="#{ism.StaffGroupDefFieldInfo_stgdCreated}" 
-                                    required="true" rendered="false"
-                                    requiredMessage="#{ism.StaffGroupDefRequiredMessage_stgdCreated}" 
-                                    showOn="button"/>
-                        
-                        <p:outputLabel value="#{ism.StaffGroupDefField_stgdChanged}" for="stgdChanged" rendered="false" />
-                        <p:calendar id="stgdChanged" pattern="MM/dd/yyyy HH:mm:ss" 
-                                    value="#{staffGroupDefController.selected.stgdChanged}"
-                                    title="#{ism.StaffGroupDefFieldInfo_stgdChanged}" 
-                                    required="true" rendered="false"
-                                    requiredMessage="#{ism.StaffGroupDefRequiredMessage_stgdChanged}" 
-                                    showOn="button"/>
-                        
-                        <p:outputLabel value="#{ism.StaffGroupDefField_stgdCompany}" for="stgdCompany" />
-                        <p:selectOneMenu id="stgdCompany" 
-                                         value="#{staffGroupDefController.selected.stgdCompany}" 
-                                         required="true" disabled="true"
-                                         requiredMessage="#{ism.StaffGroupDefRequiredMessage_stgdCompany}">
-                            <f:selectItem  itemValue="#{staffAuthController.company}"
-                                           itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}"
-                                           />
-                        </p:selectOneMenu>
-                        
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{staffGroupDefController.update}" value="#{ism.Save}" update="display,:StaffGroupDefListForm:datalist,:growl" oncomplete="handleSubmit(args, 'StaffGroupDefEditDialog');"/>
-                    <p:commandButton value="#{ism.Cancel}" onclick="StaffGroupDefEditDialog.hide()"/>
-                </h:panelGroup>
-            </h:form>
-        </p:dialog>
+                                     validator="StaffGroupDefCodeValidator"
+                                     required="true" requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdGroupDef}"/>
+                        <p:message for="stgdGroupDef"   />
+                    </h:panelGrid>
 
+
+                    <p:outputLabel value="#{ism.StaffGroupDefField_stgdDesignation}" for="stgdDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="stgdDesignation" 
+                                     value="#{staffGroupDefController.selected.stgdDesignation}"
+                                        title="#{ism.StaffGroupDefFieldInfo_stgdDesignation}" 
+                                     validator="StaffGroupDefDesignationValidator"
+                                     required="true" requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdDesignation}"/>
+                        <p:message for="stgdDesignation"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffGroupDefField_stgdDeleted}" for="stgdDeleted" />
+                    <p:selectBooleanCheckbox id="stgdDeleted" 
+                                             value="#{staffGroupDefController.selected.stgdDeleted}" 
+                                             required="true" 
+                                             requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdDeleted}"/>
+
+                    <p:outputLabel value="#{ism.StaffGroupDefField_stgdCreated}" 
+                                   rendered="false" for="stgdCreated" />
+                    <p:calendar id="stgdCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
+                                value="#{staffGroupDefController.selected.stgdCreated}" 
+                                title="#{ism.StaffGroupDefFieldInfo_stgdCreated}" 
+                                required="true" 
+                                requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdCreated}" 
+                                showOn="button"/>
+
+                    <p:outputLabel value="#{ism.StaffGroupDefField_stgdChanged}" 
+                                   rendered="false" for="stgdChanged" />
+                    <p:calendar id="stgdChanged"  rendered="false"
+                                pattern="dd/MM/yyyy HH:mm:ss" 
+                                value="#{staffGroupDefController.selected.stgdChanged}" 
+                                title="#{ism.StaffGroupDefFieldInfo_stgdChanged}" 
+                                required="true" 
+                                requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdChanged}" 
+                                showOn="button"/>
+
+                    <p:outputLabel value="#{ism.StaffGroupDefField_stgdCompany}" for="stgdCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="stgdCompany" widgetVar="stgdCompany"
+                                     value="#{staffGroupDefController.selected.stgdCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdCompany}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
+                </p:panelGrid>
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{staffGroupDefController.update}" 
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{staffGroupDefController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{staffGroupDefController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

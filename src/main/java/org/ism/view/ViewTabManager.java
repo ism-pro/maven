@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.ism.entities.DocExplorer;
 import org.ism.entities.DocType;
 import org.ism.entities.NonConformiteFrequency;
@@ -26,6 +27,8 @@ import org.ism.entities.NonConformiteNature;
 import org.ism.entities.NonConformiteRequest;
 import org.ism.entities.NonConformiteUnite;
 import org.ism.entities.Processus;
+import org.ism.entities.StaffGroupDef;
+import org.ism.entities.StaffGroupDefRole;
 import org.ism.jsf.DocExplorerController;
 import org.ism.jsf.DocTypeController;
 import org.ism.jsf.NonConformiteFrequencyController;
@@ -34,6 +37,8 @@ import org.ism.jsf.NonConformiteNatureController;
 import org.ism.jsf.NonConformiteRequestController;
 import org.ism.jsf.NonConformiteUniteController;
 import org.ism.jsf.ProcessusController;
+import org.ism.jsf.StaffGroupDefController;
+import org.ism.jsf.StaffGroupDefRoleController;
 
 /**
  *
@@ -77,11 +82,14 @@ public class ViewTabManager implements Serializable {
     private List<NonConformiteUnite> ncUnite;
     private List<NonConformiteUnite> ncUniteFiltered;
 
+    private StaffGroupDefController staffGroupDefCtrl;
+    private List<StaffGroupDef> staffGroupDef;
+    private List<StaffGroupDef> staffGroupDefFiltered;
 
-    /*
-    @ManagedProperty("#{processusController}")
-    private ProcessusController     processusCtrl;
-     */
+    private StaffGroupDefRoleController staffGroupDefRoleCtrl;
+    private List<StaffGroupDefRole> staffGroupDefRole;
+    private List<StaffGroupDefRole> staffGroupDefRoleFiltered;
+
     /**
      * Creates a new instance of FilterNCRequestView
      */
@@ -126,6 +134,14 @@ public class ViewTabManager implements Serializable {
         ncUniteCtrl = (NonConformiteUniteController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteUniteController");
         ncUnite = ncUniteCtrl.getItemsByLastChanged();
+
+        staffGroupDefCtrl = (StaffGroupDefController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "staffGroupDefController");
+        staffGroupDef = staffGroupDefCtrl.getItemsByLastChanged();
+
+        staffGroupDefRoleCtrl = (StaffGroupDefRoleController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "staffGroupDefRoleController");
+        staffGroupDefRole = staffGroupDefRoleCtrl.getItemsByLastChanged();
     }
 
     /**
@@ -297,6 +313,48 @@ public class ViewTabManager implements Serializable {
     }
 
     /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<StaffGroupDef> getStaffGroupDef() {
+        return staffGroupDef;
+    }
+
+    public void setStaffGroupDef(List<StaffGroupDef> staffGroupDef) {
+        this.staffGroupDef = staffGroupDef;
+    }
+
+    public List<StaffGroupDef> getStaffGroupDefFiltered() {
+        return staffGroupDefFiltered;
+    }
+
+    public void setStaffGroupDefFiltered(List<StaffGroupDef> staffGroupDefFiltered) {
+        this.staffGroupDefFiltered = staffGroupDefFiltered;
+    }
+
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<StaffGroupDefRole> getStaffGroupDefRole() {
+        return staffGroupDefRole;
+    }
+
+    public void setStaffGroupDefRole(List<StaffGroupDefRole> staffGroupDefRole) {
+        this.staffGroupDefRole = staffGroupDefRole;
+    }
+
+    public List<StaffGroupDefRole> getStaffGroupDefRoleFiltered() {
+        return staffGroupDefRoleFiltered;
+    }
+
+    public void setStaffGroupDefRoleFiltered(List<StaffGroupDefRole> staffGroupDefRoleFiltered) {
+        this.staffGroupDefRoleFiltered = staffGroupDefRoleFiltered;
+    }
+
+    /**
      * ************************************************************************
      *
      *
@@ -372,6 +430,9 @@ public class ViewTabManager implements Serializable {
         ncNature = ncNatureCtrl.getItemsByLastChanged();
         ncRequest = ncRequestCtrl.getItemsByLastChanged();
         ncUnite = ncUniteCtrl.getItemsByLastChanged();
+
+        staffGroupDef = staffGroupDefCtrl.getItemsByLastChanged();
+        staffGroupDefRole = staffGroupDefRoleCtrl.getItemsByLastChanged();
     }
 
     /**
@@ -413,9 +474,18 @@ public class ViewTabManager implements Serializable {
                 ncUniteCtrl.destroy();
                 ncUnite = ncUniteCtrl.getItemsByLastChanged();
                 break;
+            case "staffGroupDef":
+                staffGroupDefCtrl.destroy();
+                staffGroupDef = staffGroupDefCtrl.getItemsByLastChanged();
+                break;
+            case "staffGroupDefRole":
+                staffGroupDefRoleCtrl.destroy();
+                staffGroupDefRole = staffGroupDefRoleCtrl.getItemsByLastChanged();
+                break;
             default:
-                String allowedCtrl = " Allowed :  processus / docExplorer / docType / nonConformiteFrequency / " +
-                       "nonConformiteGravity / nonConformiteNature / nonConformiteRequest / nonConformiteUnite" ;
+                String allowedCtrl = " Allowed :  processus / docExplorer / docType / nonConformiteFrequency / "
+                        + "nonConformiteGravity / nonConformiteNature / nonConformiteRequest / nonConformiteUnite / "
+                        + " staffGroupDef / staffGroupDefRole / ";
                 throw new IllegalArgumentException("Invalid controller: " + ctrl + allowedCtrl);
         }
     }

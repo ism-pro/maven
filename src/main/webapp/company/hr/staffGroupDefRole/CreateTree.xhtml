@@ -7,96 +7,105 @@
       xmlns:p="http://primefaces.org/ui">
 
 
-
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1>
-                <h:outputText value="#{ism.StaffGroupDefRoleTitleEdit}" />
-            </h1>
+            <h1><h:outputText value="#{ism.StaffGroupDefRoleTitleEdit}"/></h1>
 
-            <h:form id="StaffGroupDefRoleCreateTreeForm">
-                <h:panelGroup id="display">
-                    <p:panel header="#{ism.StaffGroupDefRoleTitleTree}">
+            <h:form id="bodyForm">
 
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="#{ism.StaffGroupDefField_stgdGroupDef}" for="stgdGroupDef" />
-                            <p:selectOneMenu id="stgdGroupDef" value="#{staffGroupDefRoleController.selected.stgdrGroupDef}" 
-                                             style="width: 256px;"
-                                             onchange="submit()"
-                                             valueChangeListener="#{staffGroupDefRoleController.listenerOnGroupChange}"
-                                             >
-                                <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue=""/>
-                                <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}"
-                                               var="item"
-                                               itemLabel="#{item.stgdGroupDef} - #{item.stgdDesignation}"
-                                               itemValue="#{item}"/>
-                            </p:selectOneMenu>
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{staffGroupDefRoleController.selected != null}">
 
 
-                            <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrRole}" for="tree"
-                                           rendered="#{staffGroupDefRoleController.selected.stgdrGroupDef!=null}"/>
-                            <h:panelGroup rendered="#{staffGroupDefRoleController.nodeAccessTree!=null and staffGroupDefRoleController.selected.stgdrGroupDef!=null}">
-                                <p:contextMenu for="tree">
-                                    <p:menuitem value="Aucun" update="tree"
-                                                actionListener="#{staffGroupDefRoleController.listenerOnNodeAccessNone}" icon="ui-icon-search" />
-                                    <p:menuitem value="Lecture" update="tree"
-                                                actionListener="#{staffGroupDefRoleController.listenerOnNodeAccessRead}" icon="ui-icon-close" />
-                                    <p:menuitem value="Ecriture" update="tree"
-                                                actionListener="#{staffGroupDefRoleController.listenerOnNodeAccessWrite}" icon="ui-icon-close" />
-                                </p:contextMenu>
-                                <p:treeTable id="tree"
-                                             value="#{staffGroupDefRoleController.nodeAccessTree}"  var="document"
-                                             selectionMode="single"
-                                             resizableColumns="true"
-                                             >
-                                    <p:ajax event="select" listener="#{staffGroupDefRoleController.listenerOnSelectNode}" />
+                    <p:outputLabel value="#{ism.StaffGroupDefField_stgdGroupDef}" for="stgdGroupDef" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="stgdGroupDef" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{staffGroupDefRoleController.selected.stgdrGroupDef}" 
+                                         required="true" 
+                                         requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdGroupDef}"
+                                         valueChangeListener="#{staffGroupDefRoleController.handleGroupChange}"
+                                         >
+                            <p:ajax event="change" update="westGroup @form, :growl" />
+                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue=""/>
+                            <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}" 
+                                           var="item"
+                                           itemLabel="#{item.stgdGroupDef} - #{item.stgdDesignation}"
+                                           itemValue="#{item}"/>
+                        </p:selectOneMenu>
+                        <p:message for="stgdGroupDef" />
+                    </h:panelGrid>
 
 
-                                    <p:column resizable="true">
-                                        <f:facet name="header" >#{ism.StaffGroupDefRoleField_stgdrRole}</f:facet>
-                                        <h:outputText value="#{document.name}" />
-                                    </p:column>
-
-                                    <p:column resizable="true">
-                                        <f:facet name="header">#{ism.StaffGroupDefRoleField_stgdrAccess}</f:facet>
-                                        <h:graphicImage library="img" 
-                                                        width="18px"    height="18px"
-                                                        name="#{document.access=='A_N'?'db/db_status.png':
-                                                                document.access=='A_R'?'db/database.png':'db/db_add.png'}" />
-                                    </p:column>
-
-                                    <p:column resizable="true">
-                                        <f:facet name="header">#{ism.StaffGroupDefRoleField_stgdrDescription}</f:facet>
-                                        <h:outputText value="#{document.description}" />
-                                    </p:column>
 
 
-                                    <p:column resizable="true">
-                                        <f:facet name="header">#{ism.StaffGroupDefRoleField_stgdrCode}</f:facet>
-                                        <h:outputText value="#{document.code}" />
-                                    </p:column>
+                    <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrRole}" for="tree"
+                                   rendered="#{staffGroupDefRoleController.selected.stgdrGroupDef!=null}"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;"
+                                 rendered="#{staffGroupDefRoleController.nodeAccessTree!=null and staffGroupDefRoleController.selected.stgdrGroupDef!=null}">
 
-                                </p:treeTable>
-                            </h:panelGroup>
+                        <p:treeTable id="tree"
+                                     value="#{staffGroupDefRoleController.nodeAccessTree}"  
+                                     var="access"
+                                     nodeVar="node"
+                                     selectionMode="checkbox"
+                                     resizableColumns="true"
+                                     >
+                            <p:ajax event="select" listener="#{staffGroupDefRoleController.handleTreeTableSelect}" update=":growl" />
+                            <p:ajax event="unselect" listener="#{staffGroupDefRoleController.handleTreeTableUnSelect}" update=":growl" />
 
-                            <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrCompany}" for="stgdrCompany" />
-                            <p:selectOneMenu id="stgdrCompany" value="#{staffGroupDefRoleController.selected.stgdrCompany}" 
-                                             required="true" 
-                                             requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrCompany}">
-                                <f:selectItem  itemValue="#{staffAuthController.company}"
-                                               itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}"
-                                               />
-                            </p:selectOneMenu>
-                        </p:panelGrid>
-                    </p:panel>
-                    <p:commandButton    id="StaffGroupDefRoleUpdateAccess"
-                                        rendered="#{staffGroupDefRoleController.selected.stgdrGroupDef!=null}"
-                                        action="#{staffGroupDefRoleController.applyChangedTree}" 
-                                        value="#{ism.Save}" 
-                                        style="margin-top: 5px;"
-                                        update="display,:StaffGroupDefRoleCreateTreeForm:tree,:growl" 
-                                        >
+
+                            <p:column resizable="true" headerText="#{ism.StaffGroupDefRoleField_stgdrRole}">
+                                <p:treeNode type="checkbox">
+                                    <h:outputText value="#{access.name}" />
+                                </p:treeNode>
+                            </p:column>
+                            <p:column resizable="true" headerText="#{ism.StaffGroupDefRoleField_stgdrDescription}">
+                                <p:treeNode type="checkbox">
+                                    <h:outputText value="#{access.description}" />
+                                </p:treeNode>
+                            </p:column>
+                            <p:column resizable="true" headerText="#{ism.StaffGroupDefRoleField_stgdrCodification}">
+                                <p:treeNode type="checkbox">
+                                    <h:outputText value="#{access.code}" />
+                                </p:treeNode>
+                            </p:column>
+
+                        </p:treeTable>
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrCompany}" for="stgdrCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="stgdrCompany" widgetVar="stgdrCompany"
+                                     value="#{staffGroupDefRoleController.selected.stgdrCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrCompany}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  rendered="#{staffGroupDefRoleController.selected.stgdrGroupDef!=null}">
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{staffGroupDefRoleController.createTree}" 
+                                     onstart="#{p:widgetVar('bodyForm:stgdrCompany')}.enable();"
+                                     update="bodyForm,:bodyForm:tree,:growl" 
+                                     action="./CreateTree.xhtml?faces-redirect=true"
+                                     rendered="#{!staffGroupDefRoleController.isOnMultiCreation}"
+                                     widgetVar="btnSave"
+                                     onclick="PF('w_progress').start();PF('btnSave').disable();"
+                                     >
                         <p:confirm header="#{ism.StaffGroupDefRoleTitleList} - #{ism.ConfirmApplyTitle}" 
                                    message="#{ism.ConfirmApplyMessage}" 
                                    icon="ui-icon-alert"/>
@@ -107,11 +116,82 @@
                                              icon="ui-icon-close"/>
                         </p:confirmDialog>
                     </p:commandButton>
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{staffGroupDefRoleController.prepareCreate()}"
+                                     action="./CreateTree.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
+
+                <br />
+                <br />
+                <p:progressBar widgetVar="w_progress" ajax="true" 
+                               value="#{staffGroupDefRoleController.createTreeProgress}" 
+                               interval="1500"
+                               labelTemplate="{value}%" styleClass="animated" global="false">
+                    <p:ajax event="complete" update="bodyForm" oncomplete="PF('btnSave').enable()"/>
+                </p:progressBar>
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
             </h:form>
 
+        </ui:define>
 
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup" >
+                <p:commandButton id="showBtnTable" 
+                                 icon="ui-btn-List"
+                                 styleClass="options-btn"
+                                 value="#{ism.ShowAll}" 
+                                 actionListener="#{staffGroupDefRoleController.prepareCreate()}"
+                                 action="List.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser les rôles associé au groupe sous forme de table"
+                                 />
+                <br />
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{staffGroupDefRoleController.createTree}" 
+                                 onstart="#{p:widgetVar('bodyForm:stgdrCompany')}.enable();"
+                                 update="bodyForm,:bodyForm:tree,:growl" 
+                                 action="./CreateTree.xhtml?faces-redirect=true"
+                                 rendered="#{staffGroupDefRoleController.selected.stgdrGroupDef!=null}"
+                                 widgetVar="btnSave"
+                                 onclick="PF('w_progress').start();PF('btnSave').disable();"
+                                 form="bodyForm"
+                                 >
+                    <p:confirm header="#{ism.StaffGroupDefRoleTitleList} - #{ism.ConfirmApplyTitle}" 
+                               message="#{ism.ConfirmApplyMessage}" 
+                               icon="ui-icon-alert"/>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
+                    </p:confirmDialog>
+                </p:commandButton>
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{staffGroupDefRoleController.prepareCreate()}"
+                                 action="./CreateTree.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 rendered="#{staffGroupDefRoleController.selected.stgdrGroupDef!=null}"
+                                 />
+            </h:panelGroup>
         </ui:define>
     </ui:composition>
-
 </html>

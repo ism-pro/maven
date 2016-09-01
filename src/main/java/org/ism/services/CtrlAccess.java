@@ -16,71 +16,46 @@ import org.ism.entities.StaffGroupDef;
  */
 public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
 
-    public enum TypeCtrl {
-
-        A_DIRECTORY, A_FILE
+    public enum AccessChecked {
+        A_N, A_P, A_C
     }
-
-    public enum AccessType {
-
-        A_R, A_W, A_N
-    }
-
+    
     private static final long serialVersionUID = 1L;
 
+    //private String xName, xRoleName, xPath, xDescription, 
+    
     private String name;
     private String code = null;
     private String path = null;
     private String description = null;
-    private TypeCtrl type = TypeCtrl.A_FILE;
-    private AccessType access = AccessType.A_N;
+    private AccessChecked access = AccessChecked.A_N;
     private Company company = null;
     private StaffGroupDef staffGroupDef = null;
-    
+
     /**
      *
      * @param entity
      */
     public CtrlAccess(String entity) {
         this.name = entity;
-        this.type = TypeCtrl.A_DIRECTORY;
-        this.access = AccessType.A_N;
     }
 
-    /**
-     * Creates a new instance of CtrlAccess
-     *
-     * @param element
-     * @param access
-     */
-    public CtrlAccess(String element, AccessType access) {
-        this.name = element;
-        this.type = TypeCtrl.A_DIRECTORY;
-        this.access = access;
-    }
-
-    /**
-     * Creates a new instance of CtrlAccess
-     *
-     * @param element
-     * @param type
-     * @param access
-     */
-    public CtrlAccess(String element, TypeCtrl type, AccessType access) {
-        this.name = element;
-        this.type = type;
-        this.access = access;
-    }
-    
-    public CtrlAccess(String element, String code, String path, String description, TypeCtrl type, AccessType access){
-        this.name = element;
+    public CtrlAccess(String name, String code, String path, String description) {
+        this.name = name;
         this.code = code;
         this.path = path;
         this.description = description;
-        this.type = type;
-        this.access = access;
+        access = AccessChecked.A_N;
     }
     
+    public CtrlAccess(String name, String code, String path, String description, AccessChecked access) {
+        this.name = name;
+        this.code = code;
+        this.path = path;
+        this.description = description;
+        access = AccessChecked.A_N;
+    }
+
     /**
      *
      * @param company
@@ -88,8 +63,6 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
     public CtrlAccess(Company company) {
         this.company = company;
         this.name = company.getCCompany() + " - " + company.getCDesignation();
-        this.type = TypeCtrl.A_DIRECTORY;
-        this.access = AccessType.A_N;
     }
 
     /**
@@ -98,22 +71,19 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
      * @param company
      * @param access
      */
-    public CtrlAccess(Company company, AccessType access) {
+    public CtrlAccess(Company company, AccessChecked access) {
         this.company = company;
         this.name = company.getCCompany() + " - " + company.getCDesignation();
-        this.type = TypeCtrl.A_DIRECTORY;
         this.access = access;
     }
-    
-        /**
+
+    /**
      *
      * @param staffGroupDef
      */
     public CtrlAccess(StaffGroupDef staffGroupDef) {
         this.staffGroupDef = staffGroupDef;
         this.name = staffGroupDef.getStgdGroupDef() + " - " + staffGroupDef.getStgdDesignation();
-        this.type = TypeCtrl.A_FILE;
-        this.access = AccessType.A_N;
     }
 
     /**
@@ -122,10 +92,9 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
      * @param staffGroupDef
      * @param access
      */
-    public CtrlAccess(StaffGroupDef staffGroupDef, AccessType access) {
+    public CtrlAccess(StaffGroupDef staffGroupDef, AccessChecked access) {
         this.staffGroupDef = staffGroupDef;
         this.name = staffGroupDef.getStgdGroupDef() + " - " + staffGroupDef.getStgdDesignation();
-        this.type = TypeCtrl.A_FILE;
         this.access = access;
     }
 
@@ -137,22 +106,15 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         this.company = company;
     }
 
-    public TypeCtrl getType() {
-        return type;
-    }
-
-    public void setType(TypeCtrl type) {
-        this.type = type;
-    }
-
-    public AccessType getAccess() {
+    public AccessChecked getAccess() {
         return access;
     }
 
-    public void setAccess(AccessType access) {
+    public void setAccess(AccessChecked access) {
         this.access = access;
     }
 
+    
     public String getName() {
         return name;
     }
@@ -177,7 +139,6 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         this.path = path;
     }
 
-    
     public String getDescription() {
         return description;
     }
@@ -186,8 +147,6 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         this.description = description;
     }
 
-    
-    
     public StaffGroupDef getStaffGroupDef() {
         return staffGroupDef;
     }
@@ -196,8 +155,6 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         this.staffGroupDef = staffGroupDef;
     }
 
-  
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -209,17 +166,25 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
+
         CtrlAccess other = (CtrlAccess) obj;
-        
+
         if (company == null) {
-            if (other.company != null) return false;
-        } else if (!company.equals(other.company))    return false;
-        
+            if (other.company != null) {
+                return false;
+            }
+        } else if (!company.equals(other.company)) {
+            return false;
+        }
+
         if (staffGroupDef == null) {
-            if (other.staffGroupDef != null) return false;
-        } else if (!staffGroupDef.equals(other.staffGroupDef))    return false;
-        
+            if (other.staffGroupDef != null) {
+                return false;
+            }
+        } else if (!staffGroupDef.equals(other.staffGroupDef)) {
+            return false;
+        }
+
         if (access == null) {
             if (other.access != null) {
                 return false;
@@ -227,11 +192,11 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         } else if (!access.equals(other.access)) {
             return false;
         }
-        if (type == null) {
-            if (other.type != null) {
+        if (access == null) {
+            if (other.access != null) {
                 return false;
             }
-        } else if (!type.equals(other.type)) {
+        } else if (!access.equals(other.access)) {
             return false;
         }
         return true;
@@ -243,7 +208,6 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         hash = 89 * hash + Objects.hashCode(this.name);
         hash = 89 * hash + Objects.hashCode(this.company);
         hash = 89 * hash + Objects.hashCode(this.staffGroupDef);
-        hash = 89 * hash + Objects.hashCode(this.type);
         hash = 89 * hash + Objects.hashCode(this.access);
         return hash;
     }

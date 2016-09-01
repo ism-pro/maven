@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -24,7 +25,7 @@ import org.ism.entities.Staff;
 import org.ism.entities.StaffGroupDef;
 
 
-@Named("staffGroupsController")
+@ManagedBean(name = "staffGroupsController")
 @SessionScoped
 public class StaffGroupsController implements Serializable {
     private static final long serialVersionUID = 1L;

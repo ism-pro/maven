@@ -25,10 +25,11 @@
                         sur #{staffController.items.size()} sont identifiés !
 
                     </p>
+
                     <hr />
                     <h2>Flash Infos</h2>
-                    <h:panelGrid columns="2">
-                        <p:chart id="graphActSession" type="pie" model="#{chartView.pieModel1}" style="width:400px;height:300px" />
+                    <h:panelGrid columns="2" rendered="true">
+                        <p:chart rendered="true" id="graphActSession" type="pie" model="#{chartView.pieModel1}" style="width:400px;height:300px" />
                         <p:chart id="graphNCState" type="pie" model="#{chartView.pieSMQNCStateModel}" style="width:400px;height:300px" />
                     </h:panelGrid>
 
@@ -40,8 +41,12 @@
                                  style="max-width: 240px;"
                                  >
                         <p:column headerText="Staff Online"
-                                  style="width: 64px;" >
-                            <h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]"/>
+                                  style="width: 64px;"
+                                  class="w3-container w3-center">
+                            
+                                <img src="#{resource['img/ism/hr/img_avatar4.png']}" alt="Avatar" style="width:40%" class="w3-circle w3-margin-top" />
+
+                                <h5><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]"/></h5>
                         </p:column>
                     </p:dataTable>
 

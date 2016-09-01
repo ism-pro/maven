@@ -14,11 +14,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.inject.Named;
 import org.ism.services.CtrlAccess;
 import org.ism.services.CtrlAccessService;
 import org.ism.entities.Company;
@@ -34,7 +34,7 @@ import org.primefaces.model.TreeNode;
  *
  * @author r.hendrick
  */
-@Named("staffManagerController")
+@ManagedBean(name = "staffManagerController")
 @SessionScoped
 public class StaffManagerController implements Serializable {
 
@@ -137,7 +137,7 @@ public class StaffManagerController implements Serializable {
             for (int i = 0; i < selectedAccessTree.length; i++) {
                 TreeNode currentNode = selectedAccessTree[i];
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
-                if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
+                //if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
                     CtrlAccess ct = (CtrlAccess) currentNode.getParent().getData();
                     staffCompaniesCtrl.getSelected().setStcCompany(ct.getCompany());
                     if (lstCompapny.isEmpty()) { // On ajoute à la liste et on crée le lien staff companie
@@ -147,7 +147,7 @@ public class StaffManagerController implements Serializable {
                         lstCompapny.add(staffCompaniesCtrl.getSelected().getStcCompany());
                         staffCompaniesCtrl.create();
                     }
-                }
+                //}
             }
 
             // Loop for adding child
@@ -156,12 +156,12 @@ public class StaffManagerController implements Serializable {
             for (int i = 0; i < selectedAccessTree.length; i++) {
                 TreeNode currentNode = selectedAccessTree[i];
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
-                if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
+                //if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
                     CtrlAccess ct = (CtrlAccess) currentNode.getParent().getData();
                     staffGroupsCtrl.getSelected().setStgGroupDef(ctrlAccess.getStaffGroupDef());
                     staffGroupsCtrl.getSelected().setStgCompany(ct.getCompany());
                     staffGroupsCtrl.create();
-                }
+                //}
             }
         }
     }
@@ -217,7 +217,7 @@ public class StaffManagerController implements Serializable {
             for (int i = 0; i < selectedAccessTree.length; i++) {
                 TreeNode currentNode = selectedAccessTree[i];
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
-                if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
+                //if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
                     CtrlAccess ct = (CtrlAccess) currentNode.getParent().getData();
                     StaffCompanies qStaffCompanies = staffCompaniesCtrl.getStaffCompanies(staffCtrl.getSelected(), ct.getCompany());
                     if (qStaffCompanies != null) { // Modification
@@ -234,7 +234,7 @@ public class StaffManagerController implements Serializable {
                         staffCompaniesCtrl.getSelected().setStcActivated(true);
                         staffCompaniesCtrl.create();
                     }
-                }
+                //}
             }
 
             // Récupération de l'ensemble des liens staff company group
@@ -244,7 +244,7 @@ public class StaffManagerController implements Serializable {
             for (int i = 0; i < selectedAccessTree.length; i++) {
                 TreeNode currentNode = selectedAccessTree[i];
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
-                if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
+                //if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
                     CtrlAccess ct = (CtrlAccess) currentNode.getParent().getData();
                     StaffGroups qStaffGroups = staffGroupsCtrl.getStaffGroups(staffCtrl.getSelected(),
                             ct.getCompany(),
@@ -263,7 +263,7 @@ public class StaffManagerController implements Serializable {
                         staffGroupsCtrl.getSelected().setStgActivated(true);
                         staffGroupsCtrl.create();
                     }
-                }
+                //}
             }
 
             // Remove remining an remove staffGroups

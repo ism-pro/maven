@@ -13,8 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -22,7 +22,8 @@ import javax.faces.convert.FacesConverter;
 import javax.servlet.http.HttpServletRequest;
 import org.ism.jsf.util.JsfSecurity;
 
-@Named("staffController")
+
+@ManagedBean(name = "staffController")
 @SessionScoped
 public class StaffController implements Serializable {
 

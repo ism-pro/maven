@@ -46,7 +46,7 @@ public class StaffGroupDefRoleFacade extends AbstractFacade<StaffGroupDefRole> {
         }
         return null;
     }
-
+    
     public StaffGroupDefRole findBy(StaffGroupDef groupDef, IsmRole role) {
         em.flush();
         Query q = em.createNamedQuery("StaffGroupDefRole.findByStgdrGroupAndRole")

@@ -10,6 +10,9 @@
             <supported-locale>fr</supported-locale>
         </locale-config>
         
+       
+        
+        
         <resource-bundle>
             <base-name>com.ISM</base-name>
             <var>ism</var>

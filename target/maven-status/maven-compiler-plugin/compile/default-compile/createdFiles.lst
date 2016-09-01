@@ -15,7 +15,6 @@ org\ism\jsf\DocExplorerController$DocExplorerControllerConverter.class
 org\ism\entities\NonConformiteRequest.class
 org\ism\view\ViewUtil.class
 org\ism\view\ViewTabManager.class
-org\ism\jsf\StaffGroupDefRoleController$IsmRoleConverter.class
 org\ism\entities\DocExplorer_.class
 org\ism\jsf\StaffGroupDefController.class
 org\ism\sessions\DocTypeFacade.class
@@ -35,7 +34,6 @@ org\ism\filters\NoCacheFilter.class
 org\ism\jsf\NonConformiteFrequencyController$NonConformiteFrequencyDesignationValidator.class
 org\ism\view\ViewRibbon$1.class
 org\ism\entities\NonConformiteActions.class
-org\ism\services\CtrlAccess$AccessType.class
 org\ism\view\TableView.class
 org\ism\entities\IsmRole.class
 org\ism\jsf\NonConformiteNatureController.class
@@ -53,6 +51,7 @@ org\ism\jsf\NonConformiteFrequencyController$NonConformiteFrequencyCodeValidator
 org\ism\entities\NonConformiteActions_.class
 org\ism\entities\NonConformiteGravity_.class
 org\ism\jsf\NonConformiteUniteController$NonConformiteUniteControllerConverter.class
+org\ism\services\CtrlAccess$AccessChecked.class
 org\ism\jsf\StaffCompaniesController.class
 org\ism\sessions\NonConformiteRequestFacade.class
 org\ism\jsf\IsmNcrstateController$IsmNcrstateControllerConverter.class
@@ -64,6 +63,7 @@ org\ism\jsf\DocTypeController$DocTypeCodeValidator.class
 org\ism\jsf\ProcessusController$ProcessusDesignationValidator.class
 org\ism\entities\LabSamplePt_.class
 org\ism\entities\Staff.class
+org\ism\jsf\StaffGroupDefController$StaffGroupDefDesignationValidator.class
 org\ism\jsf\NonConformiteGravityController$NonConformiteGravityControllerConverter.class
 org\ism\entities\LabSamplePtAnalyses_.class
 org\ism\sessions\NonConformiteActionsFacade.class
@@ -80,7 +80,9 @@ org\ism\jsf\NonConformiteRequestController.class
 org\ism\entities\LabAnalyseCategory_.class
 org\ism\jsf\LabAnalyseTypeController.class
 org\ism\jsf\StaffCompaniesController$StaffCompaniesControllerConverter.class
+org\ism\jsf\StaffGroupDefRoleController$StaffGroupDefRole_RoleValidator.class
 org\ism\jsf\LabSampleController$LabSampleControllerConverter.class
+org\ism\jsf\StaffGroupDefController$StaffGroupDefCodeValidator.class
 org\ism\jsf\util\JsfUtil$PersistAction.class
 org\tools\MDGenerator.class
 org\ism\jsf\NonConformiteNatureController$NonConformiteNatureControllerConverter.class
@@ -98,7 +100,7 @@ org\ism\entities\StaffGroups.class
 org\ism\jsf\ProcessusController.class
 org\ism\entities\Company.class
 org\ism\jsf\util\FileUploaderController.class
-org\ism\jsf\StaffGroupDefRoleController$PrimeFacesPickListConverter.class
+org\ism\view\ViewSessionCounter.class
 org\ism\entities\LabSample_.class
 org\ism\entities\StaffGroups_.class
 org\primefaces\ism\component\ribbon\RibbonGroupSet.class
@@ -207,7 +209,6 @@ org\ism\jsf\StaffGroupDefController$StaffGroupDefControllerConverter.class
 org\ism\entities\StaffGroupDefRole_.class
 org\ism\sessions\StaffGroupDefFacade.class
 org\ism\view\StaffGroupAccessTree.class
-org\ism\services\CtrlAccess$TypeCtrl.class
 org\primefaces\ism\component\ribbon\RibbonGroupSetRenderer.class
 org\ism\entities\NonConformiteFrequency_.class
 org\ism\jsf\util\JsfUtil$1.class

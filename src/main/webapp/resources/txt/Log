@@ -48,25 +48,73 @@ Configuration :
     surtout pour les processus volumineux.
 
 
+    + TODO SHORTCUT
+    ++ Gestion des shortcut et toggler.
 
-    Commit :
-    # Changement de la page d'index
-
-    # GENERALITES :
-    * Changement de la page d'index pour afficher les utilisateurs connectés sous forme de table
-    * Modification des intitulés de graphiques
+    + TODO RESOURCES
+    ++ 
+    ++ staffGroupDef : gestion crud de la définition des groupes utilisateur
+    ++ staffRôleList : gestion crud de la définition des groupes utilisateur
+    ++ staffRoleTree : Revoir la méthodologie de définition des droits d'accès sous forme de tableau
+    ++ staffCompany : gestion crud de l'association des utilisateurs à une société.
+    ++ Accès : gestion crud des accès utilisateur sous forme de tableau
+    ++ Gestion de la création de staff
+    ++ Présentation des staffs.
     
-    # SPECIFIQUE
-    * Barre d'application shortcut :
-    ** Conversion des durées en minutes
+
+
+     COMMIT
+================================================================================
+# GENERALITES :
+================================================================================
+# POM :
+* Ajout des libs suivantes :
+** Feedreader
+** Fileupload
+** Primefaces Push
+** Barcode
+
+# SECURITY :
+* Managing access :
+** Suppression de la sécurité USER fournissant accès à /faces/public/*
+** Activation du paramètre "Mise en correspondance par défaut des principaux avec des rôles" dans Configurations/serv-config/Securité.
+    Ceci permet d'éviter la duplication des rôle dans glassfish-web.
+** Nouvelle gestion des droits et sécurité : 
+   + Création d'un groupe GOUROU - Master access
+   + Création/Vérification existance du groupe ADMIN - Administrateur
+   + Suppression des liaisons groupe et rôle existant
+   + Suppression des anciens rôle
+   + Ajout des nouveaux rôle
+   + Création des liaisons groupe et rôle par défaut (GOUROU, ADMIN)
 
 
 
 
 
+================================================================================
+# SPECIFIQUE
+================================================================================
+# Onglet ressources :
+* Modififier le texte de l'onglet resources en resSources
+* Adaptation standard du CRUD pour la gestion des groupes d'accès
+* Réalisation du nouveau système d'abre de sélection des accès par checknode
+* Suppression de l'accès create by pickList
+* Ajout de bouton dans le menu de gauche pour permettre d'accéder facilement en
+  Mode Liste d'accès ou arbre
+* Adaptation standard du CRUD pour la gestion des lien rôle au groupe
+
+# Interface Login / Error / Logout
+* Changement de l'interface et intégration de w3.css
+
+
+
+********************************************************************************
+ETAPE DE GESTION DES CONTROLLEUR JSF
+********************************************************************************
 Test après changement :
     + Modifier les entités : ajouter une fonction du type getItemByLast
-    + Modifier la EJB en ajoutant 3 fonctions
+    + Modifier la EJB en ajoutant 3 fonctions de clé et désignation
+      Pour les
     + Modifier les propriétés de message
     + Modifier le contrôler en utilisant bien le bean
     + Modifier le viewTabManager 
@@ -79,772 +127,18 @@ Test après changement :
 
 
 
-
-
-
-
-
-
-
-            <p:panel header="Code couleur">
-                <p:panelGrid columns="2">
-
-                    <p:panelGrid >
-                        <p:row>
-                            <p:column colspan="2" style="background-color: dodgerblue;">
-                                <h:outputText value="Couleur d'état" style="color: white;  text-align: center;"/></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color:#000;"><h:outputText value="A-F" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Créée ou Terminée" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: pink;"><h:outputText value="B" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="En cours de validation" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: lightsalmon;"><h:outputText value="C" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="En attente de solution" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: green;"><h:outputText value="D" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="En cours" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: red;"><h:outputText value="E" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Annulée" /></p:column>
-                        </p:row>
-                    </p:panelGrid>
-
-                    <p:panelGrid >
-                        <p:row >
-                            <p:column colspan="2" style="background-color: dodgerblue;">
-                                <h:outputText value="Couleur de résolution" style="color: white;  text-align: center;"/></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column ><h:outputText value="A" /></p:column>
-                            <p:column ><h:outputText value="Pas d'action" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: green;"><h:outputText value="B" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Période d'action en cours" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: greenyellow;"><h:outputText value="C" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Action terminée à échéance" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: darkolivegreen;"><h:outputText value="D" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Action terminée après échéance" /></p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column style="background-color: red;"><h:outputText value="E" style="color: white"/></p:column>
-                            <p:column ><h:outputText value="Action en retard" /></p:column>
-                        </p:row>
-                    </p:panelGrid>
-
-                </p:panelGrid>
-            </p:panel>
-
-================================================================================
-15XXXX XXXX : R.HENDRICK
-================================================================================
-0 - Passage de Primeface 5.1 à primeface 5.3.
-
-1 - Corriger l'erreur de connexion lorsque la page a été inactive pendant un 
-    long moment. La page s'auto rafraichit pour ne pas tuer la session
-
-2 - Prise en compte de la déconnexion après définition de temps variable (effectif)
-    Les paramètres ramène à la page de connexion.
-
-3 - Non conformité
-    3.1. Améliorer la clareté des NC par affichage sous forme de tableau
-    3.2. Eliminer l’affichage de l’heure d’apparition; seul la date est affichée
-    3.3. Les colonnes date d'apparition et modification ont été placer à gauche
-    de la date de résolution.
-    3.4. Suppression des heures et secondes de la colonne apparition ainsi que 
-    les seconde de la colonne modification.
-    3.5. Ajout d'une nouvelle colonne d'options à droite de la colonne d'expansion
-    permettant de manipuler la ligne ou sur les différentes opérations CRUD
-    3.6. Ajout d'un outil permettant d'ajouter ou supprimer des colonne à afficher
-    dans le coin supérieure droit.
-    3.7. Modification des icônes des boutons d'actions par des images plus appropriée
-    3.8. Ajout d'une colonne spécifiant l'intitulé ou titre de la non conformité
-    3.9. Utilisation de l'éditeur pour présenter la description des non conformités
-    ==> le retour à la ligne estpossible ce qui facilite la lecture
-    3.10. Mise à jour d'un code couleur pour l'état de non conformité ainsi que 
-    pour la date de résolution.
-    Code d'état nc :
-        A : Créée                   : Noire
-        B : En cours de validation  : Rose
-        C : En attente de solution  : Orange
-        D : En cours                : Vert
-        E : Annulé                  : Rouge
-        F : Terminé                 : Noire
-    Code date de résolution :
-        A : Aucun       : Pas d'action fixé ==> pas de date
-        B : Vert        : Période en cours
-        C : Vert clair  : Action terminé à échéance
-        D : Vert foncé  : Action terminée après échéance
-        E : Rouge       : Action en retard 
-    3.11. Ajout des zones d'édition sur la partie hautes
-    3.12. Suppression de la croix de fermeture dans les boites à outils de CU du request
-    3.13. Limitation à 30 le nombre d'éléments visible d'une traite
-    3.14. Ajout de droit d'accès  (SMQ_NCMANAGERSTATE) supplémentaire et d'un 
-    fonction permettant de modifier l'état d'une NC 
-    3.15. Ajout d'un compteur du nombre d'enregistrement et nombre en fonction des filtres
-    Ainsi qu'une colonne arbitraire
-
-4 - DocExplorer :
-    4.1. Affichage de la date uniquement
-    4.2. Affichage de la désignation, du lien et commentaire sur plusieurs ligne
-    4.3. Adpter les colonne pour un meilleurs affichage
-    4.4. Affichage des zones d'édition sur la partie hautes
-    4.5. Ajout d'éléments de filtrage sur les zones processus et type de procédure
-    4.6. Récupère entre les pages la valeurs d'affichage du nombre de liste à visualiser
-    4.7. Ajout d'un compteur du nombre d'enregistrement par page et totale et fonction des filtre
-
-
-5 -  Coorection :
-    5.1. MainWindow : Correction des drop-down list dans le menu Staff / NC / Accès
-    5.2. Staff création : Correction du genre qui ne s'affichait plus !
-    5.3. MainWindow : Remise en place des droit sur le button doc explorer ainsi que staff et NC
-    5.4. Page d'acceuil modification de la description
-    5.5. Retirer le bouton exporter as PDF dans les NC
-    5.6. Codification de mot de passe : effectivement certain mot de passe se codifie
-         en démarrant avec un 0 ce qui les exclus
-    5.7. Correction des problèmes dû à l'actualisation de page qui dans certain
-    cas valide les données annulée, c'était le cas des non conformités en état
-    attente de solution.
-
-    
-    
-
-
-
-
-================================================================================
-150905 XXXX : R.HENDRICK
-================================================================================
-1 - Changement du timeout session, ce qui pemettra de faire stoper la session
-    après un certain temps voulu en software
-
-2 - Ajout de filtre par processus et par état pour les requête de non conformités
-    
-3 - Modification de la création wizard d'utilisateur :
-    + Il n'est plus possible de définir deux mot de passe différent,
-    + Un message apparaît lorsque les mots de passe ne correspondent pas,
-    + Au passage de la page suivante un retour est exécuter si ils sont différent
-
-4 - Ajout d'une interface pour les infos de l'utilisateur de la session. Le staff
-    Peux voir ces informations de base nom, prénom, company définie.
-    Il lui est possibilité de modifier le mot de passe utilisateur
-
-5 - L'appuie sur le bouton utilisateur ne fait plus quitter l'application mais 
-    permet d'aller directement sur les données utilisateur.
-    De même ajouter des paramètres d'application utilisateurs pouvant être créé.
-    Ce qui actuellement permet uniquement de changer le timeout de la session et
-    l'index de démarrage.
-
-6 - Enlever l'auto-completion lors de la spécification du nom d'utilisateur sur
-    le login
-
-7 - Correction du bouton Action en bouton sauver lors de l'insertion des actions
-    sur les non conformités.
-
-8 - Changer la nomination des boutons créer lors de la création des liens groupe
-    rôle staff.
-
-9 - Amélioration du graphisme au niveau du bouton staff et bouton déroulant
-    Staff donnée personnel, Non conformité, Création groupe vs role
-
-10 - Ajout d'une icône dans la fenêtre du browser
-
-11 - Plus de page intermédaire après connexion : accès directe à company/index
-
-12 - Possibilité à l'utilisateur de choisir son propre theme
-
-13 - Création d'un nouveau moyen de création de lien groupe d'accès role en définissant
-    un accès d'arbre
-
-14 - Modification d'affichage de la description de non conformité sous forme 
-    de table
-
-
-
-================================================================================
-150714 2256 : R.HENDRICK
-================================================================================
-1 - Ajout de la commande de confirmation à la suppression dans toutes les tables
-    de list.
-    Afin de disposer d'une confirmation avant suppression.
-
-2 - Aux liste déroulante, la mention vide a été insérer avec demande de 
-    sélection afin d'obliger l'utilisateur à faire un choix lorsque le champ est
-    obligatoire. Réaliser pour :
-    + NonConformiteRequest pour la création les champ :
-        * Processus / Unité / Nature / Gravité / Fréquence / 
-
-3 - Supprimer la table état de non conformité ainsi que sessions/jsf associé
-
-4 - Insertion de la gestion de clôture par une commande de bouton uniquement
-    Ceci entraine l'ajout de deux droit supplémentaire et implique l'exécution
-    d'une requête de base de donnée pour modifier la table d'accès et la table
-    groupe ainsi que des droit pour pouvoir refuser, valider
-    NB : Ce droit n'intervient qu'au niveau du programme car aucune page n'exite
-
-5 - Ajout des droits de rôle sur les requête de non conformité, boutons :
-    Supprimer, Refusé
-
-6 - Modification de la page de login : ajout du logo ism et affichage en cas
-    d'erreur de connexion d'un message.
-
-7 - Ajustement de la taille des champs d'introduction de texte dans la fenêtre
-    de création de non conformité request.
-
-8 - Impossible de sélectionner une date supérieure à la date du jour lors de la
-    création de non conformité.
-
-9 - Nouvelle méthode de création de staff :
-    Possibilité de directement créer le staff, l'affecter à des groupes apparetenant
-    à une companie.
-    Permet de voir la difficulté du mot de passe
-    Ajout de deux role supplémentaire dans la bdd pour l'écriture de staff ou lecture
-    Méthode plus rapide.
-
-
-
-
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.ism.entities;
-
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-/**
- *
- * @author r.hendrick
- */
-@Entity
-@Table(name = "non_conformite_request", catalog = "ism", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"ncr_id"})})
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "NonConformiteRequest.findAll", query = "SELECT n FROM NonConformiteRequest n"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrId", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrId = :ncrId"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrOccured", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrOccured = :ncrOccured"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrProduct", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrProduct = :ncrProduct"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrTrace", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTrace = :ncrTrace"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrQuantity", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrQuantity = :ncrQuantity"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrLink", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrLink = :ncrLink"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrTitle", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrCreated", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated = :ncrCreated"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrChanged", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrChanged = :ncrChanged"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrCompany", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCompany.cCompany = :ncrCompany"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrProcessus.pProcessus = :ncrProcessus"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrStaff", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrStaff.stStaff = :ncrStaff"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrState", query = "SELECT n.ncrState FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrNature", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrNature.ncnNature = :ncrNature"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrUnite", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrUnite.ncuUnite = :ncrUnite"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrGravity", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrGravity.ncgGravity = :ncrGravity"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrFrequency", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrFrequency.ncfFrequency = :ncrFrequency"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnValidate", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnValidate.stStaff = :ncrstaffOnValidate"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnAction", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnAction.stStaff = :ncrstaffOnAction"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrStaffOnRefuse", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrstaffOnRefuse.stStaff = :ncrstaffOnRefuse"),
-    @NamedQuery(name = "NonConformiteRequest.selectAllByLastChange", query = "SELECT n FROM NonConformiteRequest n ORDER BY n.ncrChanged DESC"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrApprouver", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrApprouver.stStaff = :ncrApprouver"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrapprouvedDate", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDate = :ncrapprouvedDate"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrApprouved", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrApprouved = :ncrApprouved"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrApprouvedDesc", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDesc = :ncrapprouvedDesc")
-})
-public class NonConformiteRequest implements Serializable {
-
-    
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "ncr_id", nullable = false)
-    private Integer ncrId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ncr_occured", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncrOccured;
-    @Size(max = 128)
-    @Column(name = "ncr_product", length = 128)
-    private String ncrProduct;
-    @Size(max = 45)
-    @Column(name = "ncr_trace", length = 45)
-    private String ncrTrace;
-    //@Max(value=500.0)  @Min(value=0)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "ncr_quantity", precision = 22)
-    private Double ncrQuantity;
-    @NotNull
-    @Size(max = 128)
-    @Column(name = "ncr_title", length = 128)
-    private String ncrTitle;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
-    @Column(name = "ncr_description", nullable = false, length = 65535)
-    private String ncrDescription;
-    @Size(max = 512)
-    @Column(name = "ncr_link", length = 512)
-    private String ncrLink;
-
-    
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "ncr_descOnValidate", length = 65535)
-    private String ncrdescOnValidate;
-    
-    @Column(name = "ncr_occuredValidate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncroccuredValidate;
-    
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "ncr_descOnAction", length = 65535)
-    private String ncrdescOnAction;
-    
-    @Column(name = "ncr_occuredAction")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncroccuredAction;
-    
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "ncr_descOnRefuse", length = 65535)
-    private String ncrdescOnRefuse;
-    
-    @Column(name = "ncr_occuredRefuse")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncroccuredRefuse;
-    
-    @Column(name = "ncr_enddingAction")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncrenddingAction;
-    
-        
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ncr_created", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncrCreated;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ncr_changed", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncrChanged;
-    
-    @Column(name = "ncr_approuved")
-    private Boolean ncrApprouved;
-    @Column(name = "ncr_approuvedDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ncrapprouvedDate;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "ncr_approuvedDesc", length = 65535)
-    private String ncrapprouvedDesc;
-    @JoinColumn(name = "ncr_approuver", referencedColumnName = "st_staff")
-    @ManyToOne
-    private Staff ncrApprouver;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncaNc")
-    private Collection<NonConformiteActions> nonConformiteActionsCollection;
-    
-
-    
-    @JoinColumn(name = "ncr_company", referencedColumnName = "c_company", nullable = false)
-    @ManyToOne(optional = false)
-    private Company ncrCompany;
-    @JoinColumn(name = "ncr_frequency", referencedColumnName = "ncf_frequency", nullable = false)
-    @ManyToOne(optional = false)
-    private NonConformiteFrequency ncrFrequency;
-    @JoinColumn(name = "ncr_state", referencedColumnName = "istate")
-    @ManyToOne
-    private IsmNcrstate ncrState;
-    @JoinColumn(name = "ncr_gravity", referencedColumnName = "ncg_gravity", nullable = false)
-    @ManyToOne(optional = false)
-    private NonConformiteGravity ncrGravity;
-    @JoinColumn(name = "ncr_nature", referencedColumnName = "ncn_nature")
-    @ManyToOne
-    private NonConformiteNature ncrNature;
-    @JoinColumn(name = "ncr_processus", referencedColumnName = "p_processus", nullable = false)
-    @ManyToOne(optional = false)
-    private Processus ncrProcessus;
-    @JoinColumn(name = "ncr_staff", referencedColumnName = "st_staff", nullable = false)
-    @ManyToOne(optional = false)
-    private Staff ncrStaff;
-    @JoinColumn(name = "ncr_staffOnAction", referencedColumnName = "st_staff")
-    @ManyToOne
-    private Staff ncrstaffOnAction;
-    @JoinColumn(name = "ncr_unite", referencedColumnName = "ncu_unite", nullable = false)
-    @ManyToOne(optional = false)
-    private NonConformiteUnite ncrUnite;
-    @JoinColumn(name = "ncr_staffOnRefuse", referencedColumnName = "st_staff")
-    @ManyToOne
-    private Staff ncrstaffOnRefuse;
-    @JoinColumn(name = "ncr_staffOnValidate", referencedColumnName = "st_staff")
-    @ManyToOne
-    private Staff ncrstaffOnValidate;
-
-
-    
-    
-    public NonConformiteRequest() {
-    }
-
-    public NonConformiteRequest(Integer ncrId) {
-        this.ncrId = ncrId;
-    }
-
-    public NonConformiteRequest(Integer ncrId, Date ncrOccured, String ncrTitle, String ncrDescription, Date ncrCreated, Date ncrChanged) {
-        this.ncrId = ncrId;
-        this.ncrOccured = ncrOccured;
-        this.ncrTitle = ncrTitle;
-        this.ncrDescription = ncrDescription;
-        this.ncrCreated = ncrCreated;
-        this.ncrChanged = ncrChanged;
-    }
-
-
-    public Integer getNcrId() {
-        return ncrId;
-    }
-
-    public void setNcrId(Integer ncrId) {
-        this.ncrId = ncrId;
-    }
-
-    public Date getNcrOccured() {
-        return ncrOccured;
-    }
-
-    public void setNcrOccured(Date ncrOccured) {
-        this.ncrOccured = ncrOccured;
-    }
-
-    public String getNcrProduct() {
-        return ncrProduct;
-    }
-
-    public void setNcrProduct(String ncrProduct) {
-        this.ncrProduct = ncrProduct;
-    }
-
-    public String getNcrTrace() {
-        return ncrTrace;
-    }
-
-    public void setNcrTrace(String ncrTrace) {
-        this.ncrTrace = ncrTrace;
-    }
-
-    public Double getNcrQuantity() {
-        return ncrQuantity;
-    }
-
-    public void setNcrQuantity(Double ncrQuantity) {
-        this.ncrQuantity = ncrQuantity;
-    }
-
-    public String getNcrTitle() {
-        return ncrTitle;
-    }
-
-    public void setNcrTitle(String ncrTitle) {
-        this.ncrTitle = ncrTitle;
-    }
-
-    public String getNcrDescription() {
-        return ncrDescription;
-    }
-
-    public void setNcrDescription(String ncrDescription) {
-        this.ncrDescription = ncrDescription;
-    }
-
-    public String getNcrLink() {
-        return ncrLink;
-    }
-
-    public void setNcrLink(String ncrLink) {
-        this.ncrLink = ncrLink;
-    }
-
-    public String getNcrdescOnValidate() {
-        return ncrdescOnValidate;
-    }
-
-    public void setNcrdescOnValidate(String ncrdescOnValidate) {
-        this.ncrdescOnValidate = ncrdescOnValidate;
-    }
-
-    public Date getNcroccuredValidate() {
-        return ncroccuredValidate;
-    }
-
-    public void setNcroccuredValidate(Date ncroccuredValidate) {
-        this.ncroccuredValidate = ncroccuredValidate;
-    }
-
-    public String getNcrdescOnAction() {
-        return ncrdescOnAction;
-    }
-
-    public void setNcrdescOnAction(String ncrdescOnAction) {
-        this.ncrdescOnAction = ncrdescOnAction;
-    }
-
-    public Date getNcroccuredAction() {
-        return ncroccuredAction;
-    }
-
-    public void setNcroccuredAction(Date ncroccuredAction) {
-        this.ncroccuredAction = ncroccuredAction;
-    }
-
-    public Date getNcrenddingAction() {
-        return ncrenddingAction;
-    }
-
-    public void setNcrenddingAction(Date ncrenddingAction) {
-        this.ncrenddingAction = ncrenddingAction;
-    }
-
-    public String getNcrdescOnRefuse() {
-        return ncrdescOnRefuse;
-    }
-
-    public void setNcrdescOnRefuse(String ncrdescOnRefuse) {
-        this.ncrdescOnRefuse = ncrdescOnRefuse;
-    }
-
-    public Date getNcroccuredRefuse() {
-        return ncroccuredRefuse;
-    }
-
-    public void setNcroccuredRefuse(Date ncroccuredRefuse) {
-        this.ncroccuredRefuse = ncroccuredRefuse;
-    }
-
-    public Date getNcrCreated() {
-        return ncrCreated;
-    }
-
-    public void setNcrCreated(Date ncrCreated) {
-        this.ncrCreated = ncrCreated;
-    }
-
-    public Date getNcrChanged() {
-        return ncrChanged;
-    }
-
-    public void setNcrChanged(Date ncrChanged) {
-        this.ncrChanged = ncrChanged;
-    }
-
-
-    public Company getNcrCompany() {
-        return ncrCompany;
-    }
-
-    public void setNcrCompany(Company ncrCompany) {
-        this.ncrCompany = ncrCompany;
-    }
-
-    public NonConformiteFrequency getNcrFrequency() {
-        return ncrFrequency;
-    }
-
-    public void setNcrFrequency(NonConformiteFrequency ncrFrequency) {
-        this.ncrFrequency = ncrFrequency;
-    }
-
-    public IsmNcrstate getNcrState() {
-        return ncrState;
-    }
-
-    public void setNcrState(IsmNcrstate ncrState) {
-        this.ncrState = ncrState;
-    }
-
-    public NonConformiteGravity getNcrGravity() {
-        return ncrGravity;
-    }
-
-    public void setNcrGravity(NonConformiteGravity ncrGravity) {
-        this.ncrGravity = ncrGravity;
-    }
-
-    public NonConformiteNature getNcrNature() {
-        return ncrNature;
-    }
-
-    public void setNcrNature(NonConformiteNature ncrNature) {
-        this.ncrNature = ncrNature;
-    }
-
-    public Processus getNcrProcessus() {
-        return ncrProcessus;
-    }
-
-    public void setNcrProcessus(Processus ncrProcessus) {
-        this.ncrProcessus = ncrProcessus;
-    }
-
-    public Staff getNcrStaff() {
-        return ncrStaff;
-    }
-
-    public void setNcrStaff(Staff ncrStaff) {
-        this.ncrStaff = ncrStaff;
-    }
-
-    public Staff getNcrstaffOnAction() {
-        return ncrstaffOnAction;
-    }
-
-    public void setNcrstaffOnAction(Staff ncrstaffOnAction) {
-        this.ncrstaffOnAction = ncrstaffOnAction;
-    }
-
-    public NonConformiteUnite getNcrUnite() {
-        return ncrUnite;
-    }
-
-    public void setNcrUnite(NonConformiteUnite ncrUnite) {
-        this.ncrUnite = ncrUnite;
-    }
-
-    public Staff getNcrstaffOnRefuse() {
-        return ncrstaffOnRefuse;
-    }
-
-    public void setNcrstaffOnRefuse(Staff ncrstaffOnRefuse) {
-        this.ncrstaffOnRefuse = ncrstaffOnRefuse;
-    }
-
-    public Staff getNcrstaffOnValidate() {
-        return ncrstaffOnValidate;
-    }
-
-    public void setNcrstaffOnValidate(Staff ncrstaffOnValidate) {
-        this.ncrstaffOnValidate = ncrstaffOnValidate;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (ncrId != null ? ncrId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof NonConformiteRequest)) {
-            return false;
-        }
-        NonConformiteRequest other = (NonConformiteRequest) object;
-        if ((this.ncrId == null && other.ncrId != null) || (this.ncrId != null && !this.ncrId.equals(other.ncrId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "org.ism.entities.NonConformiteRequest[ ncrId=" + ncrId + " ]";
-    }
-
-    public Boolean getNcrApprouved() {
-        return ncrApprouved;
-    }
-
-    public void setNcrApprouved(Boolean ncrApprouved) {
-        this.ncrApprouved = ncrApprouved;
-    }
-
-    public Date getNcrapprouvedDate() {
-        return ncrapprouvedDate;
-    }
-
-    public void setNcrapprouvedDate(Date ncrapprouvedDate) {
-        this.ncrapprouvedDate = ncrapprouvedDate;
-    }
-
-    public Staff getNcrApprouver() {
-        return ncrApprouver;
-    }
-
-    public void setNcrApprouver(Staff ncrApprouver) {
-        this.ncrApprouver = ncrApprouver;
-    }
-
-    
-    public String getNcrapprouvedDesc() {
-        return ncrapprouvedDesc;
-    }
-
-    public void setNcrapprouvedDesc(String ncrapprouvedDesc) {
-        this.ncrapprouvedDesc = ncrapprouvedDesc;
-    }
-    
-    @XmlTransient
-    public Collection<NonConformiteActions> getNonConformiteActionsCollection() {
-        return nonConformiteActionsCollection;
-    }
-
-    public void setNonConformiteActionsCollection(Collection<NonConformiteActions> nonConformiteActionsCollection) {
-        this.nonConformiteActionsCollection = nonConformiteActionsCollection;
-    }
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-
+********************************************************************************
+ETAPE DE GESTION D'ACCES
+********************************************************************************
+1 - Ouvrir le fichier access.xlsx pour ajouté un nouvelle accès en respectant la 
+nommenclature.
+2 - Modifier le fichier web.xml en y ajoutant
+    - les security-constraint,
+    - les rôle d'accès
+3 - Ajouter au bundle security les infos d'accès
+4 - Modifier le fichier CtrlAccessService de l'arbre d'application
+5 - Ajouter ou retirer l'accès des rôles existant en database en veillant au liaison de groupe
+6 - 
 
 
 

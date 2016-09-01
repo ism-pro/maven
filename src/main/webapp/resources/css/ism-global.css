@@ -211,6 +211,10 @@ time, mark, audio, video {
     background: url("#{resource['img/ism/std/Create.png']}") no-repeat;
     background-size:contain;
 }
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Tree, .ui-menuitem-icon.ui-icon.ui-btn-Tree{
+    background: url("#{resource['img/ism/std/Tree.png']}") no-repeat;
+    background-size:contain;
+}
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Edit, .ui-menuitem-icon.ui-icon.ui-btn-Edit{
     background: url("#{resource['img/ism/std/Edit.png']}") no-repeat;
     background-size:contain;
@@ -253,6 +257,10 @@ time, mark, audio, video {
 }
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Refresh, .ui-menuitem-icon.ui-icon.ui-btn-Refresh{
     background: url("#{resource['img/ism/std/Refresh.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-List, .ui-menuitem-icon.ui-icon.ui-btn-List{
+    background: url("#{resource['img/ism/std/List.png']}") no-repeat;
     background-size:contain;
 }
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Print, .ui-menuitem-icon.ui-icon.ui-btn-Print{

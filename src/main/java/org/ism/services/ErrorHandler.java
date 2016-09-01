@@ -52,7 +52,8 @@ public class ErrorHandler {
             Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
             Object obj = map.get("javax.servlet.error.exception");
             if(obj!=null){
-                String val = ((Exception)obj).toString();
+                Exception exception = (Exception)obj;
+                String val = exception.toString();
                 return val;
             }
             return "Exception Undef";

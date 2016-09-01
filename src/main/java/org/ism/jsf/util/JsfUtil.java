@@ -20,7 +20,7 @@ public class JsfUtil {
     public static final String BUNDLE = "/com/ISM";
     public static final String SECURITY = "/com/Security";
     public static Boolean debug = true;
-    public static final String defaultThemeName = "flick";
+    public static final String defaultThemeName = "ism";
     public static final Integer sessionMaxInactiveIntervalDefault = 300; // 5 min
 
     public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {

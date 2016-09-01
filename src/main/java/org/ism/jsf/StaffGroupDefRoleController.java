@@ -6,360 +6,361 @@ import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.StaffGroupDefRoleFacade;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.component.api.UIColumn;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.Visibility;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.event.ValueChangeEvent;
-import org.ism.services.CtrlAccess;
-import org.ism.services.CtrlAccessService;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import org.ism.entities.Company;
 import org.ism.entities.IsmRole;
 import org.ism.entities.StaffGroupDef;
-import org.ism.sessions.IsmRoleFacade;
-import org.primefaces.component.picklist.PickList;
+import org.ism.services.CtrlAccess;
+import org.ism.services.CtrlAccessService;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.model.DualListModel;
+import org.primefaces.event.NodeUnselectEvent;
+import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
 
-@Named("staffGroupDefRoleController")
+@ManagedBean(name = "staffGroupDefRoleController")
 @SessionScoped
 public class StaffGroupDefRoleController implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @EJB
     private org.ism.sessions.StaffGroupDefRoleFacade ejbFacade;
     private List<StaffGroupDefRole> items = null;
     private StaffGroupDefRole selected;
-    private TreeNode nodeAccessTree = null;
-    private TreeNode[] nodeAccessTreeSelected = null;
-    private TreeNode selectedAccess = null;
+    private StaffGroupDefRole edited;
+    private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
+    private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
 
-    @EJB
-    private IsmRoleFacade irf;
-    private DualListModel<IsmRole> sgdr;
+    private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
+    private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
+
+    @Inject
+    private IsmRoleController roleCtrl;             //!< Inject role
+
+    private CheckboxTreeNode nodeAccessTree = null;
+    private int createTreeProgress = 0;
 
     public StaffGroupDefRoleController() {
     }
 
-    public StaffGroupDefRole getSelected() {
-        return selected;
-    }
+    @PostConstruct
+    protected void initialize() {
+        isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
+        isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
+        // Setup initial visibility
+        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
+        headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrId"));
+        headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrGroupDef"));
+        headerTextMap.put(3, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrRole"));
+        headerTextMap.put(4, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrActivated"));
+        headerTextMap.put(5, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrCreated"));
+        headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrChanged"));
+        headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrCompany"));
 
-    public void setSelected(StaffGroupDefRole selected) {
-        this.selected = selected;
+        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrId"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrGroupDef"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrRole"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrActivated"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrCreated"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrChanged"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrCompany"), false);
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        roleCtrl = (IsmRoleController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "ismRoleController");
+
     }
 
     protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
     }
 
     private StaffGroupDefRoleFacade getFacade() {
         return ejbFacade;
     }
 
+    /**
+     * ************************************************************************
+     * CRUD OPTIONS
+     *
+     * ************************************************************************
+     */
     public StaffGroupDefRole prepareCreate() {
         selected = new StaffGroupDefRole();
-        initializeEmbeddableKey();
         return selected;
     }
 
-    public StaffGroupDefRole prepareCreateTree() {
-        /*
-        //CtrlAccessService cas = new CtrlAccessService();
-        //nodeAccessTree = cas.securityAccess();
-
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        // Sauvegarde la vue RH.
-        RibbonView ribbonView = (RibbonView) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "ribbonView");
-        ///ribbonView.setActiveIndex(2);// 2 - RH
-        */
-        return prepareCreate();
-        
+    public StaffGroupDefRole prepareEdit() {
+        edited = selected;
+        return edited;
     }
 
-    public void create() {
-        selected.setStgdrCreated(new Date());
-        selected.setStgdrChanged(new Date());
-        persist(PersistAction.CREATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+    /**
+     * This method is useful to release actual selected ! That way nothing is
+     * selected
+     */
+    public void releaseSelected() {
+        isReleaseSelected = true;
+        selected = null;
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRoleReleaseSelectedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRoleReleaseSelectedDetail"));
     }
 
-    public void createPicklist() {
-        selected.setStgdrCreated(new Date());
-        selected.setStgdrChanged(new Date());
-        selected.setStgdrActivated(true);
+    /**
+     * Allow to toggle from on creation mode to multicreation mode
+     */
+    public void toggleMultiCreation() {
+        isOnMultiCreation = !isOnMultiCreation;
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRoleToggleMultiCreationSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRoleToggleMultiCreationDetail") + isOnMultiCreation);
+    }
 
-        System.out.println("********* Start affecting role to groupe ....." + selected.getStgdrGroupDef().getStgdDesignation());
-        Iterator<IsmRole> target = sgdr.getTarget().iterator();
+    /**
+     * Facke togle event : this is useful to use with
+     */
+    public void toggleMultiCreationFake() {
+        /*isOnMultiCreation = !isOnMultiCreation;*/
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRoleToggleMultiCreationSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRoleToggleMultiCreationDetail") + isOnMultiCreation);
+    }
+
+    /**
+     * ************************************************************************
+     * TABLE OPTIONS
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @param e
+     */
+    public void handleColumnToggle(ToggleEvent e) {
+        visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
+                e.getVisibility() == Visibility.VISIBLE);
+
+        JsfUtil.addSuccessMessage("StaffGroupDefRole : Toggle Column",
+                "Column n° " + e.getData() + " is now " + e.getVisibility());
+
+    }
+
+    public void handleColumnReorder(javax.faces.event.AjaxBehaviorEvent e) {
+        DataTable table = (DataTable) e.getSource();
+        String columns = "";
         int i = 0;
-        while (target.hasNext()) {
+        for (UIColumn column : table.getColumns()) {
+            UIComponent uic = (UIComponent) column;
+            String headerText = (String) uic.getAttributes().get((Object) "headerText");
+            Boolean visible = (Boolean) uic.getAttributes().get((Object) "visible");
+            headerTextMap.replace(i, headerText);
+            visibleColMap.replace(headerText, visible);
+            columns += headerText + "(" + visible + ") <br >";
             i++;
-            String value = String.valueOf(target.next());
-            String val = value.split("=")[1].split("]")[0].trim();
-            int id = Integer.valueOf(val);
-
-            IsmRole role = new IsmRole();
-            role.setId(id);
-            System.out.println(i + " >> " + role.getId() + " " + role.getRole() + " " + role.getRolename());
-            selected.setStgdrRole(role);
-            persist(PersistAction.CREATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceCreated"));
         }
-        System.out.println("********* End affecting role to groupe ..... nbRole = " + i);
-        /*if (!JsfUtil.isValidationFailed()) {
-         items = null;    // Invalidate list of items to trigger re-query.
-         }*/
+        JsfUtil.addSuccessMessage("StaffGroupDefRole : Reorder Column",
+                "Columns : <br>" + columns);
+
     }
 
-    public void update() {
-        selected.setStgdrChanged(new Date());
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
-    }
-
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public void listenerOnGroupChange(ValueChangeEvent event) {
+    public void handleGroupChange(ValueChangeEvent event) {
         StaffGroupDef stgd = (StaffGroupDef) event.getNewValue();
         if (stgd != null) {
             // Reset node access tree
             CtrlAccessService cas = new CtrlAccessService();
             nodeAccessTree = cas.securityAccess();
-
             // Set node tree with existing property 
-            cas.securitySetPropertyByGroup(nodeAccessTree, getItems(stgd));
+            cas.securitySetPropertyByGroup(nodeAccessTree, this.getItems(stgd));
+            //JsfUtil.addSuccessMessage("HandleGroupChanged", "Groupe change with success");
         } else {
             nodeAccessTree = null;
         }
 
     }
 
-    public void listenerOnSelectNode(NodeSelectEvent event) {
-        selectedAccess = event.getTreeNode();
+    public void handleTreeTableSelect(NodeSelectEvent event) {
+        CheckboxTreeNode node = (CheckboxTreeNode) event.getTreeNode();
+        node.setSelected(true, true);
+
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", event.getTreeNode().toString());
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void changeAccessOnSelected(TreeNode root, CtrlAccess.AccessType type) {
-        if (root != null) {
-            ((CtrlAccess) root.getData()).setAccess(type);
-            if (root.getChildCount() > 0) {// if existing child do same
-                Iterator<TreeNode> inode = root.getChildren().iterator();
-                while (inode.hasNext()) { // for each child
-                    TreeNode node = inode.next();
-                    ((CtrlAccess) node.getData()).setAccess(type);
-                    if (node.getChildCount() > 0) {
-                        changeAccessOnSelected(node, type);
-                    }
-                }
-            }
-        }
-    }
+    public void handleTreeTableUnSelect(NodeUnselectEvent event) {
+        CheckboxTreeNode node = (CheckboxTreeNode) event.getTreeNode();
+        node.setSelected(false, true);
 
-    public void listenerOnNodeAccessNone() {
-        changeAccessOnSelected(selectedAccess, CtrlAccess.AccessType.A_N);
-    }
-
-    public void listenerOnNodeAccessRead() {
-        changeAccessOnSelected(selectedAccess, CtrlAccess.AccessType.A_R);
-    }
-
-    public void listenerOnNodeAccessWrite() {
-        changeAccessOnSelected(selectedAccess, CtrlAccess.AccessType.A_W);
-    }
-
-    public void applyChangedTree() {
-        // Vérifie qu'un groupe à été sélectionné !
-        if (selected.getStgdrGroupDef() == null) {
-            JsfUtil.addErrorMessage("stgdGroupDef",
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("StaffGroupsRequiredMsg_stgGroupDef"));
-            return;
-        }
-
-        // Pour chaque composant de l'abre vérfier déterminer le type d'accès
-        // Ensuite, ensuite vérifier si ce type existe en fonction on supprime
-        // ou met à jour.
-        updateAccessRole(nodeAccessTree);
-        //JsfUtil.addSuccessMessage("Apply finished !");
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Unselected", event.getTreeNode().toString());
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     /**
-     * Récursive méthod allowing to apply change on tree node
+     * ************************************************************************
+     * CRUD OPTIONS
      *
-     * @param root
+     * ************************************************************************
      */
-    private void updateAccessRole(TreeNode root) {
-        // Escape first entreprise
-        if (root.getParent() != null) {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            // Sauvegarde la vue RH.
-            IsmRoleController ismRoleCtrl = (IsmRoleController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "ismRoleController");
-            ismRoleCtrl.prepareCreate();
+    public void create() {
+        // Set time on creation action
+        selected.setStgdrChanged(new Date());
+        selected.setStgdrCreated(new Date());
 
-            // Get child setup
-            CtrlAccess ctrl = (CtrlAccess) root.getData();
-            //JsfUtil.out(">> Current is " + ctrl.toString());
-            IsmRole ismRole = ismRoleCtrl.getItemBy(ctrl.getCode()); // Check role as if parent
-            StaffGroupDefRole stgdr;
-            if (selected == null) {
-                //JsfUtil.out("Gros problème le groupe est indéfini !");
-                //JsfUtil.addErrorMessage("Gros problème le groupe est indéfini !");
+        persist(PersistAction.CREATE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRolePersistenceCreatedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRolePersistenceCreatedDetail")
+                + selected.getStgdrGroupDef() + " <br > " + selected.getStgdrRole());
+
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+            if (isReleaseSelected) {
+                selected = null;
             }
-            if (ismRole != null & ctrl.getAccess() != CtrlAccess.AccessType.A_N) {
+            if (isOnMultiCreation) {
+                selected = new StaffGroupDefRole();
 
-                stgdr = this.getItemsBy(selected.getStgdrGroupDef(), ismRole);
-                if (stgdr == null) { // n'exite pas
-                    selected.setStgdrRole(ismRole);
-                    selected.setStgdrActivated(true);
-                    this.create();
-                }
-            } else if (ctrl.getAccess() == CtrlAccess.AccessType.A_W) {        // Must accept read and write
-                //JsfUtil.out("Access is in write");
-
-                ismRole = ismRoleCtrl.getItemBy(ctrl.getCode() + "_W");
-                // Check if already existing in table
-                stgdr = null;
-                if (ismRole != null) {
-                    stgdr = this.getItemsBy(selected.getStgdrGroupDef(), ismRole);
-
-                    if (stgdr == null) { // n'exite pas
-                        selected.setStgdrRole(ismRole);
-                        selected.setStgdrActivated(true);
-                        this.create();
-                        // Check if read access is setup otherwise create it !
-                        ismRole = ismRoleCtrl.getItemBy(ctrl.getCode() + "_R");
-                        stgdr = null;
-                        if (ismRole != null) {
-                            stgdr = this.getItemsBy(selected.getStgdrGroupDef(), ismRole);
-                        }
-                        if (stgdr == null) { // n'exite pas
-                            selected.setStgdrRole(ismRole);
-                            selected.setStgdrActivated(true);
-                            this.create();
-                        }
-                    }
-                }
-
-            } else if (ctrl.getAccess() == CtrlAccess.AccessType.A_R) {  // Must accept only read
-                //JsfUtil.out("Access is in read");
-                // Supprime uniquement l'écriture si il existe
-                //JsfUtil.out("Code is not parent !");
-                ismRole = ismRoleCtrl.getItemBy(ctrl.getCode() + "_W");
-                // Check if already existing in table
-                stgdr = null;
-                if (ismRole != null) {
-                    stgdr = this.getItemsBy(selected.getStgdrGroupDef(), ismRole);
-                }
-                if (stgdr != null) {// Résultat
-                    StaffGroupDef g = selected.getStgdrGroupDef();
-                    selected = stgdr;
-                    this.destroy();
-                    selected = new StaffGroupDefRole();
-                    selected.setStgdrGroupDef(g);
-                }
-                // Read part
-                ismRole = ismRoleCtrl.getItemBy(ctrl.getCode() + "_R");
-                stgdr = null;
-                if (ismRole != null) {
-                    stgdr = this.getItemsBy(selected.getStgdrGroupDef(), ismRole);
-                }
-                if (stgdr == null) { // n'exite pas
-                    //JsfUtil.out("Add read role with !");
-                    selected.setStgdrRole(ismRole);
-                    selected.setStgdrActivated(true);
-                    this.create();
-                }
-
-            }
-            // Suppression
-            if (ctrl.getAccess() == CtrlAccess.AccessType.A_N) {                                                // Remove any existing right
-                //JsfUtil.out("Access is in none");
-                stgdr = null;
-                if (ismRole != null) {
-                    stgdr = this.getItemsBy(selected.getStgdrGroupDef(), ismRole);
-                    if (stgdr != null) {
-                        StaffGroupDef g = selected.getStgdrGroupDef();
-                        selected = stgdr;
-                        this.destroy();
-                        selected = new StaffGroupDefRole();
-                        selected.setStgdrGroupDef(g);
-                    }
-                } else {
-                    // Supprime uniquement l'écriture si il existe
-                    ismRole = ismRoleCtrl.getItemBy(ctrl.getCode() + "_W");
-                    // Check if already existing in table
-                    stgdr = null;
-                    if (ismRole != null) {
-                        stgdr = this.getItemsBy(selected.getStgdrGroupDef(), ismRole);
-                        if (stgdr != null) {
-                            StaffGroupDef g = selected.getStgdrGroupDef();
-                            selected = stgdr;
-                            this.destroy();
-                            selected = new StaffGroupDefRole();
-                            selected.setStgdrGroupDef(g);
-                        }
-                    }
-
-                    ismRole = ismRoleCtrl.getItemBy(ctrl.getCode() + "_R");
-                    // Check if already existing in table
-                    stgdr = null;
-                    if (ismRole != null) {
-                        stgdr = this.getItemsBy(selected.getStgdrGroupDef(), ismRole);
-                        if (stgdr != null) {
-                            StaffGroupDef g = selected.getStgdrGroupDef();
-                            selected = stgdr;
-                            this.destroy();
-                            selected = new StaffGroupDefRole();
-                            selected.setStgdrGroupDef(g);
-                        }
-                    }
-                }
-
-            }
-        }
-        // check same job to child otherwise has find
-        if (root.getChildCount() > 0) {
-            Iterator<TreeNode> iTreeNode = root.getChildren().iterator();
-            while (iTreeNode.hasNext()) { // For each child
-                updateAccessRole(iTreeNode.next());
+            } else {
+                /*JsfUtil.out("is not on multicreation");*/
+                List<StaffGroupDefRole> staffGroupDefRoleList = getFacade().findAll();
+                selected = staffGroupDefRoleList.get(staffGroupDefRoleList.size() - 1);
             }
         }
     }
 
-    public List<StaffGroupDefRole> getItems() {
-        //if (items == null) {
-            items = getFacade().findAll();
-        //}
-        return items;
+    public void createTree() {
+        createTreeProgress = 0;
+        // La selection ne peut pas être vide
+        if (selected == null) {
+            JsfUtil.addErrorMessage("StaffGroupDefRole", "CreateTree : selected is null !");
+            return;
+        }
+
+        // Le groupe ne peut pas être null
+        StaffGroupDef groupDef = selected.getStgdrGroupDef();
+        if (groupDef == null) {
+            JsfUtil.addErrorMessage("StaffGroupDefRole", "CreateTree : none of the group is chose !");
+            return;
+        }
+
+        // Remove all about the existing groupe 
+        selected.setStgdrActivated(true);
+        StaffGroupDefRole save = selected;
+        destroyList(this.getItems(groupDef));
+        createTreeProgress = 50;
+        if (nodeAccessTree != null) {
+            processCreateTree(nodeAccessTree, save);
+        }
+        createTreeProgress = 100;
+        JsfUtil.addSuccessMessage("Apply finished !");
     }
 
-    private void persist(PersistAction persistAction, String successMessage) {
+    private void processCreateTree(TreeNode childNode, StaffGroupDefRole saveSelected) {
+        selected = new StaffGroupDefRole();
+        selected = saveSelected;
+        // Create a new list
+        CheckboxTreeNode node = (CheckboxTreeNode) childNode;
+        if (node.isSelected() || node.isPartialSelected()) {
+            CtrlAccess ctrl = (CtrlAccess) node.getData();
+            IsmRole role = roleCtrl.getItemBy(ctrl.getCode()); // Check role as if parent
+            selected.setStgdrRole(role);
+            if (role != null) {
+                this.create();
+            } else {
+                JsfUtil.out("Create Tree", "Role " + ctrl.getCode() + " was not found not created is null");
+                JsfUtil.addErrorMessage("Create Tree",
+                        "Role " + ctrl.getCode() + " was not found not created is null");
+            }
+        }
+        // Reccursive if has child
+        int nbRole = roleCtrl.getItems().size();
+        createTreeProgress++;
+        node.getChildren().stream().forEach((_childNode) -> {
+            processCreateTree(_childNode, saveSelected);
+        });
+
+    }
+
+    public void createUnReleasded() {
+        isReleaseSelected = false;
+        create();
+    }
+
+    public void update() {
+        // Set time on creation action
+        selected.setStgdrChanged(new Date());
+
+        persist(PersistAction.UPDATE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRolePersistenceUpdatedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRolePersistenceUpdatedDetail")
+                + selected.getStgdrGroupDef() + " <br > " + selected.getStgdrRole());
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRolePersistenceDeletedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffGroupDefRolePersistenceDeletedDetail")
+                + selected.getStgdrGroupDef() + " <br > " + selected.getStgdrRole());
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+            selected = null;
+        }
+    }
+
+    public void destroyList(List<StaffGroupDefRole> stgdrs) {
+        int nbRole = roleCtrl.getItems().size();
+        if (stgdrs != null) {
+            Iterator<StaffGroupDefRole> itr = stgdrs.iterator();
+            int i = 0;
+            while (itr.hasNext()) {
+                selected = itr.next();
+                destroy();
+                i++;
+                createTreeProgress = 50 * i / stgdrs.size();
+            }
+        }
+    }
+
+    private void persist(PersistAction persistAction, String summary, String detail) {
         if (selected != null) {
             setEmbeddableKeys();
             try {
@@ -368,7 +369,7 @@ public class StaffGroupDefRoleController implements Serializable {
                 } else {
                     getFacade().remove(selected);
                 }
-                JsfUtil.addSuccessMessage(successMessage);
+                //JsfUtil.addSuccessMessage(summary, detail);
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
@@ -376,19 +377,45 @@ public class StaffGroupDefRoleController implements Serializable {
                     msg = cause.getLocalizedMessage();
                 }
                 if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
+                    JsfUtil.addErrorMessage(summary, msg);
                 } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+                    JsfUtil.addErrorMessage(ex, summary,
+                            ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
                 }
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+                JsfUtil.addErrorMessage(ex, summary, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
             }
         }
     }
 
+    private void persist(PersistAction persistAction, String detail) {
+        persist(persistAction, detail, detail);
+    }
+
+    /**
+     * ************************************************************************
+     * JPA
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @param id
+     * @return
+     */
     public StaffGroupDefRole getStaffGroupDefRole(java.lang.Integer id) {
         return getFacade().find(id);
+    }
+
+    public List<StaffGroupDefRole> getItems() {
+        items = getFacade().findAll();
+        return items;
+    }
+
+    public List<StaffGroupDefRole> getItemsByLastChanged() {
+        items = getFacade().findAllByLastChanged();
+        return items;
     }
 
     public List<StaffGroupDefRole> getItemsAvailableSelectMany() {
@@ -399,6 +426,71 @@ public class StaffGroupDefRoleController implements Serializable {
         return getFacade().findAll();
     }
 
+    /**
+     * ************************************************************************
+     * GETTER / SETTER
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @return
+     */
+    public StaffGroupDefRole getSelected() {
+        if (selected == null) {
+            selected = new StaffGroupDefRole();
+        }
+        return selected;
+    }
+
+    public void setSelected(StaffGroupDefRole selected) {
+        this.selected = selected;
+    }
+
+    public Boolean getIsReleaseSelected() {
+        return isReleaseSelected;
+    }
+
+    public void setIsReleaseSelected(Boolean isReleaseSelected) {
+        this.isReleaseSelected = isReleaseSelected;
+    }
+
+    public Boolean getIsOnMultiCreation() {
+        return isOnMultiCreation;
+    }
+
+    public void setIsOnMultiCreation(Boolean isOnMultiCreation) {
+        this.isOnMultiCreation = isOnMultiCreation;
+    }
+
+    public Map<String, Boolean> getVisibleColMap() {
+        return visibleColMap;
+    }
+
+    public void setVisibleColMap(Map<String, Boolean> visibleColMap) {
+        this.visibleColMap = visibleColMap;
+    }
+
+    public Boolean getIsVisibleColKey(String key) {
+        return this.visibleColMap.get(key);
+    }
+
+    public CheckboxTreeNode getNodeAccessTree() {
+        return nodeAccessTree;
+    }
+
+    public void setNodeAccessTree(CheckboxTreeNode nodeAccessTree) {
+        this.nodeAccessTree = nodeAccessTree;
+    }
+
+    public int getCreateTreeProgress() {
+        return createTreeProgress;
+    }
+
+    public void setCreateTreeProgress(int createTreeProgress) {
+        this.createTreeProgress = createTreeProgress;
+    }
+
     public List<StaffGroupDefRole> getItems(StaffGroupDef groupDef) {
         return getFacade().findByStaffGroups(groupDef);
     }
@@ -407,42 +499,13 @@ public class StaffGroupDefRoleController implements Serializable {
         return getFacade().findBy(stgdrGroupDef, role);
     }
 
-    public TreeNode getNodeAccessTree() {
-        return nodeAccessTree;
-    }
-
-    public void setNodeAccessTree(TreeNode nodeAccessTree) {
-        this.nodeAccessTree = nodeAccessTree;
-    }
-
-    public TreeNode[] getNodeAccessTreeSelected() {
-        return nodeAccessTreeSelected;
-    }
-
-    public void setNodeAccessTreeSelected(TreeNode[] nodeAccessTreeSelected) {
-        this.nodeAccessTreeSelected = nodeAccessTreeSelected;
-    }
-
     /**
-     * Init View PickList
+     * ************************************************************************
+     * CONVERTER
+     *
+     *
+     * ************************************************************************
      */
-    @PostConstruct
-    public void init() {
-        //Cities
-        List<IsmRole> sgdrSrc = new ArrayList<IsmRole>();
-        List<IsmRole> sgdrTarget = new ArrayList<IsmRole>();
-        sgdrSrc = irf.findAll();
-        sgdr = new DualListModel<IsmRole>(sgdrSrc, sgdrTarget);
-    }
-
-    public DualListModel<IsmRole> getSgdr() {
-        return sgdr;
-    }
-
-    public void setSgdr(DualListModel<IsmRole> sgdr) {
-        this.sgdr = sgdr;
-    }
-
     @FacesConverter(forClass = StaffGroupDefRole.class)
     public static class StaffGroupDefRoleControllerConverter implements Converter {
 
@@ -484,93 +547,72 @@ public class StaffGroupDefRoleController implements Serializable {
 
     }
 
-    @ManagedBean
-    @RequestScoped
-    public class IsmRoleConverter implements Converter {
+    @FacesValidator(value = "StaffGroupDefRole_RoleValidator")
+    public static class StaffGroupDefRole_RoleValidator implements Validator {
+
+        public static final String M_SUMMARY_ID = "StaffGroupDefRoleDuplicationField_RoleSummary";
+        public static final String M_DETAIL_ID = "StaffGroupDefRoleDuplicationField_RoleDetail";
 
         @EJB
-        private IsmRoleFacade operationService;
+        private org.ism.sessions.StaffGroupDefRoleFacade ejbFacade;
 
         @Override
-        public String getAsString(FacesContext context, UIComponent component, Object value) {
-            // Convert here Operation object to String value for use in HTML.
-            if (!(value instanceof IsmRole) || ((IsmRole) value).getId() == null) {
-                return null;
+        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+            String value = o.toString();
+            if ((fc == null) || (uic == null)) {
+                throw new NullPointerException();
             }
-            return String.valueOf(((IsmRole) value).getId() + "-" + ((IsmRole) value).getRolename());
-        }
-
-        @Override
-        public Object getAsObject(FacesContext context, UIComponent component, String value) {
-            // Convert here String submitted value to Operation object.
-            if (value == null || !value.matches("\\d+")) {
-                return null;
+            if (!(uic instanceof SelectOneMenu)) {
+                return;
             }
 
-            IsmRole operation = operationService.find(Long.valueOf(value));
-
-            if (operation == null) {
-                throw new ConverterException(new FacesMessage("Unknown operation ID: " + value));
+            UIComponent uicGroupDef = JsfUtil.findComponent("stgdrGroupDef");
+            if (uicGroupDef == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(M_SUMMARY_ID),
+                        "Component stgdrGroupDef does not exist !");
+                throw new ValidatorException(facesMsg);
             }
 
-            return operation;
-        }
-    }
+            SelectOneMenu somGroupDef = (SelectOneMenu) uicGroupDef;
+            SelectOneMenu somRole = (SelectOneMenu) uic;
 
-    @ManagedBean
-    @RequestScoped
-    @FacesConverter(value = "PrimeFacesPickListConverter")
-    public class PrimeFacesPickListConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-            Object ret = null;
-            if (arg1 instanceof PickList) {
-                Object dualList = ((PickList) arg1).getValue();
-                DualListModel dl = (DualListModel) dualList;
-                for (Object o : dl.getSource()) {
-                    String id = "";
-                    if (o instanceof IsmRole) {
-                        id += ((IsmRole) o).getId();
-                    }
-                    /*if (o instanceof Grupo) {
-                     id += ((Grupo) o).getId();
-                     }*/
-                    if (arg2.equals(id)) {
-                        ret = o;
-                        break;
-                    }
-                }
-                if (ret == null) {
-                    for (Object o : dl.getTarget()) {
-                        String id = "";
-                        if (o instanceof IsmRole) {
-                            id += ((IsmRole) o).getId();
-                        }
-                        /*if (o instanceof Grupo) {
-                         id += ((Grupo) o).getId();
-                         }*/
-                        if (arg2.equals(id)) {
-                            ret = o;
-                            break;
-                        }
-                    }
-                }
+            if (somGroupDef == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(M_SUMMARY_ID),
+                        "Nothing send from stgdrGroupDef");
+                throw new ValidatorException(facesMsg);
             }
-            return ret;
-        }
 
-        @Override
-        public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-            String str = "";
-            if (arg2 instanceof IsmRole) {
-                str = "" + ((IsmRole) arg2).getId() + ((IsmRole) arg2).getRolename();
+            if (somRole == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(M_SUMMARY_ID),
+                        "Nothing send from stgdrRole");
+                throw new ValidatorException(facesMsg);
             }
-            /*if (arg2 instanceof IsmRole) {
-             str = "" + ((IsmRole) arg2).getId();
-             }*/
-            return str;
+
+            StaffGroupDef staffGroupDefValue = (StaffGroupDef) somGroupDef.getValue();
+            IsmRole roleValue = (IsmRole) o;
+
+            StaffGroupDefRole staffGroupDefRole = ejbFacade.findBy(
+                    staffGroupDefValue,
+                    roleValue);
+
+            if (staffGroupDefRole == null) {
+                return;
+            } else {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(M_SUMMARY_ID),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(M_DETAIL_ID)
+                        );
+                throw new ValidatorException(facesMsg);
+            }
+
         }
     }
-
 }

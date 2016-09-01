@@ -19,8 +19,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 #loginForm\3a company_panel
 {
-    font-family: Arial, Helvetica,"Trebuchet MS",  sans-serif !important;
-    font-size: 10pt;
+    /*font-family: Arial, Helvetica,"Trebuchet MS",  sans-serif !important;
+    font-size: 10pt;*/
 }
 /*
  * GENERAL SETUP
@@ -30,9 +30,10 @@ html {
 }
 
 body { 
+    
     background-color: #f2f2f2;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color: #313131;
+    /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #313131;*/
 }
 
 /*
@@ -97,16 +98,17 @@ body {
     overflow: hidden;
     white-space: nowrap;
     text-align: center;
+    width: 50%;
 }
 #welcome:before,
 #welcome:after {
     content: "";
     position: relative;
     display: inline-block;
-    width: 50%;
+    width: 35%;
     height: 1px;
     vertical-align: middle;
-    background: #f0f0f0;
+    background: #aaa;
 }
 #welcome:before {    
     left: -.5em;
@@ -124,7 +126,7 @@ body {
 
 #loginMsg {
     display: block;
-    font-size: 1em;
+    font-size: 0.9em;
     margin-bottom: 22px;
 }
 /*
@@ -184,13 +186,14 @@ body {
 */
 
 .ui-btn-logIn{
+    /*
     margin: 0px;
     padding : 0px;
     
     margin-top: 5px;
     padding: 5px;
     min-width: 64px;
-    min-height: 32px;
+    min-height: 32px;*/
 }
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Connect{
     background: url("#{resource['img/ism/std/Connect.png']}") no-repeat;
@@ -199,12 +202,12 @@ body {
 
 .ui-growl { 
     /* Main container element of growl */
-    left:20px;
+    /*left:20px;*/
 }
 
 .ui-growl-item-container { 
     /* Container of messages */
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 8pt ;
+    /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 8pt ;*/
 }
 

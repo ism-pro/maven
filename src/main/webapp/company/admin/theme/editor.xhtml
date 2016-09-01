@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText   value="Theme service" /></h1>
+
+            <h:form id="bodyForm">
+                <br />
+                <h2>Layout</h2>
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{staffGroupDefRoleController.selected != null}">
+
+                    <p:layout>
+                        <p:layoutUnit position="north" header="North">
+                            
+                        </p:layoutUnit>
+                        <p:layoutUnit position="west" header="North">
+                            
+                        </p:layoutUnit>
+                        <p:layoutUnit position="east" header="North">
+                            
+                        </p:layoutUnit>
+                        <p:layoutUnit position="south" header="North">
+                            
+                        </p:layoutUnit>
+                        <p:layoutUnit position="center" header="North">
+                            
+                        </p:layoutUnit>
+                    </p:layout>
+                    
+                </p:panelGrid>
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+
+</html>

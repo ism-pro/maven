@@ -10,10 +10,11 @@
       id="html">
     <h:head>
         <title><ui:insert name="title">#{ism.AppName}</ui:insert></title>
-        <link rel="shortcut icon" href="#{resource['img/company/ismMain3.png']}" type="image/x-png" /> 
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
         <meta http-equiv="refresh" 
               content="#{viewRibbon.advanceSessionMaxInactiveInterval()};url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
-
+        <meta charset="UTF-8"/>
+        
 
         <f:facet name="last">
             <h:outputStylesheet library="css" name="ribbon/ism-ribbon.min.css" />
@@ -22,6 +23,7 @@
             <h:outputStylesheet library="css" name="ism-global.min.css" />
             <h:outputStylesheet library="css" name="ism-index.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
+            <h:outputStylesheet library="css" name="w3.min.css" />
 
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
 
@@ -188,7 +190,7 @@
                                                          action="/company/hr/staff/Profile.xhtml?faces-redirect=true"
                                                          icon="ui-ribbonicon-person"
                                                          value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"
-                                                         rendered="#{request.isUserInRole('USER')}"
+                                                         rendered="#{request.isUserInRole('STAFF')}"
                                                          />
 
                                         <p:commandButton id="btnHomeStaffConfig"
@@ -197,7 +199,7 @@
                                                          action="/company/hr/staff/Setup.xhtml?faces-redirect=true"
                                                          icon="ui-ribbonicon-config"
                                                          value="#{ism.Configurations}"
-                                                         rendered="#{request.isUserInRole('USER')}"
+                                                         rendered="#{request.isUserInRole('STAFF')}"
                                                          />
 
                                     </pi:ribbonGroupSet>
@@ -208,7 +210,7 @@
                                 <pi:ribbonGroup id="ribbonGroupSMQ" label="SMQ"  >
                                     <pi:ribbonGroupSet id="ribbonGroupSetSMQ" set="big" >
                                         <p:commandButton id="btnSMQProcessus"
-                                                         rendered="#{request.isUserInRole('CO_SMQPROCESSUS_R')}"
+                                                         rendered="#{request.isUserInRole('S_PROCESSUS')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                          title="Visualiser les processus"
                                                          action="/company/smq/processus/List.xhtml?faces-redirect=true"
@@ -216,7 +218,7 @@
                                                          value="Processus"
                                                          />
                                         <p:commandButton id="btnSMQDocType"
-                                                         rendered="#{request.isUserInRole('CO_SMQDOCTYPE_R')}"
+                                                         rendered="#{request.isUserInRole('S_TYPE')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                          title="Visualiser les types de document"
                                                          action="/company/smq/docType/List.xhtml?faces-redirect=true"
@@ -224,7 +226,7 @@
                                                          value="Type de document"
                                                          />
                                         <p:commandButton id="btnSMQDocument"
-                                                         rendered="#{request.isUserInRole('CO_SMQDOCEXPLORER_R')}"
+                                                         rendered="#{request.isUserInRole('S_EXPLORER')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                          title="Liste de document"
                                                          action="/company/smq/docExplorer/List.xhtml?faces-redirect=true"
@@ -240,7 +242,7 @@
                                                          title="Gestion de non conformité"
                                                          action="/company/smq/nc/Request/List.xhtml?faces-redirect=true"
                                                          actionListener="#{viewRibbon.setActiveIndex(1)}"
-                                                         rendered="#{request.isUserInRole('CO_SMQNCREQUEST_R')}"
+                                                         rendered="#{request.isUserInRole('SNC_REQUEST')}"
                                                          icon="ui-icon-smqnc" 
                                                          value="Gérer"
                                                          />
@@ -253,35 +255,35 @@
                                                         value="Unités"
                                                         action="/company/smq/nc/Unite/List.xhtml?faces-redirect=true"
                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
-                                                        rendered="#{request.isUserInRole('CO_SMQNCUNITE_R')}"
+                                                        rendered="#{request.isUserInRole('SNC_UNITE')}"
                                                         icon="ui-icon-smqnc-unit"
                                                         />
                                             <p:menuitem id="splitButtonMenuItemNCNature"
                                                         value="Nature" 
                                                         action="/company/smq/nc/Nature/List.xhtml?faces-redirect=true"
                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
-                                                        rendered="#{request.isUserInRole('CO_SMQNCNATURE_R')}"
+                                                        rendered="#{request.isUserInRole('SNC_NATURE')}"
                                                         icon="ui-icon-smqnc-nature"
                                                         />
                                             <p:menuitem id="splitButtonMenuItemNCGravity"
                                                         value="Gravités" 
                                                         action="/company/smq/nc/Gravite/List.xhtml?faces-redirect=true"
                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
-                                                        rendered="#{request.isUserInRole('CO_SMQNCGRAVITE_R')}"
+                                                        rendered="#{request.isUserInRole('SNC_GRAVITE')}"
                                                         icon="ui-icon-smqnc-gravite"
                                                         />
                                             <p:menuitem id="splitButtonMenuItemNCFrequency"
                                                         value="Fréquences" 
                                                         action="/company/smq/nc/Frequence/List.xhtml?faces-redirect=true"
                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
-                                                        rendered="#{request.isUserInRole('CO_SMQNCFREQUENCE_R')}"
+                                                        rendered="#{request.isUserInRole('SNC_FREQUENCE')}"
                                                         icon="ui-icon-smqnc-frequence"/>
                                             <p:separator />
                                             <p:menuitem id="splitButtonMenuItemNCRequest"
                                                         value="Non conformité" 
                                                         action="/company/smq/nc/Request/List.xhtml?faces-redirect=true"
                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
-                                                        rendered="#{request.isUserInRole('CO_SMQNCREQUEST_R')}"
+                                                        rendered="#{request.isUserInRole('SNC_REQUEST')}"
                                                         icon="ui-icon-smqnc-request" />
                                         </p:menuButton>
                                     </pi:ribbonGroupSet>
@@ -292,36 +294,36 @@
                                 <pi:ribbonGroup id="RibbonGroupResources" label="Staff">
                                     <pi:ribbonGroupSet id="ribbonGroupSetStaff" set="small">
                                         <p:commandButton id="btnStaffGroup"
-                                                         rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEF_R')}"
+                                                         rendered="#{request.isUserInRole('HR_GROUP')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(2)}"
                                                          title="Gérer vos groupes de staff donnant accès au utilisateur"
                                                          action="/company/hr/staffGroupDef/List.xhtml?faces-redirect=true"
                                                          value="Groupes" 
                                                          icon="ui-icon-hrstaffgroups" />
                                         <p:commandButton id="btnStaffRole"
-                                                         rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEFROLE_R')}"
+                                                         rendered="#{request.isUserInRole('HR_GROUPROLE')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(2)}"
                                                          title="Associer des rôles d'accès au groupes de staff sous forme tabulaire"
                                                          action="/company/hr/staffGroupDefRole/List.xhtml?faces-redirect=true"
                                                          value="Rôle List" 
                                                          icon="ui-icon-hrstaffroles" />
                                         <p:commandButton id="btnStaffRoleTree"
-                                                         rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEFROLE_R')}"
-                                                         actionListener="#{staffGroupDefRoleController.prepareCreateTree}"
+                                                         rendered="#{request.isUserInRole('HR_GROUPROLE')}"
+                                                         actionListener="#{staffGroupDefRoleController.prepareCreate}"
                                                          title="Associer des rôles d'accès au groupes de staff sous forme d'arbre"
                                                          action="/company/hr/staffGroupDefRole/CreateTree.xhtml?faces-redirect=true"
                                                          value="Rôle Tree" 
                                                          icon="ui-icon-hrstaffroles" />
 
                                         <p:commandButton id="btnStaffCompany"
-                                                         rendered="#{request.isUserInRole('CO_HRSTAFFGROUPDEFROLE_R')}"
+                                                         rendered="#{request.isUserInRole('HR_COMPANY')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(2)}"
                                                          title="Lier l'utilisateur à une compagnie"
                                                          action="/company/hr/staffCompany/List.xhtml?faces-redirect=true"
                                                          value="Société"
                                                          icon="ui-icon-hrstaffcompany" />
                                         <p:commandButton id="btnStaffToGroup"
-                                                         rendered="#{request.isUserInRole('CO_HRSTAFFGROUPS_R')}"
+                                                         rendered="#{request.isUserInRole('HR_GROUPSTAFF')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(2)}"
                                                          title="Lier des utilisateur à un groupe d'accès"
                                                          action="/company/hr/staffGroups/List.xhtml?faces-redirect=true"
@@ -331,7 +333,7 @@
                                     <pi:ribbonGroupSet id="ribbonGroupSetStaffCreate" set="big">
 
                                         <p:commandButton id="btnStaffCreate"
-                                                         rendered="#{request.isUserInRole('CO_HRSTAFFMANAGER_W')}"
+                                                         rendered="#{request.isUserInRole('HR_MANAGER')}"
                                                          actionListener="#{staffManagerController.prepareCreate}"
                                                          title="Créer un utilisateur"
                                                          action="/company/hr/staffManager/Create.xhtml?faces-redirect=true"
@@ -340,7 +342,7 @@
 
 
                                         <p:commandButton id="btnStaffList"
-                                                         rendered="#{request.isUserInRole('CO_HRSTAFFMANAGER_R')}"
+                                                         rendered="#{request.isUserInRole('HR_MANAGER')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(2)}"
                                                          title="Tableau de la liste du staffs (utilisateurs)"
                                                          action="/company/hr/staff/List.xhtml?faces-redirect=true"
@@ -348,7 +350,7 @@
                                                          icon="ui-icon-hrstafflist" />
 
                                         <p:commandButton id="btnStaffManageList"
-                                                         rendered="#{request.isUserInRole('CO_HRSTAFFMANAGER_R')}"
+                                                         rendered="#{request.isUserInRole('HR_MANAGER')}"
                                                          actionListener="#{staffManagerController.prepareCreate}"
                                                          title="Grille de la liste du staffs (utilisateurs)"
                                                          action="/company/hr/staffManager/List.xhtml?faces-redirect=true"
@@ -358,7 +360,7 @@
                                 </pi:ribbonGroup>
                             </p:tab>
 
-                            <p:tab id="tabProcess" title="#{ism.ProcessPage}" titletip="#{ism.ProcessPageTitle}" rendered="true" >
+                            <p:tab id="tabProcess" title="#{ism.ProcessPage}" titletip="#{ism.ProcessPageTitle}" rendered="false" >
                                 <pi:ribbonGroup id="RibbonGroupPStd" label="Standard">
                                     <h:panelGrid id="PanelGridStd" columns="1">
                                         <h:commandButton id="btnPStdEquipement"
@@ -641,50 +643,22 @@
                       closable="false">
                 <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
             </p:dialog>
+            
             <p:ajaxStatus onstart="PF('statusDialog').show()" 
                           oncomplete="PF('statusDialog').hide();"/>
 
 
-
         </h:form>
 
+        
+        
     </h:body>
 
 
     <h:body rendered="#{!request.session.getAttribute('authenticated')}">
         <meta http-equiv="refresh" 
-              content="5;url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
+              content="0;url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
     </h:body>
 
-    <!-- 
-    <p:blockUI block="body" 
-               trigger="mainForm:shortcut-btn-theme,
-               mainForm:shortcut-btn-logout, 
-               mainForm:ism-ribbon:main,
-               mainForm:ism-ribbon:administration,
-               mainForm:ism-ribbon:resources,
-               mainForm:ism-ribbon:btnSMQProcessus, 
-               mainForm:ism-ribbon:btnSMQDocType, 
-               mainForm:ism-ribbon:btnSMQDocument,
-               mainForm:ism-ribbon:btnSMQNC,       
-               mainForm:ism-ribbon:splitButtonMenuItemNCUnit, 
-               mainForm:ism-ribbon:splitButtonMenuItemNCNature, 
-               mainForm:ism-ribbon:splitButtonMenuItemNCGravity, 
-               mainForm:ism-ribbon:splitButtonMenuItemNCFrequency, 
-               mainForm:ism-ribbon:splitButtonMenuItemNCRequest,
-               mainForm:ism-ribbon:resources, 
-               mainForm:ism-ribbon:btnStaffGroup, 
-               mainForm:ism-ribbon:btnStaffRole, 
-               mainForm:ism-ribbon:btnStaffRoleTree, 
-               mainForm:ism-ribbon:btnStaffCompany, 
-               mainForm:ism-ribbon:btnStaffToGroup, 
-               mainForm:ism-ribbon:btnStaffCreate, 
-               mainForm:ism-ribbon:btnStaffList, 
-               mainForm:ism-ribbon:btnStaffManageList
-               "
-               >
-        <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
-    </p:blockUI>
-    -->
 </html>
 
