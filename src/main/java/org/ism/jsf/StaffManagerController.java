@@ -179,7 +179,7 @@ public class StaffManagerController implements Serializable {
         staff.setStPasswordConf(staff.getStPassword());
         staffCtrl.setSelected(staff);
         // Get company rely on staff
-        List<StaffCompanies> staffCompanies = staffCompaniesCtrl.getItems(staff);
+        List<StaffCompanies> staffCompanies = staffCompaniesCtrl.getItemsByStaff(staff);
 
         // Get Groups associate to companies
         List<StaffGroups> staffGroupsList = staffGroupsCtrl.getItems(staff);
@@ -212,14 +212,14 @@ public class StaffManagerController implements Serializable {
             //List<Company> lstCompapny = new ArrayList<Company>();
 
             // Récupération de l'ensemble des liens staff company group
-            List<StaffCompanies> beforeStaffCompanies = staffCompaniesCtrl.getItems(staffCtrl.getSelected());
+            List<StaffCompanies> beforeStaffCompanies = staffCompaniesCtrl.getItemsByStaff(staffCtrl.getSelected());
 
             for (int i = 0; i < selectedAccessTree.length; i++) {
                 TreeNode currentNode = selectedAccessTree[i];
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
                 //if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
                     CtrlAccess ct = (CtrlAccess) currentNode.getParent().getData();
-                    StaffCompanies qStaffCompanies = staffCompaniesCtrl.getStaffCompanies(staffCtrl.getSelected(), ct.getCompany());
+                    StaffCompanies qStaffCompanies = staffCompaniesCtrl.getItemsByStaffCompanies(staffCtrl.getSelected(), ct.getCompany());
                     if (qStaffCompanies != null) { // Modification
                         staffCompaniesCtrl.setSelected(qStaffCompanies);
                         staffCompaniesCtrl.getSelected().setStcStaff(staffCtrl.getSelected());

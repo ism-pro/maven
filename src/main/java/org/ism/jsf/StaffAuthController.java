@@ -223,7 +223,7 @@ public class StaffAuthController implements Serializable {
         staffgroupDefCtrl.prepareCreate();
 
         // Get company rely on staff
-        List<StaffCompanies> staffCompanies = staffCompaniesCtrl.getItems(staff);
+        List<StaffCompanies> staffCompanies = staffCompaniesCtrl.getItemsByStaff(staff);
 
         // Get Groups associate to companies
         List<StaffGroups> staffGroupsList = staffGroupsCtrl.getItems(staff);

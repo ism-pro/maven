@@ -47,6 +47,17 @@ public class StaffCompaniesFacade extends AbstractFacade<StaffCompanies> {
         }
         return null;
     }
+    
+    public List<StaffCompanies> findByCompany(Company company) {
+        em.flush();
+        Query q = em.createNamedQuery("StaffCompanies.findByStcCompany").setParameter("stcCompany", company);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int countStaff = q.getResultList().size();
+        if (countStaff > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
 
     public StaffCompanies findByStaffCompany(Staff staff, Company company) {
         em.flush();

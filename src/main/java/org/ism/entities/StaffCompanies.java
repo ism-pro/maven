@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "StaffCompanies.findByStcCreated", query = "SELECT s FROM StaffCompanies s WHERE s.stcCreated = :stcCreated"),
     @NamedQuery(name = "StaffCompanies.findByStcChanged", query = "SELECT s FROM StaffCompanies s WHERE s.stcChanged = :stcChanged"),
     @NamedQuery(name = "StaffCompanies.findByStcStaff", query = "SELECT s FROM StaffCompanies s WHERE s.stcStaff = :stcStaff"),
+    @NamedQuery(name = "StaffCompanies.findByStcCompany", query = "SELECT s FROM StaffCompanies s WHERE s.stcCompany = :stcCompany"),
     @NamedQuery(name = "StaffCompanies.findByStcStaffAndCompany", query = "SELECT s FROM StaffCompanies s WHERE s.stcStaff = :stcStaff and s.stcCompany = :stcCompany"),
     @NamedQuery(name = "StaffCompanies.countStaffCompanies", query = "SELECT count(s) FROM StaffCompanies s WHERE s.stcStaff = :stcStaff AND s.stcCompany = :stcCompany"),
     @NamedQuery(name = "StaffCompanies.selectAllByLastChange", query = "SELECT s FROM StaffCompanies s ORDER BY s.stcChanged DESC")

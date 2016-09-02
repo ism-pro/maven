@@ -10,7 +10,7 @@
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1><h:outputText value="#{ism.ProcessusTitleView}"/></h1>
+            <h1><h:outputText value="#{ism.StaffGroupDefRoleTitleView}"/></h1>
 
             <h:form id="bodyForm">
 
@@ -73,9 +73,9 @@
                                      actionListener="#{staffGroupDefRoleController.destroy()}"
                                      update=":bodyForm,:growl"
                                      onstart=";
-                                     #{viewConfirmDialog.dlg.setHeader(ism.ProcessusDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setHeader(ism.StaffGroupDefRoleDlgHeader)};
                                      #{viewConfirmDialog.dlg.setSeverity('alert')};
-                                     #{viewConfirmDialog.dlg.setMessage(ism.ProcessusDlgMessage)}
+                                     #{viewConfirmDialog.dlg.setMessage(ism.StaffGroupDefRoleDlgMessage)}
                                      PF('mainConfirmDialog').show()"
                                      disabled="#{empty staffGroupDefRoleController.selected 
                                                  or empty staffGroupDefRoleController.selected.stgdrId}"
@@ -123,9 +123,9 @@
                                  actionListener="#{staffGroupDefRoleController.destroy()}"
                                  update=":bodyForm,:growl"
                                  onstart=";
-                                 #{viewConfirmDialog.dlg.setHeader(ism.ProcessusDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setHeader(ism.StaffGroupDefRoleDlgHeader)};
                                  #{viewConfirmDialog.dlg.setSeverity('alert')};
-                                 #{viewConfirmDialog.dlg.setMessage(ism.ProcessusDlgMessage)}
+                                 #{viewConfirmDialog.dlg.setMessage(ism.StaffGroupDefRoleDlgMessage)}
                                  PF('mainConfirmDialog').show()"
                                  disabled="#{empty staffGroupDefRoleController.selected 
                                              or empty staffGroupDefRoleController.selected.stgdrId}"
