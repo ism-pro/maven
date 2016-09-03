@@ -129,8 +129,6 @@ public class Staff implements Serializable {
 
     @OneToMany(mappedBy = "pStaffmanager")
     private Collection<Processus> processusCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "stcStaff")
-    private Collection<StaffCompanies> staffCompaniesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stgStaff")
     private Collection<StaffGroups> staffGroupsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stsStaff")
@@ -321,15 +319,6 @@ public class Staff implements Serializable {
 
     public void setProcessusCollection(Collection<Processus> processusCollection) {
         this.processusCollection = processusCollection;
-    }
-
-    @XmlTransient
-    public Collection<StaffCompanies> getStaffCompaniesCollection() {
-        return staffCompaniesCollection;
-    }
-
-    public void setStaffCompaniesCollection(Collection<StaffCompanies> staffCompaniesCollection) {
-        this.staffCompaniesCollection = staffCompaniesCollection;
     }
 
     @XmlTransient

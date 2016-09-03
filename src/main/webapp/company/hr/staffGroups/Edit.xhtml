@@ -1,90 +1,178 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="StaffGroupsEditDlg" widgetVar="StaffGroupsEditDialog"  
-                  dynamic="true" showEffect="clip"  hideEffect="clip" 
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.StaffGroupsTitleEdit}">
-            <h:form id="StaffGroupsEditForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{staffGroupsController.selected != null}">
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.StaffGroupsTitleEdit}"/></h1>
 
-                        <p:outputLabel value="#{ism.StaffGroupsField_stgId}" for="stgId" rendered="false"/>
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{staffGroupsController.selected != null}">
+
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgId}" rendered="true" for="stgId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="stgId" rendered="false"
                                      value="#{staffGroupsController.selected.stgId}" 
                                      title="#{ism.StaffGroupsFieldInfo_stgId}" 
-                                     required="true"
+                                     required="true" 
                                      requiredMessage="#{ism.StaffGroupsRequiredMsg_stgId}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffGroupsController.selected.stgId}" />
+                    </h:panelGrid>
 
-
-                        <p:outputLabel value="#{ism.StaffGroupsField_stgStaff}" for="stgStaff" />
-                        <p:selectOneMenu id="stgStaff" value="#{staffGroupsController.selected.stgStaff}" 
-                                         required="true" 
-                                         requiredMessage="#{ism.StaffGroupsRequiredMsg_stgStaff}">
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgStaff}" for="stgStaff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="stgStaff"  widgetVar="stgStaff"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{staffGroupsController.selected.stgStaff}"
+                                         title="#{ism.StaffGroupsFieldInfo_stgStaff}" 
+                                         required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgStaff}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
                                            var="stgStaffItem"
-                                           itemValue="#{stgStaffItem}"
-                                           itemLabel="[#{stgStaffItem.stStaff}] #{stgStaffItem.stFirstname} #{stgStaffItem.stLastname} #{stgStaffItem.stMiddlename}"/>
+                                           itemLabel="#{stgStaffItem.stFirstname} #{stgStaffItem.stLastname} #{stgStaffItem.stMiddlename} [#{stgStaffItem.stStaff}]"
+                                           itemValue="#{stgStaffItem}"/>
                         </p:selectOneMenu>
-                        
-                        <p:outputLabel value="#{ism.StaffGroupsField_stgGroupDef}" for="stgGroupDef" />
-                        <p:selectOneMenu id="stgGroupDef" value="#{staffGroupsController.selected.stgGroupDef}" 
-                                         required="true" 
-                                         requiredMessage="#{ism.StaffGroupsRequiredMsg_stgGroupDef}">
-                            <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}"
-                                           var="stgGroupDefItem"
-                                           itemValue="#{stgGroupDefItem}"
-                                           itemLabel="#{stgGroupDefItem.stgdGroupDef} - #{stgGroupDefItem.stgdDesignation}"/>
+                        <p:message for="stgStaff" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgGroupDef}" for="stgGroupDef" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="stgGroupDef" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{staffGroupsController.selected.stgGroupDef}"
+                                         title="#{ism.StaffGroupsFieldInfo_stgGroupDef}" 
+                                         required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgGroupDef}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{staffGroupDefController.getItemsGrouped()}"
+                                           var="stgGroupDefItem" 
+                                           itemLabel="#{stgGroupDefItem.label} - #{stgGroupDefItem.description}"
+                                           itemValue="#{stgGroupDefItem.value}"/>
                         </p:selectOneMenu>
+                        <p:message for="stgGroupDef" />
+                    </h:panelGrid>
 
-                        <p:outputLabel value="#{ism.StaffGroupsField_stgActivated}" for="stgActivated" />
-                        <p:selectBooleanCheckbox id="stgActivated" 
-                                                 value="#{staffGroupsController.selected.stgActivated}" 
-                                                 required="true" 
-                                                 requiredMessage="#{ism.StaffGroupsRequiredMsg_stgActivated}"/>
 
-                        <p:outputLabel value="#{ism.StaffGroupsField_stgCreated}" for="stgCreated" rendered="false" />
-                        <p:calendar id="stgCreated" 
-                                    pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
-                                    value="#{staffGroupsController.selected.stgCreated}" 
-                                    title="#{ism.StaffGroupsFieldInfo_stgCreated}" 
-                                    required="true" 
-                                    requiredMessage="#{ism.StaffGroupsRequiredMsg_stgCreated}" 
-                                    showOn="button"/>
 
-                        <p:outputLabel value="#{ism.StaffGroupsField_stgChanged}" for="stgChanged" rendered="false" />
-                        <p:calendar id="stgChanged" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
-                                    value="#{staffGroupsController.selected.stgChanged}" 
-                                    title="#{ism.StaffGroupsFieldInfo_stgChanged}" 
-                                    required="true" 
-                                    requiredMessage="#{ism.StaffGroupsRequiredMsg_stgChanged}" 
-                                    showOn="button"/>
 
-                        <p:outputLabel value="#{ism.StaffGroupsField_stgCompany}" for="stgCompany" />
-                        <p:selectOneMenu id="stgCompany" value="#{staffGroupsController.selected.stgCompany}" 
-                                         required="true" 
-                                         requiredMessage="#{ism.StaffGroupsRequiredMsg_stgCompany}">
-                            <f:selectItem  itemValue="#{staffAuthController.company}" 
-                                           itemLabel="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}"
-                                           />
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgCompany}" for="stgCompany" rendered="false" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >
+                        <p:selectOneMenu id="stgCompany" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{staffGroupsController.selected.stgCompany}"
+                                         title="#{ism.StaffGroupsFieldInfo_stgCompany}" 
+                                         required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgCompany}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
+                                           var="stgCompanyItem"
+                                           itemLabel="#{stgCompanyItem.CCompany} - #{stgCompanyItem.CDesignation}"
+                                           itemValue="#{stgCompanyItem}"/>
                         </p:selectOneMenu>
+                        <p:message for="stgCompany" />
+                    </h:panelGrid>
+                    
+                    
+                    
+                    
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgActivated}" for="stgActivated" />
+                    <p:selectBooleanCheckbox id="stgActivated" 
+                                             value="#{staffGroupsController.selected.stgActivated}" 
+                                             required="true" 
+                                             requiredMessage="#{ism.StaffGroupsRequiredMsg_stgActivated}"/>
 
 
 
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{staffGroupsController.update}" value="#{ism.Save}" update="display,:StaffGroupsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'StaffGroupsEditDialog');"/>
-                    <p:commandButton value="#{ism.Cancel}" onclick="PF('StaffGroupsEditDialog').hide();"/>
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgCreated}" 
+                                   rendered="false" for="stgCreated" />
+                    <p:calendar id="stgCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
+                                value="#{staffGroupsController.selected.stgCreated}" 
+                                title="#{ism.StaffGroupsFieldInfo_stgCreated}" 
+                                required="true" 
+                                requiredMessage="#{ism.StaffGroupsRequiredMsg_stgCreated}" 
+                                showOn="button"/>
+
+
+
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgChanged}" 
+                                   rendered="false" for="stgChanged" />
+                    <p:calendar id="stgChanged"  rendered="false"
+                                pattern="dd/MM/yyyy HH:mm:ss" 
+                                value="#{staffGroupsController.selected.stgChanged}" 
+                                title="#{ism.StaffGroupsFieldInfo_stgChanged}" 
+                                required="true" 
+                                requiredMessage="#{ism.StaffGroupsRequiredMsg_stgChanged}" 
+                                showOn="button"/>
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{staffGroupsController.update}" 
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{staffGroupsController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{staffGroupsController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

@@ -19,7 +19,6 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\LabSample.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\LabSamplePt.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\NonConformiteFrequency.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\primefaces\ism\component\ribbon\Ribbon.java
-E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\StaffCompanies.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\EquipementController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\util\JsfSecurity.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\converter\ThemeConverter.java
@@ -70,7 +69,6 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\NonConformiteFrequencyC
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\Entreprise.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\LabSamplePtAnalysesController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\StaffGroupsFacade.java
-E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\StaffCompaniesFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\StaffSetupController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\util\JsfUtil.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\StaffGroupDefRoleFacade.java
@@ -112,7 +110,6 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\CompanyController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\ViewUtil.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\TableView.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\StaffGroupDefRoleController.java
-E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\StaffCompaniesController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\LabAnalyseCategoryController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\NonConformiteGravityFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\DocExplorerController.java

@@ -10,11 +10,10 @@ import org.ism.entities.LabSample;
 import org.ism.entities.NonConformiteActions;
 import org.ism.entities.NonConformiteRequest;
 import org.ism.entities.Processus;
-import org.ism.entities.StaffCompanies;
 import org.ism.entities.StaffGroups;
 import org.ism.entities.StaffSetup;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-01T19:33:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-03T18:52:01")
 @StaticMetamodel(Staff.class)
 public class Staff_ { 
 
@@ -29,7 +28,6 @@ public class Staff_ {
     public static volatile SingularAttribute<Staff, String> stLastname;
     public static volatile CollectionAttribute<Staff, NonConformiteRequest> nonConformiteRequestCollection;
     public static volatile SingularAttribute<Staff, Boolean> stDeleted;
-    public static volatile CollectionAttribute<Staff, StaffCompanies> staffCompaniesCollection;
     public static volatile SingularAttribute<Staff, Boolean> stActivated;
     public static volatile SingularAttribute<Staff, IsmGenre> stGenre;
     public static volatile SingularAttribute<Staff, String> stFirstname;

@@ -76,5 +76,20 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
         return null;
     }
 
+    public List<StaffGroups> findByGroupDef(StaffGroupDef groupDef) {
+        em.flush();
+        Query q = em.createNamedQuery("StaffGroups.findByStgGroupDef").setParameter("stgGroupDef", groupDef);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int countStaff = q.getResultList().size();
+        if(countStaff > 0){
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public StaffGroups findByStaffGroupDef(Staff staff, StaffGroupDef groupDef) {
+        return findByStaffAndCompanyAndGroupDef(staff, groupDef.getStgdCompany(), groupDef);
+    }
+
 
 }

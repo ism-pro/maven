@@ -13,100 +13,300 @@
             <h1><h:outputText value="#{ism.StaffGroupsTitleList}"/></h1>
 
             <h:form id="bodyForm">
-                
-                <p:dataTable id="datalist" value="#{staffGroupsController.items}" var="item"
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}" 
+                                actionListener="#{staffGroupsController.prepareCreate()}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer une association un staff à un groupe"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser une association de staff à un groupe sélectionné."
+                                disabled="#{empty staffGroupsController.selected }"
+                                onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer l'association de staff à un groupe sélectionné."
+                                disabled="#{empty staffGroupsController.selected }"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer une association de staff à un groupe sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('staffGroups')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.StaffGroupsDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.StaffGroupsDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty staffGroupsController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table d'association "
+                                actionListener="#{staffGroupsController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty staffGroupsController.selected }"
+                                />
+                </p:contextMenu>
+
+
+
+
+
+
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.staffGroups}" var="item"
+                             filteredValue="#{viewTabManager.staffGroupsFiltered}"
+
                              selectionMode="single" selection="#{staffGroupsController.selected}"
-                             paginator="true" resizableColumns="true"
+                             rowIndexVar="_rowIndex"
                              rowKey="#{item.stgId}"
-                             rows="20"
-                             rowsPerPageTemplate="10,20,30,40,50"
+                             paginator="#{tableView.paginator}"
+                             rows="#{tableView.rows}"
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+                             emptyMessage="#{ism.EmptyList}"
                              >
 
-                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.StaffGroupsField_stgId}"/>
-                        </f:facet>
+
+
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.StaffGroupsTitleList}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.StaffGroupsTitleList}" />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{staffGroupsController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{staffGroupsController.handleColumnReorder}"  />
+
+
+
+
+
+
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{staffGroupsController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{staffGroupsController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="#{ism.StaffGroupsField_stgId}"
+                              style="width: 24px;" 
+                              visible="#{staffGroupsController.getIsVisibleColKey(ism.StaffGroupsField_stgId)}"
+                              sortBy="#{item.stgId}" 
+                              filterBy="#{item.stgId}" filterMatchMode="contains">
                         <h:outputText value="#{item.stgId}"/>
                     </p:column>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.StaffGroupsField_stgStaff}"/>
-                        </f:facet>
-                        <h:outputText value="[#{item.stgStaff.stStaff}] #{item.stgStaff.stFirstname} #{item.stgStaff.stLastname} #{item.stgStaff.stMiddlename}"/>
+                    <p:column headerText="#{ism.StaffGroupsField_stgStaff}" 
+                              visible="#{staffGroupsController.getIsVisibleColKey(ism.StaffGroupsField_stgStaff)}"
+                              sortBy="#{item.stgStaff.stFirstname} #{item.stgStaff.stLastname} #{item.stgStaff.stMiddlename} [#{item.stgStaff.stStaff}]" 
+                              filterBy="#{item.stgStaff.stFirstname} #{item.stgStaff.stLastname} #{item.stgStaff.stMiddlename} [#{item.stgStaff.stStaff}]" 
+                              filterMatchMode="contains">
+                        <h:outputText value="#{item.stgStaff.stFirstname} #{item.stgStaff.stLastname} #{item.stgStaff.stMiddlename} [#{item.stgStaff.stStaff}]" />
                     </p:column>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.StaffGroupsField_stgGroupDef}"/>
-                        </f:facet>
+                    <p:column headerText="#{ism.StaffGroupsField_stgGroupDef}" 
+                              visible="#{staffGroupsController.getIsVisibleColKey(ism.StaffGroupsField_stgGroupDef)}"
+                              sortBy="#{item.stgGroupDef.stgdGroupDef} - #{item.stgGroupDef.stgdDesignation}" 
+                              filterBy="#{item.stgGroupDef.stgdGroupDef} - #{item.stgGroupDef.stgdDesignation}" filterMatchMode="contains">
                         <h:outputText value="#{item.stgGroupDef.stgdGroupDef} - #{item.stgGroupDef.stgdDesignation}"/>
                     </p:column>
-
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.StaffGroupsField_stgActivated}"/>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{item.stgActivated}" disabled="true"/>
-                    </p:column>
-
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.StaffGroupsField_stgCreated}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.stgCreated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                        </h:outputText>
-                    </p:column>
-
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.StaffGroupsField_stgChanged}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.stgChanged}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                        </h:outputText>
-                    </p:column>
-
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{ism.StaffGroupsField_stgCompany}"/>
-                        </f:facet>
+                    
+                    <p:column headerText="#{ism.StaffGroupsField_stgCompany}" 
+                              visible="#{staffGroupsController.getIsVisibleColKey(ism.StaffGroupsField_stgCompany)}"
+                              sortBy="#{item.stgCompany.CCompany} - #{item.stgCompany.CDesignation}" 
+                              filterBy="#{item.stgCompany.CCompany} - #{item.stgCompany.CDesignation}" filterMatchMode="contains">
                         <h:outputText value="#{item.stgCompany.CCompany} - #{item.stgCompany.CDesignation}"/>
                     </p:column>
 
 
-                    <f:facet name="footer">
-                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{ism.Create}" actionListener="#{staffGroupsController.prepareCreate}" update=":StaffGroupsCreateForm" oncomplete="PF('StaffGroupsCreateDialog').show()"/>
-                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{ism.View}" update=":StaffGroupsViewForm" oncomplete="PF('StaffGroupsViewDialog').show()" disabled="#{empty staffGroupsController.selected}"/>
-                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{ism.Edit}" update=":StaffGroupsEditForm" oncomplete="PF('StaffGroupsEditDialog').show()" disabled="#{empty staffGroupsController.selected}"/>
-                        <p:commandButton id="deleteButton" 
-                                         icon="ui-icon-trash"  
-                                         value="#{ism.Delete}" 
-                                         actionListener="#{staffGroupsController.destroy}" 
-                                         update=":growl,datalist" 
-                                         disabled="#{empty staffGroupsController.selected}">
-                            <p:confirm header="#{ism.StaffGroupsTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                       message="#{ism.ConfirmDeleteMessage}" 
-                                       icon="ui-icon-alert"/>
-                            <p:confirmDialog global="true">
-                                <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
-                                                 icon="ui-icon-check"/>
-                                <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
-                                                 icon="ui-icon-close"/>
-                            </p:confirmDialog>
-                        </p:commandButton>
-                    </f:facet>
+                    <p:column headerText="#{ism.StaffGroupsField_stgActivated}"
+                              visible="#{staffGroupsController.getIsVisibleColKey(ism.StaffGroupsField_stgActivated)}"
+                              sortBy="#{item.stgActivated}" filterBy="#{item.stgActivated}" filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.stgActivated}" disabled="true"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.StaffGroupsField_stgCreated}" 
+                              visible="#{staffGroupsController.getIsVisibleColKey(ism.StaffGroupsField_stgCreated)}"
+                              sortBy="#{item.stgCreated}" filterBy="#{item.stgCreated}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{item.stgCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.StaffGroupsField_stgChanged}" 
+                              visible="#{staffGroupsController.getIsVisibleColKey(ism.StaffGroupsField_stgChanged)}"
+                              sortBy="#{item.stgChanged}" filterBy="#{item.stgChanged}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{item.stgChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
                 </p:dataTable>
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{staffGroupsController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer une liaison staff à un groupes"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser une liaison staff à une  société"
+                                 disabled="#{empty staffGroupsController.selected 
+                                             or empty staffGroupsController.selected.stgId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer une liaison staff à un groupe sélectionné."
+                                 disabled="#{empty staffGroupsController.selected 
+                                             or empty staffGroupsController.selected.stgId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer une liaison à une société sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('staffGroups')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.StaffGroupsDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.StaffGroupsDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty staffGroupsController.selected 
+                                             or empty staffGroupsController.selected.stgId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des liaison staff à un groupe "
+                                 actionListener="#{staffGroupsController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty staffGroupsController.selected 
+                                             or empty staffGroupsController.selected.stgId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
     </ui:composition>
 
 </html>

@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.Company;
 import org.ism.entities.StaffGroupDef;
 
 /**
@@ -30,7 +31,8 @@ public class StaffGroupDefFacade extends AbstractFacade<StaffGroupDef> {
     private final String SELECTALLBYLASTCHANGED = "StaffGroupDef.selectAllByLastChange";
     private final String FIND_BY_CODE = "StaffGroupDef.findByStgdGroupDef";       // query = "SELECT s FROM StaffGroupDef s WHERE s.stgdGroupDef = :stgdGroupDef"
     private final String FIND_BY_DESIGNATION = "StaffGroupDef.findByStgdDesignation";     //query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDesignation = :stgdDesignation"
-
+    private final String FIND_GROUP_BY_COMPANY = "StaffGroupDef.findGroupByCompany"; 
+    private final String FIND_BY_COMPANY = "StaffGroupDef.findByStgdCompany"; 
 
     public StaffGroupDefFacade() {
         super(StaffGroupDef.class);
@@ -69,4 +71,27 @@ public class StaffGroupDefFacade extends AbstractFacade<StaffGroupDef> {
         }
         return null;
     }
+
+    public List<StaffGroupDef> findGroupByCompany() {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_GROUP_BY_COMPANY);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public List<StaffGroupDef> findByCompany(Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_COMPANY).setParameter("stgdCompany", company);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
 }

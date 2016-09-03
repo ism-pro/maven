@@ -11,7 +11,6 @@ import javax.inject.Named;
 import org.ism.services.CtrlAccessService;
 import org.ism.entities.Company;
 import org.ism.entities.Staff;
-import org.ism.entities.StaffCompanies;
 import org.ism.entities.StaffGroups;
 import org.ism.entities.StaffSetup;
 import org.ism.jsf.util.JsfUtil;
@@ -44,7 +43,7 @@ public class StaffAuthController implements Serializable {
      */
     public StaffAuthController() {
     }
-
+ 
     @PostConstruct
     public void init() {
         getStaff();
@@ -202,10 +201,6 @@ public class StaffAuthController implements Serializable {
 
         // Get 
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        // Setup association staff à une companie
-        StaffCompaniesController staffCompaniesCtrl = (StaffCompaniesController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "staffCompaniesController");
-        staffCompaniesCtrl.prepareCreate();
 
         // Setup association staff à un groupe
         StaffGroupsController staffGroupsCtrl = (StaffGroupsController) facesContext.getApplication().getELResolver().
@@ -222,15 +217,13 @@ public class StaffAuthController implements Serializable {
                 getValue(facesContext.getELContext(), null, "staffGroupDefController");
         staffgroupDefCtrl.prepareCreate();
 
-        // Get company rely on staff
-        List<StaffCompanies> staffCompanies = staffCompaniesCtrl.getItemsByStaff(staff);
-
+        
         // Get Groups associate to companies
-        List<StaffGroups> staffGroupsList = staffGroupsCtrl.getItems(staff);
+        List<StaffGroups> staffGroupsList = staffGroupsCtrl.getItemsByStaff(staff);
 
         // Create complete tree
         CtrlAccessService ctrlAccessService = new CtrlAccessService();
-        if (staffCompanies == null || staffGroupsList == null) {
+        if (staffGroupsList == null) {
             accessTree = ctrlAccessService.makeTreeNodeCompanyGroups(companyCtrl.getItems(),
                     staffgroupDefCtrl.getItemsAvailableSelectMany());
         } else {

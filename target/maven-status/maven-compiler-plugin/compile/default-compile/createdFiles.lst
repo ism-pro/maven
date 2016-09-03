@@ -52,7 +52,6 @@ org\ism\entities\NonConformiteActions_.class
 org\ism\entities\NonConformiteGravity_.class
 org\ism\jsf\NonConformiteUniteController$NonConformiteUniteControllerConverter.class
 org\ism\services\CtrlAccess$AccessChecked.class
-org\ism\jsf\StaffCompaniesController.class
 org\ism\sessions\NonConformiteRequestFacade.class
 org\ism\jsf\IsmNcrstateController$IsmNcrstateControllerConverter.class
 org\ism\jsf\NonConformiteGravityController$NonConformiteGravityCodeValidator.class
@@ -71,7 +70,6 @@ org\ism\sessions\IsmNcastateFacade.class
 org\ism\sessions\LabAnalyseTypeFacade.class
 org\ism\entities\StaffGroupDefRole.class
 org\ism\entities\NonConformiteUnite.class
-org\ism\entities\StaffCompanies.class
 org\ism\entities\Unite.class
 org\ism\entities\IsmNcastate.class
 org\ism\jsf\NonConformiteUniteController$NonConformiteUniteCodeValidator.class
@@ -79,7 +77,6 @@ org\ism\jsf\IsmNcrstateController.class
 org\ism\jsf\NonConformiteRequestController.class
 org\ism\entities\LabAnalyseCategory_.class
 org\ism\jsf\LabAnalyseTypeController.class
-org\ism\jsf\StaffCompaniesController$StaffCompaniesControllerConverter.class
 org\ism\jsf\StaffGroupDefRoleController$StaffGroupDefRole_RoleValidator.class
 org\ism\jsf\LabSampleController$LabSampleControllerConverter.class
 org\ism\jsf\StaffGroupDefController$StaffGroupDefCodeValidator.class
@@ -114,7 +111,6 @@ org\ism\sessions\StaffGroupDefRoleFacade.class
 org\ism\jsf\NonConformiteNatureController$NonConformiteNatureCodeValidator.class
 org\ism\jsf\CompanyController$CompanyControllerConverter.class
 org\ism\jsf\util\JsfSecurity$CODING.class
-org\ism\entities\StaffCompanies_.class
 org\ism\entities\IsmGenre.class
 org\ism\entities\LabAnalyseMethod_.class
 org\ism\entities\Entreprise.class
@@ -151,7 +147,6 @@ org\ism\jsf\EquipementController$EquipementControllerConverter.class
 org\ism\jsf\LabSamplePtAnalysesController.class
 org\ism\jsf\NonConformiteActionsController.class
 org\ism\sessions\LabAnalyseCategoryFacade.class
-org\ism\sessions\StaffCompaniesFacade.class
 org\ism\jsf\DocExplorerController.class
 org\ism\view\ViewConfirmDialog.class
 org\ism\view\ViewLayout.class
@@ -169,6 +164,7 @@ org\ism\jsf\LabAnalyseMethodController.class
 org\ism\services\ThemeService$ThemeServiceConverter.class
 org\ism\entities\LabAnalyseMethod.class
 org\ism\jsf\util\FileController.class
+org\ism\jsf\StaffGroupsController$StaffGroups_CompanyValidator.class
 org\ism\jsf\StaffManagerController$CompanyControllerConverter.class
 org\ism\services\ThemeService.class
 org\ism\entities\StaffSetup.class

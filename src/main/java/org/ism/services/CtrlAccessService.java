@@ -397,36 +397,6 @@ public class CtrlAccessService {
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffSetup_Description")),
                     nodeStaff);
 
-            CheckboxTreeNode nodeStaffCompany = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompany_Name"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompany_RoleName"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompany_Path"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompany_Description")),
-                    nodeHr);
-
-            CheckboxTreeNode nodeStaffCompanyCreate = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyCreate_Name"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyCreate_RoleName"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyCreate_Path"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyCreate_Description")),
-                    nodeStaffCompany);
-
-            CheckboxTreeNode nodeStaffCompanyEdit = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyEdit_Name"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyEdit_RoleName"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyEdit_Path"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyEdit_Description")),
-                    nodeStaffCompany);
-
-            CheckboxTreeNode nodeStaffCompanyList = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyList_Name"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyList_RoleName"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyList_Path"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyList_Description")),
-                    nodeStaffCompany);
-
-            CheckboxTreeNode nodeStaffCompanyView = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyView_Name"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyView_RoleName"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyView_Path"),
-                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffCompanyView_Description")),
-                    nodeStaffCompany);
-
             CheckboxTreeNode nodeStaffGroupDef = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffGroupDef_Name"),
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffGroupDef_RoleName"),
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("staffGroupDef_Path"),

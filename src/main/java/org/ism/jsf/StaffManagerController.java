@@ -23,7 +23,6 @@ import org.ism.services.CtrlAccess;
 import org.ism.services.CtrlAccessService;
 import org.ism.entities.Company;
 import org.ism.entities.Staff;
-import org.ism.entities.StaffCompanies;
 import org.ism.entities.StaffGroups;
 import org.ism.jsf.util.JsfUtil;
 import org.primefaces.event.FlowEvent;
@@ -45,8 +44,6 @@ public class StaffManagerController implements Serializable {
     private CompanyController companyCtrl = new CompanyController();    //!< Company controller
     private StaffGroupDefController staffgroupDefCtrl
             = new StaffGroupDefController();      //!< Définition des groupes des groupes d'accès                
-    private StaffCompaniesController staffCompaniesCtrl
-            = new StaffCompaniesController();     //!< Association staff to a companies
     private StaffGroupsController staffGroupsCtrl
             = new StaffGroupsController();        //!< Table d'association de staff à un groupe
     private List<Company> selectedCompanies = new ArrayList<Company>();
@@ -96,10 +93,6 @@ public class StaffManagerController implements Serializable {
                 getValue(facesContext.getELContext(), null, "staffGroupDefController");
         staffgroupDefCtrl.prepareCreate();
 
-        // Setup association staff à une companie
-        staffCompaniesCtrl = (StaffCompaniesController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "staffCompaniesController");
-        staffCompaniesCtrl.prepareCreate();
 
         // Setup association staff à un groupe
         staffGroupsCtrl = (StaffGroupsController) facesContext.getApplication().getELResolver().
@@ -128,8 +121,6 @@ public class StaffManagerController implements Serializable {
         staffCtrl.create();
         staffCtrl.setSelected(staffCtrl.findByStaff(staffCtrl.getSelected().getStStaff()).get(0));
         // Structure staffCompaniesCreation
-        staffCompaniesCtrl.getSelected().setStcActivated(true);
-        staffCompaniesCtrl.getSelected().setStcStaff(staffCtrl.getSelected());
         if (treeNodeFromSelectedAccessTree != null) {
             //Loop for creating parent node
             //List<TreeNode> parentNode = new ArrayList<TreeNode>();
@@ -139,13 +130,11 @@ public class StaffManagerController implements Serializable {
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
                 //if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
                     CtrlAccess ct = (CtrlAccess) currentNode.getParent().getData();
-                    staffCompaniesCtrl.getSelected().setStcCompany(ct.getCompany());
+                    
                     if (lstCompapny.isEmpty()) { // On ajoute à la liste et on crée le lien staff companie
-                        lstCompapny.add(staffCompaniesCtrl.getSelected().getStcCompany());
-                        staffCompaniesCtrl.create();
+                        
                     } else if (!lstCompapny.contains(ct.getCompany())) {
-                        lstCompapny.add(staffCompaniesCtrl.getSelected().getStcCompany());
-                        staffCompaniesCtrl.create();
+                        
                     }
                 //}
             }
@@ -178,15 +167,13 @@ public class StaffManagerController implements Serializable {
         // Affected staff
         staff.setStPasswordConf(staff.getStPassword());
         staffCtrl.setSelected(staff);
-        // Get company rely on staff
-        List<StaffCompanies> staffCompanies = staffCompaniesCtrl.getItemsByStaff(staff);
-
+        
         // Get Groups associate to companies
-        List<StaffGroups> staffGroupsList = staffGroupsCtrl.getItems(staff);
+        List<StaffGroups> staffGroupsList = staffGroupsCtrl.getItemsByStaff(staff);
 
         // Create complete tree
         CtrlAccessService ctrlAccessService = new CtrlAccessService();
-        if (staffCompanies == null || staffGroupsList == null) {
+        if (staffGroupsList == null) {
             accessTree = ctrlAccessService.makeTreeNodeCompanyGroups(companyCtrl.getItems(),
                     staffgroupDefCtrl.getItemsAvailableSelectMany());
         } else {
@@ -211,34 +198,18 @@ public class StaffManagerController implements Serializable {
             //Loop for creating parent node
             //List<Company> lstCompapny = new ArrayList<Company>();
 
-            // Récupération de l'ensemble des liens staff company group
-            List<StaffCompanies> beforeStaffCompanies = staffCompaniesCtrl.getItemsByStaff(staffCtrl.getSelected());
-
+            
             for (int i = 0; i < selectedAccessTree.length; i++) {
                 TreeNode currentNode = selectedAccessTree[i];
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
                 //if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
                     CtrlAccess ct = (CtrlAccess) currentNode.getParent().getData();
-                    StaffCompanies qStaffCompanies = staffCompaniesCtrl.getItemsByStaffCompanies(staffCtrl.getSelected(), ct.getCompany());
-                    if (qStaffCompanies != null) { // Modification
-                        staffCompaniesCtrl.setSelected(qStaffCompanies);
-                        staffCompaniesCtrl.getSelected().setStcStaff(staffCtrl.getSelected());
-                        staffCompaniesCtrl.getSelected().setStcActivated(true);
-                        //lstCompapny.add(staffCompaniesCtrl.getSelected().getStcCompany());
-                        beforeStaffCompanies.remove(staffCompaniesCtrl.getSelected()); // remove from liste to destroy
-                        staffCompaniesCtrl.update();
-                    } else { // creation
-                        staffCompaniesCtrl.prepareCreate();
-                        staffCompaniesCtrl.getSelected().setStcStaff(staffCtrl.getSelected());
-                        staffCompaniesCtrl.getSelected().setStcCompany(ct.getCompany());
-                        staffCompaniesCtrl.getSelected().setStcActivated(true);
-                        staffCompaniesCtrl.create();
-                    }
+                    
                 //}
             }
 
             // Récupération de l'ensemble des liens staff company group
-            List<StaffGroups> beforeStaffGroups = staffGroupsCtrl.getItems(staffCtrl.getSelected());
+            List<StaffGroups> beforeStaffGroups = staffGroupsCtrl.getItemsByStaff(staffCtrl.getSelected());
 
             // Loop for adding child
             for (int i = 0; i < selectedAccessTree.length; i++) {
@@ -246,8 +217,7 @@ public class StaffManagerController implements Serializable {
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
                 //if (ctrlAccess.getType() == CtrlAccess.TypeCtrl.A_FILE) {
                     CtrlAccess ct = (CtrlAccess) currentNode.getParent().getData();
-                    StaffGroups qStaffGroups = staffGroupsCtrl.getStaffGroups(staffCtrl.getSelected(),
-                            ct.getCompany(),
+                    StaffGroups qStaffGroups = staffGroupsCtrl.getItemsByStaffGroups(staffCtrl.getSelected(),
                             ctrlAccess.getStaffGroupDef());
                     if (qStaffGroups != null) { // Modification
                         staffGroupsCtrl.setSelected(qStaffGroups);
@@ -272,11 +242,7 @@ public class StaffManagerController implements Serializable {
                 staffGroupsCtrl.destroy();
             }
 
-            // Remove remining an remove staffCompanies
-            for (int i = 0; i < beforeStaffCompanies.size(); i++) {
-                staffCompaniesCtrl.setSelected(beforeStaffCompanies.get(i));
-                staffCompaniesCtrl.destroy();
-            }
+
         }
     }
 
@@ -296,15 +262,7 @@ public class StaffManagerController implements Serializable {
             }
         }
 
-        // Companies
-        Iterator<StaffCompanies> iStaffCompanies = staffCompaniesCtrl.getItems().iterator();
-        while (iStaffCompanies.hasNext()) {
-            StaffCompanies companie = iStaffCompanies.next();
-            if (companie.getStcStaff() == staff) {
-                staffCompaniesCtrl.setSelected(companie);
-                staffCompaniesCtrl.destroy();
-            }
-        }
+        
 
         // Staff
         staffCtrl.setSelected(staff);

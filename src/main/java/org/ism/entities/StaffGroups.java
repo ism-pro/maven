@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "StaffGroups.findAll", query = "SELECT s FROM StaffGroups s"),
     @NamedQuery(name = "StaffGroups.findByStgId", query = "SELECT s FROM StaffGroups s WHERE s.stgId = :stgId"),
     @NamedQuery(name = "StaffGroups.findByStgStaff", query = "SELECT s FROM StaffGroups s WHERE s.stgStaff = :stgStaff"),
+    @NamedQuery(name = "StaffGroups.findByStgGroupDef", query = "SELECT s FROM StaffGroups s WHERE s.stgGroupDef = :stgGroupDef"),
     @NamedQuery(name = "StaffGroups.findByStgStaffAndCompanyAndStaffGroupDef", 
             query = "SELECT s FROM StaffGroups s WHERE s.stgStaff = :stgStaff AND s.stgCompany = :stgCompany AND s.stgGroupDef = :stgGroupDef"),
     @NamedQuery(name = "StaffGroups.findByStgActivated", query = "SELECT s FROM StaffGroups s WHERE s.stgActivated = :stgActivated"),

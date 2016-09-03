@@ -53,11 +53,6 @@ INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_STAFF_V', 'View HR
 INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_STAFF_M', 'MainMenu HR. Staff');
 INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_STAFF_P', 'Profile HR. Staff');
 INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_STAFF_S', 'Setup HR. Staff');
-INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_COMPANY', 'HR. Company');
-INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_COMPANY_C', 'Create HR. Company');
-INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_COMPANY_E', 'Edit HR. Company');
-INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_COMPANY_L', 'List HR. Company');
-INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_COMPANY_V', 'View HR. Company');
 INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_GROUP', 'HR. Groups');
 INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_GROUP_C', 'Create HR. Group');
 INSERT INTO `ism`.`ism_role` (`role`, `rolename`) VALUES ('HR_GROUP_E', 'Edit HR. Group');
@@ -198,11 +193,6 @@ INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `s
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_STAFF_M', 1, NOW()),('39', 'ADMIN', 'HR_STAFF_M', 1, NOW());
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_STAFF_P', 1, NOW()),('39', 'ADMIN', 'HR_STAFF_P', 1, NOW());
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_STAFF_S', 1, NOW()),('39', 'ADMIN', 'HR_STAFF_S', 1, NOW());
-INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_COMPANY', 1, NOW()),('39', 'ADMIN', 'HR_COMPANY', 1, NOW());
-INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_COMPANY_C', 1, NOW()),('39', 'ADMIN', 'HR_COMPANY_C', 1, NOW());
-INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_COMPANY_E', 1, NOW()),('39', 'ADMIN', 'HR_COMPANY_E', 1, NOW());
-INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_COMPANY_L', 1, NOW()),('39', 'ADMIN', 'HR_COMPANY_L', 1, NOW());
-INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_COMPANY_V', 1, NOW()),('39', 'ADMIN', 'HR_COMPANY_V', 1, NOW());
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_GROUP', 1, NOW()),('39', 'ADMIN', 'HR_GROUP', 1, NOW());
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_GROUP_C', 1, NOW()),('39', 'ADMIN', 'HR_GROUP_C', 1, NOW());
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'HR_GROUP_E', 1, NOW()),('39', 'ADMIN', 'HR_GROUP_E', 1, NOW());
@@ -280,3 +270,29 @@ INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `s
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'S_PROCESSUS_E', 1, NOW()),('39', 'ADMIN', 'S_PROCESSUS_E', 1, NOW());
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'S_PROCESSUS_L', 1, NOW()),('39', 'ADMIN', 'S_PROCESSUS_L', 1, NOW());
 INSERT INTO `ism`.`staff_group_def_role` (`stgdr_company`, `stgdr_group_def`, `stgdr_role`, `stgdr_activated`, `stgdr_created`) VALUES ('39', 'GOUROU', 'S_PROCESSUS_V', 1, NOW()),('39', 'ADMIN', 'S_PROCESSUS_V', 1, NOW());
+
+# SUPPRESSION DE LA TABLE DE LIAISON STAFF A SOCIETE
+DROP TABLE IF EXISTS `ism`.`staff_companies`;
+
+# CHANGE viewLogin
+USE `ism`;
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `stafflogin` AS
+    SELECT 
+        `staff`.`st_id` AS `st_id`,
+        `staff_group_def_role`.`stgdr_company` AS `stgdr_company`,
+        `staff`.`st_staff` AS `st_staff`,
+        `staff`.`st_password` AS `st_password`,
+        `staff_groups`.`stg_group_def` AS `stg_group_def`,
+        `staff_group_def_role`.`stgdr_role` AS `stgdr_role`,
+        `staff`.`st_activated` AS `st_activated`
+    FROM
+        ((`staff`
+        JOIN `staff_groups`)
+        JOIN `staff_group_def_role`)
+    WHERE
+        ((`staff_groups`.`stg_staff` = `staff`.`st_staff`) );
+

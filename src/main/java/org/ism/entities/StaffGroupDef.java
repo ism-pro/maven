@@ -45,7 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StaffGroupDef.findByStgdDeleted", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDeleted = :stgdDeleted"),
     @NamedQuery(name = "StaffGroupDef.findByStgdCreated", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdCreated = :stgdCreated"),
     @NamedQuery(name = "StaffGroupDef.findByStgdChanged", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdChanged = :stgdChanged"),
-    @NamedQuery(name = "StaffGroupDef.selectAllByLastChange", query = "SELECT s FROM StaffGroupDef s ORDER BY s.stgdChanged DESC")
+    @NamedQuery(name = "StaffGroupDef.selectAllByLastChange", query = "SELECT s FROM StaffGroupDef s ORDER BY s.stgdChanged DESC"),
+    @NamedQuery(name = "StaffGroupDef.findGroupByCompany", query = "SELECT s FROM StaffGroupDef s GROUP BY s.stgdCompany"),
+    @NamedQuery(name = "StaffGroupDef.findByStgdCompany", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdCompany = :stgdCompany")
 })
 public class StaffGroupDef implements Serializable {
     private static final long serialVersionUID = 1L;

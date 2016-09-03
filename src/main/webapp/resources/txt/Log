@@ -81,9 +81,19 @@ Configuration :
 # SPECIFIQUE
 ================================================================================
 # Onglet ressources :
-* Change staffCompaniesController so change Basic data get
-* CRUD de staffCompanies
+* Suppression de la liaison au société car existant dans les groupes d'accès
+** Suppresionn de l'entité "StaffCompanies"
+** Suppression dans le contrôller "StaffAuthController"
+** Suppression dans l'entité staff de l'entité "StaffCompanies"
+** Suppression du contrôller StaffCompanies
+** Suppression dans les répertoires staffCompanies web
+** Réalisation CRUD GROUP MODIFICATION 
+** Alteration de la table de viewLogin
 
+
+* Règle de sécurité suppression
+** Suppression role staffCompanies
+** Suppression dans le web, dans le service, 
 
 
 

@@ -669,71 +669,6 @@
         </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>HR. Company Security onstraint</display-name>
-        <web-resource-collection>
-            <web-resource-name>HR. Company Web Security</web-resource-name>
-            <url-pattern>/faces/company/hr/staffCompany/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>HR_COMPANY</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>Create HR. Company Security onstraint</display-name>
-        <web-resource-collection>
-            <web-resource-name>Create HR. Company Web Security</web-resource-name>
-            <url-pattern>/faces/company/hr/staffCompany/Create.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>HR_COMPANY_C</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>Edit HR. Company Security onstraint</display-name>
-        <web-resource-collection>
-            <web-resource-name>Edit HR. Company Web Security</web-resource-name>
-            <url-pattern>/faces/company/hr/staffCompany/Edit.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>HR_COMPANY_E</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>List HR. Company Security onstraint</display-name>
-        <web-resource-collection>
-            <web-resource-name>List HR. Company Web Security</web-resource-name>
-            <url-pattern>/faces/company/hr/staffCompany/List.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>HR_COMPANY_L</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>View HR. Company Security onstraint</display-name>
-        <web-resource-collection>
-            <web-resource-name>View HR. Company Web Security</web-resource-name>
-            <url-pattern>/faces/company/hr/staffCompany/View.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>HR_COMPANY_V</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
         <display-name>HR. Groups Security onstraint</display-name>
         <web-resource-collection>
             <web-resource-name>HR. Groups Web Security</web-resource-name>
@@ -1864,21 +1799,6 @@
     </security-role>
     <security-role>
         <role-name>HR_STAFF_S</role-name>
-    </security-role>
-    <security-role>
-        <role-name>HR_COMPANY</role-name>
-    </security-role>
-    <security-role>
-        <role-name>HR_COMPANY_C</role-name>
-    </security-role>
-    <security-role>
-        <role-name>HR_COMPANY_E</role-name>
-    </security-role>
-    <security-role>
-        <role-name>HR_COMPANY_L</role-name>
-    </security-role>
-    <security-role>
-        <role-name>HR_COMPANY_V</role-name>
     </security-role>
     <security-role>
         <role-name>HR_GROUP</role-name>

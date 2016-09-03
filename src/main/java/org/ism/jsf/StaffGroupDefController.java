@@ -6,8 +6,10 @@ import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.StaffGroupDefFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -31,6 +33,9 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
+import org.ism.entities.Company;
 
 @ManagedBean(name = "staffGroupDefController")
 @SessionScoped
@@ -64,7 +69,7 @@ public class StaffGroupDefController implements Serializable {
         headerTextMap.put(5, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefField_stgdCreated"));
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefField_stgdChanged"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefField_stgdCompany"));
-        
+
         visibleColMap = new HashMap<String, Boolean>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefField_stgdId"), false);
@@ -190,7 +195,7 @@ public class StaffGroupDefController implements Serializable {
                 getString("StaffGroupDefPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("StaffGroupDefPersistenceCreatedDetail")
-                + selected.getStgdGroupDef()+ " <br > " + selected.getStgdDesignation());
+                + selected.getStgdGroupDef() + " <br > " + selected.getStgdDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -304,12 +309,50 @@ public class StaffGroupDefController implements Serializable {
         return getFacade().findByDesignation(designation);
     }
 
+    public List<StaffGroupDef> getItemsByCompany(Company company) {
+        return getFacade().findByCompany(company);
+    }
+
     public List<StaffGroupDef> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
     public List<StaffGroupDef> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+
+    public List<StaffGroupDef> getItemsGroupByCompany() {
+        return getFacade().findGroupByCompany();
+    }
+
+    public List<SelectItem> getItemsGrouped() {
+        Iterator<StaffGroupDef> itr = getItemsGroupByCompany().iterator();
+
+        List<SelectItem> lstGroup = new ArrayList<SelectItem>();
+        while (itr.hasNext()) {
+            StaffGroupDef group = itr.next();
+            // Create a groupe
+            SelectItemGroup gr = new SelectItemGroup(group.getStgdCompany().getCCompany() + " - " + group.getStgdCompany().getCDesignation());
+            SelectItem itm[] = new SelectItem[this.getItemsByCompany(group.getStgdCompany()).size()];
+
+            Iterator<StaffGroupDef> existingGroupItr = this.getItems().iterator();
+            int i = 0;
+            while (existingGroupItr.hasNext()) {
+                StaffGroupDef existingGroup = existingGroupItr.next();
+                String C1 = group.getStgdCompany().getCCompany();
+                String C2 = existingGroup.getStgdCompany().getCCompany();
+                if (C1.matches(C2)) {
+                    itm[i] = new SelectItem(existingGroup);
+                    itm[i].setLabel(existingGroup.getStgdGroupDef() + " - " + existingGroup.getStgdDesignation());
+                    itm[i].setDescription(existingGroup.getStgdDesignation());
+                    i++;
+                }
+            }
+            gr.setSelectItems(itm);
+            lstGroup.add(gr);
+        }
+
+        return lstGroup;
     }
 
     /**
@@ -484,20 +527,3 @@ public class StaffGroupDefController implements Serializable {
     }
 
 }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
