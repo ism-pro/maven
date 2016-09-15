@@ -165,7 +165,7 @@ public class StaffManagerController implements Serializable {
         accessTree = null;
         selectedAccessTree = null;
         // Affected staff
-        staff.setStPasswordConf(staff.getStPassword());
+        //staff.setStPasswordConf(staff.getStPassword());
         staffCtrl.setSelected(staff);
         
         // Get Groups associate to companies
@@ -289,12 +289,12 @@ public class StaffManagerController implements Serializable {
         } else if (event.getNewStep().matches(flowISM)) {
             JsfUtil.out("New flow is : " + flowISM + " coming from " + event.getOldStep());
             // Check if password match
-            if (!staffCtrl.getSelected().getStPassword().matches(staffCtrl.getSelected().getStPasswordConf())) {
+            /*if (!staffCtrl.getSelected().getStPassword().matches(staffCtrl.getSelected().getStPasswordConf())) {
                 this.staffErrorPwd = ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffManagerMatch_stPwd");
                 return event.getOldStep();
             }else{
                 this.staffErrorPwd = "";
-            }
+            }*/
         } else if (event.getNewStep().matches(flowConfirm)) {
             JsfUtil.out("New flow is : " + flowConfirm + " coming from " + event.getOldStep());
         } else {
@@ -324,11 +324,11 @@ public class StaffManagerController implements Serializable {
      */
     public void listenerStaffPwdChangedEvent() {
         if (staffCtrl.getSelected() != null) {
-            if (!staffCtrl.getSelected().getStPassword().matches(staffCtrl.getSelected().getStPasswordConf())) {
+            /*if (!staffCtrl.getSelected().getStPassword().matches(staffCtrl.getSelected().getStPasswordConf())) {
                 this.staffErrorPwd = ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffManagerMatch_stPwd");
             } else {
                 this.staffErrorPwd = "";
-            }
+            }*/
         }
     }
 

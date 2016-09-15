@@ -555,6 +555,38 @@ span.ui-menuitem-text{
     font-size: 0.85em;
 }
 
-
+/* =============================================================================
+    wizard
+===============================================================================*/
+/** Main container element. */
+.ui-wizard{
+    border: 1px solid lightgray;
+    background-color: #eeeeee;
+    padding: 10px!important;
+}
+/** Container element of content. */
+.ui-wizard-content{
+    
+}
+/** Container of step titles. */
+.ui-wizard-step-titles{
+    
+}
+/** Each step title. */
+.ui-wizard-step-title{
+    
+}
+/** Container of navigation controls. */
+.ui-wizard-navbar{
+    
+}
+/** Back navigation control. */
+.ui-wizard-nav-back{
+    
+}
+/** Forward navigation control. */
+.ui-wizard-nav-next{
+    
+}
 
 

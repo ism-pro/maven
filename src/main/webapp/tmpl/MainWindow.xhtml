@@ -334,7 +334,7 @@
 
                                         <p:commandButton id="btnStaffCreate"
                                                          rendered="#{request.isUserInRole('HR_MANAGER')}"
-                                                         actionListener="#{staffManagerController.prepareCreate}"
+                                                         actionListener="#{staffManagerView.prepareCreate}"
                                                          title="Créer un utilisateur"
                                                          action="/company/hr/staffManager/Create.xhtml?faces-redirect=true"
                                                          value="Staff Création" 

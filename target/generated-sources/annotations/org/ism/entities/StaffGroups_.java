@@ -8,7 +8,7 @@ import org.ism.entities.Company;
 import org.ism.entities.Staff;
 import org.ism.entities.StaffGroupDef;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-03T18:52:01")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-15T14:09:27")
 @StaticMetamodel(StaffGroups.class)
 public class StaffGroups_ { 
 

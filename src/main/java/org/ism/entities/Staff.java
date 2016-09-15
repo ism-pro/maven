@@ -60,7 +60,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Staff implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static String stPasswordConf = "";   //!< Password confirmation for formulaire only
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -248,14 +247,6 @@ public class Staff implements Serializable {
 
     public void setStMaxInactiveInterval(int stMaxInactiveInterval) {
         this.stMaxInactiveInterval = stMaxInactiveInterval;
-    }
-
-    public String getStPasswordConf() {
-        return stPasswordConf;
-    }
-
-    public void setStPasswordConf(String stPasswordConf) {
-        this.stPasswordConf = stPasswordConf;
     }
 
     @XmlTransient

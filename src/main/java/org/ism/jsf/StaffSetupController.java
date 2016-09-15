@@ -63,9 +63,6 @@ public class StaffSetupController implements Serializable {
     protected void setEmbeddableKeys() {
     }
 
-    protected void initializeEmbeddableKey() {
-    }
-
     private StaffSetupFacade getFacade() {
         return ejbFacade;
     }
@@ -79,23 +76,20 @@ public class StaffSetupController implements Serializable {
         selected = new StaffSetup();
         selected.setStsmenuIndex(0);
         selected.setStstimeOutSession(5);
-        initializeEmbeddableKey();
-        FacesContext facesContext = FacesContext.getCurrentInstance();
         return selected;
     }
 
     public StaffSetup prepareUpdate(Integer staffId) {
         selected = new StaffSetup();
         selected = (StaffSetup) getStaffSetup(staffId);
-        initializeEmbeddableKey();
         return selected;
     }
 
     public StaffSetup prepareCreate(Staff staff) {
         selected = new StaffSetup();
+        selected.setStsTheme(JsfUtil.defaultThemeName);
         selected.setStsmenuIndex(0);
         selected.setStstimeOutSession(5);
-        initializeEmbeddableKey();
         FacesContext facesContext = FacesContext.getCurrentInstance();
         /* RibbonView rv = (RibbonView) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "ribbonView");
@@ -178,20 +172,6 @@ public class StaffSetupController implements Serializable {
         }
     }
 
-    /*
-    public String getThemeName() {
-        if (selected == null) {
-            return JsfUtil.defaultThemeName;
-        }
-        if (selected.getStsTheme() == null) {
-            return JsfUtil.defaultThemeName;
-        }
-        if (selected.getStsTheme().isEmpty()) {
-            return JsfUtil.defaultThemeName;
-        }
-        return selected.getStsTheme();
-    }
-     */
     public List<StaffSetup> getItems() {
         //if (items == null) {
         items = getFacade().findAll();
@@ -295,10 +275,10 @@ public class StaffSetupController implements Serializable {
     public void applyThemeEvent(ValueChangeEvent event) {
         Theme newTheme = (Theme) event.getNewValue();
         Theme oldTheme = (Theme) event.getOldValue();
-
+      
         if (oldTheme == null) {
             oldTheme = new Theme();
-            oldTheme.setName("");
+            oldTheme.setName(JsfUtil.defaultThemeName);
         }
         // Setup default data
         if (!newTheme.getName().matches(oldTheme.getName())) {

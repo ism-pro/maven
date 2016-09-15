@@ -5,16 +5,22 @@
  */
 package org.ism.services;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import javax.enterprise.context.Dependent;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.ism.entities.Company;
 import org.ism.entities.StaffGroupDef;
 import org.ism.entities.StaffGroupDefRole;
 import org.ism.entities.StaffGroups;
+import org.ism.jsf.StaffGroupDefController;
 import org.ism.jsf.util.JsfUtil;
 import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
@@ -23,9 +29,12 @@ import org.primefaces.model.TreeNode;
  *
  * @author r.hendrick
  */
-@Named(value = "ctrlAccessService")
-@Dependent
-public class CtrlAccessService {
+@ManagedBean(name = "ctrlAccessService")
+@SessionScoped
+public class CtrlAccessService implements Serializable{
+
+    @Inject
+    StaffGroupDefController staffGroupDefCtrl;
 
     /**
      * Allow to create TreeNode comparing to company
@@ -133,6 +142,101 @@ public class CtrlAccessService {
         return root;
     }
 
+    /**
+     *
+     * @return
+     */
+    public TreeNode securityCompany() {
+        // 0 - RACINE
+        CheckboxTreeNode nodeRoot = new CheckboxTreeNode(new CtrlAccess("Entreprise"), null);
+
+        // 1 - 
+        Iterator<StaffGroupDef> companyItr = staffGroupDefCtrl.getItemsGroupByCompany().iterator();
+        while (companyItr.hasNext()) {
+            Company cp = companyItr.next().getStgdCompany();
+            CheckboxTreeNode cpNode = new CheckboxTreeNode(cp.getCCompany() + " - " + cp.getCDesignation(),
+                    nodeRoot);
+
+            Iterator<StaffGroupDef> itr = staffGroupDefCtrl.getItemsByCompany(cp).iterator();
+            while (itr.hasNext()) {
+                StaffGroupDef groupdef = itr.next();
+                CheckboxTreeNode node = new CheckboxTreeNode(groupdef.getStgdDesignation(),
+                        cpNode);
+            }
+        }
+        return nodeRoot;
+
+    }
+
+    public CheckboxTreeNode securityStaff() {
+        // 0 - RACINE
+        CheckboxTreeNode root = new CheckboxTreeNode(new CtrlAccess("Entreprise"), null);
+
+        if(staffGroupDefCtrl==null){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            staffGroupDefCtrl = (StaffGroupDefController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "staffGroupDefController");
+        }
+        // 1 - 
+        Iterator<StaffGroupDef> companyItr = staffGroupDefCtrl.getItemsGroupByCompany().iterator();
+        while (companyItr.hasNext()) {
+            StaffGroupDef gdef = companyItr.next();
+            Company cp = gdef.getStgdCompany();
+            CtrlAccess access = new CtrlAccess(gdef);
+            access.setName(gdef.getStgdCompany().getCCompany() + " - " + gdef.getStgdCompany().getCDesignation());
+            CheckboxTreeNode cpNode = new CheckboxTreeNode(access, root);
+
+            Iterator<StaffGroupDef> itr = staffGroupDefCtrl.getItemsByCompany(cp).iterator();
+            while (itr.hasNext()) {
+                StaffGroupDef groupdef = itr.next();
+                CheckboxTreeNode node = new CheckboxTreeNode(new CtrlAccess(groupdef), cpNode);
+            }
+        }
+        return root;
+
+    }
+
+    public CheckboxTreeNode securityStaff(TreeNode[] selected) {
+        // 0 - RACINE
+        CheckboxTreeNode root = new CheckboxTreeNode(new CtrlAccess("Entreprise"), null);
+
+        // 1 - 
+        if(staffGroupDefCtrl==null){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            staffGroupDefCtrl = (StaffGroupDefController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "staffGroupDefController");
+        }
+        Iterator<StaffGroupDef> companyItr = staffGroupDefCtrl.getItemsGroupByCompany().iterator();
+        while (companyItr.hasNext()) {
+            StaffGroupDef gdef = companyItr.next();
+            Company cp = gdef.getStgdCompany();
+            CtrlAccess access = new CtrlAccess(gdef);
+            access.setName(gdef.getStgdCompany().getCCompany() + " - " + gdef.getStgdCompany().getCDesignation());
+            CheckboxTreeNode cpNode = new CheckboxTreeNode(access, root);
+
+            Iterator<StaffGroupDef> itr = staffGroupDefCtrl.getItemsByCompany(cp).iterator();
+            while (itr.hasNext()) {
+                StaffGroupDef groupdef = itr.next();
+                CheckboxTreeNode node = new CheckboxTreeNode(new CtrlAccess(groupdef), cpNode);
+                if (selected != null) {
+                    for (int i = 0; i < selected.length; i++) {
+                        CtrlAccess selectedAccess = (CtrlAccess) selected[i].getData();
+                        CtrlAccess currentNode = (CtrlAccess) node.getData();
+                        if(currentNode.getName().matches(selectedAccess.getName())){
+                            node.setSelected(true);
+                        }
+                    }
+                }
+            }
+        }
+        return root;
+    }
+
+    /**
+     * *
+     *
+     * @return
+     */
     public CheckboxTreeNode securityAccess() {
 
         // 0 - RACINE

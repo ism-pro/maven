@@ -32,6 +32,7 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
     private Company company = null;
     private StaffGroupDef staffGroupDef = null;
 
+
     /**
      *
      * @param entity

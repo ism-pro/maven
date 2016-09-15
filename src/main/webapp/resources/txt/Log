@@ -80,20 +80,13 @@ Configuration :
 ================================================================================
 # SPECIFIQUE
 ================================================================================
+# Entité :
+* Suppression de passwordConf de l'entité "Staff"
+
 # Onglet ressources :
-* Suppression de la liaison au société car existant dans les groupes d'accès
-** Suppresionn de l'entité "StaffCompanies"
-** Suppression dans le contrôller "StaffAuthController"
-** Suppression dans l'entité staff de l'entité "StaffCompanies"
-** Suppression du contrôller StaffCompanies
-** Suppression dans les répertoires staffCompanies web
-** Réalisation CRUD GROUP MODIFICATION 
-** Alteration de la table de viewLogin
+* Actualisation de la création d'un utilisateur et information d'accès par wizard
 
-
-* Règle de sécurité suppression
-** Suppression role staffCompanies
-** Suppression dans le web, dans le service, 
+ 
 
 
 

@@ -267,6 +267,22 @@ time, mark, audio, video {
     background: url("#{resource['img/ism/std/Print.png']}") no-repeat;
     background-size:contain;
 }
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Next, .ui-menuitem-icon.ui-icon.ui-btn-Next{
+    background: url("#{resource['img/ism/std/Next.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Previous, .ui-menuitem-icon.ui-icon.ui-btn-Previous{
+    background: url("#{resource['img/ism/std/Previous.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Up, .ui-menuitem-icon.ui-icon.ui-btn-Up{
+    background: url("#{resource['img/ism/std/Up.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Down, .ui-menuitem-icon.ui-icon.ui-btn-Down{
+    background: url("#{resource['img/ism/std/Down.png']}") no-repeat;
+    background-size:contain;
+}
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgCritical{
     background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
     background-size:contain;
@@ -279,6 +295,7 @@ time, mark, audio, video {
     background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
     background-size:contain;
 }
+
 
 
 .ui-icon.ui-confirm-dialog-severity{

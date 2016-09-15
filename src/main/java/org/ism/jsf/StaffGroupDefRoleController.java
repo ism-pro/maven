@@ -33,8 +33,6 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import org.ism.entities.Company;
 import org.ism.entities.IsmRole;
 import org.ism.entities.StaffGroupDef;
 import org.ism.services.CtrlAccess;

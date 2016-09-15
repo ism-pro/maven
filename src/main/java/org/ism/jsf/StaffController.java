@@ -38,6 +38,7 @@ public class StaffController implements Serializable {
     }
 
     public Staff getSelected() {
+        if(selected==null)  selected = new Staff();
         return selected;
     }
 
@@ -64,7 +65,7 @@ public class StaffController implements Serializable {
     public Staff prepareUpdate(String staff) {
         selected = new Staff();
         selected = (Staff) findByStaff(staff).get(0);
-        selected.setStPasswordConf(selected.getStPassword());
+        //selected.setStPasswordConf(selected.getStPassword());
         initializeEmbeddableKey();
         return selected;
     }
@@ -72,7 +73,7 @@ public class StaffController implements Serializable {
     public void create() {
         // Controle de mot de passe
         if (selected != null) {
-            if (selected.getStPassword().matches(selected.getStPasswordConf())) {
+            //if (selected.getStPassword().matches(selected.getStPasswordConf())) {
                 selected.setStPassword(JsfSecurity.convert(selected.getStPassword(), JsfSecurity.CODING.SHA256));
                 selected.setStCreated(new Date());
                 selected.setStChanged(new Date());
@@ -83,27 +84,27 @@ public class StaffController implements Serializable {
                 } else {
 
                 }
-            } else {
+            /*} else {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffPersistencePasswordConfError"));
-            }
+            }*/
         }
     }
 
     public void update() {
         // Si le mot de passe n'est pas vide, c'est qu'il a été modifié
         if (!selected.getStPassword().isEmpty()) {
-            if (selected.getStPassword().matches(selected.getStPasswordConf())) {   // Vérifie que les deux mot de passe sont identique
+            //if (selected.getStPassword().matches(selected.getStPasswordConf())) {   // Vérifie que les deux mot de passe sont identique
                 // Si le mot de passe est différent de celui en base de donnée, on l'encrypte
                 if (!selected.getStPassword().matches(getPasswordByStaffId(selected.getStId()))) {
                     selected.setStPassword(JsfSecurity.convert(selected.getStPassword(), JsfSecurity.CODING.SHA256));
-                    selected.setStPasswordConf(selected.getStPassword());
+                    //selected.setStPasswordConf(selected.getStPassword());
                     JsfUtil.out(selected.getStPassword());
                 }
                 selected.setStChanged(new Date());
                 persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
-            } else {
+            /*} else {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffPersistencePasswordConfError"));
-            }
+            }*/
         } else {
             persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
         }
@@ -174,7 +175,7 @@ public class StaffController implements Serializable {
     public void clearCurrentPassword() {
         if (selected != null) {
             selected.setStPassword("");
-            selected.setStPasswordConf("");
+            //selected.setStPasswordConf("");
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ClearMsg_yes"));
         }else{
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ClearMsg_no"));
@@ -183,7 +184,7 @@ public class StaffController implements Serializable {
 
     public Staff getStaff(java.lang.Integer id) {
         Staff staff = getFacade().find(id);
-        staff.setStPasswordConf(staff.getStPassword());
+        //staff.setStPasswordConf(staff.getStPassword());
         selected = staff;
         return staff;
     }

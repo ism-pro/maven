@@ -1,13 +1,15 @@
 package org.ism.jsf;
 
-import javax.enterprise.context.SessionScoped;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
+import javax.inject.Inject;
 import org.ism.services.CtrlAccessService;
 import org.ism.entities.Company;
 import org.ism.entities.Staff;
@@ -21,14 +23,16 @@ import org.primefaces.model.TreeNode;
  *
  * @author juneau
  */
+@ManagedBean(name = "staffAuthController")
 @SessionScoped
-@Named("staffAuthController")
 public class StaffAuthController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @EJB
     private StaffAuthFacade staffAuthFacade;
+    @Inject
+    StaffSetupController staffSetupCtrl;
 
     private Staff staff = new Staff();      //!< Staff pour la connexion
     private Company company;                //!< Company pour la connexion
@@ -43,7 +47,7 @@ public class StaffAuthController implements Serializable {
      */
     public StaffAuthController() {
     }
- 
+
     @PostConstruct
     public void init() {
         getStaff();
@@ -105,11 +109,13 @@ public class StaffAuthController implements Serializable {
     }
 
     private void setupStaff() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
+        if (staffSetupCtrl == null) {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
 
-        // Setup association staff à une companie
-        StaffSetupController staffSetupCtrl = (StaffSetupController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "staffSetupController");
+            // Setup association staff à une companie
+            staffSetupCtrl = (StaffSetupController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "staffSetupController");
+        }
         staffSetupCtrl.prepareCreate();
         StaffSetup staffSetup = staffSetupCtrl.getStaffSetupByStaff(getStaff());
         if (staffSetup != null) { // Get existing setup
@@ -124,71 +130,6 @@ public class StaffAuthController implements Serializable {
         }
     }
 
-    /**
-     * Connection application
-     *
-     * @return
-     */
-    /*
-    public String login() {
-        staffAuthFacade.setStaff(getStaff());
-        staffAuthFacade.setCompany(getCompany());
-        boolean authResult = staffAuthFacade.login();
-        if (authResult) {
-            this.authenticated = true;
-            setStaff(staffAuthFacade.getStaff());
-            setCompany(staffAuthFacade.getCompany());
-            setRoles(staffAuthFacade.getAroles());
-
-            // Setup default data
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            // Setup association staff à une companie
-            staffSetupCtrl = (StaffSetupController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "staffSetupController");
-            staffSetupCtrl.prepareCreate();
-            StaffSetup stsId = staffSetupCtrl.getStaffSetup(this.getStaff());
-            // RibbonView
-            RibbonView ribbonView = (RibbonView) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "ribbonView");
-
-            // Manage Staff setup
-            if (stsId != null) {
-                setSessionTimeOut((int) stsId.getStstimeOutSession());
-                ribbonView.setActiveIndex(stsId.getStsmenuIndex());
-                staffSetupCtrl.setSelected(stsId);
-            } else {
-                setSessionTimeOut(sessionTimeOut);
-                ribbonView.setActiveIndex(1);
-                // and create staff with default parameter
-                staffSetupCtrl.prepareCreate();
-                staffSetupCtrl.getSelected().setStsStaff(staff);
-                staffSetupCtrl.getSelected().setStsmenuIndex(1);
-                staffSetupCtrl.getSelected().setStstimeOutSession(sessionTimeOut / 60);
-                staffSetupCtrl.getSelected().setStsTheme(JsfUtil.defaultThemeName);
-                staffSetupCtrl.create();
-            }
-
-            username = "";
-            loginMsg = null;
-            //System.out.println("Connection with " + getStaff().getStStaff() + " is established  go to public index");
-            return ON_LOGIN_SUCCESS;
-        } else {
-            this.authenticated = false;
-            String staffCode = getStaff().getStStaff();
-            setStaff(null);
-            getStaff().setStStaff(staffCode);
-            loginMsg = ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationWrongValue");
-
-            String msg = ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("AuthenticationDecline");
-            JsfUtil.addErrorMessage(msg);
-            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
-            FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-            return ON_LOGIN_ERROR;
-        }
-    }
-
-    */
-    
     /**
      * Renvoie les access utilisateur
      *
@@ -217,7 +158,6 @@ public class StaffAuthController implements Serializable {
                 getValue(facesContext.getELContext(), null, "staffGroupDefController");
         staffgroupDefCtrl.prepareCreate();
 
-        
         // Get Groups associate to companies
         List<StaffGroups> staffGroupsList = staffGroupsCtrl.getItemsByStaff(staff);
 
@@ -243,5 +183,4 @@ public class StaffAuthController implements Serializable {
         this.selectedAccessTree = selectedAccessTree;
     }
 
-   
 }

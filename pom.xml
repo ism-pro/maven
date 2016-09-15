@@ -53,7 +53,7 @@
         <dependency><!-- Options exportation Excel -->
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.7</version>
+            <version>3.14</version>
         </dependency>
         
         <!-- FEEDREADER -->
