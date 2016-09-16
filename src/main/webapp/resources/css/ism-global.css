@@ -395,6 +395,9 @@ time, mark, audio, video {
     background-size:contain;
 }
 
+
+
+
 /* =============================================================================
  * GESTION D'AFFICHAGE DES FORMULAIRE
  * ===========================================================================*/
@@ -438,4 +441,179 @@ a ui-panel-titlebar-icon ui-corner-all ui-state-default
 
 a span ui-icon ui-icon-minusthick
 */
+
+
+
+
+
+
+
+
+
+
+
+/* =============================================================================
+ * GESTION DES THEMES APPLICATION
+ * ===========================================================================*/
+.ui-theme-afterdark{
+    background: url("#{resource['img/theme/afterdark.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-afternoon{
+    background: url("#{resource['img/theme/afternoon.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-afterwork{
+    background: url("#{resource['img/theme/afterwork.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-aristo{
+    background: url("#{resource['img/theme/aristo.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-black-tie{
+    background: url("#{resource['img/theme/black-tie.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-blitzer{
+    background: url("#{resource['img/theme/blitzer.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-bluesky{
+    background: url("#{resource['img/theme/bluesky.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-bootstrap{
+    background: url("#{resource['img/theme/bootstrap.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-casablanca{
+    background: url("#{resource['img/theme/casablanca.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-cupertino{
+    background: url("#{resource['img/theme/cupertino.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-cruze{
+    background: url("#{resource['img/theme/cruze.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-dark-hive{
+    background: url("#{resource['img/theme/dark-hive.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-delta{
+    background: url("#{resource['img/theme/delta.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-dot-luv{
+    background: url("#{resource['img/theme/dot-luv.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-eggplant{
+    background: url("#{resource['img/theme/eggplant.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-excite-bike{
+    background: url("#{resource['img/theme/excite-bike.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-flick{
+    background: url("#{resource['img/theme/flick.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-glass-x{
+    background: url("#{resource['img/theme/glass-x.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-home{
+    background: url("#{resource['img/theme/home.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-hot-sneaks{
+    background: url("#{resource['img/theme/hot-sneaks.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-humanity{
+    background: url("#{resource['img/theme/humanity.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-le-frog{
+    background: url("#{resource['img/theme/le-frog.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-midnight{
+    background: url("#{resource['img/theme/midnight.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-mint-choc{
+    background: url("#{resource['img/theme/mint-choc.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-overcast{
+    background: url("#{resource['img/theme/overcast.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-pepper-grinder{
+    background: url("#{resource['img/theme/pepper-grinder.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-redmond{
+    background: url("#{resource['img/theme/redmond.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-rocket{
+    background: url("#{resource['img/theme/rocket.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-sam{
+    background: url("#{resource['img/theme/sam.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-smoothness{
+    background: url("#{resource['img/theme/smoothness.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-south-street{
+    background: url("#{resource['img/theme/south-street.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-start{
+    background: url("#{resource['img/theme/start.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-sunny{
+    background: url("#{resource['img/theme/sunny.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-swanky-purse{
+    background: url("#{resource['img/theme/swanky-purse.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-trontastic{
+    background: url("#{resource['img/theme/trontastic.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-ui-darkness{
+    background: url("#{resource['img/theme/ui-darkness.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-ui-lightness{
+    background: url("#{resource['img/theme/ui-lightness.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-vader{
+    background: url("#{resource['img/theme/vader.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-ism{
+    background: url("#{resource['img/theme/ism.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-theme-pro{
+    background: url("#{resource['img/theme/pro.png']}") no-repeat;
+    background-size:contain;
+}
+
 

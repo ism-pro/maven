@@ -1,119 +1,220 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="StaffEditDlg" widgetVar="StaffEditDialog"  
-                  dynamic="true" showEffect="clip"  hideEffect="clip" 
-                  modal="true" resizable="false" appendTo="@(body)" 
-                  header="#{ism.StaffTitleEdit}">
-            
-            <h:form id="StaffEditForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{staffController.selected != null}">
-                        
-                        <p:outputLabel value="#{ism.StaffField_stId}" for="stId" rendered="true" />
-                        <p:inputText id="stId" value="#{staffController.selected.stId}" 
-                                     disabled="true"
-                                     title="#{ism.StaffFieldInfo_stId}" 
-                                     required="true" rendered="true"
-                                     requiredMessage="#{ism.StaffRequiredMsg_stId}"/>
-                        
-                        <p:outputLabel value="#{ism.StaffField_stStaff}" for="stStaff" />
-                        <p:inputText id="stStaff" disabled="true"
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.StaffTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{staffController.selected != null}">
+
+                    <p:outputLabel value="#{ism.StaffField_stId}" rendered="true" for="stId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="stId" rendered="false"
+                                     value="#{staffController.selected.stId}" 
+                                     title="#{ism.StafFieldInfo_stId}" 
+                                     required="true" 
+                                     requiredMessage="#{ism.StafRequiredMsg_stId}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffController.selected.stId}" />
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{ism.StaffField_stStaff}" for="stStaff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="stStaff" 
                                      value="#{staffController.selected.stStaff}" 
                                      title="#{ism.StaffFieldInfo_stStaff}" 
-                                     required="true" 
-                                     requiredMessage="#{ism.StaffRequiredMsg_stStaff}"/>
-                        
-                        <p:outputLabel value="#{ism.StaffField_stPassword}" for="stPassword" />
-                        <p:inputText id="stPassword" 
-                                     value="#{staffController.stPassword}" 
-                                     title="#{ism.StaffFieldInfo_stPassword}" 
-                                     required="false" 
-                                     requiredMessage="#{ism.StaffRequiredMsg_stPassword}" />
-                        
-                        <p:outputLabel value="#{ism.StaffField_stPassword} - Conf." for="stPasswordConf" />
-                        <p:inputText id="stPasswordConf" 
-                                     value="#{staffController.stPasswordConf}" 
-                                     title="#{ism.StaffFieldInfo_stPassword} - Confirmation" 
-                                     required="false" 
-                                     requiredMessage="#{ism.StaffRequiredMsg_stPassword} Confirmation"/>
-                        
-                        <p:outputLabel value="#{ism.StaffField_stLastname}" for="stLastname" />
+                                     required="true" requiredMessage="#{ism.StaffRequiredMsg_stStaff}"
+                                     disabled="true"
+                                     >
+                            <p:ajax event="change" update="bodyForm, :growl"  />
+                        </p:inputText>
+                        <p:message id="stStaffOut" for="stStaff" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffField_stPasswordReset}" for="stPasswordReset" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectBooleanCheckbox id="stPasswordReset" 
+                                                 value="#{staffController.isResetPassword}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.StaffRequiredMsg_stActivated}">
+                            <p:ajax event="change" update="bodyForm, :growl"  />
+                        </p:selectBooleanCheckbox>
+                        <p:message for="stPasswordReset" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffField_stPassword}" for="stPassword" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:password id="stPassword" 
+                                    value="#{staffController.selected.stPassword}" 
+                                    title="#{ism.StaffFieldInfo_stPassword}" 
+                                    redisplay="true" feedback="true"
+                                    required="true" requiredMessage="#{ism.StaffRequiredMsg_stPassword}"
+                                    promptLabel="#{ism.StaffField_stPasswordPromptLabel}"
+                                    weakLabel="#{ism.StaffField_stPasswordWeakLabel}"
+                                    goodLabel="#{ism.StaffField_stPasswordGoodLabel}"
+                                    strongLabel="#{ism.StaffField_stPasswordStrongLabel}"
+                                    match="stPasswordConf"
+                                    placeholder="#{ism.PasswordYour}"
+                                    validatorMessage="#{ism.PasswordMatch}"
+                                    disabled="#{!staffController.isResetPassword}"
+                                    >
+                            <p:ajax event="change" update="stStaffOutPwd" listener="#{staffController.handleStaffPwdEdit}" />
+                        </p:password>
+                        <p:message for="stPassword" />
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{ism.StaffField_stPasswordConf}" for="stPasswordConf" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:password id="stPasswordConf" 
+                                    value="#{staffController.selected.stPassword}" 
+                                    title="#{ism.StaffFieldInfo_stPasswordConf}" 
+                                    redisplay="true" required="true" 
+                                    requiredMessage="#{ism.StaffRequiredMsg_stPasswordConf}"
+                                    placeholder="#{ism.PasswordConfirm}"
+                                    validatorMessage="#{ism.PasswordMatch}"
+                                    disabled="#{!staffController.isResetPassword}">
+                            <p:ajax event="change" update="stStaffOutPwd" listener="#{staffController.handleStaffPwdEdit()}" />
+                        </p:password>
+                        <p:message id="stStaffOutPwd" for="stPasswordConf" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffField_stLastname}" for="stLastname" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="stLastname" 
                                      value="#{staffController.selected.stLastname}" 
-                                     title="#{ism.StaffFieldInfo_stLastname}" />
-                        
-                        <p:outputLabel value="#{ism.StaffField_stFirstname}" for="stFirstname" />
+                                     title="#{ism.StaffFieldInfo_stLastname}" 
+                                     required="true"
+                                     requiredMessage="#{ism.StaffRequiredMsg_stLastname}"
+                                     />
+                        <p:message for="stLastname"/>
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffField_stFirstname}" for="stFirstname" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="stFirstname" 
                                      value="#{staffController.selected.stFirstname}" 
-                                     title="#{ism.StaffFieldInfo_stFirstname}" />
-                        
-                        <p:outputLabel value="#{ism.StaffField_stMiddlename}" for="stMiddlename" />
+                                     title="#{ism.StaffFieldInfo_stFirstname}" 
+                                     required="true"
+                                     requiredMessage="#{ism.StaffRequiredMsg_stFirstname}"/>
+                        <p:message for="stFirstname"/>
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffField_stMiddlename}" for="stMiddlename" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="stMiddlename" 
                                      value="#{staffController.selected.stMiddlename}" 
                                      title="#{ism.StaffFieldInfo_stMiddlename}" />
-                        
-                        <p:outputLabel value="#{ism.StaffField_stBorned}" for="stBorned" />
-                        <p:calendar id="stBorned" pattern="dd/MM/yyyy" 
+                        <h:panelGroup />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffField_stBorned}" for="stBorned" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:calendar id="stBorned" pattern="#{ism.DatePatternU}" 
                                     value="#{staffController.selected.stBorned}" 
                                     title="#{ism.StaffFieldInfo_stBorned}" 
-                                    showOn="button"/>
-                        
-                        <p:outputLabel value="#{ism.StaffField_stGenre}" for="stGenre" />
+                                    mode="popup" showOn="button"
+                                    locale="fr" navigator="true"
+                                    showButtonPanel="true"
+                                    effect="slideDown"
+                                    mindate="01/01/1930" maxdate="31/12/2099"
+                                    required="true"
+                                    requiredMessage="#{ism.StaffRequiredMsg_stBorned}"/>
+                        <p:message for="stBorned"/>
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffField_stGenre}" for="stGenre" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectOneMenu id="stGenre" value="#{staffController.selected.stGenre}" >
                             <f:selectItems value="#{ismGenreController.itemsAvailableSelectOne}"
                                            var="stGenreItem"
                                            itemLabel="#{stGenreItem.genre} - #{stGenreItem.genrename}"
                                            itemValue="#{stGenreItem}"/>
                         </p:selectOneMenu>
-                        
-                        <p:outputLabel value="#{ism.StaffField_stChanged}" for="stChanged" rendered="false"/>
-                        <p:calendar id="stChanged" pattern="dd/MM/yyyy HH:mm:ss" 
-                                    value="#{staffController.selected.stChanged}" 
-                                    title="#{ism.StaffFieldInfo_stChanged}" 
-                                    required="true" rendered="false"
-                                    requiredMessage="#{ism.StaffRequiredMsg_stChanged}" 
-                                    showOn="button"/>
-                        
-                        <p:outputLabel value="#{ism.StaffField_stActivated}" for="stActivated" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.StaffField_stActivated}" for="stActivated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectBooleanCheckbox id="stActivated" 
                                                  value="#{staffController.selected.stActivated}" 
                                                  required="true" 
                                                  requiredMessage="#{ism.StaffRequiredMsg_stActivated}"/>
-                        
-                        <p:outputLabel value="#{ism.StaffField_stDeleted}" for="stDeleted" rendered="false"/>
-                        <p:selectBooleanCheckbox id="stDeleted" 
-                                                 value="#{staffController.selected.stDeleted}" 
-                                                 required="true" rendered="false"
-                                                 requiredMessage="#{ism.StaffRequiredMsg_stDeleted}"/>
-                        
-                        <p:outputLabel value="#{ism.StaffField_stCreated}" for="stCreated" rendered="false" />
-                        <p:calendar id="stCreated" pattern="dd/MM/yyyy HH:mm:ss" 
-                                    value="#{staffController.selected.stCreated}" 
-                                    title="#{bundle.EditStaffTitle_stCreated}" 
-                                    required="true" rendered="false"
-                                    requiredMessage="#{ism.StaffRequiredMsg_stCreated}" 
-                                    showOn="button"/>
-                        
-                    </p:panelGrid>
-                    
-                    
-                    <p:commandButton actionListener="#{staffController.update}" 
-                                     value="#{ism.Save}" 
-                                     update="display,:StaffListForm:datalist,:growl" 
-                                     oncomplete="handleSubmit(args, 'StaffEditDialog');"/>
-                    <p:commandButton value="#{ism.Cancel}" 
-                                     onclick="StaffEditDialog.hide()"/>
-                </h:panelGroup>
-            </h:form>
-        </p:dialog>
+                        <h:panelGroup />
+                    </h:panelGrid>
 
+                </p:panelGrid>
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{staffController.update}" 
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{staffController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{staffController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

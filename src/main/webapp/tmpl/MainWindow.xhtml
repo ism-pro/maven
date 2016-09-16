@@ -14,7 +14,7 @@
         <meta http-equiv="refresh" 
               content="#{viewRibbon.advanceSessionMaxInactiveInterval()};url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
         <meta charset="UTF-8"/>
-        
+
 
         <f:facet name="last">
             <h:outputStylesheet library="css" name="ribbon/ism-ribbon.min.css" />
@@ -105,21 +105,24 @@
                                 <p:outputLabel value="#{ism.AppNameA} [ #{ism.AppVersion} ]  -  #{ism.CompanyName} - #{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"/>
                             </div>
                             <div id="shortcut-right">
-
                                 <p:selectOneMenu  id="shortcut-btn-theme" 
                                                   style="float:left;"
                                                   value="#{staffSetupController.theme}" 
-                                                  var="t" 
-                                                  valueChangeListener="#{staffSetupController.applyThemeEvent}"
+                                                  valueChangeListener="#{staffSetupController.handleThemeChanged}"
                                                   filter="true" filterMatchMode="contains"
-                                                  title="Thème recommandé (Flick Smothness, redmond , cupertino, aristo, bitzer, hot-sneaks, Excite Bike" 
+                                                  title="Thème recommandé (ISM, Flick Smothness, redmond , cupertino, aristo, bitzer, hot-sneaks, Excite Bike" 
+                                                  var="t"
                                                   >
                                     <p:ajax oncomplete="location.reload();" />
                                     <f:selectItem   itemLabel="#{staffSetupController.selected.stsTheme}"
                                                     itemValue="#{themeService.getStrTheme(staffSetupController.selected.stsTheme)}"
                                                     />
-                                    <f:selectItems value="#{themeService.themes}" 
-                                                   var="th"  itemValue="#{th}"  />
+                                    <f:selectItems value="#{themeService.themes}" var="th"  itemValue="#{th}"  />
+                                    
+                                    <p:column >
+                                        <div style="min-width: 96px; min-height: 96px; padding: 0px; margin:0px;" class="ui-theme-#{t.name}"/>
+                                    </p:column>
+
                                     <p:column>
                                         <h:outputText value="#{t.displayName}" />
                                     </p:column>
@@ -553,6 +556,7 @@
                 <p:messages />
                 <p:outputLabel value="#{ism.EmptyList} : #{request.pathInfo}"
                                rendered="#{request.pathInfo!='/company/smq/nc/Request/View.xhtml'?true:false}" />
+                <p:outputLabel value="Theme : #{staffSetupController.selected.stsTheme}" />
             </p:layoutUnit>  
 
 
@@ -643,15 +647,15 @@
                       closable="false">
                 <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
             </p:dialog>
-            
+
             <p:ajaxStatus onstart="PF('statusDialog').show()" 
                           oncomplete="PF('statusDialog').hide();"/>
 
 
         </h:form>
 
-        
-        
+
+
     </h:body>
 
 

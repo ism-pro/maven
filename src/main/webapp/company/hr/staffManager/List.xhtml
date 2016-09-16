@@ -11,29 +11,88 @@
 
         <ui:define name="body">
             <h1><h:outputText value="#{ism.StaffTitleList}"/></h1>
-
+            <link href="../../../resources/css/w3/w3.min.css" rel="stylesheet" type="text/css"/>
             <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}" 
+                                actionListener="#{staffController.prepareCreate()}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer un nouveau staff"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser le staff sélectionné."
+                                disabled="#{empty staffController.selected }"
+                                onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer le staff sélectionné."
+                                disabled="#{empty staffController.selected }"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer le staff sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('staff')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.StaffDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.StaffDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty staffController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des staff "
+                                actionListener="#{staffController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty staffController.selected }"
+                                />
+                </p:contextMenu>
 
-                <p:dataGrid value="#{staffManagerController.staffCtrl.items}" 
-                            var="item" columns="5" 
-                            paginator="true" 
-                            rows="20"
-                            rowsPerPageTemplate="10,20,30,40,50"
+
+
+
+
+
+
+                <p:dataGrid id="datalist" widgetVar="datalist"
+                            value="#{viewTabManager.staff}" 
+                            var="item"
+                            rowIndexVar="_rowIndex"
+                            paginator="#{tableView.paginator}"
+                            rows="#{tableView.rows}"
+                            rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                            paginatorTemplate="#{tableView.paginatorTemplate}"
+                            currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                            emptyMessage="#{ism.EmptyList}"
                             >
 
                     <p:panelGrid columns="2">
                         <f:facet name="header">
                             <p:commandLink styleClass="staffImage"
                                            actionListener="#{staffManagerController.prepareView(item)}"
-                                           update=":StaffManagerViewForm"
+                                           update="bodyForm"
                                            oncomplete="PF('StaffManagerViewDialog').show()" 
                                            >
                                 <p:graphicImage value="#{staffAuthController.staff.stGenre=='N' ? 
-                                             '/resources/img/ism/hr/u_both.png' :
-                                             staffController.selected.stGenre.genre=='H' ?
-                                             '/resources/img/ism/hr/u_male.png' :
-                                             '/resources/img/ism/hr/u_female.png'}" 
-                                    width="108px" height="128px" />
+                                                         '/resources/img/ism/hr/u_both.png' :
+                                                         staffController.selected.stGenre.genre=='H' ?
+                                                         '/resources/img/ism/hr/u_male.png' :
+                                                         '/resources/img/ism/hr/u_female.png'}" 
+                                                width="108px" height="128px" />
                             </p:commandLink>
                         </f:facet>
 
@@ -66,7 +125,7 @@
                         <f:facet name="footer">
                             <p:commandButton    id="viewButton"
                                                 actionListener="#{staffManagerController.prepareView(item)}"
-                                                update=":StaffManagerViewForm"
+                                                update="bodyForm"
                                                 oncomplete="PF('StaffManagerViewDialog').show()" 
                                                 icon="ui-icon-info"
                                                 style="width: 18px; height: 18px;"
@@ -89,23 +148,84 @@
                                 <p:confirm header="#{ism.StaffTitleList} - #{ism.ConfirmDeleteTitle}" 
                                            message="#{ism.ConfirmDeleteMessage}" 
                                            icon="ui-icon-alert"/>
-                                
-                                
+
+
                             </p:commandButton>
                         </f:facet>
                     </p:panelGrid>
                 </p:dataGrid>
-
             </h:form>
 
-            <ui:include src="View.xhtml"/>
-            <p:confirmDialog global="true" showEffect="clip"  hideEffect="clip" >
-                                    <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
-                                                     icon="ui-icon-check"/>
-                                    <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
-                                                     icon="ui-icon-close"/>
-                                </p:confirmDialog>
         </ui:define>
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{staffController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer un nouveau staff"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser le staff sélectionné."
+                                 disabled="#{empty staffController.selected 
+                                             or empty staffController.selected.stId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer le staff sélectionné."
+                                 disabled="#{empty staffController.selected 
+                                             or empty staffController.selected.stId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer le staff sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('staff')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.StaffDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.StaffDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty staffController.selected 
+                                             or empty staffController.selected.stId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des staff "
+                                 actionListener="#{staffController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty staffController.selected 
+                                             or empty staffController.selected.stId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
     </ui:composition>
 
 </html>

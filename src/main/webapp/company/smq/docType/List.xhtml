@@ -95,12 +95,12 @@
                         <div style="float:right" >
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
                                 <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
-                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.DocTypeTitleList}" 
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.DocTypeTitleList}_#{viewUtil.maintenant}"  
                                                 postProcessor="#{tableView.handlePostProcessXLS}"/>
                             </p:commandLink>
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
                                 <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
-                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.DocTypeTitleList}" />
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.DocTypeTitleList}_#{viewUtil.maintenant}"  />
                             </p:commandLink>
                         </div>
                     </f:facet>

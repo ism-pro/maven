@@ -81,10 +81,8 @@ Configuration :
 # SPECIFIQUE
 ================================================================================
 # Entité :
-* Suppression de passwordConf de l'entité "Staff"
 
 # Onglet ressources :
-* Actualisation de la création d'un utilisateur et information d'accès par wizard
 
  
 

@@ -56,23 +56,23 @@
                                             goodLabel="#{ism.StaffField_stPasswordGoodLabel}"
                                             strongLabel="#{ism.StaffField_stPasswordStrongLabel}"
                                             match="stPasswordConf"
-                                            placeholder="your password"
-                                            validatorMessage="Password does not match !!"
+                                            placeholder="#{ism.PasswordYour}"
+                                            validatorMessage="#{ism.PasswordMatch}"
                                             >
                                     <p:ajax event="change" update="stStaffOutPwd" listener="#{staffManagerView.handleStaffPwdEdit}" />
                                 </p:password>
                                 <p:message for="stPassword" />
                             </h:panelGrid>
 
-                            <p:outputLabel value="#{ism.StaffField_stPassword} - Conf." for="stPasswordConf" />
+                            <p:outputLabel value="#{ism.StaffField_stPasswordConf}" for="stPasswordConf" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:password id="stPasswordConf" 
                                             value="#{staffManagerView.staff.stPassword}" 
-                                            title="#{ism.StaffFieldInfo_stPassword} - Confirmation" 
+                                            title="#{ism.StaffFieldInfo_stPasswordConf}" 
                                             redisplay="false" required="true" 
-                                            requiredMessage="#{ism.StaffRequiredMsg_stPassword} Confirmation"
-                                            placeholder="Confirm password"
-                                            validatorMessage="Password does not match">
+                                            requiredMessage="#{ism.StaffRequiredMsg_stPasswordConf}"
+                                            placeholder="#{ism.PasswordConfirm}"
+                                            validatorMessage="#{ism.PasswordMatch}">
                                     <p:ajax event="change" update="stStaffOutPwd" listener="#{staffManagerView.handleStaffPwdEdit()}" />
                                 </p:password>
                                 <p:message id="stStaffOutPwd" for="stPasswordConf" />
@@ -85,7 +85,8 @@
                                              value="#{staffManagerView.staff.stLastname}" 
                                              title="#{ism.StaffFieldInfo_stLastname}" 
                                              required="true"
-                                             requiredMessage="#{ism.StaffRequiredMsg_stLastname}"/>
+                                             requiredMessage="#{ism.StaffRequiredMsg_stLastname}"
+                                             />
                                 <p:message for="stLastname"/>
                             </h:panelGrid>
 
@@ -112,7 +113,7 @@
 
                             <p:outputLabel value="#{ism.StaffField_stBorned}" for="stBorned" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                                <p:calendar id="stBorned" pattern="dd/MM/yyyy" 
+                                <p:calendar id="stBorned" pattern="#{ism.DatePatternU}" 
                                             value="#{staffManagerView.staff.stBorned}" 
                                             title="#{ism.StaffFieldInfo_stBorned}" 
                                             mode="popup" showOn="button"
@@ -174,7 +175,7 @@
                                            var="access"  selection="#{staffManagerView.accessChecked}"
                                            selectionMode="checkbox"
                                            required="true"
-                                           requiredMessage="Access selection is required !"
+                                           requiredMessage="#{ism.StaffRequiredMsg_access}"
                                            >
                                     <p:treeNode > 
                                         <h:outputText value="#{access}" />
@@ -276,7 +277,7 @@
                                              update="bodyForm, :growl"/>
                             <p:commandButton value="#{ism.Save}"  icon="ui-btn-Save"
                                              style="float:left;"
-                                             action="List.xhtml?faces-redirect=true"
+                                             action="/company/hr/staff/List.xhtml?faces-redirect=true"
                                              actionListener="#{staffManagerView.create}" 
                                              />
                         </div>

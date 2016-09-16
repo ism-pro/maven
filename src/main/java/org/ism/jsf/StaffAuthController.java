@@ -109,13 +109,13 @@ public class StaffAuthController implements Serializable {
     }
 
     private void setupStaff() {
-        if (staffSetupCtrl == null) {
+        //if (staffSetupCtrl == null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
 
             // Setup association staff à une companie
             staffSetupCtrl = (StaffSetupController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "staffSetupController");
-        }
+        //} 
         staffSetupCtrl.prepareCreate();
         StaffSetup staffSetup = staffSetupCtrl.getStaffSetupByStaff(getStaff());
         if (staffSetup != null) { // Get existing setup

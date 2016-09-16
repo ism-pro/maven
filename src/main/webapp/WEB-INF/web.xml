@@ -69,7 +69,6 @@
         <exception-type>java.lang.Exception</exception-type>
         <location>/faces/error.xhtml</location>
     </error-page>
-    <!--
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/faces/error.xhtml</location>
@@ -82,13 +81,10 @@
         <exception-type>java.lang.IllegalStateException</exception-type>
         <location>/faces/error.xhtml</location>
     </error-page>
-    -->
-    <!--
     <filter>
         <filter-name>NoCacheFilter</filter-name>
         <filter-class>org.ism.filters.NoCacheFilter</filter-class>
     </filter>
-    
     <filter-mapping>
         <filter-name>NoCacheFilter</filter-name>
         <servlet-name>Faces Servlet</servlet-name>
@@ -97,7 +93,6 @@
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
-    -->
     <listener>
         <listener-class>org.ism.listener.SessionCounterListener</listener-class>
     </listener>
@@ -1666,8 +1661,6 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-
-
     <security-role>
         <role-name>GUEST</role-name>
     </security-role>
@@ -2028,6 +2021,4 @@
     <security-role>
         <role-name>S_PROCESSUS_V</role-name>
     </security-role>
-
-
 </web-app>

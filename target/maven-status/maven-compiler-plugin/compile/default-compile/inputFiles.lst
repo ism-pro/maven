@@ -22,12 +22,12 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\primefaces\ism\component\ribbon
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\EquipementController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\util\JsfSecurity.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\converter\ThemeConverter.java
+E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\domain\Theme.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\NonConformiteActionsController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\IsmNcrstateController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\LabAnalyseTypeFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\Equipement.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\NonConformiteNatureController.java
-E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\services\Theme.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\NonConformiteActionsFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\NonConformiteUnite.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\NonConformiteRequestController.java
@@ -50,6 +50,7 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\IsmNcastateController.j
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\services\CtrlAccessService.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\EntrepriseController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\LabAnalyseMethodController.java
+E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\app\ThemeSwitcherView.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\LabSamplePtFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\IsmGenre.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\EquipementFacade.java

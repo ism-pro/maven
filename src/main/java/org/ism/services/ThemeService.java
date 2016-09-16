@@ -18,15 +18,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.ism.domain.Theme;
  
 @ManagedBean(name="themeService", eager = true)
-@ApplicationScoped
+@javax.faces.bean.ApplicationScoped
 public class ThemeService {
      
     private List<Theme> themes;

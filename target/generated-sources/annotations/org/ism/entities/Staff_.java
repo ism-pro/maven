@@ -13,7 +13,7 @@ import org.ism.entities.Processus;
 import org.ism.entities.StaffGroups;
 import org.ism.entities.StaffSetup;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-15T14:09:27")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-09-16T16:58:08")
 @StaticMetamodel(Staff.class)
 public class Staff_ { 
 

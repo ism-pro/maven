@@ -54,7 +54,7 @@ public class NoCacheFilter implements Filter {
         // For example, a filter that implements setParameter() on a request
         // wrapper could set parameters on the request before passing it on
         // to the filter chain.
-        
+        /*
 	String [] valsOne = {"val1a", "val1b"};
 	String [] valsTwo = {"val2a", "val2b", "val2c"};
 	request.setParameter("name1", valsOne);
@@ -77,6 +77,7 @@ public class NoCacheFilter implements Filter {
 	    }
 	    log(buf.toString());
 	}
+        */
          
     }
 

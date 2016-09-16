@@ -11,21 +11,21 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
-import org.ism.services.Theme;
+import org.ism.domain.Theme;
 import org.ism.services.ThemeService;
 import org.ism.entities.Staff;
-
 
 @ManagedBean(name = "staffSetupController")
 @SessionScoped
@@ -48,16 +48,11 @@ public class StaffSetupController implements Serializable {
     public StaffSetupController() {
     }
 
-    public StaffSetup getSelected() {
-        if (selected == null) {
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            selected = this.getStaffSetupByStaff(request.getRemoteUser());
-        }
-        return selected;
-    }
-
-    public void setSelected(StaffSetup selected) {
-        this.selected = selected;
+    @PostConstruct
+    public void init() {
+        if(service == null)
+            service = new ThemeService();
+        themes = service.getThemes();
     }
 
     protected void setEmbeddableKeys() {
@@ -207,6 +202,18 @@ public class StaffSetupController implements Serializable {
         }
     }
 
+    public StaffSetup getSelected() {
+        if (selected == null) {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            selected = this.getStaffSetupByStaff(request.getRemoteUser());
+        }
+        return selected;
+    }
+
+    public void setSelected(StaffSetup selected) {
+        this.selected = selected;
+    }
+
     public StaffSetup getStaffSetup(java.lang.Integer id) {
         return getFacade().find(id);
     }
@@ -251,7 +258,7 @@ public class StaffSetupController implements Serializable {
         }
         return selected.getStsTheme();
     }
-    
+
     public Theme getTheme() {
         return theme;
     }
@@ -272,10 +279,11 @@ public class StaffSetupController implements Serializable {
         this.service = service;
     }
 
-    public void applyThemeEvent(ValueChangeEvent event) {
+
+    public void handleThemeChanged(ValueChangeEvent event) {
         Theme newTheme = (Theme) event.getNewValue();
         Theme oldTheme = (Theme) event.getOldValue();
-      
+
         if (oldTheme == null) {
             oldTheme = new Theme();
             oldTheme.setName(JsfUtil.defaultThemeName);
@@ -285,7 +293,7 @@ public class StaffSetupController implements Serializable {
             if (selected == null) {
                 initDefaultSelected();
             }
-            this.theme= newTheme;
+            this.theme = newTheme;
             selected.setStsTheme(newTheme.getName());
             update();
         }
