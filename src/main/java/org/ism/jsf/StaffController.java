@@ -31,6 +31,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.servlet.http.HttpServletRequest;
 import org.ism.jsf.util.JsfSecurity;
 
 @ManagedBean(name = "staffController")
@@ -112,6 +113,12 @@ public class StaffController implements Serializable {
         return edited;
     }
 
+    public Staff prepareUpdate(String staff) {
+        selected = new Staff();
+        selected = (Staff) findByStaff(staff).get(0);
+        return selected;
+    }
+
     /**
      * This method is useful to release actual selected ! That way nothing is
      * selected
@@ -187,6 +194,15 @@ public class StaffController implements Serializable {
 
     }
 
+    public void handleClearPassword() {
+        if (selected != null) {
+            selected.setStPassword("");
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ClearMsg_yes"));
+        } else {
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ClearMsg_no"));
+        }
+    }
+
     /**
      * ************************************************************************
      * CRUD OPTIONS
@@ -238,7 +254,13 @@ public class StaffController implements Serializable {
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("StaffPersistenceUpdatedDetail")
                 + selected.getStStaff() + " <br > " + selected.getStFirstname() + " - " + selected.getStLastname() + " - " + selected.getStMiddlename());
-
+        isResetPassword = false;
+    }
+    
+    public void updateMaxInactiveInterval(){
+        update();
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        request.getSession().setMaxInactiveInterval(selected.getStMaxInactiveInterval());
     }
 
     public void destroy() {
@@ -405,8 +427,6 @@ public class StaffController implements Serializable {
     public void setIsResetPassword(Boolean isResetPassword) {
         this.isResetPassword = isResetPassword;
     }
-    
-    
 
     /**
      * ************************************************************************
@@ -460,143 +480,10 @@ public class StaffController implements Serializable {
 
 /*
     
-    public Staff prepareCreate() {
-        selected = new Staff();
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public Staff prepareUpdate(String staff) {
-        selected = new Staff();
-        selected = (Staff) findByStaff(staff).get(0);
-        //selected.setStPasswordConf(selected.getStPassword());
-        initializeEmbeddableKey();
-        return selected;
-    }
-
-    public void create() {
-        // Controle de mot de passe
-        if (selected != null) {
-            //if (selected.getStPassword().matches(selected.getStPasswordConf())) {
-                selected.setStPassword(JsfSecurity.convert(selected.getStPassword(), JsfSecurity.CODING.SHA256));
-                selected.setStCreated(new Date());
-                selected.setStChanged(new Date());
-                persist(PersistAction.CREATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceCreated"));
-                if (!JsfUtil.isValidationFailed()) {
-                    items = null;    // Invalidate list of items to trigger re-query.
-                    selected = null;
-                } else {
-
-                }
-            /*} else {
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffPersistencePasswordConfError"));
-            }*/
- /*        }
-    }
-
-    public void update() {
-        // Si le mot de passe n'est pas vide, c'est qu'il a été modifié
-        if (!selected.getStPassword().isEmpty()) {
-            //if (selected.getStPassword().matches(selected.getStPasswordConf())) {   // Vérifie que les deux mot de passe sont identique
-                // Si le mot de passe est différent de celui en base de donnée, on l'encrypte
-                if (!selected.getStPassword().matches(getPasswordByStaffId(selected.getStId()))) {
-                    selected.setStPassword(JsfSecurity.convert(selected.getStPassword(), JsfSecurity.CODING.SHA256));
-                    //selected.setStPasswordConf(selected.getStPassword());
-                    JsfUtil.out(selected.getStPassword());
-                }
-                selected.setStChanged(new Date());
-                persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
-            /*} else {
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffPersistencePasswordConfError"));
-            }*/
- /*        } else {
-            persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
-        }
-    }
-    
-    public void updateMaxInactiveInterval(){
-        update();
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        request.getSession().setMaxInactiveInterval(selected.getStMaxInactiveInterval());
-    }
-
-   
-
-    
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
-    public List<Staff> getItems() {
-        //if (items == null) {
-        items = getFacade().findAll();
-        //}
-        return items;
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
-            }
-        }
-    }
 
     public String getPasswordByStaffId(java.lang.Integer id) {
         return getFacade().find(id).getStPassword();
     }
 
-    public void clearCurrentPassword() {
-        if (selected != null) {
-            selected.setStPassword("");
-            //selected.setStPasswordConf("");
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ClearMsg_yes"));
-        }else{
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ClearMsg_no"));
-        }
-    }
-
-    public Staff getStaff(java.lang.Integer id) {
-        Staff staff = getFacade().find(id);
-        //staff.setStPasswordConf(staff.getStPassword());
-        selected = staff;
-        return staff;
-    }
-
-    public List<Staff> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Staff> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-
     
-
-
-}
  */

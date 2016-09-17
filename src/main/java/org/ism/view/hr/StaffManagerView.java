@@ -53,7 +53,7 @@ public class StaffManagerView implements Serializable {
 
     private Staff staff = null;                         //!< Utilisateur provisoire
     private Integer wizardStep = 0;                     //!< Current step
-    
+
     private TreeNode access;                    //!< Racine de l'abre complet
     private TreeNode accessStaff;                    //!< Racine de l'abre complet
     private TreeNode accessChecked[];           //!< Tableau de élément sélectionné 
@@ -90,11 +90,11 @@ public class StaffManagerView implements Serializable {
         }*/
     }
 
-    
-    /***
-     * 
+    /**
+     * *
+     *
      * @param event
-     * @return 
+     * @return
      */
     public String handleWizardFlow(FlowEvent event) {
         String flowStaff = "flowStaff",
@@ -112,8 +112,7 @@ public class StaffManagerView implements Serializable {
         }
         return event.getNewStep();
     }
-    
-    
+
     public void handleTreeSelect(NodeSelectEvent event) {
         CheckboxTreeNode node = (CheckboxTreeNode) event.getTreeNode();
         node.setSelected(true, true);
@@ -133,34 +132,37 @@ public class StaffManagerView implements Serializable {
     /* ========================================================================
    
     =========================================================================*/
-    public void create(){
+    public void create() {
         // Create staff
         staffCtrl.prepareCreate();
         staffCtrl.setSelected(this.staff);
+        staffCtrl.setIsResetPassword(Boolean.TRUE);
         staffCtrl.create();
         List<Staff> lstStaff = staffCtrl.findByStaff(staff.getStStaff());
         Staff createStaff = null;
-        if(lstStaff!=null)  
+        if (lstStaff != null) {
             createStaff = lstStaff.get(0);
-        else{
-            JsfUtil.addErrorMessage("StaffMangerVIew : create", 
+        } else {
+            JsfUtil.addErrorMessage("StaffMangerVIew : create",
                     "Staff " + this.staff.getStStaff() + " was not created !");
             return;
         }
-        if(createStaff==null)   return;
-        
+        if (createStaff == null) {
+            return;
+        }
+
         // Create list of group selected
         List<StaffGroupDef> groupDef = new ArrayList<StaffGroupDef>();
-        if(accessChecked!=null){
-            for(int i=0; i<  accessChecked.length; i++){
-                CtrlAccess access =   (CtrlAccess) accessChecked[i].getData();
+        if (accessChecked != null) {
+            for (int i = 0; i < accessChecked.length; i++) {
+                CtrlAccess access = (CtrlAccess) accessChecked[i].getData();
                 groupDef.add(access.getStaffGroupDef());
             }
         }
-        
+
         // Create all staff access right
         Iterator<StaffGroupDef> itrGroupDef = groupDef.iterator();
-        while(itrGroupDef.hasNext()){
+        while (itrGroupDef.hasNext()) {
             StaffGroupDef stgd = itrGroupDef.next();
             StaffGroups groups = new StaffGroups();
             groups.setStgStaff(createStaff); // Définition du staff
@@ -170,15 +172,12 @@ public class StaffManagerView implements Serializable {
             staffGroupsCtrl.setSelected(groups);
             staffGroupsCtrl.create();
         }
-        
+
         this.staff = new Staff();
         JsfUtil.addSuccessMessage("Staff Creation Wizard", "Createion succed");
-        
+
     }
-    
-    
-    
-    
+
     /* ========================================================================
    
     =========================================================================*/
@@ -221,7 +220,7 @@ public class StaffManagerView implements Serializable {
     public void setAccessChecked(TreeNode[] accessChecked) {
         this.accessChecked = accessChecked;
     }
-    
+
     public TreeNode getAccessStaff() {
         if (accessStaff == null) {
             accessStaff = (new CtrlAccessService()).securityStaff(accessChecked);
@@ -240,8 +239,7 @@ public class StaffManagerView implements Serializable {
     public void setWizardStep(Integer wizardStep) {
         this.wizardStep = wizardStep;
     }
-    
-    
+
     /**
      * ************************************************************************
      * VALIDATORS
@@ -255,8 +253,10 @@ public class StaffManagerView implements Serializable {
         public static final String SUMMARY_ID = "StaffDuplicationSummuryField_stStaff";
         public static final String DETAIL_ID_DUPLICATION = "StaffDuplicationDetailField_stStaff";
 
+        /*
         @EJB
-        private org.ism.sessions.StaffFacade ejbFacade;
+        private org.ism.sessions.StaffFacade ejbFacade;*/
+
 
         @Override
         public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
@@ -268,8 +268,11 @@ public class StaffManagerView implements Serializable {
                 return;
             }
 
-            InputText input = (InputText) uic;
-            List<Staff> staffs = ejbFacade.findByStaff(value);
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            StaffController staffCtrl = (StaffController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "staffController");
+
+            List<Staff> staffs = staffCtrl.findByStaff(value);
             if (staffs != null) {
                 FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
                         ResourceBundle.getBundle(JsfUtil.BUNDLE).

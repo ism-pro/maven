@@ -31,6 +31,9 @@
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <run-as>
+            <role-name>GUEST</role-name>
+        </run-as>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
