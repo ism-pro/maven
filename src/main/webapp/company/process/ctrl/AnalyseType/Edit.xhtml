@@ -6,60 +6,218 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-        <p:dialog id="LabAnalyseTypeEditDlg" widgetVar="LabAnalyseTypeEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lab.EditLabAnalyseTypeTitle}">
-            <h:form id="LabAnalyseTypeEditForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{labAnalyseTypeController.selected != null}">
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latId}" for="latId" />
-                        <p:inputText id="latId" value="#{labAnalyseTypeController.selected.latId}" title="#{lab.EditLabAnalyseTypeTitle_latId}" required="true" requiredMessage="#{lab.EditLabAnalyseTypeRequiredMessage_latId}"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latType}" for="latType" />
-                        <p:inputText id="latType" value="#{labAnalyseTypeController.selected.latType}" title="#{lab.EditLabAnalyseTypeTitle_latType}" required="true" requiredMessage="#{lab.EditLabAnalyseTypeRequiredMessage_latType}"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latDesignation}" for="latDesignation" />
-                        <p:inputText id="latDesignation" value="#{labAnalyseTypeController.selected.latDesignation}" title="#{lab.EditLabAnalyseTypeTitle_latDesignation}" required="true" requiredMessage="#{lab.EditLabAnalyseTypeRequiredMessage_latDesignation}"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latDescription}" for="latDescription" />
-                        <p:inputTextarea rows="4" cols="30" id="latDescription" value="#{labAnalyseTypeController.selected.latDescription}" title="#{lab.EditLabAnalyseTypeTitle_latDescription}" />
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latDeleted}" for="latDeleted" />
-                        <p:selectBooleanCheckbox id="latDeleted" value="#{labAnalyseTypeController.selected.latDeleted}" required="true" requiredMessage="#{lab.EditLabAnalyseTypeRequiredMessage_latDeleted}"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latCreated}" for="latCreated" />
-                        <p:calendar id="latCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{labAnalyseTypeController.selected.latCreated}" title="#{lab.EditLabAnalyseTypeTitle_latCreated}" required="true" requiredMessage="#{lab.EditLabAnalyseTypeRequiredMessage_latCreated}" showOn="button"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latChanged}" for="latChanged" />
-                        <p:calendar id="latChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{labAnalyseTypeController.selected.latChanged}" title="#{lab.EditLabAnalyseTypeTitle_latChanged}" required="true" requiredMessage="#{lab.EditLabAnalyseTypeRequiredMessage_latChanged}" showOn="button"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latCategory}" for="latCategory" />
-                        <p:selectOneMenu id="latCategory" value="#{labAnalyseTypeController.selected.latCategory}" >
-                            <f:selectItem itemLabel="#{lab.SelectOneMessage}"/>
-                            <f:selectItems value="#{labAnalyseCategoryController.itemsAvailableSelectOne}"
-                                           var="latCategoryItem"
-                                           itemValue="#{latCategoryItem}"/>
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseTypeTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseTypeController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atId}" rendered="true" for="atId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="atId"
+                                       style="margin-left: 5px;"
+                                       value="#{analyseTypeController.selected.atId}"  />
+                        <p:message for="atId" rendered="false" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atType}"  for="atType" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="atType" 
+                                     value="#{analyseTypeController.selected.atType}" 
+                                     title="#{ism.AnalyseTypeFieldInfo_atType}" 
+                                     required="true" requiredMessage="#{ism.AnalyseTypeRequiredMsg_atType}" 
+                                     />
+                        <p:message for="atType"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atDesignation}"  for="atDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="atDesignation" 
+                                     value="#{analyseTypeController.selected.atDesignation}" 
+                                     title="#{ism.AnalyseTypeFieldInfo_atDesignation}" 
+                                     required="true" requiredMessage="#{ism.AnalyseTypeRequiredMsg_atDesignation}" 
+                                     />
+                        <p:message for="atDesignation"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atDescription}"  for="atDescription" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputTextarea rows="4" cols="30" id="atDescription" value="#{analyseTypeController.selected.atDescription}" title="#{bundle.CreateAnalyseTypeTitle_atDescription}" />
+                        <p:message for="atDescription"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atDeleted}"  for="atDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="atDeleted"
+                                                 value="#{analyseTypeController.selected.atDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseTypeRequiredMsg_atDeleted}" 
+                                                 />
+                        <p:message for="atDeleted"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atCreated}"  for="atCreated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="atCreated" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{analyseTypeController.selected.atCreated}" 
+                                    title="#{ism.AnalyseTypeFieldInfo_atCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.AnalyseTypeRequiredMsg_atCreated}" 
+                                    showOn="button"/>
+                        <p:message for="atCreated"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atChanged}"  for="atChanged" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="atChanged" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{analyseTypeController.selected.atChanged}" 
+                                    title="#{ism.AnalyseTypeFieldInfo_atChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.AnalyseTypeRequiredMsg_atChanged}" 
+                                    showOn="button"/>
+                        <p:message for="atChanged"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atCategory}"  for="atCategory" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="atCategory"  widgetVar="atCategory"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseTypeController.selected.atCategory}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseTypeRequiredMsg_atCategory}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{analyseCategoryController.itemsAvailableSelectOne}"
+                                           var="atCategoryItem"
+                                           itemLabel="#{atCategoryItem.acCategory} - #{atCategoryItem.acDesignation}" 
+                                           itemValue="#{atCategoryItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latCompany}" for="latCompany" />
-                        <p:selectOneMenu id="latCompany" value="#{labAnalyseTypeController.selected.latCompany}" required="true" requiredMessage="#{lab.EditLabAnalyseTypeRequiredMessage_latCompany}">
-                            <f:selectItem itemLabel="#{lab.SelectOneMessage}"/>
-                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
-                                           var="latCompanyItem"
-                                           itemValue="#{latCompanyItem}"/>
+                        <p:message for="atCategory"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atCompany}"  for="atCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="atCompany" widgetVar="atCompany"
+                                     value="#{analyseTypeController.selected.atCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.AnalyseTypeRequiredMsg_atCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="atCompany"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atMethod}"  for="atMethod" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="atMethod"  widgetVar="atMethod"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseTypeController.selected.atMethod}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseTypeRequiredMsg_atMethod}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{analyseMethodController.itemsAvailableSelectOne}"
+                                           var="atMethodItem"
+                                           itemLabel="#{atMethodItem.amMethod} - #{atMethodItem.amDesignation}" 
+                                           itemValue="#{atMethodItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latMethod}" for="latMethod" />
-                        <p:selectOneMenu id="latMethod" value="#{labAnalyseTypeController.selected.latMethod}" >
-                            <f:selectItem itemLabel="#{lab.SelectOneMessage}"/>
-                            <f:selectItems value="#{labAnalyseMethodController.itemsAvailableSelectOne}"
-                                           var="latMethodItem"
-                                           itemValue="#{latMethodItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{lab.EditLabAnalyseTypeLabel_latUnite}" for="latUnite" />
-                        <p:selectOneMenu id="latUnite" value="#{labAnalyseTypeController.selected.latUnite}" required="true" requiredMessage="#{lab.EditLabAnalyseTypeRequiredMessage_latUnite}">
-                            <f:selectItem itemLabel="#{lab.SelectOneMessage}"/>
+                        <p:message for="atMethod"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atUnite}"  for="atUnite" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="atUnite"  widgetVar="atUnite"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseTypeController.selected.atUnite}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseTypeRequiredMsg_atUnite}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{uniteController.itemsAvailableSelectOne}"
-                                           var="latUniteItem"
-                                           itemValue="#{latUniteItem}"/>
+                                           var="atUniteItem"
+                                           itemLabel="#{atUniteItem.UUnite} - #{atUniteItem.UDesignation}" 
+                                           itemValue="#{atUniteItem}"/>
                         </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{labAnalyseTypeController.update}" value="#{lab.Save}" update="display,:LabAnalyseTypeListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LabAnalyseTypeEditDialog');"/>
-                    <p:commandButton value="#{lab.Cancel}" onclick="LabAnalyseTypeEditDialog.hide()"/>
-                </h:panelGroup>
-            </h:form>
-        </p:dialog>
+                        <p:message for="atUnite"  />
+                    </h:panelGrid>
 
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{analyseTypeController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:atCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{analyseTypeController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{analyseTypeController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{analyseTypeController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

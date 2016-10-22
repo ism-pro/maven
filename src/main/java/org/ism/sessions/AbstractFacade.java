@@ -6,13 +6,16 @@
 package org.ism.sessions;
 
 import java.util.List;
+import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
  * @author r.hendrick
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -59,5 +62,15 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
+    public List<T> findAllByLastChanged() {
+        getEntityManager().flush();
+        Query q = getEntityManager().createNamedQuery(entityClass + ".selectAllByLastChange");
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
 }

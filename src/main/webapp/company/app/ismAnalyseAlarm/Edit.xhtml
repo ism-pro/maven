@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.IsmAnalyseAlarmTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{ismAnalyseAlarmController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.IsmAnalyseAlarmField_id}"  for="id" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="id" 
+                                     value="#{ismAnalyseAlarmController.selected.id}" 
+                                     title="#{ism.IsmAnalyseAlarmFieldInfo_id}" 
+                                     required="true" requiredMessage="#{ism.IsmAnalyseAlarmRequiredMsg_id}" 
+                                     />
+                        <p:message for="id"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.IsmAnalyseAlarmField_alarm}"  for="alarm" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="alarm" 
+                                     value="#{ismAnalyseAlarmController.selected.alarm}" 
+                                     title="#{ism.IsmAnalyseAlarmFieldInfo_alarm}" 
+                                     required="true" requiredMessage="#{ism.IsmAnalyseAlarmRequiredMsg_alarm}" 
+                                     />
+                        <p:message for="alarm"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.IsmAnalyseAlarmField_alarmname}"  for="alarmname" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="alarmname" 
+                                     value="#{ismAnalyseAlarmController.selected.alarmname}" 
+                                     title="#{ism.IsmAnalyseAlarmFieldInfo_alarmname}" 
+                                     required="true" requiredMessage="#{ism.IsmAnalyseAlarmRequiredMsg_alarmname}" 
+                                     />
+                        <p:message for="alarmname"  />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{ismAnalyseAlarmController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{ismAnalyseAlarmController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{ismAnalyseAlarmController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{ismAnalyseAlarmController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

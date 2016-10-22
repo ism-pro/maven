@@ -11,9 +11,9 @@ import java.util.Iterator;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import org.ism.entities.IsmNcrstate;
-import org.ism.jsf.IsmNcrstateController;
-import org.ism.jsf.NonConformiteRequestController;
+import org.ism.entities.app.IsmNcrstate;
+import org.ism.jsf.app.IsmNcrstateController;
+import org.ism.jsf.smq.nc.NonConformiteRequestController;
 import org.ism.listener.SessionCounterListener;
 import org.primefaces.event.ItemSelectEvent;
  
@@ -28,7 +28,7 @@ import org.primefaces.model.chart.PieChartModel;
 @ManagedBean(name = "chartView")
 public class ChartView implements Serializable {
  
-    private org.ism.jsf.NonConformiteRequestController ncRequestCtrl = new org.ism.jsf.NonConformiteRequestController();  
+    private org.ism.jsf.smq.nc.NonConformiteRequestController ncRequestCtrl = new org.ism.jsf.smq.nc.NonConformiteRequestController();  
     private IsmNcrstateController ncStateCtrl = new IsmNcrstateController(); 
     
     
@@ -41,7 +41,7 @@ public class ChartView implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
 
         // Get Bean
-        ncRequestCtrl = (org.ism.jsf.NonConformiteRequestController) facesContext.getApplication().getELResolver().
+        ncRequestCtrl = (org.ism.jsf.smq.nc.NonConformiteRequestController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteRequestController");
         ncRequestCtrl.prepareCreate();
         
@@ -147,8 +147,12 @@ public class ChartView implements Serializable {
             pieSMQNCStateModel.set(ncState.getStatename(), cntNCState);
         }
 
+        //pieSMQNCStateModel.setDiameter(40);
+        pieSMQNCStateModel.setMouseoverHighlight(true);
+        pieSMQNCStateModel.setShadow(false);
         pieSMQNCStateModel.setTitle("Etat de NC");
         pieSMQNCStateModel.setLegendPosition("e");
+        pieSMQNCStateModel.setShowDataLabels(true);
     }
     
     

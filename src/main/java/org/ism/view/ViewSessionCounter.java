@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
-import org.ism.entities.Staff;
+import org.ism.entities.hr.Staff;
 import org.ism.listener.SessionCounterListener;
 
 @Named

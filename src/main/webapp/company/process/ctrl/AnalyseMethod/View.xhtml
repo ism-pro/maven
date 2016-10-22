@@ -6,37 +6,154 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="LabAnalyseMethodViewDlg" widgetVar="LabAnalyseMethodViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lab.ViewLabAnalyseMethodTitle}">
-            <h:form id="LabAnalyseMethodViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{labAnalyseMethodController.selected != null}">
-                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamId}"/>
-                        <h:outputText value="#{labAnalyseMethodController.selected.lamId}" title="#{lab.ViewLabAnalyseMethodTitle_lamId}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamMethod}"/>
-                        <h:outputText value="#{labAnalyseMethodController.selected.lamMethod}" title="#{lab.ViewLabAnalyseMethodTitle_lamMethod}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamDesignation}"/>
-                        <h:outputText value="#{labAnalyseMethodController.selected.lamDesignation}" title="#{lab.ViewLabAnalyseMethodTitle_lamDesignation}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamDescription}"/>
-                        <h:outputText value="#{labAnalyseMethodController.selected.lamDescription}" title="#{lab.ViewLabAnalyseMethodTitle_lamDescription}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamDeleted}"/>
-                        <p:selectBooleanCheckbox value="#{labAnalyseMethodController.selected.lamDeleted}" disabled="true"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamCreated}"/>
-                        <h:outputText value="#{labAnalyseMethodController.selected.lamCreated}" title="#{lab.ViewLabAnalyseMethodTitle_lamCreated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamChanged}"/>
-                        <h:outputText value="#{labAnalyseMethodController.selected.lamChanged}" title="#{lab.ViewLabAnalyseMethodTitle_lamChanged}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{lab.ViewLabAnalyseMethodLabel_lamCompany}"/>
-                        <h:outputText value="#{labAnalyseMethodController.selected.lamCompany}" title="#{lab.ViewLabAnalyseMethodTitle_lamCompany}"/>
-                    </p:panelGrid>
-                    <p:commandButton value="#{lab.Close}" onclick="LabAnalyseMethodViewDialog.hide()"/>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseMethodTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseMethodController.selected != null}">
+
+                    <h:outputText value="#{ism.AnalyseMethodField_amId}"  />
+                    <h:outputText value="#{analyseMethodController.selected.amId}" 
+                                  title="#{ism.AnalyseMethodFieldInfo_amId}" />
+
+
+                    <h:outputText value="#{ism.AnalyseMethodField_amMethod}"  />
+                    <h:outputText value="#{analyseMethodController.selected.amMethod}" 
+                                  title="#{ism.AnalyseMethodFieldInfo_amMethod}" />
+
+
+                    <h:outputText value="#{ism.AnalyseMethodField_amDesignation}"  />
+                    <h:outputText value="#{analyseMethodController.selected.amDesignation}" 
+                                  title="#{ism.AnalyseMethodFieldInfo_amDesignation}" />
+
+
+                    <h:outputText value="#{ism.AnalyseMethodField_amDescription}"  />
+                    <h:outputText value="#{analyseMethodController.selected.amDescription}" 
+                                  title="#{ism.AnalyseMethodFieldInfo_amDescription}" />
+
+
+                    <h:outputText value="#{ism.AnalyseMethodField_amDeleted}"  />
+                    <p:selectBooleanCheckbox value="#{analyseMethodController.selected.amDeleted}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseMethodField_amCreated}"  />
+                    <h:outputText value="#{analyseMethodController.selected.amCreated}" 
+                                  title="#{ism.AnalyseMethodFieldInfo_amCreated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseMethodField_amChanged}"  />
+                    <h:outputText value="#{analyseMethodController.selected.amChanged}" 
+                                  title="#{ism.AnalyseMethodFieldInfo_amChanged}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseMethodField_amCompany}"  />
+                    <h:outputText value="#{analyseMethodController.selected.amCompany}" 
+                                  title="#{ism.AnalyseMethodFieldInfo_amCompany}" />
+
+
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le processus sélectionné."
+                                     disabled="#{empty analyseMethodController.selected 
+                                                 or empty analyseMethodController.selected.amId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le AnalyseMethod sélectionné !"
+                                     actionListener="#{viewTabManager.handleDestroy('analysemethod')}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.AnalyseMethodDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.AnalyseMethodDlgMessage)};
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty analyseMethodController.selected 
+                                                 or empty analyseMethodController.selected.amId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le processus sélectionné."
+                                 disabled="#{empty analyseMethodController.selected 
+                                             or empty analyseMethodController.selected.amId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le AnalyseMethod sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('analysemethod')}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.AnalyseMethodDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.AnalyseMethodDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty analyseMethodController.selected 
+                                             or empty analyseMethodController.selected.amId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

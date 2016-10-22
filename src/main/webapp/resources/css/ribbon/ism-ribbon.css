@@ -387,6 +387,68 @@ ul.ui-ribbon-groups #RibbonGroupResources  {
 }
 
 
+
+
+/*******************************************************************************
+* PROCESS / 
+*******************************************************************************/
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-equipement{
+    background: url("#{resource['img/ism/process/equipement.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-unite{
+    background: url("#{resource['img/ism/process/unite.png']}") no-repeat;
+    background-size:contain;
+}
+
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-analysepoint{
+    background: url("#{resource['img/ism/process/analysepoint.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-analysedata{
+    background: url("#{resource['img/ism/process/analysedata.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-analysedatastatis{
+    background: url("#{resource['img/ism/process/statis.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-menuitem-icon.ui-icon.ui-icon-analysecategory{
+    background: url("#{resource['img/ism/process/analysecategory.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-menuitem-icon.ui-icon.ui-icon-analysemethod{
+    background: url("#{resource['img/ism/process/analysemethod.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-menuitem-icon.ui-icon.ui-icon-analysetype{
+    background: url("#{resource['img/ism/process/analysetype.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-menuitem-icon.ui-icon.ui-icon-analysepoint{
+    background: url("#{resource['img/ism/process/analysepoint.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-menuitem-icon.ui-icon.ui-icon-analyseallowed{
+    background: url("#{resource['img/ism/process/analyseallowed.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-menuitem-icon.ui-icon.ui-icon-analysenotify{
+    background: url("#{resource['img/ism/process/analysenotify.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-menuitem-icon.ui-icon.ui-icon-analysedata{
+    background: url("#{resource['img/ism/process/analysedata.png']}") no-repeat;
+    background-size:contain;
+}
+
+#menubutton-specification span.ui-button-icon-left.ui-icon.ui-c.ui-icon-triangle-1-s{
+    background: url("#{resource['img/ism/process/specification.png']}") no-repeat;
+    background-size:contain;
+}
+
+
+
 /*******************************************************************************
 * AFFICHAGE / CONFIGURATION
 *******************************************************************************/

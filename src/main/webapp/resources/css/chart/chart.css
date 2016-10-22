@@ -1,0 +1,117 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 06-mai-2016, 11:26:00
+    Author     : r.hendrick
+*/
+
+/* =============================================================================
+ * DECOMPOSITION DE LA PAGE PRINCIPALE
+ * ===========================================================================*/
+
+/* Plot target container. */
+.jqplot-target{ 
+    /*border: 1px solid #CCC;*/
+    background-color: #fAfAfA;
+}
+/* */
+.jqplot-base-canvas{
+    /*border: 1px solid #CCC;*/
+    color: blue;
+    font-size: 10pt;
+    font-family: arial, calibri;
+}
+div .jqplot-title{
+    font-size: 10pt!important;
+    font-family: arial, calibri !important;
+    font-weight: normal!important;
+    padding-top: 3px!important;
+    float: left;
+}
+.jqplot-pieRenderer-highlight-canvas{
+   
+}
+.jqplot-highlight-canvas{
+    
+}
+.jqplot-event-canvas{
+    
+    
+}
+.jqplot-series-shadowCanvas{
+    
+}
+.jqplot-series-canvas{
+}
+
+
+.jqplot-grid-canvas{
+    
+}
+/*  Axes. */
+.jqplot-axis{
+    
+}
+/* Primary x-axis. */
+.jqplot-xaxis{
+    
+}
+/* Primary y-axis. */ 
+.jqplot-yaxis{
+    
+}
+/* , .jqplot-x3axis ... 2nd, 3rd ... x-axis. */ 
+.jqplot-x2axis{
+    
+}
+/* , .jqplot-y3axis ... 2nd, 3rd ... y-axis. */
+.jqplot-y2axis{
+    
+}
+/* Axis ticks. */
+.jqplot-axis-tick{
+    
+}
+/* Primary x-axis ticks. */ 
+.jqplot-xaxis-tick{
+    
+}
+/* Secondary x-axis ticks. */ 
+.jqplot-x2axis-tick{
+    
+}
+/* Primary y-axis-ticks. */ 
+.jqplot-yaxis-tick{
+    
+}
+/* Seconday y-axis-ticks. */ 
+.jqplot-y2axis-tick{
+    
+}
+/* Legend table. */ 
+table.jqplot-table-legend {
+    
+}
+/* Title of the chart. */
+.jqplot-title{
+    
+}
+/* Cursor tooltip. */ 
+.jqplot-cursor-tooltip{
+    
+}
+/* Highlighter tooltip. */ 
+.jqplot-highlighter-tooltip{
+    
+}
+/* Colors swatch of the legend. */ 
+div.jqplot-table-legend-swatch{
+    
+}
+/* */ 
+
+
+

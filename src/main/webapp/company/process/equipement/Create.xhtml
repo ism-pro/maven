@@ -6,48 +6,227 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-        <p:dialog id="EquipementCreateDlg" widgetVar="EquipementCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lAR.CreateEquipementTitle}">
-            <h:form id="EquipementCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{equipementController.selected != null}">
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EId}" for="EId" />
-                        <p:inputText id="EId" value="#{equipementController.selected.EId}" title="#{lAR.CreateEquipementTitle_EId}" required="true" requiredMessage="#{lAR.CreateEquipementRequiredMessage_EId}"/>
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EEquipement}" for="EEquipement" />
-                        <p:inputText id="EEquipement" value="#{equipementController.selected.EEquipement}" title="#{lAR.CreateEquipementTitle_EEquipement}" required="true" requiredMessage="#{lAR.CreateEquipementRequiredMessage_EEquipement}"/>
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EDesignation}" for="EDesignation" />
-                        <p:inputText id="EDesignation" value="#{equipementController.selected.EDesignation}" title="#{lAR.CreateEquipementTitle_EDesignation}" required="true" requiredMessage="#{lAR.CreateEquipementRequiredMessage_EDesignation}"/>
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_ECf}" for="ECf" />
-                        <p:inputText id="ECf" value="#{equipementController.selected.ECf}" title="#{lAR.CreateEquipementTitle_ECf}" required="true" requiredMessage="#{lAR.CreateEquipementRequiredMessage_ECf}"/>
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EFamille}" for="EFamille" />
-                        <p:inputText id="EFamille" value="#{equipementController.selected.EFamille}" title="#{lAR.CreateEquipementTitle_EFamille}" required="true" requiredMessage="#{lAR.CreateEquipementRequiredMessage_EFamille}"/>
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_ESsFamille}" for="ESsFamille" />
-                        <p:inputText id="ESsFamille" value="#{equipementController.selected.ESsFamille}" title="#{lAR.CreateEquipementTitle_ESsFamille}" />
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EGroupe}" for="EGroupe" />
-                        <p:inputText id="EGroupe" value="#{equipementController.selected.EGroupe}" title="#{lAR.CreateEquipementTitle_EGroupe}" />
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EResponsable}" for="EResponsable" />
-                        <p:inputText id="EResponsable" value="#{equipementController.selected.EResponsable}" title="#{lAR.CreateEquipementTitle_EResponsable}" />
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EDescription}" for="EDescription" />
-                        <p:inputTextarea rows="4" cols="30" id="EDescription" value="#{equipementController.selected.EDescription}" title="#{lAR.CreateEquipementTitle_EDescription}" />
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EDeleted}" for="EDeleted" />
-                        <p:selectBooleanCheckbox id="EDeleted" value="#{equipementController.selected.EDeleted}" required="true" requiredMessage="#{lAR.EditEquipementRequiredMessage_EDeleted}"/>
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_ECreated}" for="ECreated" />
-                        <p:calendar id="ECreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{equipementController.selected.ECreated}" title="#{lAR.EditEquipementTitle_ECreated}" required="true" requiredMessage="#{lAR.EditEquipementRequiredMessage_ECreated}" showOn="button"/>
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_EChanged}" for="EChanged" />
-                        <p:calendar id="EChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{equipementController.selected.EChanged}" title="#{lAR.EditEquipementTitle_EChanged}" required="true" requiredMessage="#{lAR.EditEquipementRequiredMessage_EChanged}" showOn="button"/>
-                        <p:outputLabel value="#{lAR.CreateEquipementLabel_ECompany}" for="ECompany" />
-                        <p:selectOneMenu id="ECompany" value="#{equipementController.selected.ECompany}" required="true" requiredMessage="#{lAR.EditEquipementRequiredMessage_ECompany}">
-                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
-                                           var="ECompanyItem"
-                                           itemValue="#{ECompanyItem}"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{equipementController.create}" value="#{lAR.Save}" update="display,:EquipementListForm:datalist,:growl" oncomplete="handleSubmit(args,'EquipementCreateDialog');"/>
-                    <p:commandButton value="#{lAR.Cancel}" onclick="EquipementCreateDialog.hide()"/>
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.EquipementTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{equipementController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.EquipementField_EId}" rendered="false" for="EId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false">                
+                        <p:inputText id="EId" 
+                                     value="#{equipementController.selected.EId}" 
+                                     title="#{ism.EquipementFieldInfo_EId}" 
+                                     required="true" requiredMessage="#{ism.EquipementRequiredMsg_EId}" 
+                                     />
+                        <p:message for="EId" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_EEquipement}"  for="EEquipement" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="EEquipement" 
+                                     value="#{equipementController.selected.EEquipement}" 
+                                     title="#{ism.EquipementFieldInfo_EEquipement}" 
+                                     required="true" requiredMessage="#{ism.EquipementRequiredMsg_EEquipement}" 
+                                     />
+                        <p:message for="EEquipement" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_EDesignation}"  for="EDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="EDesignation" 
+                                     value="#{equipementController.selected.EDesignation}" 
+                                     title="#{ism.EquipementFieldInfo_EDesignation}" 
+                                     required="true" requiredMessage="#{ism.EquipementRequiredMsg_EDesignation}" 
+                                     />
+                        <p:message for="EDesignation" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_ECf}"  for="ECf" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="ECf" 
+                                     value="#{equipementController.selected.ECf}" 
+                                     title="#{ism.EquipementFieldInfo_ECf}" 
+                                     required="true" requiredMessage="#{ism.EquipementRequiredMsg_ECf}" 
+                                     />
+                        <p:message for="ECf" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_EFamille}"  for="EFamille" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="EFamille" 
+                                     value="#{equipementController.selected.EFamille}" 
+                                     title="#{ism.EquipementFieldInfo_EFamille}" 
+                                     required="true" requiredMessage="#{ism.EquipementRequiredMsg_EFamille}" 
+                                     />
+                        <p:message for="EFamille" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_ESsFamille}"  for="ESsFamille" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="ESsFamille" 
+                                     value="#{equipementController.selected.ESsFamille}" 
+                                     title="#{ism.EquipementFieldInfo_ESsFamille}" 
+                                     required="true" requiredMessage="#{ism.EquipementRequiredMsg_ESsFamille}" 
+                                     />
+                        <p:message for="ESsFamille" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_EGroupe}"  for="EGroupe" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="EGroupe" 
+                                     value="#{equipementController.selected.EGroupe}" 
+                                     title="#{ism.EquipementFieldInfo_EGroupe}" 
+                                     required="true" requiredMessage="#{ism.EquipementRequiredMsg_EGroupe}" 
+                                     />
+                        <p:message for="EGroupe" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_EResponsable}"  for="EResponsable" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="EResponsable" 
+                                     value="#{equipementController.selected.EResponsable}" 
+                                     title="#{ism.EquipementFieldInfo_EResponsable}" 
+                                     required="true" requiredMessage="#{ism.EquipementRequiredMsg_EResponsable}" 
+                                     />
+                        <p:message for="EResponsable" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_EDescription}"  for="EDescription" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputTextarea rows="4" cols="30" id="EDescription" value="#{equipementController.selected.EDescription}" title="#{bundle.CreateEquipementTitle_EDescription}" />
+                        <p:message for="EDescription" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.EquipementField_EDeleted}"  for="EDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="EDeleted"
+                                                 value="#{equipementController.selected.EDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.EquipementRequiredMsg_EDeleted}" 
+                                                 />
+                        <p:message for="EDeleted" />
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{ism.EquipementField_ECompany}"  for="ECompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="ECompany" widgetVar="ECompany"
+                                     value="#{equipementController.selected.ECompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.EquipementRequiredMsg_ECompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="ECompany" />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{equipementController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{equipementController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{equipementController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:ECompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{equipementController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{equipementController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:ECompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!equipementController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{equipementController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{equipementController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:ECompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{equipementController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{equipementController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:ECompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!equipementController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{equipementController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

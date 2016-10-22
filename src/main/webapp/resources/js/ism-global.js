@@ -37,8 +37,15 @@ function hideStatus() {
 $(function () {
     $('#main').click(function () {
         //alert($('#unitNorth').height());
-        
+
     });
+
 });
 
-
+    function ext() {
+//this = chart widget instance
+//this.cfg = options
+        this.cfg.seriesDefaults = {
+            shadowDepth: 0
+        };
+    }

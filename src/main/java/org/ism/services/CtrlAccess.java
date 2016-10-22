@@ -7,8 +7,8 @@ package org.ism.services;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.ism.entities.Company;
-import org.ism.entities.StaffGroupDef;
+import org.ism.entities.admin.Company;
+import org.ism.entities.hr.StaffGroupDef;
 
 /**
  *

@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1609.16</version>
+    <version>1610.05</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -31,6 +31,16 @@
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
             <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.highfaces</groupId>
+            <artifactId>highfaces</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
         </dependency>
         <dependency>
             <groupId>org.primefaces.extensions</groupId>

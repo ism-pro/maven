@@ -25,7 +25,7 @@
         <p:commandButton    icon="ui-btn-Connect"
                             onclick="document.getElementById('id01').style.display = 'block'" 
                             class="w3-btn w3-light-grey w3-large w3-right"/>
-        
+
         <header class="w3-container w3-teal w3-grey" >
             <center>
                 <h:graphicImage value="#{resource['img/ism/ism.png']}"  
@@ -46,7 +46,7 @@
 
 
         <div id="id01"  >
-            <div class="w3-modal-content w3-card-8 w3-animate-zoom" style="max-width:480px">
+            <div class="w3-modal-content w3-card-6 w3-animate-zoom" style="max-width:480px">
 
                 <div class="w3-center">
                     <br />
@@ -57,36 +57,32 @@
                 <h:form id="Form" class="w3-container"  >
                     <div class="w3-section">
 
-                        <label for="j_username"><b>#{ism.Login}</b></label>
-                        <p:inputText type="text" id="j_username" 
-                                     class="w3-input w3-border w3-margin-bottom"
-                                     title="#{ism.AuthenticationFieldInfo_staff}"
-                                     required="true"
-                                     label="#{ism.Login}"
+                        <p:inputText id="j_username" 
                                      value="#{staffAuthController.staff.stStaff}"
-                                     autocomplete="off"
-
-                                     style="width:97%"
+                                     required="true"
                                      a:autocorrect="off" 
+                                     autocomplete="off"
+                                     title="#{ism.AuthenticationFieldInfo_staff}"
+                                     label="#{ism.Login}"
                                      placeholder="#{ism.Login}"
+                                     class="w3-input w3-margin-bottom w3-white"
+                                     style="width:97%"
                                      />
 
-                        <label for="j_password"><b>#{ism.Password}</b></label>
                         <p:password id="j_password"
-                                    required="true"
-                                    label="#{ism.Password}"
-                                    title="#{ism.AuthenticationFieldInfo_password}"
-                                    autocomplete="off"                                                 
                                     value="#{staffAuthController.staff.stPassword}"
-                                    class="w3-input w3-border"
-                                    style="width:97%"
+                                    required="true"
+                                    autocomplete="off"                                                 
+                                    title="#{ism.AuthenticationFieldInfo_password}"
+                                    label="#{ism.Password}"
                                     placeholder="#{ism.Password}"
-
+                                    class="w3-input w3-margin-bottom w3-white"
+                                    style="width:97%"
                                     />
 
-                        <label for="company">#{ism.Company}</label>
                         <p:selectOneMenu id="company"
-                                         class="w3-input w3-select"
+                                         class="w3-btn w3-white"
+                                         style="width: 101%;"
                                          value="#{staffAuthController.company}"
                                          >
                             <f:selectItems value="#{companyController.itemsAvailableSelectOne}" 
@@ -95,26 +91,20 @@
                                            itemValue="#{jCompanyItem}"
                                            />
                         </p:selectOneMenu>
-
-
-                        <p:commandButton id="btnLogIn" type="submit"
-                                         value="#{ism.LogIn}"
-                                         icon="ui-btn-Connect"
-                                         action="#{staffAuthController.login}"
-                                         update=":growl"
-                                         class="w3-btn-block w3-light-grey w3-section w3-padding"
-                                         style="margin-bottom: 10px;"
-                                         />
-
-                        <input class="w3-check w3-margin-top" type="checkbox" checked="checked"/> #{ism.RememberMe}
                     </div>
+
+
                 </h:form>
-
-                <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                    <button onclick="document.getElementById('id01').style.display = 'none'" type="button" class="w3-btn w3-red">#{ism.Cancel}</button>
-                    <span class="w3-right w3-padding w3-hide-small"><a href="#">#{ism.ForgotPassword}?</a></span>
+                <div class="w3-container w3-border-top w3-padding-16 w3-dark-grey">
+                    <p:commandButton id="btnLogIn" type="submit"
+                                     value="#{ism.LogIn}"
+                                     icon="ui-btn-Connect"
+                                     action="#{staffAuthController.login}"
+                                     update=":growl"
+                                     class="w3-btn w3-light-grey w3-right w3-margin-top w3-margin-bottom"
+                                     style="margin-right: -5px;"
+                                     />
                 </div>
-
             </div>
         </div>
 
@@ -122,10 +112,8 @@
         <p:growl id="growl" life="8000" />
 
 
-
-
     </h:body>
-    <p:blockUI block="pBody" trigger="Form:btnLogIn">
+    <p:blockUI block="pBody" trigger="btnLogIn">
         <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>
 

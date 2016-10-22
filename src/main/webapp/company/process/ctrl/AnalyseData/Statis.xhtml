@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:hf="http://highfaces.org" 
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+
+
+            <h:form id="bodyForm" >
+                <p:tabView activeIndex="#{viewAnalyseChart.activeIndex}">
+                    <p:tab title="#{ism.Criteria}">
+                        <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                                     >
+
+                            <p:outputLabel value="#{ism.EquipementTitle}" for="requestEquipement" />
+                            <p:selectOneMenu id="requestEquipement"  widgetVar="requestEquipement"
+                                             filter="true" filterMatchMode="contains"
+                                             value="#{viewAnalyseChart.selectedEquipement}"
+                                             >
+                                <f:selectItem itemLabel="#{ism.SelectList}" 
+                                              itemValue=""/>
+                                <f:selectItems value="#{equipementController.itemsAvailableSelectOne}"
+                                               var="equipementItem"
+                                               itemLabel="#{equipementItem.EEquipement} - #{equipementItem.EDesignation}" 
+                                               itemValue="#{equipementItem}"/>
+                            </p:selectOneMenu>
+
+
+                            <p:outputLabel value="#{ism.AnalyseAllowedField_aaPoint} - #{ism.AnalyseAllowedField_aaType}" 
+                                           for="requestPointType" />
+                            <p:selectCheckboxMenu id="requestPointType"  widgetVar="requestPointType"
+                                                  filter="true" filterMatchMode="contains"
+                                                  value="#{viewAnalyseChart.analyseAlloweds}"
+                                                  required="true" 
+                                                  requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaId}" 
+                                                  label="#{ism.AnalyseAllowedField_aaPoint} - #{ism.AnalyseAllowedField_aaType}"
+                                                  converter="AnalyseAllowedConverter"
+                                                  >
+                                <f:selectItems value="#{analyseAllowedController.itemsAvailableSelectMany}"
+                                               var="aaItem"
+                                               itemLabel=">> #{aaItem.aaPoint.apPoint} - #{aaItem.aaPoint.apDesignation}  >>  #{aaItem.aaType.atType} - #{aaItem.aaType.atDesignation} " 
+                                               itemValue="#{aaItem}"/>
+                            </p:selectCheckboxMenu>
+
+
+                            <p:outputLabel value="#{ism.DateFrom}" for="requestDateFrom" />
+                            <p:calendar id="requestDateFrom" 
+                                        value="#{viewAnalyseChart.dateFrom}" pattern="dd/MM/yyyy" 
+                                        label="#{ism.DateFrom}" />
+
+                            <p:outputLabel value="#{ism.DateTo}" for="requestDateTo" />
+                            <p:calendar id="requestDateTo" 
+                                        value="#{viewAnalyseChart.dateTo}" pattern="dd/MM/yyyy" 
+                                        label="#{ism.DateTo}" />
+
+                        </p:panelGrid>
+
+                        <h:panelGroup id="btn-crud-zone_id"  >
+                            <p:commandButton styleClass="ui-btn"
+                                             icon="ui-btn-Search"
+                                             value="#{ism.Search}" 
+                                             actionListener="#{viewAnalyseChart.handleAnalyseSearch()}" 
+                                             onstart=""
+                                             update=":bodyForm,:growl" 
+                                             />
+                        </h:panelGroup>
+                        
+                        <p:messages />
+
+                    </p:tab>
+
+                    <p:tab title="#{ism.Statistics}" >
+                        <h:panelGroup style="width: 100%"
+                                      rendered="#{viewAnalyseChart.mainChartModel!=null?true:false}"
+                                      >                
+                            <hf:chart type="line" title="#{viewAnalyseChart.mainChartModel.title}"
+                                      xaxisLabel="#{viewAnalyseChart.mainChartModel.axes.xLabel}"
+                                      yaxisLabel="#{viewAnalyseChart.mainChartModel.axes.yLabel}"
+                                      height="480px" >
+                                <hf:chartSerie name="#{viewAnalyseChart.mainChartModel.curveLabel}" value="#{viewAnalyseChart.mainChartModel.serie}" 
+                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
+
+                                               />
+                                <hf:chartSerie name="Alarme Haute" value="#{viewAnalyseChart.mainChartLimitHH.serie}" 
+                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
+                                               />
+
+                                <hf:chartSerie name="Limite Haut" value="#{viewAnalyseChart.mainChartLimitH.serie}" 
+                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
+                                               />
+
+                                <hf:chartSerie name="Limite Basse" value="#{viewAnalyseChart.mainChartLimitB.serie}" 
+                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
+                                               />
+
+                                <hf:chartSerie name="Alarme Basse" value="#{viewAnalyseChart.mainChartLimitBB.serie}" 
+                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
+                                               />
+                            </hf:chart>
+
+                        </h:panelGroup>
+                    </p:tab>
+                </p:tabView>
+
+
+
+
+
+
+            </h:form>
+
+
+
+
+        </ui:define>
+
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+
+            </h:panelGroup>
+
+
+
+        </ui:define>
+
+
+    </ui:composition>
+
+</html>

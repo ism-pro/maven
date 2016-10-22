@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseNotifyTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseNotifyController.selected != null}">
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_anId}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.anId}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_anId}" />
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_anIsgroup}"  />
+                    <p:selectBooleanCheckbox value="#{analyseNotifyController.selected.anIsgroup}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_aaObservation}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.aaObservation}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_aaObservation}" />
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_aaDeleted}"  />
+                    <p:selectBooleanCheckbox value="#{analyseNotifyController.selected.aaDeleted}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_aaCreated}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.aaCreated}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_aaCreated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_aaChanged}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.aaChanged}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_aaChanged}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_anAlarm}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.anAlarm}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_anAlarm}" />
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_anallowedId}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.anallowedId}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_anallowedId}" />
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_anCompany}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.anCompany}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_anCompany}" />
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_anGroup}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.anGroup}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_anGroup}" />
+
+
+                    <h:outputText value="#{ism.AnalyseNotifyField_anStaff}"  />
+                    <h:outputText value="#{analyseNotifyController.selected.anStaff}" 
+                                  title="#{ism.AnalyseNotifyFieldInfo_anStaff}" />
+
+
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le processus sélectionné."
+                                     disabled="#{empty analyseNotifyController.selected 
+                                                 or empty analyseNotifyController.selected.anIdanallowedId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le AnalyseNotify sélectionné !"
+                                     actionListener="#{viewTabManager.handleDestroy('analysenotify')}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.AnalyseNotifyDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.AnalyseNotifyDlgMessage)};
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty analyseNotifyController.selected 
+                                                 or empty analyseNotifyController.selected.anIdanallowedId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le processus sélectionné."
+                                 disabled="#{empty analyseNotifyController.selected 
+                                             or empty analyseNotifyController.selected.anIdanallowedId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le AnalyseNotify sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('analysenotify')}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.AnalyseNotifyDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.AnalyseNotifyDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty analyseNotifyController.selected 
+                                             or empty analyseNotifyController.selected.anIdanallowedId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

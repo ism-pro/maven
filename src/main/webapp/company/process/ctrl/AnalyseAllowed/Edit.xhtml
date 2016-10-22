@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseAllowedTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseAllowedController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaId}" rendered="true" for="aaId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="aaId"
+                                       style="margin-left: 5px;"
+                                       value="#{analyseAllowedController.selected.aaId}"  />
+                        <p:message for="aaId" rendered="false" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaenlimitHH}"  for="aaenlimitHH" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="aaenlimitHH"
+                                                 value="#{analyseAllowedController.selected.aaenlimitHH}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaenlimitHH}" 
+                                                 />
+                        <p:message for="aaenlimitHH"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aalimitHH}"  for="aalimitHH" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="aalimitHH" 
+                                     value="#{analyseAllowedController.selected.aalimitHH}" 
+                                     title="#{ism.AnalyseAllowedFieldInfo_aalimitHH}" 
+                                     required="true" requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aalimitHH}" 
+                                     />
+                        <p:message for="aalimitHH"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaenlimitH}"  for="aaenlimitH" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="aaenlimitH"
+                                                 value="#{analyseAllowedController.selected.aaenlimitH}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaenlimitH}" 
+                                                 />
+                        <p:message for="aaenlimitH"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aalimitH}"  for="aalimitH" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="aalimitH" 
+                                     value="#{analyseAllowedController.selected.aalimitH}" 
+                                     title="#{ism.AnalyseAllowedFieldInfo_aalimitH}" 
+                                     required="true" requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aalimitH}" 
+                                     />
+                        <p:message for="aalimitH"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaenlimitB}"  for="aaenlimitB" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="aaenlimitB"
+                                                 value="#{analyseAllowedController.selected.aaenlimitB}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaenlimitB}" 
+                                                 />
+                        <p:message for="aaenlimitB"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aalimitB}"  for="aalimitB" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="aalimitB" 
+                                     value="#{analyseAllowedController.selected.aalimitB}" 
+                                     title="#{ism.AnalyseAllowedFieldInfo_aalimitB}" 
+                                     required="true" requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aalimitB}" 
+                                     />
+                        <p:message for="aalimitB"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaenlimitBB}"  for="aaenlimitBB" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="aaenlimitBB"
+                                                 value="#{analyseAllowedController.selected.aaenlimitBB}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaenlimitBB}" 
+                                                 />
+                        <p:message for="aaenlimitBB"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aalimitBB}"  for="aalimitBB" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="aalimitBB" 
+                                     value="#{analyseAllowedController.selected.aalimitBB}" 
+                                     title="#{ism.AnalyseAllowedFieldInfo_aalimitBB}" 
+                                     required="true" requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aalimitBB}" 
+                                     />
+                        <p:message for="aalimitBB"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaObservation}"  for="aaObservation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="aaObservation" 
+                                     value="#{analyseAllowedController.selected.aaObservation}" 
+                                     title="#{ism.AnalyseAllowedFieldInfo_aaObservation}" 
+                                     required="true" requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaObservation}" 
+                                     />
+                        <p:message for="aaObservation"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaDeleted}"  for="aaDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="aaDeleted"
+                                                 value="#{analyseAllowedController.selected.aaDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaDeleted}" 
+                                                 />
+                        <p:message for="aaDeleted"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaCreated}"  for="aaCreated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="aaCreated" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{analyseAllowedController.selected.aaCreated}" 
+                                    title="#{ism.AnalyseAllowedFieldInfo_aaCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaCreated}" 
+                                    showOn="button"/>
+                        <p:message for="aaCreated"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaChanged}"  for="aaChanged" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="aaChanged" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{analyseAllowedController.selected.aaChanged}" 
+                                    title="#{ism.AnalyseAllowedFieldInfo_aaChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaChanged}" 
+                                    showOn="button"/>
+                        <p:message for="aaChanged"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaCompany}"  for="aaCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="aaCompany" widgetVar="aaCompany"
+                                     value="#{analyseAllowedController.selected.aaCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="aaCompany"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaPoint}"  for="aaPoint" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="aaPoint"  widgetVar="aaPoint"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseAllowedController.selected.aaPoint}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaPoint}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{analysePointController.itemsAvailableSelectOne}"
+                                           var="aaPointItem"
+                                           itemLabel="#{aaPointItem.apPoint} - #{aaPointItem.apDesignation}" 
+                                           itemValue="#{aaPointItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="aaPoint"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedField_aaType}"  for="aaType" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="aaType"  widgetVar="aaType"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseAllowedController.selected.aaType}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaType}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{analyseTypeController.itemsAvailableSelectOne}"
+                                           var="aaTypeItem"
+                                           itemLabel="#{aaTypeItem.atType} - #{aaTypeItem.atDesignation}" 
+                                           itemValue="#{aaTypeItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="aaType"  />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{analyseAllowedController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:aaCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{analyseAllowedController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{analyseAllowedController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{analyseAllowedController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

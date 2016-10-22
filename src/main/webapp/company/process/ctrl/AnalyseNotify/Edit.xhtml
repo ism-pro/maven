@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseNotifyTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseNotifyController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_anId}" rendered="true" for="anId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="anId"
+                                       style="margin-left: 5px;"
+                                       value="#{analyseNotifyController.selected.anId}"  />
+                        <p:message for="anId" rendered="false" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_anIsgroup}"  for="anIsgroup" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="anIsgroup"
+                                                 value="#{analyseNotifyController.selected.anIsgroup}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseNotifyRequiredMsg_anIsgroup}" 
+                                                 />
+                        <p:message for="anIsgroup"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_aaObservation}"  for="aaObservation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="aaObservation" 
+                                     value="#{analyseNotifyController.selected.aaObservation}" 
+                                     title="#{ism.AnalyseNotifyFieldInfo_aaObservation}" 
+                                     required="true" requiredMessage="#{ism.AnalyseNotifyRequiredMsg_aaObservation}" 
+                                     />
+                        <p:message for="aaObservation"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_aaDeleted}"  for="aaDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="aaDeleted"
+                                                 value="#{analyseNotifyController.selected.aaDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseNotifyRequiredMsg_aaDeleted}" 
+                                                 />
+                        <p:message for="aaDeleted"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_aaCreated}"  for="aaCreated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="aaCreated" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{analyseNotifyController.selected.aaCreated}" 
+                                    title="#{ism.AnalyseNotifyFieldInfo_aaCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.AnalyseNotifyRequiredMsg_aaCreated}" 
+                                    showOn="button"/>
+                        <p:message for="aaCreated"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_aaChanged}"  for="aaChanged" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="aaChanged" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{analyseNotifyController.selected.aaChanged}" 
+                                    title="#{ism.AnalyseNotifyFieldInfo_aaChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.AnalyseNotifyRequiredMsg_aaChanged}" 
+                                    showOn="button"/>
+                        <p:message for="aaChanged"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_anAlarm}"  for="anAlarm" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="anAlarm"  widgetVar="anAlarm"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseNotifyController.selected.anAlarm}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseNotifyRequiredMsg_anAlarm}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{ismAnalyseAlarmController.itemsAvailableSelectOne}"
+                                           var="anAlarmItem"
+                                           itemLabel="#{anAlarmItem.alarm} - #{anAlarmItem.alarmname}" 
+                                           itemValue="#{anAlarmItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="anAlarm"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_anallowedId}" rendered="true" for="anallowedId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="anallowedId"
+                                       style="margin-left: 5px;"
+                                       value="#{analyseNotifyController.selected.anallowedId}"  />
+                        <p:message for="anallowedId" rendered="false" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_anCompany}"  for="anCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="anCompany" widgetVar="anCompany"
+                                     value="#{analyseNotifyController.selected.anCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.AnalyseNotifyRequiredMsg_anCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="anCompany"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_anGroup}"  for="anGroup" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="anGroup"  widgetVar="anGroup"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseNotifyController.selected.anGroup}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseNotifyRequiredMsg_anGroup}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}"
+                                           var="anGroupItem"
+                                           itemLabel="#{anGroupItem.stgdGroupDef} - #{anGroupItem.stgdDesignation}" 
+                                           itemValue="#{anGroupItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="anGroup"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseNotifyField_anStaff}"  for="anStaff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="anStaff"  widgetVar="anStaff"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseNotifyController.selected.anStaff}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseNotifyRequiredMsg_anStaff}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="anStaffItem"
+                                           itemLabel="#{anStaffItem.stStaff} - #{anStaffItem.stFirstname} #{anStaffItem.stLastname} #{anStaffItem.stMiddlename}" 
+                                           itemValue="#{anStaffItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="anStaff"  />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{analyseNotifyController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:anCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{analyseNotifyController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{analyseNotifyController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{analyseNotifyController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

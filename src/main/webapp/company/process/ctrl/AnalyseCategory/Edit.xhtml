@@ -6,39 +6,164 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-        <p:dialog id="LabAnalyseCategoryEditDlg" widgetVar="LabAnalyseCategoryEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lab.EditLabAnalyseCategoryTitle}">
-            <h:form id="LabAnalyseCategoryEditForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{labAnalyseCategoryController.selected != null}">
-                        <p:outputLabel value="#{lab.EditLabAnalyseCategoryLabel_lacId}" for="lacId" />
-                        <p:inputText id="lacId" value="#{labAnalyseCategoryController.selected.lacId}" title="#{lab.EditLabAnalyseCategoryTitle_lacId}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacId}"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseCategoryLabel_lacCategory}" for="lacCategory" />
-                        <p:inputText id="lacCategory" value="#{labAnalyseCategoryController.selected.lacCategory}" title="#{lab.EditLabAnalyseCategoryTitle_lacCategory}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacCategory}"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseCategoryLabel_lacDesignation}" for="lacDesignation" />
-                        <p:inputText id="lacDesignation" value="#{labAnalyseCategoryController.selected.lacDesignation}" title="#{lab.EditLabAnalyseCategoryTitle_lacDesignation}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacDesignation}"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseCategoryLabel_lacDescription}" for="lacDescription" />
-                        <p:inputTextarea rows="4" cols="30" id="lacDescription" value="#{labAnalyseCategoryController.selected.lacDescription}" title="#{lab.EditLabAnalyseCategoryTitle_lacDescription}" />
-                        <p:outputLabel value="#{lab.EditLabAnalyseCategoryLabel_lacDeleted}" for="lacDeleted" />
-                        <p:selectBooleanCheckbox id="lacDeleted" value="#{labAnalyseCategoryController.selected.lacDeleted}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacDeleted}"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseCategoryLabel_lacCreated}" for="lacCreated" />
-                        <p:calendar id="lacCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{labAnalyseCategoryController.selected.lacCreated}" title="#{lab.EditLabAnalyseCategoryTitle_lacCreated}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacCreated}" showOn="button"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseCategoryLabel_lacChanged}" for="lacChanged" />
-                        <p:calendar id="lacChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{labAnalyseCategoryController.selected.lacChanged}" title="#{lab.EditLabAnalyseCategoryTitle_lacChanged}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacChanged}" showOn="button"/>
-                        <p:outputLabel value="#{lab.EditLabAnalyseCategoryLabel_lacCompany}" for="lacCompany" />
-                        <p:selectOneMenu id="lacCompany" value="#{labAnalyseCategoryController.selected.lacCompany}" required="true" requiredMessage="#{lab.EditLabAnalyseCategoryRequiredMessage_lacCompany}">
-                            <f:selectItem itemLabel="#{lab.SelectOneMessage}"/>
-                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
-                                           var="lacCompanyItem"
-                                           itemValue="#{lacCompanyItem}"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{labAnalyseCategoryController.update}" value="#{lab.Save}" update="display,:LabAnalyseCategoryListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LabAnalyseCategoryEditDialog');"/>
-                    <p:commandButton value="#{lab.Cancel}" onclick="LabAnalyseCategoryEditDialog.hide()"/>
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseCategoryTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseCategoryController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acId}" rendered="true" for="acId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="acId"
+                                       style="margin-left: 5px;"
+                                       value="#{analyseCategoryController.selected.acId}"  />
+                        <p:message for="acId" rendered="false" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acCategory}"  for="acCategory" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="acCategory" 
+                                     value="#{analyseCategoryController.selected.acCategory}" 
+                                     title="#{ism.AnalyseCategoryFieldInfo_acCategory}" 
+                                     required="true" requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acCategory}" 
+                                     />
+                        <p:message for="acCategory"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acDesignation}"  for="acDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="acDesignation" 
+                                     value="#{analyseCategoryController.selected.acDesignation}" 
+                                     title="#{ism.AnalyseCategoryFieldInfo_acDesignation}" 
+                                     required="true" requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acDesignation}" 
+                                     />
+                        <p:message for="acDesignation"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acDescription}"  for="acDescription" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputTextarea rows="4" cols="30" id="acDescription" value="#{analyseCategoryController.selected.acDescription}" title="#{bundle.CreateAnalyseCategoryTitle_acDescription}" />
+                        <p:message for="acDescription"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acDeleted}"  for="acDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="acDeleted"
+                                                 value="#{analyseCategoryController.selected.acDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acDeleted}" 
+                                                 />
+                        <p:message for="acDeleted"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acCreated}"  for="acCreated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="acCreated" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{analyseCategoryController.selected.acCreated}" 
+                                    title="#{ism.AnalyseCategoryFieldInfo_acCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acCreated}" 
+                                    showOn="button"/>
+                        <p:message for="acCreated"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acChanged}"  for="acChanged" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="acChanged" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{analyseCategoryController.selected.acChanged}" 
+                                    title="#{ism.AnalyseCategoryFieldInfo_acChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acChanged}" 
+                                    showOn="button"/>
+                        <p:message for="acChanged"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acCompany}"  for="acCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="acCompany" widgetVar="acCompany"
+                                     value="#{analyseCategoryController.selected.acCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="acCompany"  />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{analyseCategoryController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:acCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{analyseCategoryController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{analyseCategoryController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{analyseCategoryController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

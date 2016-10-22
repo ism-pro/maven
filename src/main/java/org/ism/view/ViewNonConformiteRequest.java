@@ -13,8 +13,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import org.ism.entities.NonConformiteRequest;
-import org.ism.jsf.NonConformiteRequestController;
+import org.ism.entities.smq.nc.NonConformiteRequest;
+import org.ism.jsf.smq.nc.NonConformiteRequestController;
 
 /**
  *

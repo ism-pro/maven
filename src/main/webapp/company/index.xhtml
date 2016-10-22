@@ -4,6 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:hf="http://highfaces.org" 
       xmlns:p="http://primefaces.org/ui">
 
 
@@ -22,16 +23,31 @@
                         Le nombre de session susceptible est de 
                         #{viewSessionCounter.sessionCounter} seul 
                         #{viewSessionCounter.totalActiveSessionsAuthenticated} 
-                        sur #{staffController.items.size()} sont identifiés !
+                        sur #{staffController.items.size()} sont identifiées !
 
                     </p>
 
                     <hr />
                     <h2>Flash Infos</h2>
                     <h:panelGrid columns="2" rendered="true">
-                        <p:chart rendered="true" id="graphActSession" type="pie" model="#{chartView.pieModel1}" style="width:400px;height:300px" />
-                        <p:chart id="graphNCState" type="pie" model="#{chartView.pieSMQNCStateModel}" style="width:400px;height:300px" />
+                        <p:chart rendered="true" id="graphActSession" 
+                                 type="pie" model="#{chartView.pieModel1}" 
+                                 />
+                        
+
+                        <div style="max-width: 25%;">
+                            <hf:chart type="#{mainChartView.smqStatePieModel.typeStr}" 
+                                      title="#{mainChartView.smqStatePieModel.title}"
+                                      >
+                                <hf:chartSerie name="Non Conformités" value="#{mainChartView.smqStatePieModel.serie}" 
+                                               var="nc" point="#{nc.integerValue}" tickLabel="#{nc.label}" 
+
+                                               />
+                            </hf:chart>
+                        </div>
                     </h:panelGrid>
+                    <br />
+
 
                     <hr />
                     <h2>Staff</h2>
@@ -43,10 +59,7 @@
                         <p:column headerText="Staff Online"
                                   style="width: 64px;"
                                   class="w3-container w3-center">
-                            
-                                <img src="#{resource['img/ism/hr/img_avatar4.png']}" alt="Avatar" style="width:40%" class="w3-circle w3-margin-top" />
-
-                                <h5><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]"/></h5>
+                            <h5><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]"/></h5>
                         </p:column>
                     </p:dataTable>
 

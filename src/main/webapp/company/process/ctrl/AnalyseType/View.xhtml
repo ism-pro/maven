@@ -6,43 +6,169 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="LabAnalyseTypeViewDlg" widgetVar="LabAnalyseTypeViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lab.ViewLabAnalyseTypeTitle}">
-            <h:form id="LabAnalyseTypeViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{labAnalyseTypeController.selected != null}">
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latId}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latId}" title="#{lab.ViewLabAnalyseTypeTitle_latId}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latType}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latType}" title="#{lab.ViewLabAnalyseTypeTitle_latType}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latDesignation}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latDesignation}" title="#{lab.ViewLabAnalyseTypeTitle_latDesignation}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latDescription}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latDescription}" title="#{lab.ViewLabAnalyseTypeTitle_latDescription}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latDeleted}"/>
-                        <p:selectBooleanCheckbox value="#{labAnalyseTypeController.selected.latDeleted}" disabled="true"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latCreated}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latCreated}" title="#{lab.ViewLabAnalyseTypeTitle_latCreated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latChanged}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latChanged}" title="#{lab.ViewLabAnalyseTypeTitle_latChanged}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latCategory}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latCategory}" title="#{lab.ViewLabAnalyseTypeTitle_latCategory}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latCompany}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latCompany}" title="#{lab.ViewLabAnalyseTypeTitle_latCompany}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latMethod}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latMethod}" title="#{lab.ViewLabAnalyseTypeTitle_latMethod}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseTypeLabel_latUnite}"/>
-                        <h:outputText value="#{labAnalyseTypeController.selected.latUnite}" title="#{lab.ViewLabAnalyseTypeTitle_latUnite}"/>
-                    </p:panelGrid>
-                    <p:commandButton value="#{lab.Close}" onclick="LabAnalyseTypeViewDialog.hide()"/>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseTypeTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseTypeController.selected != null}">
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atId}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atId}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atId}" />
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atType}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atType}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atType}" />
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atDesignation}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atDesignation}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atDesignation}" />
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atDescription}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atDescription}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atDescription}" />
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atDeleted}"  />
+                    <p:selectBooleanCheckbox value="#{analyseTypeController.selected.atDeleted}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atCreated}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atCreated}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atCreated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atChanged}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atChanged}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atChanged}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atCategory}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atCategory}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atCategory}" />
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atCompany}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atCompany}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atCompany}" />
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atMethod}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atMethod}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atMethod}" />
+
+
+                    <h:outputText value="#{ism.AnalyseTypeField_atUnite}"  />
+                    <h:outputText value="#{analyseTypeController.selected.atUnite}" 
+                                  title="#{ism.AnalyseTypeFieldInfo_atUnite}" />
+
+
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le processus sélectionné."
+                                     disabled="#{empty analyseTypeController.selected 
+                                                 or empty analyseTypeController.selected.atId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le AnalyseType sélectionné !"
+                                     actionListener="#{viewTabManager.handleDestroy('analysetype')}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.AnalyseTypeDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.AnalyseTypeDlgMessage)};
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty analyseTypeController.selected 
+                                                 or empty analyseTypeController.selected.atId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le processus sélectionné."
+                                 disabled="#{empty analyseTypeController.selected 
+                                             or empty analyseTypeController.selected.atId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le AnalyseType sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('analysetype')}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.AnalyseTypeDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.AnalyseTypeDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty analyseTypeController.selected 
+                                             or empty analyseTypeController.selected.atId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

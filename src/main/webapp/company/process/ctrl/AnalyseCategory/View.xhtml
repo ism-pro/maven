@@ -6,37 +6,154 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="LabAnalyseCategoryViewDlg" widgetVar="LabAnalyseCategoryViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lab.ViewLabAnalyseCategoryTitle}">
-            <h:form id="LabAnalyseCategoryViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{labAnalyseCategoryController.selected != null}">
-                        <h:outputText value="#{lab.ViewLabAnalyseCategoryLabel_lacId}"/>
-                        <h:outputText value="#{labAnalyseCategoryController.selected.lacId}" title="#{lab.ViewLabAnalyseCategoryTitle_lacId}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseCategoryLabel_lacCategory}"/>
-                        <h:outputText value="#{labAnalyseCategoryController.selected.lacCategory}" title="#{lab.ViewLabAnalyseCategoryTitle_lacCategory}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseCategoryLabel_lacDesignation}"/>
-                        <h:outputText value="#{labAnalyseCategoryController.selected.lacDesignation}" title="#{lab.ViewLabAnalyseCategoryTitle_lacDesignation}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseCategoryLabel_lacDescription}"/>
-                        <h:outputText value="#{labAnalyseCategoryController.selected.lacDescription}" title="#{lab.ViewLabAnalyseCategoryTitle_lacDescription}"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseCategoryLabel_lacDeleted}"/>
-                        <p:selectBooleanCheckbox value="#{labAnalyseCategoryController.selected.lacDeleted}" disabled="true"/>
-                        <h:outputText value="#{lab.ViewLabAnalyseCategoryLabel_lacCreated}"/>
-                        <h:outputText value="#{labAnalyseCategoryController.selected.lacCreated}" title="#{lab.ViewLabAnalyseCategoryTitle_lacCreated}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{lab.ViewLabAnalyseCategoryLabel_lacChanged}"/>
-                        <h:outputText value="#{labAnalyseCategoryController.selected.lacChanged}" title="#{lab.ViewLabAnalyseCategoryTitle_lacChanged}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{lab.ViewLabAnalyseCategoryLabel_lacCompany}"/>
-                        <h:outputText value="#{labAnalyseCategoryController.selected.lacCompany}" title="#{lab.ViewLabAnalyseCategoryTitle_lacCompany}"/>
-                    </p:panelGrid>
-                    <p:commandButton value="#{lab.Close}" onclick="LabAnalyseCategoryViewDialog.hide()"/>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseCategoryTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseCategoryController.selected != null}">
+
+                    <h:outputText value="#{ism.AnalyseCategoryField_acId}"  />
+                    <h:outputText value="#{analyseCategoryController.selected.acId}" 
+                                  title="#{ism.AnalyseCategoryFieldInfo_acId}" />
+
+
+                    <h:outputText value="#{ism.AnalyseCategoryField_acCategory}"  />
+                    <h:outputText value="#{analyseCategoryController.selected.acCategory}" 
+                                  title="#{ism.AnalyseCategoryFieldInfo_acCategory}" />
+
+
+                    <h:outputText value="#{ism.AnalyseCategoryField_acDesignation}"  />
+                    <h:outputText value="#{analyseCategoryController.selected.acDesignation}" 
+                                  title="#{ism.AnalyseCategoryFieldInfo_acDesignation}" />
+
+
+                    <h:outputText value="#{ism.AnalyseCategoryField_acDescription}"  />
+                    <h:outputText value="#{analyseCategoryController.selected.acDescription}" 
+                                  title="#{ism.AnalyseCategoryFieldInfo_acDescription}" />
+
+
+                    <h:outputText value="#{ism.AnalyseCategoryField_acDeleted}"  />
+                    <p:selectBooleanCheckbox value="#{analyseCategoryController.selected.acDeleted}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseCategoryField_acCreated}"  />
+                    <h:outputText value="#{analyseCategoryController.selected.acCreated}" 
+                                  title="#{ism.AnalyseCategoryFieldInfo_acCreated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseCategoryField_acChanged}"  />
+                    <h:outputText value="#{analyseCategoryController.selected.acChanged}" 
+                                  title="#{ism.AnalyseCategoryFieldInfo_acChanged}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseCategoryField_acCompany}"  />
+                    <h:outputText value="#{analyseCategoryController.selected.acCompany}" 
+                                  title="#{ism.AnalyseCategoryFieldInfo_acCompany}" />
+
+
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le processus sélectionné."
+                                     disabled="#{empty analyseCategoryController.selected 
+                                                 or empty analyseCategoryController.selected.acId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le AnalyseCategory sélectionné !"
+                                     actionListener="#{viewTabManager.handleDestroy('analysecategory')}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.AnalyseCategoryDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.AnalyseCategoryDlgMessage)};
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty analyseCategoryController.selected 
+                                                 or empty analyseCategoryController.selected.acId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le processus sélectionné."
+                                 disabled="#{empty analyseCategoryController.selected 
+                                             or empty analyseCategoryController.selected.acId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le AnalyseCategory sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('analysecategory')}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.AnalyseCategoryDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.AnalyseCategoryDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty analyseCategoryController.selected 
+                                             or empty analyseCategoryController.selected.acId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

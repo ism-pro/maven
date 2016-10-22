@@ -17,9 +17,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import org.ism.entities.Staff;
-import org.ism.jsf.StaffAuthController;
-import org.ism.jsf.StaffController;
+import org.ism.entities.hr.Staff;
+import org.ism.jsf.hr.StaffAuthController;
+import org.ism.jsf.hr.StaffController;
 
 public class SessionCounterListener implements HttpSessionListener {
 

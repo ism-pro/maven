@@ -508,6 +508,10 @@ th .ui-selectonemenu-label{
     font-size: 0.9em!important;
 }
 
+.ui-selectonemenu-filter-container{
+    width: 98%;
+}
+
 
 /**  GESTION DES LIGNES    **/
 .ui-widget-content.ui-datatable-odd{
@@ -589,4 +593,6 @@ span.ui-menuitem-text{
     
 }
 
-
+.ui-tabs-panel.ui-widget-content.ui-corner-bottom{
+    padding:0px!important;
+}

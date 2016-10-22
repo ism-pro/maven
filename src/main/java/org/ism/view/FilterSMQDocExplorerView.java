@@ -11,12 +11,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import org.ism.entities.DocExplorer;
-import org.ism.entities.DocType;
-import org.ism.entities.Processus;
-import org.ism.jsf.DocExplorerController;
-import org.ism.jsf.DocTypeController;
-import org.ism.jsf.ProcessusController;
+import org.ism.entities.smq.DocExplorer;
+import org.ism.entities.smq.DocType;
+import org.ism.entities.smq.Processus;
+import org.ism.jsf.smq.DocExplorerController;
+import org.ism.jsf.smq.DocTypeController;
+import org.ism.jsf.smq.ProcessusController;
 
 /**
  *

@@ -6,94 +6,313 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <h:outputStylesheet library="css" name="jsfcrud.css"/>
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1>
-                <h:outputText value="#{ism.PCtrlCategoryTitleList}" />
-            </h1>
+            <h1><h:outputText value="#{ism.AnalyseCategoryTitleList}"/></h1>
 
-            <h:form id="LabAnalyseCategoryListForm">
-                <h:panelGrid>
-                    <p:dataTable id="datalist" value="#{labAnalyseCategoryController.items}" var="item"
-                                 selectionMode="single" selection="#{labAnalyseCategoryController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.lacId}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+            <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}"
+                                actionListener="#{analyseCategoryController.prepareCreate}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer un nouveau AnalyseCategory"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser le AnalyseCategory sélectionné."
+                                disabled="#{empty analyseCategoryController.selected}"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer le AnalyseCategory sélectionné."
+                                disabled="#{empty analyseCategoryController.selected}"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer le AnalyseCategory sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('analysecategory')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.AnalyseCategoryDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.AnalyseCategoryDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty analyseCategoryController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des AnalyseCategory "
+                                actionListener="#{analyseCategoryController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty analyseCategoryController.selected }"
+                                />
+                </p:contextMenu>
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PCtrlCategoryField_Id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.lacId}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PCtrlCategoryField_Category}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.lacCategory}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PCtrlCategoryField_Designation}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.lacDesignation}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PCtrlCategoryField_Description}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.lacDescription}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PCtrlCategoryField_Deleted}"/>
-                            </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.lacDeleted}" disabled="true"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PCtrlCategoryField_Created}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.lacCreated}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PCtrlCategoryField_Changed}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.lacChanged}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PCtrlCategoryField_Company}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.lacCompany}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{ism.Create}" actionListener="#{labAnalyseCategoryController.prepareCreate}" update=":LabAnalyseCategoryCreateForm" oncomplete="PF('LabAnalyseCategoryCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{ism.View}" update=":LabAnalyseCategoryViewForm" oncomplete="PF('LabAnalyseCategoryViewDialog').show()" disabled="#{empty labAnalyseCategoryController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{ism.Edit}" update=":LabAnalyseCategoryEditForm" oncomplete="PF('LabAnalyseCategoryEditDialog').show()" disabled="#{empty labAnalyseCategoryController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{ism.Delete}" actionListener="#{labAnalyseCategoryController.destroy}" update=":growl,datalist" disabled="#{empty labAnalyseCategoryController.selected}"/>
+
+
+
+
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.analysecategory}" var="item"
+                             filteredValue="#{viewTabManager.analysecategoryFiltered}"
+
+                             selectionMode="single" selection="#{analyseCategoryController.selected}"
+                             rowIndexVar="_rowIndex"
+                             rowKey="#{item.acId}"
+                             paginator="#{tableView.paginator}"
+                             rows="#{tableView.rows}"
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+                             emptyMessage="#{ism.EmptyList}"
+                             >
+
+
+
+
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.AnalyseCategoryTitleList}_#{viewUtil.maintenant}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.AnalyseCategoryTitleList}_#{viewUtil.maintenant}"  />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{analyseCategoryController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{analyseCategoryController.handleColumnReorder}"  />
+
+
+
+
+
+
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{analyseCategoryController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.AnalyseCategoryField_acId}" style="max-width: 24px;" 
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acId)}"
+                              sortBy="#{item.item.acId}" filterBy="#{item.item.acId}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.acId}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalyseCategoryField_acCategory}" 
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acCategory)}"
+                              sortBy="#{item.item.acCategory}" filterBy="#{item.item.acCategory}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.acCategory}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalyseCategoryField_acDesignation}" 
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acDesignation)}"
+                              sortBy="#{item.item.acDesignation}" filterBy="#{item.item.acDesignation}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.acDesignation}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalyseCategoryField_acDescription}" 
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acDescription)}"
+                              sortBy="#{item.item.acDescription}" filterBy="#{item.item.acDescription}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.acDescription}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalyseCategoryField_acDeleted}" 
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acDeleted)}"
+                              sortBy="#{item.item.acDeleted}" filterBy="#{item.item.acDeleted}" 
+                              filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
                         </f:facet>
-                    </p:dataTable>
-                </h:panelGrid>
+                        <p:selectBooleanCheckbox value="#{item.acDeleted}" disabled="true"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalyseCategoryField_acCreated}" 
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acCreated)}"
+                              sortBy="#{item.item.acCreated}" filterBy="#{item.item.acCreated}" 
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <h:outputText value="#{item.acCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalyseCategoryField_acChanged}" 
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acChanged)}"
+                              sortBy="#{item.item.acChanged}" filterBy="#{item.item.acChanged}" 
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <h:outputText value="#{item.acChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalyseCategoryField_acCompany}" 
+                              visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acCompany)}"
+                              sortBy="#{item.item.acCompany}" filterBy="#{item.item.acCompany}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.acCompany}"/>
+                    </p:column>
+
+
+
+
+
+                </p:dataTable>
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
+
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{analyseCategoryController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer un nouveau AnalyseCategory"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser le AnalyseCategory sélectionné."
+                                 disabled="#{empty analyseCategoryController.selected 
+                                             or empty analyseCategoryController.selected.acId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer le AnalyseCategory sélectionné."
+                                 disabled="#{empty analyseCategoryController.selected 
+                                             or empty analyseCategoryController.selected.acId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer le AnalyseCategory sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('analysecategory')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.AnalyseCategoryDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.AnalyseCategoryDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty analyseCategoryController.selected 
+                                             or empty analyseCategoryController.selected.acId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des AnalyseCategory "
+                                 actionListener="#{analyseCategoryController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty analyseCategoryController.selected 
+                                             or empty analyseCategoryController.selected.acId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
     </ui:composition>
 
 </html>

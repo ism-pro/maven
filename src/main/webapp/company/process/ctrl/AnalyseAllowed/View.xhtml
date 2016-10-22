@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseAllowedTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseAllowedController.selected != null}">
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaId}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aaId}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aaId}" />
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaenlimitHH}"  />
+                    <p:selectBooleanCheckbox value="#{analyseAllowedController.selected.aaenlimitHH}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aalimitHH}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aalimitHH}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aalimitHH}" />
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaenlimitH}"  />
+                    <p:selectBooleanCheckbox value="#{analyseAllowedController.selected.aaenlimitH}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aalimitH}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aalimitH}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aalimitH}" />
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaenlimitB}"  />
+                    <p:selectBooleanCheckbox value="#{analyseAllowedController.selected.aaenlimitB}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aalimitB}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aalimitB}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aalimitB}" />
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaenlimitBB}"  />
+                    <p:selectBooleanCheckbox value="#{analyseAllowedController.selected.aaenlimitBB}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aalimitBB}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aalimitBB}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aalimitBB}" />
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaObservation}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aaObservation}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aaObservation}" />
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaDeleted}"  />
+                    <p:selectBooleanCheckbox value="#{analyseAllowedController.selected.aaDeleted}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaCreated}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aaCreated}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aaCreated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaChanged}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aaChanged}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aaChanged}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaCompany}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aaCompany}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aaCompany}" />
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaPoint}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aaPoint}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aaPoint}" />
+
+
+                    <h:outputText value="#{ism.AnalyseAllowedField_aaType}"  />
+                    <h:outputText value="#{analyseAllowedController.selected.aaType}" 
+                                  title="#{ism.AnalyseAllowedFieldInfo_aaType}" />
+
+
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le processus sélectionné."
+                                     disabled="#{empty analyseAllowedController.selected 
+                                                 or empty analyseAllowedController.selected.aaId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le AnalyseAllowed sélectionné !"
+                                     actionListener="#{viewTabManager.handleDestroy('analyseallowed')}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.AnalyseAllowedDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.AnalyseAllowedDlgMessage)};
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty analyseAllowedController.selected 
+                                                 or empty analyseAllowedController.selected.aaId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le processus sélectionné."
+                                 disabled="#{empty analyseAllowedController.selected 
+                                             or empty analyseAllowedController.selected.aaId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le AnalyseAllowed sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('analyseallowed')}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.AnalyseAllowedDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.AnalyseAllowedDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty analyseAllowedController.selected 
+                                             or empty analyseAllowedController.selected.aaId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -6,125 +6,358 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <h:outputStylesheet library="css" name="jsfcrud.css"/>
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1>
-                <h:outputText value="#{ism.PEquipementTitleList}" />
-            </h1>
+            <h1><h:outputText value="#{ism.EquipementTitleList}"/></h1>
 
-            <h:form id="EquipementListForm">
-                <h:panelGrid>
-                    <p:dataTable id="datalist" value="#{equipementController.items}" var="item"
-                                 selectionMode="single" selection="#{equipementController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.EId}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+            <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}"
+                                actionListener="#{equipementController.prepareCreate}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer un nouveau Equipement"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser le Equipement sélectionné."
+                                disabled="#{empty equipementController.selected}"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer le Equipement sélectionné."
+                                disabled="#{empty equipementController.selected}"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer le Equipement sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('equipement')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.EquipementDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.EquipementDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty equipementController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des Equipement "
+                                actionListener="#{equipementController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty equipementController.selected }"
+                                />
+                </p:contextMenu>
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.EId}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Equipement}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.EEquipement}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Designation}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.EDesignation}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Cf}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ECf}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Famille}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.EFamille}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_SsFamille}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ESsFamille}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Groupe}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.EGroupe}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Responsable}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.EResponsable}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Description}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.EDescription}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Deleted}"/>
-                            </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.EDeleted}" disabled="true"/>
-                        </p:column>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Created}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.ECreated}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Changed}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.EChanged}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column rendered="false">
-                            <f:facet name="header">
-                                <h:outputText value="#{ism.PEquipementField_Company}" rendered="false" />
-                            </f:facet>
-                            <h:outputText value="#{item.ECompany}" rendered="false" />
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{ism.Create}" actionListener="#{equipementController.prepareCreate}" update=":EquipementCreateForm" oncomplete="PF('EquipementCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{ism.View}" update=":EquipementViewForm" oncomplete="PF('EquipementViewDialog').show()" disabled="#{empty equipementController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{ism.Edit}" update=":EquipementEditForm" oncomplete="PF('EquipementEditDialog').show()" disabled="#{empty equipementController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{ism.Delete}" actionListener="#{equipementController.destroy}" update=":growl,datalist" disabled="#{empty equipementController.selected}"/>
+
+
+
+
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.equipement}" var="item"
+                             filteredValue="#{viewTabManager.equipementFiltered}"
+
+                             selectionMode="single" selection="#{equipementController.selected}"
+                             rowIndexVar="_rowIndex"
+                             rowKey="#{item.EId}"
+                             paginator="#{tableView.paginator}"
+                             rows="#{tableView.rows}"
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+                             emptyMessage="#{ism.EmptyList}"
+                             >
+
+
+
+
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.EquipementTitleList}_#{viewUtil.maintenant}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.EquipementTitleList}_#{viewUtil.maintenant}"  />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{equipementController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{equipementController.handleColumnReorder}"  />
+
+
+
+
+
+
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{equipementController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{equipementController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.EquipementField_EId}" style="max-width: 24px;" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EId)}"
+                              sortBy="#{item.EId}" filterBy="#{item.EId}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.EId}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_EEquipement}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EEquipement)}"
+                              sortBy="#{item.EEquipement}" filterBy="#{item.EEquipement}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.EEquipement}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_EDesignation}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EDesignation)}"
+                              sortBy="#{item.EDesignation}" filterBy="#{item.EDesignation}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.EDesignation}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_ECf}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_ECf)}"
+                              sortBy="#{item.ECf}" filterBy="#{item.ECf}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.ECf}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_EFamille}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EFamille)}"
+                              sortBy="#{item.EFamille}" filterBy="#{item.EFamille}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.EFamille}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_ESsFamille}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_ESsFamille)}"
+                              sortBy="#{item.ESsFamille}" filterBy="#{item.ESsFamille}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.ESsFamille}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_EGroupe}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EGroupe)}"
+                              sortBy="#{item.EGroupe}" filterBy="#{item.EGroupe}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.EGroupe}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_EResponsable}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EResponsable)}"
+                              sortBy="#{item.EResponsable}" filterBy="#{item.EResponsable}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.EResponsable}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_EDescription}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EDescription)}"
+                              sortBy="#{item.EDescription}" filterBy="#{item.EDescription}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.EDescription}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_EDeleted}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EDeleted)}"
+                              sortBy="#{item.EDeleted}" filterBy="#{item.EDeleted}" 
+                              filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
                         </f:facet>
-                    </p:dataTable>
-                </h:panelGrid>
+                        <p:selectBooleanCheckbox value="#{item.EDeleted}" disabled="true"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_ECreated}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_ECreated)}"
+                              sortBy="#{item.ECreated}" filterBy="#{item.ECreated}" 
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <h:outputText value="#{item.ECreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_EChanged}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EChanged)}"
+                              sortBy="#{item.EChanged}" filterBy="#{item.EChanged}" 
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <h:outputText value="#{item.EChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.EquipementField_ECompany}" 
+                              visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_ECompany)}"
+                              sortBy="#{item.ECompany.CCompany} - #{item.ECompany.CDesignation}" 
+                              filterBy="#{item.ECompany.CCompany} - #{item.ECompany.CDesignation}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ECompany.CCompany} - #{item.ECompany.CDesignation}"/>
+                    </p:column>
+
+
+
+
+
+                </p:dataTable>
             </h:form>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
+
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{equipementController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer un nouveau Equipement"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser le Equipement sélectionné."
+                                 disabled="#{empty equipementController.selected 
+                                             or empty equipementController.selected.EId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer le Equipement sélectionné."
+                                 disabled="#{empty equipementController.selected 
+                                             or empty equipementController.selected.EId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer le Equipement sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('equipement')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.EquipementDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.EquipementDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty equipementController.selected 
+                                             or empty equipementController.selected.EId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des Equipement "
+                                 actionListener="#{equipementController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty equipementController.selected 
+                                             or empty equipementController.selected.EId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
     </ui:composition>
 
 </html>

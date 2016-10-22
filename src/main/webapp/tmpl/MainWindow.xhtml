@@ -21,8 +21,10 @@
             <h:outputStylesheet library="css" name="ribbon/ism-MainMenu.min.css" />
             <h:outputStylesheet library="css" name="ism-layout.min.css" />
             <h:outputStylesheet library="css" name="ism-global.min.css" />
+            <h:outputStylesheet library="css" name="ism.min.css" />
             <h:outputStylesheet library="css" name="ism-index.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
+            <h:outputStylesheet library="css" name="chart/chart.min.css" />
             <h:outputStylesheet library="css" name="w3.min.css" />
 
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
@@ -33,6 +35,7 @@
 
             <h:outputScript library="js" name="jquery/jquery-2.2.3.min.js" target="head" />
             <h:outputScript library="js" name="jquery/jquery-ui.min.js" target="head" />
+            
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
 
@@ -42,7 +45,9 @@
     </h:head>
 
     <h:body id="body" rendered="#{request.session.getAttribute('authenticated')}">
-
+        <f:facet name="last">
+            <h:outputStylesheet library="css" name="w3.min.css" />
+        </f:facet>
         <!--    Reste affiché pendant 5s
                 Montre un résumer et affiche les détails
                 Seul les messages sans id sont affiché
@@ -118,7 +123,7 @@
                                                     itemValue="#{themeService.getStrTheme(staffSetupController.selected.stsTheme)}"
                                                     />
                                     <f:selectItems value="#{themeService.themes}" var="th"  itemValue="#{th}"  />
-                                    
+
                                     <p:column >
                                         <div style="min-width: 96px; min-height: 96px; padding: 0px; margin:0px;" class="ui-theme-#{t.name}"/>
                                     </p:column>
@@ -318,13 +323,6 @@
                                                          value="Rôle Tree" 
                                                          icon="ui-icon-hrstaffroles" />
 
-                                        <p:commandButton id="btnStaffCompany"
-                                                         rendered="#{request.isUserInRole('HR_COMPANY')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(2)}"
-                                                         title="Lier l'utilisateur à une compagnie"
-                                                         action="/company/hr/staffCompany/List.xhtml?faces-redirect=true"
-                                                         value="Société"
-                                                         icon="ui-icon-hrstaffcompany" />
                                         <p:commandButton id="btnStaffToGroup"
                                                          rendered="#{request.isUserInRole('HR_GROUPSTAFF')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(2)}"
@@ -363,111 +361,125 @@
                                 </pi:ribbonGroup>
                             </p:tab>
 
-                            <p:tab id="tabProcess" title="#{ism.ProcessPage}" titletip="#{ism.ProcessPageTitle}" rendered="false" >
-                                <pi:ribbonGroup id="RibbonGroupPStd" label="Standard">
-                                    <h:panelGrid id="PanelGridStd" columns="1">
-                                        <h:commandButton id="btnPStdEquipement"
-                                                         title="Définition des équipements"
+
+
+
+
+
+
+
+                            <p:tab id="tabProcess" title="#{ism.ProcessPage}" titletip="#{ism.ProcessPageTitle}" rendered="true" >
+                                <pi:ribbonGroup id="RibbonGroupProcessIndustriel" label="Industriel">
+                                    <pi:ribbonGroupSet id="ribbonGroupSetProcessIndustriel" set="small">
+                                        <p:commandButton id="btnProcessEquipement"
+                                                         rendered="#{request.isUserInRole('GUEST')}"
+                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                         title="Gérer vos équipements industriel"
                                                          action="/company/process/equipement/List.xhtml?faces-redirect=true"
-                                                         image="/resources/img/me/brewery_icon.jpg"
-                                                         styleClass="btnSmall"
+                                                         value="#{ism.EquipementTitle}" 
+                                                         icon="ui-icon-equipement" />
 
+                                        <p:commandButton id="btnProcessUnite"
+                                                         rendered="#{request.isUserInRole('GUEST')}"
                                                          actionListener="#{viewRibbon.setActiveIndex(3)}"
-                                                         />
-                                        <h:commandButton id="btnPStdUnite"
-                                                         title="Définition des unités d'usage"
+                                                         title="Gérer vos unité industriel"
                                                          action="/company/process/unite/List.xhtml?faces-redirect=true"
-                                                         image="/resources/img/ctrl/measure_units.png"
-                                                         styleClass="btnSmall"
-
-                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
-                                                         />
-                                    </h:panelGrid>
+                                                         value="#{ism.UniteTitle}" 
+                                                         icon="ui-icon-unite" />
+                                    </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
-                                <pi:ribbonGroup id="RibbonGroupPCtrl" label="Contrôle">
-                                    <h:panelGrid id="PanelGridPCtrl" columns="5">
-                                        <h:panelGrid columns="3" >
-                                            <p:splitButton id="splitButtonProcessCtrlType"  
-                                                           icon="ism-menu-icon-ProcessCtrlType" 
-                                                           styleClass="ism-menu-icon-ProcessCtrlType"
-                                                           title="Définition des types d'analyse"
-                                                           action="/company/process/ctrl/AnalyseType/List.xhtml?faces-redirect=true"
-                                                           rendered="true"
-                                                           actionListener="#{viewRibbon.setActiveIndex(3)}"
-                                                           >
 
-                                                <p:menuitem id="splitButtonMenuItemProcessCtrlTypeType" 
-                                                            icon="ism-menu-icon-ProcessCtrlType"   
-                                                            value="#{ism.PCtrlTypeTitleList}" 
-                                                            title="Définition des types d'analyse"
-                                                            action="/company/process/ctrl/AnalyseType/List.xhtml?faces-redirect=true"
-                                                            rendered="true"
-                                                            />
-                                                <p:separator />
-                                                <p:menuitem id="splitButtonMenuItemProcessCtrlTypeMethod" 
-                                                            icon="ism-menu-icon-ProcessCtrlTypeMethod"   
-                                                            value="#{ism.PCtrlMethodField_Method}" 
-                                                            title="Définition des méthode d'analyse"
-                                                            action="/company/process/ctrl/AnalyseMethod/List.xhtml?faces-redirect=true"
-                                                            rendered="true"
-                                                            />
-                                                <p:menuitem id="splitButtonMenuItemProcessCtrlTypeCategory" 
-                                                            icon="ism-menu-icon-ProcessCtrlTypeCategory"   
-                                                            value="#{ism.PCtrlCategoryField_Category}" 
-                                                            title="Définition des catégories d'analyse"
-                                                            action="/company/process/ctrl/AnalyseCategory/List.xhtml?faces-redirect=true"
-                                                            rendered="true"
-                                                            />
+                                <pi:ribbonGroup id="RibbonGroupProcessCtrl" label="Analyse">
+                                    <pi:ribbonGroupSet id="ribbonGroupSetProcessAnalyse" set="big">
+                                        <p:commandButton id="btnProcessAnalysePoint"
+                                                         title="Gestion des points d'échantillonnage"
+                                                         action="/company/process/ctrl/AnalysePoint/List.xhtml?faces-redirect=true"
+                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                         rendered="#{request.isUserInRole('GUEST')}"
+                                                         icon="ui-icon-analysepoint" 
+                                                         value="Point Echant." 
+                                                         />
 
-                                            </p:splitButton>
+                                        <p:commandButton id="btnProcessAnalyseData"
+                                                         title="Gestion des données d'analyse d'échantillonnage"
+                                                         action="/company/process/ctrl/AnalyseData/List.xhtml?faces-redirect=true"
+                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                         rendered="#{request.isUserInRole('GUEST')}"
+                                                         icon="ui-icon-analysedata" 
+                                                         value="Résultats"
+                                                         />
 
-
-                                            <p:splitButton id="splitButtonProcessCtrlSample"  
-                                                           icon="ism-menu-icon-ProcessCtrlSample" 
-                                                           styleClass="ism-menu-icon-ProcessCtrlSample"
-                                                           title="Liste des valeurs d'analyse d'échantillon"
-                                                           action="/company/process/ctrl/Sample/List.xhtml?faces-redirect=true"
-                                                           rendered="true"
-                                                           actionListener="#{viewRibbon.setActiveIndex(3)}"
-                                                           >
-
-                                                <p:menuitem id="splitButtonMenuItemProcessCtrlSample" 
-                                                            icon="ism-menu-icon-ProcessCtrlSample"   
-                                                            value="Valeur d'échantillon" 
-                                                            title="Liste des valeurs d'analyse d'échantillon"
-                                                            action="/company/process/ctrl/Sample/List.xhtml?faces-redirect=true"
-                                                            rendered="true"
-                                                            />
-                                                <p:separator />
-                                                <p:menuitem id="splitButtonMenuItemProcessCtrlSampleSamplePt" 
-                                                            icon="ism-menu-icon-ProcessCtrlSampleSamplePt"   
-                                                            value="Points d'échantillonage" 
-                                                            title="Définition des points d'échantillonage"
-                                                            action="/company/process/ctrl/SamplePt/List.xhtml?faces-redirect=true"
-                                                            rendered="true"
-                                                            />
-                                                <p:menuitem id="splitButtonMenuItemProcessCtrlSampleSamplePtAnalyse" 
-                                                            icon="ism-menu-icon-ProcessCtrlSampleSamplePtAnalyse"   
-                                                            value="Echantill. - Type" 
-                                                            title="Définition des types d'analyse par point d'échantillonage"
-                                                            action="/company/process/ctrl/SamplePtAnalyses/List.xhtml?faces-redirect=true"
-                                                            rendered="true"
-                                                            />
-
-                                            </p:splitButton>
-
-                                            <p:menuButton value="Options"
-                                                          style="width: 32px; height: 32px;">
-                                                <p:menuitem value="Save"  icon="ui-icon-disk"/>
-                                                <p:menuitem value="Update"   icon="ui-icon-arrowrefresh-1-w"/>
-                                                <p:menuitem value="Delete"  ajax="false" icon="ui-icon-close"/>
-                                                <p:separator />
-                                                <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink"/>
-                                            </p:menuButton>
-                                        </h:panelGrid>
-                                    </h:panelGrid>
+                                        <p:menuButton id="menubutton-specification" 
+                                                      value="Spécification"
+                                                      styleClass="ui-icon-specification"
+                                                      >
+                                            <p:menuitem id="sBtnItemProcessAnalyseCategory"
+                                                        value="Catégorie d'analyse"
+                                                        action="/company/process/ctrl/AnalyseCategory/List.xhtml?faces-redirect=true"
+                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                        rendered="#{request.isUserInRole('GUEST')}"
+                                                        icon="ui-icon-analysecategory"
+                                                        />
+                                            <p:menuitem id="sBtnItemProcessAnalyseMethod"
+                                                        value="Méthode d'analyse"
+                                                        action="/company/process/ctrl/AnalyseMethod/List.xhtml?faces-redirect=true"
+                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                        rendered="#{request.isUserInRole('GUEST')}"
+                                                        icon="ui-icon-analysemethod"
+                                                        />
+                                            <p:separator />
+                                            <p:menuitem id="sBtnItemProcessAnalyseType"
+                                                        value="Type d'analyse"
+                                                        action="/company/process/ctrl/AnalyseType/List.xhtml?faces-redirect=true"
+                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                        rendered="#{request.isUserInRole('GUEST')}"
+                                                        icon="ui-icon-analysetype"
+                                                        />
+                                            <p:menuitem id="sBtnItemProcessAnalysePoint"
+                                                        value="Point d'analyse"
+                                                        action="/company/process/ctrl/AnalysePoint/List.xhtml?faces-redirect=true"
+                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                        rendered="#{request.isUserInRole('GUEST')}"
+                                                        icon="ui-icon-analysepoint"
+                                                        />
+                                            <p:separator />
+                                            <p:menuitem id="sBtnItemProcessAnalyseAllowed"
+                                                        value="Analyse possible"
+                                                        action="/company/process/ctrl/AnalyseAllowed/List.xhtml?faces-redirect=true"
+                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                        rendered="#{request.isUserInRole('GUEST')}"
+                                                        icon="ui-icon-analyseallowed"
+                                                        />
+                                            <p:menuitem id="sBtnItemProcessAnalyseNotify"
+                                                        value="Notifications"
+                                                        action="/company/process/ctrl/AnalyseNotify/List.xhtml?faces-redirect=true"
+                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                        rendered="#{request.isUserInRole('GUEST')}"
+                                                        icon="ui-icon-analysenotify"
+                                                        />
+                                            <p:separator />
+                                            <p:menuitem id="sBtnItemProcessAnalyseData"
+                                                        value="Résultats" 
+                                                        action="/company/process/ctrl/AnalyseData/List.xhtml?faces-redirect=true"
+                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                        rendered="#{request.isUserInRole('GUEST')}"
+                                                        icon="ui-icon-analysedata" />
+                                        </p:menuButton>
+                                        
+                                        <p:commandButton id="btnProcessAnalyseDataStatis"
+                                                         title="Gestion des données d'analyse par statistique"
+                                                         action="/company/process/ctrl/AnalyseData/Statis.xhtml?faces-redirect=true"
+                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                         rendered="#{request.isUserInRole('GUEST')}"
+                                                         icon="ui-icon-analysedatastatis" 
+                                                         value="Statistiques"
+                                                         />
+                                        
+                                    </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
                             </p:tab>
+
+
 
                             <p:tab id="manageLayout" title="#{ism.DisplayPage}" titletip="#{ism.DisplayPageTitle}" >
                                 <pi:ribbonGroup id="managedLayoutGroup" label="Fenêtre">
@@ -505,7 +517,6 @@
                             closable="#{viewLayout.westUnit.closable}"
                             collapsible="#{viewLayout.westUnit.collapsible}"
                             minSize="#{viewLayout.westUnit.minSize}"
-                            maxSize="#{viewLayout.westUnit.maxSize}"
                             gutter="#{viewLayout.westUnit.gutter}"
                             visible="#{viewLayout.westUnit.visible}"
                             collapsed="#{viewLayout.westUnit.collapsed}"

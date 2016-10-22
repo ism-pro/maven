@@ -192,6 +192,7 @@ time, mark, audio, video {
 }
 
 
+
 /* =============================================================================
  * Manage CRUD BUTTON ICON
  * ===========================================================================*/
@@ -265,6 +266,10 @@ time, mark, audio, video {
 }
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Print, .ui-menuitem-icon.ui-icon.ui-btn-Print{
     background: url("#{resource['img/ism/std/Print.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Search, .ui-menuitem-icon.ui-icon.ui-btn-Search{
+    background: url("#{resource['img/ism/std/Search.png']}") no-repeat;
     background-size:contain;
 }
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Next, .ui-menuitem-icon.ui-icon.ui-btn-Next{
@@ -409,7 +414,10 @@ time, mark, audio, video {
 }
 .columnContentClass input,
 .columnContentClass select,
-.columnContentClass textarea{
+.columnContentClass textarea,
+.columnContentClass .ui-selectonemenu,
+.columnContentClass .ui-selectcheckboxmenu
+{
     width: 410px;
 }
 .columnContentClass textarea{

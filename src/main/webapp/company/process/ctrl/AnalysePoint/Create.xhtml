@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalysePointTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analysePointController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.AnalysePointField_apId}" rendered="false" for="apId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false">                
+                        <p:inputText id="apId" 
+                                     value="#{analysePointController.selected.apId}" 
+                                     title="#{ism.AnalysePointFieldInfo_apId}" 
+                                     required="true" requiredMessage="#{ism.AnalysePointRequiredMsg_apId}" 
+                                     />
+                        <p:message for="apId" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalysePointField_apPoint}"  for="apPoint" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="apPoint" 
+                                     value="#{analysePointController.selected.apPoint}" 
+                                     title="#{ism.AnalysePointFieldInfo_apPoint}" 
+                                     required="true" requiredMessage="#{ism.AnalysePointRequiredMsg_apPoint}" 
+                                     />
+                        <p:message for="apPoint" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalysePointField_apDesignation}"  for="apDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="apDesignation" 
+                                     value="#{analysePointController.selected.apDesignation}" 
+                                     title="#{ism.AnalysePointFieldInfo_apDesignation}" 
+                                     required="true" requiredMessage="#{ism.AnalysePointRequiredMsg_apDesignation}" 
+                                     />
+                        <p:message for="apDesignation" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalysePointField_apDescription}"  for="apDescription" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputTextarea rows="4" cols="30" id="apDescription" value="#{analysePointController.selected.apDescription}" 
+                                         title="#{ism.AnalysePointFieldInfo_apDescription}"  />
+                        <p:message for="apDescription" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalysePointField_apDeleted}"  for="apDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="apDeleted"
+                                                 value="#{analysePointController.selected.apDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalysePointRequiredMsg_apDeleted}" 
+                                                 />
+                        <p:message for="apDeleted" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.AnalysePointField_apEquipement}"  for="apEquipement" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="apEquipement"  widgetVar="apEquipement"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analysePointController.selected.apEquipement}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalysePointRequiredMsg_apEquipement}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{equipementController.itemsAvailableSelectOne}"
+                                           var="apEquipementItem"
+                                           itemLabel="#{apEquipementItem.EEquipement} - #{apEquipementItem.EDesignation}" 
+                                           itemValue="#{apEquipementItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="apEquipement" />
+                    </h:panelGrid>
+
+                    
+
+
+                    <p:outputLabel value="#{ism.AnalysePointField_apCompany}"  for="apCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="apCompany" widgetVar="apCompany"
+                                     value="#{analysePointController.selected.apCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.AnalysePointRequiredMsg_apCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="apCompany" />
+                    </h:panelGrid>
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{analysePointController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{analysePointController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{analysePointController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:apCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{analysePointController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{analysePointController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:apCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!analysePointController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{analysePointController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{analysePointController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:apCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{analysePointController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{analysePointController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:apCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!analysePointController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{analysePointController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -3,9 +3,10 @@
     <description>Industrial System Manager</description>
     <display-name>ISM</display-name>
     <context-param>
+        <description>Development, Production, SystemTest, UnitTest
+        </description>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>
-        <!-- Development ou Production -->
     </context-param>
     <context-param>
         <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
@@ -114,7 +115,7 @@
             <url-pattern>/faces/*</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
-            <transport-guarantee>NONE</transport-guarantee>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
     <security-constraint>

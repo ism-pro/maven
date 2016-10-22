@@ -11,12 +11,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import org.ism.entities.IsmNcrstate;
-import org.ism.entities.NonConformiteRequest;
-import org.ism.entities.Processus;
-import org.ism.jsf.IsmNcrstateController;
-import org.ism.jsf.NonConformiteRequestController;
-import org.ism.jsf.ProcessusController;
+import org.ism.entities.app.IsmNcrstate;
+import org.ism.entities.smq.nc.NonConformiteRequest;
+import org.ism.entities.smq.Processus;
+import org.ism.jsf.app.IsmNcrstateController;
+import org.ism.jsf.smq.nc.NonConformiteRequestController;
+import org.ism.jsf.smq.ProcessusController;
 
 /**
  *

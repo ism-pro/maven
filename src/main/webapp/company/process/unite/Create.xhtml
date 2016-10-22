@@ -6,36 +6,167 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-        <p:dialog id="UniteCreateDlg" widgetVar="UniteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{lAR.CreateUniteTitle}">
-            <h:form id="UniteCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{uniteController.selected != null}">
-                        <p:outputLabel value="#{lAR.CreateUniteLabel_UId}" for="UId" />
-                        <p:inputText id="UId" value="#{uniteController.selected.UId}" title="#{lAR.CreateUniteTitle_UId}" required="true" requiredMessage="#{lAR.CreateUniteRequiredMessage_UId}"/>
-                        <p:outputLabel value="#{lAR.CreateUniteLabel_UUnite}" for="UUnite" />
-                        <p:inputText id="UUnite" value="#{uniteController.selected.UUnite}" title="#{lAR.CreateUniteTitle_UUnite}" required="true" requiredMessage="#{lAR.CreateUniteRequiredMessage_UUnite}"/>
-                        <p:outputLabel value="#{lAR.CreateUniteLabel_UDesignation}" for="UDesignation" />
-                        <p:inputText id="UDesignation" value="#{uniteController.selected.UDesignation}" title="#{lAR.CreateUniteTitle_UDesignation}" required="true" requiredMessage="#{lAR.CreateUniteRequiredMessage_UDesignation}"/>
-                        <p:outputLabel value="#{lAR.CreateUniteLabel_UDeleted}" for="UDeleted" />
-                        <p:selectBooleanCheckbox id="UDeleted" value="#{uniteController.selected.UDeleted}" required="true" requiredMessage="#{lAR.EditUniteRequiredMessage_UDeleted}"/>
-                        <p:outputLabel value="#{lAR.CreateUniteLabel_UCreated}" for="UCreated" />
-                        <p:calendar id="UCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{uniteController.selected.UCreated}" title="#{lAR.EditUniteTitle_UCreated}" required="true" requiredMessage="#{lAR.EditUniteRequiredMessage_UCreated}" showOn="button"/>
-                        <p:outputLabel value="#{lAR.CreateUniteLabel_UChanged}" for="UChanged" />
-                        <p:calendar id="UChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{uniteController.selected.UChanged}" title="#{lAR.EditUniteTitle_UChanged}" required="true" requiredMessage="#{lAR.EditUniteRequiredMessage_UChanged}" showOn="button"/>
-                        <p:outputLabel value="#{lAR.CreateUniteLabel_UCompany}" for="UCompany" />
-                        <p:selectOneMenu id="UCompany" value="#{uniteController.selected.UCompany}" required="true" requiredMessage="#{lAR.EditUniteRequiredMessage_UCompany}">
-                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
-                                           var="UCompanyItem"
-                                           itemValue="#{UCompanyItem}"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{uniteController.create}" value="#{lAR.Save}" update="display,:UniteListForm:datalist,:growl" oncomplete="handleSubmit(args,'UniteCreateDialog');"/>
-                    <p:commandButton value="#{lAR.Cancel}" onclick="UniteCreateDialog.hide()"/>
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.UniteTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{uniteController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.UniteField_UId}" rendered="false" for="UId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false">                
+                        <p:inputText id="UId" 
+                                     value="#{uniteController.selected.UId}" 
+                                     title="#{ism.UniteFieldInfo_UId}" 
+                                     required="true" requiredMessage="#{ism.UniteRequiredMsg_UId}" 
+                                     />
+                        <p:message for="UId" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.UniteField_UUnite}"  for="UUnite" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="UUnite" 
+                                     value="#{uniteController.selected.UUnite}" 
+                                     title="#{ism.UniteFieldInfo_UUnite}" 
+                                     required="true" requiredMessage="#{ism.UniteRequiredMsg_UUnite}" 
+                                     />
+                        <p:message for="UUnite" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.UniteField_UDesignation}"  for="UDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="UDesignation" 
+                                     value="#{uniteController.selected.UDesignation}" 
+                                     title="#{ism.UniteFieldInfo_UDesignation}" 
+                                     required="true" requiredMessage="#{ism.UniteRequiredMsg_UDesignation}" 
+                                     />
+                        <p:message for="UDesignation" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.UniteField_UDeleted}"  for="UDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="UDeleted"
+                                                 value="#{uniteController.selected.UDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.UniteRequiredMsg_UDeleted}" 
+                                                 />
+                        <p:message for="UDeleted" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.UniteField_UCompany}"  for="UCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="UCompany" widgetVar="UCompany"
+                                     value="#{uniteController.selected.UCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.UniteRequiredMsg_UCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="UCompany" />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{uniteController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{uniteController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{uniteController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:UCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{uniteController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{uniteController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:UCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!uniteController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{uniteController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{uniteController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:UCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{uniteController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{uniteController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:UCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!uniteController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{uniteController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

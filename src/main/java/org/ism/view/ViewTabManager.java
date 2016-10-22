@@ -19,30 +19,48 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import org.ism.entities.DocExplorer;
-import org.ism.entities.DocType;
-import org.ism.entities.NonConformiteFrequency;
-import org.ism.entities.NonConformiteGravity;
-import org.ism.entities.NonConformiteNature;
-import org.ism.entities.NonConformiteRequest;
-import org.ism.entities.NonConformiteUnite;
-import org.ism.entities.Processus;
-import org.ism.entities.Staff;
-import org.ism.entities.StaffGroupDef;
-import org.ism.entities.StaffGroupDefRole;
-import org.ism.entities.StaffGroups;
-import org.ism.jsf.DocExplorerController;
-import org.ism.jsf.DocTypeController;
-import org.ism.jsf.NonConformiteFrequencyController;
-import org.ism.jsf.NonConformiteGravityController;
-import org.ism.jsf.NonConformiteNatureController;
-import org.ism.jsf.NonConformiteRequestController;
-import org.ism.jsf.NonConformiteUniteController;
-import org.ism.jsf.ProcessusController;
-import org.ism.jsf.StaffController;
-import org.ism.jsf.StaffGroupDefController;
-import org.ism.jsf.StaffGroupDefRoleController;
-import org.ism.jsf.StaffGroupsController;
+import org.ism.entities.process.ctrl.AnalyseAllowed;
+import org.ism.entities.process.ctrl.AnalyseCategory;
+import org.ism.entities.process.ctrl.AnalyseData;
+import org.ism.entities.process.ctrl.AnalyseMethod;
+import org.ism.entities.process.ctrl.AnalyseNotify;
+import org.ism.entities.process.ctrl.AnalysePoint;
+import org.ism.entities.process.ctrl.AnalyseType;
+import org.ism.entities.smq.DocExplorer;
+import org.ism.entities.smq.DocType;
+import org.ism.entities.process.Equipement;
+import org.ism.entities.smq.nc.NonConformiteFrequency;
+import org.ism.entities.smq.nc.NonConformiteGravity;
+import org.ism.entities.smq.nc.NonConformiteNature;
+import org.ism.entities.smq.nc.NonConformiteRequest;
+import org.ism.entities.smq.nc.NonConformiteUnite;
+import org.ism.entities.smq.Processus;
+import org.ism.entities.hr.Staff;
+import org.ism.entities.hr.StaffGroupDef;
+import org.ism.entities.hr.StaffGroupDefRole;
+import org.ism.entities.hr.StaffGroups;
+import org.ism.entities.process.Unite;
+import org.ism.jsf.process.ctrl.AnalyseAllowedController;
+import org.ism.jsf.process.ctrl.AnalyseCategoryController;
+import org.ism.jsf.process.ctrl.AnalyseDataController;
+import org.ism.jsf.process.ctrl.AnalyseMethodController;
+import org.ism.jsf.process.ctrl.AnalyseNotifyController;
+import org.ism.jsf.process.ctrl.AnalysePointController;
+import org.ism.jsf.process.ctrl.AnalyseTypeController;
+import org.ism.jsf.smq.DocExplorerController;
+import org.ism.jsf.smq.DocTypeController;
+import org.ism.jsf.process.EquipementController;
+import org.ism.jsf.smq.nc.NonConformiteFrequencyController;
+import org.ism.jsf.smq.nc.NonConformiteGravityController;
+import org.ism.jsf.smq.nc.NonConformiteNatureController;
+import org.ism.jsf.smq.nc.NonConformiteRequestController;
+import org.ism.jsf.smq.nc.NonConformiteUniteController;
+import org.ism.jsf.smq.ProcessusController;
+import org.ism.jsf.hr.StaffController;
+import org.ism.jsf.hr.StaffGroupDefController;
+import org.ism.jsf.hr.StaffGroupDefRoleController;
+import org.ism.jsf.hr.StaffGroupsController;
+import org.ism.jsf.process.UniteController;
 
 /**
  *
@@ -101,6 +119,44 @@ public class ViewTabManager implements Serializable {
     private StaffController staffCtrl;
     private List<Staff> staff;
     private List<Staff> staffFiltered;
+    
+    
+    private EquipementController equipementCtrl;
+    private List<Equipement> equipement;
+    private List<Equipement> equipementFiltered;
+        
+    private UniteController uniteCtrl;
+    private List<Unite> unite;
+    private List<Unite> uniteFiltered;
+    
+    private AnalyseAllowedController analyseallowedCtrl;
+    private List<AnalyseAllowed> analyseallowed;
+    private List<AnalyseAllowed> analyseallowedFiltered;
+            
+    private AnalyseCategoryController analysecategoryCtrl;
+    private List<AnalyseCategory> analysecategory;
+    private List<AnalyseCategory> analysecategoryFiltered;
+            
+    private AnalyseDataController analysedataCtrl;
+    private List<AnalyseData> analysedata;
+    private List<AnalyseData> analysedataFiltered;
+            
+    private AnalyseMethodController analysemethodCtrl;
+    private List<AnalyseMethod> analysemethod;
+    private List<AnalyseMethod> analysemethodFiltered;
+            
+    private AnalyseNotifyController analysenotifyCtrl;
+    private List<AnalyseNotify> analysenotify;
+    private List<AnalyseNotify> analysenotifyFiltered;
+            
+    private AnalysePointController analysepointCtrl;
+    private List<AnalysePoint> analysepoint;
+    private List<AnalysePoint> analysepointFiltered;
+            
+    private AnalyseTypeController analysetypeCtrl;
+    private List<AnalyseType> analysetype;
+    private List<AnalyseType> analysetypeFiltered;
+    
 
     /**
      * Creates a new instance of FilterNCRequestView
@@ -142,7 +198,7 @@ public class ViewTabManager implements Serializable {
         ncRequestCtrl = (NonConformiteRequestController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteRequestController");
         ncRequest = ncRequestCtrl.getItemsByLastChanged();
-
+        
         ncUniteCtrl = (NonConformiteUniteController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteUniteController");
         ncUnite = ncUniteCtrl.getItemsByLastChanged();
@@ -162,6 +218,43 @@ public class ViewTabManager implements Serializable {
         staffCtrl = (StaffController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "staffController");
         staff = staffCtrl.getItemsByLastChanged();
+        
+        equipementCtrl = (EquipementController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "equipementController");
+        equipement = equipementCtrl.getItemsByLastChanged();
+        
+        uniteCtrl = (UniteController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "uniteController");
+        unite = uniteCtrl.getItemsByLastChanged();
+        
+        analyseallowedCtrl = (AnalyseAllowedController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "analyseAllowedController");
+        analyseallowed = analyseallowedCtrl.getItemsByLastChanged();
+        
+        analysecategoryCtrl = (AnalyseCategoryController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "analyseCategoryController");
+        analysecategory = analysecategoryCtrl.getItemsByLastChanged();
+        
+        analysedataCtrl = (AnalyseDataController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "analyseDataController");
+        analysedata = analysedataCtrl.getItemsByLastChanged();
+        
+        analysemethodCtrl = (AnalyseMethodController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "analyseMethodController");
+        analysemethod = analysemethodCtrl.getItemsByLastChanged();
+        
+        analysenotifyCtrl = (AnalyseNotifyController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "analyseNotifyController");
+        analysenotify = analysenotifyCtrl.getItemsByLastChanged();
+        
+        analysepointCtrl = (AnalysePointController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "analysePointController");
+        analysepoint = analysepointCtrl.getItemsByLastChanged();
+        
+        analysetypeCtrl = (AnalyseTypeController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "analyseTypeController");
+        analysetype = analysetypeCtrl.getItemsByLastChanged();
+        
     }
 
     /**
@@ -416,6 +509,197 @@ public class ViewTabManager implements Serializable {
         this.staffFiltered = staff;
     }
 
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+
+    public List<Equipement> getEquipement() {
+        return equipement;
+    }
+
+    public void setEquipement(List<Equipement> equipement) {
+        this.equipement = equipement;
+    }
+
+    public List<Equipement> getEquipementFiltered() {
+        return equipementFiltered;
+    }
+
+    public void setEquipementFiltered(List<Equipement> equipementFiltered) {
+        this.equipementFiltered = equipementFiltered;
+    }
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<Unite> getUnite() {
+        return unite;
+    }
+
+    public void setUnite(List<Unite> unite) {
+        this.unite = unite;
+    }
+
+    public List<Unite> getUniteFiltered() {
+        return uniteFiltered;
+    }
+
+    public void setUniteFiltered(List<Unite> uniteFiltered) {
+        this.uniteFiltered = uniteFiltered;
+    }
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<AnalyseAllowed> getAnalyseallowed() {
+        return analyseallowed;
+    }
+
+    public void setAnalyseallowed(List<AnalyseAllowed> analyseallowed) {
+        this.analyseallowed = analyseallowed;
+    }
+
+    public List<AnalyseAllowed> getAnalyseallowedFiltered() {
+        return analyseallowedFiltered;
+    }
+
+    public void setAnalyseallowedFiltered(List<AnalyseAllowed> analyseallowedFiltered) {
+        this.analyseallowedFiltered = analyseallowedFiltered;
+    }
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<AnalyseCategory> getAnalysecategory() {
+        return analysecategory;
+    }
+
+    public void setAnalysecategory(List<AnalyseCategory> analysecategory) {
+        this.analysecategory = analysecategory;
+    }
+
+    public List<AnalyseCategory> getAnalysecategoryFiltered() {
+        return analysecategoryFiltered;
+    }
+
+    public void setAnalysecategoryFiltered(List<AnalyseCategory> analysecategoryFiltered) {
+        this.analysecategoryFiltered = analysecategoryFiltered;
+    }
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<AnalyseData> getAnalysedata() {
+        return analysedata;
+    }
+
+    public void setAnalysedata(List<AnalyseData> analysedata) {
+        this.analysedata = analysedata;
+    }
+
+    public List<AnalyseData> getAnalysedataFiltered() {
+        return analysedataFiltered;
+    }
+
+    public void setAnalysedataFiltered(List<AnalyseData> analysedataFiltered) {
+        this.analysedataFiltered = analysedataFiltered;
+    }
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<AnalyseMethod> getAnalysemethod() {
+        return analysemethod;
+    }
+
+    public void setAnalysemethod(List<AnalyseMethod> analysemethod) {
+        this.analysemethod = analysemethod;
+    }
+
+    public List<AnalyseMethod> getAnalysemethodFiltered() {
+        return analysemethodFiltered;
+    }
+
+    public void setAnalysemethodFiltered(List<AnalyseMethod> analysemethodFiltered) {
+        this.analysemethodFiltered = analysemethodFiltered;
+    }
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<AnalyseNotify> getAnalysenotify() {
+        return analysenotify;
+    }
+
+    public void setAnalysenotify(List<AnalyseNotify> analysenotify) {
+        this.analysenotify = analysenotify;
+    }
+
+    public List<AnalyseNotify> getAnalysenotifyFiltered() {
+        return analysenotifyFiltered;
+    }
+
+    public void setAnalysenotifyFiltered(List<AnalyseNotify> analysenotifyFiltered) {
+        this.analysenotifyFiltered = analysenotifyFiltered;
+    }
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<AnalysePoint> getAnalysepoint() {
+        return analysepoint;
+    }
+
+    public void setAnalysepoint(List<AnalysePoint> analysepoint) {
+        this.analysepoint = analysepoint;
+    }
+
+    public List<AnalysePoint> getAnalysepointFiltered() {
+        return analysepointFiltered;
+    }
+
+    public void setAnalysepointFiltered(List<AnalysePoint> analysepointFiltered) {
+        this.analysepointFiltered = analysepointFiltered;
+    }
+    
+    /**
+     * *************************************************************************
+     * @return
+     * *************************************************************************
+     */
+    public List<AnalyseType> getAnalysetype() {
+        return analysetype;
+    }
+
+    public void setAnalysetype(List<AnalyseType> analysetype) {
+        this.analysetype = analysetype;
+    }
+
+    public List<AnalyseType> getAnalysetypeFiltered() {
+        return analysetypeFiltered;
+    }
+
+    public void setAnalysetypeFiltered(List<AnalyseType> analysetypeFiltered) {
+        this.analysetypeFiltered = analysetypeFiltered;
+    }
+
     /**
      * ************************************************************************
      *
@@ -497,6 +781,16 @@ public class ViewTabManager implements Serializable {
         staffGroupDefRole = staffGroupDefRoleCtrl.getItemsByLastChanged();
         staffGroups = staffGroupsCtrl.getItemsByLastChanged();
         staff = staffCtrl.getItemsByLastChanged();
+        
+        equipement = equipementCtrl.getItemsByLastChanged();
+        unite = uniteCtrl.getItemsByLastChanged();
+        analyseallowed = analyseallowedCtrl.getItemsByLastChanged();
+        analysecategory = analysecategoryCtrl.getItemsByLastChanged();
+        analysedata = analysedataCtrl.getItemsByLastChanged();
+        analysemethod = analysemethodCtrl.getItemsByLastChanged();
+        analysenotify = analysenotifyCtrl.getItemsByLastChanged();
+        analysepoint = analysepointCtrl.getItemsByLastChanged();
+        analysetype = analysetypeCtrl.getItemsByLastChanged();
     }
 
     /**
@@ -554,10 +848,47 @@ public class ViewTabManager implements Serializable {
                 staffCtrl.destroy();
                 staff = staffCtrl.getItemsByLastChanged();
                 break;
-            default:
+            case "equipement":
+                equipementCtrl.destroy();
+                equipement = equipementCtrl.getItemsByLastChanged();
+                break;
+            case "unite":
+                uniteCtrl.destroy();
+                unite = uniteCtrl.getItemsByLastChanged();
+                break;
+            case "analyseallowed":
+                analyseallowedCtrl.destroy();
+                analyseallowed = analyseallowedCtrl.getItemsByLastChanged();
+                break;
+            case "analysecategory":
+                analysecategoryCtrl.destroy();
+                analysecategory = analysecategoryCtrl.getItemsByLastChanged();
+                break;
+            case "analysedata":
+                analysedataCtrl.destroy();
+                analysedata = analysedataCtrl.getItemsByLastChanged();
+                break;
+            case "analysemethod":
+                analysemethodCtrl.destroy();
+                analysemethod = analysemethodCtrl.getItemsByLastChanged();
+                break;
+            case "analysenotify":
+                analysenotifyCtrl.destroy();
+                analysenotify = analysenotifyCtrl.getItemsByLastChanged();
+                break;
+            case "analysepoint":
+                analysepointCtrl.destroy();
+                analysepoint = analysepointCtrl.getItemsByLastChanged();
+                break;
+            case "analysetype":
+                analysetypeCtrl.destroy();
+                analysetype = analysetypeCtrl.getItemsByLastChanged();
+                break;
+            default: 
                 String allowedCtrl = " Allowed :  processus / docExplorer / docType / nonConformiteFrequency / "
                         + "nonConformiteGravity / nonConformiteNature / nonConformiteRequest / nonConformiteUnite / "
-                        + " staffGroupDef / staffGroupDefRole / staffGroups / staff";
+                        + " staffGroupDef / staffGroupDefRole / staffGroups / staff / equipement /"
+                        + "unite / analyseallowed / analysecategory / analysedata / analysemethod / analysenotify / analysetype ";
                 throw new IllegalArgumentException("Invalid controller: " + ctrl + allowedCtrl);
         }
     }

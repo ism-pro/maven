@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalyseDataTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseDataController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adId}" rendered="false" for="adId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false">                
+                        <p:inputText id="adId" 
+                                     value="#{analyseDataController.selected.adId}" 
+                                     title="#{ism.AnalyseDataFieldInfo_adId}" 
+                                     required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adId}" 
+                                     />
+                        <p:message for="adId" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adSampler}"  for="adSampler" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="adSampler"  widgetVar="adSampler"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseDataController.selected.adSampler}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseDataRequiredMsg_adSampler}" 
+                                         >
+                            <f:selectItem itemLabel="#{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}" 
+                                          itemValue="#{staffAuthController.staff}"/>
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="adSamplerItem"
+                                           itemLabel="#{adSamplerItem.stStaff} - #{adSamplerItem.stFirstname} #{adSamplerItem.stLastname} #{adSamplerItem.stMiddlename}" 
+                                           itemValue="#{adSamplerItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="adSampler" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adPoint}"  for="adPoint" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="adPoint"  widgetVar="adPoint"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseDataController.selected.adPoint}"
+                                         valueChangeListener="#{analyseDataController.handlePointSelect}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseDataRequiredMsg_adPoint}" 
+                                         >
+                            <p:ajax update="gridType" />
+                            <f:selectItem itemLabel="#{ism.SelectList}"   itemValue="#{null}" />
+                            <f:selectItems value="#{analysePointController.items}"
+                                           var="adPointItem"
+                                           itemLabel="#{adPointItem.apPoint} - #{adPointItem.apDesignation}" 
+                                           itemValue="#{adPointItem}"/>                            
+                        </p:selectOneMenu>
+                        <p:message for="adPoint" />
+                    </h:panelGrid>                    
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adType}"  for="adType" />
+                    <h:panelGrid id="gridType" columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="adType"  widgetVar="adType"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseDataController.selected.adType}"
+                                         disabled="#{analyseDataController.typesAllowedByPoint==null?true:false}"
+                                         required="true" 
+                                         requiredMessage="#{ism.AnalyseDataRequiredMsg_adType}" 
+                                         valueChangeListener="#{analyseDataController.handleTypeSelect}"
+                                         >
+                            <p:ajax event="change" update="analyseAllowed" />
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{analyseDataController.typesAllowedByPoint}"
+                                           var="adTypeItem"
+                                           itemLabel="#{adTypeItem.aaType.atType} - #{adTypeItem.aaType.atDesignation}" 
+                                           itemValue="#{adTypeItem.aaType}"/>
+                        </p:selectOneMenu>
+                        <p:message for="adType" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adValue}"  for="adValue" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <pe:inputNumber id="adValue" 
+                                        thousandSeparator=" "
+                                        decimalSeparator="."
+                                        value="#{analyseDataController.selected.adValue}" 
+                                        title="#{ism.AnalyseDataFieldInfo_adValue}" 
+                                        required="true" 
+                                        requiredMessage="#{ism.AnalyseDataRequiredMsg_adValue}" 
+                                        >
+                        </pe:inputNumber>
+                        <p:message for="adValue" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adValueT}"  for="adValueT" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="adValueT" 
+                                     value="#{analyseDataController.selected.adValueT}" 
+                                     disabled="true"
+                                     title="#{ism.AnalyseDataFieldInfo_adValueT}" 
+                                     required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adValueT}" 
+                                     />
+                        <p:message for="adValueT" />
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adValidate}"  for="adValidate" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="adValidate"
+                                                 value="#{analyseDataController.selected.adValidate}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseDataRequiredMsg_adValidate}" 
+                                                 >
+                            <p:ajax event="change" update="bodyForm:adValidator" />
+                        </p:selectBooleanCheckbox>
+                        <p:message for="adValidate" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adValidator}"  for="adValidator" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="adValidator"  widgetVar="adValidator"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analyseDataController.selected.adValidator}"
+                                         disabled="#{!analyseDataController.selected.adValidate}"
+                                         required="#{analyseDataController.selected.adValidate}" 
+                                         requiredMessage="#{ism.AnalyseDataRequiredMsg_adValidator}" 
+                                         >
+                            <f:selectItem itemLabel="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename} [#{staffAuthController.staff.stStaff}]" 
+                                          itemValue="#{staffAuthController.staff}"/>
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="adValidatorItem"
+                                           itemLabel="#{adValidatorItem.stStaff} - #{adValidatorItem.stFirstname} #{adValidatorItem.stLastname} #{adValidatorItem.stMiddlename}" 
+                                           itemValue="#{adValidatorItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="adValidator" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adBatch}" for="adBatch" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">                
+                        <p:inputText id="adBatch" 
+                                     value="#{analyseDataController.selected.adBatch}" 
+                                     title="#{ism.AnalyseDataFieldInfo_adBatch}" 
+                                     required="false" requiredMessage="#{ism.AnalyseDataRequiredMsg_adBatch}" 
+                                     />
+                        <p:message for="adBatch" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adsampleTime}"  for="adsampleTime" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="adsampleTime" pattern="dd/MM/yyyy HH:mm:ss" 
+                                    value="#{analyseDataController.selected.adsampleTime}" 
+                                    title="#{ism.AnalyseDataFieldInfo_adsampleTime}" 
+                                    mode="popup" showOn="button"
+                                    locale="fr" navigator="true" 
+                                    showButtonPanel="true"
+                                    effect="slideDown" 
+                                    required="true"
+                                    requiredMessage="#{ism.AnalyseDataRequiredMsg_adsampleTime}"/>
+                        <p:message for="adsampleTime"  />
+                    </h:panelGrid>
+
+
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adObservation}"  for="adObservation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="adObservation" 
+                                     value="#{analyseDataController.selected.adObservation}" 
+                                     title="#{ism.AnalyseDataFieldInfo_adObservation}" 
+                                     required="false" requiredMessage="#{ism.AnalyseDataRequiredMsg_adObservation}" 
+                                     />
+                        <p:message for="adObservation" />
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adDeleted}"  for="adDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="adDeleted"
+                                                 value="#{analyseDataController.selected.adDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseDataRequiredMsg_adDeleted}" 
+                                                 />
+                        <p:message for="adDeleted" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adCompany}"  for="adCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="adCompany" widgetVar="adCompany"
+                                     value="#{analyseDataController.selected.adCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.AnalyseDataRequiredMsg_adCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="adCompany" />
+                    </h:panelGrid>
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{analyseDataController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{analyseDataController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{analyseDataController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:adCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{analyseDataController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{analyseDataController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:adCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!analyseDataController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{analyseDataController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+
+                <br />
+                <hr />
+                <p:panelGrid id="analyseAllowed" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{analyseAllowedController.selected != null}" class="w3-table w3-striped w3-border w3-margin-0">
+                    <p:outputLabel value="#{ism.AnalyseDataField_adlimitHH}" 
+                                   rendered="#{analyseDataController.selected.adenlimitHH}"/>
+                    <p:outputLabel value="#{analyseDataController.selected.adlimitHH}" 
+                                   rendered="#{analyseDataController.selected.adenlimitHH}"/>
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adlimitH}" 
+                                   rendered="#{analyseDataController.selected.adenlimitH}"/>
+                    <p:outputLabel value="#{analyseDataController.selected.adlimitH}" 
+                                   rendered="#{analyseDataController.selected.adenlimitH}"/>
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adlimitB}" 
+                                   rendered="#{analyseDataController.selected.adenlimitB}"/>
+                    <p:outputLabel value="#{analyseDataController.selected.adlimitB}" 
+                                   rendered="#{analyseDataController.selected.adenlimitB}"/>
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adlimitBB}" 
+                                   rendered="#{analyseDataController.selected.adenlimitBB}"/>
+                    <p:outputLabel value="#{analyseDataController.selected.adlimitBB}" 
+                                   rendered="#{analyseDataController.selected.adenlimitBB}"/>
+                </p:panelGrid>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{analyseDataController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:adCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{analyseDataController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{analyseDataController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:adCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!analyseDataController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{analyseDataController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+<!--
+<p:outputLabel value="#{ism.AnalyseDataField_adenlimitHH}"  for="adenlimitHH" />
+<h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+    <p:selectBooleanCheckbox id="adenlimitHH"
+                             value="#{analyseDataController.selected.adenlimitHH}" 
+                             required="true" 
+                             requiredMessage="#{ism.AnalyseDataRequiredMsg_adenlimitHH}" 
+                             />
+    <p:message for="adenlimitHH" />
+</h:panelGrid>
+
+
+<p:outputLabel value="#{ism.AnalyseDataField_adlimitHH}"  for="adlimitHH" />
+<h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+    <p:inputText id="adlimitHH" 
+                 value="#{analyseDataController.selected.adlimitHH}" 
+                 title="#{ism.AnalyseDataFieldInfo_adlimitHH}" 
+                 required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adlimitHH}" 
+                 />
+    <p:message for="adlimitHH" />
+</h:panelGrid>
+
+
+<p:outputLabel value="#{ism.AnalyseDataField_adenlimitH}"  for="adenlimitH" />
+<h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+    <p:selectBooleanCheckbox id="adenlimitH"
+                             value="#{analyseDataController.selected.adenlimitH}" 
+                             required="true" 
+                             requiredMessage="#{ism.AnalyseDataRequiredMsg_adenlimitH}" 
+                             />
+    <p:message for="adenlimitH" />
+</h:panelGrid>
+
+
+<p:outputLabel value="#{ism.AnalyseDataField_adlimitH}"  for="adlimitH" />
+<h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+    <p:inputText id="adlimitH" 
+                 value="#{analyseDataController.selected.adlimitH}" 
+                 title="#{ism.AnalyseDataFieldInfo_adlimitH}" 
+                 required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adlimitH}" 
+                 />
+    <p:message for="adlimitH" />
+</h:panelGrid>
+
+
+<p:outputLabel value="#{ism.AnalyseDataField_adenlimitB}"  for="adenlimitB" />
+<h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+    <p:selectBooleanCheckbox id="adenlimitB"
+                             value="#{analyseDataController.selected.adenlimitB}" 
+                             required="true" 
+                             requiredMessage="#{ism.AnalyseDataRequiredMsg_adenlimitB}" 
+                             />
+    <p:message for="adenlimitB" />
+</h:panelGrid>
+
+
+<p:outputLabel value="#{ism.AnalyseDataField_adlimitB}"  for="adlimitB" />
+<h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+    <p:inputText id="adlimitB" 
+                 value="#{analyseDataController.selected.adlimitB}" 
+                 title="#{ism.AnalyseDataFieldInfo_adlimitB}" 
+                 required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adlimitB}" 
+                 />
+    <p:message for="adlimitB" />
+</h:panelGrid>
+
+
+<p:outputLabel value="#{ism.AnalyseDataField_adenlimitBB}"  for="adenlimitBB" />
+<h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+    <p:selectBooleanCheckbox id="adenlimitBB"
+                             value="#{analyseDataController.selected.adenlimitBB}" 
+                             required="true" 
+                             requiredMessage="#{ism.AnalyseDataRequiredMsg_adenlimitBB}" 
+                             />
+    <p:message for="adenlimitBB" />
+</h:panelGrid>
+
+
+<p:outputLabel value="#{ism.AnalyseDataField_adlimitBB}"  for="adlimitBB" />
+<h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+    <p:inputText id="adlimitBB" 
+                 value="#{analyseDataController.selected.adlimitBB}" 
+                 title="#{ism.AnalyseDataFieldInfo_adlimitBB}" 
+                 required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adlimitBB}" 
+                 />
+    <p:message for="adlimitBB" />
+</h:panelGrid>
+-->

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.AnalysePointTitleList}"/></h1>
+
+            <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}"
+                                actionListener="#{analysePointController.prepareCreate}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer un nouveau AnalysePoint"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser le AnalysePoint sélectionné."
+                                disabled="#{empty analysePointController.selected}"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer le AnalysePoint sélectionné."
+                                disabled="#{empty analysePointController.selected}"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer le AnalysePoint sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('analysepoint')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.AnalysePointDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.AnalysePointDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty analysePointController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des AnalysePoint "
+                                actionListener="#{analysePointController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty analysePointController.selected }"
+                                />
+                </p:contextMenu>
+
+
+
+
+
+
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.analysepoint}" var="item"
+                             filteredValue="#{viewTabManager.analysepointFiltered}"
+
+                             selectionMode="single" selection="#{analysePointController.selected}"
+                             rowIndexVar="_rowIndex"
+                             rowKey="#{item.apId}"
+                             paginator="#{tableView.paginator}"
+                             rows="#{tableView.rows}"
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+                             emptyMessage="#{ism.EmptyList}"
+                             >
+
+
+
+
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.AnalysePointTitleList}_#{viewUtil.maintenant}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.AnalysePointTitleList}_#{viewUtil.maintenant}"  />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{analysePointController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{analysePointController.handleColumnReorder}"  />
+
+
+
+
+
+
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{analysePointController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{analysePointController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.AnalysePointField_apId}" style="max-width: 24px;" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apId)}"
+                              sortBy="#{item.apId}" filterBy="#{item.apId}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.apId}"/>
+                    </p:column>
+
+                    
+
+                    <p:column headerText="#{ism.AnalysePointField_apPoint}" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apPoint)}"
+                              sortBy="#{item.apPoint}" filterBy="#{item.apPoint}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.apPoint}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalysePointField_apDesignation}" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apDesignation)}"
+                              sortBy="#{item.apDesignation}" filterBy="#{item.apDesignation}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.apDesignation}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalysePointField_apDescription}" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apDescription)}"
+                              sortBy="#{item.apDescription}" filterBy="#{item.apDescription}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.apDescription}"/>
+                    </p:column>
+                    
+                    
+
+                    <p:column headerText="#{ism.AnalysePointField_apEquipement}" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apEquipement)}"
+                              sortBy="#{item.apEquipement.EEquipement} - #{item.apEquipement.EDesignation}" 
+                              filterBy="#{item.apEquipement.EEquipement} - #{item.apEquipement.EDesignation}" filterMatchMode="contains">
+                        <h:outputText value="#{item.apEquipement.EEquipement} - #{item.apEquipement.EDesignation}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalysePointField_apDeleted}" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apDeleted)}"
+                              sortBy="#{item.apDeleted}" filterBy="#{item.apDeleted}" 
+                              filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.apDeleted}" disabled="true"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalysePointField_apCreated}" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apCreated)}"
+                              sortBy="#{item.apCreated}" filterBy="#{item.apCreated}" 
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <h:outputText value="#{item.apCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalysePointField_apChanged}" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apChanged)}"
+                              sortBy="#{item.apChanged}" filterBy="#{item.apChanged}" 
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <h:outputText value="#{item.apChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.AnalysePointField_apCompany}" 
+                              visible="#{analysePointController.getIsVisibleColKey(ism.AnalysePointField_apCompany)}"
+                              sortBy="#{item.apCompany.CCompany} - #{item.apCompany.CDesignation}" 
+                              filterBy="#{item.apCompany.CCompany} - #{item.apCompany.CDesignation}" filterMatchMode="contains">
+                        <h:outputText value="#{item.apCompany.CCompany} - #{item.apCompany.CDesignation}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{analysePointController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer un nouveau AnalysePoint"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser le AnalysePoint sélectionné."
+                                 disabled="#{empty analysePointController.selected 
+                                             or empty analysePointController.selected.apId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer le AnalysePoint sélectionné."
+                                 disabled="#{empty analysePointController.selected 
+                                             or empty analysePointController.selected.apId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer le AnalysePoint sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('analysepoint')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.AnalysePointDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.AnalysePointDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty analysePointController.selected 
+                                             or empty analysePointController.selected.apId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des AnalysePoint "
+                                 actionListener="#{analysePointController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty analysePointController.selected 
+                                             or empty analysePointController.selected.apId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
+    </ui:composition>
+
+</html>
