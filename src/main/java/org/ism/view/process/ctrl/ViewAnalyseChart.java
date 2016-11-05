@@ -5,39 +5,28 @@
  */
 package org.ism.view.process.ctrl;
 
-import org.ism.view.*;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
-import org.ism.entities.app.IsmNcrstate;
-import org.ism.jsf.app.IsmNcrstateController;
 import org.ism.jsf.process.ctrl.AnalyseAllowedController;
 import org.ism.jsf.process.ctrl.AnalyseDataController;
 import org.ism.jsf.process.ctrl.AnalysePointController;
 import org.ism.jsf.process.ctrl.AnalyseTypeController;
-import org.ism.jsf.smq.nc.NonConformiteRequestController;
-import org.ism.listener.SessionCounterListener;
-import org.primefaces.event.ItemSelectEvent;
 
-import org.ism.domain.chart.ChartModel;
 import org.ism.entities.process.Equipement;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
-import org.ism.entities.process.ctrl.AnalyseData;
 import org.ism.jsf.util.JsfUtil;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartModel;
+import org.ism.model.chart.ChartModel;
+import org.ism.model.chart.ChartSerie;
+import org.ism.model.chart.ChartSerieData;
+import org.ism.model.chart.properties.ChartType;
 
 @ManagedBean(name = "viewAnalyseChart")
 public class ViewAnalyseChart implements Serializable {
@@ -52,15 +41,11 @@ public class ViewAnalyseChart implements Serializable {
     AnalysePointController analysePointController;
 
     private Equipement selectedEquipement;
-    private List<AnalyseAllowed> analyseAlloweds = new ArrayList<AnalyseAllowed>();
+    private List<AnalyseAllowed> analyseAlloweds = new ArrayList<>();
     private Date dateFrom;
     private Date dateTo;
 
-    private ChartModel mainChartModel;
-    private ChartModel mainChartLimitHH;
-    private ChartModel mainChartLimitH;
-    private ChartModel mainChartLimitB;
-    private ChartModel mainChartLimitBB;
+    List<ChartModel> models = new ArrayList<>();
 
     private Integer activeIndex = 0;
 
@@ -85,109 +70,125 @@ public class ViewAnalyseChart implements Serializable {
     }
 
     private void createModels() {
-        mainChartModel = new ChartModel();
-        mainChartModel.setType(ChartModel.ChartType.TYPE_LINE);
-        AnalyseAllowed firstItem = ((AnalyseAllowed) analyseAlloweds.get(0));
-        mainChartModel.setTitle(firstItem.getAaPoint().getApPoint() + " - "
-                + firstItem.getAaPoint().getApDesignation() + " ["
-                + firstItem.getAaType().getAtType()
-                + " - "
-                + firstItem.getAaType().getAtDesignation() + "]");
-        mainChartModel.getAxes().setxLabel(ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataField_adsampleTime"));
-        mainChartModel.getAxes().setyLabel(firstItem.getAaType().getAtUnite().getUUnite());
-        mainChartModel.setCurveLabel(firstItem.getAaType().getAtType()
-                + " - "
-                + firstItem.getAaType().getAtDesignation());
-        mainChartLimitHH = new ChartModel();
-        mainChartLimitH = new ChartModel();
-        mainChartLimitB = new ChartModel();
-        mainChartLimitBB = new ChartModel();
+        // Get Fist Item
+        if (analyseAlloweds == null) {
+            return;
+        }
+        if (analyseAlloweds.isEmpty()) {
+            return;
+        }
 
-        // 
-        try {
-            Iterator<AnalyseData> iterData = analyseDataController.getItemsByPointTypeSampleTimeRange(
-                    firstItem.getAaPoint(),
-                    firstItem.getAaType(),
-                    dateFrom, dateTo).iterator();
-            while (iterData.hasNext()) {
-                AnalyseData data = iterData.next();
-                DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-                String date = df.format(data.getAdsampleTime());
+        models = new ArrayList<>();
+        Iterator<AnalyseAllowed> iterAnalyseAllowed = analyseAlloweds.iterator();
+        while (iterAnalyseAllowed.hasNext()) {
+            AnalyseAllowed currentAnalyse = ((AnalyseAllowed) iterAnalyseAllowed.next());
 
-                mainChartModel.add(date, data.getAdValue());
-                mainChartLimitHH.add(date, data.getAdlimitHH());
-                mainChartLimitH.add(date, data.getAdlimitH());
-                mainChartLimitB.add(date, data.getAdlimitB());
-                mainChartLimitBB.add(date, data.getAdlimitBB());
+            ChartModel chartModel = new ChartModel();
+            chartModel.getChart().setType(ChartType.LINE);
+            chartModel.getChart().setZommType("x");
+            // Seutp Title
+            chartModel.getTitle().setText(currentAnalyse.getAaPoint().getApPoint() + " - "
+                    + currentAnalyse.getAaPoint().getApDesignation());
+            chartModel.getTitle().setX(-20);
+            // Setup SubTitle
+            chartModel.getSubTitle().setText("["
+                    + currentAnalyse.getAaType().getAtType()
+                    + " - "
+                    + currentAnalyse.getAaType().getAtDesignation() + "]");
+            chartModel.getSubTitle().setX(-20);
+            // Setup XAxis
+            chartModel.getxAxis().getTitle().setText(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("AnalyseDataField_adsampleTime"));
+            chartModel.getxAxis().setCategories(analyseDataController.getItemsByPointTypeSampleTimeRangeSampleDate(
+                    currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+                    dateFrom, dateTo, ""));
+            // Setup YAxis
+            chartModel.getyAxis().getTitle().setText(currentAnalyse.getAaType().getAtUnite().getUDesignation());
+            chartModel.getyAxis().getPlotLines().setValue(0);
+            chartModel.getyAxis().getPlotLines().setWidth(1);
+            chartModel.getyAxis().getPlotLines().setColor("#808080");
+            // Setup Tooltip
+            chartModel.getTooltip().setValueSuffix(currentAnalyse.getAaType().getAtUnite().getUUnite());
+
+            // Manage serie title
+            ChartSerie sMain = new ChartSerie(currentAnalyse.getAaType().getAtType()
+                    + " - "
+                    + currentAnalyse.getAaType().getAtDesignation());
+            ChartSerie sLimitHH = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("AnalyseAllowedField_aalimitHH"));
+            ChartSerie sLimitH = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("AnalyseAllowedField_aalimitH"));
+            ChartSerie sLimitB = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("AnalyseAllowedField_aalimitB"));
+            ChartSerie sLimitBB = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString("AnalyseAllowedField_aalimitBB"));
+
+            try {
+                List<Double> datas = analyseDataController
+                        .getItemsByPointTypeSampleTimeRangeD(currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+                                dateFrom, dateTo);
+                if (datas != null) {
+                    sMain.add(new ChartSerieData(datas));
+                    chartModel.addSerie(sMain);
+                }
+                List<Double> adLimitHH = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
+                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+                        dateFrom, dateTo, "HH");
+                if (adLimitHH != null) {
+                    sLimitHH.add(new ChartSerieData(adLimitHH));
+                    chartModel.addSerie(sLimitHH);
+                }
+                List<Double> adLimitH = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
+                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+                        dateFrom, dateTo, "H");
+                if (adLimitH != null) {
+                    sLimitH.add(new ChartSerieData(adLimitH));
+                    chartModel.addSerie(sLimitH);
+                }
+                List<Double> adLimitB = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
+                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+                        dateFrom, dateTo, "B");
+                if (adLimitB != null) {
+                    sLimitB.add(new ChartSerieData(adLimitB));
+                    chartModel.addSerie(sLimitB);
+                }
+                List<Double> adLimitBB = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
+                        currentAnalyse.getAaPoint(),
+                        currentAnalyse.getAaType(),
+                        dateFrom, dateTo, "BB");
+                if (adLimitBB != null) {
+                    sLimitBB.add(new ChartSerieData(adLimitBB));
+                    chartModel.addSerie(sLimitBB);
+                }
+                models.add(chartModel);
+                activeIndex = 1;
+            } catch (Exception e) {
+                JsfUtil.addErrorMessage("ViewAnalyseChart",
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString("EmptyList"));
             }
-            activeIndex = 1;
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage("ViewAnalyseChart", 
-                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EmptyList"));
         }
 
     }
 
-    /**
-     * ************************************************************************
-     *
-     * ************************************************************************
-     */
     public void handleAnalyseSearch() {
         createModels();
-        
+
     }
 
-    /**
-     * ************************************************************************
-     *
-     * ************************************************************************
-     */
-    public ChartModel getMainChartModel() {
-        return mainChartModel;
+
+    public List<ChartModel> getModels() {
+        createModels();
+        return models;
     }
 
-    public void setMainChartModel(ChartModel mainChartModel) {
-        this.mainChartModel = mainChartModel;
-    }
-
-    public ChartModel getMainChartLimitHH() {
-        return mainChartLimitHH;
-    }
-
-    public void setMainChartLimitHH(ChartModel mainChartLimitHH) {
-        this.mainChartLimitHH = mainChartLimitHH;
-    }
-
-    public ChartModel getMainChartLimitH() {
-        return mainChartLimitH;
-    }
-
-    public void setMainChartLimitH(ChartModel mainChartLimitH) {
-        this.mainChartLimitH = mainChartLimitH;
-    }
-
-    public ChartModel getMainChartLimitB() {
-        return mainChartLimitB;
-    }
-
-    public void setMainChartLimitB(ChartModel mainChartLimitB) {
-        this.mainChartLimitB = mainChartLimitB;
-    }
-
-    public ChartModel getMainChartLimitBB() {
-        return mainChartLimitBB;
-    }
-
-    public void setMainChartLimitBB(ChartModel mainChartLimitBB) {
-        this.mainChartLimitBB = mainChartLimitBB;
+    public void setModels(List<ChartModel> models) {
+        this.models = models;
     }
 
     public List<AnalyseAllowed> getAnalyseAlloweds() {
         if (analyseAlloweds == null) {
-            analyseAlloweds = new ArrayList<AnalyseAllowed>();
+            analyseAlloweds = new ArrayList<>();
         }
         return analyseAlloweds;
     }

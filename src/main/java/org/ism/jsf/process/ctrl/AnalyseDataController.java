@@ -6,9 +6,12 @@ import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.process.ctrl.AnalyseDataFacade;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -33,9 +36,11 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import javax.swing.text.DateFormatter;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
+import org.primefaces.context.PrimeFacesContext;
 
 @ManagedBean(name = "analyseDataController")
 @SessionScoped
@@ -51,11 +56,13 @@ public class AnalyseDataController implements Serializable {
     private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
     private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
-    @Inject AnalyseAllowedController analyseAllowedController;
-    @Inject AnalyseTypeController analyseTypeController;
-    
+    @Inject
+    AnalyseAllowedController analyseAllowedController;
+    @Inject
+    AnalyseTypeController analyseTypeController;
+
     private List<AnalyseAllowed> typesAllowedByPoint;
-    
+
     public AnalyseDataController() {
     }
 
@@ -147,11 +154,15 @@ public class AnalyseDataController implements Serializable {
         return ejbFacade;
     }
 
-    /**
+    /*
      * ************************************************************************
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     *
+     * @return Data analysis
      */
     public AnalyseData prepareCreate() {
         selected = new AnalyseData();
@@ -233,31 +244,18 @@ public class AnalyseDataController implements Serializable {
 
     }
 
-    public void handlePointSelect(ValueChangeEvent e) {
-        if (e.getNewValue() != null) {
-            AnalysePoint aPoint = (AnalysePoint) e.getNewValue();
+    public void handlePointSelect() {
+        UIComponent c = JsfUtil.findComponent("adPoint");
+        org.primefaces.component.selectonemenu.SelectOneMenu som = (org.primefaces.component.selectonemenu.SelectOneMenu) c;
+        if (selected.getAdPoint() == null) {
+            som.setRequired(true);
+            som.updateModel(FacesContext.getCurrentInstance());
+            typesAllowedByPoint = null;
+        } else {
+            som.setRequired(false);
+            som.updateModel(FacesContext.getCurrentInstance());
+            AnalysePoint aPoint = (AnalysePoint) selected.getAdPoint();
             typesAllowedByPoint = analyseAllowedController.getItemsByPoint(aPoint);
-        }
-    }
-    
-    
-    public void handleTypeSelect(ValueChangeEvent e) {
-        if (e.getNewValue() != null) {
-            AnalyseType aType = (AnalyseType) e.getNewValue();
-            List<AnalyseAllowed> aal = analyseAllowedController.getItemsByPointType(this.selected.getAdPoint(), aType);
-            if(aal!=null){
-                analyseAllowedController.setSelected(aal.get(0));
-                AnalyseAllowed aa = analyseAllowedController.getSelected();
-                selected.setAdenlimitHH(aa.getAaenlimitHH());
-                selected.setAdenlimitH(aa.getAaenlimitH());
-                selected.setAdenlimitB(aa.getAaenlimitB());
-                selected.setAdenlimitBB(aa.getAaenlimitBB());
-                
-                selected.setAdlimitHH(aa.getAalimitHH());
-                selected.setAdlimitH(aa.getAalimitH());
-                selected.setAdlimitB(aa.getAalimitB());
-                selected.setAdlimitBB(aa.getAalimitBB());
-            }
         }
     }
 
@@ -391,13 +389,149 @@ public class AnalyseDataController implements Serializable {
     public List<AnalyseData> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
     }
-    
+
     public List<AnalyseData> getItemsByPointType(AnalysePoint point, AnalyseType type) {
         return getFacade().findByPointType(point, type);
     }
-    
+
     public List<AnalyseData> getItemsByPointTypeSampleTimeRange(AnalysePoint point, AnalyseType type, Date from, Date to) {
         return getFacade().findByPointTypeSampleTimeRange(point, type, from, to);
+    }
+
+    /**
+     * <h3>getItemsByPointTypeSampleTimeRangeD</h3>
+     * Surcharge method to have a double collection list that take following
+     * parameters. This method check if there is returned value otherwise return
+     * null.
+     *
+     * @see getItemsByPointTypeSampleTimeRange
+     *
+     *
+     * @param point the sample point of analysis
+     * @param type this type of analysis at this point
+     * @param from date from
+     * @param to date to
+     * @return List of all String value
+     */
+    public List<Double> getItemsByPointTypeSampleTimeRangeD(AnalysePoint point, AnalyseType type, Date from, Date to) {
+        List<AnalyseData> datas = getFacade().findByPointTypeSampleTimeRange(point, type, from, to);
+        // Save from null pointer
+        if (datas == null) {
+            return null;
+        }
+        // Preapare a string list
+        List<Double> values = new ArrayList<>();
+        // Loop on iterator
+        datas.stream().forEach((ad) -> {
+            values.add(ad.getAdValue());
+        });
+        return values;
+    }
+
+    /**
+     * <h3>getItemsByPointTypeSampleTimeRangeMap</h3>
+     * Surcharge method to have a map that containt sampleTime and corresponding
+     * value. This method check if there is returned value otherwise return
+     * null.
+     *
+     * @see getItemsByPointTypeSampleTimeRange
+     *
+     *
+     * @param point the sample point of analysis
+     * @param type this type of analysis at this point
+     * @param from date from
+     * @param to date to
+     * @return List of all String value
+     */
+    public HashMap<String, Double> getItemsByPointTypeSampleTimeRangeMap(AnalysePoint point, AnalyseType type, Date from, Date to) {
+        List<AnalyseData> datas = getFacade().findByPointTypeSampleTimeRange(point, type, from, to);
+        // Save from null pointer
+        if (datas == null) {
+            return null;
+        }
+        // Preapare a string list
+        HashMap<String, Double> values = new HashMap<>();
+        // Loop on iterator
+        datas.stream().forEach((ad) -> {
+            values.put(ad.getAdsampleTime().toString(), ad.getAdValue());
+        });
+        return values;
+    }
+
+    /**
+     * <h3>getItemsByPointTypeSampleTimeRangeMap</h3>
+     * Surcharge method to have a map that containt sampleTime and corresponding
+     * value. This method check if there is returned value otherwise return
+     * null.
+     *
+     * @see getItemsByPointTypeSampleTimeRangeLimite
+     *
+     * @param point the sample point of analysis
+     * @param type this type of analysis at this point
+     * @param from date from
+     * @param to date to
+     * @param limit is one of HH, H, B, BB
+     * @return
+     */
+    public List<Double> getItemsByPointTypeSampleTimeRangeLimite(AnalysePoint point, AnalyseType type, Date from, Date to, String limit) {
+        List<AnalyseData> datas = getFacade().findByPointTypeSampleTimeRange(point, type, from, to);
+        // Save from null pointer
+        if (datas == null) {
+            return null;
+        }
+        // Preapare a string list
+        List<Double> values = new ArrayList<>();
+        // Loop on iterator
+        datas.stream().forEach((AnalyseData ad) -> {
+            switch (limit) {
+                case "HH":
+                    values.add(ad.getAdlimitHH());
+                    break;
+                case "H":
+                    values.add(ad.getAdlimitH());
+                    break;
+                case "B":
+                    values.add(ad.getAdlimitB());
+                    break;
+                case "BB":
+                    values.add(ad.getAdlimitBB());
+                    break;
+                default:
+                    break;
+            }
+        });
+        return values;
+    }
+
+    /**
+     * <h3>getItemsByPointTypeSampleTimeRangeMap</h3>
+     * Surcharge method to have a map that containt sampleTime and corresponding
+     * value. This method check if there is returned value otherwise return
+     * null.
+     *
+     * @see getItemsByPointTypeSampleTimeRangeLimite
+     *
+     * @param point the sample point of analysis
+     * @param type this type of analysis at this point
+     * @param from date from
+     * @param to date to
+     * @param pattern the partern
+     * @return list of allow date
+     */
+    public List<String> getItemsByPointTypeSampleTimeRangeSampleDate(AnalysePoint point, AnalyseType type, Date from, Date to, String pattern) {
+        List<AnalyseData> datas = getFacade().findByPointTypeSampleTimeRange(point, type, from, to);
+        // Save from null pointer
+        if (datas == null) {
+            return null;
+        }
+        // Preapare a string list
+        List<String> values = new ArrayList<>();
+        // Loop on iterator
+        datas.stream().forEach((AnalyseData ad) -> {
+            Date date = ad.getAdsampleTime();
+            values.add(DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.getDefault()).format(date));
+        });
+        return values;
     }
 
     public List<AnalyseData> getItemsAvailableSelectMany() {
@@ -407,24 +541,15 @@ public class AnalyseDataController implements Serializable {
     public List<AnalyseData> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-    
-    public List<AnalyseAllowed> getTypesAllowedByPoint(){
+
+    public List<AnalyseAllowed> getTypesAllowedByPoint() {
+        if (selected.getAdPoint() == null) {
+            return typesAllowedByPoint;
+        }
+        typesAllowedByPoint = analyseAllowedController.getItemsByPoint(selected.getAdPoint());
         return typesAllowedByPoint;
     }
 
-    
-    
-
-    /**
-     * ************************************************************************
-     * GETTER / SETTER
-     *
-     * ************************************************************************
-     */
-    /**
-     *
-     * @return
-     */
     public AnalyseData getSelected() {
         if (selected == null) {
             selected = new AnalyseData();

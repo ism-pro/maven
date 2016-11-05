@@ -429,6 +429,11 @@ time, mark, audio, video {
     max-width: 382px;
 }
 
+.ui-selectonemenu-panel.ui-widget.ui-widget-content.ui-corner-all.ui-helper-hidden.ui-shadow{
+    max-width: 50%!important;
+}
+
+
 
 
 .panelAccepted .ui-panel-titlebar.ui-widget-header.ui-helper-clearfix.ui-corner-all{

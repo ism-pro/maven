@@ -62,6 +62,14 @@ Configuration :
     ++ Présentation des staffs.
     
 
+    ++ Recherche uniquement en fonction des valeur validé
+    ++ Ajouter 2 bars pour afficher le défilement des données de chargement
+
+    ++ Activer la possibilité d'actualiser le graphique sans recharger la page
+    ++ Possibilité de modifier le rendu graphique
+    
+    ++ Modifier l'intituler des champ
+
 
      COMMIT
 ================================================================================
@@ -71,10 +79,8 @@ Configuration :
 
 
 # SECURITY :
-
-
-
-
++ Login page : 
+++ Retour de la fonction enter dans la fenêtre de connexion.
 
 
 ================================================================================
@@ -82,9 +88,18 @@ Configuration :
 ================================================================================
 # Entité :
 
-# Onglet ressources :
+# Onglet Process :
+## Ajout d'une fonction de statistique :
++ Actuellement les statistiques permettent d'afficher uniquement les courbes sélectionnées
++ Remplacer le graphique standard par un graphique avec zoom
++ Correction possibilité de recherche sur les champs de date dans les listes
++ Process : Ctrl : Analyse Data
+Fonction create :
+# Correction problème de filtrage à la selection d'un point d'échantillonage.
+Le filtrage désactive en cas de valeur null. Limite les analyses en fonction de 
+ceux qui sont permit sur l'échantillon.
+#Render chart by ismjee chart rendering selft edition
 
- 
 
 
 

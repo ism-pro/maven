@@ -33,11 +33,6 @@
             <version>4.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.highfaces</groupId>
-            <artifactId>highfaces</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20160810</version>
@@ -136,17 +131,26 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ismjee</artifactId>
+            <version>16.10.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.shared</groupId>
+            <artifactId>myfaces-shared-core</artifactId>
+            <version>4.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>6.0.4</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-        
-        
-        
-        
-
-
     </dependencies>
 
     <build>

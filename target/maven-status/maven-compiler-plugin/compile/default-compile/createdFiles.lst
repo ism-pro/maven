@@ -14,7 +14,6 @@ org\ism\sessions\process\ctrl\AnalyseDataFacade.class
 org\ism\entities\smq\nc\NonConformiteRequest.class
 org\ism\view\ViewUtil.class
 org\ism\entities\process\ctrl\AnalyseType_.class
-org\ism\domain\chart\ChartModel.class
 org\ism\view\ViewTabManager.class
 org\ism\entities\app\IsmNcrstate.class
 org\ism\sessions\hr\StaffGroupDefFacade.class
@@ -64,7 +63,6 @@ org\ism\entities\app\IsmRole_.class
 org\ism\jsf\hr\StaffGroupsController$StaffGroupsControllerConverter.class
 org\ism\jsf\smq\nc\NonConformiteGravityController$NonConformiteGravityControllerConverter.class
 org\primefaces\ism\component\ribbon\Ribbon$PropertyKeys.class
-org\ism\domain\chart\ChartModel$Axes.class
 org\ism\jsf\hr\StaffSetupController$StaffSetupControllerConverter.class
 org\ism\sessions\hr\StaffFacade.class
 org\ism\entities\app\IsmGenre_.class
@@ -134,7 +132,6 @@ org\primefaces\ism\component\ribbon\RibbonGroupSet.class
 org\ism\jsf\process\ctrl\AnalyseMethodController.class
 org\ism\jsf\smq\nc\NonConformiteNatureController$NonConformiteNatureCodeValidator.class
 org\ism\jsf\app\IsmNcastateController.class
-org\ism\domain\chart\ChartModel$ChartCartesianIntersec.class
 org\ism\jsf\process\ctrl\AnalyseMethodController$AnalyseMethodControllerConverter.class
 org\ism\sessions\process\EquipementFacade.class
 org\ism\jsf\smq\nc\NonConformiteRequestController$NonConformiteRequestControllerConverter.class
@@ -158,7 +155,6 @@ org\ism\entities\admin\Company_.class
 org\ism\services\CtrlAccess.class
 org\ism\sessions\smq\DocExplorerFacade.class
 org\primefaces\ism\component\ribbon\RibbonGroup.class
-org\ism\view\BasicGChartView$Births.class
 org\ism\jsf\process\ctrl\AnalyseMethodController$AnalyseMethodDesignationValidator.class
 org\ism\sessions\admin\CompanyFacade.class
 org\ism\sessions\process\ctrl\AnalyseNotifyFacade.class
@@ -166,7 +162,6 @@ org\ism\entities\hr\Staff_.class
 org\ism\jsf\process\ctrl\AnalysePointController.class
 org\ism\jsf\smq\nc\NonConformiteActionsController$NonConformiteActionsControllerConverter.class
 org\ism\converter\ThemeConverter.class
-org\ism\view\BasicGChartView.class
 org\ism\entities\hr\StaffGroupDef.class
 org\ism\view\ViewCrud.class
 org\ism\jsf\process\EquipementController$EquipementDesignationValidator.class
@@ -212,10 +207,8 @@ org\ism\jsf\util\FileController.class
 org\ism\entities\app\IsmNcastate.class
 org\ism\jsf\smq\nc\NonConformiteNatureController.class
 org\ism\services\ThemeService.class
-org\ism\view\MainChartView.class
 org\ism\sessions\process\ctrl\AnalysePointFacade.class
 org\ism\filters\NoCacheFilter$ResponseWrapper.class
-org\ism\view\ChartView.class
 org\ism\jsf\admin\CompanyController.class
 org\ism\jsf\smq\DocTypeController.class
 org\ism\entities\admin\Company.class
@@ -232,6 +225,7 @@ org\ism\entities\hr\StaffGroupDefRole.class
 org\ism\jsf\admin\EntrepriseController$EntrepriseControllerConverter.class
 org\ism\entities\hr\StaffGroups_.class
 org\ism\filters\NoCacheFilter$RequestWrapper.class
+org\ism\view\ViewComapnyCharts.class
 org\ism\entities\hr\StaffGroupDefRole_.class
 org\ism\jsf\smq\nc\NonConformiteRequestController$NonConformiteRequestDesignationValidator.class
 org\ism\jsf\app\IsmAnalyseAlarmController.class
@@ -250,4 +244,3 @@ org\ism\jsf\hr\StaffAuthController.class
 org\ism\jsf\smq\nc\NonConformiteUniteController$NonConformiteUniteCodeValidator.class
 org\ism\jsf\util\JsfUtil$1.class
 org\ism\view\ViewNonConformiteRequest.class
-org\ism\domain\chart\ChartModel$ChartType.class

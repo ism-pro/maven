@@ -208,6 +208,13 @@
                               visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acCreated)}"
                               sortBy="#{item.item.acCreated}" filterBy="#{item.item.acCreated}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterAcCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.acCreated}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
@@ -219,6 +226,13 @@
                               visible="#{analyseCategoryController.getIsVisibleColKey(ism.AnalyseCategoryField_acChanged)}"
                               sortBy="#{item.item.acChanged}" filterBy="#{item.item.acChanged}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterAcChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.acChanged}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>

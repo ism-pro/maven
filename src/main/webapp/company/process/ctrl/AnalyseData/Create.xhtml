@@ -54,16 +54,15 @@
                         <p:selectOneMenu id="adPoint"  widgetVar="adPoint"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseDataController.selected.adPoint}"
-                                         valueChangeListener="#{analyseDataController.handlePointSelect}"
                                          required="true" 
                                          requiredMessage="#{ism.AnalyseDataRequiredMsg_adPoint}" 
                                          >
-                            <p:ajax update="gridType" />
+                            <p:ajax event="change" update="adType, @this" listener="#{analyseDataController.handlePointSelect()}" />
                             <f:selectItem itemLabel="#{ism.SelectList}"   itemValue="#{null}" />
                             <f:selectItems value="#{analysePointController.items}"
                                            var="adPointItem"
                                            itemLabel="#{adPointItem.apPoint} - #{adPointItem.apDesignation}" 
-                                           itemValue="#{adPointItem}"/>                            
+                                           itemValue="#{adPointItem}"/>  
                         </p:selectOneMenu>
                         <p:message for="adPoint" />
                     </h:panelGrid>                    
@@ -71,17 +70,15 @@
 
                     <p:outputLabel value="#{ism.AnalyseDataField_adType}"  for="adType" />
                     <h:panelGrid id="gridType" columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:selectOneMenu id="adType"  widgetVar="adType"
+                        <p:selectOneMenu id="adType"  widgetVar="adType" immediate="true"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseDataController.selected.adType}"
                                          disabled="#{analyseDataController.typesAllowedByPoint==null?true:false}"
                                          required="true" 
                                          requiredMessage="#{ism.AnalyseDataRequiredMsg_adType}" 
-                                         valueChangeListener="#{analyseDataController.handleTypeSelect}"
                                          >
-                            <p:ajax event="change" update="analyseAllowed" />
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
-                            <f:selectItems value="#{analyseDataController.typesAllowedByPoint}"
+                            <f:selectItems id="typeSelect" value="#{analyseDataController.typesAllowedByPoint}"
                                            var="adTypeItem"
                                            itemLabel="#{adTypeItem.aaType.atType} - #{adTypeItem.aaType.atDesignation}" 
                                            itemValue="#{adTypeItem.aaType}"/>

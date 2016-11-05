@@ -253,6 +253,13 @@
                               visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_ECreated)}"
                               sortBy="#{item.ECreated}" filterBy="#{item.ECreated}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterECreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.ECreated}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
@@ -264,6 +271,13 @@
                               visible="#{equipementController.getIsVisibleColKey(ism.EquipementField_EChanged)}"
                               sortBy="#{item.EChanged}" filterBy="#{item.EChanged}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterEChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.EChanged}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>

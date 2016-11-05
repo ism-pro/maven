@@ -3,9 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:hf="http://highfaces.org" 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:i="http://www.ism.org/ismjee"
+      >
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -21,7 +21,7 @@
                         #{request.session.maxInactiveInterval / 60} minutes              
                         <br />
                         Le nombre de session susceptible est de 
-                        #{viewSessionCounter.sessionCounter} seul 
+                        #{viewSessionCounter.sessionCounter} : seulement 
                         #{viewSessionCounter.totalActiveSessionsAuthenticated} 
                         sur #{staffController.items.size()} sont identifiées !
 
@@ -29,22 +29,14 @@
 
                     <hr />
                     <h2>Flash Infos</h2>
-                    <h:panelGrid columns="2" rendered="true">
-                        <p:chart rendered="true" id="graphActSession" 
-                                 type="pie" model="#{chartView.pieModel1}" 
-                                 />
-                        
+                    <h:panelGrid id="panelChart" columns="2" rendered="true">
+                        <i:chart id="chartSession" type="pie" exporting="true"
+                                 style="height: 310px; margin: 0 auto;"
+                                 model="#{viewCompanyCharts.sessionModel}" />
 
-                        <div style="max-width: 25%;">
-                            <hf:chart type="#{mainChartView.smqStatePieModel.typeStr}" 
-                                      title="#{mainChartView.smqStatePieModel.title}"
-                                      >
-                                <hf:chartSerie name="Non Conformités" value="#{mainChartView.smqStatePieModel.serie}" 
-                                               var="nc" point="#{nc.integerValue}" tickLabel="#{nc.label}" 
-
-                                               />
-                            </hf:chart>
-                        </div>
+                        <i:chart id="chartNonConformite" type="pie"  exporting="true"
+                                 style="height: 310px; "
+                                 model="#{viewCompanyCharts.nonConformiteModel}" />
                     </h:panelGrid>
                     <br />
 

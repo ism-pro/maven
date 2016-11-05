@@ -49,6 +49,7 @@
                                 disabled="#{empty nonConformiteRequestController.selected 
                                             or empty nonConformiteRequestController.selected.ncrId
                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                rendered="#{request.isUserInRole('SNC_REQUEST_VA')}"
                                 />
                     <p:menuitem icon="ui-btn-Delete"
                                 styleClass="options-btn"
@@ -64,6 +65,7 @@
                                 disabled="#{empty nonConformiteRequestController.selected 
                                             or empty nonConformiteRequestController.selected.ncrId
                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                rendered="#{request.isUserInRole('SNC_REQUEST_E')}"
                                 >
                         <p:confirm  />
                     </p:menuitem>
@@ -420,9 +422,8 @@
                                  disabled="#{empty nonConformiteRequestController.selected 
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or nonConformiteRequestController.selected.ncrState.id!=1}"
-                                 rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"
+                                 rendered="#{request.isUserInRole('SNC_REQUEST_VA')}"
                                  />
-                <br />
                 <p:commandButton id="deleteButton"
                                  icon="ui-btn-Delete"
                                  styleClass="options-btn"
@@ -438,9 +439,8 @@
                                  disabled="#{empty nonConformiteRequestController.selected 
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or nonConformiteRequestController.selected.ncrState.id!=1}"
-                                 rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}"
-                                 >
-                </p:commandButton>
+                                 rendered="#{request.isUserInRole('SNC_REQUEST_E')}"
+                                 />
                 <p:commandButton id="refreshButton"
                                  icon="ui-btn-Refresh"
                                  styleClass="options-btn"

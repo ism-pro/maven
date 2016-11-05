@@ -38,7 +38,7 @@
 
                     <p:outputLabel value="#{ism.NonConformiteActionsField_ncaDeadline}" for="ncaDeadline"/>
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                        <p:calendar id="ncaDeadline" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" mindate="#{viewUtil.aujourdhui}"
+                        <p:calendar id="ncaDeadline" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" mindate="#{viewUtil.now}"
                                     value="#{nonConformiteActionsController.selected.ncaDeadline}" 
                                     title="#{ism.NonConformiteActionsFieldInfo_ncaDeadline}"  
                                     required="true" requiredMessage="#{ism.NonConformiteActionsRequiredMsg_ncaDeadline}" 

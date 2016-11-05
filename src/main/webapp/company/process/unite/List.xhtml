@@ -199,6 +199,13 @@
                               visible="#{uniteController.getIsVisibleColKey(ism.UniteField_UCreated)}"
                               sortBy="#{item.UCreated}" filterBy="#{item.UCreated}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterUCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.UCreated}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
@@ -210,6 +217,13 @@
                               visible="#{uniteController.getIsVisibleColKey(ism.UniteField_UChanged)}"
                               sortBy="#{item.UChanged}" filterBy="#{item.UChanged}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterUChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.UChanged}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>

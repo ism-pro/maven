@@ -6,7 +6,10 @@
 package org.ism.view;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -22,15 +25,7 @@ public class ViewUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Date maintenant;
-    private Date aujourdhui;
-    
-    
-    
-    /*
-    @ManagedProperty("#{processusController}")
-    private ProcessusController     processusCtrl;
-     */
+
     /**
      * Creates a new instance of FilterNCRequestView
      */
@@ -42,33 +37,34 @@ public class ViewUtil implements Serializable {
      */
     @PostConstruct
     public void init() {
-        maintenant = new Date();
-        aujourdhui = new Date();
-        aujourdhui.setHours(23);
-        aujourdhui.setMinutes(59);
-        aujourdhui.setSeconds(59);
-    }
-
-    public Date getMaintenant() {
-        return maintenant;
-    }
-
-    public void setMaintenant(Date maintenant) {
-        this.maintenant = maintenant;
-    }
-
-    public Date getAujourdhui() {
-        return aujourdhui;
-    }
-
-    public void setAujourdhui(Date aujourdhui) {
-        this.aujourdhui = aujourdhui;
     }
 
     /**
-     * *************************************************************************
-     * @return
-     * *************************************************************************
+     * This is the date time when request is made
+     * 
+     * @return the actual request date time
      */
-    
+    public Date getNow() {
+        return Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * Give the actual date and time
+     *
+     * @return the actual day and time
+     */
+    public Date getToday() {
+        LocalDateTime ldt = LocalDateTime.ofInstant((new Date()).toInstant(), ZoneId.systemDefault());
+        return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * This method recrate the local date and time of today with last time 23:59:59
+     *
+     * @return the actual day with last time of the day 23:59:59
+     */
+    public Date getTodayLastTime() {
+        LocalDateTime ldt = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
+        return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+    }
 }

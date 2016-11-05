@@ -84,6 +84,7 @@
                              draggableColumns="#{tableView.draggableColumns}"
                              sortMode="#{tableView.sortMode}"
                              emptyMessage="#{ism.EmptyList}"
+                             lazy="true"
                              >
 
 
@@ -350,9 +351,17 @@
 
 
                     <p:column headerText="#{ism.AnalyseDataField_adsampleTime}" 
+                              style="width: 72px;" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adsampleTime)}"
                               sortBy="#{item.adsampleTime}" filterBy="#{item.adsampleTime}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterAdsampleTime" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.adsampleTime}">
                             <f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
                         </h:outputText>
@@ -389,6 +398,13 @@
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adCreated)}"
                               sortBy="#{item.adCreated}" filterBy="#{item.adCreated}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterAdCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.adCreated}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
@@ -400,6 +416,13 @@
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adChanged)}"
                               sortBy="#{item.adChanged}" filterBy="#{item.adChanged}" 
                               filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                        <f:facet name="filter">
+                            <p:inputText id="filterAdChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
                         <h:outputText value="#{item.adChanged}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>

@@ -4,8 +4,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:hf="http://highfaces.org" 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ism="http://www.ism.org/ismjee" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -16,7 +17,8 @@
             <h:form id="bodyForm" >
                 <p:tabView activeIndex="#{viewAnalyseChart.activeIndex}">
                     <p:tab title="#{ism.Criteria}">
-                        <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                        <p:panelGrid id="panelForm" columns="2" 
+                                     columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
                                      >
 
                             <p:outputLabel value="#{ism.EquipementTitle}" for="requestEquipement" />
@@ -26,7 +28,7 @@
                                              >
                                 <f:selectItem itemLabel="#{ism.SelectList}" 
                                               itemValue=""/>
-                                <f:selectItems value="#{equipementController.itemsAvailableSelectOne}"
+                                <f:selectItems value="#{equipementController.itemsAvailableSelectOne}" 
                                                var="equipementItem"
                                                itemLabel="#{equipementItem.EEquipement} - #{equipementItem.EDesignation}" 
                                                itemValue="#{equipementItem}"/>
@@ -71,40 +73,24 @@
                                              update=":bodyForm,:growl" 
                                              />
                         </h:panelGroup>
-                        
+
                         <p:messages />
 
                     </p:tab>
 
                     <p:tab title="#{ism.Statistics}" >
                         <h:panelGroup style="width: 100%"
-                                      rendered="#{viewAnalyseChart.mainChartModel!=null?true:false}"
-                                      >                
-                            <hf:chart type="line" title="#{viewAnalyseChart.mainChartModel.title}"
-                                      xaxisLabel="#{viewAnalyseChart.mainChartModel.axes.xLabel}"
-                                      yaxisLabel="#{viewAnalyseChart.mainChartModel.axes.yLabel}"
-                                      height="480px" >
-                                <hf:chartSerie name="#{viewAnalyseChart.mainChartModel.curveLabel}" value="#{viewAnalyseChart.mainChartModel.serie}" 
-                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
-
-                                               />
-                                <hf:chartSerie name="Alarme Haute" value="#{viewAnalyseChart.mainChartLimitHH.serie}" 
-                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
-                                               />
-
-                                <hf:chartSerie name="Limite Haut" value="#{viewAnalyseChart.mainChartLimitH.serie}" 
-                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
-                                               />
-
-                                <hf:chartSerie name="Limite Basse" value="#{viewAnalyseChart.mainChartLimitB.serie}" 
-                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
-                                               />
-
-                                <hf:chartSerie name="Alarme Basse" value="#{viewAnalyseChart.mainChartLimitBB.serie}" 
-                                               var="data" point="#{data.doubleValue}" tickLabel="#{data.label}" 
-                                               />
-                            </hf:chart>
-
+                                      rendered="#{viewAnalyseChart.models!=null?true:false}"
+                                      >  
+                            <c:forEach var="model" items="#{viewAnalyseChart.models}" varStatus="count" >
+                                <ism:chart id="statisticsChart_#{count.index}" 
+                                       type="line"
+                                       model="#{model}"
+                                       style="min-width: 310px; height: 400px; margin: 0 auto"
+                                       exporting="true" debug="false"
+                                       />
+                                <hr />
+                            </c:forEach>
                         </h:panelGroup>
                     </p:tab>
                 </p:tabView>
