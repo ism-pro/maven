@@ -34,13 +34,10 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import javax.swing.text.DateFormatter;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
-import org.primefaces.context.PrimeFacesContext;
 
 @ManagedBean(name = "analyseDataController")
 @SessionScoped
@@ -96,7 +93,7 @@ public class AnalyseDataController implements Serializable {
         String src_23 = "AnalyseDataField_adCompany";
 
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -122,7 +119,7 @@ public class AnalyseDataController implements Serializable {
         headerTextMap.put(22, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_22));
         headerTextMap.put(23, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_23));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -244,6 +241,10 @@ public class AnalyseDataController implements Serializable {
 
     }
 
+    /**
+     * This method is used to react on point selection. It can only be use on
+     * a component with specic Id "adPoint".
+     */
     public void handlePointSelect() {
         UIComponent c = JsfUtil.findComponent("adPoint");
         org.primefaces.component.selectonemenu.SelectOneMenu som = (org.primefaces.component.selectonemenu.SelectOneMenu) c;

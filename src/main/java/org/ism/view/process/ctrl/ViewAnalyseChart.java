@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.ism.jsf.process.ctrl.AnalyseAllowedController;
@@ -22,6 +23,7 @@ import org.ism.jsf.process.ctrl.AnalyseTypeController;
 
 import org.ism.entities.process.Equipement;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
+import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.model.chart.ChartModel;
 import org.ism.model.chart.ChartSerie;
@@ -29,7 +31,44 @@ import org.ism.model.chart.ChartSerieData;
 import org.ism.model.chart.properties.ChartType;
 
 @ManagedBean(name = "viewAnalyseChart")
+@SessionScoped
 public class ViewAnalyseChart implements Serializable {
+
+    public class ViewAnalyseChartSelect {
+
+        private Equipement equipement = null;
+        private List<AnalyseAllowed> alloweds = new ArrayList<>();
+        private List<AnalysePoint> points = null;
+
+        public Equipement getEquipement() {
+            return equipement;
+        }
+
+        public void setEquipement(Equipement equipement) {
+            this.equipement = equipement;
+        }
+
+        public List<AnalyseAllowed> getAlloweds() {
+            if (alloweds == null) {
+                alloweds = new ArrayList<>();
+            }
+            return alloweds;
+        }
+
+        public void setAlloweds(List<AnalyseAllowed> alloweds) {
+            getAlloweds();
+            this.alloweds = alloweds;
+        }
+
+        public List<AnalysePoint> getPoints() {
+            return points;
+        }
+
+        public void setPoints(List<AnalysePoint> points) {
+            this.points = points;
+        }
+
+    }
 
     @Inject
     AnalyseAllowedController analyseAllowedController;
@@ -40,8 +79,9 @@ public class ViewAnalyseChart implements Serializable {
     @Inject
     AnalysePointController analysePointController;
 
-    private Equipement selectedEquipement;
+    private ViewAnalyseChartSelect selected = null;
     private List<AnalyseAllowed> analyseAlloweds = new ArrayList<>();
+    private List<AnalysePoint> requestPoints;
     private Date dateFrom;
     private Date dateTo;
 
@@ -58,28 +98,87 @@ public class ViewAnalyseChart implements Serializable {
             analyseAllowedController.prepareCreate();
         }
 
+        // Init. Analyse Point Ctrl if not exist
+        if (analysePointController == null) {
+            analysePointController = (AnalysePointController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "analysePointController");
+            analysePointController.prepareCreate();
+        }
+
         if (analyseDataController == null) {
             analyseDataController = (AnalyseDataController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "analyseDataController");
             analyseDataController.prepareCreate();
         }
+        // Init selection case
+        selected = new ViewAnalyseChartSelect();
+
+        // Init request
+        requestPoints = analysePointController.getItems();
+
         dateFrom = new Date();
         dateFrom = new Date(dateFrom.getYear(), dateFrom.getMonth(), 1);
         dateTo = new Date();
+    }
+
+    /**
+     * This method is used to react on point selection. It can only be use on a
+     * component with specic Id "requestEquipement".
+     */
+    public void handleEquipementSelect() {
+        if (selected.equipement == null) {
+            requestPoints = analysePointController.getItems();
+        } else {
+            requestPoints = analysePointController.getItemsByEquipement(selected.equipement);
+        }
+    }
+
+    /**
+     * This method is used to react on point selection. It can only be use on a
+     * component with specic Id "requestPoint".
+     */
+    public void handlePointSelect() {
+        /* UIComponent c = JsfUtil.findComponent("requestPoint");
+        org.primefaces.component.selectcheckboxmenu.SelectCheckboxMenu som = (org.primefaces.component.selectcheckboxmenu.SelectCheckboxMenu) c;
+         */
+        if (selected.points == null) { // No point selected
+            /*som.setRequired(true);
+            som.updateModel(FacesContext.getCurrentInstance());*/
+            JsfUtil.addErrorMessage("AnalyseAlloweds = null");
+            analyseAlloweds = analyseAllowedController.getItems();
+        } else if (selected.points.isEmpty()) {
+            JsfUtil.addErrorMessage("AnalyseAlloweds = null");
+            analyseAlloweds = analyseAllowedController.getItems();
+        } else {
+            /*som.setRequired(false);
+            som.updateModel(FacesContext.getCurrentInstance());*/
+            analyseAlloweds = new ArrayList<>(); // Init list of type
+            // For each point create a list of allowed analyse type
+            selected.points.stream().forEach((point) -> {
+                List<AnalyseAllowed> aAlloweds = analyseAllowedController.getItemsByPoint(point);
+                if (aAlloweds != null) {
+                    if (!aAlloweds.isEmpty()) {
+                        analyseAlloweds.addAll(aAlloweds);
+                    }
+                }
+            });
+            JsfUtil.addSuccessMessage("AnalyseAlloweds = true");
+        }
 
     }
 
+
     private void createModels() {
         // Get Fist Item
-        if (analyseAlloweds == null) {
+        if (selected.alloweds == null) {
             return;
         }
-        if (analyseAlloweds.isEmpty()) {
+        if (selected.alloweds.isEmpty()) {
             return;
         }
 
         models = new ArrayList<>();
-        Iterator<AnalyseAllowed> iterAnalyseAllowed = analyseAlloweds.iterator();
+        Iterator<AnalyseAllowed> iterAnalyseAllowed = selected.alloweds.iterator();
         while (iterAnalyseAllowed.hasNext()) {
             AnalyseAllowed currentAnalyse = ((AnalyseAllowed) iterAnalyseAllowed.next());
 
@@ -171,11 +270,13 @@ public class ViewAnalyseChart implements Serializable {
 
     }
 
+    /**
+     * Methode de recherche des données requises
+     */
     public void handleAnalyseSearch() {
         createModels();
 
     }
-
 
     public List<ChartModel> getModels() {
         createModels();
@@ -187,23 +288,29 @@ public class ViewAnalyseChart implements Serializable {
     }
 
     public List<AnalyseAllowed> getAnalyseAlloweds() {
-        if (analyseAlloweds == null) {
-            analyseAlloweds = new ArrayList<>();
-        }
         return analyseAlloweds;
     }
 
     public void setAnalyseAlloweds(List<AnalyseAllowed> analyseAlloweds) {
-        getAnalyseAlloweds();
         this.analyseAlloweds = analyseAlloweds;
     }
 
-    public Equipement getSelectedEquipement() {
-        return selectedEquipement;
+
+
+    public ViewAnalyseChartSelect getSelected() {
+        return selected;
     }
 
-    public void setSelectedEquipement(Equipement selectedEquipement) {
-        this.selectedEquipement = selectedEquipement;
+    public void setSelected(ViewAnalyseChartSelect selected) {
+        this.selected = selected;
+    }
+
+    public List<AnalysePoint> getRequestPoints() {
+        return requestPoints;
+    }
+
+    public void setRequestPoints(List<AnalysePoint> requestPoints) {
+        this.requestPoints = requestPoints;
     }
 
     public Date getDateFrom() {
@@ -229,5 +336,7 @@ public class ViewAnalyseChart implements Serializable {
     public void setActiveIndex(Integer activeIndex) {
         this.activeIndex = activeIndex;
     }
+
+
 
 }

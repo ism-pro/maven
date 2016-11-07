@@ -1,120 +1,3 @@
-
-================================================================================
-PROPOSITION D'AMELIORATION
-================================================================================
-Proposition dans les préférences utilisateurs :
-    - Ajouter le nombre d'éléments de résultat par table par défaut. (row)
-
-A Faire :
-
-2 - UTILISATEUR :
-    2.3. Ajouter les options de programme comme :
-        
-        - Les paramètres d'options de résultat
-        Options de l'utilisateur connecter
-    + Fournir la possibilité de mettre une image,
-    + Ajouter au staff les informations suivantes :
-        + Rue / code postal / ville
-        + Email / Phone / Info
-        
-3 - Non conformités :
-    + Effectuer un chargement partiel,
-    + Effectuer la sauvegarde du choix de paramètre de sélection de processus
-    + Réaliser un diagramme de planning en jalon pour les non-conformités entre date prévu et date résolution,
-    + Fournir la possibilité d’ajouter une image.
-    + Lors de la saisie des actions ajouter la possibilité d’indiquer les causes possibles par ordre croissant de probabilité,
-    + possibilité d'avoir un état d'impression
-        
-
-
-
-
-Configuration :
-    + RUBAN :
-    ++ Gestion des accès utilisateurs
-
-    + GENERALITES :
-    ++ Possibilité de configurer la fenêtre de confirmation globale voir bas de la page main 
-      Notemment les effets à l'ouverture ...
-    
-    + CRUD :
-    ++ Enregistrer les options de viewTab entre les sessions.
-
-    + PROCESSUS :
-    ++ Ajouter une page de recherche + result + exportation
-
-    + DOC EXPLORER :
-    + Permettre d'avoir un classement en fonction d'une catégorie et un groupe 
-    surtout pour les processus volumineux.
-
-
-    + TODO SHORTCUT
-    ++ Gestion des shortcut et toggler.
-
-    + TODO RESOURCES
-    ++ 
-    ++ staffGroupDef : gestion crud de la définition des groupes utilisateur
-    ++ staffRôleList : gestion crud de la définition des groupes utilisateur
-    ++ staffRoleTree : Revoir la méthodologie de définition des droits d'accès sous forme de tableau
-    ++ staffCompany : gestion crud de l'association des utilisateurs à une société.
-    ++ Accès : gestion crud des accès utilisateur sous forme de tableau
-    ++ Gestion de la création de staff
-    ++ Présentation des staffs.
-    
-
-    ++ Recherche uniquement en fonction des valeur validé
-    ++ Ajouter 2 bars pour afficher le défilement des données de chargement
-
-    ++ Activer la possibilité d'actualiser le graphique sans recharger la page
-    ++ Possibilité de modifier le rendu graphique
-    
-    ++ Modifier l'intituler des champ
-
-
-     COMMIT
-================================================================================
-# GENERALITES :
-================================================================================
-# POM :
-
-
-# SECURITY :
-+ Login page : 
-++ Retour de la fonction enter dans la fenêtre de connexion.
-
-
-================================================================================
-# SPECIFIQUE
-================================================================================
-# Entité :
-
-# Onglet Process :
-## Ajout d'une fonction de statistique :
-+ Actuellement les statistiques permettent d'afficher uniquement les courbes sélectionnées
-+ Remplacer le graphique standard par un graphique avec zoom
-+ Correction possibilité de recherche sur les champs de date dans les listes
-+ Process : Ctrl : Analyse Data
-Fonction create :
-# Correction problème de filtrage à la selection d'un point d'échantillonage.
-Le filtrage désactive en cas de valeur null. Limite les analyses en fonction de 
-ceux qui sont permit sur l'échantillon.
-#Render chart by ismjee chart rendering selft edition
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ********************************************************************************
 ETAPE DE GESTION DES CONTROLLEUR JSF
 ********************************************************************************
@@ -148,190 +31,141 @@ nommenclature.
 6 - 
 
 
+================================================================================
+                COMMIT
+    Header
+    # This is an <h1> tag
+    ## This is an <h2> tag
+    ###### This is an <h6> tag
 
-package org.ism.jsf;
+    Emphasis
+    *This text will be italic*
+    _This will also be italic_
+    **This text will be bold**
+    __This will also be bold__
+    _You **can** combine them_
 
-import org.ism.entities.StaffGroups;
-import org.ism.jsf.util.JsfUtil;
-import org.ism.jsf.util.JsfUtil.PersistAction;
-import org.ism.sessions.StaffGroupsFacade;
+    List-Unordered
+    * Item 1
+    * Item 2
+      * Item 2a
+      * Item 2b
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import org.ism.entities.Company;
-import org.ism.entities.Staff;
-import org.ism.entities.StaffGroupDef;
-
-
-@ManagedBean(name = "staffGroupsController")
-@SessionScoped
-public class StaffGroupsController implements Serializable {
-    private static final long serialVersionUID = 1L;
+    List-ordered
+    1. Item 1
+    2. Item 2
+    3. Item 3
+       * Item 3a
+       * Item 3b
 
 
-    @EJB private org.ism.sessions.StaffGroupsFacade ejbFacade;
-    private List<StaffGroups> items = null;
-    private StaffGroups selected;
+================================================================================
+#Enable filter limitation on equipement field changed on Analyse data statistics.
 
-    public StaffGroupsController() {
-    }
+## Where :
+Process : Analyse Data : Statistics :
 
-    public StaffGroups getSelected() {
-        return selected;
-    }
+## Description :
+1. When equipement is set to null (default) there is not restriction to the sample
+point selection field. In this case, the sample point selection field has all
+data available.
+2. When equipement field selection is set to a defined value directly sample point
+field selection is refresh to give a filter list corresponding to the equipement
+field set.
 
-    public void setSelected(StaffGroups selected) {
-        this.selected = selected;
-    }
+## How
+1. Using ViewAnalyseChart, a method handleEquipementSelect acting only on
+the id requestEquipement is created.
+2. When value is null, sample point field list contain all point.
+3. When value is set, sample point field list contain limited value
 
-    protected void setEmbeddableKeys() {
-    }
 
-    protected void initializeEmbeddableKey() {
-    }
 
-    private StaffGroupsFacade getFacade() {
-        return ejbFacade;
-    }
 
-    public StaffGroups prepareCreate() {
-        selected = new StaffGroups();
-        initializeEmbeddableKey();
-        return selected;
-    }
 
-    public void create() {
-        selected.setStgCreated(new Date());
-        selected.setStgChanged(new Date());
-        persist(PersistAction.CREATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
 
-    public void update() {
-        selected.setStgChanged(new Date());
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
-    }
 
-    public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
 
-    public List<StaffGroups> getItems() {
-        //if (items == null) {
-            items = getFacade().findAll();
-        //}else if(items.size()==1){
-        //    items = getFacade().findAll();
-        //}
-        return items;
-    }
+================================================================================
+PROPOSITION D'AMELIORATION
+================================================================================
+Proposition dans les préférences utilisateurs :
+    - Ajouter le nombre d'éléments de résultat par table par défaut. (row)
 
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
-            }
-        }
-    }
+A Faire :
 
-    public StaffGroups getStaffGroups(java.lang.Integer id) {
-        return getFacade().find(id);
-    }
+2 - UTILISATEUR :
+    2.3. Ajouter les options de programme comme :
+        
+        - Les paramètres d'options de résultat
+        Options de l'utilisateur connecter
+    + Fournir la possibilité de mettre une image,
+    + Ajouter au staff les informations suivantes :
+        + Rue / code postal / ville
+        + Email / Phone / Info
+        
+3 - Non conformités :
+    + Effectuer un chargement partiel,
+    + Effectuer la sauvegarde du choix de paramètre de sélection de processus
+    + Réaliser un diagramme de planning en jalon pour les non-conformités entre date prévu et date résolution,
+    + Fournir la possibilité d’ajouter une image.
+    + Lors de la saisie des actions ajouter la possibilité d’indiquer les causes possibles par ordre croissant de probabilité,
+    + possibilité d'avoir un état d'impression
+        
 
-    public List<StaffGroups> getItems(Staff staff) {
-        items = getFacade().findByStaff(staff);
-        return items;
-    }
+Configuration :
+    + RUBAN :
+    ++ Gestion des accès utilisateurs
+
+    + GENERALITES :
+    ++ Possibilité de configurer la fenêtre de confirmation globale voir bas de la page main 
+      Notemment les effets à l'ouverture ...
     
-    public List<StaffGroups> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
+    + CRUD :
+    ++ Enregistrer les options de viewTab entre les sessions.
 
-    public List<StaffGroups> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
+    + PROCESSUS :
+    ++ Ajouter une page de recherche + result + exportation
 
-    StaffGroups getStaffGroups(Staff staff, Company company, StaffGroupDef staffGroupDef) {
-        return ejbFacade.findByStaffAndCompanyAndGroupDef(staff, company, staffGroupDef);
-    }
+    + DOC EXPLORER :
+    + Permettre d'avoir un classement en fonction d'une catégorie et un groupe 
+    surtout pour les processus volumineux.
 
-    @FacesConverter(forClass=StaffGroups.class)
-    public static class StaffGroupsControllerConverter implements Converter {
 
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            StaffGroupsController controller = (StaffGroupsController)facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "staffGroupsController");
-            return controller.getStaffGroups(getKey(value));
-        }
+    + TODO SHORTCUT
+    ++ Gestion des shortcut et toggler.
 
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
+    + TODO RESOURCES
+    ++ 
+    ++ staffGroupDef : gestion crud de la définition des groupes utilisateur
+    ++ staffRôleList : gestion crud de la définition des groupes utilisateur
+    ++ staffRoleTree : Revoir la méthodologie de définition des droits d'accès sous forme de tableau
+    ++ staffCompany : gestion crud de l'association des utilisateurs à une société.
+    ++ Accès : gestion crud des accès utilisateur sous forme de tableau
+    ++ Gestion de la création de staff
+    ++ Présentation des staffs.
+    
+    # TODO PROCESS ANALYSE
+    ++ Recherche uniquement en fonction des valeur validé
+    ++ Ajouter 2 bars pour afficher le défilement des données de chargement
+    ++ Activer la possibilité d'actualiser le graphique sans recharger la page
+    ++ Possibilité de modifier le rendu graphique
+    ++ Modifier l'intituler des champ
 
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
 
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof StaffGroups) {
-                StaffGroups o = (StaffGroups) object;
-                return getStringKey(o.getStgId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), StaffGroups.class.getName()});
-                return null;
-            }
-        }
 
-    }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

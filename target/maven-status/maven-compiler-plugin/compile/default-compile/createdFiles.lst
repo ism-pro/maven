@@ -14,6 +14,7 @@ org\ism\sessions\process\ctrl\AnalyseDataFacade.class
 org\ism\entities\smq\nc\NonConformiteRequest.class
 org\ism\view\ViewUtil.class
 org\ism\entities\process\ctrl\AnalyseType_.class
+org\ism\view\process\ctrl\ViewAnalyseChart$ViewAnalyseChartSelect.class
 org\ism\view\ViewTabManager.class
 org\ism\entities\app\IsmNcrstate.class
 org\ism\sessions\hr\StaffGroupDefFacade.class
