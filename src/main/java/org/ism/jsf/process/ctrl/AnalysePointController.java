@@ -31,6 +31,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.process.Equipement;
 
 @ManagedBean(name = "analysePointController")
 @SessionScoped
@@ -100,6 +101,7 @@ public class AnalysePointController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     * @return 
      */
     public AnalysePoint prepareCreate() {
         selected = new AnalysePoint();
@@ -310,6 +312,10 @@ public class AnalysePointController implements Serializable {
     public List<AnalysePoint> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
     }
+    
+    public List<AnalysePoint> getItemsByEquipement(Equipement equipement) {
+        return getFacade().findByEquipement(equipement);
+    }
 
     public List<AnalysePoint> getItemsAvailableSelectMany() {
         return getFacade().findAll();
@@ -375,7 +381,7 @@ public class AnalysePointController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = AnalysePoint.class)
+    @FacesConverter(forClass = AnalysePoint.class, value ="AnalysePointConverter")
     public static class AnalysePointControllerConverter implements Converter {
 
         @Override
