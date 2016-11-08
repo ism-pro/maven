@@ -470,7 +470,7 @@
                                         <p:commandButton id="btnProcessAnalyseDataStatis"
                                                          title="Gestion des données d'analyse par statistique"
                                                          action="/company/process/ctrl/AnalyseData/Statis.xhtml?faces-redirect=true"
-                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
+                                                         actionListener="#{viewAnalyseChart.prepareCreate()}"
                                                          rendered="#{request.isUserInRole('GUEST')}"
                                                          icon="ui-icon-analysedatastatis" 
                                                          value="Statistiques"

@@ -92,15 +92,52 @@ public class ViewAnalyseChart implements Serializable {
     @Inject
     AnalysePointController analysePointController;
 
+    /**
+     * Specify the selection of all request<br >
+     * It is andle equipement, sample point and analyse allowed
+     */
     private ViewAnalyseChartSelect selected = null;
-    private List<AnalyseAllowed> analyseAlloweds = new ArrayList<>();
+    /**
+     * Specify the available sample point.<br>
+     * It is use to display content of select component and changed while
+     * equipement is selected
+     */
     private List<AnalysePoint> requestPoints;
+    /**
+     * Specify the available analyse allowed <br>
+     * It is use to display content of select component and changed while sample
+     * point is changed
+     */
+    private List<AnalyseAllowed> analyseAlloweds = new ArrayList<>();
+    /**
+     * Specify the date from which the analyse has to be made <br>
+     * by default this is the first day of the actual month.
+     */
     private Date dateFrom;
+    /**
+     * Specify the date to which the analyse has to be made <br >
+     * by default this is the actual day
+     */
     private Date dateTo;
 
+    /**
+     * Contains all the charts model
+     */
     List<ChartModel> models = new ArrayList<>();
-
+    /**
+     * Specify current tab to display. <br > Usefull when it is necessary to
+     * switch between request and result directly
+     */
     private Integer activeIndex = 0;
+
+    /**
+     * Specify if user want to keep in memory current request during
+     * session.<br>by default nothing is keep in memory but if the user check
+     * the box then while preparing nothing is going to be init. This allow to
+     * keep everything in memory
+     *
+     */
+    private Boolean keepRequest = false;
 
     /**
      * Manage all the injection and default value.
@@ -133,11 +170,25 @@ public class ViewAnalyseChart implements Serializable {
 
         // Init request
         requestPoints = analysePointController.getItems();
-
         dateFrom = new Date();
         LocalDateTime ldtFrom = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 0, 0, 0);
         dateFrom = Date.from(ldtFrom.atZone(ZoneId.systemDefault()).toInstant());
         dateTo = new Date();
+        keepRequest = false;
+    }
+
+    /**
+     * Manage preparation of the ViewAnalyseChart before using it.
+     * <br>Usually call when before showing page via a button on listener.
+     */
+    public void prepareCreate() {
+        if (!keepRequest) {
+            selected = new ViewAnalyseChartSelect();
+            analyseAlloweds = new ArrayList<>();
+            requestPoints = analysePointController.getItems();
+            activeIndex = 0;
+            models = new ArrayList<>();
+        }
     }
 
     /**
@@ -295,8 +346,9 @@ public class ViewAnalyseChart implements Serializable {
 
     /**
      * Convenient method tacking care of the request defined.
-     * <br> Method will create model with specify data using createModels method.
-     * 
+     * <br> Method will create model with specify data using createModels
+     * method.
+     *
      * @see ViewAnalyseChart#createModels()
      */
     public void handleSearchRequest() {
@@ -360,4 +412,13 @@ public class ViewAnalyseChart implements Serializable {
         this.activeIndex = activeIndex;
     }
 
+    public Boolean getKeepRequest() {
+        return keepRequest;
+    }
+
+    public void setKeepRequest(Boolean keepRequest) {
+        this.keepRequest = keepRequest;
+    }
+
+    
 }

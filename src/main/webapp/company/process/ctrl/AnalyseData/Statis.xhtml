@@ -15,6 +15,13 @@
 
 
             <h:form id="bodyForm" >
+                <p:progressBar widgetVar="w_progress" ajax="true" 
+                               value="#{staffGroupDefRoleController.createTreeProgress}" 
+                               interval="1500"
+                               labelTemplate="{value}%" styleClass="animated" global="false">
+                    <p:ajax event="complete" update="bodyForm" oncomplete="PF('btnSave').enable()"/>
+                </p:progressBar>
+                
                 <p:tabView activeIndex="#{viewAnalyseChart.activeIndex}">
                     <p:tab title="#{ism.Criteria}">
                         <p:panelGrid id="panelForm" columns="2" 
@@ -88,6 +95,13 @@
                                         value="#{viewAnalyseChart.dateTo}" pattern="dd/MM/yyyy" 
                                         label="#{ism.DateTo}" />
 
+                            
+                            <p:outputLabel value="#{ism.KeepRequest}" for="requestKeepInMemory" />
+                            <p:selectBooleanCheckbox id="requestKeepInMemory" 
+                                                     value="#{viewAnalyseChart.keepRequest}" 
+                                                     />
+                                        
+                            
                         </p:panelGrid>
 
                         <h:panelGroup id="btn-crud-zone_id"  >
