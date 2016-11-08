@@ -11,7 +11,6 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\primefaces\ism\component\ribbon
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\ViewLayout.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\listener\SessionCounterListener.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\smq\nc\NonConformiteGravityFacade.java
-E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\ViewComapnyCharts.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\process\ctrl\AnalyseNotifyController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\FilterSMQDocExplorerView.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\smq\nc\NonConformiteFrequencyController.java
@@ -58,6 +57,7 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\admin\CompanyFacad
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\process\UniteFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\app\ThemeSwitcherView.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\smq\Processus.java
+E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\ViewCompanyCharts.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\process\ctrl\AnalyseAllowedController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\process\ctrl\AnalysePoint.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\ViewRibbon.java

@@ -64,7 +64,7 @@ public class NonConformiteUniteController implements Serializable {
         NonConformiteUniteField_ncuCreated=Création
         NonConformiteUniteField_ncuChanged=Modif.
         */
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteUniteField_ncuId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteUniteField_ncuUnite"));
@@ -74,7 +74,7 @@ public class NonConformiteUniteController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteUniteField_ncuChanged"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteUniteField_ncuCompany"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteUniteField_ncuId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteUniteField_ncuUnite"), true);
@@ -98,6 +98,10 @@ public class NonConformiteUniteController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared non conformite unite
      */
     public NonConformiteUnite prepareCreate() {
         selected = new NonConformiteUnite();
@@ -155,7 +159,7 @@ public class NonConformiteUniteController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -289,8 +293,8 @@ public class NonConformiteUniteController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id non conformite unite key
+     * @return corresponding non conformite unite object
      */
     public NonConformiteUnite getNonConformiteUnite(java.lang.Integer id) {
         return getFacade().find(id);
@@ -330,7 +334,7 @@ public class NonConformiteUniteController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected non conformite unite
      */
     public NonConformiteUnite getSelected() {
         if(selected==null)   selected = new NonConformiteUnite();

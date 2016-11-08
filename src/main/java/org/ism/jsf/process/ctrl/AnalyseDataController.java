@@ -212,7 +212,7 @@ public class AnalyseDataController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toogle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -366,8 +366,8 @@ public class AnalyseDataController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id of analyse data
+     * @return corresponding analyse data of the object
      */
     public AnalyseData getAnalyseData(java.lang.Integer id) {
         return getFacade().find(id);
@@ -472,7 +472,7 @@ public class AnalyseDataController implements Serializable {
      * @param from date from
      * @param to date to
      * @param limit is one of HH, H, B, BB
-     * @return
+     * @return all value in a list
      */
     public List<Double> getItemsByPointTypeSampleTimeRangeLimite(AnalysePoint point, AnalyseType type, Date from, Date to, String limit) {
         List<AnalyseData> datas = getFacade().findByPointTypeSampleTimeRange(point, type, from, to);

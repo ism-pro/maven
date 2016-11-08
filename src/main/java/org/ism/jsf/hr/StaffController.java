@@ -16,17 +16,12 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
@@ -58,7 +53,7 @@ public class StaffController implements Serializable {
         isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
         isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stStaff"));
@@ -72,7 +67,7 @@ public class StaffController implements Serializable {
         headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stCreated"));
         headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stChanged"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stStaff"), true);
@@ -100,6 +95,10 @@ public class StaffController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return staff prepared
      */
     public Staff prepareCreate() {
         selected = new Staff();
@@ -165,7 +164,7 @@ public class StaffController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toogle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -318,8 +317,8 @@ public class StaffController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id staff id
+     * @return staff corresonding to this id
      */
     public Staff getStaff(java.lang.Integer id) {
         return getFacade().find(id);
@@ -370,8 +369,8 @@ public class StaffController implements Serializable {
      * ************************************************************************
      */
     /**
-     *
-     * @return
+     * staff
+     * @return selected staff 
      */
     public Staff getSelected() {
         if (selected == null) {

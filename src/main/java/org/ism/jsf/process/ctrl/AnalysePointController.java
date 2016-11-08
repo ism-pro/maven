@@ -66,7 +66,7 @@ public class AnalysePointController implements Serializable {
         String src_09 = "AnalysePointField_apCompany";
 
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -78,7 +78,7 @@ public class AnalysePointController implements Serializable {
         headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_08));
         headerTextMap.put(9, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_09));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -101,7 +101,11 @@ public class AnalysePointController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
-     * @return 
+     * 
+     */
+    /**
+     * 
+     * @return prepared analyse point
      */
     public AnalysePoint prepareCreate() {
         selected = new AnalysePoint();
@@ -154,7 +158,7 @@ public class AnalysePointController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toogle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -287,8 +291,8 @@ public class AnalysePointController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id analyse point key
+     * @return corresponding analyse point object
      */
     public AnalysePoint getAnalysePoint(java.lang.Integer id) {
         return getFacade().find(id);
@@ -333,7 +337,7 @@ public class AnalysePointController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected analyse point
      */
     public AnalysePoint getSelected() {
         if (selected == null) {

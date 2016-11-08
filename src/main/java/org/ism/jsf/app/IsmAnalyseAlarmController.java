@@ -6,7 +6,6 @@ import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.app.IsmAnalyseAlarmFacade;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,13 +58,13 @@ public class IsmAnalyseAlarmController implements Serializable {
         String src_03 = "IsmAnalyseAlarmField_alarmname";
 
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
         headerTextMap.put(3, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_03));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -82,6 +81,10 @@ public class IsmAnalyseAlarmController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * prepeare
+     * @return IsmAnalyseAlarm
      */
     public IsmAnalyseAlarm prepareCreate() {
         selected = new IsmAnalyseAlarm();
@@ -132,9 +135,10 @@ public class IsmAnalyseAlarmController implements Serializable {
      *
      * ************************************************************************
      */
+    
     /**
      *
-     * @param e
+     * @param e the toggleEvent
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -168,6 +172,9 @@ public class IsmAnalyseAlarmController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * Database create method
      */
     public void create() {
 
@@ -262,8 +269,8 @@ public class IsmAnalyseAlarmController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id the key to search
+     * @return corresponding IsmAnalyseAlarm of the key
      */
     public IsmAnalyseAlarm getIsmAnalyseAlarm(java.lang.Integer id) {
         return getFacade().find(id);
@@ -303,7 +310,7 @@ public class IsmAnalyseAlarmController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return Selected IsmAnalyseAlarm
      */
     public IsmAnalyseAlarm getSelected() {
         if (selected == null) {
@@ -347,7 +354,7 @@ public class IsmAnalyseAlarmController implements Serializable {
     /**
      * ************************************************************************
      * CONVERTER
-     *
+     * Define IsmAnalyseAlarm
      *
      * ************************************************************************
      */

@@ -15,10 +15,8 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalyseCategory;
 import org.ism.entities.process.ctrl.AnalyseData;
@@ -259,7 +257,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return processus
      * *************************************************************************
      */
     public List<Processus> getProcessus() {
@@ -280,7 +278,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return doc explorer
      * *************************************************************************
      */
     public List<DocExplorer> getDocExplorer() {
@@ -301,7 +299,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return doc type
      * *************************************************************************
      */
     public List<DocType> getDocType() {
@@ -322,7 +320,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return non conformite frequency
      * *************************************************************************
      */
     public List<NonConformiteFrequency> getNcFrequency() {
@@ -343,7 +341,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return non conformite gravity
      * *************************************************************************
      */
     public List<NonConformiteGravity> getNcGravity() {
@@ -364,7 +362,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return non conformite nature
      * *************************************************************************
      */
     public List<NonConformiteNature> getNcNature() {
@@ -385,7 +383,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return non conformite request
      * *************************************************************************
      */
     public List<NonConformiteRequest> getNcRequest() {
@@ -406,7 +404,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return non conformite unite
      * *************************************************************************
      */
     public List<NonConformiteUnite> getNcUnite() {
@@ -427,7 +425,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return staff group def
      * *************************************************************************
      */
     public List<StaffGroupDef> getStaffGroupDef() {
@@ -448,7 +446,7 @@ public class ViewTabManager implements Serializable {
 
     /**
      * *************************************************************************
-     * @return
+     * @return staff group def role
      * *************************************************************************
      */
     public List<StaffGroupDefRole> getStaffGroupDefRole() {
@@ -469,7 +467,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return staff griyos
      * *************************************************************************
      */
     public List<StaffGroups> getStaffGroups() {
@@ -490,7 +488,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return staff 
      * *************************************************************************
      */
     public List<Staff> getStaff() {
@@ -512,7 +510,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return equipement
      * *************************************************************************
      */
 
@@ -534,7 +532,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return unite 
      * *************************************************************************
      */
     public List<Unite> getUnite() {
@@ -555,7 +553,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return analyse allowed
      * *************************************************************************
      */
     public List<AnalyseAllowed> getAnalyseallowed() {
@@ -576,7 +574,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return analyse category
      * *************************************************************************
      */
     public List<AnalyseCategory> getAnalysecategory() {
@@ -597,7 +595,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return analyse data
      * *************************************************************************
      */
     public List<AnalyseData> getAnalysedata() {
@@ -618,7 +616,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return analyse method
      * *************************************************************************
      */
     public List<AnalyseMethod> getAnalysemethod() {
@@ -639,7 +637,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return analyse notify
      * *************************************************************************
      */
     public List<AnalyseNotify> getAnalysenotify() {
@@ -660,7 +658,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return analyse point
      * *************************************************************************
      */
     public List<AnalysePoint> getAnalysepoint() {
@@ -681,7 +679,7 @@ public class ViewTabManager implements Serializable {
     
     /**
      * *************************************************************************
-     * @return
+     * @return analyse type
      * *************************************************************************
      */
     public List<AnalyseType> getAnalysetype() {
@@ -708,11 +706,11 @@ public class ViewTabManager implements Serializable {
      */
     /**
      *
-     * @param value
-     * @param filter
-     * @param locale
-     * @return
-     * @throws ParseException
+     * @param value a value
+     * @param filter a object filtred
+     * @param locale a local
+     * @return true if ok
+     * @throws ParseException an error
      */
     public boolean handleDateRangeFilters(Object value, Object filter, Locale locale) throws ParseException {
         String filterText = (filter == null) ? null : filter.toString().trim();
@@ -796,7 +794,7 @@ public class ViewTabManager implements Serializable {
     /**
      * Use to update datalist when destroy occured
      *
-     * @param ctrl
+     * @param ctrl a controller
      */
     public void handleDestroy(String ctrl) {
         switch (ctrl) {

@@ -123,7 +123,7 @@ public class StaffSetupController implements Serializable {
     /**
      * This méthod is only used when change from the actual session
      *
-     * @param staff
+     * @param staff the staff to be update
      */
     public void updateStaff(Staff staff) {
         // Vérifie que le staff a été spécifié

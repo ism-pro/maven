@@ -92,7 +92,7 @@ public class NonConformiteRequestController implements Serializable {
         NonConformiteRequestField_ncrDescOnRefuse=Avenant(s)
         NonConformiteRequestField_ncrLink=Lien/Image
          */
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrStaff"));
@@ -108,7 +108,7 @@ public class NonConformiteRequestController implements Serializable {
         headerTextMap.put(12, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrEnddingAction"));
         headerTextMap.put(13, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrCompany"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrStaff"), false);
@@ -138,6 +138,10 @@ public class NonConformiteRequestController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared non conformite request
      */
     public NonConformiteRequest prepareCreate() {
         selected = new NonConformiteRequest();
@@ -195,7 +199,7 @@ public class NonConformiteRequestController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -351,8 +355,8 @@ public class NonConformiteRequestController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id non conformite request key
+     * @return corresponding non conformite request object
      */
     public NonConformiteRequest getNonConformiteRequest(java.lang.Integer id) {
         return getFacade().find(id);
@@ -404,7 +408,7 @@ public class NonConformiteRequestController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected non conformite request
      */
     public NonConformiteRequest getSelected() {
         if (selected == null) {

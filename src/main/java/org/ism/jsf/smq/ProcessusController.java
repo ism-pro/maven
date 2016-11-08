@@ -55,7 +55,7 @@ public class ProcessusController implements Serializable {
         isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
         isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pProcessus"));
@@ -66,7 +66,7 @@ public class ProcessusController implements Serializable {
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pChanged"));
         headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pCompany"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("ProcessusField_pProcessus"), true);
@@ -91,6 +91,10 @@ public class ProcessusController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared processus
      */
     public Processus prepareCreate() {
         selected = new Processus();
@@ -148,7 +152,7 @@ public class ProcessusController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -282,8 +286,8 @@ public class ProcessusController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id processus key
+     * @return corresponding processus object
      */
     public Processus getProcessus(java.lang.Integer id) {
         return getFacade().find(id);
@@ -323,7 +327,7 @@ public class ProcessusController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected processus
      */
     public Processus getSelected() {
         if (selected == null) {

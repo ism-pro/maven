@@ -64,7 +64,7 @@ public class NonConformiteNatureController implements Serializable {
         NonConformiteNatureFieldInfo_ncnCreated=Création
         NonConformiteNatureFieldInfo_ncnChanged=Modif.
         */
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteNatureField_ncnId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteNatureField_ncnNature"));
@@ -74,7 +74,7 @@ public class NonConformiteNatureController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteNatureField_ncnChanged"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteNatureField_ncnCompany"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteNatureField_ncnId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteNatureField_ncnNature"), true);
@@ -98,6 +98,10 @@ public class NonConformiteNatureController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepare selected non conformite nature
      */
     public NonConformiteNature prepareCreate() {
         selected = new NonConformiteNature();
@@ -155,7 +159,7 @@ public class NonConformiteNatureController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -289,8 +293,8 @@ public class NonConformiteNatureController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id non conformite nature key
+     * @return non conformite nature object
      */
     public NonConformiteNature getNonConformiteNature(java.lang.Integer id) {
         return getFacade().find(id);
@@ -330,7 +334,7 @@ public class NonConformiteNatureController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected non conformite nature 
      */
     public NonConformiteNature getSelected() {
         if(selected==null)   selected = new NonConformiteNature();

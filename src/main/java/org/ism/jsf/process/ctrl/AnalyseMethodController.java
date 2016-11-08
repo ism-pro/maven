@@ -66,7 +66,7 @@ public class AnalyseMethodController implements Serializable {
         
         
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -77,7 +77,7 @@ public class AnalyseMethodController implements Serializable {
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_07));
         headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_08));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -99,6 +99,10 @@ public class AnalyseMethodController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared analyse method
      */
     public AnalyseMethod prepareCreate() {
         selected = new AnalyseMethod();
@@ -151,7 +155,7 @@ public class AnalyseMethodController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toogle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -286,8 +290,8 @@ public class AnalyseMethodController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id of analyse method
+     * @return corresponding object AnalyseMethod
      */
     public AnalyseMethod getAnalyseMethod(java.lang.Integer id) {
         return getFacade().find(id);
@@ -327,7 +331,7 @@ public class AnalyseMethodController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected analyse method
      */
     public AnalyseMethod getSelected() {
         if (selected == null) {

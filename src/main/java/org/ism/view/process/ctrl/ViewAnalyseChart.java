@@ -1,12 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.ism.view.process.ctrl;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Year;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -30,6 +30,15 @@ import org.ism.model.chart.ChartSerie;
 import org.ism.model.chart.ChartSerieData;
 import org.ism.model.chart.properties.ChartType;
 
+/**
+ * Manage statistics from resulting data analysis on each sample point. <br >
+ * It representing the analysis class for rendering chart in a convenient way.
+ *
+ * It can generate chart models when @see Class#handleAnalyseSearch is
+ * requested.
+ *
+ * @author r.hendrick
+ */
 @ManagedBean(name = "viewAnalyseChart")
 @SessionScoped
 public class ViewAnalyseChart implements Serializable {
@@ -70,6 +79,10 @@ public class ViewAnalyseChart implements Serializable {
 
     }
 
+    /**
+     * Injection of AnalyseAllowedController. It allows to get information and
+     * process somes actions to is database.
+     */
     @Inject
     AnalyseAllowedController analyseAllowedController;
     @Inject
@@ -89,6 +102,11 @@ public class ViewAnalyseChart implements Serializable {
 
     private Integer activeIndex = 0;
 
+    /**
+     * Manage all the injection and default value.
+     * <br >Default date From is set on begin of the month.
+     *
+     */
     @PostConstruct
     public void init() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -117,43 +135,39 @@ public class ViewAnalyseChart implements Serializable {
         requestPoints = analysePointController.getItems();
 
         dateFrom = new Date();
-        dateFrom = new Date(dateFrom.getYear(), dateFrom.getMonth(), 1);
+        LocalDateTime ldtFrom = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 0, 0, 0);
+        dateFrom = Date.from(ldtFrom.atZone(ZoneId.systemDefault()).toInstant());
         dateTo = new Date();
     }
 
     /**
-     * This method is used to react on point selection. It can only be use on a
-     * component with specic Id "requestEquipement".
+     * Manage selections action hover the equipement component selection. When
+     * nothing is set from the equipement selector, allow the sample point are
+     * available. Otherwise only corresponding sample point link to selected
+     * equipement are available.
      */
     public void handleEquipementSelect() {
         if (selected.equipement == null) {
             requestPoints = analysePointController.getItems();
         } else {
-            requestPoints = analysePointController.getItemsByEquipement(selected.equipement);
+            requestPoints
+                    = analysePointController.getItemsByEquipement(selected.equipement);
         }
     }
 
     /**
-     * This method is used to react on point selection. It can only be use on a
-     * component with specic Id "requestPoint".
+     * Manage selections action hover the sample point component selection. When
+     * nothing is set from the sample point the selection of analysis allowed is
+     * fullfill with allow possible analysis. Otherwise only allowed analysis
+     * define on a sample point going to be available.
      */
     public void handlePointSelect() {
-        /* UIComponent c = JsfUtil.findComponent("requestPoint");
-        org.primefaces.component.selectcheckboxmenu.SelectCheckboxMenu som = (org.primefaces.component.selectcheckboxmenu.SelectCheckboxMenu) c;
-         */
-        if (selected.points == null) { // No point selected
-            /*som.setRequired(true);
-            som.updateModel(FacesContext.getCurrentInstance());*/
-            JsfUtil.addErrorMessage("AnalyseAlloweds = null");
+        if (selected.points == null) {
             analyseAlloweds = analyseAllowedController.getItems();
         } else if (selected.points.isEmpty()) {
-            JsfUtil.addErrorMessage("AnalyseAlloweds = null");
             analyseAlloweds = analyseAllowedController.getItems();
         } else {
-            /*som.setRequired(false);
-            som.updateModel(FacesContext.getCurrentInstance());*/
-            analyseAlloweds = new ArrayList<>(); // Init list of type
-            // For each point create a list of allowed analyse type
+            analyseAlloweds = new ArrayList<>();
             selected.points.stream().forEach((point) -> {
                 List<AnalyseAllowed> aAlloweds = analyseAllowedController.getItemsByPoint(point);
                 if (aAlloweds != null) {
@@ -162,22 +176,31 @@ public class ViewAnalyseChart implements Serializable {
                     }
                 }
             });
-            JsfUtil.addSuccessMessage("AnalyseAlloweds = true");
         }
 
     }
 
-
+    /**
+     * Generate all chart models specify by allowed analysis
+     * (selected.alloweds). Each chart are generate step by step and put in the
+     * models array. <br />
+     * Chart models is allways initialize. This mean if nothing was allowed
+     * chart models is going to be empty. <br />
+     * All chart model arre generate in the same way. Base chart plot is line.
+     *
+     *
+     */
     private void createModels() {
-        // Get Fist Item
+        // Initialize the model
+        models = new ArrayList<>();
+
+        // If no sample point and analysis was allowed then creation finished
         if (selected.alloweds == null) {
             return;
-        }
-        if (selected.alloweds.isEmpty()) {
+        } else if (selected.alloweds.isEmpty()) {
             return;
         }
 
-        models = new ArrayList<>();
         Iterator<AnalyseAllowed> iterAnalyseAllowed = selected.alloweds.iterator();
         while (iterAnalyseAllowed.hasNext()) {
             AnalyseAllowed currentAnalyse = ((AnalyseAllowed) iterAnalyseAllowed.next());
@@ -271,11 +294,13 @@ public class ViewAnalyseChart implements Serializable {
     }
 
     /**
-     * Methode de recherche des données requises
+     * Convenient method tacking care of the request defined.
+     * <br> Method will create model with specify data using createModels method.
+     * 
+     * @see ViewAnalyseChart#createModels()
      */
-    public void handleAnalyseSearch() {
+    public void handleSearchRequest() {
         createModels();
-
     }
 
     public List<ChartModel> getModels() {
@@ -294,8 +319,6 @@ public class ViewAnalyseChart implements Serializable {
     public void setAnalyseAlloweds(List<AnalyseAllowed> analyseAlloweds) {
         this.analyseAlloweds = analyseAlloweds;
     }
-
-
 
     public ViewAnalyseChartSelect getSelected() {
         return selected;
@@ -336,7 +359,5 @@ public class ViewAnalyseChart implements Serializable {
     public void setActiveIndex(Integer activeIndex) {
         this.activeIndex = activeIndex;
     }
-
-
 
 }

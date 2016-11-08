@@ -36,9 +36,9 @@ public class JsfSecurity {
      * fox          : 776cb326ab0cd5f0a974c1b9606044d8485201f2db19cf8e3749bdee5f36e200 
      * iSm          : d2cd76186c93a0d46befa655f222ffe47bbc362d55057460b1ba32ad91c22e9a
      *
-     * @param pwd
-     * @param code
-     * @return
+     * @param pwd password
+     * @param code code of password like MDA, SHA-256
+     * @return coded password
      */
     public static String convert(String pwd, String code) {
         String safePwd = null;

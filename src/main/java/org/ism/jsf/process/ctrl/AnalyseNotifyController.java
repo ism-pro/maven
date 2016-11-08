@@ -69,7 +69,7 @@ public class AnalyseNotifyController implements Serializable {
         
         
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -83,7 +83,7 @@ public class AnalyseNotifyController implements Serializable {
         headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_10));
         headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_11));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -108,6 +108,10 @@ public class AnalyseNotifyController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepare create analyse notification
      */
     public AnalyseNotify prepareCreate() {
         selected = new AnalyseNotify();
@@ -160,7 +164,7 @@ public class AnalyseNotifyController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toogle envent 
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -295,8 +299,8 @@ public class AnalyseNotifyController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id nodification alayse key
+     * @return corresponding analyse notifcation key object
      */
     public AnalyseNotify getAnalyseNotify(java.lang.Integer id) {
         return getFacade().find(id);
@@ -336,7 +340,7 @@ public class AnalyseNotifyController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected analyse notifcation
      */
     public AnalyseNotify getSelected() {
         if (selected == null) {

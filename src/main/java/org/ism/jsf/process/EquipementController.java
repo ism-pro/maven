@@ -70,7 +70,7 @@ public class EquipementController implements Serializable {
 
 
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -86,7 +86,7 @@ public class EquipementController implements Serializable {
         headerTextMap.put(12, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_12));
         headerTextMap.put(13, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_13));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -113,6 +113,10 @@ public class EquipementController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared equipement
      */
     public Equipement prepareCreate() {
         selected = new Equipement();
@@ -165,7 +169,7 @@ public class EquipementController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -298,8 +302,8 @@ public class EquipementController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id equipement key
+     * @return corresponding equipement object
      */
     public Equipement getEquipement(java.lang.Integer id) {
         return getFacade().find(id);
@@ -339,7 +343,7 @@ public class EquipementController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected equipement
      */
     public Equipement getSelected() {
         if (selected == null) {

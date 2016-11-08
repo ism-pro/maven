@@ -63,21 +63,12 @@ nommenclature.
 #Enable filter limitation on equipement field changed on Analyse data statistics.
 
 ## Where :
-Process : Analyse Data : Statistics :
+
 
 ## Description :
-1. When equipement is set to null (default) there is not restriction to the sample
-point selection field. In this case, the sample point selection field has all
-data available.
-2. When equipement field selection is set to a defined value directly sample point
-field selection is refresh to give a filter list corresponding to the equipement
-field set.
+
 
 ## How
-1. Using ViewAnalyseChart, a method handleEquipementSelect acting only on
-the id requestEquipement is created.
-2. When value is null, sample point field list contain all point.
-3. When value is set, sample point field list contain limited value
 
 
 
@@ -146,11 +137,13 @@ Configuration :
     ++ Présentation des staffs.
     
     # TODO PROCESS ANALYSE
-    ++ Recherche uniquement en fonction des valeur validé
     ++ Ajouter 2 bars pour afficher le défilement des données de chargement
+    ++ Un décompteur de temps, elapsed
     ++ Activer la possibilité d'actualiser le graphique sans recharger la page
     ++ Possibilité de modifier le rendu graphique
     ++ Modifier l'intituler des champ
+    ++ Améliorer la vitesse de performance de recher de donner ou consitution de 
+    models en attaquant directement la base de donnée sans traitement programme
 
 
 

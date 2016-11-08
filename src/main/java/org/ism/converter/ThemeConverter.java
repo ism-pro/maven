@@ -14,7 +14,6 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import org.ism.domain.Theme;
 import org.ism.services.ThemeService;
-import org.ism.jsf.util.JsfUtil;
 
 /**
  *
@@ -26,13 +25,7 @@ public class ThemeConverter implements Converter {
     @ManagedProperty("#{themeService}")
     private ThemeService service;
 
-    /**
-     *
-     * @param fc
-     * @param uic
-     * @param value
-     * @return
-     */
+
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
@@ -52,13 +45,7 @@ public class ThemeConverter implements Converter {
         }
     }
 
-    /**
-     *
-     * @param fc
-     * @param uic
-     * @param object
-     * @return
-     */
+
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {
         if (object != null) {

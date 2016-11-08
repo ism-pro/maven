@@ -31,7 +31,6 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.event.ValueChangeEvent;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
 
@@ -75,7 +74,7 @@ public class AnalyseAllowedController implements Serializable {
         String src_16 = "AnalyseAllowedField_aaCompany";
 
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -94,7 +93,7 @@ public class AnalyseAllowedController implements Serializable {
         headerTextMap.put(15, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_15));
         headerTextMap.put(16, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_16));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -124,6 +123,10 @@ public class AnalyseAllowedController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared Analyse Allowed
      */
     public AnalyseAllowed prepareCreate() {
         selected = new AnalyseAllowed();
@@ -176,7 +179,7 @@ public class AnalyseAllowedController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toogle Event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -310,8 +313,8 @@ public class AnalyseAllowedController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id integer id of analyse allowed
+     * @return corresponding AnalyseAllowed object of string id
      */
     public AnalyseAllowed getAnalyseAllowed(java.lang.Integer id) {
         return getFacade().find(id);
@@ -370,7 +373,7 @@ public class AnalyseAllowedController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected analyse allowed
      */
     public AnalyseAllowed getSelected() {
         if (selected == null) {

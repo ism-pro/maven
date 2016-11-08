@@ -29,7 +29,7 @@ import org.ism.model.chart.properties.ChartType;
  * @author r.hendrick
  */
 @ManagedBean(name = "viewCompanyCharts")
-public class ViewComapnyCharts implements Serializable {
+public class ViewCompanyCharts implements Serializable {
 
     private NonConformiteRequestController ncRequestCtrl = new NonConformiteRequestController();
     private IsmNcrstateController ncStateCtrl = new IsmNcrstateController();
@@ -162,7 +162,7 @@ public class ViewComapnyCharts implements Serializable {
      * First refresh Non Conformite model to obtain new values using method
      * "createNonConformiteModel"
      *
-     * @see createNonConformiteModel
+     * @see ViewCompanyCharts#createNonConformiteModels()
      * @return the new non conformite model state
      */
     public ChartModel getNonConformiteModel() {

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -24,7 +23,6 @@ import org.ism.entities.hr.Staff;
 import org.ism.entities.hr.StaffGroupDef;
 import org.ism.entities.hr.StaffGroups;
 import org.ism.jsf.hr.StaffController;
-import org.ism.jsf.hr.StaffGroupDefController;
 import org.ism.jsf.hr.StaffGroupsController;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.services.CtrlAccess;
@@ -61,9 +59,6 @@ public class StaffManagerView implements Serializable {
     public StaffManagerView() {
     }
 
-    /* ========================================================================
-   
-    =========================================================================*/
     public void prepareCreate() {
         staff = new Staff();
         wizardStep = 0;
@@ -72,9 +67,6 @@ public class StaffManagerView implements Serializable {
     }
 
 
-    /* ========================================================================
-   
-    =========================================================================*/
     public void handleStaffEdit() {
         List<Staff> lstStaff = staffCtrl.findByStaff(staff.getStStaff());
         if (lstStaff != null) {
@@ -93,8 +85,8 @@ public class StaffManagerView implements Serializable {
     /**
      * *
      *
-     * @param event
-     * @return
+     * @param event flow event
+     * @return a string page
      */
     public String handleWizardFlow(FlowEvent event) {
         String flowStaff = "flowStaff",
@@ -129,9 +121,6 @@ public class StaffManagerView implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    /* ========================================================================
-   
-    =========================================================================*/
     public void create() {
         // Create staff
         staffCtrl.prepareCreate();
@@ -184,7 +173,7 @@ public class StaffManagerView implements Serializable {
     /**
      * *
      *
-     * @return
+     * @return staff
      */
     public Staff getStaff() {
         if (staff == null) {
@@ -200,7 +189,7 @@ public class StaffManagerView implements Serializable {
 
     /**
      *
-     * @return
+     * @return get access
      */
     public TreeNode getAccess() {
         if (access == null) {

@@ -133,15 +133,10 @@ public class ViewLayout {
         initialize();
     }
 
-    /**
-     * ************************************************************************
-     *
-     *
-     * ************************************************************************
-     */
+
     /**
      *
-     * @param event
+     * @param event toggle event
      */
     public void handleToggle(ToggleEvent event) {
         LayoutUnit unit = ((LayoutUnit) event.getComponent());
@@ -163,10 +158,6 @@ public class ViewLayout {
                     break;
             }
         }
-        /*
-        JsfUtil.addSuccessMessage("Layout Pane resized"
-                + "Position:" + unit.getPosition() + ", isVisibility = "
-                + event.getVisibility());*/
     }
 
     public void handleClose(CloseEvent event) {
@@ -189,10 +180,6 @@ public class ViewLayout {
                     break;
             }
         }
-        /*
-        JsfUtil.addSuccessMessage("Layout Pane resized"
-                + "Position:" + unit.getPosition() + ", Closed = "
-                );*/
     }
 
     public void handleResize(ResizeEvent event) {
@@ -216,21 +203,12 @@ public class ViewLayout {
                     break;
             }
         }
-        /*
-        JsfUtil.addSuccessMessage("Layout Pane resized"
-                + "Position:" + unit.getPosition() + ", new width = "
-                + event.getWidth() + "px, new height = " + event.getHeight() + "px");*/
     }
 
     public void handleCollapseNorthUnit(){
         this.northUnit.setCollapsed(true);
     }
-    /**
-     * ************************************************************************
-     *
-     *
-     * ************************************************************************
-     */
+
     public Layout getLayout() {
         return layout;
     }
@@ -279,10 +257,5 @@ public class ViewLayout {
         this.centerUnit = centerUnit;
     }
 
-    /**
-     * ************************************************************************
-     *
-     *
-     * ************************************************************************
-     */
+
 }

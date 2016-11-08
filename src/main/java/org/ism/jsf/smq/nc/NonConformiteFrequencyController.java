@@ -64,7 +64,7 @@ public class NonConformiteFrequencyController implements Serializable {
         NonConformiteFrequencyField_ncfCreated=Création
         NonConformiteFrequencyField_ncfChanged=Modif.
         */
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteFrequencyField_ncfId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteFrequencyField_ncfFrequency"));
@@ -74,7 +74,7 @@ public class NonConformiteFrequencyController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteFrequencyField_ncfChanged"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteFrequencyField_ncfCompany"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteFrequencyField_ncfId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteFrequencyField_ncfFrequency"), true);
@@ -98,6 +98,10 @@ public class NonConformiteFrequencyController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared non conformite frequency
      */
     public NonConformiteFrequency prepareCreate() {
         selected = new NonConformiteFrequency();
@@ -155,7 +159,7 @@ public class NonConformiteFrequencyController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -289,8 +293,8 @@ public class NonConformiteFrequencyController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id non conformite frequency key
+     * @return corresponding non conformite frequency object
      */
     public NonConformiteFrequency getNonConformiteFrequency(java.lang.Integer id) {
         return getFacade().find(id);
@@ -330,7 +334,7 @@ public class NonConformiteFrequencyController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected non conformite frequency 
      */
     public NonConformiteFrequency getSelected() {
         if(selected==null)   selected = new NonConformiteFrequency();

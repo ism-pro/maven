@@ -21,7 +21,10 @@ public class JsfUtil {
     public static final String SECURITY = "/com/Security";
     public static Boolean debug = true;
     public static final String defaultThemeName = "ism";
-    public static final Integer sessionMaxInactiveIntervalDefault = 300; // 5 min
+    /**
+     * Default setup session max inactive inteval time in sec (300s = 5min)
+     */
+    public static final Integer sessionMaxInactiveIntervalDefault = 300;
 
     public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {
         int size = selectOne ? entities.size() + 1 : entities.size();
@@ -86,17 +89,6 @@ public class JsfUtil {
         return facesMsg;
     }
 
-    /**
-     * ************************************************************************
-     *
-     *
-     * ************************************************************************
-     */
-    /**
-     *
-     * @param summury
-     * @param detail
-     */
     public static void addSuccessMessage(String summury, String detail) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, summury, detail);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
@@ -141,6 +133,7 @@ public class JsfUtil {
      * Logging message on server
      *
      * @param msg message to be display
+     * @param Group a group
      */
     public static void out(String msg, String Group) {
         if (!debug) {
@@ -155,8 +148,8 @@ public class JsfUtil {
     
     /**
      * Allow to retrive a component specify by an id 
-     * @param id
-     * @return 
+     * @param id defined html id
+     * @return  the corresponding component of the id
      */
     public static UIComponent findComponent(final String id) {
         final UIComponent[] found = new UIComponent[1];

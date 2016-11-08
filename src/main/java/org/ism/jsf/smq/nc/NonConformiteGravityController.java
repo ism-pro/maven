@@ -64,7 +64,7 @@ public class NonConformiteGravityController implements Serializable {
         NonConformiteGravityField_ncgCreated=Création
         NonConformiteGravityField_ncgChanged=Modif.
         */
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteGravityField_ncgId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteGravityField_ncgGravity"));
@@ -74,7 +74,7 @@ public class NonConformiteGravityController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteGravityField_ncgChanged"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteGravityField_ncgCompany"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteGravityField_ncgId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteGravityField_ncgGravity"), true);
@@ -98,6 +98,10 @@ public class NonConformiteGravityController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared non conformite gravity
      */
     public NonConformiteGravity prepareCreate() {
         selected = new NonConformiteGravity();
@@ -155,7 +159,7 @@ public class NonConformiteGravityController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -289,8 +293,8 @@ public class NonConformiteGravityController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id non conformite gravity key
+     * @return corresponding non conformite gravity object
      */
     public NonConformiteGravity getNonConformiteGravity(java.lang.Integer id) {
         return getFacade().find(id);
@@ -330,7 +334,7 @@ public class NonConformiteGravityController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected non conformite gravity.
      */
     public NonConformiteGravity getSelected() {
         if(selected==null)   selected = new NonConformiteGravity();

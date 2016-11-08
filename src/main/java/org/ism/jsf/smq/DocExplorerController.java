@@ -69,7 +69,7 @@ public class DocExplorerController implements Serializable {
         DocExplorerField_Timestamp=Modif.
         DocExplorerField_Company=Société
          */
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Id"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Processus"));
@@ -84,7 +84,7 @@ public class DocExplorerController implements Serializable {
         headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Timestamp"));
         headerTextMap.put(12, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Company"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Id"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocExplorerField_Processus"), true);
@@ -113,6 +113,10 @@ public class DocExplorerController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared doc explorer
      */
     public DocExplorer prepareCreate() {
         selected = new DocExplorer();
@@ -170,7 +174,7 @@ public class DocExplorerController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -303,8 +307,8 @@ public class DocExplorerController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id doc explorer key
+     * @return corresponding doc explorer object
      */
     public DocExplorer getDocExplorer(java.lang.Integer id) {
         return getFacade().find(id);
@@ -344,7 +348,7 @@ public class DocExplorerController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected doc explorer
      */
     public DocExplorer getSelected() {
         if(selected==null)  selected=new DocExplorer();

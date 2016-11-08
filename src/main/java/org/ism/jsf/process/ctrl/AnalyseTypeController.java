@@ -67,7 +67,7 @@ public class AnalyseTypeController implements Serializable {
         String src_11 = "AnalyseTypeField_atCompany";
 
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -81,7 +81,7 @@ public class AnalyseTypeController implements Serializable {
         headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_10));
         headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_11));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -106,6 +106,10 @@ public class AnalyseTypeController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared analyse type
      */
     public AnalyseType prepareCreate() {
         selected = new AnalyseType();
@@ -158,7 +162,7 @@ public class AnalyseTypeController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -291,8 +295,8 @@ public class AnalyseTypeController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id analyse type key
+     * @return corresponding analyse type object
      */
     public AnalyseType getAnalyseType(java.lang.Integer id) {
         return getFacade().find(id);
@@ -331,8 +335,8 @@ public class AnalyseTypeController implements Serializable {
      * ************************************************************************
      */
     /**
-     *
-     * @return
+     * 
+     * @return selected analyse type
      */
     public AnalyseType getSelected() {
         if (selected == null) {

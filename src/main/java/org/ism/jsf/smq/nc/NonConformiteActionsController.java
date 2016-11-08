@@ -76,7 +76,7 @@ public class NonConformiteActionsController implements Serializable {
          */
 
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaStaff"));
@@ -89,7 +89,7 @@ public class NonConformiteActionsController implements Serializable {
         headerTextMap.put(9, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaNc"));
         headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaState"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaStaff"), true);
@@ -116,6 +116,10 @@ public class NonConformiteActionsController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared non conformite actions
      */
     public NonConformiteActions prepareCreate() {
         selected = new NonConformiteActions();
@@ -189,7 +193,7 @@ public class NonConformiteActionsController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -352,8 +356,8 @@ public class NonConformiteActionsController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id non conformite actions key
+     * @return corresponding non conformite actions object
      */
     public NonConformiteActions getNonConformiteActions(java.lang.Integer id) {
         return getFacade().find(id);
@@ -441,7 +445,7 @@ public class NonConformiteActionsController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected non conformite actions
      */
     public NonConformiteActions getSelected() {
         /*if (selected == null) {
@@ -482,13 +486,7 @@ public class NonConformiteActionsController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * INJECTION GETTER & SETTER
-     *
-     *
-     * ************************************************************************
-     */
+
     public NonConformiteRequestController getNcRequestCtrl() {
         return ncRequestCtrl;
     }

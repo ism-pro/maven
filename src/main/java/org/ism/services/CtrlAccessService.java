@@ -39,9 +39,9 @@ public class CtrlAccessService implements Serializable{
     /**
      * Allow to create TreeNode comparing to company
      *
-     * @param sCompaniesList
-     * @param sGroupsList
-     * @return
+     * @param sCompaniesList comapny list
+     * @param sGroupsList group list
+     * @return tree node corresponding
      */
     public TreeNode makeTreeNodeCompanyGroups(List<Company> sCompaniesList,
             List<StaffGroupDef> sGroupsList) {
@@ -80,11 +80,11 @@ public class CtrlAccessService implements Serializable{
     /**
      * Make treeNode with selected components
      *
-     * @param sCompaniesList
-     * @param sGroupsList
-     * @param sStaffGroupsSelected
-     * @param sSelectedTreeNode
-     * @return
+     * @param sCompaniesList companies
+     * @param sGroupsList groupe list
+     * @param sStaffGroupsSelected selected staff group
+     * @param sSelectedTreeNode selected tree node
+     * @return tree node
      */
     public TreeNode makeTreeNodeCompanyGroups(List<Company> sCompaniesList,
             List<StaffGroupDef> sGroupsList,
@@ -144,7 +144,7 @@ public class CtrlAccessService implements Serializable{
 
     /**
      *
-     * @return
+     * @return tree node of security company
      */
     public TreeNode securityCompany() {
         // 0 - RACINE
@@ -235,7 +235,7 @@ public class CtrlAccessService implements Serializable{
     /**
      * *
      *
-     * @return
+     * @return a checkbox trenode of security access
      */
     public CheckboxTreeNode securityAccess() {
 
@@ -986,8 +986,8 @@ public class CtrlAccessService implements Serializable{
     /**
      * Passe au travers de tous l'arbre pour activer l'état son état
      *
-     * @param root
-     * @param stgdr
+     * @param root roort asecurity access
+     * @param stgdr staff groupd definition role
      */
     private void securitySetAccess(CheckboxTreeNode root, StaffGroupDefRole stgdr) {
         // Get back controller

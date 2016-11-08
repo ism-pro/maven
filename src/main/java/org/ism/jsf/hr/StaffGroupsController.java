@@ -57,7 +57,7 @@ public class StaffGroupsController implements Serializable {
         isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
         isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupsField_stgId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupsField_stgStaff"));
@@ -67,7 +67,7 @@ public class StaffGroupsController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupsField_stgCreated"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupsField_stgChanged"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupsField_stgId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupsField_stgStaff"), true);
@@ -90,6 +90,10 @@ public class StaffGroupsController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * Prepare
+     * @return staff groups
      */
     public StaffGroups prepareCreate() {
         selected = new StaffGroups();
@@ -147,7 +151,7 @@ public class StaffGroupsController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toogle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -283,8 +287,8 @@ public class StaffGroupsController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id of staff groups
+     * @return staff groups defined by id
      */
     public StaffGroups getStaffGroups(java.lang.Integer id) {
         return getFacade().find(id);
@@ -328,7 +332,7 @@ public class StaffGroupsController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected staff groups
      */
     public StaffGroups getSelected() {
         if (selected == null) {

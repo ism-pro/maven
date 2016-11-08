@@ -190,6 +190,7 @@ public class NoCacheFilter implements Filter {
 
     /**
      * Return the filter configuration object for this filter.
+     * @return the filter config
      */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);

@@ -125,7 +125,7 @@ public class StaffManagerController implements Serializable {
         if (treeNodeFromSelectedAccessTree != null) {
             //Loop for creating parent node
             //List<TreeNode> parentNode = new ArrayList<TreeNode>();
-            List<Company> lstCompapny = new ArrayList<Company>();
+            List<Company> lstCompapny = new ArrayList<>();
             for (int i = 0; i < selectedAccessTree.length; i++) {
                 TreeNode currentNode = selectedAccessTree[i];
                 CtrlAccess ctrlAccess = (CtrlAccess) currentNode.getData();
@@ -159,7 +159,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Prepare data to show while editing.
      *
-     * @param staff
+     * @param staff staff prepered for view
      */
     public void prepareView(Staff staff) {
         //prepareCreate();
@@ -250,7 +250,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Remove staff and associate company and groups of access
      *
-     * @param staff
+     * @param staff the staff to destroy
      */
     public void destroy(Staff staff) {
         // Groups
@@ -276,7 +276,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Event happened between change of page
      *
-     * @param event
+     * @param event flowevent
      * @return next string
      */
     public String listenerFlowEvent(FlowEvent event) {
@@ -350,7 +350,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Represent staffController
      *
-     * @return
+     * @return staff controller
      */
     public StaffController getStaffCtrl() {
         return staffCtrl;
@@ -363,7 +363,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Represent company controller
      *
-     * @return
+     * @return campany controller
      */
     public CompanyController getCompanyCtrl() {
         return companyCtrl;
@@ -376,7 +376,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Représent staff Groups
      *
-     * @return
+     * @return staff group controller
      */
     public StaffGroupsController getStaffGroupsCtrl() {
         return staffGroupsCtrl;
@@ -389,7 +389,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Represent staff group def
      *
-     * @return
+     * @return staff groupdef ctrl
      */
     public StaffGroupDefController getStaffgroupDefCtrl() {
         return staffgroupDefCtrl;
@@ -402,7 +402,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Represent selected company
      *
-     * @return
+     * @return selected companies
      */
     public List<Company> getSelectedCompanies() {
         return selectedCompanies;
@@ -412,11 +412,7 @@ public class StaffManagerController implements Serializable {
         this.selectedCompanies = selectedCompanies;
     }
 
-    /**
-     * Staff Error Message
-     *
-     * @return
-     */
+
     public String getStaffErrorMsg() {
         return staffErrorMsg;
     }
@@ -425,10 +421,7 @@ public class StaffManagerController implements Serializable {
         this.staffErrorMsg = staffErrorMsg;
     }
 
-    /**
-     * Password Error Message
-     * @return 
-     */
+
     public String getStaffErrorPwd() {
         return staffErrorPwd;
     }
@@ -439,11 +432,7 @@ public class StaffManagerController implements Serializable {
 
     
     
-    /**
-     * Staff Access Tree
-     *
-     * @return
-     */
+
     public TreeNode getAccessTree() {
         return accessTree;
     }
@@ -452,11 +441,7 @@ public class StaffManagerController implements Serializable {
         this.accessTree = accessTree;
     }
 
-    /**
-     * Represent access tree node
-     *
-     * @return
-     */
+
     public TreeNode[] getSelectedAccessTree() {
         return this.selectedAccessTree;
     }
@@ -476,7 +461,7 @@ public class StaffManagerController implements Serializable {
     /**
      * Use to show selected node of access company.
      *
-     * @return
+     * @return a tree node
      */
     public TreeNode getTreeNodeFromSelectedAccessTree() {
 
@@ -491,7 +476,7 @@ public class StaffManagerController implements Serializable {
         }
 
         //Loop for creating parent node
-        List<TreeNode> parentNode = new ArrayList<TreeNode>();
+        List<TreeNode> parentNode = new ArrayList<>();
         for (int i = 0; i < selectedAccessTree.length; i++) {
             TreeNode currentNode = selectedAccessTree[i];
             // Check if parent is not already create

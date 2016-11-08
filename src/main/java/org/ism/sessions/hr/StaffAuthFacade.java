@@ -84,7 +84,7 @@ public class StaffAuthFacade implements Serializable {
      * Cette méthode permet de récupérer les informations du staff lorsque celui
      * -ci a préalablement été défini ! Voir la méthode prenant en paramètre le
      * staff pour le spécifier directement
-     * @return 
+     * @return  true if found staff
      */
     public boolean findStaff() {
         try {
@@ -124,7 +124,7 @@ public class StaffAuthFacade implements Serializable {
      * Surcharge de la méthode permettant de spécifié la variable de staff
      *
      * @param staff : entités de staff
-     * @return 
+     * @return  true if found staff
      */
     public boolean findStaff(Staff staff) {
         setStaff(staff);
@@ -135,7 +135,7 @@ public class StaffAuthFacade implements Serializable {
      * Surcharge de la méthode permettant de spécifié la variable de code staff
      *
      * @param staff : code de staff
-     * @return 
+     * @return  true if found staff
      */
     public boolean findStaff(String staff) {
         getStaff().setStStaff(staff);

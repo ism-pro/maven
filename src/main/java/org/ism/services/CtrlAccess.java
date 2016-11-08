@@ -35,7 +35,7 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
 
     /**
      *
-     * @param entity
+     * @param entity name string entity
      */
     public CtrlAccess(String entity) {
         this.name = entity;
@@ -59,7 +59,7 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
 
     /**
      *
-     * @param company
+     * @param company the company
      */
     public CtrlAccess(Company company) {
         this.company = company;
@@ -69,8 +69,8 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
     /**
      * Creates a new instance of CtrlAccess
      *
-     * @param company
-     * @param access
+     * @param company the company
+     * @param access the access
      */
     public CtrlAccess(Company company, AccessChecked access) {
         this.company = company;
@@ -80,7 +80,7 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
 
     /**
      *
-     * @param staffGroupDef
+     * @param staffGroupDef staff group definition
      */
     public CtrlAccess(StaffGroupDef staffGroupDef) {
         this.staffGroupDef = staffGroupDef;
@@ -89,9 +89,9 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
 
     /**
      * Creates a new instance of CtrlAccess
-     *
-     * @param staffGroupDef
-     * @param access
+     * 
+     * @param staffGroupDef the staff group definition
+     * @param access the corresponding access
      */
     public CtrlAccess(StaffGroupDef staffGroupDef, AccessChecked access) {
         this.staffGroupDef = staffGroupDef;

@@ -44,6 +44,10 @@ import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
 
+/**
+ * 
+ * @author r.hendrick
+ */
 @ManagedBean(name = "staffGroupDefRoleController")
 @SessionScoped
 public class StaffGroupDefRoleController implements Serializable {
@@ -73,7 +77,7 @@ public class StaffGroupDefRoleController implements Serializable {
         isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
         isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrGroupDef"));
@@ -83,7 +87,7 @@ public class StaffGroupDefRoleController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrChanged"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrCompany"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffGroupDefRoleField_stgdrGroupDef"), true);
@@ -111,6 +115,10 @@ public class StaffGroupDefRoleController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * Preapare
+     * @return staff group def prepare
      */
     public StaffGroupDefRole prepareCreate() {
         selected = new StaffGroupDefRole();
@@ -168,7 +176,7 @@ public class StaffGroupDefRoleController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toogle Event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -400,8 +408,8 @@ public class StaffGroupDefRoleController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id staff group def id
+     * @return corresponding staff group def role of the id
      */
     public StaffGroupDefRole getStaffGroupDefRole(java.lang.Integer id) {
         return getFacade().find(id);
@@ -433,7 +441,7 @@ public class StaffGroupDefRoleController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return staff group def role
      */
     public StaffGroupDefRole getSelected() {
         if (selected == null) {

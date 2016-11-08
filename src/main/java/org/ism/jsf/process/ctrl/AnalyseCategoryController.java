@@ -66,7 +66,7 @@ public class AnalyseCategoryController implements Serializable {
         
         
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -77,7 +77,7 @@ public class AnalyseCategoryController implements Serializable {
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_07));
         headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_08));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -99,6 +99,10 @@ public class AnalyseCategoryController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared analyse category
      */
     public AnalyseCategory prepareCreate() {
         selected = new AnalyseCategory();
@@ -151,7 +155,7 @@ public class AnalyseCategoryController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -286,8 +290,8 @@ public class AnalyseCategoryController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id integer id of the analyse category
+     * @return corresponding analyse category
      */
     public AnalyseCategory getAnalyseCategory(java.lang.Integer id) {
         return getFacade().find(id);
@@ -327,7 +331,7 @@ public class AnalyseCategoryController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected analyse category
      */
     public AnalyseCategory getSelected() {
         if (selected == null) {

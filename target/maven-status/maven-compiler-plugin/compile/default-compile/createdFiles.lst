@@ -226,13 +226,13 @@ org\ism\entities\hr\StaffGroupDefRole.class
 org\ism\jsf\admin\EntrepriseController$EntrepriseControllerConverter.class
 org\ism\entities\hr\StaffGroups_.class
 org\ism\filters\NoCacheFilter$RequestWrapper.class
-org\ism\view\ViewComapnyCharts.class
 org\ism\entities\hr\StaffGroupDefRole_.class
 org\ism\jsf\smq\nc\NonConformiteRequestController$NonConformiteRequestDesignationValidator.class
 org\ism\jsf\app\IsmAnalyseAlarmController.class
 org\ism\jsf\process\ctrl\AnalysePointController$AnalysePoint_AnalysePointValidator.class
 org\ism\entities\hr\StaffSetup_.class
 org\primefaces\ism\component\ribbon\RibbonGroupRenderer.class
+org\ism\view\ViewCompanyCharts.class
 org\ism\sessions\process\ctrl\AnalyseCategoryFacade.class
 org\ism\entities\app\IsmAnalyseAlarm.class
 org\ism\sessions\smq\nc\NonConformiteUniteFacade.class

@@ -64,7 +64,7 @@ public class DocTypeController implements Serializable {
         DocTypeField_dctCreated=Création
         DocTypeField_dctChanged=Modif.
          */
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocTypeField_dctId"));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocTypeField_dctType"));
@@ -74,7 +74,7 @@ public class DocTypeController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocTypeField_dctChanged"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocTypeField_dctCompany"));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocTypeField_dctId"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DocTypeField_dctType"), true);
@@ -98,6 +98,10 @@ public class DocTypeController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared doc type 
      */
     public DocType prepareCreate() {
         selected = new DocType();
@@ -155,7 +159,7 @@ public class DocTypeController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -289,8 +293,8 @@ public class DocTypeController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id doc type key
+     * @return corresponding doc type object
      */
     public DocType getDocType(java.lang.Integer id) {
         return getFacade().find(id);
@@ -332,7 +336,7 @@ public class DocTypeController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected doc type
      */
     public DocType getSelected() {
         if(selected==null)   selected = new DocType();

@@ -63,7 +63,7 @@ public class UniteController implements Serializable {
         String src_07 = "UniteField_UCompany";
 
         // Setup initial visibility
-        headerTextMap = new HashMap<Integer, String>();
+        headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01));
         headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02));
@@ -73,7 +73,7 @@ public class UniteController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_06));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_07));
 
-        visibleColMap = new HashMap<String, Boolean>();
+        visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
@@ -94,6 +94,10 @@ public class UniteController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
+     */
+    /**
+     * 
+     * @return prepared unite
      */
     public Unite prepareCreate() {
         selected = new Unite();
@@ -146,7 +150,7 @@ public class UniteController implements Serializable {
      */
     /**
      *
-     * @param e
+     * @param e toggle event
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -279,8 +283,8 @@ public class UniteController implements Serializable {
      */
     /**
      *
-     * @param id
-     * @return
+     * @param id unite key
+     * @return corresponding unite object
      */
     public Unite getUnite(java.lang.Integer id) {
         return getFacade().find(id);
@@ -320,7 +324,7 @@ public class UniteController implements Serializable {
      */
     /**
      *
-     * @return
+     * @return selected unite
      */
     public Unite getSelected() {
         if (selected == null) {
