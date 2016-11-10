@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -138,6 +139,14 @@ public class ViewAnalyseChart implements Serializable {
      *
      */
     private Boolean keepRequest = false;
+    /**
+     * Correspond to the elapse time used during creation model process.
+     */
+    private Long elapseTiming;
+    /**
+     * Specify the progression of creation model
+     */
+    private Integer modelProgress = 0;
 
     /**
      * Manage all the injection and default value.
@@ -175,6 +184,7 @@ public class ViewAnalyseChart implements Serializable {
         dateFrom = Date.from(ldtFrom.atZone(ZoneId.systemDefault()).toInstant());
         dateTo = new Date();
         keepRequest = false;
+        modelProgress = 0;
     }
 
     /**
@@ -188,6 +198,7 @@ public class ViewAnalyseChart implements Serializable {
             requestPoints = analysePointController.getItems();
             activeIndex = 0;
             models = new ArrayList<>();
+            modelProgress = 0;
         }
     }
 
@@ -242,16 +253,25 @@ public class ViewAnalyseChart implements Serializable {
      *
      */
     private void createModels() {
+        // Initialize elapse time
+        elapseTiming = System.currentTimeMillis();
         // Initialize the model
         models = new ArrayList<>();
 
         // If no sample point and analysis was allowed then creation finished
         if (selected.alloweds == null) {
+            elapseTiming = System.currentTimeMillis()-elapseTiming;
             return;
         } else if (selected.alloweds.isEmpty()) {
+            elapseTiming = System.currentTimeMillis()-elapseTiming;
             return;
         }
-
+        // init. Progress status
+        int progress = 0;
+        Integer fullsize = selected.alloweds.size();
+        modelProgress = 0;
+        
+        // Loop hover selected chart
         Iterator<AnalyseAllowed> iterAnalyseAllowed = selected.alloweds.iterator();
         while (iterAnalyseAllowed.hasNext()) {
             AnalyseAllowed currentAnalyse = ((AnalyseAllowed) iterAnalyseAllowed.next());
@@ -269,6 +289,7 @@ public class ViewAnalyseChart implements Serializable {
                     + " - "
                     + currentAnalyse.getAaType().getAtDesignation() + "]");
             chartModel.getSubTitle().setX(-20);
+            chartModel.getSubTitle().setStyle("\"color:blue;\"");
             // Setup XAxis
             chartModel.getxAxis().getTitle().setText(ResourceBundle.getBundle(JsfUtil.BUNDLE).
                     getString("AnalyseDataField_adsampleTime"));
@@ -336,11 +357,17 @@ public class ViewAnalyseChart implements Serializable {
                 models.add(chartModel);
                 activeIndex = 1;
             } catch (Exception e) {
+                elapseTiming = System.currentTimeMillis()-elapseTiming;
                 JsfUtil.addErrorMessage("ViewAnalyseChart",
                         ResourceBundle.getBundle(JsfUtil.BUNDLE).
                         getString("EmptyList"));
             }
+            progress++;
+            modelProgress = 100*(progress / fullsize);
+            
         }
+        
+        elapseTiming = System.currentTimeMillis()-elapseTiming;
 
     }
 
@@ -420,5 +447,22 @@ public class ViewAnalyseChart implements Serializable {
         this.keepRequest = keepRequest;
     }
 
+    public Long getElapseTiming() {
+        return elapseTiming;
+    }
+
+    public void setElapseTiming(Long elapseTiming) {
+        this.elapseTiming = elapseTiming;
+    }
+
+    public Integer getModelProgress() {
+        return modelProgress;
+    }
+
+    public void setModelProgress(Integer modelProgress) {
+        this.modelProgress = modelProgress;
+    }
+
+    
     
 }

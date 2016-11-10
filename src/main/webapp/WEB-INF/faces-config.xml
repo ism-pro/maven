@@ -9,7 +9,9 @@
             <supported-locale>fr_BE</supported-locale>
             <supported-locale>fr</supported-locale>
         </locale-config>
-        
+        <lifecycle>
+            <phase-listener>org.ism.listener.LogPhaseListener</phase-listener>
+        </lifecycle>
        
         
         

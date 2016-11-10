@@ -60,17 +60,23 @@ nommenclature.
 
 
 ================================================================================
-# Remplacer par un titre
+# Tracking de traitement par bar de progession et écoulement de temps
 
 ## Where :
-
+Process : analyseData : statis
 
 ## Description :
+An elapse time is compute from the beginning of creation model and compute at
+the end to have elapse time of the process. This allow to evaluate performance.
+The progress bar is react depend on number of charts to create and the periode
+from to.
 
 
 ## How
-
-
+On the beginning of creation model init elapse time and progress bar.
+For elapse time compute the performance time and plot it in to a string value.
+For progress bar it progress depending on number of chart to performe and number
+of task in the chart model.
 
 
 
@@ -137,7 +143,7 @@ Configuration :
     ++ Présentation des staffs.
     
     # TODO PROCESS ANALYSE
-    ++ Ajouter 2 bars pour afficher le défilement des données de chargement
+    ++ 
     ++ Un décompteur de temps, elapsed
     ++ Activer la possibilité d'actualiser le graphique sans recharger la page
     ++ Possibilité de modifier le rendu graphique
