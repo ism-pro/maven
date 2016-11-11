@@ -9,6 +9,7 @@
             <supported-locale>fr_BE</supported-locale>
             <supported-locale>fr</supported-locale>
         </locale-config>
+        
         <lifecycle>
             <phase-listener>org.ism.listener.LogPhaseListener</phase-listener>
         </lifecycle>
@@ -23,42 +24,7 @@
             <base-name>/META-INF/Security</base-name>
             <var>bundle</var>
         </resource-bundle>
-        <resource-bundle>
-            <base-name>/META-INF/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Lab</base-name>
-            <var>lab</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/META-INF/Lab</base-name>
-            <var>lab</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/META-INF/LAR</base-name>
-            <var>lAR</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/META-INF/LABB</base-name>
-            <var>lABB</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/toDel</base-name>
-            <var>toDel</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/ncAction</base-name>
-            <var>ncAction</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle1</base-name>
-            <var>bundle1</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
+        
     </application>
    
     

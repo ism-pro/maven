@@ -42,7 +42,6 @@ org\ism\jsf\hr\StaffController$StaffControllerConverter.class
 org\ism\view\TableView.class
 org\ism\sessions\smq\nc\NonConformiteFrequencyFacade.class
 org\ism\jsf\app\IsmAnalyseAlarmController$IsmAnalyseAlarmControllerConverter.class
-.netbeans_automatic_build
 org\ism\jsf\hr\StaffGroupDefController.class
 org\ism\jsf\smq\nc\NonConformiteNatureController$NonConformiteNatureDesignationValidator.class
 org\ism\entities\admin\Entreprise_.class
@@ -144,7 +143,6 @@ org\ism\jsf\hr\StaffManagerController$CompanyControllerConverter.class
 org\ism\jsf\process\ctrl\AnalyseCategoryController$AnalyseCategory_AnalyseCategoryValidator.class
 org\ism\jsf\process\ctrl\AnalyseNotifyController$AnalyseNotify_AnalyseNotifyValidator.class
 org\primefaces\ism\component\ribbon\RibbonGroup$PropertyKeys.class
-org\ism\filters\CountingFilter.class
 org\ism\jsf\hr\StaffGroupDefRoleController.class
 org\ism\jsf\smq\DocExplorerController$DocExplorerDesignationValidator.class
 org\primefaces\ism\component\ribbon\Ribbon.class
@@ -217,10 +215,8 @@ org\ism\filters\NoCacheFilter$ResponseWrapper.class
 org\ism\jsf\admin\CompanyController.class
 org\ism\jsf\smq\DocTypeController.class
 org\ism\entities\admin\Company.class
-org\ism\servlet\CountingServletResponse.class
 org\ism\jsf\smq\nc\NonConformiteRequestController$NonConformiteRequestCodeValidator.class
 org\ism\jsf\smq\ProcessusController$ProcessusControllerConverter.class
-org\ism\servlet\CountingServletOutputStream.class
 org\ism\jsf\hr\StaffGroupDefRoleController$StaffGroupDefRoleControllerConverter.class
 org\ism\view\ViewRibbon.class
 org\ism\entities\process\ctrl\AnalyseMethod.class

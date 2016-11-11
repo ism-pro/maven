@@ -14,8 +14,8 @@ import javax.faces.event.PhaseListener;
 import org.ism.jsf.util.JsfUtil;
 /**
  * <h1>LogPhaseListener</h1>
- *
- * <h2>Description</h2>
+ * This is a phase listener message which allow to compute rendering time when
+ * developping.
  *
  * @see http://www.andygibson.net/blog/tutorial/timing-jsf-requests-using-a-phase-listener/
  * @author r.hendrick
@@ -32,7 +32,7 @@ public class LogPhaseListener implements PhaseListener {
     @Override
     public void afterPhase(PhaseEvent event) {
         
-        //if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
+        if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
             long endTime = System.nanoTime();
             long diffMs = (long) ((endTime - startTime) * 0.000001);
             long diffStepTimeMs = (long) ((endTime - stepTime) * 0.000001);
@@ -41,6 +41,7 @@ public class LogPhaseListener implements PhaseListener {
             if(phasesTimeMs==null)  phasesTimeMs = new ArrayList<>();
             phasesTimeMs.add(phaseTimeMs);
             JsfUtil.out("P[" + event.getPhaseId() + "] :  Ts[" + diffStepTimeMs + "]ms Tt[" + diffMs + "]ms");
+        }
 
     }
  
@@ -49,7 +50,7 @@ public class LogPhaseListener implements PhaseListener {
          if (event.getPhaseId() == PhaseId.RESTORE_VIEW) {
             startTime = System.nanoTime();
         }
-         stepTime = System.nanoTime();
+        stepTime = System.nanoTime();
     }
  
     @Override

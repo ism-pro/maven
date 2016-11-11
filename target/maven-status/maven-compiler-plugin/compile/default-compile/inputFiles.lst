@@ -24,7 +24,6 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\domain\Theme.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\smq\DocExplorerController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\app\IsmAnalyseAlarm.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\hr\StaffSetup.java
-E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\filters\CountingFilter.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\process\ctrl\AnalyseAllowedFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\admin\EntrepriseController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\util\FileController.java
@@ -59,7 +58,6 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\admin\CompanyFacad
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\process\UniteFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\app\ThemeSwitcherView.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\smq\Processus.java
-E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\servlet\CountingServletOutputStream.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\ViewCompanyCharts.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\process\ctrl\AnalyseAllowedController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\process\ctrl\AnalysePoint.java
@@ -71,7 +69,6 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\hr\StaffGroupDefRo
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\app\ViewPhaseControl.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\admin\CompanyController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\process\ctrl\AnalyseTypeController.java
-E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\servlet\CountingServletResponse.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\hr\StaffController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\util\JsfUtil.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\admin\Company.java

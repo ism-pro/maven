@@ -60,24 +60,25 @@ nommenclature.
 
 
 ================================================================================
-# Tracking de traitement par bar de progession et écoulement de temps
+# Internationalization : mise en forme des champs avec valeur standard français
 
 ## Where :
-Process : analyseData : statis
+Process
 
 ## Description :
-An elapse time is compute from the beginning of creation model and compute at
-the end to have elapse time of the process. This allow to evaluate performance.
-The progress bar is react depend on number of charts to create and the periode
-from to.
-
+Les éléments modifier sont :
+    Unité,
+    Equipement,
+    Analyse Allowed
+    Analyse Catégorie
+    Analyse Data
+    Analyse Method
+    Analyse Notify
+    Analyse Point
+    Analyse Type
 
 ## How
-On the beginning of creation model init elapse time and progress bar.
-For elapse time compute the performance time and plot it in to a string value.
-For progress bar it progress depending on number of chart to performe and number
-of task in the chart model.
-
+Modification des fichiers ISM.properties et ISM_fr.properties
 
 
 
@@ -143,8 +144,6 @@ Configuration :
     ++ Présentation des staffs.
     
     # TODO PROCESS ANALYSE
-    ++ 
-    ++ Un décompteur de temps, elapsed
     ++ Activer la possibilité d'actualiser le graphique sans recharger la page
     ++ Possibilité de modifier le rendu graphique
     ++ Modifier l'intituler des champ
