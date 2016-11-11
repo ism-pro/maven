@@ -36,7 +36,6 @@ public class IsmAnalyseAlarmFacade extends AbstractFacade<IsmAnalyseAlarm> {
         super(IsmAnalyseAlarm.class);
     }
 
-    @Override
     public List<IsmAnalyseAlarm> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

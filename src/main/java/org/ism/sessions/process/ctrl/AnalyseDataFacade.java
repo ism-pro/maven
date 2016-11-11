@@ -47,7 +47,6 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
         super(AnalyseData.class);
     }
 
-    @Override
     public List<AnalyseData> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

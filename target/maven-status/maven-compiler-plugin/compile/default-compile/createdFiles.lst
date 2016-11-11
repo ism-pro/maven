@@ -169,7 +169,6 @@ org\ism\view\ViewCrud.class
 org\ism\jsf\process\EquipementController$EquipementDesignationValidator.class
 org\ism\jsf\smq\nc\NonConformiteFrequencyController$NonConformiteFrequencyDesignationValidator.class
 org\ism\entities\smq\nc\NonConformiteFrequency.class
-org\ism\view\app\ViewPhaseControl.class
 org\ism\jsf\process\ctrl\AnalyseMethodController$AnalyseMethod_AnalyseMethodValidator.class
 org\ism\jsf\app\IsmNcastateController$IsmNcastateControllerConverter.class
 org\ism\entities\hr\Staff.class

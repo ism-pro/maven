@@ -40,6 +40,14 @@ public class ViewUtil implements Serializable {
     }
 
     /**
+     * 
+     * @return 
+     */
+    public Date getMaintenant(){
+        return getNow();
+    }
+    
+    /**
      * This is the date time when request is made
      * 
      * @return the actual request date time

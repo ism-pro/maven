@@ -38,7 +38,6 @@ public class EquipementFacade extends AbstractFacade<Equipement> {
         super(Equipement.class);
     }
     
-    @Override
     public List<Equipement> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

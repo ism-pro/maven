@@ -1388,14 +1388,14 @@ INSERT INTO ism.analyse_point(ap_company, ap_point, ap_designation, ap_equipemen
 #
 ## GESTION DES CATEGORIE D'ANALYSE
 ########
-INSERT INTO `ism`.`analyse_category` (`ac_company`, `ac_category`, `ac_designation`, `ac_description`, `ac_deleted`) VALUES (39, 'UNDEF', 'INDEFINI', '-', '0');
+INSERT INTO `ism`.`analyse_category` (`ac_company`, `ac_category`, `ac_designation`, `ac_description`, `ac_deleted`) VALUES (39, 'UNDEF', 'INDEFINI', '-', 0);
 
 
 
 #
 ## GESTION DES METHODE D'ANALYSE
 ########
-INSERT INTO `ism`.`analyse_method` (`am_company`, `am_method`, `am_designation`, `am_description`, `am_deleted`) VALUES (39, 'UNDEF', 'INDEFINI', '-', '0');
+INSERT INTO `ism`.`analyse_method` (`am_company`, `am_method`, `am_designation`, `am_description`, `am_deleted`) VALUES (39, 'UNDEF', 'INDEFINI', '-', 0);
 
 
 

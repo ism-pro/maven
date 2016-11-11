@@ -10,10 +10,11 @@
             <supported-locale>fr</supported-locale>
         </locale-config>
         
+        <!-- Developpement only
         <lifecycle>
             <phase-listener>org.ism.listener.LogPhaseListener</phase-listener>
         </lifecycle>
-       
+       -->
         
         
         <resource-bundle>

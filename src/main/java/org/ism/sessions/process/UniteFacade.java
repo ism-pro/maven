@@ -37,7 +37,6 @@ public class UniteFacade extends AbstractFacade<Unite> {
         super(Unite.class);
     }
 
-    @Override
     public List<Unite> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

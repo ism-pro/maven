@@ -64,14 +64,5 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    public List<T> findAllByLastChanged() {
-        getEntityManager().flush();
-        Query q = getEntityManager().createNamedQuery(entityClass + ".selectAllByLastChange");
-        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
-        int count = q.getResultList().size();
-        if (count > 0) {
-            return q.getResultList();
-        }
-        return null;
-    }
+
 }

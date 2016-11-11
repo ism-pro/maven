@@ -48,7 +48,6 @@ public class AnalyseNotifyFacade extends AbstractFacade<AnalyseNotify> {
         super(AnalyseNotify.class);
     }
 
-    @Override
     public List<AnalyseNotify> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

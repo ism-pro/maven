@@ -43,7 +43,6 @@ public class AnalyseAllowedFacade extends AbstractFacade<AnalyseAllowed> {
         super(AnalyseAllowed.class);
     }
 
-    @Override
     public List<AnalyseAllowed> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
