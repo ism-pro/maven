@@ -33,5 +33,11 @@
         <managed-bean-class>org.ism.jsf.process.ctrl.AnalyseTypeController</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>docExplorerController</managed-bean-name>
+        <managed-bean-class>org.ism.jsf.smq.DocExplorerController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
 </beans>

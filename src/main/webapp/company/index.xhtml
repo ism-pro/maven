@@ -14,18 +14,8 @@
             <h1><h:outputText   value="ISM - Integrated System Manager" /></h1>
             <h:form>
                 <p:outputPanel id="SessionCounter">
-                    <p>
-                        Bonjour #{staffAuthController.staff.stFirstname},
-                        Vous êtes connecté avec l'identifiant #{request.remoteUser}
-                        avec un temps de déconnexion de 
-                        #{request.session.maxInactiveInterval / 60} minutes              
-                        <br />
-                        Le nombre de session susceptible est de 
-                        #{viewSessionCounter.sessionCounter} : seulement 
-                        #{viewSessionCounter.totalActiveSessionsAuthenticated} 
-                        sur #{staffController.items.size()} sont identifiées !
-
-                    </p>
+                    <h1>Bonjour #{staffAuthController.staff.stFirstname}</h1>
+                        
 
                     <hr />
                     <h2>Flash Infos</h2>

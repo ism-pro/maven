@@ -108,14 +108,12 @@ public class DocExplorerController implements Serializable {
         return ejbFacade;
     }
 
+    /// ************************************************************************
+    //* CRUD OPTIONS
+    //*
+    /// * ************************************************************************
     /**
-     * ************************************************************************
-     * CRUD OPTIONS
      *
-     * ************************************************************************
-     */
-    /**
-     * 
      * @return prepared doc explorer
      */
     public DocExplorer prepareCreate() {
@@ -351,7 +349,9 @@ public class DocExplorerController implements Serializable {
      * @return selected doc explorer
      */
     public DocExplorer getSelected() {
-        if(selected==null)  selected=new DocExplorer();
+        if (selected == null) {
+            selected = new DocExplorer();
+        }
         return selected;
     }
 
@@ -473,7 +473,7 @@ public class DocExplorerController implements Serializable {
     }
 
     @FacesValidator(value = "DocExplorerDesignationValidator")
-    public static class DocExplorerDesignationValidator implements Validator {
+    public class DocExplorerDesignationValidator implements Validator {
 
         public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "DocExplorerDuplicationField_designationSummary";
         public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "DocExplorerDuplicationField_designationDetail";
@@ -491,10 +491,19 @@ public class DocExplorerController implements Serializable {
                 return;
             }
             InputText input = (InputText) uic;
-            List<DocExplorer> lst = ejbFacade.findByDesignation(value);
+
+            DocExplorerController docExplorerController = null;
+            //if (ejbFacade == null) {
+                FacesContext ctx = FacesContext.getCurrentInstance();
+                // Setup staff controller
+                docExplorerController = (DocExplorerController) ctx.getApplication().getELResolver().
+                        getValue(ctx.getELContext(), null, "docExplorerController");
+            //}
+
+            List<DocExplorer> lst = docExplorerController.getItemsByDesignation(value);
             if (lst != null) {
                 if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
+                    if (lst.get(0).getDcDesignation().matches((String) input.getValue())) {
                         return;
                     }
                 }
@@ -506,6 +515,10 @@ public class DocExplorerController implements Serializable {
                         + value);
                 throw new ValidatorException(facesMsg);
             }
+        }
+
+        private DocExplorerFacade getFacade() {
+            return ejbFacade;
         }
     }
 

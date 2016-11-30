@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import org.ism.entities.app.IsmNcrstate;
 import org.ism.jsf.app.IsmNcrstateController;
+import org.ism.jsf.hr.StaffController;
 import org.ism.jsf.smq.nc.NonConformiteRequestController;
 import org.ism.listener.SessionCounterListener;
 import org.ism.model.chart.ChartModel;
@@ -33,6 +34,7 @@ public class ViewCompanyCharts implements Serializable {
 
     private NonConformiteRequestController ncRequestCtrl = new NonConformiteRequestController();
     private IsmNcrstateController ncStateCtrl = new IsmNcrstateController();
+    private StaffController stStaffCtrl = new StaffController();
 
     /**
      * <h1>sessionModel</h1>
@@ -63,6 +65,10 @@ public class ViewCompanyCharts implements Serializable {
         ncStateCtrl = (IsmNcrstateController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "ismNcrstateController");
         ncStateCtrl.prepareCreate();
+        
+        stStaffCtrl = (StaffController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "staffController");
+        stStaffCtrl.prepareCreate();
     }
 
     /**
@@ -74,9 +80,10 @@ public class ViewCompanyCharts implements Serializable {
     private void createSessionModel() {
         Double percActiveSession
                 = SessionCounterListener.getTotalActiveSessionsAuthenticated()
-                / (1.00 * SessionCounterListener.getTotalActiveSession());
-        Double perInactiveSession = (SessionCounterListener.getTotalActiveSession() - SessionCounterListener.getTotalActiveSessionsAuthenticated())
-                / (1.00 * SessionCounterListener.getTotalActiveSession());
+                / (1.00 * stStaffCtrl.getItems().size());
+        /*Double perInactiveSession = (SessionCounterListener.getTotalActiveSession() - SessionCounterListener.getTotalActiveSessionsAuthenticated())
+                / (1.00 * SessionCounterListener.getTotalActiveSession());*/
+        Double perStaffInactive = 1.00 - percActiveSession;
 
         ChartModel model = new ChartModel();
         model.getChart().setType(ChartType.PIE);
@@ -84,7 +91,7 @@ public class ViewCompanyCharts implements Serializable {
         model.getChart().setPlotBorderWidth(null);
         model.getChart().setPlotShadow(false);
         // Seutp Title
-        model.getSubTitle().setText("Non conformités");
+        model.getTitle().setText("Sessions actives");
         // Setup Tooltip
         model.getTooltip().setPointFormat("{series.name}: <b>{point.percentage:.1f}%</b>");
         // Setup plotOptions
@@ -96,11 +103,11 @@ public class ViewCompanyCharts implements Serializable {
         // Setup serie
         ChartSerie sessionSerie = new ChartSerie("Sessions");
         sessionSerie.setColorByPoint(Boolean.TRUE);
-        sessionSerie.add(new ChartSerieData("Connectée", percActiveSession, true, true));
-        sessionSerie.add(new ChartSerieData("Déconectée", perInactiveSession));
+        sessionSerie.add(new ChartSerieData("Connectée(s)", percActiveSession, true, true));
+        sessionSerie.add(new ChartSerieData("Déconectée(s)", perStaffInactive));
         model.addSerie(sessionSerie);
 
-        nonConformiteModel = model;
+        sessionModel = model;
     }
 
     /**
@@ -116,7 +123,7 @@ public class ViewCompanyCharts implements Serializable {
         model.getChart().setPlotBorderWidth(null);
         model.getChart().setPlotShadow(false);
         // Seutp Title
-        model.getTitle().setText("Sessions actives");
+        model.getTitle().setText("Non conformités");
         // Setup Tooltip
         model.getTooltip().setPointFormat("<b>{point.percentage:.1f}%</b>");
         // Setup plotOptions

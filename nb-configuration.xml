@@ -12,13 +12,6 @@ Without this configuration present, some functionality in the IDE may be limited
             <file localPath="src/main/webapp/js/libs/jets/jets.min.js" path="jets.min.js"/>
         </library>
     </libraries>
-    <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
-        <configurations>
-            <configuration id="Debug" profiles="Debug">
-                <property name="g"/>
-            </configuration>
-        </configurations>
-    </config-data>
     <properties xmlns="http://www.netbeans.org/ns/maven-properties-data/1">
         <!--
 Properties that influence various parts of the IDE, especially code formatting and the like. 
@@ -42,4 +35,14 @@ Any value defined here will override the pom.xml file value but is only applicab
         <org-netbeans-modules-maven-j2ee.netbeans_2e_deploy_2e_on_2e_save>false</org-netbeans-modules-maven-j2ee.netbeans_2e_deploy_2e_on_2e_save>
         <org-netbeans-modules-maven-jaxws.rest_2e_config_2e_type>ide</org-netbeans-modules-maven-jaxws.rest_2e_config_2e_type>
     </properties>
+    <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
+        <configurations>
+            <configuration id="Debug" profiles="Debug">
+                <property name="g"/>
+            </configuration>
+            <configuration id="CBR" profiles="CleanBuildRun">
+                <property name="r"/>
+            </configuration>
+        </configurations>
+    </config-data>
 </project-shared-configuration>

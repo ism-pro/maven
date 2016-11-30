@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1611.11</version>
+    <version>1611.30</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -133,7 +133,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ismjee</artifactId>
-            <version>16.10.20</version>
+            <version>1611.22</version>
         </dependency>
         <dependency>
             <groupId>org.apache.myfaces.shared</groupId>

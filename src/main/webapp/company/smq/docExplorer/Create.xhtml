@@ -64,7 +64,6 @@
                         <p:inputText id="dcDesignation" 
                                      value="#{docExplorerController.selected.dcDesignation}" 
                                      title="#{ism.DocExplorerFieldInfo_Name}" 
-                                     validator="DocExplorerDesignationValidator"
                                      required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Name}"/>
                         <p:message for="dcDesignation" />
                     </h:panelGrid>
@@ -75,7 +74,6 @@
                         <p:inputText id="dcVersion" 
                                      value="#{docExplorerController.selected.dcVersion}" 
                                      title="#{ism.DocExplorerFieldInfo_Version}" 
-                                     validator="DocExplorerCodeValidator"
                                      required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Version}"/>
                         <p:message for="dcVersion" />
                     </h:panelGrid>
