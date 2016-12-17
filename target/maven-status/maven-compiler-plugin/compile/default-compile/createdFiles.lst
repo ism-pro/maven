@@ -79,6 +79,7 @@ org\ism\entities\smq\nc\NonConformiteNature.class
 org\ism\sessions\hr\StaffSetupFacade.class
 org\ism\jsf\smq\nc\NonConformiteFrequencyController$NonConformiteFrequencyCodeValidator.class
 org\ism\entities\smq\DocExplorer_.class
+org\ism\view\process\ctrl\DataLazySorter.class
 org\ism\jsf\admin\EntrepriseController.class
 org\ism\sessions\process\UniteFacade.class
 org\ism\jsf\process\ctrl\AnalyseDataController.class
@@ -161,6 +162,7 @@ org\ism\jsf\process\ctrl\AnalyseMethodController$AnalyseMethodDesignationValidat
 org\ism\sessions\admin\CompanyFacade.class
 org\ism\sessions\process\ctrl\AnalyseNotifyFacade.class
 org\ism\entities\hr\Staff_.class
+org\ism\view\process\ctrl\DataLazyModel.class
 org\ism\jsf\process\ctrl\AnalysePointController.class
 org\ism\jsf\smq\nc\NonConformiteActionsController$NonConformiteActionsControllerConverter.class
 org\ism\converter\ThemeConverter.class

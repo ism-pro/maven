@@ -25,120 +25,29 @@
 
                 </div>
 
-                <p:tabView activeIndex="#{viewAnalyseChart.activeIndex}">
-                    <p:tab title="#{ism.Criteria}">
-                        <p:panelGrid id="panelForm" columns="2" 
-                                     columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
-                                     >
+                <h3>#{ism.Statistics}</h3>
 
-                            <p:outputLabel value="#{ism.EquipementTitle}" for="requestEquipement" />
-                            <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                                <p:selectOneMenu id="requestEquipement"  widgetVar="requestEquipement"
-                                                 filter="true" filterMatchMode="contains"
-                                                 value="#{viewAnalyseChart.selected.equipement}"
-                                                 >
-                                    <p:ajax event="change" update="requestPoint, @this" listener="#{viewAnalyseChart.handleEquipementSelect()}" />
-                                    <f:selectItem itemLabel="#{ism.SelectList}" 
-                                                  itemValue=""/>
-                                    <f:selectItems value="#{equipementController.itemsAvailableSelectOne}" 
-                                                   var="equipementItem"
-                                                   itemLabel="#{equipementItem.EEquipement} - #{equipementItem.EDesignation}" 
-                                                   itemValue="#{equipementItem}"/>
-                                </p:selectOneMenu>
-                                <p:message for="requestEquipement" />
-                            </h:panelGrid>  
+                <ul class="nav nav-pills">
+                    <li >
+                        <h:link outcome="Request" value="#{ism.Criteria}"/>
+                    </li>
+                    <li class="active"><a href="#">#{ism.Statistics}</a></li>
+                </ul>
 
 
-                            <p:outputLabel value="#{ism.AnalyseDataField_adPoint}"  for="requestPoint" />
-                            <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                                <p:selectCheckboxMenu id="requestPoint"  widgetVar="requestPoint"
-                                                      filter="true" filterMatchMode="contains"
-                                                      value="#{viewAnalyseChart.selected.points}"
-                                                      label="#{ism.AnalysePointTitle}"
-                                                      converter="AnalysePointConverter"
-                                                      >
-                                    <p:ajax event="change" update="requestAllowed, @this, growl" listener="#{viewAnalyseChart.handlePointSelect()}" />
-                                    <f:selectItems value="#{viewAnalyseChart.requestPoints}"
-                                                   var="adPointItem"
-                                                   itemLabel="#{adPointItem.apPoint} - #{adPointItem.apDesignation}" 
-                                                   itemValue="#{adPointItem}"/>  
-                                </p:selectCheckboxMenu>
-                                <p:message for="requestPoint" />
-                            </h:panelGrid>                    
-
-
-                            <p:outputLabel value="#{ism.AnalyseAllowedTitle}" 
-                                           for="requestAllowed" />
-                            <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                                <p:selectCheckboxMenu id="requestAllowed"  widgetVar="requestAllowed"
-                                                      filter="true" filterMatchMode="contains"
-                                                      value="#{viewAnalyseChart.selected.alloweds}"
-                                                      required="true" 
-                                                      requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaId}" 
-                                                      label="#{ism.AnalyseAllowedTitle}"
-                                                      converter="AnalyseAllowedConverter"
-                                                      >
-                                    <f:selectItems value="#{viewAnalyseChart.analyseAlloweds}"
-                                                   var="aaItem"
-                                                   itemLabel=">> #{aaItem.aaPoint.apPoint} - #{aaItem.aaPoint.apDesignation}  >>  #{aaItem.aaType.atType} - #{aaItem.aaType.atDesignation} " 
-                                                   itemValue="#{aaItem}"/>
-                                </p:selectCheckboxMenu>
-                                <p:message for="requestAllowed" />
-                            </h:panelGrid>       
-
-
-
-                            <p:outputLabel value="#{ism.DateFrom}" for="requestDateFrom" />
-                            <p:calendar id="requestDateFrom" 
-                                        value="#{viewAnalyseChart.dateFrom}" pattern="dd/MM/yyyy" 
-                                        label="#{ism.DateFrom}" />
-
-                            <p:outputLabel value="#{ism.DateTo}" for="requestDateTo" />
-                            <p:calendar id="requestDateTo" 
-                                        value="#{viewAnalyseChart.dateTo}" pattern="dd/MM/yyyy" 
-                                        label="#{ism.DateTo}" />
-
-
-                            <p:outputLabel value="#{ism.KeepRequest}" for="requestKeepInMemory" />
-                            <p:selectBooleanCheckbox id="requestKeepInMemory" 
-                                                     value="#{viewAnalyseChart.keepRequest}" 
-                                                     />
-
-
-                        </p:panelGrid>
-
-                        <h:panelGroup id="btn-crud-zone_id"  >
-                            <p:commandButton id="btnSearchRequest"
-                                             styleClass="ui-btn"
-                                             icon="ui-btn-Search"
-                                             value="#{ism.Search}" 
-                                             actionListener="#{viewAnalyseChart.handleSearchRequest()}" 
-                                             onstart=""
-                                             update=":bodyForm,:growl" 
-                                             
-                                             />
-                        </h:panelGroup>
-
-                        <p:messages />
-
-                    </p:tab>
-
-                    <p:tab title="#{ism.Statistics}" >
-                        <h:panelGroup style="width: 100%"
-                                      rendered="#{viewAnalyseChart.models!=null?true:false}"
-                                      >  
-                            <c:forEach var="model" items="#{viewAnalyseChart.models}" varStatus="count" >
-                                <ism:chart id="statisticsChart_#{count.index}" 
-                                           type="line"
-                                           model="#{model}"
-                                           style="min-width: 310px; height: 400px; margin: 0 auto"
-                                           exporting="true" debug="false"
-                                           />
-                                <hr />
-                            </c:forEach>
-                        </h:panelGroup>
-                    </p:tab>
-                </p:tabView>
+                <h:panelGroup style="width: 100%"
+                              rendered="#{viewAnalyseChart.models!=null?true:false}"
+                              >  
+                    <c:forEach var="model" items="#{viewAnalyseChart.models}" varStatus="count" >
+                        <ism:chart id="statisticsChart_#{count.index}" 
+                                   type="line"
+                                   model="#{model}"
+                                   style="min-width: 310px; height: 400px; margin: 0 auto"
+                                   exporting="true" debug="false"
+                                   />
+                        <hr />
+                    </c:forEach>
+                </h:panelGroup>
 
 
 

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ism="http://www.ism.org/ismjee" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+
+
+            <h:form id="bodyForm" >
+                <div>
+                    <p:progressBar widgetVar="w_progress" ajax="true" 
+                                   value="#{viewAnalyseChart.modelProgress}" 
+                                   interval="1500"
+                                   labelTemplate="{value}%" styleClass="animated" global="false">
+                        <p:ajax event="complete" update="bodyForm" oncomplete="PF('btnSearchRequest').enable()"/>
+                    </p:progressBar>
+
+                </div>
+
+                <h3>#{ism.Criteria}</h3>
+
+                <ul class="nav nav-pills">
+                    <li class="active">
+                        <a href="#">#{ism.Criteria}</a>
+                    </li>
+                    <li ><h:link outcome="Statis" value="#{ism.Statistics}"/></li>
+                </ul>
+
+                <p:panelGrid id="panelForm" columns="2" 
+                             columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             >
+
+                    <p:outputLabel value="#{ism.EquipementTitle}" for="requestEquipement" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="requestEquipement"  widgetVar="requestEquipement"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{viewAnalyseChart.selected.equipement}"
+                                         >
+                            <p:ajax event="change" update="requestPoint, @this" listener="#{viewAnalyseChart.handleEquipementSelect()}" />
+                            <f:selectItem itemLabel="#{ism.SelectList}" 
+                                          itemValue=""/>
+                            <f:selectItems value="#{equipementController.itemsAvailableSelectOne}" 
+                                           var="equipementItem"
+                                           itemLabel="#{equipementItem.EEquipement} - #{equipementItem.EDesignation}" 
+                                           itemValue="#{equipementItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="requestEquipement" />
+                    </h:panelGrid>  
+
+
+                    <p:outputLabel value="#{ism.AnalyseDataField_adPoint}"  for="requestPoint" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectCheckboxMenu id="requestPoint"  widgetVar="requestPoint"
+                                              filter="true" filterMatchMode="contains"
+                                              value="#{viewAnalyseChart.selected.points}"
+                                              label="#{ism.AnalysePointTitle}"
+                                              converter="AnalysePointConverter"
+                                              >
+                            <p:ajax event="change" update="requestAllowed, @this, growl" listener="#{viewAnalyseChart.handlePointSelect()}" />
+                            <f:selectItems value="#{viewAnalyseChart.requestPoints}"
+                                           var="adPointItem"
+                                           itemLabel="#{adPointItem.apPoint} - #{adPointItem.apDesignation}" 
+                                           itemValue="#{adPointItem}"/>  
+                        </p:selectCheckboxMenu>
+                        <p:message for="requestPoint" />
+                    </h:panelGrid>                    
+
+
+                    <p:outputLabel value="#{ism.AnalyseAllowedTitle}" 
+                                   for="requestAllowed" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectCheckboxMenu id="requestAllowed"  widgetVar="requestAllowed"
+                                              filter="true" filterMatchMode="contains"
+                                              value="#{viewAnalyseChart.selected.alloweds}"
+                                              required="true" 
+                                              requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaId}" 
+                                              label="#{viewAnalyseChart.selected.alloweds[0]==null? 'emptyList':viewAnalyseChart.selected.alloweds[0]}"
+                                              converter="AnalyseAllowedConverter"
+                                              >
+                            <f:selectItems value="#{viewAnalyseChart.analyseAlloweds}"
+                                           var="aaItem"
+                                           itemLabel=">> #{aaItem.aaPoint.apPoint} - #{aaItem.aaPoint.apDesignation}  >>  #{aaItem.aaType.atType} - #{aaItem.aaType.atDesignation} " 
+                                           itemValue="#{aaItem}"/>
+                        </p:selectCheckboxMenu>
+                        <p:message for="requestAllowed" />
+                    </h:panelGrid>       
+
+
+
+                    <p:outputLabel value="#{ism.DateFrom}" for="requestDateFrom" />
+                    <p:calendar id="requestDateFrom" 
+                                value="#{viewAnalyseChart.dateFrom}" pattern="dd/MM/yyyy" 
+                                label="#{ism.DateFrom}" />
+
+                    <p:outputLabel value="#{ism.DateTo}" for="requestDateTo" />
+                    <p:calendar id="requestDateTo" 
+                                value="#{viewAnalyseChart.dateTo}" pattern="dd/MM/yyyy" 
+                                label="#{ism.DateTo}" />
+
+
+                    <p:outputLabel value="#{ism.KeepRequest}" for="requestKeepInMemory" />
+                    <p:selectBooleanCheckbox id="requestKeepInMemory" 
+                                             value="#{viewAnalyseChart.keepRequest}" 
+                                             />
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton id="btnSearchRequest"
+                                     styleClass="ui-btn"
+                                     icon="ui-btn-Search"
+                                     value="#{ism.Search}" 
+                                     action="./Stat.xhtml?faces-redirect=true"
+                                     actionListener="#{viewAnalyseChart.handleSearchRequest()}" 
+                                     onstart=""
+                                     update=":bodyForm,:growl" 
+
+                                     />
+                </h:panelGroup>
+
+                <p:messages />
+
+
+
+
+
+
+
+
+
+            </h:form>
+
+
+
+
+        </ui:define>
+
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+
+            </h:panelGroup>
+
+
+
+        </ui:define>
+
+
+    </ui:composition>
+
+</html>

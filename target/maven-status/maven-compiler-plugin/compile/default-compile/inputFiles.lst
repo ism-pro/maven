@@ -75,10 +75,12 @@ E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\hr\StaffGroups.jav
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\smq\ProcessusFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\primefaces\ism\component\ribbon\RibbonGroupRenderer.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\process\ctrl\AnalyseTypeFacade.java
+E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\process\ctrl\DataLazySorter.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\process\ctrl\AnalysePointController.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\ViewCrud.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\process\ctrl\AnalyseMethod.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\hr\StaffManagerView.java
+E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\view\process\ctrl\DataLazyModel.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\sessions\process\ctrl\AnalysePointFacade.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\entities\smq\nc\NonConformiteActions.java
 E:\APPLICATIONS\Java\ISM\maven\src\main\java\org\ism\jsf\hr\StaffGroupDefRoleController.java

@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1611.30</version>
+    <version>1612.15</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -111,6 +111,7 @@
         </dependency>
         -->
         
+        <!-- org.glassfish : utiliser pour JsfUtil pour retrouver l'id d'un composant -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.faces</artifactId>

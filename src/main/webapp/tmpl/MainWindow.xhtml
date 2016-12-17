@@ -32,10 +32,12 @@
 
             
             <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
-            <!--<h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />-->
+            <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
 
+            <!--
             <h:outputScript library="js" name="jquery/jquery-2.2.3.min.js" target="head" />
             <h:outputScript library="js" name="jquery/jquery-ui.min.js" target="head" />
+            -->
             
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
@@ -471,7 +473,7 @@
                                         
                                         <p:commandButton id="btnProcessAnalyseDataStatis"
                                                          title="Gestion des données d'analyse par statistique"
-                                                         action="/company/process/ctrl/AnalyseData/Statis.xhtml?faces-redirect=true"
+                                                         action="/company/process/ctrl/AnalyseData/Request.xhtml?faces-redirect=true"
                                                          actionListener="#{viewAnalyseChart.prepareCreate()}"
                                                          rendered="#{request.isUserInRole('GUEST')}"
                                                          icon="ui-icon-analysedatastatis" 

@@ -59,6 +59,8 @@ import org.ism.jsf.hr.StaffGroupDefController;
 import org.ism.jsf.hr.StaffGroupDefRoleController;
 import org.ism.jsf.hr.StaffGroupsController;
 import org.ism.jsf.process.UniteController;
+import org.ism.view.process.ctrl.DataLazyModel;
+import org.primefaces.model.LazyDataModel;
 
 /**
  *
@@ -598,6 +600,10 @@ public class ViewTabManager implements Serializable {
      * @return analyse data
      * *************************************************************************
      */
+    public LazyDataModel<AnalyseData> getAnalyseDataModel(){
+        return new DataLazyModel(analysedata);
+    }
+    
     public List<AnalyseData> getAnalysedata() {
         return analysedata;
     }
