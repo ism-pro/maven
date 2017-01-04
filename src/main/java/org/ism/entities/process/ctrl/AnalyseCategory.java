@@ -201,7 +201,8 @@ public class AnalyseCategory implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.AnalyseCategory[ acId=" + acId + " ]";
+        return acCategory + " - " + acDesignation + " [" + acId + "]";
+        //return "org.ism.entities.AnalyseCategory[ acId=" + acId + " ]";
     }
     
 }

@@ -310,7 +310,10 @@ public class AnalyseAllowed implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.AnalyseAllowed[ aaId=" + aaId + " ]";
+        return aaPoint.getApPoint() + " - " + aaPoint.getApDesignation() + 
+                " >> " + aaType.getAtType() + " - " + aaType.getAtDesignation() +
+                " [" + aaId + "]";
+        //return "org.ism.entities.AnalyseAllowed[ aaId=" + aaId + " ]";
     }
     
 }
