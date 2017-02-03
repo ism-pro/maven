@@ -4,30 +4,37 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:i="http://www.ism.org/ismjee"
+      xmlns:ic="http://www.ism.org/charts"
       >
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1><h:outputText   value="ISM - Integrated System Manager" /></h1>
+            <h4>Bonjour #{staffAuthController.staff.stFirstname}</h4>
             <h:form>
+                <!--
+                <p:poll interval="10" update="SessionCounter" />
+                -->
                 <p:outputPanel id="SessionCounter">
-                    <h1>Bonjour #{staffAuthController.staff.stFirstname}</h1>
-                        
 
                     <hr />
                     <h2>Flash Infos</h2>
-                    <h:panelGrid id="panelChart" columns="2" rendered="true">
-                        <i:chart id="chartSession" type="pie" exporting="true"
-                                 style="height: 310px; margin: 0 auto;"
-                                 model="#{viewCompanyCharts.sessionModel}" />
-
-                        <i:chart id="chartNonConformite" type="pie"  exporting="true"
-                                 style="height: 310px; "
-                                 model="#{viewCompanyCharts.nonConformiteModel}" />
-                    </h:panelGrid>
+                    
+                    <p:panel id="panelChart">
+                        <div class="w3-row">
+                            <div class="w3-col s6  w3-center">
+                                <ic:chart id="chartSession" type="pie" exporting="true"
+                                          style="height: 310px; margin: 0 auto;"
+                                          model="#{viewCompanyCharts.sessionModel}"   />
+                            </div>
+                            <div class="w3-col s6  w3-center">
+                                <ic:chart id="chartNonConformite" type="pie"  exporting="true"
+                                          style="height: 310px; " 
+                                          model="#{viewCompanyCharts.nonConformiteModel}" />
+                            </div>
+                        </div>
+                    </p:panel>
                     <br />
 
 
@@ -47,8 +54,9 @@
 
                 </p:outputPanel>
 
-                <p:poll interval="60" update="SessionCounter" />
+                
             </h:form>
+            
         </ui:define>
     </ui:composition>
 

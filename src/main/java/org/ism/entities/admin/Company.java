@@ -405,5 +405,5 @@ public class Company implements Serializable {
         this.staffGroupDefCollection = staffGroupDefCollection;
     }
 
-    
-}
+
+    }

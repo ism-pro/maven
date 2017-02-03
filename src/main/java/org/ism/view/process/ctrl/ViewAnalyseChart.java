@@ -27,10 +27,12 @@ import org.ism.entities.process.Equipement;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.jsf.util.JsfUtil;
-import org.ism.model.chart.ChartModel;
-import org.ism.model.chart.ChartSerie;
-import org.ism.model.chart.ChartSerieData;
-import org.ism.model.chart.properties.ChartType;
+import org.ism.charts.model.ChartModel;
+import org.ism.charts.model.ChartSerie;
+import org.ism.charts.model.ChartSerieData;
+import org.ism.charts.model.properties.ChartType;
+import org.ism.entities.process.ctrl.AnalyseData;
+import org.primefaces.model.LazyDataModel;
 
 /**
  * Manage statistics from resulting data analysis on each sample point. <br >
@@ -148,6 +150,9 @@ public class ViewAnalyseChart implements Serializable {
      * Specify the progression of creation model
      */
     private Integer modelProgress = 0;
+    
+    
+    private LazyDataModel<AnalyseData> lazyDataModel;
 
     /**
      * Manage all the injection and default value.
@@ -175,6 +180,10 @@ public class ViewAnalyseChart implements Serializable {
                     getValue(facesContext.getELContext(), null, "analyseDataController");
             analyseDataController.prepareCreate();
         }
+        lazyDataModel = new DataLazyModel(analyseDataController.getItemsByLastChanged());
+        
+        
+        
         // Init selection case
         selected = new ViewAnalyseChartSelect();
 
@@ -464,6 +473,17 @@ public class ViewAnalyseChart implements Serializable {
         this.modelProgress = modelProgress;
     }
 
+    public LazyDataModel<AnalyseData> getLazyDataModel() {
+        return lazyDataModel;
+    }
+
+    public void setLazyDataModel(LazyDataModel<AnalyseData> lazyDataModel) {
+        this.lazyDataModel = lazyDataModel;
+    }
+
+
+
+    
     
     
 }

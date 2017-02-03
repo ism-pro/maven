@@ -25,9 +25,13 @@
             <h:outputStylesheet library="css" name="ism-index.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
             <h:outputStylesheet library="css" name="chart/chart.min.css" />
-            <h:outputStylesheet library="css" name="w3.min.css" />
+            
+            
+            <h:outputStylesheet library="vendor" name="w3/font-awesome.min.css" />
+            <h:outputStylesheet library="vendor" name="w3/w3.min.css" />
 
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
+            
 
 
             
@@ -41,6 +45,7 @@
             
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
+
 
             <h:outputScript library="js" name="ism-global.min.js" />
             <h:outputScript library="js" name="lang.min.js" />
@@ -90,6 +95,7 @@
                           >
                 <f:facet name="header" class="unitNorthHeader">
                     <h:form id="shortcutForm">
+                        
                         <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
                                 listener="#{viewRibbon.updateReminingTimeSession()}" 
                                 update="shortcut-label-reminingTimeout" global="false"  />

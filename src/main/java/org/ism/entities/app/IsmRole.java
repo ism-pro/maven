@@ -125,5 +125,5 @@ public class IsmRole implements Serializable {
     public String toString() {
         return "org.ism.entities.IsmRole[ id=" + id + " ]";
     }
-    
-}
+
+    }

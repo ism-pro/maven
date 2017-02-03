@@ -34,10 +34,13 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
+import org.ism.jsfc.util.PaginationHelper;
 
 @ManagedBean(name = "analyseDataController")
 @SessionScoped
@@ -47,6 +50,8 @@ public class AnalyseDataController implements Serializable {
     private org.ism.sessions.process.ctrl.AnalyseDataFacade ejbFacade;
     private List<AnalyseData> items = null;
     private AnalyseData selected;
+    private DataModel modelItems = null;            //!< Model Item
+    private PaginationHelper pagination;            //!< Pagination
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
     private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
 
@@ -242,8 +247,8 @@ public class AnalyseDataController implements Serializable {
     }
 
     /**
-     * This method is used to react on point selection. It can only be use on
-     * a component with specic Id "adPoint".
+     * This method is used to react on point selection. It can only be use on a
+     * component with specic Id "adPoint".
      */
     public void handlePointSelect() {
         UIComponent c = JsfUtil.findComponent("adPoint");
@@ -364,6 +369,29 @@ public class AnalyseDataController implements Serializable {
      *
      * ************************************************************************
      */
+        /**
+     * Create a pagination helper to use in current controller
+     * @return the create pagination helper.
+     */
+    public PaginationHelper getPagination() {
+        if (pagination == null) {
+            pagination = new PaginationHelper() {
+
+                @Override
+                public int getItemsCount() {
+                    return getFacade().count();
+                }
+
+                @Override
+                public DataModel createPageDataModel() {
+                    this.setModel(new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageLastItem()})));
+                    return this.getModel();
+                }
+            };
+        }
+        return pagination;
+    }
+    
     /**
      *
      * @param id of analyse data
@@ -376,6 +404,11 @@ public class AnalyseDataController implements Serializable {
     public List<AnalyseData> getItems() {
         items = getFacade().findAll();
         return items;
+    }
+
+    public DataModel getModelItems() {
+        modelItems = getPagination().createPageDataModel();
+        return modelItems;
     }
 
     public List<AnalyseData> getItemsByLastChanged() {

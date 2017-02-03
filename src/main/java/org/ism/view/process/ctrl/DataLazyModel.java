@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import org.ism.entities.process.ctrl.AnalyseData;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 /**
@@ -105,4 +106,66 @@ public class DataLazyModel extends LazyDataModel<AnalyseData> {
             return datas;
         }
     }
+
+    @Override
+    public List<AnalyseData> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
+        
+        List<AnalyseData> datas = new ArrayList<AnalyseData>();
+
+        //filter
+        for (AnalyseData data : datasource) {
+            boolean match = true;
+
+            if (filters != null) {
+                for (Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
+                    try {
+                        String filterProperty = it.next();
+                        Object filterValue = filters.get(filterProperty);
+                        String fieldValue = String.valueOf(data.getClass().getField(filterProperty).get(data));
+
+                        if (filterValue == null || fieldValue.startsWith(filterValue.toString())) {
+                            match = true;
+                        } else {
+                            match = false;
+                            break;
+                        }
+                    } catch (Exception e) {
+                        match = false;
+                    }
+                }
+            }
+
+            if (match) {
+                datas.add(data);
+            }
+        }
+
+        //sort
+        if (multiSortMeta != null) {
+            Iterator<SortMeta> itr = multiSortMeta.iterator();
+            while(itr.hasNext()){
+                SortMeta sortMeta = itr.next();
+                Collections.sort(datas, new DataLazySorter(sortMeta.getSortField(), sortMeta.getSortOrder()));
+            }
+        }
+
+        //rowCount
+        int dataSize = datas.size();
+        this.setRowCount(dataSize);
+
+        //paginate
+        if (dataSize > pageSize) {
+            try {
+                return datas.subList(first, first + pageSize);
+            } catch (IndexOutOfBoundsException e) {
+                return datas.subList(first, first + (dataSize % pageSize));
+            }
+        } else {
+            return datas;
+        }
+    }
+
+    
+
+
 }

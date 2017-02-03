@@ -178,5 +178,5 @@ public class StaffGroupDefRole implements Serializable {
     public String toString() {
         return "org.ism.entities.StaffGroupDefRole[ stgdrId=" + stgdrId + " ]";
     }
-    
-}
+
+    }

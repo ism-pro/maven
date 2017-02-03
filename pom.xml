@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1612.15</version>
+    <version>1702.02</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -132,11 +132,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>ismjee</artifactId>
-            <version>1611.22</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.myfaces.shared</groupId>
             <artifactId>myfaces-shared-core</artifactId>
             <version>4.2.8</version>
@@ -145,6 +140,16 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>6.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>charts</artifactId>
+            <version>1701.05</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jsfc</artifactId>
+            <version>1701.01</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

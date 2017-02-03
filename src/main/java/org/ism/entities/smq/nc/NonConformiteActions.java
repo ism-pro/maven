@@ -217,5 +217,5 @@ public class NonConformiteActions implements Serializable {
     public String toString() {
         return "org.ism.entities.NonConformiteActions[ ncaId=" + ncaId + " ]";
     }
-    
-}
+
+    }

@@ -38,7 +38,7 @@
 
                     <p:outputLabel value="#{ism.NonConformiteRequestField_ncrOccured}" for="ncrOccured" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                        <p:calendar id="ncrOccured" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" maxdate="#{viewUtil.aujourdhui}"
+                        <p:calendar id="ncrOccured" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" maxdate="#{viewUtil.maintenant}"
                                     value="#{nonConformiteRequestController.selected.ncrOccured}" 
                                     title="#{ism.NonConformiteRequestFieldInfo_ncrOccured}"  
                                     required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrOccured}" 

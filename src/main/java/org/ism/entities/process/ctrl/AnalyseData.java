@@ -386,11 +386,7 @@ public class AnalyseData implements Serializable {
 
     @Override
     public String toString() {
-        return adPoint.getApPoint() + " - " + adPoint.getApDesignation() + 
-                " >> " + adType.getAtType() + " - " + adType.getAtDesignation() +
-                " (" + adValue + ") " +
-                " [" + adId + "]"; 
-        //return "org.ism.entities.AnalyseData[ adId=" + adId + " ]";
+        return "org.ism.entities.AnalyseData[ adId=" + adId + " ]";
     }
 
 }

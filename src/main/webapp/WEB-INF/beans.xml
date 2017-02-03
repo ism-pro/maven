@@ -4,40 +4,5 @@
        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
        bean-discovery-mode="all">
     
-    <managed-bean>
-        <managed-bean-name>analyseAllowedController</managed-bean-name>
-        <managed-bean-class>org.ism.jsf.process.ctrl.AnalyseAllowedController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
     
-    <managed-bean>
-        <managed-bean-name>analyseCategoryController</managed-bean-name>
-        <managed-bean-class>org.ism.jsf.process.ctrl.AnalyseCategoryController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    
-    <managed-bean>
-        <managed-bean-name>analyseDataController</managed-bean-name>
-        <managed-bean-class>org.ism.jsf.process.ctrl.AnalyseDataController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    
-    <managed-bean>
-        <managed-bean-name>analysePointController</managed-bean-name>
-        <managed-bean-class>org.ism.jsf.process.ctrl.AnalysePointController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    
-    <managed-bean>
-        <managed-bean-name>analyseTypeController</managed-bean-name>
-        <managed-bean-class>org.ism.jsf.process.ctrl.AnalyseTypeController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    
-    <managed-bean>
-        <managed-bean-name>docExplorerController</managed-bean-name>
-        <managed-bean-class>org.ism.jsf.smq.DocExplorerController</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-
 </beans>

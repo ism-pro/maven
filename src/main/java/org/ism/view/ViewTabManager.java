@@ -237,7 +237,7 @@ public class ViewTabManager implements Serializable {
         
         analysedataCtrl = (AnalyseDataController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseDataController");
-        analysedata = analysedataCtrl.getItemsByLastChanged();
+        //analysedata = analysedataCtrl.getItemsByLastChanged();
         
         analysemethodCtrl = (AnalyseMethodController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseMethodController");

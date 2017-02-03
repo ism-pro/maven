@@ -281,6 +281,7 @@ public class NonConformiteRequestController implements Serializable {
     }
 
     public void updateOnValidate() {
+        selected.setNcrChanged(new Date());
         selected.setNcrapprouvedDate(new Date());
         if (selected.getNcrApprouved()) {
             selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
@@ -289,15 +290,23 @@ public class NonConformiteRequestController implements Serializable {
         }
         update();
     }
+    
+    public void updateOnReview(){
+        selected.setNcrChanged(new Date());
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
+        update();
+    }
 
     public void updateOnActionCreate() { // Passe de attente de solution à en cours
         selected.setNcrapprouvedDate(new Date());
+        selected.setNcrChanged(new Date());
         selected.setNcrState(new IsmNcrstate(IsmNcrstate.INPROGRESS_ID));
         update();
     }
 
     public void updateOnCloture() { // Passe de attente de solution à en cours
         selected.setNcrState(new IsmNcrstate(IsmNcrstate.FINISH_ID));
+        selected.setNcrChanged(new Date());
         update();
     }
 

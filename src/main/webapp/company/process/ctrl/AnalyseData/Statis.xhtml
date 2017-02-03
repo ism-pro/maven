@@ -4,7 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ism="http://www.ism.org/ismjee" 
+      xmlns:ic="http://www.ism.org/charts" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
@@ -39,7 +39,7 @@
                               rendered="#{viewAnalyseChart.models!=null?true:false}"
                               >  
                     <c:forEach var="model" items="#{viewAnalyseChart.models}" varStatus="count" >
-                        <ism:chart id="statisticsChart_#{count.index}" 
+                        <ic:chart  id="statisticsChart_#{count.index}" 
                                    type="line"
                                    model="#{model}"
                                    style="min-width: 310px; height: 400px; margin: 0 auto"

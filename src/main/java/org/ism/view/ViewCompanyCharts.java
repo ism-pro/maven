@@ -15,10 +15,10 @@ import org.ism.jsf.app.IsmNcrstateController;
 import org.ism.jsf.hr.StaffController;
 import org.ism.jsf.smq.nc.NonConformiteRequestController;
 import org.ism.listener.SessionCounterListener;
-import org.ism.model.chart.ChartModel;
-import org.ism.model.chart.ChartSerie;
-import org.ism.model.chart.ChartSerieData;
-import org.ism.model.chart.properties.ChartType;
+import org.ism.charts.model.ChartModel;
+import org.ism.charts.model.ChartSerie;
+import org.ism.charts.model.ChartSerieData;
+import org.ism.charts.model.properties.ChartType;
 
 /**
  * <h2>ViewCompanyCharts</h2>

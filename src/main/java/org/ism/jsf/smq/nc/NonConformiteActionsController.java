@@ -292,6 +292,7 @@ public class NonConformiteActionsController implements Serializable {
     public void updateOnReview(){
         selected.setNcaState(new IsmNcastate(IsmNcastate.REVIEW_ID));
         update();
+        ncRequestCtrl.updateOnReview();
     }
     
     public void updateOnCloture(NonConformiteRequest nc){
@@ -379,6 +380,17 @@ public class NonConformiteActionsController implements Serializable {
 
     public void setItemsNC(List<NonConformiteActions> itemsNC) {
         this.itemsNC = itemsNC;
+    }
+    
+    public String getNCActionState(NonConformiteRequest nonConformite){
+        List<NonConformiteActions> actions = getFacade().findAllByNCLast(nonConformite);
+        if(actions==null)   return "";
+        
+        NonConformiteActions action = actions.get(0);
+        if(action==null)
+            return "";
+        
+        return action.getNcaState().getIstate() + " - " + action.getNcaState().getStatename();
     }
 
     public List<NonConformiteActions> getItemsByNCLast(NonConformiteRequest nc) {

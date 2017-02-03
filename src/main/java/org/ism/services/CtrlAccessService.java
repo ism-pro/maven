@@ -902,6 +902,12 @@ public class CtrlAccessService implements Serializable{
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestvlidate_Path"),
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestvlidate_Description")),
                     nodeNcRequest);
+            
+            CheckboxTreeNode nodeNcRequestCloture = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_Name"),
+                ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_RoleName"),
+                ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_Path"),
+                ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_Description")),
+                nodeNcRequest);
 
             CheckboxTreeNode nodeNcUnite = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncUnite_Name"),
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncUnite_RoleName"),
