@@ -535,6 +535,8 @@
                                              or empty nonConformiteRequestController.selected.ncrId
                                              or (nonConformiteRequestController.selected.ncrState.id!=2 
                                              and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                 rendered="#{request.isUserInRole('SNC_REQUEST_R') and 
+                                                 nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
                                  />
                 <p:commandButton id="clotureButton"
                                  icon="ui-btn-Cloture"
