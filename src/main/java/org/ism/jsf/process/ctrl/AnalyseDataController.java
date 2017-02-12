@@ -40,7 +40,8 @@ import javax.inject.Inject;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
-import org.ism.jsfc.util.PaginationHelper;
+import org.primefaces.ism.util.PaginationHelper;
+import org.primefaces.model.SortMeta;
 
 @ManagedBean(name = "analyseDataController")
 @SessionScoped
@@ -369,8 +370,9 @@ public class AnalyseDataController implements Serializable {
      *
      * ************************************************************************
      */
-        /**
+    /**
      * Create a pagination helper to use in current controller
+     *
      * @return the create pagination helper.
      */
     public PaginationHelper getPagination() {
@@ -384,14 +386,30 @@ public class AnalyseDataController implements Serializable {
 
                 @Override
                 public DataModel createPageDataModel() {
+                    if(this.getSortMeta()!=null)
+                        return sortBy();
                     this.setModel(new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageLastItem()})));
+                    return this.getModel();
+                }
+
+                @Override
+                public DataModel sortBy() {
+                    if(this.getSortMeta()==null)
+                        return createPageDataModel();
+                    List<SortMeta> sortMetas = this.getSortMeta();
+                    Map<String, String> sorts = new HashMap<>();
+                    for (SortMeta meta : sortMetas) {
+                        JsfUtil.out("Sort Meta Field = " + meta.getSortField() + " with sort order "  + meta.getSortOrder());
+                        sorts.put(meta.getSortField(), meta.getSortOrder().name());
+                    }
+                    this.setModel(new ListDataModel(getFacade().findByCriteria(getPageFirstItem(), getPageSize(), sorts, null)));
                     return this.getModel();
                 }
             };
         }
         return pagination;
     }
-    
+
     /**
      *
      * @param id of analyse data
@@ -407,7 +425,10 @@ public class AnalyseDataController implements Serializable {
     }
 
     public DataModel getModelItems() {
-        modelItems = getPagination().createPageDataModel();
+        if(modelItems==null){
+            modelItems = getPagination().sortBy();
+            //modelItems = getPagination().createPageDataModel();
+        }
         return modelItems;
     }
 

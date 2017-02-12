@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1702.02</version>
+    <version>1702.05</version>
     <packaging>war</packaging>
 
     <name>ISM</name>

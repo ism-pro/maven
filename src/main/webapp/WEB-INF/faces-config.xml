@@ -11,10 +11,10 @@
         </locale-config>
         
         <!-- Developpement only
-        <lifecycle>
-            <phase-listener>org.ism.listener.LogPhaseListener</phase-listener>
-        </lifecycle>
-       -->
+         <lifecycle>
+             <phase-listener>org.ism.listener.LogPhaseListener</phase-listener>
+         </lifecycle>
+        -->
         
         
         <resource-bundle>
@@ -49,6 +49,16 @@
     <name>ism</name>
     
     <component>
+        <component-type>org.primefaces.ism.component.DataTable</component-type>
+        <component-class>org.primefaces.ism.component.datatable.DataTable</component-class>
+    </component>
+
+    <component>
+        <component-type>org.primefaces.ism.component.OverlayPanel</component-type>
+        <component-class>org.primefaces.ism.component.overlaypanel.OverlayPanel</component-class>
+    </component>
+    
+    <component>
         <component-type>org.primefaces.ism.component.Ribbon</component-type>
         <component-class>org.primefaces.ism.component.ribbon.Ribbon</component-class>
     </component>
@@ -65,6 +75,18 @@
         
 
     <render-kit>
+        <renderer>
+            <component-family>org.primefaces.ism.component</component-family>
+            <renderer-type>org.primefaces.ism.component.DataTableRenderer</renderer-type>
+            <renderer-class>org.primefaces.ism.component.datatable.DataTableRenderer</renderer-class>
+        </renderer>
+        
+        <renderer>
+            <component-family>org.primefaces.ism.component</component-family>
+            <renderer-type>org.primefaces.ism.component.OverlayPanelRenderer</renderer-type>
+            <renderer-class>org.primefaces.ism.component.overlaypanel.OverlayPanelRenderer</renderer-class>
+        </renderer>
+        
         <renderer>
             <component-family>org.primefaces.ism.component</component-family>
             <renderer-type>org.primefaces.ism.component.RibbonRenderer</renderer-type>
