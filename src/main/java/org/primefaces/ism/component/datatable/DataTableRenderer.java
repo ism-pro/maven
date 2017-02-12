@@ -78,8 +78,7 @@ public class DataTableRenderer extends DataRenderer {
         int paginationPage = table.getPagination().getPage();
         table.getPagination().seekToPage(table.getPage());
         int paginationPageAfter = table.getPagination().getPage();
-*/  
-
+         */
         if (table.shouldEncodeFeature(context)) {
             for (Iterator<DataTableFeature> it = DataTable.FEATURES.values().iterator(); it.hasNext();) {
                 DataTableFeature feature = it.next();
@@ -606,10 +605,13 @@ public class DataTableRenderer extends DataRenderer {
             writer.endElement("span");
         }
 
-        OverlayPanel op = new OverlayPanel();
-        op.setFor(column.getClientId(context));
-        op.setAppendToBody(true);
-        op.encodeAll(context);
+        if (column.isSortable() || column.isFilterable()) {
+            OverlayPanel op = new OverlayPanel();
+            op.setFor(column.getClientId(context));
+            op.setShowCloseIcon(true);
+            op.setAppendToBody(true);
+            op.encodeAll(context);
+        }
     }
 
     protected void encodeFilter(FacesContext context, DataTable table, UIColumn column) throws IOException {

@@ -211,6 +211,7 @@ public class OverlayPanelRenderer extends CoreRenderer {
 
         // =====================================================================
         // MENU FILTER ACTIONS
+        /*
         writer.startElement("li", null);
 
         writer.startElement("div", null);
@@ -233,6 +234,7 @@ public class OverlayPanelRenderer extends CoreRenderer {
         writer.endElement("div"); // en ACTION DIV
 
         writer.endElement("li"); // end FILTER ACTIONS
+        */
 
         // ========
         writer.endElement("ul"); // end MENU

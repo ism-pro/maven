@@ -95,6 +95,7 @@
                         position: absolute;
                         top: 315px;
                         z-index: 8000;
+                        opacity: 0.95;
                     }
 
                     .ui-column-filters-overlaypanel-content{
@@ -266,7 +267,8 @@
 
 
 
-                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                    <p:column headerText="#{ism.CtrlShort}" 
+                              style="width:32px;text-align: center"
                               exportable="false"
                               visible="#{analyseDataController.getIsVisibleColKey(ism.CtrlShort)}" >
                         <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
