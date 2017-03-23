@@ -1401,7 +1401,8 @@ PrimeFaces.widget.AccordionPanel = PrimeFaces.widget.BaseWidget.extend({init: fu
         if (this.hasBehavior("tabClose")) {
             this.fireTabCloseEvent(a)
         }
-    }, show: function (c) {
+    },
+    show: function (c) {
         var b = this;
         if (!this.cfg.multiple) {
             var d = this.headers.filter(".ui-state-active");
@@ -1415,7 +1416,8 @@ PrimeFaces.widget.AccordionPanel = PrimeFaces.widget.BaseWidget.extend({init: fu
         c.attr("aria-hidden", false).slideDown("normal", function () {
             b.postTabShow(c)
         })
-    }, loadDynamicTab: function (a) {
+    },
+    loadDynamicTab: function (a) {
         var c = this, b = {source: this.id, process: this.id, update: this.id, params: [{name: this.id + "_contentLoad", value: true}, {name: this.id + "_newTab", value: a.attr("id")}, {name: this.id + "_tabindex", value: parseInt(a.index() / 2)}], onsuccess: function (g, e, f) {
                 PrimeFaces.ajax.Response.handle(g, e, f, {widget: c, handle: function (h) {
                         a.html(h);
@@ -3061,6 +3063,7 @@ PrimeFaces.widget.DataTable = PrimeFaces.widget.DeferredWidget.extend({
 
         var metaKey = e.metaKey || e.ctrlKey || metaKeyOn;
 
+        
         if ($this.cfg.multiSort) {
             if (metaKey) {
                 $this.addSortMeta({
@@ -3074,7 +3077,6 @@ PrimeFaces.widget.DataTable = PrimeFaces.widget.DeferredWidget.extend({
                     col: columnHeader.attr('id'),
                     order: sortOrder
                 });
-                
                 $this.sort(columnHeader, sortOrder, true);
             }
         } else {
@@ -3683,6 +3685,10 @@ PrimeFaces.widget.DataTable = PrimeFaces.widget.DeferredWidget.extend({
     },
     /**
      * Ajax sort
+     * @param {type} columnHeader the column header
+     * @param {type} order the order 
+     * @param {type} multi specify if is multi-rendering
+     * @returns {undefined}
      */
     sort: function (columnHeader, order, multi) {
         var $this = this;
@@ -3737,6 +3743,7 @@ PrimeFaces.widget.DataTable = PrimeFaces.widget.DeferredWidget.extend({
             options.params.push({name: this.id + '_sortDir', value: order});
         }
 
+        console.log("Has sort behavior ?" + this.hasBehavior('sort'));
         if (this.hasBehavior('sort')) {
             var sortBehavior = this.cfg.behaviors['sort'];
             sortBehavior.call(this, options);
@@ -6390,7 +6397,8 @@ PrimeFaces.widget.InputTextarea = PrimeFaces.widget.DeferredWidget.extend({init:
             }
         }
     }});
-PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: function (a) {
+PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({
+    init: function (a) {
         this._super(a);
         this.panelId = this.jqId + "_panel";
         this.input = $(this.jqId + "_input");
@@ -6519,6 +6527,7 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
         this.bindKeyEvents();
         if (this.cfg.filter) {
             this.cfg.initialHeight = this.itemsWrapper.height();
+
             this.setupFilterMatcher();
             this.filterInput = this.panel.find("> div.ui-selectonemenu-filter-container > input.ui-selectonemenu-filter");
             PrimeFaces.skinInput(this.filterInput);
@@ -6543,22 +6552,26 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
         this.resizeNS = "resize." + this.id;
         this.unbindResize();
         this.bindResize()
-    }, bindResize: function () {
+    },
+    bindResize: function () {
         var a = this;
         $(window).bind(this.resizeNS, function (b) {
             if (a.panel.is(":visible")) {
                 a.alignPanel()
             }
         })
-    }, unbindResize: function () {
+    },
+    unbindResize: function () {
         $(window).unbind(this.resizeNS)
-    }, unbindEvents: function () {
+    },
+    unbindEvents: function () {
         this.items.off();
         this.triggers.off();
         this.input.off();
         this.focusInput.off();
         this.label.off()
-    }, revert: function () {
+    },
+    revert: function () {
         if (this.cfg.editable && this.customInput) {
             this.setLabel(this.customInputVal);
             this.items.filter(".ui-state-active").removeClass("ui-state-active");
@@ -6566,26 +6579,30 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
         } else {
             this.highlightItem(this.items.eq(this.preShowValue.index()))
         }
-    }, highlightItem: function (a) {
+    },
+    highlightItem: function (a) {
         this.items.filter(".ui-state-highlight").removeClass("ui-state-highlight");
         if (a.length > 0) {
             a.addClass("ui-state-highlight");
             this.setLabel(a.data("label"))
         }
-    }, triggerChange: function (a) {
+    },
+    triggerChange: function (a) {
         this.changed = false;
         this.input.trigger("change");
         if (!a) {
             this.value = this.options.filter(":selected").val()
         }
-    }, triggerItemSelect: function () {
+    },
+    triggerItemSelect: function () {
         if (this.cfg.behaviors) {
             var a = this.cfg.behaviors.itemSelect;
             if (a) {
                 a.call(this)
             }
         }
-    }, selectItem: function (f, b) {
+    },
+    selectItem: function (f, b) {
         var e = this.options.eq(this.resolveItemIndex(f)), d = this.options.filter(":selected"), a = e.val() == d.val(), c = null;
         if (this.cfg.editable) {
             c = (!a) || (e.text() != this.label.val())
@@ -6610,20 +6627,23 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
         if (this.panel.is(":visible")) {
             this.hide()
         }
-    }, syncTitle: function (b) {
+    },
+    syncTitle: function (b) {
         var a = this.items.eq(b.index()).attr("title");
         if (a) {
             this.jq.attr("title", this.items.eq(b.index()).attr("title"))
         } else {
             this.jq.removeAttr("title")
         }
-    }, resolveItemIndex: function (a) {
+    },
+    resolveItemIndex: function (a) {
         if (this.optGroupsSize === 0) {
             return a.index()
         } else {
             return a.index() - a.prevAll("li.ui-selectonemenu-item-group").length
         }
-    }, bindKeyEvents: function () {
+    },
+    bindKeyEvents: function () {
         var a = this;
         this.focusInput.on("keydown.ui-selectonemenu", function (d) {
             var c = $.ui.keyCode, b = d.which;
@@ -6698,7 +6718,8 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
                     break
             }
         })
-    }, bindFilterEvents: function () {
+    },
+    bindFilterEvents: function () {
         var a = this;
         this.filterInput.on("keyup.ui-selectonemenu", function (d) {
             var c = $.ui.keyCode, b = d.which;
@@ -6758,7 +6779,8 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
                     break
             }
         })
-    }, highlightNext: function (b) {
+    },
+    highlightNext: function (b) {
         var c = this.getActiveItem(), a = this.panel.is(":hidden") ? c.nextAll(":not(.ui-state-disabled,.ui-selectonemenu-item-group):first") : c.nextAll(":not(.ui-state-disabled,.ui-selectonemenu-item-group):visible:first");
         if (a.length === 1) {
             if (this.panel.is(":hidden")) {
@@ -6774,7 +6796,8 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
             this.changeAriaValue(a)
         }
         b.preventDefault()
-    }, highlightPrev: function (b) {
+    },
+    highlightPrev: function (b) {
         var c = this.getActiveItem(), a = this.panel.is(":hidden") ? c.prevAll(":not(.ui-state-disabled,.ui-selectonemenu-item-group):first") : c.prevAll(":not(.ui-state-disabled,.ui-selectonemenu-item-group):visible:first");
         if (a.length === 1) {
             if (this.panel.is(":hidden")) {
@@ -6786,13 +6809,15 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
             this.changeAriaValue(a)
         }
         b.preventDefault()
-    }, handleEnterKey: function (a) {
+    },
+    handleEnterKey: function (a) {
         if (this.panel.is(":visible")) {
             this.selectItem(this.getActiveItem())
         }
         a.preventDefault();
         a.stopPropagation()
-    }, handleSpaceKey: function (a) {
+    },
+    handleSpaceKey: function (a) {
         var b = $(a.target);
         if (b.is("input") && b.hasClass("ui-selectonemenu-filter")) {
             return
@@ -6805,17 +6830,20 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
             this.changeAriaValue(this.getActiveItem())
         }
         a.preventDefault()
-    }, handleEscapeKey: function (a) {
+    },
+    handleEscapeKey: function (a) {
         if (this.panel.is(":visible")) {
             this.revert();
             this.hide()
         }
         a.preventDefault()
-    }, handleTabKey: function () {
+    }, 
+    handleTabKey: function () {
         if (this.panel.is(":visible")) {
             this.selectItem(this.getActiveItem())
         }
-    }, show: function () {
+    }, 
+    show: function () {
         var a = this;
         this.alignPanel();
         this.panel.css("z-index", ++PrimeFaces.zindex);
@@ -6914,7 +6942,8 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({init: fun
         return b.indexOf(a) !== -1
     }, endsWithFilter: function (b, a) {
         return b.indexOf(a, b.length - a.length) !== -1
-    }, filter: function (j) {
+    },
+    filter: function (j) {
         this.cfg.initialHeight = this.cfg.initialHeight || this.itemsWrapper.height();
         var h = this.cfg.caseSensitive ? $.trim(j) : $.trim(j).toLowerCase();
         if (h === "") {
@@ -10220,6 +10249,198 @@ PrimeFaces.widget.OverlayPanel = PrimeFaces.widget.BaseWidget.extend({
     },
     applyFocus: function () {
         this.jq.find(":not(:submit):not(:button):input:visible:enabled:first").focus()
+    }
+});
+PrimeFaces.widget.OverlayFiltersPanel = PrimeFaces.widget.BaseWidget.extend({
+    init: function (a) {
+        this._super(a);
+
+        this.content = this.jq.children("div.ui-overlaypanel-content");
+        this.cfg.my = this.cfg.my || "left top";
+        this.cfg.at = this.cfg.at || "left bottom";
+        this.cfg.showEvent = this.cfg.showEvent || "click.ui-overlaypanel";
+        this.cfg.hideEvent = this.cfg.hideEvent || "click.ui-overlaypanel";
+        this.cfg.dismissable = (this.cfg.dismissable === false) ? false : true;
+        if (this.cfg.showCloseIcon) {
+            this.closerIcon = $('<a href="#" class="ui-overlaypanel-close ui-state-default" href="#"><span class="ui-icon ui-icon-closethick"></span></a>').appendTo(this.jq);
+        }
+        if (this.jq.length > 1) {
+            $(document.body).children(this.jqId).remove();
+            this.jq = $(this.jqId);
+        }
+        if (this.cfg.appendToBody) {
+            this.jq.appendTo(document.body);
+        }
+        this.bindCommonEvents();
+        if (this.cfg.target) {
+            this.target = PrimeFaces.expressions.SearchExpressionFacade.resolveComponentsAsSelector(this.cfg.target);
+            this.bindTargetEvents();
+            this.setupDialogSupport();
+        }
+    },
+    bindTargetEvents: function () {
+        var d = this;
+        this.target.data("primefaces-overlay-target", this.id).find("*").data("primefaces-overlay-target", this.id);
+        if (this.cfg.showEvent === this.cfg.hideEvent) {
+            var b = this.cfg.showEvent;
+            this.target.on(b, function (f) {
+                d.toggle();
+            });
+        } else {
+            var a = this.cfg.showEvent + ".ui-overlaypanel", c = this.cfg.hideEvent + ".ui-overlaypanel";
+            this.target.off(a + " " + c).on(a, function (f) {
+                if (!d.isVisible()) {
+                    d.show();
+                    if (a === "contextmenu.ui-overlaypanel") {
+                        f.preventDefault();
+                    }
+                }
+            }).on(c, function (f) {
+                if (d.isVisible()) {
+                    d.hide();
+                }
+            });
+        }
+        d.target.off("keydown.ui-overlaypanel keyup.ui-overlaypanel").on("keydown.ui-overlaypanel", function (h) {
+            var g = $.ui.keyCode, f = h.which;
+            if (f === g.ENTER || f === g.NUMPAD_ENTER) {
+                h.preventDefault();
+            }
+        })
+                .on("keyup.ui-overlaypanel", function (h) {
+            var g = $.ui.keyCode, f = h.which;
+            if (f === g.ENTER || f === g.NUMPAD_ENTER) {
+                d.toggle();
+                h.preventDefault();
+            }
+        });
+    },
+    bindCommonEvents: function () {
+        var c = this;
+        if (this.cfg.showCloseIcon) {
+            this.closerIcon.on("mouseover.ui-overlaypanel", function () {
+                $(this).addClass("ui-state-hover");
+            }).on("mouseout.ui-overlaypanel", function () {
+                $(this).removeClass("ui-state-hover");
+            }).on("click.ui-overlaypanel", function (d) {
+                c.hide();
+                d.preventDefault();
+            });
+        }
+        if (this.cfg.dismissable) {
+            var b = "mousedown." + this.id;
+            $(document.body).off(b).on(b, function (f) {
+                if (c.jq.hasClass("ui-overlay-hidden")) {
+                    return;
+                }
+                if (c.target) {
+                    var d = $(f.target);
+                    if (c.target.is(d) || c.target.has(d).length > 0) {
+                        return;
+                    }
+                }
+                var g = c.jq.offset();
+                if (f.pageX < g.left || f.pageX > g.left + c.jq.outerWidth() || f.pageY < g.top || f.pageY > g.top + c.jq.outerHeight()) {
+                    c.hide();
+                }
+            });
+        }
+        var a = "resize." + this.id;
+        $(window).off(a).on(a, function () {
+            if (c.jq.hasClass("ui-overlay-visible")) {
+                c.align();
+            }
+        });
+    },
+    toggle: function () {
+        if (!this.isVisible()) {
+            this.show();
+        } else {
+            this.hide();
+        }
+    },
+    show: function (a) {
+        if (!this.loaded && this.cfg.dynamic) {
+            this.loadContents(a);
+        } else {
+            this._show(a);
+        }
+    },
+    _show: function (b) {
+        var a = this;
+        this.align(b);
+        this.jq.removeClass("ui-overlay-hidden").addClass("ui-overlay-visible").css({display: "none", visibility: "visible"});
+        if (this.cfg.showEffect) {
+            this.jq.show(this.cfg.showEffect, {}, 200, function () {
+                a.postShow();
+            });
+        } else {
+            this.jq.show();
+            this.postShow();
+        }
+    },
+    align: function (e) {
+        var c = this.jq.css("position") === "fixed", d = $(window), a = c ? "-" + d.scrollLeft() + " -" + d.scrollTop() : null, b = e || this.cfg.target;
+        this.jq.css({
+            left: "",
+            top: "",
+            "z-index": ++PrimeFaces.zindex
+        }).position({
+            my: this.cfg.my,
+            at: this.cfg.at,
+            of: document.getElementById(b),
+            offset: a
+        });
+    },
+    hide: function () {
+        var a = this;
+        if (this.cfg.hideEffect) {
+            this.jq.hide(this.cfg.hideEffect, {}, 200, function () {
+                a.postHide();
+            });
+        } else {
+            this.jq.hide();
+            this.postHide();
+        }
+    },
+    postShow: function () {
+        if (this.cfg.onShow) {
+            this.cfg.onShow.call(this);
+        }
+        this.applyFocus();
+    },
+    postHide: function () {
+        this.jq.removeClass("ui-overlay-visible").addClass("ui-overlay-hidden").css({display: "block", visibility: "hidden"});
+        if (this.cfg.onHide) {
+            this.cfg.onHide.call(this);
+        }
+    },
+    setupDialogSupport: function () {
+        var a = this.target.closest(".ui-dialog");
+        if (a.length === 1) {
+            this.jq.css("position", "fixed");
+            if (!this.cfg.appendToBody) {
+                this.jq.appendTo(document.body);
+            }
+        }
+    },
+    loadContents: function (c) {
+        var b = this, a = {source: this.id, process: this.id, update: this.id, params: [{name: this.id + "_contentLoad", value: true}], onsuccess: function (f, d, e) {
+                PrimeFaces.ajax.Response.handle(f, d, e, {widget: b, handle: function (g) {
+                        this.content.html(g);
+                        this.loaded = true;
+                    }});
+                return true;
+            }, oncomplete: function () {
+                b._show(c);
+            }};
+        PrimeFaces.ajax.Request.handle(a);
+    },
+    isVisible: function () {
+        return this.jq.hasClass("ui-overlay-visible");
+    },
+    applyFocus: function () {
+        this.jq.find(":not(:submit):not(:button):input:visible:enabled:first").focus();
     }
 });
 PrimeFaces.widget.Paginator = PrimeFaces.widget.BaseWidget.extend({

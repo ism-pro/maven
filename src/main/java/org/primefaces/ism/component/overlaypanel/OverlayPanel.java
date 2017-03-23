@@ -31,6 +31,8 @@ import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+import javax.faces.model.SelectItem;
 import org.primefaces.util.Constants;
 
 @ResourceDependencies({
@@ -49,20 +51,21 @@ public class OverlayPanel extends UIPanel implements org.primefaces.component.ap
 
         widgetVar,
         style,
-        styleClass, 
-        forValue("for"), 
+        styleClass,
+        forValue("for"),
         showEvent,
-        hideEvent, 
-        showEffect, 
-        hideEffect, 
-        appendToBody, 
+        hideEvent,
+        showEffect,
+        hideEffect,
+        appendToBody,
         onShow,
         onHide,
-        my, 
-        at, 
-        dynamic, 
-        dismissable, 
-        showCloseIcon ;
+        my,
+        at,
+        dynamic,
+        dismissable,
+        showCloseIcon,
+        constraint;
 
         String toString;
 
@@ -73,10 +76,27 @@ public class OverlayPanel extends UIPanel implements org.primefaces.component.ap
         PropertyKeys() {
         }
 
+        @Override
         public String toString() {
             return ((this.toString != null) ? this.toString : super.toString());
         }
     }
+
+    public static final List<SelectItem> CONSTRAINT = Arrays.asList(
+            new SelectItem("=", "Est égal à..."),
+            new SelectItem("<=", "Est inférieur ou égal à..."),
+            new SelectItem("<", "Est inférieur à..."),
+            new SelectItem(">=", "Est supérieur ou égal à..."),
+            new SelectItem(">", "Est supérieur à..."),
+            new SelectItem("<>", "Est différent de..."),
+            new SelectItem("~", "Contient..."),
+            new SelectItem("[", "Commence par..."),
+            new SelectItem("]", "Termine par..."),
+            new SelectItem("[]", "Est compris entre..."),
+            new SelectItem("][", "N'est pas compris entre..."),
+            new SelectItem("[...]", "Est parmi..."),
+            new SelectItem("]...[", "N'est pas parmis...")
+    );
 
     public OverlayPanel() {
         setRendererType(DEFAULT_RENDERER);
@@ -214,6 +234,14 @@ public class OverlayPanel extends UIPanel implements org.primefaces.component.ap
         getStateHelper().put(PropertyKeys.showCloseIcon, _showCloseIcon);
     }
 
+    public java.lang.String getConstraint() {
+        return (java.lang.String) getStateHelper().eval(PropertyKeys.constraint, "~");
+    }
+
+    public void setConstraint(java.lang.String constraint) {
+        getStateHelper().put(PropertyKeys.constraint, constraint);
+    }
+
     public static final String TARGET_CLASS = "ui-column-filters";
     public static final String TARGET_ICON = "ui-column-filters-icon";
     public static final String STYLE_CLASS = "ui-overlaypanel ui-column-filters-overlaypanel ui-widget ui-widget-content ui-overlay-hidden ui-corner-all ui-shadow";
@@ -237,7 +265,8 @@ public class OverlayPanel extends UIPanel implements org.primefaces.component.ap
 
     public static final String COLUMN_FILTER_SEARCH = "ui-filter-search";
     public static final String COLUMN_FILTER_SEARCH_ICON = "ui-filter-search-icon";
-    public static final String COLUMN_FILTER_SEARCH_INPUT = "ui-filter-search-input";
+    public static final String COLUMN_FILTER_SEARCH_CONSTRAINT_ICON = "ui-filter-search-constaint-icon";
+    public static final String COLUMN_FILTER_SEARCH_INPUT = "ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all ui-filter-search-input";
 
     public static final String COLUMN_FILTER_CONTENT = "ui-filter-content";
 

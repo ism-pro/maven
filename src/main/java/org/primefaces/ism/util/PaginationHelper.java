@@ -1,14 +1,14 @@
 package org.primefaces.ism.util;
 
-
 import java.util.List;
 import javax.faces.model.DataModel;
+import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 
-public abstract class PaginationHelper extends Object{
+public abstract class PaginationHelper extends Object {
 
     /**
-     * Number of rows contain in a page 
+     * Number of rows contain in a page
      */
     private int pageSize = 10;
     /**
@@ -17,12 +17,11 @@ public abstract class PaginationHelper extends Object{
     private int page;
     private DataModel model = null;
     List<SortMeta> sortMeta = null;
-    
-    
+    List<FilterMeta> filterMeta = null;
 
     public PaginationHelper() {
     }
-   
+
     public PaginationHelper(int pageSize) {
         this.pageSize = pageSize;
     }
@@ -32,7 +31,7 @@ public abstract class PaginationHelper extends Object{
     public abstract DataModel createPageDataModel();
 
     public abstract DataModel sortBy();
-    
+
     public int getPageFirstItem() {
         return page * pageSize;
     }
@@ -70,41 +69,43 @@ public abstract class PaginationHelper extends Object{
             model = createPageDataModel();
         }
     }
-    
-    public void seekToPage(Integer numPage){
-        if(numPage>page){
-            if(numPage >= getNumberOfPage())
+
+    public void seekToPage(Integer numPage) {
+        if (numPage > page) {
+            if (numPage >= getNumberOfPage()) {
                 page = getNumberOfPage();
-            else
+            } else {
                 page = numPage;
+            }
             model = createPageDataModel();
-        }else if(numPage < page){
-            if(numPage < 0)
+        } else if (numPage < page) {
+            if (numPage < 0) {
                 page = 0;
-            else
+            } else {
                 page = numPage;
+            }
             model = createPageDataModel();
-        }      
+        }
     }
-    
-    public Integer getNumberOfPage(){
-        Integer nbPage = (Integer) Math.floorDiv(getItemsCount(),pageSize);
+
+    public Integer getNumberOfPage() {
+        Integer nbPage = (Integer) Math.floorDiv(getItemsCount(), pageSize);
         return nbPage;
     }
 
     public int getPageSize() {
         return pageSize;
     }
-    
-    public void setPageSize(int pageSize){
+
+    public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
-    public int getPage(){
+    public int getPage() {
         return page;
     }
-    
-    public void setPage(int page){
+
+    public void setPage(int page) {
         this.page = page;
     }
 
@@ -123,6 +124,13 @@ public abstract class PaginationHelper extends Object{
     public void setSortMeta(List<SortMeta> sortMeta) {
         this.sortMeta = sortMeta;
     }
-    
-    
+
+    public List<FilterMeta> getFilterMeta() {
+        return filterMeta;
+    }
+
+    public void setFilterMeta(List<FilterMeta> filterMeta) {
+        this.filterMeta = filterMeta;
+    }
+
 }

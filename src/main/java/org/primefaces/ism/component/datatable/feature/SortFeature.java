@@ -44,6 +44,7 @@ public class SortFeature implements DataTableFeature {
         return context.getExternalContext().getRequestParameterMap().containsKey(table.getClientId(context) + "_sorting");
     }
 
+    @Override
     public void decode(FacesContext context, DataTable table) {
         table.setRowIndex(-1);
         String clientId = table.getClientId(context);
@@ -52,7 +53,7 @@ public class SortFeature implements DataTableFeature {
         String sortDir = params.get(clientId + "_sortDir");
 
         if (table.isMultiSort()) {
-            List<SortMeta> multiSortMeta = new ArrayList<SortMeta>();
+            List<SortMeta> multiSortMeta = new ArrayList<>();
             String[] sortKeys = sortKey.split(",");
             String[] sortOrders = sortDir.split(",");
 
@@ -95,6 +96,7 @@ public class SortFeature implements DataTableFeature {
         }
     }
 
+    @Override
     public void encode(FacesContext context, DataTableRenderer renderer, DataTable table) throws IOException {
         table.setFirst(0);
 
@@ -197,10 +199,12 @@ public class SortFeature implements DataTableFeature {
         context.getApplication().publishEvent(context, PostSortEvent.class, table);
     }
 
+    @Override
     public boolean shouldDecode(FacesContext context, DataTable table) {
         return isSortRequest(context, table);
     }
 
+    @Override
     public boolean shouldEncode(FacesContext context, DataTable table) {
         return isSortRequest(context, table);
     }

@@ -41,6 +41,7 @@ import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
 import org.primefaces.ism.util.PaginationHelper;
+import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 
 @ManagedBean(name = "analyseDataController")
@@ -386,23 +387,37 @@ public class AnalyseDataController implements Serializable {
 
                 @Override
                 public DataModel createPageDataModel() {
-                    if(this.getSortMeta()!=null)
+                    if (this.getSortMeta() != null) {
                         return sortBy();
+                    }
                     this.setModel(new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageLastItem()})));
                     return this.getModel();
                 }
 
                 @Override
                 public DataModel sortBy() {
-                    if(this.getSortMeta()==null)
-                        return createPageDataModel();
-                    List<SortMeta> sortMetas = this.getSortMeta();
-                    Map<String, String> sorts = new HashMap<>();
-                    for (SortMeta meta : sortMetas) {
-                        JsfUtil.out("Sort Meta Field = " + meta.getSortField() + " with sort order "  + meta.getSortOrder());
-                        sorts.put(meta.getSortField(), meta.getSortOrder().name());
+                    // Managing Sort Meta
+                    Map<String, String> sorts = null;
+                    if (this.getSortMeta() != null && !this.getSortMeta().isEmpty()) {
+                        List<SortMeta> sortMetas = this.getSortMeta();
+                        sorts = new HashMap<>();
+                        for (SortMeta meta : sortMetas) {
+                            sorts.put(meta.getSortField(), meta.getSortOrder().name());
+                        }
                     }
-                    this.setModel(new ListDataModel(getFacade().findByCriteria(getPageFirstItem(), getPageSize(), sorts, null)));
+
+                    // Managing Filter Meta
+                    Map<String, String> filters = null;
+                    if (this.getFilterMeta() != null && !this.getFilterMeta().isEmpty()) {
+                        List<FilterMeta> filterMetas = this.getFilterMeta();
+                        filters = new HashMap<>();
+                        for (FilterMeta filterMeta : filterMetas) {
+                            //filters.put(filterMeta.get, filterMeta.getSortOrder().name());
+                        }
+                    }
+                    
+                    // Request the criteria Model
+                    this.setModel(new ListDataModel(getFacade().findByCriteria(getPageFirstItem(), getPageSize(), sorts, filters)));
                     return this.getModel();
                 }
             };
@@ -425,7 +440,7 @@ public class AnalyseDataController implements Serializable {
     }
 
     public DataModel getModelItems() {
-        if(modelItems==null){
+        if (modelItems == null) {
             modelItems = getPagination().sortBy();
             //modelItems = getPagination().createPageDataModel();
         }

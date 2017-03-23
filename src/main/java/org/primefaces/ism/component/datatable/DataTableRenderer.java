@@ -924,7 +924,6 @@ public class DataTableRenderer extends DataRenderer {
 
         boolean encodeSummaryRow = (summaryRow != null && groupByVE != null);
 
-        System.out.println("Page = " + table.getPage() + " paginationPage = " + table.getPagination().getPage());
         if (table.getPage() != table.getPagination().getPage()) {
             table.getPagination().seekToPage(table.getPage());
         }

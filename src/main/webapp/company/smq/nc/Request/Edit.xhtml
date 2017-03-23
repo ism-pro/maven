@@ -30,7 +30,6 @@
                         <p:inputText id="ncrTitle" 
                                      value="#{nonConformiteRequestController.selected.ncrTitle}"
                                      title="#{ism.NonConformiteRequestFieldInfo_ncrTitle}" 
-                                     validator="NonConformiteRequestDesignationValidator"
                                      required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrTitle}"/>
                         <p:message for="ncrTitle"   />
                     </h:panelGrid>
@@ -125,7 +124,7 @@
                         <p:inputText id="ncrProduct" 
                                      value="#{nonConformiteRequestController.selected.ncrProduct}"
                                      title="#{ism.NonConformiteRequestFieldInfo_ncrProduct}" 
-                                     validator="NonConformiteRequestTraceValidator"/>
+                                     />
                         <p:message for="ncrProduct"   />
                     </h:panelGrid>
 
@@ -135,7 +134,7 @@
                         <p:inputText id="ncrTrace" 
                                      value="#{nonConformiteRequestController.selected.ncrTrace}"
                                      title="#{ism.NonConformiteRequestFieldInfo_ncrTrace}" 
-                                     validator="NonConformiteRequestTraceValidator"/>
+                                     />
                         <p:message for="ncrTrace"   />
                     </h:panelGrid>
 
@@ -146,7 +145,7 @@
                                         value="#{nonConformiteRequestController.selected.ncrQuantity}"
                                         title="#{ism.NonConformiteRequestFieldInfo_ncrQuantity}" 
                                         decimalPlaces="6"
-                                        validator="NonConformiteRequestQuantityValidator"/>
+                                        />
                         <p:message for="ncrQuantity"   />
                     </h:panelGrid>
 

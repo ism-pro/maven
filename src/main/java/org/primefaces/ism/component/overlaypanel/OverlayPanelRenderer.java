@@ -16,11 +16,18 @@
 package org.primefaces.ism.component.overlaypanel;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.model.SelectItem;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.component.selectonemenu.SelectOneMenuRenderer;
 
 import org.primefaces.expression.SearchExpressionFacade;
+import static org.primefaces.ism.component.overlaypanel.OverlayPanel.CONSTRAINT;
 import org.primefaces.renderkit.CoreRenderer;
 import org.primefaces.util.WidgetBuilder;
 
@@ -81,7 +88,7 @@ public class OverlayPanelRenderer extends CoreRenderer {
         //String target = clientId + "_target";
 
         WidgetBuilder wb = getWidgetBuilder(context);
-        wb.initWithDomReady("OverlayPanel", panel.resolveWidgetVar(), clientId)
+        wb.initWithDomReady("OverlayFiltersPanel", panel.resolveWidgetVar(), clientId)
                 .attr("target", target)
                 .attr("showEvent", panel.getShowEvent(), null)
                 .attr("hideEvent", panel.getHideEvent(), null)
@@ -104,7 +111,7 @@ public class OverlayPanelRenderer extends CoreRenderer {
         //Do nothing
     }
 
-    @Override 
+    @Override
     public boolean getRendersChildren() {
         return true;
     }
@@ -187,15 +194,29 @@ public class OverlayPanelRenderer extends CoreRenderer {
         writer.startElement("li", null);
         writer.writeAttribute("class", OverlayPanel.COLUMN_FILTER_SEARCH, "class");
 
-        writer.startElement("span", null);
-        writer.writeAttribute("class", OverlayPanel.COLUMN_SORT_FILTER_ICON + " "
-                + OverlayPanel.COLUMN_FILTER_SEARCH_ICON, "class");
-        writer.endElement("span");
+        UISelectItems uiItems = new UISelectItems();
+        uiItems.setValue(CONSTRAINT);
+        SelectOneMenu som = new SelectOneMenu();
+        som.getChildren().add(uiItems);
+        som.setValue(panel.getConstraint());
+        som.encodeAll(context);
 
         writer.startElement("input", null);
+        writer.writeAttribute("id", panel.getFor() + ":filter", "id");
+        writer.writeAttribute("name", panel.getFor() + ":filter", "name");
+        writer.writeAttribute("value", "", "value");
         writer.writeAttribute("class", OverlayPanel.COLUMN_FILTER_SEARCH_INPUT, "class");
         writer.writeAttribute("type", "text", "type");
+        writer.writeAttribute("autocomplete", "off", "autocomplete");
+        writer.writeAttribute("role", "textbox", "role");
+        writer.writeAttribute("aria-disabled", "false", "aria-disabled");
+        writer.writeAttribute("aria-readonly", "false", "aria-readonly");
         writer.endElement("input");
+
+        writer.startElement("span", null);
+        writer.writeAttribute("class", 
+                OverlayPanel.COLUMN_FILTER_SEARCH_ICON, "class");
+        writer.endElement("span");
 
         writer.endElement("li"); // end FILTER SEARCH
 
@@ -234,8 +255,7 @@ public class OverlayPanelRenderer extends CoreRenderer {
         writer.endElement("div"); // en ACTION DIV
 
         writer.endElement("li"); // end FILTER ACTIONS
-        */
-
+         */
         // ========
         writer.endElement("ul"); // end MENU
     }

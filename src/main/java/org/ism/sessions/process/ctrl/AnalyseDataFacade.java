@@ -206,6 +206,12 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
     }
     
     public List<Order> sortBy(Map<String, String> sorts) {
+        // Case of empty sorting
+        if(sorts==null || sorts.isEmpty()){
+            return null;
+        }
+        
+        // Process sorting
         em.flush();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<AnalyseData> criteriaQuery = criteriaBuilder.createQuery(AnalyseData.class);
@@ -223,6 +229,12 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
     }
     
     public List<Predicate> filterBy(Map<String, String> filters){
+        // Case of empty sorting
+        if(filters==null || filters.isEmpty()){
+            return null;
+        }
+        
+        // Process filtering
         List<Predicate> predicates = null;
         return predicates;
     }

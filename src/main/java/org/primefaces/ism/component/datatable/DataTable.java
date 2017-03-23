@@ -19,44 +19,27 @@
 package org.primefaces.ism.component.datatable;
 
 import org.primefaces.component.api.UIData;
-import javax.faces.context.FacesContext;
-import javax.faces.component.UINamingContainer;
-import javax.el.ValueExpression;
-import javax.el.MethodExpression;
-import javax.faces.render.Renderer;
-import java.io.IOException;
-import javax.faces.component.UIComponent;
-import javax.faces.event.AbortProcessingException;
 import javax.faces.application.ResourceDependencies;
 import javax.faces.application.ResourceDependency;
-import java.util.List;
-import java.util.ArrayList;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.columns.Columns;
 import org.primefaces.component.columngroup.ColumnGroup;
 import org.primefaces.component.rowexpansion.RowExpansion;
 import org.primefaces.component.row.Row;
 import org.primefaces.component.subtable.SubTable;
-import org.primefaces.component.contextmenu.ContextMenu;
 import org.primefaces.component.summaryrow.SummaryRow;
 import org.primefaces.context.RequestContext;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.logging.Logger;
 import javax.faces.component.UIComponent;
-import javax.faces.application.NavigationHandler;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.HashMap;
 import org.primefaces.model.LazyDataModel;
-import java.lang.StringBuilder;
 import java.util.List;
 import javax.el.ValueExpression;
 import javax.faces.event.FacesEvent;
@@ -113,7 +96,35 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
 
     protected enum PropertyKeys {
 
-        widgetVar, scrollable, scrollHeight, scrollWidth, selectionMode, selection, emptyMessage, style, styleClass, liveScroll, rowStyleClass, onExpandStart, resizableColumns, sortBy, sortOrder, sortFunction, scrollRows, rowKey, filterEvent, filterDelay, tableStyle, tableStyleClass, draggableColumns, editable, filteredValue, sortMode, editMode, editingRow, cellSeparator, summary, frozenRows, dir, liveResize, stickyHeader, expandedRow, disabledSelection, rowSelectMode, rowExpandMode, dataLocale, nativeElements, frozenColumns, draggableRows, caseSensitiveSort, skipChildren, disabledTextSelection, sortField, initMode, nullSortOrder, tabindex, reflow, liveScrollBuffer, rowHover, resizeMode, pagination;
+        widgetVar,
+        scrollable, 
+        scrollHeight, 
+        scrollWidth, 
+        selectionMode, 
+        selection, 
+        emptyMessage, 
+        style, styleClass, 
+        liveScroll,
+        rowStyleClass, 
+        onExpandStart, 
+        resizableColumns,
+        sortBy, sortOrder, sortFunction, 
+        scrollRows, 
+        rowKey, 
+        filterEvent, 
+        filterDelay, 
+        tableStyle, 
+        tableStyleClass, 
+        draggableColumns, 
+        editable, 
+        filteredValue,
+        sortMode, 
+        editMode, editingRow, cellSeparator, summary, frozenRows, 
+        dir, liveResize, stickyHeader, expandedRow, disabledSelection, 
+        rowSelectMode, rowExpandMode, dataLocale, nativeElements, frozenColumns, 
+        draggableRows, caseSensitiveSort, skipChildren, disabledTextSelection, 
+        sortField, initMode, nullSortOrder, tabindex, reflow, liveScrollBuffer, 
+        rowHover, resizeMode, pagination;
 
         String toString;
 
@@ -134,6 +145,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
         setRendererType(DEFAULT_RENDERER);
     }
 
+    @Override
     public String getFamily() {
         return COMPONENT_FAMILY;
     }

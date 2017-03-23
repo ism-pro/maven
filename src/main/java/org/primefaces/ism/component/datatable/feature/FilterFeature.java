@@ -77,14 +77,17 @@ public class FilterFeature implements DataTableFeature {
         return context.getExternalContext().getRequestParameterMap().containsKey(table.getClientId(context) + "_filtering");
     }
     
+    @Override
     public boolean shouldDecode(FacesContext context, DataTable table) {
         return false;
     }
     
+    @Override
     public boolean shouldEncode(FacesContext context, DataTable table) {
         return isFilterRequest(context, table);
     }
 
+    @Override
     public void decode(FacesContext context, DataTable table) {
         String globalFilterParam = table.getClientId(context) + UINamingContainer.getSeparatorChar(context) + "globalFilter";
         List<FilterMeta> filterMetadata = this.populateFilterMetaData(context, table);
@@ -93,6 +96,7 @@ public class FilterFeature implements DataTableFeature {
         table.setFilterMetadata(filterMetadata);
     }
             
+    @Override
     public void encode(FacesContext context, DataTableRenderer renderer, DataTable table) throws IOException {
         Map<String,String> params = context.getExternalContext().getRequestParameterMap();
         
@@ -142,8 +146,9 @@ public class FilterFeature implements DataTableFeature {
         GlobalFilterConstraint globalFilterConstraint = (GlobalFilterConstraint) FILTER_CONSTRAINTS.get(GLOBAL_MODE);
         ELContext elContext = context.getELContext();
         
-        for(int i = 0; i < table.getRowCount(); i++) {
+/*        for(int i = 0; i < table.getRowCount(); i++) {
             table.setRowIndex(i);
+        */
             boolean localMatch = true;
             boolean globalMatch = false;
 
@@ -160,6 +165,7 @@ public class FilterFeature implements DataTableFeature {
                 Object columnValue = filterByVE.getValue(elContext);
                 FilterConstraint filterConstraint = this.getFilterConstraint(column);
 
+                /*
                 if(hasGlobalFilter && !globalMatch) {
                     globalMatch = globalFilterConstraint.applies(columnValue, globalFilterValue, filterLocale);
                 }
@@ -174,8 +180,9 @@ public class FilterFeature implements DataTableFeature {
                 if(!localMatch) {
                     break;
                 }
+                */
             }
-
+/*
             boolean matches = localMatch;
             if(hasGlobalFilter) {
                 matches = localMatch && globalMatch;
@@ -185,6 +192,7 @@ public class FilterFeature implements DataTableFeature {
                 filteredData.add(table.getRowData());
             }
         }
+*/
 
         //Metadata for callback
         if(table.isPaginator()) {
@@ -376,4 +384,6 @@ public class FilterFeature implements DataTableFeature {
 
         return filterConstraint;
     }
+    
+
 }

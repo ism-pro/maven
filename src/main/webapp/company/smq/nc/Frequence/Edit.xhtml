@@ -28,7 +28,6 @@
                         <p:inputText id="ncfFrequency" 
                                      value="#{nonConformiteFrequencyController.selected.ncfFrequency}" 
                                      title="#{ism.NonConformiteFrequencyFieldInfo_ncfFrequency}" 
-                                     validator="NonConformiteFrequencyCodeValidator"
                                      required="true" requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfFrequency}"/>
                         <p:message for="ncfFrequency" />
                     </h:panelGrid>
@@ -39,7 +38,6 @@
                         <p:inputText id="ncfDesignation" 
                                      value="#{nonConformiteFrequencyController.selected.ncfDesignation}"
                                      title="#{ism.NonConformiteFrequencyFieldInfo_ncfDesignation}" 
-                                     validator="NonConformiteFrequencyDesignationValidator"
                                      required="true" requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfDesignation}"/>
                         <p:message for="ncfDesignation"   />
                     </h:panelGrid>
