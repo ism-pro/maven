@@ -16,7 +16,7 @@
 
                 <h2 id="smq-nc-titles">
                     <span id="smq-nc-mainTitle">
-                        Non conformitée : 
+                        Non conformitée <b>#{nonConformiteRequestController.selected.ncrId}</b> : 
                     </span>
                     <p:outputLabel styleClass="smq-nc-title" 
                                    value="#{nonConformiteRequestController.selected.ncrTitle}" 
@@ -39,7 +39,7 @@
                             #{ism.State} : [<h:outputText value="#{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).istate} 
                                              - #{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).statename}" />]
                             <br />
-                            #{ism.LastChange} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrChanged}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>]
+                            #{ism.LastChange} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrChanged}"><f:convertDateTime pattern="dd/MM/yyyy hh:mm" /></h:outputText>]
                         </div>
                     </span>
                 </h2>
@@ -200,7 +200,7 @@
                          rendered="#{nonConformiteActionsController.getItemsByNCLast(
                                      nonConformiteRequestController.selected)!=null}">
                     <f:facet name="header" >
-                        <p:outputLabel value="#{ism.Action}"/>
+                        <p:outputLabel value="#{ism.Action} [NC - #{nonConformiteRequestController.selected.ncrId}]"/>
                     </f:facet>
 
 

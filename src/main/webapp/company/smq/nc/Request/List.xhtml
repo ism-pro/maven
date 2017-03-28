@@ -103,6 +103,8 @@
                              sortMode="#{tableView.sortMode}"
 
                              emptyMessage="#{ism.EmptyList}"
+                             
+                             rowStyleClass="#{item.ncrState.istate == 'C' ? (viewUtil.maintenant >= nonConformiteActionsController.getLastActionFromNC(item).ncaDeadline ? 'ncr-state':'') : '' }"
                              >
 
 
@@ -360,7 +362,9 @@
                                 <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
                             </p:inputText>
                         </f:facet>
-                        <h:outputText value="#{item.ncrenddingAction}">
+                        <h:outputText rendered="#{nonConformiteActionsController.getLastActionFromNC(item)!=null?true:false}"
+                                      value="#{nonConformiteActionsController.getLastActionFromNC(item).ncaDeadline}" 
+                                      >
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>

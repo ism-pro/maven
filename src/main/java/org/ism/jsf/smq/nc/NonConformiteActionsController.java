@@ -397,6 +397,23 @@ public class NonConformiteActionsController implements Serializable {
         itemsNC = getFacade().findAllByNCLast(nc);
         return itemsNC;
     }
+    
+    /**
+     * This method return null if non conformite is null or if no action found
+     * @param nc on which to found corresponding action
+     * @return return null if no action associated from nc or if null nc
+     */
+    public NonConformiteActions getLastActionFromNC(NonConformiteRequest nc){
+        if(nc==null)
+            return null;
+        
+        itemsNC = getFacade().findAllByNCLastID(nc);
+        if(itemsNC==null){
+            return null;
+        }
+
+        return itemsNC.get(0);
+    }
 
     public List<NonConformiteActions> getItemsDesc(NonConformiteRequest nc) {
         itemsNC = getFacade().findDescByNC(nc);
