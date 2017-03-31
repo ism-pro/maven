@@ -38,7 +38,7 @@
                         <div>
                             #{ism.State} : [<h:outputText value="#{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).istate} 
                                              - #{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).statename}" />]
-                            <br />
+                             &emsp;
                             #{ism.LastChange} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrChanged}"><f:convertDateTime pattern="dd/MM/yyyy hh:mm" /></h:outputText>]
                         </div>
                     </span>

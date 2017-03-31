@@ -33,6 +33,7 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.event.data.SortEvent;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 
 @ManagedBean(name = "nonConformiteRequestController")
@@ -50,6 +51,7 @@ public class NonConformiteRequestController implements Serializable {
     private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
     private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
+   
     public NonConformiteRequestController() {
     }
 
@@ -57,41 +59,7 @@ public class NonConformiteRequestController implements Serializable {
     protected void initialize() {
         isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
         isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
-        // Setup initial visibility
-        /*
-        NonConformiteRequestField_ncrId=N°
-        NonConformiteRequestField_ncrStaff=Emetteur
-        NonConformiteRequestField_ncrTitle=Intitulé
-        NonConformiteRequestField_ncrProcessus=Processus
-        NonConformiteRequestField_ncrState=Etat
-        NonConformiteRequestField_ncrNature=Nature
-        NonConformiteRequestField_ncrGravity=Gravité
-        NonConformiteRequestField_ncrFrequency=Fréquence
-        NonConformiteRequestField_ncrOccured=Apparition
-        NonConformiteRequestField_ncrCreated=Création
-        NonConformiteRequestField_ncrChanged=Modif.
-        NonConformiteRequestField_ncrEnddingAction=Date résolution
-        NonConformiteRequestField_ncrCompany=Société
-        
-        // # ELEMENT CI-DESSOUS NON AFFICHE DANS LE TABLEAU
-        NonConformiteRequestField_ncrDescription=Description
-        NonConformiteRequestField_ncrStaffOnValidate=Approbateur
-        NonConformiteRequestField_ncrOccuredValidate=Date validation
-        NonConformiteRequestField_ncrStaffOnRefuse=Approbateur
-        NonConformiteRequestField_ncrOccuredRefuse=Date du refus
-        NonConformiteRequestField_ncrStaffOnAction=Responsable
-        NonConformiteRequestField_ncrOccuredAction=Date des actions
-        NonConformiteRequestField_ncrStatePrevious=Etat Actuel
-        NonConformiteRequestField_ncrStateNew=Etat à venir
-        NonConformiteRequestField_ncrProduct=Produit
-        NonConformiteRequestField_ncrTrace=Traçabilité
-        NonConformiteRequestField_ncrQuantity=Quantité
-        NonConformiteRequestField_ncrUnite=Unité
-        NonConformiteRequestField_ncrDescOnValidate=Description validée
-        NonConformiteRequestField_ncrDescOnAction=Action(s)
-        NonConformiteRequestField_ncrDescOnRefuse=Avenant(s)
-        NonConformiteRequestField_ncrLink=Lien/Image
-         */
+
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrId"));
@@ -126,9 +94,6 @@ public class NonConformiteRequestController implements Serializable {
 
     }
 
-    protected void setEmbeddableKeys() {
-    }
-
     private NonConformiteRequestFacade getFacade() {
         return ejbFacade;
     }
@@ -140,7 +105,7 @@ public class NonConformiteRequestController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared non conformite request
      */
     public NonConformiteRequest prepareCreate() {
@@ -228,6 +193,7 @@ public class NonConformiteRequestController implements Serializable {
 
     }
 
+
     /**
      * ************************************************************************
      * CRUD OPTIONS
@@ -290,8 +256,8 @@ public class NonConformiteRequestController implements Serializable {
         }
         update();
     }
-    
-    public void updateOnReview(){
+
+    public void updateOnReview() {
         selected.setNcrChanged(new Date());
         selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
         update();
@@ -325,7 +291,6 @@ public class NonConformiteRequestController implements Serializable {
 
     private void persist(PersistAction persistAction, String summary, String detail) {
         if (selected != null) {
-            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     getFacade().edit(selected);

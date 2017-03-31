@@ -72,9 +72,10 @@
         <component-type>org.primefaces.ism.component.RibbonGroupSet</component-type>
         <component-class>org.primefaces.ism.component.ribbon.RibbonGroupSet</component-class>
     </component>
-        
 
-    <render-kit>
+
+    <render-kit>     
+        
         <renderer>
             <component-family>org.primefaces.ism.component</component-family>
             <renderer-type>org.primefaces.ism.component.DataTableRenderer</renderer-type>

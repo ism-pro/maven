@@ -96,7 +96,7 @@ public class NonConformiteActionsController implements Serializable {
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDescription"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDeadline"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaStaffApprouver"), false);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDescApprouver"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaDescApprouver"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaCreated"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaChanged"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteActionsField_ncaNc"), false);
