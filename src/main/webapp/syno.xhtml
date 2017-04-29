@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+.container{background: #fafafa;  border: 1px solid #afafaf; min-height: 250px; text-align: center;padding: 10px;}
+.mainTitle{background-color: #ffffcc; font-family: Comic Sans MS;color: #dcb408;border: 1px solid #dcb408;padding-top: 20px; padding-bottom: 20px; margin-bottom: 5px;}
+.subTitle{background-color: #ffffcc; font-family: arial, sans-serif;color: #dcb408;border: 1px solid #dcb408;padding-top: 5px; padding-bottom: 5px; margin-top: 0px;margin-bottom: 5px;}
+.subContainer{text-align: left;padding: 5px; padding-bottom: 15px;margin-bottom: 20px;background: white;  border: 1px solid #dcb408; }
+.linkTable {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
+th{ background-color: #ffffcc; color: #dcb408;}
+td, th {border: 1px solid #eeeeee; text-align: left; padding: 8px; }
+.none tr:nth-child(even) { background-color: #dddddd;}
+.tableTitle{ text-align: left; font-weight: bold; background-color: #fafafa;}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="mainTitle">
+<h1>HENDRICK MANAGEMENT SERVER</h1>
+</div>
+<h3 class="subTitle">Changement d'adresse \"ip\" publique : \"<b>"$nextIP"</b>\"</h3>
+<div class="subContainer">
+Bonjour, <br /><br/>
+Le server hms vient de changer d'adresse IP ce "$d". <br />
+La nouvelle adresse est : \"<b>"$nextIP"</b>\". <br />
+Acceder maintenant au site via : <br/><br />
+<table class="linkTable" >
+<tr><th>N°</th><th>Designation</th><th>Accès</th><th>Description</th>
+</tr><tr><td class="tableTitle" colspan="4"><b><i>Server Principale</i></b></td>
+</tr><tr><td class="hms-right">1</td><td>Famille</td>
+<td><a href="https://hms.synology.me:8181/family">https://hms.synology.me:8181/family</a><br/>
+<a href="https://$nextIP:8181/family">https://"$nextIP":8181/family</a><br/>
+</td><td>Accéder à l'interface principale du server "HMS".<br/>Pour préparer des évènements,...</td>
+</tr><tr>
+<td class="tableTitle" colspan="4"><b><i>Synology</i></b></td>
+</tr><tr><td class="hms-right">1</td><td>Gestionnaire application</td><td>
+<a href="https://hms.synology.me:8282/">https://hms.synology.me:8282/</a><br/>
+<a href="https://$nextIP:8282/">https://"$nextIP":8282/</a><br/>
+</td><td>Accéder à la synology pour effecuter vos configurations : administration.</td>
+</tr><tr><td class="hms-right">2</td><td>Gestion des Téléchargements</td><td>
+<a href="https://hms.synology.me:8001/">https://hms.synology.me:8001/</a><br/>
+<a href="https://$nextIP:8001/">https://"$nextIP":8001/</a><br/>
+( <a href="http://$nextIP:8000/">http://"$nextIP":8000/</a> )
+</td><td>Accéder au divers téléchargements</td></tr><tr>
+<td class="hms-right">3</td><td>Gestion des Fichiers</td><td>
+<a href="https://hms.synology.me:7001/">https://hms.synology.me:7001/</a><br/>
+<a href="https://$nextIP:7001/">https://"$nextIP":7001/</a><br/>
+( <a href="http://$nextIP:7000/">http://"$nextIP":7000/</a> )
+</td><td>Accéder à la gestion de vos fichiers ou sauvegarde</td>
+</tr><tr><td class="hms-right">4</td><td>Gestion des Photos</td><td>
+<a href="https://hms.synology.me:60450/photo/">https://hms.synology.me:60450/photo/</a><br/>
+<a href="https://$nextIP:60450/photo/">https://"$nextIP":60450/photo/</a><br/>
+( <a href="http://$nextIP:60449/photo/">http://"$nextIP":60449/photo/</a> )
+</td><td>Accéder à la gestion de vos photos ou partage...</td>
+</tr><tr><td class="hms-right">5</td><td>Gestion des Vidéos</td><td>
+<a href="https://hms.synology.me:4001/">https://hms.synology.me:4001/</a><br/>
+<a href="https://$nextIP:4001/">https://"$nextIP":4001/</a><br/>
+( <a href="http://$nextIP:4000/">http://"$nextIP":4000/</a> )
+</td><td>Accéder à la gestion de vos vidéos et leur partages...</td>
+</tr>
+</table></div></div></body></html>

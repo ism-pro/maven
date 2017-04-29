@@ -52,6 +52,11 @@
         <component-type>org.primefaces.ism.component.DataTable</component-type>
         <component-class>org.primefaces.ism.component.datatable.DataTable</component-class>
     </component>
+    
+    <component>
+        <component-type>org.primefaces.ism.component.Table</component-type>
+        <component-class>org.primefaces.ism.component.table.Table</component-class>
+    </component>
 
     <component>
         <component-type>org.primefaces.ism.component.OverlayPanel</component-type>
@@ -80,6 +85,12 @@
             <component-family>org.primefaces.ism.component</component-family>
             <renderer-type>org.primefaces.ism.component.DataTableRenderer</renderer-type>
             <renderer-class>org.primefaces.ism.component.datatable.DataTableRenderer</renderer-class>
+        </renderer>
+        
+        <renderer>
+            <component-family>org.primefaces.ism.component</component-family>
+            <renderer-type>org.primefaces.ism.component.TableRenderer</renderer-type>
+            <renderer-class>org.primefaces.ism.component.table.TableRenderer</renderer-class>
         </renderer>
         
         <renderer>

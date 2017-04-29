@@ -98,7 +98,6 @@
                              
                              filteredValue="#{viewTabManager.ncRequestFiltered}"
                              
-                             
                              paginator="#{tableView.paginator}" 
                              paginatorTemplate="#{tableView.paginatorTemplate}"
                              currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
@@ -112,6 +111,9 @@
                              emptyMessage="#{ism.EmptyList}"
                              
 
+                             sortMode="#{tableView.sortMode}"
+                             
+                             first="#{dataTableControllPagination.first}"
                              >
 
 
@@ -153,8 +155,11 @@
 
                     </f:facet>
 
+                    <p:ajax event="page" listener="#{dataTableControllPagination.onPageChange}" />
+                    <p:ajax event="sort" listener="#{nonConformiteRequestController.handleColumnSorting}" />
 
-                    
+
+
                     <p:ajax event="rowSelect" update="westGroup bodyForm"  />
                     <p:ajax event="rowUnselect" update="westGroup bodyForm" />
                     <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />

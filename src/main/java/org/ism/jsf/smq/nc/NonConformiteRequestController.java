@@ -35,6 +35,8 @@ import javax.faces.bean.ManagedBean;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.data.SortEvent;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
+import org.primefaces.ism.component.table.Table;
+import org.primefaces.model.SortMeta;
 
 @ManagedBean(name = "nonConformiteRequestController")
 @SessionScoped
@@ -51,6 +53,21 @@ public class NonConformiteRequestController implements Serializable {
     private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
     private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
+    private List<SortMeta> sortedValue;
+
+    public List getSortedValue() {
+        JsfUtil.out("Now Return Sorted Value");
+        List<SortMeta> sorted = sortedValue;
+        return sortedValue;
+    }
+
+    public void setSortedValue(List sortedValue) {
+        JsfUtil.out("Now Set Sorted Value");
+        List<SortMeta> sorted = sortedValue;
+        this.sortedValue = sortedValue;
+    }
+    
+    
    
     public NonConformiteRequestController() {
     }
@@ -193,6 +210,11 @@ public class NonConformiteRequestController implements Serializable {
 
     }
 
+    public void handleColumnSorting(SortEvent event){
+        Table table = (Table) event.getSource(); 
+        sortedValue = table.getMultiSortMeta();
+        JsfUtil.out("End handle Sorting event");
+    }
 
     /**
      * ************************************************************************
