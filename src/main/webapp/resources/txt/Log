@@ -154,8 +154,3371 @@ Configuration :
 
 
 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.ism.entities.smq.nc;
+
+import org.ism.entities.app.IsmNcrstate;
+import org.ism.entities.smq.Processus;
+import org.ism.entities.admin.Company;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.ism.entities.hr.Staff;
+
+/**
+ *
+ * @author r.hendrick
+ */
+@Entity
+@Table(name = "non_conformite_request", catalog = "ism", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"ncr_id"})})
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "NonConformiteRequest.findAll", query = "SELECT n FROM NonConformiteRequest n"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrId", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrId = :ncrId"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrOccured", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrOccured = :ncrOccured"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrProduct", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrProduct = :ncrProduct"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrTrace", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTrace = :ncrTrace"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrQuantity", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrQuantity = :ncrQuantity"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrTitle", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrLink", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrLink = :ncrLink"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrenddingAction", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrenddingAction = :ncrenddingAction"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrCreated", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated = :ncrCreated"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrChanged", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrChanged = :ncrChanged"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrApprouved", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrApprouved = :ncrApprouved"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrapprouvedDate", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDate = :ncrapprouvedDate"),
+    @NamedQuery(name = "NonConformiteRequest.selectAllByLastChange", query = "SELECT n FROM NonConformiteRequest n ORDER BY n.ncrChanged DESC"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrCompany", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCompany.cCompany = :ncrCompany"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrProcessus.pProcessus = :ncrProcessus"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrStaff", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrStaff.stStaff = :ncrStaff"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrState", query = "SELECT n.ncrState FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrNature", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrNature.ncnNature = :ncrNature"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrUnite", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrUnite.ncuUnite = :ncrUnite"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrGravity", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrGravity.ncgGravity = :ncrGravity"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrFrequency", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrFrequency.ncfFrequency = :ncrFrequency")
+})
+public class NonConformiteRequest implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ncr_id", nullable = false)
+    private Integer ncrId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ncr_occured", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ncrOccured;
+    @Size(max = 128)
+    @Column(name = "ncr_product", length = 128)
+    private String ncrProduct;
+    @Size(max = 45)
+    @Column(name = "ncr_trace", length = 45)
+    private String ncrTrace;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "ncr_quantity", precision = 22)
+    private Double ncrQuantity;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 128)
+    @Column(name = "ncr_title", nullable = false, length = 128)
+    private String ncrTitle;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "ncr_description", nullable = false, length = 65535)
+    private String ncrDescription;
+    @Size(max = 512)
+    @Column(name = "ncr_link", length = 512)
+    private String ncrLink;
+    @Column(name = "ncr_enddingAction")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ncrenddingAction;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ncr_created", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ncrCreated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ncr_changed", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ncrChanged;
+    @Column(name = "ncr_approuved")
+    private Boolean ncrApprouved;
+    @Column(name = "ncr_approuvedDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ncrapprouvedDate;
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "ncr_approuvedDesc", length = 65535)
+    private String ncrapprouvedDesc;
+    @JoinColumn(name = "ncr_company", referencedColumnName = "c_company", nullable = false)
+    @ManyToOne(optional = false)
+    private Company ncrCompany;
+    @JoinColumn(name = "ncr_approuver", referencedColumnName = "st_staff")
+    @ManyToOne
+    private Staff ncrApprouver;
+    @JoinColumn(name = "ncr_frequency", referencedColumnName = "ncf_frequency", nullable = false)
+    @ManyToOne(optional = false)
+    private NonConformiteFrequency ncrFrequency;
+    @JoinColumn(name = "ncr_gravity", referencedColumnName = "ncg_gravity", nullable = false)
+    @ManyToOne(optional = false)
+    private NonConformiteGravity ncrGravity;
+    @JoinColumn(name = "ncr_nature", referencedColumnName = "ncn_nature")
+    @ManyToOne
+    private NonConformiteNature ncrNature;
+    @JoinColumn(name = "ncr_processus", referencedColumnName = "p_processus", nullable = false)
+    @ManyToOne(optional = false)
+    private Processus ncrProcessus;
+    @JoinColumn(name = "ncr_staff", referencedColumnName = "st_staff", nullable = false)
+    @ManyToOne(optional = false)
+    private Staff ncrStaff;
+    @JoinColumn(name = "ncr_unite", referencedColumnName = "ncu_unite", nullable = false)
+    @ManyToOne(optional = false)
+    private NonConformiteUnite ncrUnite;
+
+    @JoinColumn(name = "ncr_state", referencedColumnName = "istate")
+    @ManyToOne
+    private IsmNcrstate ncrState;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncaNc")
+    private Collection<NonConformiteActions> nonConformiteActionsCollection;
+
+    public NonConformiteRequest() {
+    }
+
+    public NonConformiteRequest(Integer ncrId) {
+        this.ncrId = ncrId;
+    }
+
+    public NonConformiteRequest(Integer ncrId, Date ncrOccured, String ncrTitle, String ncrDescription, Date ncrCreated, Date ncrChanged) {
+        this.ncrId = ncrId;
+        this.ncrOccured = ncrOccured;
+        this.ncrTitle = ncrTitle;
+        this.ncrDescription = ncrDescription;
+        this.ncrCreated = ncrCreated;
+        this.ncrChanged = ncrChanged;
+    }
+
+    public Integer getNcrId() {
+        return ncrId;
+    }
+
+    public void setNcrId(Integer ncrId) {
+        this.ncrId = ncrId;
+    }
+
+    public Date getNcrOccured() {
+        return ncrOccured;
+    }
+
+    public void setNcrOccured(Date ncrOccured) {
+        this.ncrOccured = ncrOccured;
+    }
+
+    public String getNcrProduct() {
+        return ncrProduct;
+    }
+
+    public void setNcrProduct(String ncrProduct) {
+        this.ncrProduct = ncrProduct;
+    }
+
+    public String getNcrTrace() {
+        return ncrTrace;
+    }
+
+    public void setNcrTrace(String ncrTrace) {
+        this.ncrTrace = ncrTrace;
+    }
+
+    public Double getNcrQuantity() {
+        return ncrQuantity;
+    }
+
+    public void setNcrQuantity(Double ncrQuantity) {
+        this.ncrQuantity = ncrQuantity;
+    }
+
+    public String getNcrTitle() {
+        return ncrTitle;
+    }
+
+    public void setNcrTitle(String ncrTitle) {
+        this.ncrTitle = ncrTitle;
+    }
+
+    public String getNcrDescription() {
+        return ncrDescription;
+    }
+
+    public void setNcrDescription(String ncrDescription) {
+        this.ncrDescription = ncrDescription;
+    }
+
+    public String getNcrLink() {
+        return ncrLink;
+    }
+
+    public void setNcrLink(String ncrLink) {
+        this.ncrLink = ncrLink;
+    }
 
 
+    public Date getNcrenddingAction() {
+        return ncrenddingAction;
+    }
+
+    public void setNcrenddingAction(Date ncrenddingAction) {
+        this.ncrenddingAction = ncrenddingAction;
+    }
+
+    public Date getNcrCreated() {
+        return ncrCreated;
+    }
+
+    public void setNcrCreated(Date ncrCreated) {
+        this.ncrCreated = ncrCreated;
+    }
+
+    public Date getNcrChanged() {
+        return ncrChanged;
+    }
+
+    public void setNcrChanged(Date ncrChanged) {
+        this.ncrChanged = ncrChanged;
+    }
+
+    public Boolean getNcrApprouved() {
+        return ncrApprouved;
+    }
+
+    public void setNcrApprouved(Boolean ncrApprouved) {
+        this.ncrApprouved = ncrApprouved;
+    }
+
+    public Date getNcrapprouvedDate() {
+        return ncrapprouvedDate;
+    }
+
+    public void setNcrapprouvedDate(Date ncrapprouvedDate) {
+        this.ncrapprouvedDate = ncrapprouvedDate;
+    }
+
+    public String getNcrapprouvedDesc() {
+        return ncrapprouvedDesc;
+    }
+
+    public void setNcrapprouvedDesc(String ncrapprouvedDesc) {
+        this.ncrapprouvedDesc = ncrapprouvedDesc;
+    }
+
+    public Company getNcrCompany() {
+        return ncrCompany;
+    }
+
+    public void setNcrCompany(Company ncrCompany) {
+        this.ncrCompany = ncrCompany;
+    }
+
+    public Staff getNcrApprouver() {
+        return ncrApprouver;
+    }
+
+    public void setNcrApprouver(Staff ncrApprouver) {
+        this.ncrApprouver = ncrApprouver;
+    }
+
+    public NonConformiteFrequency getNcrFrequency() {
+        return ncrFrequency;
+    }
+
+    public void setNcrFrequency(NonConformiteFrequency ncrFrequency) {
+        this.ncrFrequency = ncrFrequency;
+    }
+
+    public NonConformiteGravity getNcrGravity() {
+        return ncrGravity;
+    }
+
+    public void setNcrGravity(NonConformiteGravity ncrGravity) {
+        this.ncrGravity = ncrGravity;
+    }
+
+    public NonConformiteNature getNcrNature() {
+        return ncrNature;
+    }
+
+    public void setNcrNature(NonConformiteNature ncrNature) {
+        this.ncrNature = ncrNature;
+    }
+
+    public Processus getNcrProcessus() {
+        return ncrProcessus;
+    }
+
+    public void setNcrProcessus(Processus ncrProcessus) {
+        this.ncrProcessus = ncrProcessus;
+    }
+
+    public Staff getNcrStaff() {
+        return ncrStaff;
+    }
+
+    public void setNcrStaff(Staff ncrStaff) {
+        this.ncrStaff = ncrStaff;
+    }
+
+    public NonConformiteUnite getNcrUnite() {
+        return ncrUnite;
+    }
+
+    public void setNcrUnite(NonConformiteUnite ncrUnite) {
+        this.ncrUnite = ncrUnite;
+    }
+
+
+    public IsmNcrstate getNcrState() {
+        return ncrState;
+    }
+
+    public void setNcrState(IsmNcrstate ncrState) {
+        this.ncrState = ncrState;
+    }
+
+    @XmlTransient
+    public Collection<NonConformiteActions> getNonConformiteActionsCollection() {
+        return nonConformiteActionsCollection;
+    }
+
+    public void setNonConformiteActionsCollection(Collection<NonConformiteActions> nonConformiteActionsCollection) {
+        this.nonConformiteActionsCollection = nonConformiteActionsCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (ncrId != null ? ncrId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof NonConformiteRequest)) {
+            return false;
+        }
+        NonConformiteRequest other = (NonConformiteRequest) object;
+        if ((this.ncrId == null && other.ncrId != null) || (this.ncrId != null && !this.ncrId.equals(other.ncrId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "org.ism.entities.NonConformiteRequest[ ncrId=" + ncrId + " ]";
+    }
+    
+}
+
+
+
+
+
+RITON KAH-LO, MR EAZI DAVIDO    
+
+
+package org.ism.jsf.smq.nc;
+
+import org.ism.entities.smq.nc.NonConformiteRequest;
+import org.ism.jsf.util.JsfUtil;
+import org.ism.jsf.util.JsfUtil.PersistAction;
+import org.ism.sessions.smq.nc.NonConformiteRequestFacade;
+import org.ism.entities.app.IsmNcrstate;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
+import org.primefaces.component.api.UIColumn;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.component.inputtext.InputText;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.Visibility;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.event.data.SortEvent;
+import org.primefaces.extensions.component.inputnumber.InputNumber;
+import org.primefaces.ism.component.table.Table;
+import org.primefaces.model.SortMeta;
+
+@ManagedBean(name = "nonConformiteRequestController")
+@SessionScoped
+public class NonConformiteRequestController implements Serializable {
+
+    @EJB
+    private org.ism.sessions.smq.nc.NonConformiteRequestFacade ejbFacade;
+    private List<NonConformiteRequest> items = null;
+    private NonConformiteRequest selected;
+    private NonConformiteRequest edited;
+    private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
+    private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
+
+    private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
+    private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
+
+    private List<SortMeta> sortedValue;
+
+    public List getSortedValue() {
+        JsfUtil.out("Now Return Sorted Value");
+        List<SortMeta> sorted = sortedValue;
+        return sortedValue;
+    }
+
+    public void setSortedValue(List sortedValue) {
+        JsfUtil.out("Now Set Sorted Value");
+        List<SortMeta> sorted = sortedValue;
+        this.sortedValue = sortedValue;
+    }
+    
+    
+   
+    public NonConformiteRequestController() {
+    }
+
+    @PostConstruct
+    protected void initialize() {
+        isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
+        isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
+
+        headerTextMap = new HashMap<>();
+        headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
+        headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrId"));
+        headerTextMap.put(2, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrStaff"));
+        headerTextMap.put(3, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrTitle"));
+        headerTextMap.put(4, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrProcessus"));
+        headerTextMap.put(5, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrState"));
+        headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrNature"));
+        headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrGravity"));
+        headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrFrequency"));
+        headerTextMap.put(9, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrOccured"));
+        headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrCreated"));
+        headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrChanged"));
+        headerTextMap.put(12, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrEnddingAction"));
+        headerTextMap.put(13, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrCompany"));
+
+        visibleColMap = new HashMap<>();
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrId"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrStaff"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrTitle"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrProcessus"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrState"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrNature"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrGravity"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrFrequency"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrOccured"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrCreated"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrChanged"), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrEnddingAction"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrCompany"), false);
+
+    }
+
+    private NonConformiteRequestFacade getFacade() {
+        return ejbFacade;
+    }
+
+    /**
+     * ************************************************************************
+     * CRUD OPTIONS
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @return prepared non conformite request
+     */
+    public NonConformiteRequest prepareCreate() {
+        selected = new NonConformiteRequest();
+        return selected;
+    }
+
+    public NonConformiteRequest prepareEdit() {
+        edited = selected;
+        return edited;
+    }
+
+    /**
+     * This method is useful to release actual selected ! That way nothing is
+     * selected
+     */
+    public void releaseSelected() {
+        isReleaseSelected = true;
+        selected = null;
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestReleaseSelectedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestReleaseSelectedDetail"));
+    }
+
+    /**
+     * Allow to toggle from on creation mode to multicreation mode
+     */
+    public void toggleMultiCreation() {
+        isOnMultiCreation = !isOnMultiCreation;
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestToggleMultiCreationSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestToggleMultiCreationDetail") + isOnMultiCreation);
+    }
+
+    /**
+     * Facke togle event : this is useful to use with
+     */
+    public void toggleMultiCreationFake() {
+        /*isOnMultiCreation = !isOnMultiCreation;*/
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestToggleMultiCreationSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestToggleMultiCreationDetail") + isOnMultiCreation);
+    }
+
+    /**
+     * ************************************************************************
+     * TABLE OPTIONS
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @param e toggle event
+     */
+    public void handleColumnToggle(ToggleEvent e) {
+        visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
+                e.getVisibility() == Visibility.VISIBLE);
+
+        JsfUtil.addSuccessMessage("NonConformiteRequest : Toggle Column",
+                "Column n° " + e.getData() + " is now " + e.getVisibility());
+
+    }
+
+    public void handleColumnReorder(javax.faces.event.AjaxBehaviorEvent e) {
+        DataTable table = (DataTable) e.getSource();
+        String columns = "";
+        int i = 0;
+        for (UIColumn column : table.getColumns()) {
+            UIComponent uic = (UIComponent) column;
+            String headerText = (String) uic.getAttributes().get((Object) "headerText");
+            Boolean visible = (Boolean) uic.getAttributes().get((Object) "visible");
+            headerTextMap.replace(i, headerText);
+            visibleColMap.replace(headerText, visible);
+            columns += headerText + "(" + visible + ") <br >";
+            i++;
+        }
+        JsfUtil.addSuccessMessage("NonConformiteRequest : Reorder Column",
+                "Columns : <br>" + columns);
+
+    }
+
+    public void handleColumnSorting(SortEvent event){
+        Table table = (Table) event.getSource(); 
+        sortedValue = table.getMultiSortMeta();
+        JsfUtil.out("End handle Sorting event");
+    }
+
+    /**
+     * ************************************************************************
+     * CRUD OPTIONS
+     *
+     * ************************************************************************
+     */
+    public void create() {
+        // Set time on creation action
+        selected.setNcrChanged(new Date());
+        selected.setNcrCreated(new Date());
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.CREATE_ID));
+
+        persist(PersistAction.CREATE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestPersistenceCreatedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestPersistenceCreatedDetail")
+                + selected.getNcrTitle());
+
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+            if (isReleaseSelected) {
+                selected = null;
+            }
+            if (isOnMultiCreation) {
+                selected = new NonConformiteRequest();
+
+            } else {
+                //JsfUtil.out("is not on multicreation");
+                List<NonConformiteRequest> ncRequest = getFacade().findAll();
+                selected = ncRequest.get(ncRequest.size() - 1);
+            }
+        }
+    }
+
+    public void createUnReleasded() {
+        isReleaseSelected = false;
+        create();
+    }
+
+    public void update() {
+        // Set time on creation action
+        selected.setNcrChanged(new Date());
+
+        persist(PersistAction.UPDATE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestPersistenceUpdatedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestPersistenceUpdatedDetail")
+                + selected.getNcrTitle());
+    }
+
+    public void updateOnValidate() {
+        selected.setNcrChanged(new Date());
+        selected.setNcrapprouvedDate(new Date());
+        if (selected.getNcrApprouved()) {
+            selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
+        } else {
+            selected.setNcrState(new IsmNcrstate(IsmNcrstate.CANCEL_ID));
+        }
+        update();
+    }
+
+    public void updateOnReview() {
+        selected.setNcrChanged(new Date());
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.WAITFORSOLUTION_ID));
+        update();
+    }
+
+    public void updateOnActionCreate() { // Passe de attente de solution à en cours
+        //selected.setNcrapprouvedDate(new Date());
+        selected.setNcrChanged(new Date());
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.INPROGRESS_ID));
+        update();
+    }
+
+    public void updateOnCloture() { // Passe de attente de solution à en cours
+        selected.setNcrState(new IsmNcrstate(IsmNcrstate.FINISH_ID));
+        selected.setNcrChanged(new Date());
+        update();
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE,
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestPersistenceDeletedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("NonConformiteRequestPersistenceDeletedDetail")
+                + selected.getNcrTitle());
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+            selected = null;
+        }
+    }
+
+    private void persist(PersistAction persistAction, String summary, String detail) {
+        if (selected != null) {
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(summary, detail);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(summary, msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, summary,
+                            ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, summary, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    private void persist(PersistAction persistAction, String detail) {
+        persist(persistAction, detail, detail);
+    }
+
+    /**
+     * ************************************************************************
+     * JPA
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @param id non conformite request key
+     * @return corresponding non conformite request object
+     */
+    public NonConformiteRequest getNonConformiteRequest(java.lang.Integer id) {
+        return getFacade().find(id);
+    }
+
+    public List<NonConformiteRequest> getItems() {
+        items = getFacade().findAll();
+        return items;
+    }
+
+    public List<NonConformiteRequest> getItemsByLastChanged() {
+        items = getFacade().findAllByLastChanged();
+        return items;
+    }
+
+    public List<NonConformiteRequest> getItemsByCode(String code) {
+        return getFacade().findByCode(code);
+    }
+
+    public Integer countByProcessus(String processusCode) {
+        return getFacade().countByState(processusCode);
+    }
+
+    public Integer countByStaff(String staffCode) {
+        return getFacade().countByState(staffCode);
+    }
+
+    public Integer countByState(String stateCode) {
+        return getFacade().countByState(stateCode);
+    }
+
+    public List<NonConformiteRequest> getItemsByDesignation(String designation) {
+        return getFacade().findByDesignation(designation);
+    }
+
+    public List<NonConformiteRequest> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<NonConformiteRequest> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
+    /**
+     * ************************************************************************
+     * GETTER / SETTER
+     *
+     * ************************************************************************
+     */
+    /**
+     *
+     * @return selected non conformite request
+     */
+    public NonConformiteRequest getSelected() {
+        if (selected == null) {
+            selected = new NonConformiteRequest();
+        }
+        return selected;
+    }
+
+    public void setSelected(NonConformiteRequest selected) {
+        this.selected = selected;
+    }
+
+    public Boolean getIsReleaseSelected() {
+        return isReleaseSelected;
+    }
+
+    public void setIsReleaseSelected(Boolean isReleaseSelected) {
+        this.isReleaseSelected = isReleaseSelected;
+    }
+
+    public Boolean getIsOnMultiCreation() {
+        return isOnMultiCreation;
+    }
+
+    public void setIsOnMultiCreation(Boolean isOnMultiCreation) {
+        this.isOnMultiCreation = isOnMultiCreation;
+    }
+
+    public Map<String, Boolean> getVisibleColMap() {
+        return visibleColMap;
+    }
+
+    public void setVisibleColMap(Map<String, Boolean> visibleColMap) {
+        this.visibleColMap = visibleColMap;
+    }
+
+    public Boolean getIsVisibleColKey(String key) {
+        return this.visibleColMap.get(key);
+    }
+
+    /**
+     * ************************************************************************
+     * CONVERTER
+     *
+     *
+     * ************************************************************************
+     */
+    @FacesConverter(forClass = NonConformiteRequest.class)
+    public static class NonConformiteRequestControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            NonConformiteRequestController controller = (NonConformiteRequestController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "nonConformiteRequestController");
+            return controller.getNonConformiteRequest(getKey(value));
+        }
+
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Integer value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof NonConformiteRequest) {
+                NonConformiteRequest o = (NonConformiteRequest) object;
+                return getStringKey(o.getNcrId());
+            } else {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), NonConformiteRequest.class.getName()});
+                return null;
+            }
+        }
+
+    }
+
+    /**
+     * ************************************************************************
+     * VALIDATOR
+     *
+     *
+     * ************************************************************************
+     */
+    @FacesValidator(value = "NonConformiteRequestCodeValidator")
+    public static class NonConformiteRequestCodeValidator implements Validator {
+
+        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "NonConformiteRequestDuplicationField_codeSummary";
+        public static final String P_DUPLICATION_CODE_DETAIL_ID = "NonConformiteRequestDuplicationField_codeDetail";
+
+        @EJB
+        private org.ism.sessions.smq.nc.NonConformiteRequestFacade ejbFacade;
+
+        @Override
+        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+            String value = o.toString();
+            if ((fc == null) || (uic == null)) {
+                throw new NullPointerException();
+            }
+            if (!(uic instanceof InputText)) {
+                return;
+            }
+            InputText input = (InputText) uic;
+            List<NonConformiteRequest> lst = ejbFacade.findByCode(value);
+            if (lst != null) {
+                if (input.getValue() != null) {
+                    if (value.matches((String) input.getValue())) {
+                        return;
+                    }
+                }
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_CODE_DETAIL_ID)
+                        + value);
+                throw new ValidatorException(facesMsg);
+            }
+        }
+    }
+
+    @FacesValidator(value = "NonConformiteRequestDesignationValidator")
+    public static class NonConformiteRequestDesignationValidator implements Validator {
+
+        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "NonConformiteRequestDuplicationField_designationSummary";
+        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "NonConformiteRequestDuplicationField_designationDetail";
+
+        @EJB
+        private org.ism.sessions.smq.nc.NonConformiteRequestFacade ejbFacade;
+
+        @Override
+        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+            String value = o.toString();
+            if ((fc == null) || (uic == null)) {
+                throw new NullPointerException();
+            }
+            if (!(uic instanceof InputText)) {
+                return;
+            }
+            InputText input = (InputText) uic;
+            List<NonConformiteRequest> lst = ejbFacade.findByDesignation(value);
+            if (lst != null) {
+                if (input.getValue() != null) {
+                    if (value.matches((String) input.getValue())) {
+                        return;
+                    }
+                }
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
+                        + value);
+                throw new ValidatorException(facesMsg);
+            }
+        }
+    }
+
+    /**
+     * Ce validateur permet de valider soit qu'une trace ou qu'un produit aie
+     * été définit dans les champs de création
+     */
+    @FacesValidator(value = "NonConformiteRequestTraceValidator")
+    public static class NonConformiteRequestTraceValidator implements Validator {
+
+        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "NonConformiteRequestTraceFields_Summary";
+        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "NonConformiteRequestTraceFields_Detail";
+
+        @Override
+        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+            String value = o.toString();
+            if ((fc == null) || (uic == null)) {
+                throw new NullPointerException();
+            }
+            if (!(uic instanceof InputText)) {
+                return;
+            }
+
+            UIComponent uicProduct = null;
+            UIComponent uicTrace = null;
+            uicProduct = JsfUtil.findComponent("ncrProduct");
+            uicTrace = JsfUtil.findComponent("ncrTrace");
+
+            if (uicProduct == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        "Component ncrProduct does not exist !");
+                throw new ValidatorException(facesMsg);
+            }
+
+            if (uicTrace == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        "Component ncrTrace does not exist !");
+                throw new ValidatorException(facesMsg);
+            }
+
+            InputText inputProduct = (InputText) uicProduct;
+            InputText inputTrace = (InputText) uicTrace;
+
+            if (inputProduct.getSubmittedValue() == null
+                    && inputTrace.getSubmittedValue() == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
+                        + value);
+                throw new ValidatorException(facesMsg);
+            }
+            int i = 0;
+            if (inputProduct.getSubmittedValue() != null) {
+                if (inputProduct.getSubmittedValue().toString().trim().isEmpty()) {
+                    i++;
+                }
+            }
+            if (inputTrace.getSubmittedValue() != null) {
+                if (inputTrace.getSubmittedValue().toString().trim().isEmpty()) {
+                    i++;
+                }
+            }
+
+            if (i == 2) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
+                        + value);
+                throw new ValidatorException(facesMsg);
+            }
+
+        }
+    }
+
+    /**
+     * Ce validateur permet de valider qu'en présence d'une quantité, une unité
+     * soit définie.
+     */
+    @FacesValidator(value = "NonConformiteRequestQuantityValidator")
+    public static class NonConformiteRequestQuantityValidator implements Validator {
+
+        public static final String P_Q_SUMMARY_ID = "NonConformiteRequestQuantityFields_Summary";
+        public static final String P_Q_DETAIL_ID = "NonConformiteRequestQuantityFields_Detail";
+        public static final String P_QU_SUMMARY_ID = "NonConformiteRequestQuantityUniteFields_Summary";
+        public static final String P_QU_DETAIL_ID = "NonConformiteRequestQuantityUniteFields_Detail";
+
+        @Override
+        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+            if ((fc == null) || (uic == null)) {
+                throw new NullPointerException();
+            }
+            if (!(uic instanceof InputText)
+                    && !(uic instanceof InputNumber)
+                    && !(uic instanceof SelectOneMenu)) {
+                return;
+            }
+
+            UIComponent uicQuantity = JsfUtil.findComponent("ncrQuantity");
+            UIComponent uicUnite = JsfUtil.findComponent("ncrUnite");
+
+            if (uicQuantity == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_Q_SUMMARY_ID),
+                        "Component ncrQuantity does not exist !");
+                throw new ValidatorException(facesMsg);
+            }
+
+            if (uicUnite == null) {
+                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                        getString(P_Q_SUMMARY_ID),
+                        "Component ncrUnite does not exist !");
+                throw new ValidatorException(facesMsg);
+            }
+
+            InputNumber inputQuantity = (InputNumber) uicQuantity;
+            SelectOneMenu inputUnite = (SelectOneMenu) uicUnite;
+
+            int i = 0;
+            // Manage unite when quantity is specify
+            if (inputQuantity.getSubmittedValue() != null) {
+                if (!inputQuantity.getSubmittedValue().toString().trim().isEmpty()) {
+                    // Wait for unit when quantity is specify
+                    if (inputUnite.getSubmittedValue() != null) {
+                        if (inputUnite.getSubmittedValue().toString().trim().isEmpty()) {
+                            FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                                    getString(P_Q_SUMMARY_ID),
+                                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                                    getString(P_Q_DETAIL_ID));
+                            throw new ValidatorException(facesMsg);
+                        }
+                    }
+                } // Manage unite when quantity is not specify but unit is
+                else if (inputUnite.getSubmittedValue() != null) {
+                    /*if (!inputUnite.getSubmittedValue().toString().trim().isEmpty()) {
+                        FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                                getString(P_QU_SUMMARY_ID),
+                                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                                getString(P_QU_DETAIL_ID));
+                        throw new ValidatorException(facesMsg);
+                    }*/
+                }
+            }
+        }
+    }
+}
+
+/*
+    private Boolean isEditInfos = false;
+    private Boolean isEditRefuse = false;
+    private Boolean isEditApprouve = false;
+    private Boolean isEditAction = false;
+    private Boolean isEditCloture = false;
+
+
+
+    public void prepareEdit(NonConformiteRequest nc) {
+        selected = nc;
+    }
+
+    public void prepareCRUD() {
+        isEditInfos = false;
+        getSelected();          // si non initialisé, il le sera
+    }
+
+
+    public void prepareValidate(NonConformiteRequest nc) {
+        selected = nc;
+        selected.setNcrdescOnValidate(selected.getNcrDescription());
+    }
+
+    public NonConformiteRequest prepareValidate() {
+        selected.setNcrdescOnValidate(selected.getNcrDescription());
+        return selected;
+    }
+
+    public void validate() {
+        selected.setNcroccuredValidate(new Date());
+        IsmNcrstate state = new IsmNcrstate();
+        state.setId(3);
+        state.setIstate("C");
+        selected.setNcrState(state);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void cloture(NonConformiteRequest nc) {
+        selected = nc;
+        IsmNcrstate state = new IsmNcrstate();
+        state.setId(6);
+        state.setIstate("F");
+        selected.setNcrState(state);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void cloture() {
+        IsmNcrstate state = new IsmNcrstate();
+        state.setId(6);
+        state.setIstate("F");
+        selected.setNcrState(state);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void action(NonConformiteRequest nc) {
+        if (nc == null) {
+            return;
+        }
+        if (nc.getNcrdescOnAction().isEmpty()) {
+            return;
+        }
+        selected = nc;
+        selected.setNcroccuredAction(new Date());
+        IsmNcrstate state = new IsmNcrstate();
+        state.setId(4);
+        state.setIstate("D");
+        selected.setNcrState(state);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    //Main Method for managing action when user 
+    public void action() {
+        if (selected.getNcrdescOnAction().isEmpty()) {
+            return;
+        }
+        selected.setNcroccuredAction(new Date());
+        IsmNcrstate state = new IsmNcrstate();
+        state.setId(4);
+        state.setIstate("D");
+        selected.setNcrState(state);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void refuse(NonConformiteRequest nc) {
+        selected = nc;
+        selected.setNcroccuredRefuse(new Date());
+        IsmNcrstate state = new IsmNcrstate();
+        state.setId(7);
+        state.setIstate("G");
+        selected.setNcrState(state);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void refuse() {
+        selected.setNcroccuredRefuse(new Date());
+        IsmNcrstate state = new IsmNcrstate();
+        state.setId(7);
+        state.setIstate("G");
+        selected.setNcrState(state);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void manageState(NonConformiteRequest nc) {
+        if (nc == null) {
+            return;
+        }
+        selected = nc;
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    //Main Method for managing action when user 
+    public void manageState() {
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public Date now() {
+        return new Date();
+    }
+
+    public void destroy(NonConformiteRequest nc) {
+        selected = nc;
+        persist(PersistAction.DELETE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void destroy() {
+        persist(PersistAction.DELETE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public List<NonConformiteRequest> getItems() {
+        //if (items == null) {
+        items = getFacade().findAll();
+        //}
+        return items;
+    }
+
+    private void persist(PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            setEmbeddableKeys();
+            try {
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    public NonConformiteRequest getNonConformiteRequest(java.lang.Integer id) {
+        return getFacade().find(id);
+    }
+
+    public List<NonConformiteRequest> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<NonConformiteRequest> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
+    
+
+    /**
+     * ************************************************************************
+     * GETTERS AND SETTERS
+     * ***********************************************************************
+ */
+ /*
+
+
+    public Boolean getIsEditInfos() {
+        return isEditInfos;
+    }
+
+    public void setIsEditInfos(Boolean isEditInfos) {
+        this.isEditInfos = isEditInfos;
+    }
+
+    public Boolean getIsEditRefuse() {
+        return isEditRefuse;
+    }
+
+    public void setIsEditRefuse(Boolean isEditRefuse) {
+        this.isEditRefuse = isEditRefuse;
+    }
+
+    public Boolean getIsEditApprouve() {
+        return isEditApprouve;
+    }
+
+    public void setIsEditApprouve(Boolean isEditApprouve) {
+        this.isEditApprouve = isEditApprouve;
+    }
+
+    public Boolean getIsEditAction() {
+        return isEditAction;
+    }
+
+    public void setIsEditAction(Boolean isEditAction) {
+        this.isEditAction = isEditAction;
+    }
+
+    public Boolean getIsEditCloture() {
+        return isEditCloture;
+    }
+
+    public void setIsEditCloture(Boolean isEditCloture) {
+        this.isEditCloture = isEditCloture;
+    }
+
+    /**
+     * ************************************************************************
+     * Evènement double click sur une ligne du tableau permet d'ouvrir l'édition
+     * de la non conformité pour visualisation. Une initialisation des
+     * paramètres par défaut vérification de selected et des booléenes
+     *
+     * @throws IOException
+     * ***********************************************************************
+ *//*
+    public void onDBClickRow() throws IOException {
+        // CONFIG PAR DEFAUT
+        prepareCRUD();
+
+        // PREPARATION DE LA PAGE DE CHARGEMENT
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        String dir = ec.getRequestPathInfo();
+        String[] dirs = dir.split("/");
+        dir = "/";
+        for (int i = 0; i < dirs.length - 1; i++) {
+            dir += dirs[i] + "/";
+        }
+        dir += "View.xhtml?faces-redirect=true";
+        ec.redirect(ec.getRequestContextPath() + ec.getRequestServletPath() + dir);
+    }
+
+    /**
+     * ************************************************************************
+     * Annule les informtations saisie et remet les informations par défaut.
+     *
+     ************************************************************************
+ *//*
+    public void cancelEdit() {
+        selected = this.getNonConformiteRequest(selected.getNcrId());
+        JsfUtil.addSuccessMessage("Opération Annulée");
+
+    }
+
+    /**
+     * ************************************************************************
+     * Effectue une mise à jour des données en utilisant une description d'une
+     * non conformité nc.
+     *
+     * ***********************************************************************
+ *//*
+    public void updateOnEdit() {
+        selected.setNcrChanged(this.now());
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceUpdated"));
+        JsfUtil.addSuccessMessage("Mise à jour réussie !");
+    }
+
+    @FacesConverter(forClass = NonConformiteRequest.class)
+    public static class NonConformiteRequestControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            NonConformiteRequestController controller = (NonConformiteRequestController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "nonConformiteRequestController");
+            return controller.getNonConformiteRequest(getKey(value));
+        }
+
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Integer value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof NonConformiteRequest) {
+                NonConformiteRequest o = (NonConformiteRequest) object;
+                return getStringKey(o.getNcrId());
+            } else {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), NonConformiteRequest.class.getName()});
+                return null;
+            }
+        }
+
+    }
+
+}
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.ism.sessions.smq.nc;
+
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.CacheRetrieveMode;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import org.ism.entities.smq.nc.NonConformiteRequest;
+import org.ism.sessions.AbstractFacade;
+
+/**
+ *
+ * @author r.hendrick
+ */
+@Stateless
+public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequest> {
+
+    @PersistenceContext(unitName = "ISM_PU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    private final String NC_REQUEST_FINDALL = "NonConformiteRequest.findAll";
+    private final String NC_REQUEST_FINDBY_OCCURED = "NonConformiteRequest.findByNcrOccured";
+    private final String NC_REQUEST_FINDBY_PRODUCT = "NonConformiteRequest.findByNcrProduct";
+    private final String NC_REQUEST_FINDBY_TRACE = "NonConformiteRequest.findByNcrTrace";
+    private final String NC_REQUEST_FINDBY_QUANTITY = "NonConformiteRequest.findByNcrQuantity";
+    private final String NC_REQUEST_FINDBY_LINK = "NonConformiteRequest.findByNcrLink";
+    private final String NC_REQUEST_FINDBY_TITLE = "NonConformiteRequest.findByNcrTitle";
+
+    private final String NC_REQUEST_FINDBY_COMPANY = "NonConformiteRequest.findByNcrCompany";
+    private final String NC_REQUEST_FINDBY_PROCESSUS = "NonConformiteRequest.findByNcrProcessus";
+    private final String NC_REQUEST_FINDBY_STAFF = "NonConformiteRequest.findByNcrStaff";
+    private final String NC_REQUEST_FINDBY_STATE = "NonConformiteRequest.findByNcrState";
+    private final String NC_REQUEST_FINDBY_NATURE = "NonConformiteRequest.findByNcrNature";
+    private final String NC_REQUEST_FINDBY_UNITE = "NonConformiteRequest.findByNcrUnite";
+    private final String NC_REQUEST_FINDBY_GRAVITY = "NonConformiteRequest.findByNcrGravity";
+    private final String NC_REQUEST_FINDBY_FREQUENCY = "NonConformiteRequest.findByNcrFrequency";
+    // private final String NC_REQUEST_FINDIN_DESCRIPTION        = "NonConformiteRequest.findInNcrDescription";
+    private final String NC_REQUEST_FINDBY_STAFFONVALIDATE = "NonConformiteRequest.findByNcrStaffOnValidate";
+    private final String NC_REQUEST_FINDBY_STAFFONACTION = "NonConformiteRequest.findByNcrStaffOnAction";
+    private final String NC_REQUEST_FINDBY_STAFFONREFUSE = "NonConformiteRequest.findByNcrStaffOnRefuse";
+    private final String NC_REQUEST_FINDBY_CREATED = "NonConformiteRequest.findByNcrCreated";
+    private final String NC_REQUEST_FINDBY_CHANGED = "NonConformiteRequest.findByNcrChanged";
+
+    private final String SELECTALLBYLASTCHANGED = "NonConformiteRequest.selectAllByLastChange";     // query = "SELECT n FROM NonConformiteRequest n ORDER BY n.ncrChanged DESC"
+    private final String FIND_BY_CODE      = "";
+    private final String FIND_BY_DESIGNATION    = "NonConformiteRequest.findByNcrTitle";            // query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"
+
+    public NonConformiteRequestFacade() {
+        super(NonConformiteRequest.class);
+    }
+
+    public List<NonConformiteRequest> findAllByLastChanged() {
+        em.flush();
+        Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public List<NonConformiteRequest> findByCode(String code) {
+        /*
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("pProcessus", code);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        */
+        return null;
+    }
+
+    public List<NonConformiteRequest> findByDesignation(String designation) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("ncrTitle", designation);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public List<NonConformiteRequest> findByProcessus(String processus) {
+        em.flush();
+        Query q = em.createNamedQuery(NC_REQUEST_FINDBY_PROCESSUS).setParameter("ncrProcessus", processus);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public Integer countByProcessus(String processus) {
+        em.flush();
+        Query q = em.createNamedQuery(NC_REQUEST_FINDBY_PROCESSUS).setParameter("ncrProcessus", processus);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return count;
+        }
+        return 0;
+    }
+
+    public List<NonConformiteRequest> findByStaff(String staff) {
+        em.flush();
+        Query q = em.createNamedQuery(NC_REQUEST_FINDBY_STAFF).setParameter("ncrStaff", staff);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public Integer countByStaff(String staff) {
+        em.flush();
+        Query q = em.createNamedQuery(NC_REQUEST_FINDBY_STAFF).setParameter("ncrStaff", staff);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return count;
+        }
+        return 0;
+    }
+
+    public List<NonConformiteRequest> findByState(String state) {
+        em.flush();
+        Query q = em.createNamedQuery(NC_REQUEST_FINDBY_STATE).setParameter("ncrState", state);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public Integer countByState(String state) {
+        em.flush();
+        Query q = em.createNamedQuery(NC_REQUEST_FINDBY_STATE).setParameter("ncrState", state);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return count;
+        }
+        return 0;
+    }
+
+}
+
+
+
+
+
+
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteRequestTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{nonConformiteRequestController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrId}" rendered="false" for="ncrId" />
+                    <p:inputText id="ncrId" rendered="false"
+                                 value="#{nonConformiteRequestController.selected.ncrId}" 
+                                 title="#{ism.NonConformiteRequestFieldInfo_ncrId}" />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrTitle}" for="ncrTitle" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrTitle" 
+                                     value="#{nonConformiteRequestController.selected.ncrTitle}"
+                                     title="#{ism.NonConformiteRequestFieldInfo_ncrTitle}" 
+                                     
+                                     required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrTitle}"/>
+                        <p:message for="ncrTitle"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrOccured}" for="ncrOccured" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:calendar id="ncrOccured" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" maxdate="#{viewUtil.maintenant}"
+                                    value="#{nonConformiteRequestController.selected.ncrOccured}" 
+                                    title="#{ism.NonConformiteRequestFieldInfo_ncrOccured}"  
+                                    required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrOccured}" 
+                                    />
+                        <p:message for="ncrOccured"   />
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" for="ncrProcessus" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrProcessus" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrProcessus}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
+                                           var="processusItem"
+                                           itemLabel="#{processusItem.PProcessus} - #{processusItem.PDesignation}"
+                                           itemValue="#{processusItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrProcessus" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrNature}" for="ncrNature" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrNature" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrNature}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrNature}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrNature}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{nonConformiteNatureController.itemsAvailableSelectOne}"
+                                           var="ncNatureItem"
+                                           itemLabel="#{ncNatureItem.ncnNature} - #{ncNatureItem.ncnDesignation}"
+                                           itemValue="#{ncNatureItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrNature" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrGravity}" for="ncrGravity" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrGravity" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrGravity}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrGravity}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrGravity}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{nonConformiteGravityController.itemsAvailableSelectOne}"
+                                           var="ncGravityItem"
+                                           itemLabel="#{ncGravityItem.ncgGravity} - #{ncGravityItem.ncgDesignation}"
+                                           itemValue="#{ncGravityItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrGravity" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrFrequency}" for="ncrFrequency" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrFrequency" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrFrequency}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrFrequency}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrFrequency}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{nonConformiteFrequencyController.itemsAvailableSelectOne}"
+                                           var="ncFrequencyItem"
+                                           itemLabel="#{ncFrequencyItem.ncfFrequency} - #{ncFrequencyItem.ncfDesignation}"
+                                           itemValue="#{ncFrequencyItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrFrequency" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProduct}" for="ncrProduct" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrProduct" 
+                                     value="#{nonConformiteRequestController.selected.ncrProduct}"
+                                     title="#{ism.NonConformiteRequestFieldInfo_ncrProduct}" 
+                                     />
+                        <p:message for="ncrProduct"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrTrace}" for="ncrTrace" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrTrace" 
+                                     value="#{nonConformiteRequestController.selected.ncrTrace}"
+                                     title="#{ism.NonConformiteRequestFieldInfo_ncrTrace}" 
+                                     />
+                        <p:message for="ncrTrace"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrQuantity}" for="ncrQuantity" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <pe:inputNumber id="ncrQuantity" 
+                                        value="#{nonConformiteRequestController.selected.ncrQuantity}"
+                                        title="#{ism.NonConformiteRequestFieldInfo_ncrQuantity}" 
+                                        decimalPlaces="6"
+                                        />
+                        <p:message for="ncrQuantity"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrUnite}" for="ncrUnite" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrUnite" widgetVar="ncrUnite"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrUnite}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrUnite}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrUnite}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{nonConformiteUniteController.itemsAvailableSelectOne}"
+                                           var="ncUniteItem"
+                                           itemLabel="#{ncUniteItem.ncuUnite} - #{ncUniteItem.ncuDesignation}"
+                                           itemValue="#{ncUniteItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrUnite" />
+                    </h:panelGrid>
+
+
+                    <p:commandLink  onclick="PF('ncrDescription').clear();" title="Activate">
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescription}" for="ncrDescription" />
+                    </p:commandLink>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:editor id="ncrDescription" widgetVar="ncrDescription"
+                                  value="#{nonConformiteRequestController.selected.ncrDescription}"
+                                  required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrDescription}"
+                                  />
+                        <p:message for="ncrDescription"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStaff}" for="ncrStaff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrStaff" widgetVar="ncrStaff"
+                                     value="#{nonConformiteRequestController.selected.ncrStaff = staffAuthController.staff}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrStaff}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename} [#{staffAuthController.staff.stStaff}]" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrCompany}" for="ncrCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrCompany" widgetVar="ncrCompany"
+                                     value="#{nonConformiteRequestController.selected.ncrCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrCompany}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{nonConformiteRequestController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{nonConformiteRequestController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{nonConformiteRequestController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:ncrStaff')}.enable();
+                                     #{p:widgetVar('bodyForm:ncrCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{nonConformiteRequestController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{nonConformiteRequestController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:ncrStaff')}.enable();
+                                     #{p:widgetVar('bodyForm:ncrCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!nonConformiteRequestController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{nonConformiteRequestController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{nonConformiteRequestController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:ncrStaff')}.enable();
+                                 #{p:widgetVar('bodyForm:ncrCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{nonConformiteRequestController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{nonConformiteRequestController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:ncrStaff')}.enable();
+                                 #{p:widgetVar('bodyForm:ncrCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!nonConformiteRequestController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{nonConformiteRequestController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteRequestTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{nonConformiteRequestController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrId}" rendered="true" for="ncrId" />
+                    <p:outputLabel id="ncrId" rendered="true"
+                                 value="#{nonConformiteRequestController.selected.ncrId}" 
+                                 title="#{ism.NonConformiteRequestFieldInfo_ncrId}" />
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrTitle}" for="ncrTitle" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrTitle" 
+                                     value="#{nonConformiteRequestController.selected.ncrTitle}"
+                                     title="#{ism.NonConformiteRequestFieldInfo_ncrTitle}" 
+                                     required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrTitle}"/>
+                        <p:message for="ncrTitle"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrOccured}" for="ncrOccured" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:calendar id="ncrOccured" pattern="dd/MM/yyyy" locale="fr" navigator="true"  placeholder="#{ism.DatePattern}" maxdate="#{viewUtil.maintenant}"
+                                    value="#{nonConformiteRequestController.selected.ncrOccured}" 
+                                    title="#{ism.NonConformiteRequestFieldInfo_ncrOccured}"  
+                                    required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrOccured}" 
+                                    />
+                        <p:message for="ncrOccured"   />
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" for="ncrProcessus" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrProcessus" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrProcessus}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
+                                           var="processusItem"
+                                           itemLabel="#{processusItem.PProcessus} - #{processusItem.PDesignation}"
+                                           itemValue="#{processusItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrProcessus" />
+                    </h:panelGrid>
+
+                    
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrNature}" for="ncrNature" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrNature" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrNature}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrNature}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrNature}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{nonConformiteNatureController.itemsAvailableSelectOne}"
+                                           var="ncNatureItem"
+                                           itemLabel="#{ncNatureItem.ncnNature} - #{ncNatureItem.ncnDesignation}"
+                                           itemValue="#{ncNatureItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrNature" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrGravity}" for="ncrGravity" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrGravity" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrGravity}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrGravity}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrGravity}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{nonConformiteGravityController.itemsAvailableSelectOne}"
+                                           var="ncGravityItem"
+                                           itemLabel="#{ncGravityItem.ncgGravity} - #{ncGravityItem.ncgDesignation}"
+                                           itemValue="#{ncGravityItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrGravity" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrFrequency}" for="ncrFrequency" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrFrequency" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrFrequency}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrFrequency}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrFrequency}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{nonConformiteFrequencyController.itemsAvailableSelectOne}"
+                                           var="ncFrequencyItem"
+                                           itemLabel="#{ncFrequencyItem.ncfFrequency} - #{ncFrequencyItem.ncfDesignation}"
+                                           itemValue="#{ncFrequencyItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrFrequency" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProduct}" for="ncrProduct" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrProduct" 
+                                     value="#{nonConformiteRequestController.selected.ncrProduct}"
+                                     title="#{ism.NonConformiteRequestFieldInfo_ncrProduct}" 
+                                     />
+                        <p:message for="ncrProduct"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrTrace}" for="ncrTrace" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrTrace" 
+                                     value="#{nonConformiteRequestController.selected.ncrTrace}"
+                                     title="#{ism.NonConformiteRequestFieldInfo_ncrTrace}" 
+                                     />
+                        <p:message for="ncrTrace"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrQuantity}" for="ncrQuantity" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <pe:inputNumber id="ncrQuantity" 
+                                        value="#{nonConformiteRequestController.selected.ncrQuantity}"
+                                        title="#{ism.NonConformiteRequestFieldInfo_ncrQuantity}" 
+                                        decimalPlaces="6"
+                                        />
+                        <p:message for="ncrQuantity"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrUnite}" for="ncrUnite" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="ncrUnite" widgetVar="ncrUnite"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{nonConformiteRequestController.selected.ncrUnite}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrUnite}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrUnite}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{nonConformiteUniteController.itemsAvailableSelectOne}"
+                                           var="ncUniteItem"
+                                           itemLabel="#{ncUniteItem.ncuUnite} - #{ncUniteItem.ncuDesignation}"
+                                           itemValue="#{ncUniteItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrUnite" />
+                    </h:panelGrid>
+
+
+                    <p:commandLink  onclick="PF('ncrDescription').clear();" title="Activate">
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescription}" for="ncrDescription" />
+                    </p:commandLink>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:editor id="ncrDescription" widgetVar="ncrDescription"
+                                  value="#{nonConformiteRequestController.selected.ncrDescription}"
+                                  required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrDescription}"
+                                  />
+                        <p:message for="ncrDescription"   />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStaff}" for="ncrStaff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrStaff" widgetVar="ncrStaff"
+                                     value="#{nonConformiteRequestController.selected.ncrStaff = staffAuthController.staff}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrStaff}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename} [#{staffAuthController.staff.stStaff}]" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrCompany}" for="ncrCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="ncrCompany" widgetVar="ncrCompany"
+                                     value="#{nonConformiteRequestController.selected.ncrCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrCompany}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
+                </p:panelGrid>
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{nonConformiteRequestController.update}" 
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{nonConformiteRequestController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{nonConformiteRequestController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteRequestTitleList}"/></h1>
+
+            <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}" 
+                                actionListener="#{nonConformiteRequestController.prepareCreate()}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer une nouvelle non conformité"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser la non conformité sélectionné."
+                                disabled="#{empty nonConformiteRequestController.selected 
+                                            or empty nonConformiteRequestController.selected.ncrId}"
+                                onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer la non conformité sélectionné."
+                                disabled="#{empty nonConformiteRequestController.selected 
+                                            or empty nonConformiteRequestController.selected.ncrId
+                                            or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                rendered="#{request.isUserInRole('CO_SMQNCVALIDATE_W')}"
+                                />
+                    <p:menuitem icon="ui-btn-Approuve"
+                                styleClass="options-btn"
+                                value="#{ism.Validate}"
+                                action="Validate.xhtml?faces-redirect=true"
+                                title="Permet d'accepter ou refuser la non conformité sélectionné."
+                                disabled="#{empty nonConformiteRequestController.selected 
+                                            or empty nonConformiteRequestController.selected.ncrId
+                                            or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                rendered="#{request.isUserInRole('SNC_REQUEST_VA')}"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer la non conformité sélectionné !"
+                                actionListener="#{viewTabManager.handleDestroy('nonConformiteRequest')}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteRequestDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty nonConformiteRequestController.selected 
+                                            or empty nonConformiteRequestController.selected.ncrId
+                                            or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                rendered="#{request.isUserInRole('SNC_REQUEST_E')}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des non conformités "
+                                actionListener="#{nonConformiteRequestController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty nonConformiteRequestController.selected }"
+                                />
+                </p:contextMenu>
+
+
+
+
+
+
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.ncRequest}" var="item"
+                             
+                             selectionMode="single" 
+                             selection="#{nonConformiteRequestController.selected}"
+                             
+                             rowIndexVar="_rowIndex"
+                             rowKey="#{item.ncrId}"
+                             rows="#{tableView.rows}" 
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             rowStyleClass="#{item.ncrState.istate == 'C' ? (viewUtil.maintenant >= nonConformiteActionsController.getLastActionFromNC(item).ncaDeadline ? 'ncr-state':'') : '' }"
+                             
+                             filteredValue="#{viewTabManager.ncRequestFiltered}"
+                             
+                             paginator="#{tableView.paginator}" 
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             
+                             resizableColumns="#{tableView.resizableColumns}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             
+
+                             emptyMessage="#{ism.EmptyList}"
+                             
+
+                             sortMode="#{tableView.sortMode}"
+                             
+                             first="#{dataTableControllPagination.first}"
+                             >
+
+
+
+
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.NonConformiteRequestTitleList}_#{viewUtil.maintenant}"  
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.NonConformiteRequestTitleList}_#{viewUtil.maintenant}"  />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{nonConformiteRequestController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+                    <p:ajax event="page" listener="#{dataTableControllPagination.onPageChange}" />
+                    <p:ajax event="sort" listener="#{nonConformiteRequestController.handleColumnSorting}" />
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{nonConformiteRequestController.handleColumnReorder}"  />
+
+
+
+
+
+
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{nonConformiteRequestController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrId}"
+                              style="width: 24px;" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrId)}"
+                              sortBy="#{item.ncrId}" 
+                              filterBy="#{item.ncrId}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ncrId}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrStaff}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrStaff)}"
+                              sortBy="#{item.ncrStaff.stFirstname} #{item.ncrStaff.stLastname} #{item.ncrStaff.stMiddlename} [#{item.ncrStaff.stStaff}]" 
+                              filterBy="#{item.ncrStaff.stFirstname} #{item.ncrStaff.stLastname} #{item.ncrStaff.stMiddlename} [#{item.ncrStaff.stStaff}]" filterMatchMode="contains">
+                        <h:outputText value="#{item.ncrStaff.stFirstname} #{item.ncrStaff.stLastname} #{item.ncrStaff.stMiddlename} [#{item.ncrStaff.stStaff}]"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrTitle}" 
+                              style="min-width: 100px;" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrTitle)}"
+                              sortBy="#{item.ncrTitle}" 
+                              filterBy="#{item.ncrTitle}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ncrTitle}" escape="false" style="white-space:pre-line;"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrProcessus}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrProcessus)}"
+                              sortBy="#{item.ncrProcessus.PProcessus} - #{item.ncrProcessus.PDesignation}"
+                              filterBy="#{item.ncrProcessus}">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('datalist').filter()" >
+                                <f:selectItem itemLabel="#{ism.SelectList}" 
+                                              itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{processusController.itemsAvailableSelectOne}" 
+                                               var="vProcessus"
+                                               itemLabel="#{vProcessus.PProcessus} - #{vProcessus.PDesignation}"
+                                               itemValue="#{vProcessus}"
+                                               />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrProcessus.PProcessus} - #{item.ncrProcessus.PDesignation}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrState}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrState)}"
+                              sortBy="#{item.ncrState.istate} - #{item.ncrState.statename}"
+                              filterBy="#{item.ncrState}">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('datalist').filter()"  >
+                                <f:selectItem itemLabel="#{ism.SelectList}" 
+                                              itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{ismNcrstateController.itemsAvailableSelectOne}" 
+                                               var="vState"
+                                               itemLabel="#{vState.istate} - #{vState.statename}"
+                                               itemValue="#{vState}"
+                                               />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrState.istate} - #{item.ncrState.statename}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrNature}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrNature)}"
+                              sortBy="#{item.ncrNature.ncnNature} - #{item.ncrNature.ncnDesignation}"
+                              filterBy="#{item.ncrNature}">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('datalist').filter()" >
+                                <f:selectItem itemLabel="#{ism.SelectList}" 
+                                              itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{nonConformiteNatureController.itemsAvailableSelectOne}" 
+                                               var="vNature"
+                                               itemLabel="#{vNature.ncnNature} - #{vNature.ncnDesignation}"
+                                               itemValue="#{vNature}"
+                                               />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrNature.ncnNature} - #{item.ncrNature.ncnDesignation}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrGravity}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrGravity)}"
+                              sortBy="#{item.ncrGravity.ncgGravity} - #{item.ncrGravity.ncgDesignation}"
+                              filterBy="#{item.ncrGravity}">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('datalist').filter()" >
+                                <f:selectItem itemLabel="#{ism.SelectList}" 
+                                              itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{nonConformiteGravityController.itemsAvailableSelectOne}" 
+                                               var="vGravity"
+                                               itemLabel="#{vGravity.ncgGravity} - #{vGravity.ncgDesignation}"
+                                               itemValue="#{vGravity}"
+                                               />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrGravity.ncgGravity} - #{item.ncrGravity.ncgDesignation}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrFrequency}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrFrequency)}"
+                              sortBy="#{item.ncrFrequency.ncfFrequency} - #{item.ncrFrequency.ncfDesignation}"
+                              filterBy="#{item.ncrFrequency}">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('datalist').filter()" >
+                                <f:selectItem itemLabel="#{ism.SelectList}" 
+                                              itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{nonConformiteFrequencyController.itemsAvailableSelectOne}" 
+                                               var="vFrequency"
+                                               itemLabel="#{vFrequency.ncfFrequency} - #{vFrequency.ncfDesignation}"
+                                               itemValue="#{vFrequency}"
+                                               />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrFrequency.ncfFrequency} - #{item.ncrFrequency.ncfDesignation}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrOccured}" 
+                              style="width: 72px;" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrOccured)}"
+                              sortBy="#{item.ncrOccured}" filterBy="#{item.ncrOccured}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterOccured" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrOccured}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrCreated}" 
+                              style="width: 72px;" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrCreated)}"
+                              sortBy="#{item.ncrCreated}" filterBy="#{item.ncrCreated}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterCreated" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrChanged}" 
+                              style="width: 72px;" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrChanged)}"
+                              sortBy="#{item.ncrChanged}" filterBy="#{item.ncrChanged}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterChanged" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText value="#{item.ncrChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrEnddingAction}" 
+                              style="width: 72px;" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrEnddingAction)}"
+                              sortBy="#{item.ncrenddingAction}" filterBy="#{item.ncrenddingAction}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                              >
+                        <f:facet name="filter">
+                            <p:inputText id="filterEnddingAction" 
+                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
+                                         style="width: 100px!important;" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            </p:inputText>
+                        </f:facet>
+                        <h:outputText rendered="#{nonConformiteActionsController.getLastActionFromNC(item)!=null?true:false}"
+                                      value="#{nonConformiteActionsController.getLastActionFromNC(item).ncaDeadline}" 
+                                      >
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrCompany}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrCompany)}"
+                              sortBy="#{item.ncrCompany.CCompany} - #{item.ncrCompany.CDesignation}" 
+                              filterBy="#{item.ncrCompany.CCompany} - #{item.ncrCompany.CDesignation}" filterMatchMode="contains">
+                        <h:outputText value="#{item.ncrCompany.CCompany} - #{item.ncrCompany.CDesignation}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+
+        </ui:define>
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{nonConformiteRequestController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer une nouvelle non conformité"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser la non conformité sélectionné."
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer la non conformité sélectionné."
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 />
+                <br />
+                <p:commandButton id="validateButton"
+                                 icon="ui-btn-Approuve"
+                                 styleClass="options-btn"
+                                 value="#{ism.Validate}"
+                                 action="Validate.xhtml?faces-redirect=true"
+                                 title="Permet d'accepter ou refuser la non conformité sélectionné."
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 rendered="#{request.isUserInRole('SNC_REQUEST_VA')}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer la non conformité sélectionné !"
+                                 actionListener="#{viewTabManager.handleDestroy('nonConformiteRequest')}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteRequestDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 rendered="#{request.isUserInRole('SNC_REQUEST_E')}"
+                                 />
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des non conformités "
+                                 actionListener="#{nonConformiteRequestController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, validateButton, actionButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
+    </ui:composition>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.NonConformiteRequestTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <h2 id="smq-nc-titles">
+                    <span id="smq-nc-mainTitle">
+                        Non conformitée <b>#{nonConformiteRequestController.selected.ncrId}</b> : 
+                    </span>
+                    <p:outputLabel styleClass="smq-nc-title" 
+                                   value="#{nonConformiteRequestController.selected.ncrTitle}" 
+                                   />
+                    <hr />
+                    <span >
+                        <div style="float: left;margin-right: 10px;">
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_waiting.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==1?true:false}"/>
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_actions.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==2?true:false}"/>
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_inprogress.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==3?true:false}"/>
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_terminate.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==4?true:false}"/>
+                            <h:graphicImage library="img" name="ism/admin/smq_nc_refuse.png" width="48px" height="48px"
+                                            rendered="#{nonConformiteRequestController.selected.ncrState.id==5?true:false}"/>
+                        </div>
+                        <div>
+                            #{ism.State} : [<h:outputText value="#{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).istate} 
+                                             - #{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).statename}" />]
+                             &emsp;
+                            #{ism.LastChange} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrChanged}"><f:convertDateTime pattern="dd/MM/yyyy hh:mm" /></h:outputText>]
+                        </div>
+                    </span>
+                </h2>
+
+
+
+
+
+
+
+                <!-- IF REFUSED     -->
+                <p:panel style="padding:0px;margin:5px; margin-top: -10px;background-color: lightcoral; "
+                         rendered="#{!empty nonConformiteRequestController.selected.ncrapprouvedDesc}">
+                    <p:panelGrid columns="2"  columnClasses="columnFieldClass, columnContentClass" 
+                                 styleClass="panelGridClass" 
+                                 style="padding:0px;margin:-7px;margin-left: 0px;margin-right:0px;"
+                                 >
+                        <h:panelGroup>
+                            <h:outputText value="#{nonConformiteRequestController.selected.ncrApprouver.stStaff} - #{nonConformiteRequestController.selected.ncrApprouver.stFirstname} #{nonConformiteRequestController.selected.ncrApprouver.stLastname} #{nonConformiteRequestController.selected.ncrApprouver.stMiddlename}"/>
+                            <br/>
+                            <h:outputText value="#{nonConformiteRequestController.selected.ncrapprouvedDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                        </h:panelGroup>
+                        <p:editor  value="#{nonConformiteRequestController.selected.ncrapprouvedDesc}" 
+                                   styleClass="hideToolbar" disabled="true"  />
+                    </p:panelGrid>
+                </p:panel>
+
+
+
+
+
+
+
+                <!-- INFORMATIONS    -->
+                <p:panel id="panelRequest" widgetVar="panelRequest" toggleTitle="Réduire" toggleable="true"
+                         collapsed="#{nonConformiteActionsController.getItemsByNCLast(
+                                      nonConformiteRequestController.selected)!=null}"
+                         styleClass="panel #{nonConformiteRequestController.selected.ncrapprouvedDate==null?'':
+                                             nonConformiteRequestController.selected.ncrApprouved?'panelAccepted':
+                                             'panelRefused'}">
+                    <f:facet name="header" >
+                        #{nonConformiteRequestController.selected.ncrapprouvedDate==null?
+                          ism.NonConformiteRequestTitleCreate:
+                          nonConformiteRequestController.selected.ncrApprouved?
+                          ism.NonConformiteRequestSubTitle_Accepted:
+                          ism.NonConformiteRequestSubTitle_Refused } 
+                        <p:outputLabel value="
+                                       #{nonConformiteRequestController.selected.ncrApprouver.stFirstname} 
+                                       #{nonConformiteRequestController.selected.ncrApprouver.stLastname} 
+                                       #{nonConformiteRequestController.selected.ncrApprouver.stMiddlename} 
+                                       #{nonConformiteRequestController.selected.ncrApprouver.stStaff}" 
+                                       style="color: 
+                                       #{nonConformiteRequestController.selected.ncrApprouved?
+                                         'green':'red' } ;"
+                                       />
+                        #{nonConformiteRequestController.selected.ncrapprouvedDate==null?'':ism.DateOn}
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrapprouvedDate}"
+                                      ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                    </f:facet>
+
+
+
+                    <h3><span style="font-style: initial">INFROMATIONS</span></h3>
+
+                    <p:panelGrid columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass">
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrId}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrId}"/>
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrCompany}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrCompany.CCompany} - #{nonConformiteRequestController.selected.ncrCompany.CDesignation}"/>
+
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrProcessus.PProcessus} - #{nonConformiteRequestController.selected.ncrProcessus.PDesignation}"
+                                      />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrNature}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrNature.ncnNature} - #{nonConformiteRequestController.selected.ncrNature.ncnDesignation}"
+                                      />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrGravity}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrGravity.ncgGravity} - #{nonConformiteRequestController.selected.ncrGravity.ncgDesignation}"
+                                      />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrFrequency}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrFrequency.ncfFrequency} - #{nonConformiteRequestController.selected.ncrFrequency.ncfDesignation}"
+                                      />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrOccured}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrOccured}" 
+                                      ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProduct}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrProduct}"
+                                      />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrTrace}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrTrace}"
+                                      />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrQuantity}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrQuantity}"
+                                      />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrUnite}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrUnite.ncuUnite} #{nonConformiteRequestController.selected.ncrUnite.ncuDesignation}"
+                                      />
+                    </p:panelGrid>
+
+
+
+
+
+                    <h3><span style="font-style: initial">DESCRIPTION</span></h3>
+
+                    <p:panelGrid columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass">
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrStaff}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrStaff.stStaff} - #{nonConformiteRequestController.selected.ncrStaff.stFirstname} #{nonConformiteRequestController.selected.ncrStaff.stLastname} #{nonConformiteRequestController.selected.ncrStaff.stMiddlename}"
+                                      />
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrCreated}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrCreated}"
+                                      ><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrDescription}" />
+
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrDescription}" escape="false" style="white-space:pre-line;" />
+
+
+                        <p:outputLabel value="#{ism.NonConformiteRequestField_ncrLink}" />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrLink}"
+                                      />
+
+                    </p:panelGrid>
+                </p:panel>
+
+
+
+
+
+
+
+
+                <!-- ON ACTION    -->
+                <p:panel toggleTitle="Réduire" toggleable="true" styleClass="panel" style="margin-top:40px;"
+                         rendered="#{nonConformiteActionsController.getItemsByNCLast(
+                                     nonConformiteRequestController.selected)!=null}">
+                    <f:facet name="header" >
+                        <p:outputLabel value="#{ism.Action} [NC - #{nonConformiteRequestController.selected.ncrId}]"/>
+                    </f:facet>
+
+
+
+
+                    <p:dataTable id="datalist" widgetVar="datalist"
+                                 value="#{nonConformiteActionsController.getItemsDesc(
+                                          nonConformiteRequestController.selected)}" var="item"
+
+                                 selectionMode="single" 
+                                 rowIndexVar="_rowIndex"
+                                 rowKey="#{item.ncaId}"
+                                 paginator="#{tableView.paginator}" 
+                                 rows="4" 
+                                 resizableColumns="#{tableView.resizableColumns}"
+                                 rowsPerPageTemplate="2,4,6,10,20,30,40,50"
+                                 paginatorTemplate="#{tableView.paginatorTemplate}"
+                                 currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                                 liveResize="#{tableView.liveResize}"
+                                 reflow="#{tableView.reflow}"
+                                 draggableColumns="#{tableView.draggableColumns}"
+                                 sortMode="#{tableView.sortMode}"
+
+                                 emptyMessage="#{ism.EmptyList}"
+                                 >
+
+
+
+
+
+                        <f:facet name="{Exporters}">
+                            <div style="float:right" >
+                                <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                    <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                    <p:dataExporter type="xls" target="datalist" fileName="#{ism.NonConformiteActionsTitleList}" 
+                                                    postProcessor="#{tableView.handlePostProcessXLS}"/>
+                                </p:commandLink>
+                                <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                    <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                    <p:dataExporter type="pdf" target="datalist" fileName="#{ism.NonConformiteActionsTitleList}" />
+                                </p:commandLink>
+                            </div>
+                        </f:facet>
+
+                        <f:facet name="header">
+                            <p:commandButton id="toggler" type="button" value="Columns" 
+                                             style="float:left;" icon="ui-icon-calculator" 
+                                             />
+                            <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                                <p:printer target="datalist"  />
+                            </p:commandButton>
+
+                            <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                                <p:ajax event="toggle" update=":growl"
+                                        listener="#{nonConformiteActionsController.handleColumnToggle}" />
+                            </p:columnToggler>
+
+                            <p:outputPanel style="float:right;">
+                                <h:outputText value="#{ism.Search}"  />
+                                <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                             style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                            </p:outputPanel>
+
+                        </f:facet>
+
+
+
+
+                        <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                                  exportable="false" rendered="false"
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.CtrlShort)}" >
+                            <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                             title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                                <f:setPropertyActionListener value="#{item}" target="#{nonConformiteActionsController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaId}"
+                                  style="width: 24px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaId)}"
+                                  >
+                            <h:outputText value="#{item.ncaId}"/>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaNc}"
+                                  style="width: 24px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaNc)}"
+                                  >
+                            <h:outputText value="#{item.ncaNc}"/>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaStaff}" 
+                                  style="width: 150px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaStaff)}"
+                                  >
+                            <h:outputText value="#{item.ncaStaff.stFirstname} #{item.ncaStaff.stLastname} #{item.ncaStaff.stMiddlename} [#{item.ncaStaff.stStaff}]" 
+                                          escape="false" style="white-space:pre-line;width:50px;"/>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaDescription}"
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaDescription)}"
+                                  >
+                            <h:outputText value="#{item.ncaDescription}" escape="false" style="white-space:pre-line;" />
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaDeadline}" 
+                                  style="width: 72px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaDeadline)}"
+                                  >
+                            <h:outputText value="#{item.ncaDeadline}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaStaffApprouver}" 
+                                  style="width: 150px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaStaffApprouver)}"
+                                  >
+                            <h:outputText value="#{item.ncaStaffApprouver.stFirstname} #{item.ncaStaffApprouver.stLastname} #{item.ncaStaffApprouver.stMiddlename} [#{item.ncaStaffApprouver.stStaff}]" 
+                                          escape="false" style="white-space:pre-line;width:50px;"/>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaDescApprouver}"
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaDescApprouver)}"
+                                  >
+                            <h:outputText value="#{item.ncaDescApprouver}" escape="false" style="white-space:pre-line;" />
+                        </p:column>
+
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaCreated}" 
+                                  style="width: 72px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaCreated)}"
+                                  >
+                            <h:outputText value="#{item.ncaCreated}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaChanged}" 
+                                  style="width: 72px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaChanged)}"
+                                  >
+                            <h:outputText value="#{item.ncaChanged}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.NonConformiteActionsField_ncaState}" 
+                                  style="width: 72px;" 
+                                  visible="#{nonConformiteActionsController.getIsVisibleColKey(ism.NonConformiteActionsField_ncaState)}"
+                                  >
+                            <h:outputText value="#{item.ncaState.istate} - #{item.ncaState.statename}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:panel>
+
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer la non conformité sélectionné."
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId}"
+                                     rendered="#{nonConformiteRequestController.selected.ncrState.id==1}"
+                                     />
+                    <p:commandButton icon="ui-btn-Approuve"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Validate}"
+                                     action="Validate.xhtml?faces-redirect=true"
+                                     title="Permet d'accepter ou refuser la non conformité sélectionné."
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId}"
+                                     rendered="#{nonConformiteRequestController.selected.ncrState.id==1
+                                                 and request.isUserInRole('SNC_REQUEST_VA')}"
+                                     />
+                    <p:commandButton icon="ui-btn-Actions"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Action}"
+                                     action="Action.xhtml?faces-redirect=true"
+                                     title="Permet d'ajouter une action à la non conformité sélectionné."
+                                     actionListener="#{nonConformiteActionsController.prepareAction(
+                                                       nonConformiteRequestController.selected)}"
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId
+                                                 or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                                 and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                     />
+                    <p:commandButton icon="ui-btn-Postpone"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Review}"
+                                     action="Review.xhtml?faces-redirect=true"
+                                     title="Permet d'approuver l'action et donc de la postposer"
+                                     actionListener="#{nonConformiteActionsController.prepareReview(
+                                                       nonConformiteRequestController.selected)}"
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId
+                                                 or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                                 and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                     />
+                    <p:commandButton icon="ui-btn-Cloture"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cloture}"
+                                     action="View.xhtml?faces-redirect=true"
+                                     title="Permet d'ajouter une action à la non conformité sélectionné."
+                                     actionListener="#{nonConformiteActionsController.updateOnCloture(
+                                                       nonConformiteRequestController.selected)}"
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId
+                                                 or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                                 and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                     rendered="#{request.isUserInRole('SNC_REQUEST_CL') and 
+                                                 nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
+                                     >
+                        <p:confirm header="#{ism.NonConformiteRequestDlgHeader_Cloture}"
+                                   message="#{ism.NonConformiteRequestDlgMessage_Cloture}" 
+                                   icon="alert"/>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer la non conformité sélectionné !"
+                                     actionListener="#{nonConformiteRequestController.destroy()}"
+                                     update=":bodyForm,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteRequestDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestDlgMessage)}
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty nonConformiteRequestController.selected 
+                                                 or empty nonConformiteRequestController.selected.ncrId}"
+                                     rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')
+                                                and nonConformiteRequestController.selected.ncrState.id==1}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <br />
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer la non conformité sélectionné."
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 />
+                <br />
+                <p:commandButton id="validateButton"
+                                 icon="ui-btn-Approuve"
+                                 styleClass="options-btn"
+                                 value="#{ism.Validate}"
+                                 action="Validate.xhtml?faces-redirect=true"
+                                 title="Permet d'accepter ou refuser la non conformité sélectionné."
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 rendered="#{nonConformiteRequestController.selected.ncrState.id==1
+                                             and request.isUserInRole('SNC_REQUEST_VA')}"
+                                 />
+                <p:commandButton id="actionsButton"
+                                 icon="ui-btn-Actions"
+                                 styleClass="options-btn"
+                                 value="#{ism.Action}"
+                                 action="Action.xhtml?faces-redirect=true"
+                                 title="Permet d'ajouter une action à la non conformité sélectionné."
+                                 actionListener="#{nonConformiteActionsController.prepareAction(
+                                                   nonConformiteRequestController.selected)}"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                             and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                 />
+                <p:commandButton id="reviewButton"
+                                 icon="ui-btn-Postpone"
+                                 styleClass="options-btn"
+                                 value="#{ism.Review}"
+                                 action="Review.xhtml?faces-redirect=true"
+                                 title="En fonction de la dernière action approuvée on peut edemander de la revoir"
+                                 actionListener="#{nonConformiteActionsController.prepareReview(
+                                                   nonConformiteRequestController.selected)}"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                             and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                 rendered="#{request.isUserInRole('SNC_REQUEST_R') and 
+                                                 nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
+                                 />
+                <p:commandButton id="clotureButton"
+                                 icon="ui-btn-Cloture"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cloture}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de clôturer la non conformité sélectionné."
+                                 actionListener="#{nonConformiteActionsController.updateOnCloture(
+                                                   nonConformiteRequestController.selected)}"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or (nonConformiteRequestController.selected.ncrState.id!=2 
+                                             and nonConformiteRequestController.selected.ncrState.id!=3)}"
+                                 rendered="#{request.isUserInRole('SNC_REQUEST_CL') and 
+                                                 nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
+                                 >
+                    <p:confirm header="#{ism.NonConformiteRequestDlgHeader_Clotrue}"
+                               message="#{ism.NonConformiteRequestDlgMessage_Clotrue}" 
+                               icon="alert"/>
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer la non conformité sélectionné !"
+                                 actionListener="#{nonConformiteRequestController.destroy()}"
+                                 update=":bodyForm,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteRequestDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.NonConformiteRequestDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty nonConformiteRequestController.selected 
+                                             or empty nonConformiteRequestController.selected.ncrId
+                                             or nonConformiteRequestController.selected.ncrState.id!=1}"
+                                 rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
 
 
 

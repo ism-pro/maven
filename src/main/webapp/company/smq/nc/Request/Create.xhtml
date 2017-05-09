@@ -30,7 +30,7 @@
                         <p:inputText id="ncrTitle" 
                                      value="#{nonConformiteRequestController.selected.ncrTitle}"
                                      title="#{ism.NonConformiteRequestFieldInfo_ncrTitle}" 
-                                     
+
                                      required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrTitle}"/>
                         <p:message for="ncrTitle"   />
                     </h:panelGrid>
@@ -165,6 +165,73 @@
                         </p:selectOneMenu>
                         <p:message for="ncrUnite" />
                     </h:panelGrid>
+
+
+                    <p:outputLabel value="Client" />
+                    <p:accordionPanel activeIndex="-1" style="border:1px">
+                        <p:tab title="Définition client si nécessaire...">
+                            <h:panelGrid columns="2" cellpadding="1px" cellspacing="0px" style="margin:0px; padding:0px;">
+                                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrClientname}"  for="ncrClientname" />
+                                <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                                    <p:inputText id="ncrClientname" 
+                                                 value="#{nonConformiteRequestController.selected.ncrClientname}" 
+                                                 title="#{ism.NonConformiteRequestFieldInfo_ncrClientname}" 
+                                                 required="false" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrClientname}" 
+                                                 />
+                                    <p:message for="ncrClientname" />
+                                </h:panelGrid>
+
+
+                                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrClientaddress}"  for="ncrClientaddress" />
+                                <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                                    <p:inputText id="ncrClientaddress" 
+                                                 value="#{nonConformiteRequestController.selected.ncrClientaddress}" 
+                                                 title="#{ism.NonConformiteRequestFieldInfo_ncrClientaddress}" 
+                                                 required="false" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrClientaddress}" 
+                                                 />
+                                    <p:message for="ncrClientaddress" />
+                                </h:panelGrid>
+
+
+                                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrClientphone}"  for="ncrClientphone" />
+                                <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                                    <p:inputText id="ncrClientphone" 
+                                                 value="#{nonConformiteRequestController.selected.ncrClientphone}" 
+                                                 title="#{ism.NonConformiteRequestFieldInfo_ncrClientphone}" 
+                                                 required="false" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrClientphone}" 
+                                                 />
+                                    <p:message for="ncrClientphone" />
+                                </h:panelGrid>
+
+
+                                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrClientemail}"  for="ncrClientemail" />
+                                <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                                    <p:inputText id="ncrClientemail" 
+                                                 value="#{nonConformiteRequestController.selected.ncrClientemail}" 
+                                                 title="#{ism.NonConformiteRequestFieldInfo_ncrClientemail}" 
+                                                 required="false" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrClientemail}" 
+                                                 />
+                                    <p:message for="ncrClientemail" />
+                                </h:panelGrid>
+
+
+                                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrClienttype}"  for="ncrClienttype" />
+                                <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                                    <p:inputText id="ncrClienttype" 
+                                                 value="#{nonConformiteRequestController.selected.ncrClienttype}" 
+                                                 title="#{ism.NonConformiteRequestFieldInfo_ncrClienttype}" 
+                                                 required="false" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrClienttype}" 
+                                                 />
+                                    <p:message for="ncrClienttype" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+
+                        </p:tab>
+                    </p:accordionPanel>
+
+
+
+
 
 
                     <p:commandLink  onclick="PF('ncrDescription').clear();" title="Activate">

@@ -38,7 +38,7 @@
                         <div>
                             #{ism.State} : [<h:outputText value="#{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).istate} 
                                              - #{ismNcrstateController.getIsmNcrstate(nonConformiteRequestController.selected.ncrState.id).statename}" />]
-                             &emsp;
+                            &emsp;
                             #{ism.LastChange} : [<h:outputText value="#{nonConformiteRequestController.selected.ncrChanged}"><f:convertDateTime pattern="dd/MM/yyyy hh:mm" /></h:outputText>]
                         </div>
                     </span>
@@ -156,6 +156,33 @@
                         <p:outputLabel value="#{ism.NonConformiteRequestField_ncrUnite}" />
                         <h:outputText value="#{nonConformiteRequestController.selected.ncrUnite.ncuUnite} #{nonConformiteRequestController.selected.ncrUnite.ncuDesignation}"
                                       />
+
+
+
+                        <h:outputText value="#{ism.NonConformiteRequestField_ncrClientname}"  />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrClientname}" 
+                                      title="#{ism.NonConformiteRequestFieldInfo_ncrClientname}" />
+
+
+                        <h:outputText value="#{ism.NonConformiteRequestField_ncrClientaddress}"  />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrClientaddress}" 
+                                      title="#{ism.NonConformiteRequestFieldInfo_ncrClientaddress}" />
+
+
+                        <h:outputText value="#{ism.NonConformiteRequestField_ncrClientphone}"  />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrClientphone}" 
+                                      title="#{ism.NonConformiteRequestFieldInfo_ncrClientphone}" />
+
+
+                        <h:outputText value="#{ism.NonConformiteRequestField_ncrClientemail}"  />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrClientemail}" 
+                                      title="#{ism.NonConformiteRequestFieldInfo_ncrClientemail}" />
+
+
+                        <h:outputText value="#{ism.NonConformiteRequestField_ncrClienttype}"  />
+                        <h:outputText value="#{nonConformiteRequestController.selected.ncrClienttype}" 
+                                      title="#{ism.NonConformiteRequestFieldInfo_ncrClienttype}" />
+
                     </p:panelGrid>
 
 
@@ -458,7 +485,7 @@
                                      disabled="#{empty nonConformiteRequestController.selected 
                                                  or empty nonConformiteRequestController.selected.ncrId}"
                                      rendered="#{request.isUserInRole('CO_SMQNCREQUEST_W')
-                                                and nonConformiteRequestController.selected.ncrState.id==1}"
+                                                 and nonConformiteRequestController.selected.ncrState.id==1}"
                                      >
                         <p:confirm  />
                     </p:commandButton>
@@ -536,7 +563,7 @@
                                              or (nonConformiteRequestController.selected.ncrState.id!=2 
                                              and nonConformiteRequestController.selected.ncrState.id!=3)}"
                                  rendered="#{request.isUserInRole('SNC_REQUEST_R') and 
-                                                 nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
+                                             nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
                                  />
                 <p:commandButton id="clotureButton"
                                  icon="ui-btn-Cloture"
@@ -551,7 +578,7 @@
                                              or (nonConformiteRequestController.selected.ncrState.id!=2 
                                              and nonConformiteRequestController.selected.ncrState.id!=3)}"
                                  rendered="#{request.isUserInRole('SNC_REQUEST_CL') and 
-                                                 nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
+                                             nonConformiteActionsController.getItemsDesc(nonConformiteRequestController.selected).get(0).ncaState.id==1}"
                                  >
                     <p:confirm header="#{ism.NonConformiteRequestDlgHeader_Clotrue}"
                                message="#{ism.NonConformiteRequestDlgMessage_Clotrue}" 
