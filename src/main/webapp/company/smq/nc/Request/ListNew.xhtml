@@ -317,6 +317,62 @@
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
+                    
+                    
+                    
+                                        
+                    
+                    
+                    
+                    
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrClientname}" style="width:64px;"
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrClientname)}"
+                              sortBy="#{item.ncrClientname}" filterBy="#{item.ncrClientname}" 
+                              filterMatchMode="contains" >
+                            <h:outputText value="#{item.ncrClientname}" />
+                    </p:column>
+                    
+                    
+                    
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrClientaddress}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrClientaddress)}"
+                              sortBy="#{item.ncrClientaddress}" filterBy="#{item.ncrClientaddress}" 
+                              filterMatchMode="contains" >
+                            <h:outputText value="#{item.ncrClientaddress}"/>
+                    </p:column>
+                    
+                    
+                    
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrClientphone}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrClientphone)}"
+                              sortBy="#{item.ncrClientphone}" filterBy="#{item.ncrClientphone}" 
+                              filterMatchMode="contains" >
+                            <h:outputText value="#{item.ncrClientphone}"/>
+                    </p:column>
+                    
+                    
+                    
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrClientemail}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrClientemail)}"
+                              sortBy="#{item.ncrClientemail}" filterBy="#{item.ncrClientemail}" 
+                              filterMatchMode="contains" >
+                            <h:outputText value="#{item.ncrClientemail}"/>
+                    </p:column>
+                    
+                    
+                    
+                    <p:column headerText="#{ism.NonConformiteRequestField_ncrClienttype}" 
+                              visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrClienttype)}"
+                              sortBy="#{item.ncrClienttype}" filterBy="#{item.ncrClienttype}" 
+                              filterMatchMode="contains" >
+                            <h:outputText value="#{item.ncrClienttype}"/>
+                    </p:column>
+                    
+                    
+                    
+                    
+                    
+                    
 
 
                     <p:column headerText="#{ism.NonConformiteRequestField_ncrCreated}" 

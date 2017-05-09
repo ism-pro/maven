@@ -8,20 +8,181 @@
       >
 
 
+
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
+
         <ui:define name="body">
-            <h4>Bonjour #{staffAuthController.staff.stFirstname}</h4>
+            <style>
+                .idash-top{
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
+                .idash-top .ui-grid-col-3{
+                    margin: 2px;
+                    padding: 0px;
+                    border: 1px solid #dddddd;
+                }
+                .bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+                    background-color: #00c0ef !important;
+                }
+                .bg-red, .bg-yellow, .bg-aqua, .bg-blue, .bg-light-blue, .bg-green, .bg-navy, .bg-teal, .bg-olive, .bg-lime, .bg-orange, .bg-fuchsia, .bg-purple, .bg-maroon, .bg-black, .bg-red-active, .bg-yellow-active, .bg-aqua-active, .bg-blue-active, .bg-light-blue-active, .bg-green-active, .bg-navy-active, .bg-teal-active, .bg-olive-active, .bg-lime-active, .bg-orange-active, .bg-fuchsia-active, .bg-purple-active, .bg-maroon-active, .bg-black-active, .callout.callout-danger, .callout.callout-warning, .callout.callout-info, .callout.callout-success, .alert-success, .alert-danger, .alert-error, .alert-warning, .alert-info, .label-danger, .label-info, .label-waring, .label-primary, .label-success, .modal-primary .modal-body, .modal-primary .modal-header, .modal-primary .modal-footer, .modal-warning .modal-body, .modal-warning .modal-header, .modal-warning .modal-footer, .modal-info .modal-body, .modal-info .modal-header, .modal-info .modal-footer, .modal-success .modal-body, .modal-success .modal-header, .modal-success .modal-footer, .modal-danger .modal-body, .modal-danger .modal-header, .modal-danger .modal-footer {
+                    color: #fff !important;
+                }
+                .small-box {
+                    border-radius: 2px;
+                    position: relative;
+                    display: block;
+                    margin-bottom: 20px;
+                    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+                }
+                .small-box>.small-box-footer {
+                    position: relative;
+                    text-align: center;
+                    padding: 3px 0;
+                    color: #fff;
+                    color: rgba(255,255,255,0.8);
+                    display: block;
+                    z-index: 10;
+                    background: rgba(0,0,0,0.1);
+                    text-decoration: none;
+                }
+            </style>
+
             <h:form>
                 <!--
                 <p:poll interval="10" update="SessionCounter" />
                 -->
+
+
+
+
+
+
+
+
+
+
+
+                <div class="ui-grid">
+
+                    <div class="ui-grid-row idash-top">
+                        <div class="ui-grid-col-3 small-box bg-aqua">
+                            <div class="w3-container w3-orange w3-text-white w3-padding-8">
+                                <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+                                <div class="w3-right">
+                                    <h5>#{viewSessionCounter.activeStaff.size()} / #{staffController.items.size()}</h5>
+                                </div>
+                                <div class="w3-clear"></div>
+                                <h5>Utilisateurs  <i class="fa fa-arrow-circle-right"></i></h5>
+                            </div>
+
+
+                        </div>
+
+                        <div class="ui-grid-col-3">
+                            <div class="w3-container w3-blue w3-padding-8">
+                                <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+                                <div class="w3-right">
+                                    <h5>#{processusController.items.size()}</h5>
+                                </div>
+                                <div class="w3-clear"></div>
+                                <h5>Processus</h5>
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-col-3">
+                            <div class="w3-container w3-teal w3-padding-8">
+                                <div class="w3-left"><i class="fa fa-file-pdf-o w3-xxxlarge"></i></div>
+                                <div class="w3-right">
+                                    <h5>#{docExplorerController.items.size()}</h5>
+                                </div>
+                                <div class="w3-clear"></div>
+                                <h5>Documentations</h5>
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-col-3">
+                            <div class="w3-container w3-red w3-padding-8">
+                                <div class="w3-left"><i class="fa fa-thumbs-o-down w3-xxxlarge"></i></div>
+                                <div class="w3-right">
+                                    <h5>#{nonConformiteRequestController.items.size()}</h5>
+                                </div>
+
+                                <div class="w3-clear"></div>
+                                <h5>Non conformités</h5>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                    <div class="ui-grid-row idash-top">
+                        <div class="ui-grid-col-6">
+
+                        </div>
+                        <div class="ui-grid-col-6">
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!--
+                <p:dashboard id="dashbord" model="#{dashboardView.model}">
+
+                    <p:panel id="dashMainNC" header="Non conformités">
+                        <p:panelGrid columns="2">
+                            <h:outputLabel value="Nombre total" />
+                            <h:outputLabel value="#{nonConformiteRequestController.items.size()}" />
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel id="finance" header="Finance">
+                        <h:outputText value="Finance Content" />
+                    </p:panel>
+
+                    <p:panel id="lifestyle" header="Lifestyle">
+                        <h:outputText value="Lifestyle Content"  />
+                    </p:panel>
+
+
+                    <p:panel id="weather" header="Weather">
+                        <h:outputText value="Weather Content" />
+                    </p:panel>
+
+
+                    <p:panel id="politics" header="Politics">
+                        <h:outputText value="Politics Content" />
+                    </p:panel>
+
+
+
+                </p:dashboard>
+                <div style="clear:both" />
+                -->
+
                 <p:outputPanel id="SessionCounter">
 
-                    <hr />
-                    <h2>Flash Infos</h2>
-                    
-                    <p:panel id="panelChart">
+                    <p:panel id="panelChart" style="margin-left: 12px; margin-right: 12px; margin-top: 5px;">
                         <div class="w3-row">
                             <div class="w3-col s6  w3-center">
                                 <ic:chart id="chartSession" type="pie" exporting="true"
@@ -39,7 +200,7 @@
 
 
                     <hr />
-                    <h2>Staff</h2>
+                    <h5>Staffs</h5>
                     <p:dataTable id="datalist" widgetVar="datalist"
                                  value="#{viewSessionCounter.activeStaff}" var="item"
                                  rowIndexVar="_rowIndex"
@@ -48,15 +209,15 @@
                         <p:column headerText="Staff Online"
                                   style="width: 64px;"
                                   class="w3-container w3-center">
-                            <h5><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]"/></h5>
+                            <h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]"/>
                         </p:column>
                     </p:dataTable>
 
                 </p:outputPanel>
 
-                
+
             </h:form>
-            
+
         </ui:define>
     </ui:composition>
 
