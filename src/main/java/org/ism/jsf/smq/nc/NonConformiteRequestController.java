@@ -286,7 +286,7 @@ public class NonConformiteRequestController implements Serializable {
     }
 
     public void updateOnActionCreate() { // Passe de attente de solution à en cours
-        selected.setNcrapprouvedDate(new Date());
+        //selected.setNcrapprouvedDate(new Date());
         selected.setNcrChanged(new Date());
         selected.setNcrState(new IsmNcrstate(IsmNcrstate.INPROGRESS_ID));
         update();
