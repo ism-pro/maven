@@ -64,7 +64,12 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "NonConformiteRequest.findByNcrNature", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrNature.ncnNature = :ncrNature"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrUnite", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrUnite.ncuUnite = :ncrUnite"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrGravity", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrGravity.ncgGravity = :ncrGravity"),
-    @NamedQuery(name = "NonConformiteRequest.findByNcrFrequency", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrFrequency.ncfFrequency = :ncrFrequency")
+    @NamedQuery(name = "NonConformiteRequest.findByNcrFrequency", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrFrequency.ncfFrequency = :ncrFrequency"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrClientname", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClientname = :ncrClientname"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrClientaddress", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClientaddress = :ncrClientaddress"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrClientphone", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClientphone = :ncrClientphone"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrClientemail", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClientemail = :ncrClientemail"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrClienttype", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClienttype = :ncrClienttype"),
 })
 public class NonConformiteRequest implements Serializable {
 
@@ -124,6 +129,24 @@ public class NonConformiteRequest implements Serializable {
     @Size(max = 65535)
     @Column(name = "ncr_approuvedDesc", length = 65535)
     private String ncrapprouvedDesc;
+    
+    
+    @Size(max = 255)
+    @Column(name = "ncr_clientname")
+    private String ncrClientname;
+    @Size(max = 255)
+    @Column(name = "ncr_clientaddress")
+    private String ncrClientaddress;
+    @Size(max = 45)
+    @Column(name = "ncr_clientphone")
+    private String ncrClientphone;
+    @Size(max = 255)
+    @Column(name = "ncr_clientemail")
+    private String ncrClientemail;
+    @Size(max = 128)
+    @Column(name = "ncr_clienttype")
+    private String ncrClienttype;
+    
     @JoinColumn(name = "ncr_company", referencedColumnName = "c_company", nullable = false)
     @ManyToOne(optional = false)
     private Company ncrCompany;
@@ -389,6 +412,46 @@ public class NonConformiteRequest implements Serializable {
     @Override
     public String toString() {
         return "org.ism.entities.NonConformiteRequest[ ncrId=" + ncrId + " ]";
+    }
+
+    public String getNcrClientname() {
+        return ncrClientname;
+    }
+
+    public void setNcrClientname(String ncrClientname) {
+        this.ncrClientname = ncrClientname;
+    }
+
+    public String getNcrClientaddress() {
+        return ncrClientaddress;
+    }
+
+    public void setNcrClientaddress(String ncrClientaddress) {
+        this.ncrClientaddress = ncrClientaddress;
+    }
+
+    public String getNcrClientphone() {
+        return ncrClientphone;
+    }
+
+    public void setNcrClientphone(String ncrClientphone) {
+        this.ncrClientphone = ncrClientphone;
+    }
+
+    public String getNcrClientemail() {
+        return ncrClientemail;
+    }
+
+    public void setNcrClientemail(String ncrClientemail) {
+        this.ncrClientemail = ncrClientemail;
+    }
+
+    public String getNcrClienttype() {
+        return ncrClienttype;
+    }
+
+    public void setNcrClienttype(String ncrClienttype) {
+        this.ncrClienttype = ncrClienttype;
     }
     
 }
