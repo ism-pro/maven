@@ -221,9 +221,11 @@ public class NonConformiteRequestController implements Serializable {
     }
 
     public void handleColumnSorting(SortEvent event){
+        /*
         Table table = (Table) event.getSource(); 
         sortedValue = table.getMultiSortMeta();
         JsfUtil.out("End handle Sorting event");
+        */
     }
 
     /**
