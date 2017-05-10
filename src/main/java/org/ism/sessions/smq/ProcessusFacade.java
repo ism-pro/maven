@@ -27,7 +27,7 @@ public class ProcessusFacade extends AbstractFacade<Processus> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
+    private final String APPROUVEDITEMS                   = "Processus.findAllApprouvedItems";
     private final String SELECTALLBYLASTCHANGED           = "Processus.selectAllByLastChange";
     private final String FIND_BY_PROCESSUS                = "Processus.findByPProcessus";       // query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus"),
     private final String FIND_BY_DESIGNATION              = "Processus.findByPDesignation";     //, query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation"),
@@ -38,6 +38,17 @@ public class ProcessusFacade extends AbstractFacade<Processus> {
         super(Processus.class);
     }
 
+    public List<Processus> findApprouvedItems(){
+        em.flush();
+        Query q = em.createNamedQuery(APPROUVEDITEMS);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if(count > 0){
+            return q.getResultList();
+        }
+        return null;
+    }
+    
     public List<Processus> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

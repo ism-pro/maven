@@ -48,7 +48,8 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "Processus.findByPDeleted", query = "SELECT p FROM Processus p WHERE p.pDeleted = :pDeleted"),
     @NamedQuery(name = "Processus.findByPCreated", query = "SELECT p FROM Processus p WHERE p.pCreated = :pCreated"),
     @NamedQuery(name = "Processus.findByPChanged", query = "SELECT p FROM Processus p WHERE p.pChanged = :pChanged"),
-    @NamedQuery(name = "Processus.selectAllByLastChange", query = "SELECT p FROM Processus p ORDER BY p.pChanged DESC")
+    @NamedQuery(name = "Processus.selectAllByLastChange", query = "SELECT p FROM Processus p ORDER BY p.pChanged DESC"),
+    @NamedQuery(name = "Processus.findAllApprouvedItems", query = "SELECT p FROM Processus p WHERE p.pDeleted=0 ORDER BY p.pChanged DESC")
 })
 public class Processus implements Serializable {
     private static final long serialVersionUID = 1L;
