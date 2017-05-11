@@ -322,20 +322,95 @@
 
 
 
-                <div class="w3-container">
-                    <h5>Utilisateurs connectés</h5>
 
-                    <p:dataList value="#{viewSessionCounter.activeStaff}" var="item" 
-                                type="unordered" itemType="none" paginator="false" rows="10" 
-                                styleClass="paginated" 
-                                itemStyleClass="" class="userlist"
-                                >
-                        <h:graphicImage library="img" name="ism/hr/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px" />
-                        <span class="w3-large"><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]" style="display:inline-block"/></span><br/>
-                    </p:dataList>
 
+
+
+                <div class="w3-panel w3-padding-0 w3-margin-0">
+                    <div class="w3-row-padding w3-padding-0" >
+                        <div class="w3-third">
+                            <h5>Utilisateurs connectés</h5>
+                            <p:dataList value="#{viewSessionCounter.activeStaff}" var="item" 
+                                        type="unordered" itemType="none" paginator="false" rows="10" 
+                                        styleClass="paginated" 
+                                        itemStyleClass="" class="userlist"
+                                        >
+                                <h:graphicImage library="img" name="ism/hr/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px" />
+                                <span class="w3-large"><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]" style="display:inline-block"/></span><br/>
+                            </p:dataList>
+                        </div>
+
+                        <div class="w3-twothird">
+                            <h5>Analyse annuelle <b>#{viewUtil.nowYear}</b> des non conformités </h5>
+                            <div class="w3-responsive">
+                                <table class="w3-table-all">
+                                    <tr>
+                                        <th>Etats</th>
+
+                                        <th>Janvier</th>
+                                        <th>Février</th>
+                                        <th>Mars</th>
+                                        <th>Avril</th>
+                                        <th>Mai</th>
+                                        <th>Juin</th>
+                                        <th>Juillet</th>
+                                        <th>Août</th>
+                                        <th>Septembre</th>
+                                        <th>Octobre</th>
+                                        <th>Novembre</th>
+                                        <th>Décembre</th>
+                                    </tr>
+                                    <tr>
+                                        <td>[1A] Créée</td>
+                                        <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterCreated}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+                                    <tr>
+                                        <td>[2B] En attente de solution</td>
+                                        <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterRequest}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+                                    <tr>
+                                        <td>[3C] En cours</td>
+                                        <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterProcessing}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+                                    <tr>
+                                        <td>[4D] Terminée</td>
+                                        <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterFinished}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+                                    <tr>
+                                        <td>[5E] Annulée</td>
+                                        <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterCanceled}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+                                </table>
+                            </div>
+                            <hr />
+                            <h5>Evolution annuelle <b>#{viewUtil.nowYear}</b> des non conformités </h5>
+                            <p:panel>
+                                <ic:chart id="chartNCQuantiteStateLine" type="line"  exporting="true"
+                                          style="height: 310px; " class="w3-responsive" debug="false"
+                                          model="#{nonConformiteRequestService.nonConformiteRequestDomain.ncStateLineModel}" />
+                            </p:panel>
+                        
+                        </div>
+                    </div>
                 </div>
 
+
+                <div class="w3-container w3-margin-top">
+
+
+
+
+                </div>
             </h:form>
 
         </ui:define>

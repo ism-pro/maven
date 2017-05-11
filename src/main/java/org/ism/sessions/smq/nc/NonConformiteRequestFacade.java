@@ -5,6 +5,7 @@
  */
 package org.ism.sessions.smq.nc;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.CacheRetrieveMode;
@@ -56,6 +57,11 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
     private final String FIND_BY_CODE      = "";
     private final String FIND_BY_DESIGNATION    = "NonConformiteRequest.findByNcrTitle";            // query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"
 
+    private final String ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.itemsCreateInRange";
+    public final String ITEMS_APPROUVED_IN_RANGE = "NonConformiteRequest.itemsApprouvedInRange";
+    private final String ITEMS_STATE_IN_RANGE = "NonConformiteRequest.itemsStateInRange";
+    private final String ITEMS_STATE_IN_CHANGE_RANGE = "NonConformiteRequest.itemsStateInChangedRange";
+    
     public NonConformiteRequestFacade() {
         super(NonConformiteRequest.class);
     }
@@ -161,4 +167,76 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
         return 0;
     }
 
+    
+    /**
+     * 
+     * @param fromInclude
+     * @param toExclude
+     * @return 
+     */
+    public List<NonConformiteRequest> itemsCreateInRange(Date fromInclude, Date toExclude) {
+        em.flush();
+        Query q = em.createNamedQuery(ITEMS_CREATE_IN_RANGE).setParameter("ncrFrom", fromInclude).setParameter("ncrTo", toExclude);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+        /**
+     * 
+     * @param fromInclude
+     * @param toExclude
+     * @return 
+     */
+    public List<NonConformiteRequest> itemsApprouvedInRange(Date fromInclude, Date toExclude) {
+        em.flush();
+        Query q = em.createNamedQuery(ITEMS_APPROUVED_IN_RANGE).setParameter("ncrFrom", fromInclude).setParameter("ncrTo", toExclude);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * @param state is one of (A, B, C, D, E) respectively (Créé, en attente de solution, en cours, terminé, annulé)
+     * @param fromInclude
+     * @param toExclude
+     * @return 
+     */
+    public List<NonConformiteRequest> itemsStateInRange(String state, Date fromInclude, Date toExclude) {
+        em.flush();
+        Query q = em.createNamedQuery(ITEMS_STATE_IN_RANGE).setParameter("ncrState", state).setParameter("ncrFrom", fromInclude).setParameter("ncrTo", toExclude);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+        /**
+     * 
+     * @param state is one of (A, B, C, D, E) respectively (Créé, en attente de solution, en cours, terminé, annulé)
+     * @param fromInclude
+     * @param toExclude
+     * @return 
+     */
+    public List<NonConformiteRequest> itemsStateInChangeRange(String state, Date fromInclude, Date toExclude) {
+        em.flush();
+        Query q = em.createNamedQuery(ITEMS_STATE_IN_CHANGE_RANGE).setParameter("ncrState", state).setParameter("ncrFrom", fromInclude).setParameter("ncrTo", toExclude);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+    
 }

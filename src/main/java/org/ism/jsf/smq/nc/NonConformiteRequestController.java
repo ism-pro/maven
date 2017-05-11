@@ -7,6 +7,10 @@ import org.ism.sessions.smq.nc.NonConformiteRequestFacade;
 import org.ism.entities.app.IsmNcrstate;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +36,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.view.ViewUtil;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.data.SortEvent;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
@@ -66,9 +71,7 @@ public class NonConformiteRequestController implements Serializable {
         List<SortMeta> sorted = sortedValue;
         this.sortedValue = sortedValue;
     }
-    
-    
-   
+
     public NonConformiteRequestController() {
     }
 
@@ -92,7 +95,7 @@ public class NonConformiteRequestController implements Serializable {
         headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrClientaddress"));
         headerTextMap.put(12, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrClientphone"));
         headerTextMap.put(13, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrClientemail"));
-        headerTextMap.put(14, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrClienttype"));   
+        headerTextMap.put(14, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrClienttype"));
         headerTextMap.put(15, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrCreated"));
         headerTextMap.put(16, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrChanged"));
         headerTextMap.put(17, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrEnddingAction"));
@@ -220,12 +223,12 @@ public class NonConformiteRequestController implements Serializable {
 
     }
 
-    public void handleColumnSorting(SortEvent event){
+    public void handleColumnSorting(SortEvent event) {
         /*
         Table table = (Table) event.getSource(); 
         sortedValue = table.getMultiSortMeta();
         JsfUtil.out("End handle Sorting event");
-        */
+         */
     }
 
     /**
@@ -455,6 +458,38 @@ public class NonConformiteRequestController implements Serializable {
 
     public Boolean getIsVisibleColKey(String key) {
         return this.visibleColMap.get(key);
+    }
+
+    public List<NonConformiteRequest> getItemsCreateInRange(Date from, Date to) {
+        return getFacade().itemsCreateInRange(from, to);
+    }
+
+    public List<NonConformiteRequest> getItemsApprouvedInRange(Date from, Date to) {
+        return getFacade().itemsApprouvedInRange(from, to);
+    }
+
+    /**
+     *
+     * @param state is one of (A, B, C, D, E) respectively (Créé, en attente de
+     * solution, en cours, terminé, annulé)
+     * @param from
+     * @param to
+     * @return
+     */
+    public List<NonConformiteRequest> getItemsStateFromTo(String state, Date from, Date to) {
+        return getFacade().itemsStateInRange(state, from, to);
+    }
+    
+        /**
+     *
+     * @param state is one of (A, B, C, D, E) respectively (Créé, en attente de
+     * solution, en cours, terminé, annulé)
+     * @param from
+     * @param to
+     * @return
+     */
+    public List<NonConformiteRequest> getItemsStateChangeInRange(String state, Date from, Date to) {
+        return getFacade().itemsStateInChangeRange(state, from, to);
     }
 
     /**

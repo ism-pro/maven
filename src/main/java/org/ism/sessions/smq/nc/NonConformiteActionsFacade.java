@@ -5,6 +5,7 @@
  */
 package org.ism.sessions.smq.nc;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.CacheRetrieveMode;
@@ -36,6 +37,10 @@ public class NonConformiteActionsFacade extends AbstractFacade<NonConformiteActi
     private final String FIND_BY_NCLAST                   = "NonConformiteActions.findAllByNCLastChange";   // query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc BY n.ncaChanged DESC"
     private final String FIND_DESC_BY_DESC                = "NonConformiteActions.findDescByNC";            // query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC"
     private final String FIND_BY_NCLASTID                   = "NonConformiteActions.findAllByNCLastId";
+    
+    
+    private final String ITEMS_CREATE_IN_RANGE            = "NonConformiteActions.itemsCreateInRange";
+    
     
     public NonConformiteActionsFacade() {
         super(NonConformiteActions.class);
@@ -108,4 +113,22 @@ public class NonConformiteActionsFacade extends AbstractFacade<NonConformiteActi
         return null;
     }
 
+    
+    
+        /**
+     * 
+     * @param fromInclude
+     * @param toExclude
+     * @return 
+     */
+    public List<NonConformiteActions> itemsCreateInRange(Date fromInclude, Date toExclude) {
+        em.flush();
+        Query q = em.createNamedQuery(ITEMS_CREATE_IN_RANGE).setParameter("ncrFrom", fromInclude).setParameter("ncrTo", toExclude);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
 }

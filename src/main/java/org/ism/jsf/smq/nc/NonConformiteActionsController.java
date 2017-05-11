@@ -41,10 +41,10 @@ public class NonConformiteActionsController implements Serializable {
 
     @EJB
     private org.ism.sessions.smq.nc.NonConformiteActionsFacade ejbFacade;
-    
+
     @ManagedProperty(value = "#{nonConformiteRequestController}")
     private NonConformiteRequestController ncRequestCtrl;
-    
+
     private List<NonConformiteActions> items = null;
     private List<NonConformiteActions> itemsNC = null;  //!< This is items when a request with nc is apply
     private NonConformiteActions selected;
@@ -118,7 +118,7 @@ public class NonConformiteActionsController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared non conformite actions
      */
     public NonConformiteActions prepareCreate() {
@@ -137,11 +137,11 @@ public class NonConformiteActionsController implements Serializable {
         itemsNC = this.getItemsDesc(ncr);
         return selected;
     }
-    
+
     public NonConformiteActions prepareReview(NonConformiteRequest ncr) {
         itemsNC = this.getItemsDesc(ncr);
         selected = new NonConformiteActions();
-        if(itemsNC!=null){
+        if (itemsNC != null) {
             selected = itemsNC.get(0);
         }
         return selected;
@@ -288,20 +288,20 @@ public class NonConformiteActionsController implements Serializable {
                 getString("NonConformiteActionsPersistenceUpdatedDetail")
                 + selected.getNcaId());
     }
-    
-    public void updateOnReview(){
+
+    public void updateOnReview() {
         selected.setNcaState(new IsmNcastate(IsmNcastate.REVIEW_ID));
         update();
         ncRequestCtrl.updateOnReview();
     }
-    
-    public void updateOnCloture(NonConformiteRequest nc){
+
+    public void updateOnCloture(NonConformiteRequest nc) {
         selected = getItemsDesc(nc).get(0);
         selected.setNcaState(new IsmNcastate(IsmNcastate.FINISH_ID));
         update();
         ncRequestCtrl.updateOnCloture();
     }
-    
+
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
@@ -315,7 +315,7 @@ public class NonConformiteActionsController implements Serializable {
             selected = null;
         }
     }
-   
+
     private void persist(PersistAction persistAction, String summary, String detail) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -381,15 +381,18 @@ public class NonConformiteActionsController implements Serializable {
     public void setItemsNC(List<NonConformiteActions> itemsNC) {
         this.itemsNC = itemsNC;
     }
-    
-    public String getNCActionState(NonConformiteRequest nonConformite){
+
+    public String getNCActionState(NonConformiteRequest nonConformite) {
         List<NonConformiteActions> actions = getFacade().findAllByNCLast(nonConformite);
-        if(actions==null)   return "";
-        
-        NonConformiteActions action = actions.get(0);
-        if(action==null)
+        if (actions == null) {
             return "";
-        
+        }
+
+        NonConformiteActions action = actions.get(0);
+        if (action == null) {
+            return "";
+        }
+
         return action.getNcaState().getIstate() + " - " + action.getNcaState().getStatename();
     }
 
@@ -397,18 +400,20 @@ public class NonConformiteActionsController implements Serializable {
         itemsNC = getFacade().findAllByNCLast(nc);
         return itemsNC;
     }
-    
+
     /**
      * This method return null if non conformite is null or if no action found
+     *
      * @param nc on which to found corresponding action
      * @return return null if no action associated from nc or if null nc
      */
-    public NonConformiteActions getLastActionFromNC(NonConformiteRequest nc){
-        if(nc==null)
+    public NonConformiteActions getLastActionFromNC(NonConformiteRequest nc) {
+        if (nc == null) {
             return null;
-        
+        }
+
         itemsNC = getFacade().findAllByNCLastID(nc);
-        if(itemsNC==null){
+        if (itemsNC == null) {
             return null;
         }
 
@@ -515,7 +520,6 @@ public class NonConformiteActionsController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-
     public NonConformiteRequestController getNcRequestCtrl() {
         return ncRequestCtrl;
     }
@@ -523,8 +527,20 @@ public class NonConformiteActionsController implements Serializable {
     public void setNcRequestCtrl(NonConformiteRequestController ncRequestCtrl) {
         this.ncRequestCtrl = ncRequestCtrl;
     }
-    
-    
+
+    /**
+     * *
+     *
+     */
+    /**
+     * 
+     * @param from
+     * @param to
+     * @return 
+     */
+    public List<NonConformiteActions> getItemsCreateInRange(Date from, Date to) {
+        return getFacade().itemsCreateInRange(from, to);
+    }
 
     /**
      * ************************************************************************

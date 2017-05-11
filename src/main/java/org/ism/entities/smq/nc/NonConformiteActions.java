@@ -45,7 +45,8 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "NonConformiteActions.selectAllByLastChange", query = "SELECT n FROM NonConformiteActions n ORDER BY n.ncaChanged DESC"),
     @NamedQuery(name = "NonConformiteActions.findAllByNCLastChange", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaChanged DESC"),
     @NamedQuery(name = "NonConformiteActions.findAllByNCLastId", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC"),
-    @NamedQuery(name = "NonConformiteActions.findDescByNC", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC")
+    @NamedQuery(name = "NonConformiteActions.findDescByNC", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC"),
+    @NamedQuery(name = "NonConformiteActions.itemsCreateInRange", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaCreated >= :ncrFrom AND n.ncaCreated < :ncrTo"),
 })
 public class NonConformiteActions implements Serializable {
 

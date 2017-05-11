@@ -70,6 +70,10 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "NonConformiteRequest.findByNcrClientphone", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClientphone = :ncrClientphone"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrClientemail", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClientemail = :ncrClientemail"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrClienttype", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClienttype = :ncrClienttype"),
+    @NamedQuery(name = "NonConformiteRequest.itemsCreateInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo"),
+    @NamedQuery(name = "NonConformiteRequest.itemsApprouvedInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDate >= :ncrFrom AND n.ncrapprouvedDate < :ncrTo"),
+    @NamedQuery(name = "NonConformiteRequest.itemsStateInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo"),
+    @NamedQuery(name = "NonConformiteRequest.itemsStateInChangedRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrChanged >= :ncrFrom AND n.ncrChanged < :ncrTo")
 })
 public class NonConformiteRequest implements Serializable {
 

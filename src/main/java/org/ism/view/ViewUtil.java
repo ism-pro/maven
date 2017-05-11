@@ -25,7 +25,6 @@ public class ViewUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     /**
      * Creates a new instance of FilterNCRequestView
      */
@@ -40,16 +39,16 @@ public class ViewUtil implements Serializable {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public Date getMaintenant(){
+    public Date getMaintenant() {
         return getNow();
     }
-    
+
     /**
      * This is the date time when request is made
-     * 
+     *
      * @return the actual request date time
      */
     public Date getNow() {
@@ -67,7 +66,39 @@ public class ViewUtil implements Serializable {
     }
 
     /**
-     * This method recrate the local date and time of today with last time 23:59:59
+     * Give the actual year
+     *
+     * @return the actual year
+     */
+    public Integer getNowYear() {
+        LocalDateTime ldt = LocalDateTime.ofInstant((new Date()).toInstant(), ZoneId.systemDefault());
+        return ldt.getYear();
+    }
+
+    /**
+     * Give the actual month value
+     *
+     * @return the actual month value
+     */
+    public Integer getNowMonth() {
+        LocalDateTime ldt = LocalDateTime.ofInstant((new Date()).toInstant(), ZoneId.systemDefault());
+        return ldt.getMonthValue();
+    }
+    
+
+    /**
+     * Give the actual day of the month
+     *
+     * @return the actual day of the month
+     */
+    public Integer getNowDayOfMonth() {
+        LocalDateTime ldt = LocalDateTime.ofInstant((new Date()).toInstant(), ZoneId.systemDefault());
+        return ldt.getDayOfMonth();
+    }
+    
+    /**
+     * This method recrate the local date and time of today with last time
+     * 23:59:59
      *
      * @return the actual day with last time of the day 23:59:59
      */
@@ -75,4 +106,14 @@ public class ViewUtil implements Serializable {
         LocalDateTime ldt = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
         return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     }
+
+    public static Date toDate(Integer year, Integer month, Integer day, Integer hour, Integer min, Integer sec) {
+        LocalDateTime ldt = LocalDateTime.of(LocalDate.of(year, month, day), LocalTime.of(23, 59, 59));
+        return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public static Date toDate(Integer year, Integer month, Integer day, Integer hour, Integer min) {
+        return toDate(year, month, day, hour, min, 0);
+    }
+
 }
