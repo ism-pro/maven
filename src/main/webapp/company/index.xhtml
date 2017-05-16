@@ -105,6 +105,20 @@
                 .m-spacing-b8{  margin-bottom: 8px;}
                 .m-spacing-b16{  margin-bottom: 16px;}
                 .m-spacing-b32{  margin-bottom: 32px;}
+
+                .m-inner-tb0{  margin-top:0px; margin-bottom: 0px;}
+                .m-inner-tb2{  margin-top:2px; margin-bottom: 2px;}
+                .m-inner-tb4{  margin-top:4px; margin-bottom: 4px;}
+                .m-inner-tb8{  margin-top:8px; margin-bottom: 8px;}
+                .m-inner-tb16{  margin-top:16px; margin-bottom: 16px;}
+                .m-inner-tb32{  margin-top:32px; margin-bottom: 32px;}
+
+                .m-padding-tb0{  padding-top:0px; padding-bottom: 0px;}
+                .m-padding-tb2{  padding-top:2px; padding-bottom: 2px;}
+                .m-padding-tb4{  padding-top:4px; padding-bottom: 4px;}
+                .m-padding-tb8{  padding-top:8px; padding-bottom: 8px;}
+                .m-padding-tb16{  padding-top:16px; padding-bottom: 16px;}
+                .m-padding-tb32{  padding-top:32px; padding-bottom: 32px;}
             </style>
 
             <h:form id="bodyForm">
@@ -113,49 +127,41 @@
 
                     <!-- Vignette d'informations -->
                     <div class="ui-grid-row ">
-                        <div class="ui-grid-col-3">
-                            <div class="w3-container w3-orange w3-text-white m-spacing-r4">
-                                <div class="w3-left"><i class="fa fa-users fa-2x"></i></div>
-                                <div class="w3-right">
-                                    <h5>#{viewSessionCounter.activeStaff.size()} / #{staffController.items.size()}</h5>
-                                </div>
-                                <div class="w3-clear"></div>
-                                <h5>Utilisateurs</h5>
+                        <div class="ui-grid-col-3 w3-container w3-orange w3-text-white ">
+                            <div class="w3-left w3-margin-top"><i class="fa fa-users fa-2x"></i></div>
+                            <div class="w3-right">
+                                <h5>#{viewSessionCounter.activeStaff.size()} / #{staffController.items.size()}</h5>
                             </div>
+                            <div class="w3-clear"></div>
+                            <h5 class="m-spacing-tb2">Utilisateurs</h5>
                         </div>
 
-                        <div class="ui-grid-col-3">
-                            <div class="w3-container w3-blue  m-spacing-r4">
-                                <div class="w3-left"><i class="fa fa-eye fa-2x"></i></div>
-                                <div class="w3-right">
-                                    <h5>#{processusController.approuvedItems.size()}</h5>
-                                </div>
-                                <div class="w3-clear"></div>
-                                <h5>Processus</h5>
+                        <div class="ui-grid-col-3 w3-container w3-blue m-spacing-r4">
+                            <div class="w3-left w3-margin-top"><i class="fa fa-eye fa-2x"></i></div>
+                            <div class="w3-right">
+                                <h5>#{processusController.approuvedItems.size()}</h5>
                             </div>
+                            <div class="w3-clear"></div>
+                            <h5>Processus</h5>
                         </div>
 
-                        <div class="ui-grid-col-3">
-                            <div class="w3-container w3-teal  m-spacing-r4">
-                                <div class="w3-left"><i class="fa fa-file-pdf-o fa-2x"></i></div>
-                                <div class="w3-right">
-                                    <h5>#{docExplorerController.items.size()}</h5>
-                                </div>
-                                <div class="w3-clear"></div>
-                                <h5>Documentations</h5>
+                        <div class="ui-grid-col-3 w3-container w3-teal m-spacing-r4">
+                            <div class="w3-left w3-margin-top"><i class="fa fa-file-pdf-o fa-2x"></i></div>
+                            <div class="w3-right">
+                                <h5>#{docExplorerController.items.size()}</h5>
                             </div>
+                            <div class="w3-clear"></div>
+                            <h5>Documentations</h5>
                         </div>
 
-                        <div class="ui-grid-col-3">
-                            <div class="w3-container w3-red   m-spacing-r4">
-                                <div class="w3-left"><i class="fa fa-thumbs-o-down fa-2x"></i></div>
-                                <div class="w3-right">
-                                    <h5>#{nonConformiteRequestController.items.size()}</h5>
-                                </div>
-
-                                <div class="w3-clear"></div>
-                                <h5>Non conformités</h5>
+                        <div class="ui-grid-col-3 w3-red   m-spacing-r4 w3-container ">
+                            <div class="w3-left w3-margin-top"><i class="fa fa-thumbs-o-down fa-2x"></i></div>
+                            <div class="w3-right">
+                                <h5>#{nonConformiteRequestController.items.size()}</h5>
                             </div>
+
+                            <div class="w3-clear"></div>
+                            <h5>Non conformités</h5>
                         </div>
                     </div>
 
@@ -178,8 +184,8 @@
                     </div>
 
 
-                    
-                    
+
+
                     <div class="ui-grid-row m-spacing-t16 ">
                         <div class="ui-grid-col-4 w3-container m-spacing-r4">
                             <h5>Utilisateurs connectés</h5>
