@@ -235,13 +235,9 @@
     </repositories>
     <description>Industrial System Manager - ISM
 
-        Il s'agit d'un outil d'aide à la gestion d'une entité industriel. L'outil comprend :
-        + La gestion de staff (connexion, accès, informations personnelle),
-        + La gestion de l'entreprise - société
-        + La gestion de la documentation SMQ
-        + La gestion des non conformités SMQ
-        + La gestion du process industriel :
-        - Définition des machine
-        - Définition des unités industriel
-        - Gestion des analyses</description>
+Modifications :
+
+Corrections :
+1. Documents Explorer :
+- Modification des champs après validation rendu possible après validation.</description>
 </project>
