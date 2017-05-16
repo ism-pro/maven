@@ -73,7 +73,14 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "NonConformiteRequest.itemsCreateInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo"),
     @NamedQuery(name = "NonConformiteRequest.itemsApprouvedInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDate >= :ncrFrom AND n.ncrapprouvedDate < :ncrTo"),
     @NamedQuery(name = "NonConformiteRequest.itemsStateInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo"),
-    @NamedQuery(name = "NonConformiteRequest.itemsStateInChangedRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrChanged >= :ncrFrom AND n.ncrChanged < :ncrTo")
+    @NamedQuery(name = "NonConformiteRequest.itemsStateInChangedRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrChanged >= :ncrFrom AND n.ncrChanged < :ncrTo"),
+    
+    @NamedQuery(name = "NonConformiteRequest.itemsCreateInRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo AND n.ncrProcessus= :ncrProcessus"),
+    @NamedQuery(name = "NonConformiteRequest.itemsApprouvedInRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDate >= :ncrFrom AND n.ncrapprouvedDate < :ncrTo AND n.ncrProcessus= :ncrProcessus"),
+    @NamedQuery(name = "NonConformiteRequest.itemsStateInRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo AND n.ncrProcessus= :ncrProcessus"),
+    @NamedQuery(name = "NonConformiteRequest.itemsStateInChangedRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrChanged >= :ncrFrom AND n.ncrChanged < :ncrTo AND n.ncrProcessus= :ncrProcessus"),
+    
+    
 })
 public class NonConformiteRequest implements Serializable {
 

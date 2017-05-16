@@ -15,8 +15,9 @@
             <h:form id="bodyForm" enctype="multipart/form-data">
 
                 <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
-                             rendered="#{processusController.selected != null}">
+                             rendered="#{docExplorerController.selected != null}">
 
+                    
                     <p:outputLabel value="#{ism.DocExplorerField_Id}" rendered="false" for="dcId" />
                     <p:inputText id="dcId" rendered="false"
                                  value="#{docExplorerController.selected.dcId}" 
@@ -79,7 +80,7 @@
                     </h:panelGrid>
 
                     <p:outputLabel value="#{ism.DocExplorerField_Commentaire}" for="dcComment" />
-                    <p:inputTextarea rows="4" cols="30" id="dcComment"
+                    <h:inputTextarea rows="4" cols="30" id="dcComment" 
                                      value="#{docExplorerController.selected.dcComment}" 
                                      title="#{ism.DocExplorerFieldInfo_Commentaire}" />
 
@@ -157,7 +158,7 @@
                                             onIcon="ui-icon-check" offIcon="ui-icon-close" 
                                             styleClass="ui-btn"
                                             >
-                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{processusController.toggleMultiCreationFake()}"  />
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{docExplorerCOntroller.toggleMultiCreationFake()}"  />
                     </p:selectBooleanButton>
 
                     <p:commandButton icon="ui-btn-Save"

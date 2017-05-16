@@ -36,7 +36,9 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.smq.Processus;
 import org.ism.view.ViewUtil;
+
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.data.SortEvent;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
@@ -460,6 +462,19 @@ public class NonConformiteRequestController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
+    /**
+     * ************************************************************************
+     *
+     */
+    
+    
+    /**
+     * *
+     *
+     * @param from
+     * @param to
+     * @return
+     */
     public List<NonConformiteRequest> getItemsCreateInRange(Date from, Date to) {
         return getFacade().itemsCreateInRange(from, to);
     }
@@ -479,8 +494,8 @@ public class NonConformiteRequestController implements Serializable {
     public List<NonConformiteRequest> getItemsStateFromTo(String state, Date from, Date to) {
         return getFacade().itemsStateInRange(state, from, to);
     }
-    
-        /**
+
+    /**
      *
      * @param state is one of (A, B, C, D, E) respectively (Créé, en attente de
      * solution, en cours, terminé, annulé)
@@ -492,6 +507,62 @@ public class NonConformiteRequestController implements Serializable {
         return getFacade().itemsStateInChangeRange(state, from, to);
     }
 
+    
+    
+    
+    
+        
+    /**
+     * *
+     *
+     * @param from
+     * @param to
+     * @param processus
+     * @return
+     */
+    public List<NonConformiteRequest> getItemsCreateInRangeByProcessus(Date from, Date to, Processus processus) {
+        return getFacade().itemsCreateInRangeByProcessus(from, to, processus);
+    }
+
+    public List<NonConformiteRequest> getItemsApprouvedInRangeByProcessus(Date from, Date to, Processus processus) {
+        return getFacade().itemsApprouvedInRangeByProcessus(from, to, processus);
+    }
+
+    /**
+     *
+     * @param state is one of (A, B, C, D, E) respectively (Créé, en attente de
+     * solution, en cours, terminé, annulé)
+     * @param from
+     * @param to
+     * @param processus
+     * @return
+     */
+    public List<NonConformiteRequest> getItemsStateFromToByProcessus(String state, Date from, Date to, Processus processus) {
+        return getFacade().itemsStateInRangeByProcessus(state, from, to, processus);
+    }
+
+    /**
+     *
+     * @param state is one of (A, B, C, D, E) respectively (Créé, en attente de
+     * solution, en cours, terminé, annulé)
+     * @param from
+     * @param to
+     * @param processus
+     * @return
+     */
+    public List<NonConformiteRequest> getItemsStateChangeInRangeByProcessus(String state, Date from, Date to, Processus processus) {
+        return getFacade().itemsStateInChangeRangeByProcessus(state, from, to, processus);
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * ************************************************************************
      * CONVERTER

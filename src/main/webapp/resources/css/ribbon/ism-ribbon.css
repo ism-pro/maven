@@ -152,7 +152,7 @@ body {
     /*padding-top: 26px!important;*/
     padding-bottom: 2px;
     line-height: 15px;
-    text-align: center;
+    text-align: left;
     border-right: 1px #f4f3f3 solid;
 }
 #ribbon-layout li.ui-state-default {

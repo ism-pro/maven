@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1705.10</version>
+    <version>1705.11</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -19,13 +19,13 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>5.3</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>  
             <groupId>org.primefaces.themes</groupId>  
             <artifactId>all-themes</artifactId>  
             <version>1.0.10</version>  
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>  
         <dependency>
             <groupId>org.primefaces.extensions</groupId>

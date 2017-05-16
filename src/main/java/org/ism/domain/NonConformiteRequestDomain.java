@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.ism.domain;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,7 @@ import org.ism.entities.smq.nc.NonConformiteRequest;
 /**
  * <h1>NonConformiteRequestDomain</h1>
  * <p>
- * This class coverts 
+ * This class coverts
  * </p>
  *
  *
@@ -23,20 +22,24 @@ import org.ism.entities.smq.nc.NonConformiteRequest;
  */
 public class NonConformiteRequestDomain {
 
-    private List<NonConformiteRequest>  itemsCreated;
-    private List<NonConformiteRequest>  itemsRequest;
-    private List<NonConformiteRequest>  itemsProcessing;
-    private List<NonConformiteRequest>  itemsFinished;
-    private List<NonConformiteRequest>  itemsCanceled;
-    
-    private List<Integer>  itemsCounterCreated;
-    private List<Integer>  itemsCounterRequest;
-    private List<Integer>  itemsCounterProcessing;
-    private List<Integer>  itemsCounterFinished;
-    private List<Integer>  itemsCounterCanceled;
-    
-    
-    
+    private List<NonConformiteRequest> itemsCreated;
+    private List<NonConformiteRequest> itemsRequest;
+    private List<NonConformiteRequest> itemsProcessing;
+    private List<NonConformiteRequest> itemsFinished;
+    private List<NonConformiteRequest> itemsCanceled;
+
+    private List<Integer> itemsCounterCreated;
+    private List<Integer> itemsCounterRequest;
+    private List<Integer> itemsCounterProcessing;
+    private List<Integer> itemsCounterFinished;
+    private List<Integer> itemsCounterCanceled;
+
+    private List<List<Integer>> itemsCounterCreatedByProcessus;
+    private List<List<Integer>> itemsCounterRequestByProcessus;
+    private List<List<Integer>> itemsCounterProcessingByProcessus;
+    private List<List<Integer>> itemsCounterFinishedByProcessus;
+    private List<List<Integer>> itemsCounterCanceledByProcessus;
+
     private Integer year = LocalDateTime.now().getYear();
     /**
      * <h1>nonConformiteModel</h1>
@@ -44,46 +47,42 @@ public class NonConformiteRequestDomain {
      * of non conformite state
      */
     ChartModel ncStateLineModel = null;
-    
-    
-    
-    public void addItemCreated(NonConformiteRequest item){
-        if(itemsCreated==null){
+
+    public void addItemCreated(NonConformiteRequest item) {
+        if (itemsCreated == null) {
             itemsCreated = new ArrayList<>();
         }
         itemsCreated.add(item);
     }
-    
-    public void addItemRequest(NonConformiteRequest item){
-        if(itemsRequest==null){
+
+    public void addItemRequest(NonConformiteRequest item) {
+        if (itemsRequest == null) {
             itemsRequest = new ArrayList<>();
         }
         itemsRequest.add(item);
     }
-    
-    public void addItemProcessing(NonConformiteRequest item){
-        if(itemsProcessing==null){
+
+    public void addItemProcessing(NonConformiteRequest item) {
+        if (itemsProcessing == null) {
             itemsProcessing = new ArrayList<>();
         }
         itemsProcessing.add(item);
     }
-    
-    public void addItemFinished(NonConformiteRequest item){
-        if(itemsFinished==null){
+
+    public void addItemFinished(NonConformiteRequest item) {
+        if (itemsFinished == null) {
             itemsFinished = new ArrayList<>();
         }
         itemsFinished.add(item);
     }
-    
-    public void addItemCanceled(NonConformiteRequest item){
-        if(itemsCanceled==null){
+
+    public void addItemCanceled(NonConformiteRequest item) {
+        if (itemsCanceled == null) {
             itemsCanceled = new ArrayList<>();
         }
         itemsCanceled.add(item);
     }
-   
-    
-    
+
     public List<NonConformiteRequest> getItemsCreated() {
         return itemsCreated;
     }
@@ -164,9 +163,78 @@ public class NonConformiteRequestDomain {
         this.itemsCounterCanceled = itemsCounterCanceled;
     }
 
+    public List<List<Integer>> getItemsCounterCreatedByProcessus() {
+        return itemsCounterCreatedByProcessus;
+    }
+
+    public void setItemsCounterCreatedByProcessus(List<List<Integer>> itemsCounterCreatedByProcessus) {
+        this.itemsCounterCreatedByProcessus = itemsCounterCreatedByProcessus;
+    }
+
+    public List<List<Integer>> getItemsCounterRequestByProcessus() {
+        return itemsCounterRequestByProcessus;
+    }
+
+    public void setItemsCounterRequestByProcessus(List<List<Integer>> itemsCounterRequestByProcessus) {
+        this.itemsCounterRequestByProcessus = itemsCounterRequestByProcessus;
+    }
+
+    public List<List<Integer>> getItemsCounterProcessingByProcessus() {
+        return itemsCounterProcessingByProcessus;
+    }
+
+    public void setItemsCounterProcessingByProcessus(List<List<Integer>> itemsCounterProcessingByProcessus) {
+        this.itemsCounterProcessingByProcessus = itemsCounterProcessingByProcessus;
+    }
+
+    public List<List<Integer>> getItemsCounterFinishedByProcessus() {
+        return itemsCounterFinishedByProcessus;
+    }
+
+    public void setItemsCounterFinishedByProcessus(List<List<Integer>> itemsCounterFinishedByProcessus) {
+        this.itemsCounterFinishedByProcessus = itemsCounterFinishedByProcessus;
+    }
+
+    public List<List<Integer>> getItemsCounterCanceledByProcessus() {
+        return itemsCounterCanceledByProcessus;
+    }
+
+    public void setItemsCounterCanceledByProcessus(List<List<Integer>> itemsCounterCanceledByProcessus) {
+        this.itemsCounterCanceledByProcessus = itemsCounterCanceledByProcessus;
+    }
+
     
-    
-    
+    public void addItemsCounterCreatedByProcessus(List<Integer> lst) {
+        if(itemsCounterCreatedByProcessus==null)    itemsCounterCreatedByProcessus = new ArrayList<>();
+        if(itemsCounterCreatedByProcessus.size()==12)   itemsCounterCreatedByProcessus.clear();
+        itemsCounterCreatedByProcessus.add(lst);
+    }
+
+    public void addItemsCounterRequestByProcessus(List<Integer> lst) {
+        if(itemsCounterRequestByProcessus==null)    itemsCounterRequestByProcessus = new ArrayList<>();
+        if(itemsCounterRequestByProcessus.size()==12)   itemsCounterRequestByProcessus.clear();
+        itemsCounterRequestByProcessus.add(lst);
+    }
+
+    public void addItemsCounterProcessingByProcessus(List<Integer> lst) {
+        if(itemsCounterProcessingByProcessus==null)    itemsCounterProcessingByProcessus = new ArrayList<>();
+        if(itemsCounterProcessingByProcessus.size()==12)   itemsCounterProcessingByProcessus.clear();
+        itemsCounterProcessingByProcessus.add(lst);
+    }
+
+    public void addItemsCounterFinishedByProcessus(List<Integer> lst) {
+        if(itemsCounterFinishedByProcessus==null)    itemsCounterFinishedByProcessus = new ArrayList<>();
+        if(itemsCounterFinishedByProcessus.size()==12)   itemsCounterFinishedByProcessus.clear();
+        itemsCounterFinishedByProcessus.add(lst);
+    }
+
+    public void addItemsCounterCanceledByProcessus(List<Integer> lst) {
+        if(itemsCounterCanceledByProcessus==null)    itemsCounterCanceledByProcessus = new ArrayList<>();
+        if(itemsCounterCanceledByProcessus.size()==12)   itemsCounterCanceledByProcessus.clear();
+        itemsCounterCanceledByProcessus.add(lst);
+    }
+
+
     public Integer getYear() {
         return year;
     }
@@ -183,5 +251,4 @@ public class NonConformiteRequestDomain {
         this.ncStateLineModel = ncStateLineModel;
     }
 
-    
 }

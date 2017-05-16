@@ -150,7 +150,7 @@ public class DataTableRenderer extends DataRenderer {
 
         //Pagination
         if (table.isPaginator()) {
-            encodePaginatorConfig(context, table, wb);
+            //encodePaginatorConfig(context, table, wb);   / ! \ commenté suite à la version 6.1
         }
 
         //Selection
@@ -256,7 +256,7 @@ public class DataTableRenderer extends DataRenderer {
 
         if (hasPaginator && !paginatorPosition.equalsIgnoreCase("bottom")) {
 
-            encodePaginatorMarkup(context, table, "top");
+            //encodePaginatorMarkup(context, table, "top"); / ! \ commenté suite à la version 6.1
         }
 
         if (scrollable) {
@@ -266,7 +266,7 @@ public class DataTableRenderer extends DataRenderer {
         }
 
         if (hasPaginator && !paginatorPosition.equalsIgnoreCase("top")) {
-            encodePaginatorMarkup(context, table, "bottom");
+            //encodePaginatorMarkup(context, table, "bottom"); / ! \ commenté suite à la version 6.1
         }
 
         encodeFacet(context, table, table.getFooter(), DataTable.FOOTER_CLASS);

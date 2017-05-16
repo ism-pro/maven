@@ -79,7 +79,7 @@ public class RibbonRenderer extends CoreRenderer {
         boolean dynamic = ribbon.isDynamic();
 
         WidgetBuilder wb = getWidgetBuilder(context);
-        wb.init("Ribbon", ribbon.resolveWidgetVar(), clientId, "ribbon");
+        wb.init("Ribbon", ribbon.resolveWidgetVar(), clientId); // , "ribbon");/ ! \ commenté suite à la version 6.1
 
         if (dynamic) {
             wb.attr("dynamic", true).attr("cache", ribbon.isCache());

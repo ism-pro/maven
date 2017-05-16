@@ -33,6 +33,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import org.ism.entities.app.IsmNcastate;
+import org.ism.entities.smq.Processus;
 import org.ism.entities.smq.nc.NonConformiteRequest;
 
 @ManagedBean(name = "nonConformiteActionsController")
@@ -529,9 +530,12 @@ public class NonConformiteActionsController implements Serializable {
     }
 
     /**
-     * *
-     *
+     * =========================================================================
+     * 
+     * =========================================================================
      */
+    
+    
     /**
      * 
      * @param from
@@ -540,6 +544,21 @@ public class NonConformiteActionsController implements Serializable {
      */
     public List<NonConformiteActions> getItemsCreateInRange(Date from, Date to) {
         return getFacade().itemsCreateInRange(from, to);
+    }
+    
+        /**
+     * *
+     *
+     */
+    /**
+     * 
+     * @param from
+     * @param to
+     * @param processus
+     * @return 
+     */
+    public List<NonConformiteActions> getItemsCreateInRangeByProcessus(Date from, Date to, Processus processus) {
+        return getFacade().itemsCreateInRange(from, to, processus);
     }
 
     /**

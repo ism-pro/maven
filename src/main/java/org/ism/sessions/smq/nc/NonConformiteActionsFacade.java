@@ -12,6 +12,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.smq.Processus;
 import org.ism.entities.smq.nc.NonConformiteActions;
 import org.ism.entities.smq.nc.NonConformiteRequest;
 import org.ism.sessions.AbstractFacade;
@@ -40,6 +41,7 @@ public class NonConformiteActionsFacade extends AbstractFacade<NonConformiteActi
     
     
     private final String ITEMS_CREATE_IN_RANGE            = "NonConformiteActions.itemsCreateInRange";
+    private final String ITEMS_CREATE_IN_RANGE_BY_PROCESSUS = "NonConformiteActions.itemsCreateInRangeByProcessus";
     
     
     public NonConformiteActionsFacade() {
@@ -123,7 +125,20 @@ public class NonConformiteActionsFacade extends AbstractFacade<NonConformiteActi
      */
     public List<NonConformiteActions> itemsCreateInRange(Date fromInclude, Date toExclude) {
         em.flush();
-        Query q = em.createNamedQuery(ITEMS_CREATE_IN_RANGE).setParameter("ncrFrom", fromInclude).setParameter("ncrTo", toExclude);
+        Query q = em.createNamedQuery(ITEMS_CREATE_IN_RANGE).setParameter("ncaFrom", fromInclude).setParameter("ncaTo", toExclude);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+
+    public List<NonConformiteActions> itemsCreateInRange(Date fromInclude, Date toExclude, Processus processus) {
+        em.flush();
+        Query q = em.createNamedQuery(ITEMS_CREATE_IN_RANGE_BY_PROCESSUS)
+                .setParameter("ncaFrom", fromInclude).setParameter("ncaTo", toExclude)
+                .setParameter("ncrProcessus", processus);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
         if (count > 0) {

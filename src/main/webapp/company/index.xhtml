@@ -14,9 +14,10 @@
 
 
         <ui:define name="body">
+            <!--
             <h:outputStylesheet library="vendor" name="bootstrap/3.3.7/css/bootstrap.min.css" />
             <h:outputScript library="vendor" name="bootstrap/3.3.7/js/bootstrap.min.js" />
-
+            -->
             <style>
                 .userlist{
                     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
@@ -338,6 +339,7 @@
                                 <h:graphicImage library="img" name="ism/hr/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px" />
                                 <span class="w3-large"><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]" style="display:inline-block"/></span><br/>
                             </p:dataList>
+
                         </div>
 
                         <div class="w3-twothird">
@@ -399,18 +401,67 @@
                                           style="height: 310px; " class="w3-responsive" debug="false"
                                           model="#{nonConformiteRequestService.nonConformiteRequestDomain.ncStateLineModel}" />
                             </p:panel>
-                        
+
+                            <hr/>
+                            <p:panel header="Etat des non conformités par processus" toggleable="true" style="border: none;">
+
+                                <table class="w3-table-all w3-responsive">
+                                    <tr>
+                                        <th valign="middle">Processus</th>
+                                        <ui:repeat value="#{processusController.approuvedItems}" var="processus">
+                                            <th valign="middle">
+                                                <div  style="writing-mode:vertical-rl; white-space: nowrap;">
+                                                    #{processus.PProcessus} - #{processus.PDesignation}
+                                                </div>
+                                            </th>
+                                        </ui:repeat>
+                                        <th valign="middle">
+                                            <div style="writing-mode:vertical-rl;">Total</div>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>Créée</td>
+                                        <ui:repeat value="#{nonConformiteRequestService.itemsCreatedOnMonth}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+
+                                    </tr>
+                                    <tr>
+                                        <td>En attente de solution</td>
+                                        <ui:repeat value="#{nonConformiteRequestService.itemsApprouvedOnMonth}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+                                    <tr>
+                                        <td>En cours</td>
+                                        <ui:repeat value="#{nonConformiteRequestService.itemsProcessingOnMonth}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+                                    <tr>
+                                        <td>Terminée</td>
+                                        <ui:repeat value="#{nonConformiteRequestService.itemsFinishedOnMonth}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+                                    <tr>
+                                        <td>Annulée</td>
+                                        <ui:repeat value="#{nonConformiteRequestService.itemsCanceledOnMonth}" var="value">
+                                            <td>#{value}</td>
+                                        </ui:repeat>
+                                    </tr>
+
+                                </table>
+                            </p:panel>
+
                         </div>
                     </div>
                 </div>
 
 
-                <div class="w3-container w3-margin-top">
 
 
 
-
-                </div>
             </h:form>
 
         </ui:define>
