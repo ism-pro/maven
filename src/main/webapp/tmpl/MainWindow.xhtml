@@ -22,34 +22,32 @@
             <h:outputStylesheet library="css" name="ism-layout.min.css" />
             <h:outputStylesheet library="css" name="ism-global.min.css" />
             <h:outputStylesheet library="css" name="ism.min.css" />
-            <h:outputStylesheet library="css" name="ism-index.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
             
+            
             <h:outputStylesheet library="vendor" name="font-awesome/4.4.7/css/font-awesome.min.css" />
-            <h:outputStylesheet library="vendor" name="w3/w3.min.css" />
+            <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
 
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
             
 
-            <!--
+            <!-- Suppression dû au changement de primefaces vers la version 6.1 
             <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
             -->
-
             
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
 
 
             <h:outputScript library="js" name="ism-global.min.js" />
+            <!--
             <h:outputScript library="js" name="lang.min.js" />
+            -->
         </f:facet>
     </h:head>
 
     <h:body id="body" rendered="#{request.session.getAttribute('authenticated')}">
-        <f:facet name="last">
-            <h:outputStylesheet library="css" name="w3.min.css" />
-        </f:facet>
         <!--    Reste affiché pendant 5s
                 Montre un résumer et affiche les détails
                 Seul les messages sans id sont affiché

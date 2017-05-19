@@ -5,8 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ic="http://www.ism.org/charts"
-
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+        >
 
 
 
@@ -14,10 +13,6 @@
 
 
         <ui:define name="body">
-            <!--
-            <h:outputStylesheet library="vendor" name="bootstrap/3.3.7/css/bootstrap.min.css" />
-            <h:outputScript library="vendor" name="bootstrap/3.3.7/js/bootstrap.min.js" />
-            -->
             <style>
                 .userlist{
                     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
@@ -127,7 +122,7 @@
 
                     <!-- Vignette d'informations -->
                     <div class="ui-grid-row ">
-                        <div class="ui-grid-col-3 w3-container w3-orange w3-text-white ">
+                        <div class="ui-grid-col-3 w3-container w3-orange w3-text-white w3-blue m-spacing-r4">
                             <div class="w3-left w3-margin-top"><i class="fa fa-users fa-2x"></i></div>
                             <div class="w3-right">
                                 <h5>#{viewSessionCounter.activeStaff.size()} / #{staffController.items.size()}</h5>
@@ -154,7 +149,7 @@
                             <h5>Documentations</h5>
                         </div>
 
-                        <div class="ui-grid-col-3 w3-red   m-spacing-r4 w3-container ">
+                        <div class="ui-grid-col-3 w3-red  w3-container ">
                             <div class="w3-left w3-margin-top"><i class="fa fa-thumbs-o-down fa-2x"></i></div>
                             <div class="w3-right">
                                 <h5>#{nonConformiteRequestController.items.size()}</h5>
