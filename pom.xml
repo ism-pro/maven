@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1705.11</version>
+    <version>1705.19</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -27,11 +27,13 @@
             <version>1.0.10</version>  
             <scope>compile</scope>
         </dependency>  
+        <!--
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
             <version>4.0.0</version>
         </dependency>
+        -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -235,9 +237,5 @@
     </repositories>
     <description>Industrial System Manager - ISM
 
-Modifications :
-
-Corrections :
-1. Documents Explorer :
-- Modification des champs après validation rendu possible après validation.</description>
+</description>
 </project>

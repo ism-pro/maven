@@ -7,10 +7,6 @@ import org.ism.sessions.smq.nc.NonConformiteRequestFacade;
 import org.ism.entities.app.IsmNcrstate;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +33,10 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import org.ism.entities.smq.Processus;
-import org.ism.view.ViewUtil;
+import org.primefaces.component.inputnumber.InputNumber;
 
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.data.SortEvent;
-import org.primefaces.extensions.component.inputnumber.InputNumber;
-import org.primefaces.ism.component.table.Table;
 import org.primefaces.model.SortMeta;
 
 @ManagedBean(name = "nonConformiteRequestController")

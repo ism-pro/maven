@@ -128,6 +128,7 @@ Configuration :
     + DOC EXPLORER :
     + Permettre d'avoir un classement en fonction d'une catégorie et un groupe 
     surtout pour les processus volumineux.
+    + Un champ de description par mot clé
 
 
     + TODO SHORTCUT
@@ -150,44 +151,6 @@ Configuration :
     models en attaquant directement la base de donnée sans traitement programme
     ++ Définition d'un plan de contrôle
 
-
-
- - Mise à niveau module de base primefaces à la version 6.1.
- - Modification de plusieurs erreur de CSS avec RES_NOT_FOUND
- - Ribbon n'est pas compatible avec la version 6.1 effectivement changement apporté comme suite
-    @ResourceDependencies({
-        @ResourceDependency(library = "primefaces", name = "components.css"),
-        @ResourceDependency(library = "primefaces", name = "ribbon/ribbon.css"),
-        @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
-        @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
-        @ResourceDependency(library = "primefaces", name = "core.js"),
-        @ResourceDependency(library = "primefaces", name = "components.js"),
-        @ResourceDependency(library = "primefaces", name = "ribbon/ribbon.js")
-    })
-    en lieu et place de 
-    @ResourceDependencies({
-        @ResourceDependency(library = "primefaces", name = "primefaces.css"),
-        @ResourceDependency(library = "primefaces", name = "ribbon/ribbon.css"),
-        @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
-        @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
-        @ResourceDependency(library = "primefaces", name = "primefaces.js"),
-        @ResourceDependency(library = "primefaces", name = "ribbon/ribbon.js")
-    })
- - Remove lang.min from MainWindow to disable error with version 6.1 on toggler
- - Enable multiViewState="true" cross request on following tables :
-    + List Processus :
-    + List Actions
-    + List Frequences
-    + List Gravite
-    + List Nature
-    + List Request and List Request Org and View for actions
-    + List Nature
-    + List DocType
-    + List DocExplorer
-    + List Process Unite
-    + List Process Equipement
-    + List Process Ctrl Analyse Allowed, Category, Method, Notify, Point, Type but not Dat
-    + List Staff staff, groupdef, groupdefrole, groups, setup
 
 
 
