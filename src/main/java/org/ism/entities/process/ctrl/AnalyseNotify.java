@@ -228,5 +228,5 @@ public class AnalyseNotify implements Serializable {
     public String toString() {
         return "org.ism.entities.AnalyseNotify[ anId=" + anId + " ]";
     }
-    
+
 }

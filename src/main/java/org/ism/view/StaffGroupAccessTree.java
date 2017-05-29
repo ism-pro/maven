@@ -17,12 +17,12 @@ import org.primefaces.model.TreeNode;
 public class StaffGroupAccessTree {
 
     private TreeNode root;
-    
+
     /**
      * Creates a new instance of StaffGroupAccessTree
      */
     public StaffGroupAccessTree() {
-        
+
     }
-    
+
 }

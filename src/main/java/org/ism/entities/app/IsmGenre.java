@@ -55,7 +55,6 @@ public class IsmGenre implements Serializable {
     @OneToMany(mappedBy = "stGenre")
     private Collection<Staff> staffCollection;
     private static final long serialVersionUID = 1L;
-    
 
     public IsmGenre() {
     }
@@ -99,7 +98,6 @@ public class IsmGenre implements Serializable {
         return staffCollection;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -124,5 +122,4 @@ public class IsmGenre implements Serializable {
         return "org.ism.entities.IsmGenre[ id=" + id + " ]";
     }
 
-
-    }
+}

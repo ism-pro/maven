@@ -53,21 +53,8 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
 
     protected enum PropertyKeys {
 
-        	widgetVar
-		,activeIndex
-		,effect
-		,effectDuration
-		,cache
-		,onTabChange
-		,onTabShow
-		,style
-		,styleClass
-		,orientation
-		,onTabClose
-		,dir
-		,scrollable
-		,tabindex;
-                
+        widgetVar, activeIndex, effect, effectDuration, cache, onTabChange, onTabShow, style, styleClass, orientation, onTabClose, dir, scrollable, tabindex;
+
         String toString;
 
         PropertyKeys(String toString) {
@@ -213,26 +200,26 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
     public static final String GROUP_CLASS = "ui-ribbon-group";
     public static final String GROUP_CONTENT_CLASS = "ui-ribbon-group-content";
     public static final String GROUP_LABEL_CLASS = "ui-ribbon-group-label";
-    
+
     public static final String GROUPS_SET_CLASS = "ui-ribbon-groups-set ui-helper-reset ui-helper-clearfix ui-widget-content";
     public static final String GROUP_SET_CLASS = "ui-ribbon-group-set";
     public static final String GROUP_SET_CONTENT_CLASS = "ui-ribbon-group-content";
-    
+
     public static final String RIBBON_SET_BIG_BUTTON = "big";
     public static final String RIBBON_SET_MID_BUTTON = "middle";
     public static final String RIBBON_SET_SMALL_BUTTON = "small";
     public static final String RIBBON_SET_TINY_BIG_BUTTON = "tiny-big";
     public static final String RIBBON_SET_TINY_MID_BUTTON = "tiny-middle";
     public static final String RIBBON_SET_TINY_SMALL_BUTTON = "tiny-small";
-    
+
     public static final String SET_BIG_BUTTON_CLASS = "ui-ribbonset-big";
     public static final String SET_MID_BUTTON_CLASS = "ui-ribbonset-mid";
     public static final String SET_SMALL_BUTTON_CLASS = "ui-ribbonset-small";
     public static final String SET_TINY_BIG_BUTTON_CLASS = "ui-ribbonset-tinybig";
     public static final String SET_TINY_MID_BUTTON_CLASS = "ui-ribbonset-tinymid";
     public static final String SET_TINY_SMALL_BUTTON_CLASS = "ui-ribbonset-tinysmall";
-    
-    public static final String SET_UI_ICON="ui-ribbonset-icon";
+
+    public static final String SET_UI_ICON = "ui-ribbonset-icon";
 
     public static final String NAVIGATOR_SCROLLER_CLASS = "ui-tabs-navscroller";
     public static final String NAVIGATOR_LEFT_CLASS = "ui-tabs-navscroller-btn ui-tabs-navscroller-btn-left ui-state-default ui-corner-right";
@@ -240,9 +227,9 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
     public static final String NAVIGATOR_LEFT_ICON_CLASS = "ui-icon ui-icon-carat-1-w";
     public static final String NAVIGATOR_RIGHT_ICON_CLASS = "ui-icon ui-icon-carat-1-e";
     public static final String SCROLLABLE_TABS_CLASS = "ui-tabs-scrollable";
-    
+
     private static final Collection<String> EVENT_NAMES = Collections.unmodifiableCollection(Arrays.asList("tabChange", "tabClose"));
- 
+
     @Override
     public Collection<String> getEventNames() {
         return EVENT_NAMES;
@@ -257,9 +244,10 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
     }
 
     public Tab findTab(String tabClientId) {
-        for(UIComponent component : getChildren()) {
-            if(component.getClientId().equals(tabClientId))
+        for (UIComponent component : getChildren()) {
+            if (component.getClientId().equals(tabClientId)) {
                 return (Tab) component;
+            }
         }
 
         return null;
@@ -269,18 +257,18 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
     public void queueEvent(FacesEvent event) {
         FacesContext context = getFacesContext();
 
-        if(isRequestSource(context) && event instanceof AjaxBehaviorEvent) {
-            Map<String,String> params = context.getExternalContext().getRequestParameterMap();
+        if (isRequestSource(context) && event instanceof AjaxBehaviorEvent) {
+            Map<String, String> params = context.getExternalContext().getRequestParameterMap();
             String eventName = params.get(Constants.RequestParams.PARTIAL_BEHAVIOR_EVENT_PARAM);
             String clientId = this.getClientId(context);
             boolean repeating = this.isRepeating();
             AjaxBehaviorEvent behaviorEvent = (AjaxBehaviorEvent) event;
 
-            if(eventName.equals("tabChange")) {
+            if (eventName.equals("tabChange")) {
                 String tabClientId = params.get(clientId + "_newTab");
                 TabChangeEvent changeEvent = new TabChangeEvent(this, behaviorEvent.getBehavior(), findTab(tabClientId));
 
-                if(repeating) {
+                if (repeating) {
                     int tabindex = Integer.parseInt(params.get(clientId + "_tabindex"));
                     setIndex(tabindex);
                     changeEvent.setData(this.getIndexData());
@@ -291,15 +279,14 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
 
                 super.queueEvent(changeEvent);
 
-                if(repeating) {
+                if (repeating) {
                     this.setIndex(-1);
                 }
-            }
-            else if(eventName.equals("tabClose")) {
+            } else if (eventName.equals("tabClose")) {
                 String tabClientId = params.get(clientId + "_closeTab");
                 TabCloseEvent closeEvent = new TabCloseEvent(this, behaviorEvent.getBehavior(), findTab(tabClientId));
 
-                if(repeating) {
+                if (repeating) {
                     int tabindex = Integer.parseInt(params.get(clientId + "_tabindex"));
                     setIndex(tabindex);
                     closeEvent.setData(this.getIndexData());
@@ -310,18 +297,17 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
 
                 super.queueEvent(closeEvent);
 
-                if(repeating) {
+                if (repeating) {
                     this.setIndex(-1);
                 }
             }
-        }
-        else {
+        } else {
             super.queueEvent(event);
         }
     }
 
     protected void resetActiveIndex() {
-		getStateHelper().remove(PropertyKeys.activeIndex);
+        getStateHelper().remove(PropertyKeys.activeIndex);
     }
 
     public boolean isRTL() {
@@ -330,19 +316,19 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
 
     @Override
     public void processUpdates(FacesContext context) {
-        if(!isRendered()) {
+        if (!isRendered()) {
             return;
         }
 
         super.processUpdates(context);
 
         ValueExpression expr = this.getValueExpression("activeIndex");
-        if(expr != null) {
+        if (expr != null) {
             expr.setValue(getFacesContext().getELContext(), getActiveIndex());
             resetActiveIndex();
         }
     }
-    
+
     public String resolveWidgetVar() {
         FacesContext context = getFacesContext();
         String userWidgetVar = (String) getAttributes().get("widgetVar");
@@ -354,5 +340,4 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
         }
     }
 
-   
 }

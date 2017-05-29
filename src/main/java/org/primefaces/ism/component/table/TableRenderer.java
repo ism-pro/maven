@@ -72,13 +72,13 @@ public class TableRenderer extends DataRenderer {
 
         Boolean encodeSortFeature = false;
         List<SortMeta> sortedValue = table.getSortedValue();
-        Boolean isSortMetaNull = table.getMultiSortMeta()==null;
-        if(isSortMetaNull && sortedValue!=null && !sortedValue.isEmpty()){
+        Boolean isSortMetaNull = table.getMultiSortMeta() == null;
+        if (isSortMetaNull && sortedValue != null && !sortedValue.isEmpty()) {
             table.setMultiSortMeta(sortedValue);
             encodeSortFeature = true;
-            
+
         }
-        
+
         if (table.shouldEncodeFeature(context) && !encodeSortFeature) {
             for (Iterator<DataTableFeature> it = Table.FEATURES.values().iterator(); it.hasNext();) {
                 DataTableFeature feature = it.next();
@@ -88,8 +88,9 @@ public class TableRenderer extends DataRenderer {
                 }
             }
         } else {
-            if(!encodeSortFeature)
+            if (!encodeSortFeature) {
                 preRender(context, table);
+            }
 
             encodeMarkup(context, table);
             encodeScript(context, table);
@@ -212,7 +213,7 @@ public class TableRenderer extends DataRenderer {
 
         //Behaviors
         encodeClientBehaviors(context, table);
-        
+
         wb.finish();
     }
 

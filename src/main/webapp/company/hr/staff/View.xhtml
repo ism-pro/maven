@@ -17,60 +17,60 @@
                 <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
                              rendered="#{staffController.selected != null}">
 
-                        <h:outputText value="#{ism.StaffField_stId}"/>
-                        <h:outputText value="#{staffController.selected.stId}" 
-                                      title="#{ism.StaffFieldInfo_stId}"/>
-                        
-                        <h:outputText value="#{ism.StaffField_stStaff}"/>
-                        <h:outputText value="#{staffController.selected.stStaff}" 
-                                      title="#{ism.StaffFieldInfo_stStaff}"/>
-                        
-                        <h:outputText value="#{ism.StaffField_stPassword}" rendered="false"/>
-                        <h:outputText value="#{staffController.selected.stPassword}" 
-                                      title="#{ism.StaffFieldInfo_stPassword}" rendered="false" />
-                        
-                        <h:outputText value="#{ism.StaffField_stLastname}"/>
-                        <h:outputText value="#{staffController.selected.stLastname}" 
-                                      title="#{ism.StaffFieldInfo_stLastname}"/>
-                        
-                        <h:outputText value="#{ism.StaffField_stFirstname}"/>
-                        <h:outputText value="#{staffController.selected.stFirstname}" 
-                                      title="#{ism.StaffFieldInfo_stFirstname}"/>
-                        
-                        <h:outputText value="#{ism.StaffField_stMiddlename}"/>
-                        <h:outputText value="#{staffController.selected.stMiddlename}" 
-                                      title="#{ism.StaffFieldInfo_stMiddlename}"/>
-                        
-                        <h:outputText value="#{ism.StaffField_stBorned}"/>
-                        <h:outputText value="#{staffController.selected.stBorned}" 
-                                      title="#{ism.StaffFieldInfo_stBorned}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                        
-                        <h:outputText value="#{ism.StaffField_stGenre}"/>
-                        <h:outputText value="#{staffController.selected.stGenre.genre} - #{staffController.selected.stGenre.genrename}" 
-                                      title="#{ism.StaffFieldInfo_stGenre}"/>
-                        
-                        <h:outputText value="#{ism.StaffField_stActivated}"/>
-                        <p:selectBooleanCheckbox 
-                            value="#{staffController.selected.stActivated}" disabled="true"/>
-                        
-                        <h:outputText value="#{ism.StaffField_stDeleted}"/>
-                        <p:selectBooleanCheckbox 
-                            value="#{staffController.selected.stDeleted}" disabled="true"/>
-                        
-                        <h:outputText value="#{ism.StaffField_stCreated}"/>
-                        <h:outputText value="#{staffController.selected.stCreated}" 
-                                      title="#{ism.StaffFieldInfo_stCreated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                        
-                        <h:outputText value="#{ism.StaffField_stChanged}"/>
-                        <h:outputText value="#{staffController.selected.stChanged}" 
-                                      title="#{ism.StaffFieldInfo_stChanged}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                
+                    <h:outputText value="#{ism.StaffField_stId}"/>
+                    <h:outputText value="#{staffController.selected.stId}" 
+                                  title="#{ism.StaffFieldInfo_stId}"/>
+
+                    <h:outputText value="#{ism.StaffField_stStaff}"/>
+                    <h:outputText value="#{staffController.selected.stStaff}" 
+                                  title="#{ism.StaffFieldInfo_stStaff}"/>
+
+                    <h:outputText value="#{ism.StaffField_stPassword}" rendered="false"/>
+                    <h:outputText value="#{staffController.selected.stPassword}" 
+                                  title="#{ism.StaffFieldInfo_stPassword}" rendered="false" />
+
+                    <h:outputText value="#{ism.StaffField_stLastname}"/>
+                    <h:outputText value="#{staffController.selected.stLastname}" 
+                                  title="#{ism.StaffFieldInfo_stLastname}"/>
+
+                    <h:outputText value="#{ism.StaffField_stFirstname}"/>
+                    <h:outputText value="#{staffController.selected.stFirstname}" 
+                                  title="#{ism.StaffFieldInfo_stFirstname}"/>
+
+                    <h:outputText value="#{ism.StaffField_stMiddlename}"/>
+                    <h:outputText value="#{staffController.selected.stMiddlename}" 
+                                  title="#{ism.StaffFieldInfo_stMiddlename}"/>
+
+                    <h:outputText value="#{ism.StaffField_stBorned}"/>
+                    <h:outputText value="#{staffController.selected.stBorned}" 
+                                  title="#{ism.StaffFieldInfo_stBorned}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.StaffField_stGenre}"/>
+                    <h:outputText value="#{staffController.selected.stGenre.genre} - #{staffController.selected.stGenre.genrename}" 
+                                  title="#{ism.StaffFieldInfo_stGenre}"/>
+
+                    <h:outputText value="#{ism.StaffField_stActivated}"/>
+                    <p:selectBooleanCheckbox 
+                        value="#{staffController.selected.stActivated}" disabled="true"/>
+
+                    <h:outputText value="#{ism.StaffField_stDeleted}"/>
+                    <p:selectBooleanCheckbox 
+                        value="#{staffController.selected.stDeleted}" disabled="true"/>
+
+                    <h:outputText value="#{ism.StaffField_stCreated}"/>
+                    <h:outputText value="#{staffController.selected.stCreated}" 
+                                  title="#{ism.StaffFieldInfo_stCreated}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.StaffField_stChanged}"/>
+                    <h:outputText value="#{staffController.selected.stChanged}" 
+                                  title="#{ism.StaffFieldInfo_stChanged}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
 
                 </p:panelGrid>
 

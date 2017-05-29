@@ -5,13 +5,10 @@
  */
 package org.ism.services;
 
-
-
 /**
  *
  * @author r.hendrick
  */
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,13 +21,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.ism.domain.Theme;
- 
-@ManagedBean(name="themeService", eager = true)
+
+@ManagedBean(name = "themeService", eager = true)
 @javax.faces.bean.ApplicationScoped
 public class ThemeService {
-     
+
     private List<Theme> themes;
-     
+
     @PostConstruct
     public void init() {
         themes = new ArrayList<Theme>();
@@ -75,31 +72,36 @@ public class ThemeService {
         themes.add(new Theme(38, "ISM", "ism"));
         themes.add(new Theme(39, "PRO", "pro"));
     }
-     
+
     public List<Theme> getThemes() {
         return themes;
     }
-    
-    public Theme getStrTheme(String name){
-        if(themes==null)    init();
-        if(name==null)  return themes.get(7);
-        if(name.trim().isEmpty())  return themes.get(7);
-        
+
+    public Theme getStrTheme(String name) {
+        if (themes == null) {
+            init();
+        }
+        if (name == null) {
+            return themes.get(7);
+        }
+        if (name.trim().isEmpty()) {
+            return themes.get(7);
+        }
+
         Iterator<Theme> it = this.themes.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Theme t = it.next();
-            if(t.getName().matches(name))
+            if (t.getName().matches(name)) {
                 return t;
+            }
         }
         return themes.get(7);
     }
-    
+
     public Theme getTheme(java.lang.Integer id) {
         return themes.get(id);
     }
-    
-    
-    
+
     @FacesConverter(forClass = Theme.class)
     public static class ThemeServiceConverter implements Converter {
 
@@ -138,8 +140,6 @@ public class ThemeService {
                 return null;
             }
         }
-
-
 
     }
 }

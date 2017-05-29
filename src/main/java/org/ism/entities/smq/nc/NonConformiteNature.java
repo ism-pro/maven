@@ -48,6 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteNature.selectAllByLastChange", query = "SELECT n FROM NonConformiteNature n ORDER BY n.ncnChanged DESC")
 })
 public class NonConformiteNature implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -188,5 +189,5 @@ public class NonConformiteNature implements Serializable {
     public String toString() {
         return "org.ism.entities.NonConformiteNature[ ncnId=" + ncnId + " ]";
     }
-    
+
 }

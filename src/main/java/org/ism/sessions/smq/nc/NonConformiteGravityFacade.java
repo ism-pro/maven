@@ -20,6 +20,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class NonConformiteGravityFacade extends AbstractFacade<NonConformiteGravity> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -28,11 +29,10 @@ public class NonConformiteGravityFacade extends AbstractFacade<NonConformiteGrav
         return em;
     }
 
-    private final String SELECTALLBYLASTCHANGED           = "NonConformiteGravity.selectAllByLastChange";       // query = "SELECT n FROM NonConformiteGravity n ORDER BY n.ncgChanged DESC"
-    private final String FIND_BY_PROCESSUS                = "NonConformiteGravity.findByNcgGravity";            // query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgGravity = :ncgGravity"
-    private final String FIND_BY_DESIGNATION              = "NonConformiteGravity.findByNcgDesignation";        // query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgDesignation = :ncgDesignation"
-    
-    
+    private final String SELECTALLBYLASTCHANGED = "NonConformiteGravity.selectAllByLastChange";       // query = "SELECT n FROM NonConformiteGravity n ORDER BY n.ncgChanged DESC"
+    private final String FIND_BY_PROCESSUS = "NonConformiteGravity.findByNcgGravity";            // query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgGravity = :ncgGravity"
+    private final String FIND_BY_DESIGNATION = "NonConformiteGravity.findByNcgDesignation";        // query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgDesignation = :ncgDesignation"
+
     public NonConformiteGravityFacade() {
         super(NonConformiteGravity.class);
     }
@@ -42,30 +42,29 @@ public class NonConformiteGravityFacade extends AbstractFacade<NonConformiteGrav
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
-    
+
     public List<NonConformiteGravity> findByCode(String code) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("ncgGravity", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<NonConformiteGravity> findByDesignation(String designation) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("ncgDesignation", designation);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;

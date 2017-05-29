@@ -23,6 +23,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -32,7 +33,6 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
     }
 
     private final String SELECTALLBYLASTCHANGED = "StaffGroups.selectAllByLastChange";
-    
 
     public StaffGroupsFacade() {
         super(StaffGroups.class);
@@ -43,7 +43,7 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
         Query q = em.createNamedQuery("StaffGroups.findByStgStaff").setParameter("stgStaff", staff);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return q.getResultList();
         }
         return null;
@@ -57,15 +57,13 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
                 .setParameter("stgGroupDef", staffGroupDef);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){ 
+        if (countStaff > 0) {
             StaffGroups staffGroups = (StaffGroups) q.getResultList().get(0);
             return staffGroups;
-        } 
+        }
         return null;
     }
-    
-    
-    
+
     public List<StaffGroups> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
@@ -82,7 +80,7 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
         Query q = em.createNamedQuery("StaffGroups.findByStgGroupDef").setParameter("stgGroupDef", groupDef);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return q.getResultList();
         }
         return null;
@@ -91,6 +89,5 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
     public StaffGroups findByStaffGroupDef(Staff staff, StaffGroupDef groupDef) {
         return findByStaffAndCompanyAndGroupDef(staff, groupDef.getStgdCompany(), groupDef);
     }
-
 
 }

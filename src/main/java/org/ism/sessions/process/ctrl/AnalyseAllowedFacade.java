@@ -27,13 +27,12 @@ public class AnalyseAllowedFacade extends AbstractFacade<AnalyseAllowed> {
     private EntityManager em;
 
     private final String SELECTALLBYLASTCHANGED = "AnalyseAllowed.selectAllByLastChange";
-    private final String FIND_BY_CODE = "AnalyseAllowed.findByAaPointStr";      
-    private final String FIND_BY_DESIGNATION = "AnalyseAllowed.findByAaTypeStr"; 
-    private final String FIND_BY_POINT = "AnalyseAllowed.findByAaPoint";      
-    private final String FIND_BY_TYPE = "AnalyseAllowed.findByAaType";  
+    private final String FIND_BY_CODE = "AnalyseAllowed.findByAaPointStr";
+    private final String FIND_BY_DESIGNATION = "AnalyseAllowed.findByAaTypeStr";
+    private final String FIND_BY_POINT = "AnalyseAllowed.findByAaPoint";
+    private final String FIND_BY_TYPE = "AnalyseAllowed.findByAaType";
     private final String FIND_BY_POINT_TYPE = "AnalyseAllowed.findByAaPointType";
-    
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -64,7 +63,7 @@ public class AnalyseAllowedFacade extends AbstractFacade<AnalyseAllowed> {
         }
         return null;
     }
-    
+
     public List<AnalyseAllowed> findByPoint(AnalysePoint aPoint) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_POINT).setParameter("aaPoint", aPoint);
@@ -86,8 +85,7 @@ public class AnalyseAllowedFacade extends AbstractFacade<AnalyseAllowed> {
         }
         return null;
     }
-    
-    
+
     public List<AnalyseAllowed> findByType(AnalyseType aType) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_TYPE).setParameter("aaType", aType);

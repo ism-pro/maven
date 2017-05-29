@@ -166,9 +166,8 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
         return null;
     }
 
-    
     public List<AnalyseData> findByCriteria(Integer firstItem, Integer rows,
-        Map<String, String> sorts, Map<String, String> filters){
+            Map<String, String> sorts, Map<String, String> filters) {
         em.flush();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<AnalyseData> criteriaQuery = criteriaBuilder.createQuery(AnalyseData.class);
@@ -178,22 +177,21 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
 
         List<Order> orders = sortBy(sorts);
         List<Predicate> predicates = filterBy(filters);
-        
+
         // Apply Select
         criteriaQuery = criteriaQuery.select(root);
-        
+
         // Apply filters
-        if(predicates!=null){
+        if (predicates != null) {
             criteriaQuery = criteriaQuery.where(predicates.toArray(new Predicate[0]));
         }
         // Sort By
-        if(orders!=null){
+        if (orders != null) {
             criteriaQuery = criteriaQuery.orderBy(orders);
-        }else{
+        } else {
             criteriaQuery = criteriaQuery.orderBy(criteriaBuilder.desc(root.get("adId")));
         }
-        
-        
+
         TypedQuery<AnalyseData> q = em.createQuery(criteriaQuery);
         q.setFirstResult(firstItem);
         q.setMaxResults(rows);
@@ -204,13 +202,13 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
         }
         return null;
     }
-    
+
     public List<Order> sortBy(Map<String, String> sorts) {
         // Case of empty sorting
-        if(sorts==null || sorts.isEmpty()){
+        if (sorts == null || sorts.isEmpty()) {
             return null;
         }
-        
+
         // Process sorting
         em.flush();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
@@ -220,20 +218,21 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
         Root<AnalyseData> root = criteriaQuery.from(em.getMetamodel().entity(AnalyseData.class));
 
         List<Order> orders = new ArrayList<>();
-        for(Map.Entry<String, String> sort : sorts.entrySet()){
+        for (Map.Entry<String, String> sort : sorts.entrySet()) {
             Order order = ordering(sort.getKey(), sort.getValue());
-            if(order!=null)
+            if (order != null) {
                 orders.add(order);
+            }
         }
         return orders;
     }
-    
-    public List<Predicate> filterBy(Map<String, String> filters){
+
+    public List<Predicate> filterBy(Map<String, String> filters) {
         // Case of empty sorting
-        if(filters==null || filters.isEmpty()){
+        if (filters == null || filters.isEmpty()) {
             return null;
         }
-        
+
         // Process filtering
         List<Predicate> predicates = null;
         return predicates;
@@ -242,15 +241,16 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
     public Order ordering(String field, String sortway) {
         Order order = null;
         // Dismiss rong way
-        if(sortway == null || sortway.matches("UNSORTED"))
+        if (sortway == null || sortway.matches("UNSORTED")) {
             return null;
+        }
         // Define way
         Boolean asc = sortway.matches("ASCENDING");
         // Get managin order
         em.flush();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         Root<AnalyseData> root = cb.createQuery(AnalyseData.class).from(em.getMetamodel().entity(AnalyseData.class));
-        
+
         Expression<String> ex = null;
         switch (field) {
             case "adId":
@@ -266,7 +266,7 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
                 order = asc ? cb.asc(ex) : cb.desc(ex);
                 break;
             case "adType":
-               ex = root.get("adType");
+                ex = root.get("adType");
                 order = asc ? cb.asc(ex) : cb.desc(ex);
                 break;
             case "adValue":
@@ -351,6 +351,4 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
         return order;
     }
 
-    
-    
 }

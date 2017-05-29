@@ -32,7 +32,7 @@
 .ui-ribbon .ui-ribbon-group .ui-ribbon-group-label {
     text-align: center;
     font-weight: 400;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     margin-top: -1px;
     border-width: 1px 0 0;
     color: #333333;
@@ -223,7 +223,7 @@ ul.ui-ribbonset-small .ui-ribbonset-icon .ui-button-text.ui-c{
     text-align: left;
     font-size: 9pt;
     font-weight: lighter;
-    
+
 }
 ul.ui-ribbonset-small .ui-ribbonset-icon .ui-button-text.ui-c:hover{
     color:white;

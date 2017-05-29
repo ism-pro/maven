@@ -29,5 +29,5 @@ public class IsmNcastateFacade extends AbstractFacade<IsmNcastate> {
     public IsmNcastateFacade() {
         super(IsmNcastate.class);
     }
-    
+
 }

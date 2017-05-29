@@ -20,21 +20,18 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class DocTypeFacade extends AbstractFacade<DocType> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
-    
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-    private final String SELECTALLBYLASTCHANGED           = "DocType.selectAllByLastChange";
-    private final String FIND_BY_PROCESSUS                = "DocType.findByDctType";            // query = "SELECT d FROM DocType d WHERE d.dctType = :dctType"
-    private final String FIND_BY_DESIGNATION              = "DocType.findByDctDesignation";     // query = "SELECT d FROM DocType d WHERE d.dctDesignation = :dctDesignation"
-    
-    
-    
+
+    private final String SELECTALLBYLASTCHANGED = "DocType.selectAllByLastChange";
+    private final String FIND_BY_PROCESSUS = "DocType.findByDctType";            // query = "SELECT d FROM DocType d WHERE d.dctType = :dctType"
+    private final String FIND_BY_DESIGNATION = "DocType.findByDctDesignation";     // query = "SELECT d FROM DocType d WHERE d.dctDesignation = :dctDesignation"
 
     public DocTypeFacade() {
         super(DocType.class);
@@ -45,30 +42,29 @@ public class DocTypeFacade extends AbstractFacade<DocType> {
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
-    
+
     public List<DocType> findByCode(String code) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("dctType", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<DocType> findByDesignation(String designation) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("dctDesignation", designation);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;

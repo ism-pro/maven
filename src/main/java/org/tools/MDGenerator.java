@@ -37,7 +37,7 @@ public class MDGenerator {
 
             System.out.println(output);
             System.out.println("Length :" + output.length());
-            if(output.length()<64){
+            if (output.length() < 64) {
                 output = "0" + output;
             }
             System.out.println(output);

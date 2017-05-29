@@ -77,8 +77,7 @@ public class NoCacheFilter implements Filter {
 	    }
 	    log(buf.toString());
 	}
-        */
-         
+         */
     }
 
     private void doAfterProcessing(RequestWrapper request, ResponseWrapper response)
@@ -190,6 +189,7 @@ public class NoCacheFilter implements Filter {
 
     /**
      * Return the filter configuration object for this filter.
+     *
      * @return the filter config
      */
     public FilterConfig getFilterConfig() {

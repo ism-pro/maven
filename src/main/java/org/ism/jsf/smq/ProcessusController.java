@@ -93,7 +93,7 @@ public class ProcessusController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared processus
      */
     public Processus prepareCreate() {
@@ -297,8 +297,8 @@ public class ProcessusController implements Serializable {
         items = getFacade().findAll();
         return items;
     }
-    
-    public List<Processus> getApprouvedItems(){
+
+    public List<Processus> getApprouvedItems() {
         items = getFacade().findApprouvedItems();
         return items;
     }

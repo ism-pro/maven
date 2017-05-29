@@ -203,37 +203,55 @@ public class NonConformiteRequestDomain {
         this.itemsCounterCanceledByProcessus = itemsCounterCanceledByProcessus;
     }
 
-    
     public void addItemsCounterCreatedByProcessus(List<Integer> lst) {
-        if(itemsCounterCreatedByProcessus==null)    itemsCounterCreatedByProcessus = new ArrayList<>();
-        if(itemsCounterCreatedByProcessus.size()==12)   itemsCounterCreatedByProcessus.clear();
+        if (itemsCounterCreatedByProcessus == null) {
+            itemsCounterCreatedByProcessus = new ArrayList<>();
+        }
+        if (itemsCounterCreatedByProcessus.size() == 12) {
+            itemsCounterCreatedByProcessus.clear();
+        }
         itemsCounterCreatedByProcessus.add(lst);
     }
 
     public void addItemsCounterRequestByProcessus(List<Integer> lst) {
-        if(itemsCounterRequestByProcessus==null)    itemsCounterRequestByProcessus = new ArrayList<>();
-        if(itemsCounterRequestByProcessus.size()==12)   itemsCounterRequestByProcessus.clear();
+        if (itemsCounterRequestByProcessus == null) {
+            itemsCounterRequestByProcessus = new ArrayList<>();
+        }
+        if (itemsCounterRequestByProcessus.size() == 12) {
+            itemsCounterRequestByProcessus.clear();
+        }
         itemsCounterRequestByProcessus.add(lst);
     }
 
     public void addItemsCounterProcessingByProcessus(List<Integer> lst) {
-        if(itemsCounterProcessingByProcessus==null)    itemsCounterProcessingByProcessus = new ArrayList<>();
-        if(itemsCounterProcessingByProcessus.size()==12)   itemsCounterProcessingByProcessus.clear();
+        if (itemsCounterProcessingByProcessus == null) {
+            itemsCounterProcessingByProcessus = new ArrayList<>();
+        }
+        if (itemsCounterProcessingByProcessus.size() == 12) {
+            itemsCounterProcessingByProcessus.clear();
+        }
         itemsCounterProcessingByProcessus.add(lst);
     }
 
     public void addItemsCounterFinishedByProcessus(List<Integer> lst) {
-        if(itemsCounterFinishedByProcessus==null)    itemsCounterFinishedByProcessus = new ArrayList<>();
-        if(itemsCounterFinishedByProcessus.size()==12)   itemsCounterFinishedByProcessus.clear();
+        if (itemsCounterFinishedByProcessus == null) {
+            itemsCounterFinishedByProcessus = new ArrayList<>();
+        }
+        if (itemsCounterFinishedByProcessus.size() == 12) {
+            itemsCounterFinishedByProcessus.clear();
+        }
         itemsCounterFinishedByProcessus.add(lst);
     }
 
     public void addItemsCounterCanceledByProcessus(List<Integer> lst) {
-        if(itemsCounterCanceledByProcessus==null)    itemsCounterCanceledByProcessus = new ArrayList<>();
-        if(itemsCounterCanceledByProcessus.size()==12)   itemsCounterCanceledByProcessus.clear();
+        if (itemsCounterCanceledByProcessus == null) {
+            itemsCounterCanceledByProcessus = new ArrayList<>();
+        }
+        if (itemsCounterCanceledByProcessus.size() == 12) {
+            itemsCounterCanceledByProcessus.clear();
+        }
         itemsCounterCanceledByProcessus.add(lst);
     }
-
 
     public Integer getYear() {
         return year;

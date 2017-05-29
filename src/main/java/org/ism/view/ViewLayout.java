@@ -17,9 +17,8 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.ResizeEvent;
 
-
 @Named
-@ManagedBean (name="viewLayout")
+@ManagedBean(name = "viewLayout")
 @SessionScoped
 public class ViewLayout {
 
@@ -45,7 +44,6 @@ public class ViewLayout {
         layout.setFullPage(true);
         layout.setStateful(true);
 
-
         // NorthUnit
         {
             northUnit = new LayoutUnit();
@@ -64,7 +62,7 @@ public class ViewLayout {
             northUnit.setEffectSpeed(effectSpeed);
             northUnit.setParent(layout);
         }
-        
+
         // WestUnit
         {
             westUnit = new LayoutUnit();
@@ -125,14 +123,12 @@ public class ViewLayout {
         // CenterUnit
         centerUnit = new LayoutUnit();
         centerUnit.setParent(layout);
-        
 
     }
 
     public void handleInitLayout() {
         initialize();
     }
-
 
     /**
      *
@@ -205,7 +201,7 @@ public class ViewLayout {
         }
     }
 
-    public void handleCollapseNorthUnit(){
+    public void handleCollapseNorthUnit() {
         this.northUnit.setCollapsed(true);
     }
 
@@ -256,6 +252,5 @@ public class ViewLayout {
     public void setCenterUnit(LayoutUnit centerUnit) {
         this.centerUnit = centerUnit;
     }
-
 
 }

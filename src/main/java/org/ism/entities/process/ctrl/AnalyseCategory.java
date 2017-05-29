@@ -203,5 +203,5 @@ public class AnalyseCategory implements Serializable {
     public String toString() {
         return "org.ism.entities.AnalyseCategory[ acId=" + acId + " ]";
     }
-    
+
 }

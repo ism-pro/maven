@@ -20,6 +20,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class NonConformiteFrequencyFacade extends AbstractFacade<NonConformiteFrequency> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -28,11 +29,10 @@ public class NonConformiteFrequencyFacade extends AbstractFacade<NonConformiteFr
         return em;
     }
 
-    private final String SELECTALLBYLASTCHANGED           = "NonConformiteFrequency.selectAllByLastChange";     // query = "SELECT n FROM NonConformiteFrequency n ORDER BY n.ncfChanged DESC"
-    private final String FIND_BY_PROCESSUS                = "NonConformiteFrequency.findByNcfFrequency";        // query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfFrequency = :ncfFrequency"
-    private final String FIND_BY_DESIGNATION              = "NonConformiteFrequency.findByNcfDesignation";      // query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfDesignation = :ncfDesignation
-    
-    
+    private final String SELECTALLBYLASTCHANGED = "NonConformiteFrequency.selectAllByLastChange";     // query = "SELECT n FROM NonConformiteFrequency n ORDER BY n.ncfChanged DESC"
+    private final String FIND_BY_PROCESSUS = "NonConformiteFrequency.findByNcfFrequency";        // query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfFrequency = :ncfFrequency"
+    private final String FIND_BY_DESIGNATION = "NonConformiteFrequency.findByNcfDesignation";      // query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfDesignation = :ncfDesignation
+
     public NonConformiteFrequencyFacade() {
         super(NonConformiteFrequency.class);
     }
@@ -42,30 +42,29 @@ public class NonConformiteFrequencyFacade extends AbstractFacade<NonConformiteFr
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
-    
+
     public List<NonConformiteFrequency> findByCode(String code) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("ncfFrequency", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<NonConformiteFrequency> findByDesignation(String designation) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("ncfDesignation", designation);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;

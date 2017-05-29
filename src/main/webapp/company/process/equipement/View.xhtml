@@ -7,88 +7,88 @@
       xmlns:p="http://primefaces.org/ui">
 
 
-        <ui:composition template="/tmpl/MainWindow.xhtml">
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-            <ui:define name="body">
-                <h1><h:outputText value="#{ism.EquipementTitleView}"/></h1>
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.EquipementTitleView}"/></h1>
 
-                <h:form id="bodyForm">
+            <h:form id="bodyForm">
 
-                    <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
-                                 rendered="#{equipementController.selected != null}">
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{equipementController.selected != null}">
 
-                        <h:outputText value="#{ism.EquipementField_EId}"  />
-                        <h:outputText value="#{equipementController.selected.EId}" 
-                                      title="#{ism.EquipementFieldInfo_EId}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_EEquipement}"  />
-                        <h:outputText value="#{equipementController.selected.EEquipement}" 
-                                      title="#{ism.EquipementFieldInfo_EEquipement}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_EDesignation}"  />
-                        <h:outputText value="#{equipementController.selected.EDesignation}" 
-                                      title="#{ism.EquipementFieldInfo_EDesignation}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_ECf}"  />
-                        <h:outputText value="#{equipementController.selected.ECf}" 
-                                      title="#{ism.EquipementFieldInfo_ECf}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_EFamille}"  />
-                        <h:outputText value="#{equipementController.selected.EFamille}" 
-                                      title="#{ism.EquipementFieldInfo_EFamille}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_ESsFamille}"  />
-                        <h:outputText value="#{equipementController.selected.ESsFamille}" 
-                                      title="#{ism.EquipementFieldInfo_ESsFamille}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_EGroupe}"  />
-                        <h:outputText value="#{equipementController.selected.EGroupe}" 
-                                      title="#{ism.EquipementFieldInfo_EGroupe}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_EResponsable}"  />
-                        <h:outputText value="#{equipementController.selected.EResponsable}" 
-                                      title="#{ism.EquipementFieldInfo_EResponsable}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_EDescription}"  />
-                        <h:outputText value="#{equipementController.selected.EDescription}" 
-                                      title="#{ism.EquipementFieldInfo_EDescription}" />
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_EDeleted}"  />
-                        <p:selectBooleanCheckbox value="#{equipementController.selected.EDeleted}" 
-                                                 disabled="true"/>
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_ECreated}"  />
-                        <h:outputText value="#{equipementController.selected.ECreated}" 
-                                      title="#{ism.EquipementFieldInfo_ECreated}" >
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_EChanged}"  />
-                        <h:outputText value="#{equipementController.selected.EChanged}" 
-                                      title="#{ism.EquipementFieldInfo_EChanged}" >
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        
-                        
-                        <h:outputText value="#{ism.EquipementField_ECompany}"  />
-                        <h:outputText value="#{equipementController.selected.ECompany.CCompany} - #{equipementController.selected.ECompany.CDesignation}" 
-                                      title="#{ism.EquipementFieldInfo_ECompany}" />
-                        
-                        
-                        
-                        
-                    </p:panelGrid>
+                    <h:outputText value="#{ism.EquipementField_EId}"  />
+                    <h:outputText value="#{equipementController.selected.EId}" 
+                                  title="#{ism.EquipementFieldInfo_EId}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_EEquipement}"  />
+                    <h:outputText value="#{equipementController.selected.EEquipement}" 
+                                  title="#{ism.EquipementFieldInfo_EEquipement}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_EDesignation}"  />
+                    <h:outputText value="#{equipementController.selected.EDesignation}" 
+                                  title="#{ism.EquipementFieldInfo_EDesignation}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_ECf}"  />
+                    <h:outputText value="#{equipementController.selected.ECf}" 
+                                  title="#{ism.EquipementFieldInfo_ECf}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_EFamille}"  />
+                    <h:outputText value="#{equipementController.selected.EFamille}" 
+                                  title="#{ism.EquipementFieldInfo_EFamille}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_ESsFamille}"  />
+                    <h:outputText value="#{equipementController.selected.ESsFamille}" 
+                                  title="#{ism.EquipementFieldInfo_ESsFamille}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_EGroupe}"  />
+                    <h:outputText value="#{equipementController.selected.EGroupe}" 
+                                  title="#{ism.EquipementFieldInfo_EGroupe}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_EResponsable}"  />
+                    <h:outputText value="#{equipementController.selected.EResponsable}" 
+                                  title="#{ism.EquipementFieldInfo_EResponsable}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_EDescription}"  />
+                    <h:outputText value="#{equipementController.selected.EDescription}" 
+                                  title="#{ism.EquipementFieldInfo_EDescription}" />
+
+
+                    <h:outputText value="#{ism.EquipementField_EDeleted}"  />
+                    <p:selectBooleanCheckbox value="#{equipementController.selected.EDeleted}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.EquipementField_ECreated}"  />
+                    <h:outputText value="#{equipementController.selected.ECreated}" 
+                                  title="#{ism.EquipementFieldInfo_ECreated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.EquipementField_EChanged}"  />
+                    <h:outputText value="#{equipementController.selected.EChanged}" 
+                                  title="#{ism.EquipementFieldInfo_EChanged}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.EquipementField_ECompany}"  />
+                    <h:outputText value="#{equipementController.selected.ECompany.CCompany} - #{equipementController.selected.ECompany.CDesignation}" 
+                                  title="#{ism.EquipementFieldInfo_ECompany}" />
+
+
+
+
+                </p:panelGrid>
 
                 <h:panelGroup id="btn-crud-zone_id">
                     <p:commandButton icon="ui-btn-Print"
@@ -151,7 +151,7 @@
                                  action="Edit.xhtml?faces-redirect=true"
                                  title="Permet d'éditer le processus sélectionné."
                                  disabled="#{empty equipementController.selected 
-                                                 or empty equipementController.selected.EId}"
+                                             or empty equipementController.selected.EId}"
                                  />
                 <p:commandButton icon="ui-btn-Delete"
                                  styleClass="options-btn"
@@ -166,10 +166,10 @@
                                  #{viewConfirmDialog.dlg.setMessage(ism.EquipementDlgMessage)};
                                  PF('mainConfirmDialog').show()"
                                  disabled="#{empty equipementController.selected 
-                                         or empty equipementController.selected.EId}"
-                                    >
-                        <p:confirm  />
-                    </p:commandButton>
+                                             or empty equipementController.selected.EId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
                 <p:commandButton icon="ui-btn-Cancel"
                                  styleClass="options-btn"
                                  value="#{ism.Cancel}" 

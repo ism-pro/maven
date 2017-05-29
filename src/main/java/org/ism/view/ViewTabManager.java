@@ -111,52 +111,50 @@ public class ViewTabManager implements Serializable {
     private StaffGroupDefRoleController staffGroupDefRoleCtrl;
     private List<StaffGroupDefRole> staffGroupDefRole;
     private List<StaffGroupDefRole> staffGroupDefRoleFiltered;
-    
+
     private StaffGroupsController staffGroupsCtrl;
     private List<StaffGroups> staffGroups;
     private List<StaffGroups> staffGroupsFiltered;
-    
+
     private StaffController staffCtrl;
     private List<Staff> staff;
     private List<Staff> staffFiltered;
-    
-    
+
     private EquipementController equipementCtrl;
     private List<Equipement> equipement;
     private List<Equipement> equipementFiltered;
-        
+
     private UniteController uniteCtrl;
     private List<Unite> unite;
     private List<Unite> uniteFiltered;
-    
+
     private AnalyseAllowedController analyseallowedCtrl;
     private List<AnalyseAllowed> analyseallowed;
     private List<AnalyseAllowed> analyseallowedFiltered;
-            
+
     private AnalyseCategoryController analysecategoryCtrl;
     private List<AnalyseCategory> analysecategory;
     private List<AnalyseCategory> analysecategoryFiltered;
-            
+
     private AnalyseDataController analysedataCtrl;
     private List<AnalyseData> analysedata;
     private List<AnalyseData> analysedataFiltered;
-            
+
     private AnalyseMethodController analysemethodCtrl;
     private List<AnalyseMethod> analysemethod;
     private List<AnalyseMethod> analysemethodFiltered;
-            
+
     private AnalyseNotifyController analysenotifyCtrl;
     private List<AnalyseNotify> analysenotify;
     private List<AnalyseNotify> analysenotifyFiltered;
-            
+
     private AnalysePointController analysepointCtrl;
     private List<AnalysePoint> analysepoint;
     private List<AnalysePoint> analysepointFiltered;
-            
+
     private AnalyseTypeController analysetypeCtrl;
     private List<AnalyseType> analysetype;
     private List<AnalyseType> analysetypeFiltered;
-    
 
     /**
      * Creates a new instance of FilterNCRequestView
@@ -198,7 +196,7 @@ public class ViewTabManager implements Serializable {
         ncRequestCtrl = (NonConformiteRequestController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteRequestController");
         ncRequest = ncRequestCtrl.getItemsByLastChanged();
-        
+
         ncUniteCtrl = (NonConformiteUniteController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteUniteController");
         ncUnite = ncUniteCtrl.getItemsByLastChanged();
@@ -210,51 +208,51 @@ public class ViewTabManager implements Serializable {
         staffGroupDefRoleCtrl = (StaffGroupDefRoleController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "staffGroupDefRoleController");
         staffGroupDefRole = staffGroupDefRoleCtrl.getItemsByLastChanged();
-        
+
         staffGroupsCtrl = (StaffGroupsController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "staffGroupsController");
         staffGroups = staffGroupsCtrl.getItemsByLastChanged();
-        
+
         staffCtrl = (StaffController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "staffController");
         staff = staffCtrl.getItemsByLastChanged();
-        
+
         equipementCtrl = (EquipementController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "equipementController");
         equipement = equipementCtrl.getItemsByLastChanged();
-        
+
         uniteCtrl = (UniteController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "uniteController");
         unite = uniteCtrl.getItemsByLastChanged();
-        
+
         analyseallowedCtrl = (AnalyseAllowedController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseAllowedController");
         analyseallowed = analyseallowedCtrl.getItemsByLastChanged();
-        
+
         analysecategoryCtrl = (AnalyseCategoryController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseCategoryController");
         analysecategory = analysecategoryCtrl.getItemsByLastChanged();
-        
+
         analysedataCtrl = (AnalyseDataController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseDataController");
         //analysedata = analysedataCtrl.getItemsByLastChanged();
-        
+
         analysemethodCtrl = (AnalyseMethodController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseMethodController");
         analysemethod = analysemethodCtrl.getItemsByLastChanged();
-        
+
         analysenotifyCtrl = (AnalyseNotifyController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseNotifyController");
         analysenotify = analysenotifyCtrl.getItemsByLastChanged();
-        
+
         analysepointCtrl = (AnalysePointController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analysePointController");
         analysepoint = analysepointCtrl.getItemsByLastChanged();
-        
+
         analysetypeCtrl = (AnalyseTypeController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseTypeController");
         analysetype = analysetypeCtrl.getItemsByLastChanged();
-        
+
     }
 
     /**
@@ -466,7 +464,7 @@ public class ViewTabManager implements Serializable {
     public void setStaffGroupDefRoleFiltered(List<StaffGroupDefRole> staffGroupDefRoleFiltered) {
         this.staffGroupDefRoleFiltered = staffGroupDefRoleFiltered;
     }
-    
+
     /**
      * *************************************************************************
      * @return staff griyos
@@ -487,10 +485,10 @@ public class ViewTabManager implements Serializable {
     public void setStaffGroupsFiltered(List<StaffGroups> staffGroupsFiltered) {
         this.staffGroupsFiltered = staffGroupsFiltered;
     }
-    
+
     /**
      * *************************************************************************
-     * @return staff 
+     * @return staff
      * *************************************************************************
      */
     public List<Staff> getStaff() {
@@ -509,13 +507,11 @@ public class ViewTabManager implements Serializable {
         this.staffFiltered = staff;
     }
 
-    
     /**
      * *************************************************************************
      * @return equipement
      * *************************************************************************
      */
-
     public List<Equipement> getEquipement() {
         return equipement;
     }
@@ -531,10 +527,10 @@ public class ViewTabManager implements Serializable {
     public void setEquipementFiltered(List<Equipement> equipementFiltered) {
         this.equipementFiltered = equipementFiltered;
     }
-    
+
     /**
      * *************************************************************************
-     * @return unite 
+     * @return unite
      * *************************************************************************
      */
     public List<Unite> getUnite() {
@@ -552,7 +548,7 @@ public class ViewTabManager implements Serializable {
     public void setUniteFiltered(List<Unite> uniteFiltered) {
         this.uniteFiltered = uniteFiltered;
     }
-    
+
     /**
      * *************************************************************************
      * @return analyse allowed
@@ -573,7 +569,7 @@ public class ViewTabManager implements Serializable {
     public void setAnalyseallowedFiltered(List<AnalyseAllowed> analyseallowedFiltered) {
         this.analyseallowedFiltered = analyseallowedFiltered;
     }
-    
+
     /**
      * *************************************************************************
      * @return analyse category
@@ -594,16 +590,16 @@ public class ViewTabManager implements Serializable {
     public void setAnalysecategoryFiltered(List<AnalyseCategory> analysecategoryFiltered) {
         this.analysecategoryFiltered = analysecategoryFiltered;
     }
-    
+
     /**
      * *************************************************************************
      * @return analyse data
      * *************************************************************************
      */
-    public LazyDataModel<AnalyseData> getAnalyseDataModel(){
+    public LazyDataModel<AnalyseData> getAnalyseDataModel() {
         return new DataLazyModel(analysedata);
     }
-    
+
     public List<AnalyseData> getAnalysedata() {
         return analysedata;
     }
@@ -619,7 +615,7 @@ public class ViewTabManager implements Serializable {
     public void setAnalysedataFiltered(List<AnalyseData> analysedataFiltered) {
         this.analysedataFiltered = analysedataFiltered;
     }
-    
+
     /**
      * *************************************************************************
      * @return analyse method
@@ -640,7 +636,7 @@ public class ViewTabManager implements Serializable {
     public void setAnalysemethodFiltered(List<AnalyseMethod> analysemethodFiltered) {
         this.analysemethodFiltered = analysemethodFiltered;
     }
-    
+
     /**
      * *************************************************************************
      * @return analyse notify
@@ -661,7 +657,7 @@ public class ViewTabManager implements Serializable {
     public void setAnalysenotifyFiltered(List<AnalyseNotify> analysenotifyFiltered) {
         this.analysenotifyFiltered = analysenotifyFiltered;
     }
-    
+
     /**
      * *************************************************************************
      * @return analyse point
@@ -682,7 +678,7 @@ public class ViewTabManager implements Serializable {
     public void setAnalysepointFiltered(List<AnalysePoint> analysepointFiltered) {
         this.analysepointFiltered = analysepointFiltered;
     }
-    
+
     /**
      * *************************************************************************
      * @return analyse type
@@ -785,7 +781,7 @@ public class ViewTabManager implements Serializable {
         staffGroupDefRole = staffGroupDefRoleCtrl.getItemsByLastChanged();
         staffGroups = staffGroupsCtrl.getItemsByLastChanged();
         staff = staffCtrl.getItemsByLastChanged();
-        
+
         equipement = equipementCtrl.getItemsByLastChanged();
         unite = uniteCtrl.getItemsByLastChanged();
         analyseallowed = analyseallowedCtrl.getItemsByLastChanged();
@@ -888,7 +884,7 @@ public class ViewTabManager implements Serializable {
                 analysetypeCtrl.destroy();
                 analysetype = analysetypeCtrl.getItemsByLastChanged();
                 break;
-            default: 
+            default:
                 String allowedCtrl = " Allowed :  processus / docExplorer / docType / nonConformiteFrequency / "
                         + "nonConformiteGravity / nonConformiteNature / nonConformiteRequest / nonConformiteUnite / "
                         + " staffGroupDef / staffGroupDefRole / staffGroups / staff / equipement /"

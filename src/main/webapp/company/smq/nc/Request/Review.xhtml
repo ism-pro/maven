@@ -99,20 +99,20 @@
 
                     <p:outputLabel value="#{ism.NonConformiteActionsField_ncaNc}" />
                     <p:outputLabel style="margin-left: 5px;"
-                                       value="#{nonConformiteRequestController.selected.ncrId} - #{nonConformiteRequestController.selected.ncrTitle}" />
+                                   value="#{nonConformiteRequestController.selected.ncrId} - #{nonConformiteRequestController.selected.ncrTitle}" />
 
                     <h:panelGroup>
-                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaStaff}" style="font-weight: bold;" /> : 
-                    <p:outputLabel value="#{nonConformiteActionsController.selected.ncaStaff.stFirstname} #{nonConformiteActionsController.selected.ncaStaff.stLastname} #{nonConformiteActionsController.selected.ncaStaff.stMiddlename} [#{nonConformiteActionsController.selected.ncaStaff.stStaff}]" /> 
-                    <br />
-                    <p:outputLabel value="#{ism.NonConformiteActionsField_ncaDeadline}" style="font-weight: bold;" /> : 
-                    <p:outputLabel value="#{nonConformiteActionsController.selected.ncaCreated}" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel> 
+                        <p:outputLabel value="#{ism.NonConformiteActionsField_ncaStaff}" style="font-weight: bold;" /> : 
+                        <p:outputLabel value="#{nonConformiteActionsController.selected.ncaStaff.stFirstname} #{nonConformiteActionsController.selected.ncaStaff.stLastname} #{nonConformiteActionsController.selected.ncaStaff.stMiddlename} [#{nonConformiteActionsController.selected.ncaStaff.stStaff}]" /> 
+                        <br />
+                        <p:outputLabel value="#{ism.NonConformiteActionsField_ncaDeadline}" style="font-weight: bold;" /> : 
+                        <p:outputLabel value="#{nonConformiteActionsController.selected.ncaCreated}" ><f:convertDateTime pattern="dd/MM/yyyy" /></p:outputLabel> 
                     </h:panelGroup>
                     <h:outputText value="#{nonConformiteActionsController.selected.ncaDescription}" escape="false" style="white-space:pre-line;" />
 
                 </p:panelGrid>
             </p:panel>
-            
+
         </ui:define>
 
 

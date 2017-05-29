@@ -50,8 +50,9 @@ public class StaffSetupController implements Serializable {
 
     @PostConstruct
     public void init() {
-        if(service == null)
+        if (service == null) {
             service = new ThemeService();
+        }
         themes = service.getThemes();
     }
 
@@ -278,7 +279,6 @@ public class StaffSetupController implements Serializable {
     public void setService(ThemeService service) {
         this.service = service;
     }
-
 
     public void handleThemeChanged(ValueChangeEvent event) {
         Theme newTheme = (Theme) event.getNewValue();

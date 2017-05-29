@@ -62,11 +62,11 @@
                                 />
                 </p:contextMenu>
 
-                
-                
-                
-                
-                
+
+
+
+
+
                 <p:dataTable id="datalist" widgetVar="datalist"
                              value="#{viewTabManager.processus}" var="item"
                              filteredValue="#{viewTabManager.processusFiltered}"
@@ -91,7 +91,7 @@
 
 
 
-                   
+
                     <f:facet name="{Exporters}">
                         <div style="float:right" >
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
@@ -105,7 +105,7 @@
                             </p:commandLink>
                         </div>
                     </f:facet>
-                    
+
                     <f:facet name="header">
                         <p:commandButton id="toggler" type="button" value="Columns" 
                                          style="float:left;" icon="ui-icon-calculator" 
@@ -128,7 +128,7 @@
                     </f:facet>
 
 
-                    
+
 
 
 
@@ -138,10 +138,10 @@
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processusController.handleColumnReorder}"  />
 
 
-                    
-                    
-                    
-                    
+
+
+
+
                     <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
                               exportable="false"
                               visible="#{processusController.getIsVisibleColKey(ism.CtrlShort)}" >
@@ -168,7 +168,7 @@
                         <h:outputText value="#{item.PProcessus}"/>
                     </p:column>
 
-                    
+
                     <p:column headerText="#{ism.ProcessusField_pDesignation}" 
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pDesignation)}"
                               sortBy="#{item.PDesignation}" 
@@ -176,7 +176,7 @@
                         <h:outputText value="#{item.PDesignation}"/>
                     </p:column>
 
-                    
+
                     <p:column headerText="#{ism.ProcessusField_pStaffManager}" 
                               visible="#{processusController.getIsVisibleColKey(ism.ProcessusField_pStaffManager)}"
                               sortBy="#{item.PStaffmanager.stFirstname} #{item.PStaffmanager.stLastname} [#{item.PStaffmanager.stStaff}]" 

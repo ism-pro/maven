@@ -238,7 +238,6 @@ public class Equipement implements Serializable {
         this.eCompany = eCompany;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -272,5 +271,5 @@ public class Equipement implements Serializable {
     public void setAnalysePointCollection(Collection<AnalysePoint> analysePointCollection) {
         this.analysePointCollection = analysePointCollection;
     }
-    
+
 }

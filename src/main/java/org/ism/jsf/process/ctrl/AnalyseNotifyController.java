@@ -32,13 +32,12 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-
-
-@ManagedBean(name="analyseNotifyController")
+@ManagedBean(name = "analyseNotifyController")
 @SessionScoped
 public class AnalyseNotifyController implements Serializable {
 
-    @EJB private org.ism.sessions.process.ctrl.AnalyseNotifyFacade ejbFacade;
+    @EJB
+    private org.ism.sessions.process.ctrl.AnalyseNotifyFacade ejbFacade;
     private List<AnalyseNotify> items = null;
     private AnalyseNotify selected;
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
@@ -66,8 +65,7 @@ public class AnalyseNotifyController implements Serializable {
         String src_09 = "AnalyseNotifyField_aaCreated";
         String src_10 = "AnalyseNotifyField_aaChanged";
         String src_11 = "AnalyseNotifyField_anCompany";
-        
-        
+
         // Setup initial visibility
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
@@ -110,7 +108,7 @@ public class AnalyseNotifyController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepare create analyse notification
      */
     public AnalyseNotify prepareCreate() {
@@ -164,7 +162,7 @@ public class AnalyseNotifyController implements Serializable {
      */
     /**
      *
-     * @param e toogle envent 
+     * @param e toogle envent
      */
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
@@ -226,8 +224,6 @@ public class AnalyseNotifyController implements Serializable {
             }
         }
     }
-    
-    
 
     public void createUnReleasded() {
         isReleaseSelected = false;
@@ -388,7 +384,7 @@ public class AnalyseNotifyController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass=AnalyseNotify.class)
+    @FacesConverter(forClass = AnalyseNotify.class)
     public static class AnalyseNotifyControllerConverter implements Converter {
 
         @Override
@@ -396,7 +392,7 @@ public class AnalyseNotifyController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            AnalyseNotifyController controller = (AnalyseNotifyController)facesContext.getApplication().getELResolver().
+            AnalyseNotifyController controller = (AnalyseNotifyController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "analyseNotifyController");
             return controller.getAnalyseNotify(getKey(value));
         }
@@ -428,9 +424,6 @@ public class AnalyseNotifyController implements Serializable {
         }
 
     }
-
-    
-    
 
     /**
      * ************************************************************************
@@ -475,7 +468,7 @@ public class AnalyseNotifyController implements Serializable {
             }
         }
     }
-    
+
     @FacesValidator(value = "AnalyseNotify_DesignationValidator")
     public static class AnalyseNotifyDesignationValidator implements Validator {
 

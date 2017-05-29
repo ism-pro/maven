@@ -192,5 +192,5 @@ public class Unite implements Serializable {
     public void setAnalyseTypeCollection(Collection<AnalyseType> analyseTypeCollection) {
         this.analyseTypeCollection = analyseTypeCollection;
     }
-    
+
 }

@@ -76,7 +76,7 @@ public class IsmGenreController implements Serializable {
 
     public List<IsmGenre> getItems() {
         //if (items == null) {
-            items = getFacade().findAll();
+        items = getFacade().findAll();
         //}
         return items;
     }

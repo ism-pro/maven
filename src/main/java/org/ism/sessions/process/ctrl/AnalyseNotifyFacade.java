@@ -124,7 +124,7 @@ public class AnalyseNotifyFacade extends AbstractFacade<AnalyseNotify> {
         }
         return null;
     }
-    
+
     public List<AnalyseNotify> findByAlarmAllowedId(IsmAnalyseAlarm anAlarm, AnalyseAllowed anallowedId) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_ALARM_AND_ALLOWEDID)
@@ -136,8 +136,8 @@ public class AnalyseNotifyFacade extends AbstractFacade<AnalyseNotify> {
             return q.getResultList();
         }
         return null;
-    }    
-    
+    }
+
     public List<AnalyseNotify> findByAlarmStaffGroupDef(IsmAnalyseAlarm anAlarm, StaffGroupDef anGroup) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_ALARM_AND_GROUP)
@@ -149,8 +149,8 @@ public class AnalyseNotifyFacade extends AbstractFacade<AnalyseNotify> {
             return q.getResultList();
         }
         return null;
-    }    
-    
+    }
+
     public List<AnalyseNotify> findByAlarmStaff(IsmAnalyseAlarm anAlarm, Staff anStaff) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_ALARM_AND_STAFF)
@@ -164,6 +164,4 @@ public class AnalyseNotifyFacade extends AbstractFacade<AnalyseNotify> {
         return null;
     }
 
-    
-    
 }

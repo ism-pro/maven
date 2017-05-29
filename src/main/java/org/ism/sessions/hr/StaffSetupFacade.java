@@ -21,6 +21,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class StaffSetupFacade extends AbstractFacade<StaffSetup> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -40,25 +41,23 @@ public class StaffSetupFacade extends AbstractFacade<StaffSetup> {
         Query q = em.createNamedQuery("StaffSetup.findByStsStaff").setParameter("stsStaff", staff);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return (StaffSetup) q.getSingleResult();
         }
         return null;
     }
-    
+
     public StaffSetup findByStaff(String staff) {
         em.flush();
         Query q = em.createNamedQuery("StaffSetup.findByStsStaffStr").setParameter("stsStaff", staff);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return (StaffSetup) q.getSingleResult();
         }
         return null;
     }
-    
-    
-    
+
     public List<StaffSetup> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

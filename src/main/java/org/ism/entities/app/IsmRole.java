@@ -37,6 +37,7 @@ import org.ism.entities.hr.StaffGroupDefRole;
     @NamedQuery(name = "IsmRole.findByRole", query = "SELECT i FROM IsmRole i WHERE i.role = :role"),
     @NamedQuery(name = "IsmRole.findByRolename", query = "SELECT i FROM IsmRole i WHERE i.rolename = :rolename")})
 public class IsmRole implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -126,4 +127,4 @@ public class IsmRole implements Serializable {
         return "org.ism.entities.IsmRole[ id=" + id + " ]";
     }
 
-    }
+}

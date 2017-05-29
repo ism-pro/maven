@@ -27,7 +27,7 @@
                         <p:inputText id="PProcessus" 
                                      value="#{processusController.selected.PProcessus}" 
                                      title="#{ism.ProcessusFieldInfo_pProcessus}" 
-                                     
+
                                      required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pProcessus}"/>
                         <p:message for="PProcessus" />
                     </h:panelGrid>
@@ -38,7 +38,7 @@
                         <p:inputText id="PDesignation" 
                                      value="#{processusController.selected.PDesignation}"
                                      title="#{ism.ProcessusFieldInfo_pDesignation}" 
-                                     
+
                                      required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pDesignation}"/>
                         <p:message for="PDesignation"   />
                     </h:panelGrid>
@@ -71,8 +71,8 @@
                                              required="true" 
                                              requiredMessage="#{ism.ProcessusRequiredMsg_pDeleted}"/>
 
-                    
-                    
+
+
                     <p:outputLabel value="#{ism.ProcessusField_pCreated}" 
                                    rendered="false" for="PCreated" />
                     <p:calendar id="PCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
@@ -82,8 +82,8 @@
                                 requiredMessage="#{ism.ProcessusRequiredMsg_pCreated}" 
                                 showOn="button"/>
 
-                    
-                    
+
+
                     <p:outputLabel value="#{ism.ProcessusField_pChanged}" 
                                    rendered="false" for="PChanged" />
                     <p:calendar id="PChanged"  rendered="false"

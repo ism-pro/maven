@@ -145,11 +145,11 @@ public class JsfUtil {
         System.out.println(Group + " " + df.format(new Date()) + " >> " + msg);
     }
 
-    
     /**
-     * Allow to retrive a component specify by an id 
+     * Allow to retrive a component specify by an id
+     *
      * @param id defined html id
-     * @return  the corresponding component of the id
+     * @return the corresponding component of the id
      */
     public static UIComponent findComponent(final String id) {
         final UIComponent[] found = new UIComponent[1];

@@ -32,7 +32,7 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean(name="nonConformiteNatureController")
+@ManagedBean(name = "nonConformiteNatureController")
 @SessionScoped
 public class NonConformiteNatureController implements Serializable {
 
@@ -63,7 +63,7 @@ public class NonConformiteNatureController implements Serializable {
         NonConformiteNatureFieldInfo_ncnDeleted=Suppression
         NonConformiteNatureFieldInfo_ncnCreated=Création
         NonConformiteNatureFieldInfo_ncnChanged=Modif.
-        */
+         */
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteNatureField_ncnId"));
@@ -100,7 +100,7 @@ public class NonConformiteNatureController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepare selected non conformite nature
      */
     public NonConformiteNature prepareCreate() {
@@ -204,7 +204,7 @@ public class NonConformiteNatureController implements Serializable {
                 getString("NonConformiteNaturePersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteNaturePersistenceCreatedDetail")
-                + selected.getNcnNature()+ " <br > " + selected.getNcnDesignation());
+                + selected.getNcnNature() + " <br > " + selected.getNcnDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -236,7 +236,7 @@ public class NonConformiteNatureController implements Serializable {
                 getString("NonConformiteNaturePersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteNaturePersistenceUpdatedDetail")
-                + selected.getNcnNature()+ " <br > " + selected.getNcnDesignation());
+                + selected.getNcnNature() + " <br > " + selected.getNcnDesignation());
     }
 
     public void destroy() {
@@ -334,10 +334,12 @@ public class NonConformiteNatureController implements Serializable {
      */
     /**
      *
-     * @return selected non conformite nature 
+     * @return selected non conformite nature
      */
     public NonConformiteNature getSelected() {
-        if(selected==null)   selected = new NonConformiteNature();
+        if (selected == null) {
+            selected = new NonConformiteNature();
+        }
         return selected;
     }
 

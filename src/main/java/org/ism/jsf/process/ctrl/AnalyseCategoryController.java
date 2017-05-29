@@ -32,13 +32,12 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-
-
-@ManagedBean(name="analyseCategoryController")
+@ManagedBean(name = "analyseCategoryController")
 @SessionScoped
 public class AnalyseCategoryController implements Serializable {
 
-    @EJB private org.ism.sessions.process.ctrl.AnalyseCategoryFacade ejbFacade;
+    @EJB
+    private org.ism.sessions.process.ctrl.AnalyseCategoryFacade ejbFacade;
     private List<AnalyseCategory> items = null;
     private AnalyseCategory selected;
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
@@ -63,8 +62,7 @@ public class AnalyseCategoryController implements Serializable {
         String src_06 = "AnalyseCategoryField_acCreated";
         String src_07 = "AnalyseCategoryField_acChanged";
         String src_08 = "AnalyseCategoryField_acCompany";
-        
-        
+
         // Setup initial visibility
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
@@ -101,7 +99,7 @@ public class AnalyseCategoryController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared analyse category
      */
     public AnalyseCategory prepareCreate() {
@@ -217,8 +215,6 @@ public class AnalyseCategoryController implements Serializable {
             }
         }
     }
-    
-    
 
     public void createUnReleasded() {
         isReleaseSelected = false;
@@ -379,7 +375,7 @@ public class AnalyseCategoryController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass=AnalyseCategory.class)
+    @FacesConverter(forClass = AnalyseCategory.class)
     public static class AnalyseCategoryControllerConverter implements Converter {
 
         @Override
@@ -387,7 +383,7 @@ public class AnalyseCategoryController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            AnalyseCategoryController controller = (AnalyseCategoryController)facesContext.getApplication().getELResolver().
+            AnalyseCategoryController controller = (AnalyseCategoryController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "analyseCategoryController");
             return controller.getAnalyseCategory(getKey(value));
         }
@@ -419,9 +415,6 @@ public class AnalyseCategoryController implements Serializable {
         }
 
     }
-
-    
-    
 
     /**
      * ************************************************************************
@@ -466,7 +459,7 @@ public class AnalyseCategoryController implements Serializable {
             }
         }
     }
-    
+
     @FacesValidator(value = "AnalyseCategory_DesignationValidator")
     public static class AnalyseCategoryDesignationValidator implements Validator {
 

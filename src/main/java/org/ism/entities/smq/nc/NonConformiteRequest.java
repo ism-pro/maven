@@ -74,14 +74,11 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "NonConformiteRequest.itemsApprouvedInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDate >= :ncrFrom AND n.ncrapprouvedDate < :ncrTo"),
     @NamedQuery(name = "NonConformiteRequest.itemsStateInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo"),
     @NamedQuery(name = "NonConformiteRequest.itemsStateInChangedRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrChanged >= :ncrFrom AND n.ncrChanged < :ncrTo"),
-    
+
     @NamedQuery(name = "NonConformiteRequest.itemsCreateInRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo AND n.ncrProcessus= :ncrProcessus"),
     @NamedQuery(name = "NonConformiteRequest.itemsApprouvedInRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDate >= :ncrFrom AND n.ncrapprouvedDate < :ncrTo AND n.ncrProcessus= :ncrProcessus"),
     @NamedQuery(name = "NonConformiteRequest.itemsStateInRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo AND n.ncrProcessus= :ncrProcessus"),
-    @NamedQuery(name = "NonConformiteRequest.itemsStateInChangedRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrChanged >= :ncrFrom AND n.ncrChanged < :ncrTo AND n.ncrProcessus= :ncrProcessus"),
-    
-    
-})
+    @NamedQuery(name = "NonConformiteRequest.itemsStateInChangedRangeByProcessus", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrState.istate = :ncrState AND  n.ncrChanged >= :ncrFrom AND n.ncrChanged < :ncrTo AND n.ncrProcessus= :ncrProcessus"),})
 public class NonConformiteRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -140,8 +137,7 @@ public class NonConformiteRequest implements Serializable {
     @Size(max = 65535)
     @Column(name = "ncr_approuvedDesc", length = 65535)
     private String ncrapprouvedDesc;
-    
-    
+
     @Size(max = 255)
     @Column(name = "ncr_clientname")
     private String ncrClientname;
@@ -157,7 +153,7 @@ public class NonConformiteRequest implements Serializable {
     @Size(max = 128)
     @Column(name = "ncr_clienttype")
     private String ncrClienttype;
-    
+
     @JoinColumn(name = "ncr_company", referencedColumnName = "c_company", nullable = false)
     @ManyToOne(optional = false)
     private Company ncrCompany;
@@ -268,7 +264,6 @@ public class NonConformiteRequest implements Serializable {
     public void setNcrLink(String ncrLink) {
         this.ncrLink = ncrLink;
     }
-
 
     public Date getNcrenddingAction() {
         return ncrenddingAction;
@@ -382,7 +377,6 @@ public class NonConformiteRequest implements Serializable {
         this.ncrUnite = ncrUnite;
     }
 
-
     public IsmNcrstate getNcrState() {
         return ncrState;
     }
@@ -464,5 +458,5 @@ public class NonConformiteRequest implements Serializable {
     public void setNcrClienttype(String ncrClienttype) {
         this.ncrClienttype = ncrClienttype;
     }
-    
+
 }

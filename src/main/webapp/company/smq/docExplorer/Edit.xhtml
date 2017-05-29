@@ -19,8 +19,8 @@
 
                     <p:outputLabel value="#{ism.DocExplorerField_Id}" rendered="true" for="dcId" />
                     <p:outputLabel id="dcId" rendered="true"
-                                 value="#{docExplorerController.selected.dcId}" 
-                                 title="#{ism.DocExplorerFieldInfo_Id}" />
+                                   value="#{docExplorerController.selected.dcId}" 
+                                   title="#{ism.DocExplorerFieldInfo_Id}" />
 
 
                     <p:outputLabel value="#{ism.DocExplorerField_Processus}" for="dcProcessus" />
@@ -184,22 +184,22 @@
 
         <ui:define name="west" id="west">
             <h:panelGroup id="westGroup">
-                    <p:commandButton icon="ui-btn-Save"
-                                     styleClass="options-btn"
-                                     value="#{ism.Change}" 
-                                     actionListener="#{docExplorerController.update}" 
-                                     update=":bodyForm,:growl"
-                                     action="List.xhtml?faces-redirect=true"
-                                     form="bodyForm"
-                                     />
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{docExplorerController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
 
-                    <p:commandButton icon="ui-btn-Cancel"
-                                     styleClass="options-btn"
-                                     value="#{ism.Cancel}" 
-                                     update=":bodyForm,:growl"
-                                     action="./List.xhtml?faces-redirect=true"
-                                     immediate="true"
-                                     />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
 
             </h:panelGroup>
         </ui:define>

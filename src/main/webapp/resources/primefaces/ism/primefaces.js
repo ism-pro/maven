@@ -3063,7 +3063,7 @@ PrimeFaces.widget.DataTable = PrimeFaces.widget.DeferredWidget.extend({
 
         var metaKey = e.metaKey || e.ctrlKey || metaKeyOn;
 
-        
+
         if ($this.cfg.multiSort) {
             if (metaKey) {
                 $this.addSortMeta({
@@ -6837,12 +6837,12 @@ PrimeFaces.widget.SelectOneMenu = PrimeFaces.widget.BaseWidget.extend({
             this.hide()
         }
         a.preventDefault()
-    }, 
+    },
     handleTabKey: function () {
         if (this.panel.is(":visible")) {
             this.selectItem(this.getActiveItem())
         }
-    }, 
+    },
     show: function () {
         var a = this;
         this.alignPanel();
@@ -10308,12 +10308,12 @@ PrimeFaces.widget.OverlayFiltersPanel = PrimeFaces.widget.BaseWidget.extend({
             }
         })
                 .on("keyup.ui-overlaypanel", function (h) {
-            var g = $.ui.keyCode, f = h.which;
-            if (f === g.ENTER || f === g.NUMPAD_ENTER) {
-                d.toggle();
-                h.preventDefault();
-            }
-        });
+                    var g = $.ui.keyCode, f = h.which;
+                    if (f === g.ENTER || f === g.NUMPAD_ENTER) {
+                        d.toggle();
+                        h.preventDefault();
+                    }
+                });
     },
     bindCommonEvents: function () {
         var c = this;

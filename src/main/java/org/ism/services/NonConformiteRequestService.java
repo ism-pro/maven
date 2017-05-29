@@ -446,7 +446,7 @@ public class NonConformiteRequestService {
     }
 
     private void generateMonthStateValueByProcessus(Integer month) {
-        for (int i =0; i < processusController.getApprouvedItems().size(); i++  ) {
+        for (int i = 0; i < processusController.getApprouvedItems().size(); i++) {
             itemsCreatedOnMonth.add(nonConformiteRequestDomain.getItemsCounterCreatedByProcessus().get(i).get(month - 1));
             itemsApprouvedOnMonth.add(nonConformiteRequestDomain.getItemsCounterRequestByProcessus().get(i).get(month - 1));
             itemsProcessingOnMonth.add(nonConformiteRequestDomain.getItemsCounterProcessingByProcessus().get(i).get(month - 1));
@@ -494,7 +494,5 @@ public class NonConformiteRequestService {
     public void setItemsCanceledOnMonth(List<Integer> itemsCanceledOnMonth) {
         this.itemsCanceledOnMonth = itemsCanceledOnMonth;
     }
-    
-    
-    
+
 }

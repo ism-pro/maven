@@ -125,7 +125,7 @@ public class AnalyseAllowedController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared Analyse Allowed
      */
     public AnalyseAllowed prepareCreate() {
@@ -207,7 +207,6 @@ public class AnalyseAllowedController implements Serializable {
                 "Columns : <br>" + columns);
 
     }
-
 
     /**
      * ************************************************************************
@@ -324,8 +323,8 @@ public class AnalyseAllowedController implements Serializable {
         items = getFacade().findAll();
         return items;
     }
-    
-    public List<AnalyseAllowed> getItemsCurrent(){
+
+    public List<AnalyseAllowed> getItemsCurrent() {
         return items;
     }
 
@@ -354,13 +353,13 @@ public class AnalyseAllowedController implements Serializable {
         items = getFacade().findByPoint(aPoint);
         return items;
     }
-    
+
     public List<AnalyseAllowed> getItemsByType(AnalyseType aType) {
         items = getFacade().findByType(aType);
         return items;
     }
-    
-    public List<AnalyseAllowed> getItemsByPointType(AnalysePoint aPoint, AnalyseType aType){
+
+    public List<AnalyseAllowed> getItemsByPointType(AnalysePoint aPoint, AnalyseType aType) {
         items = getFacade().findByPointType(aPoint, aType);
         return items;
     }
@@ -421,7 +420,7 @@ public class AnalyseAllowedController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = AnalyseAllowed.class, value ="AnalyseAllowedConverter")
+    @FacesConverter(forClass = AnalyseAllowed.class, value = "AnalyseAllowedConverter")
     public static class AnalyseAllowedControllerConverter implements Converter {
 
         @Override

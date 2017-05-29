@@ -22,6 +22,7 @@ import javax.faces.convert.FacesConverter;
 @ManagedBean(name = "ismNcrstateController")
 @SessionScoped
 public class IsmNcrstateController implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -77,7 +78,7 @@ public class IsmNcrstateController implements Serializable {
 
     public List<IsmNcrstate> getItems() {
         //if (items == null) {
-            items = getFacade().findAll();
+        items = getFacade().findAll();
         //}
         return items;
     }

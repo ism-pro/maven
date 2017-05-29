@@ -50,6 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 })
 public class DocType implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -187,5 +188,5 @@ public class DocType implements Serializable {
     public String toString() {
         return "org.ism.entities.DocType[ dctId=" + dctId + " ]";
     }
-    
+
 }

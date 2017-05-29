@@ -83,7 +83,9 @@ public class SessionCounterListener implements HttpSessionListener {
                 //System.out.println("    Authenticated attribut is define");
                 if (((boolean) s.getAttribute("authenticated"))) {
                     Staff staff = (Staff) s.getAttribute("astaff"); // define from staffAuthFacade
-                    if(staff!=null) staffs.add(staff);
+                    if (staff != null) {
+                        staffs.add(staff);
+                    }
                 }
             }
         }

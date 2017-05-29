@@ -50,7 +50,7 @@ public class StaffAuthController implements Serializable {
     /**
      * Defualt link in case of login error
      */
-    private final String ON_LOGIN_ERROR = "/login.xhtml?faces-redirect=true";
+    private final String ON_LOGIN_ERROR = "/index.xhtml?faces-redirect=true";
 
     /**
      * Tree node for selected access
@@ -70,6 +70,7 @@ public class StaffAuthController implements Serializable {
      * Manage staff Login
      * <br > Usefull method for request a login connexion of a specified staff,
      * company and password.
+     *
      * @return the connection success if pass login.
      */
     public String login() {
@@ -92,7 +93,8 @@ public class StaffAuthController implements Serializable {
      * Convenient method to logout session
      * <br >
      * release façade and staff and company
-     * @return  Logout link page
+     *
+     * @return Logout link page
      */
     public String logout() {
         staffAuthFacade.logout();

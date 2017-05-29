@@ -32,18 +32,16 @@ public class NonConformiteActionsFacade extends AbstractFacade<NonConformiteActi
         return em;
     }
 
-    private final String SELECTALLBYLASTCHANGED           = "NonConformiteActions.selectAllByLastChange";
-    private final String FIND_BY_CODE                     = "NonConformiteActions.findByCode";       // query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus"),
-    private final String FIND_BY_DESIGNATION              = "NonConformiteActions.findByDesignation";     //, query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation"),
-    private final String FIND_BY_NCLAST                   = "NonConformiteActions.findAllByNCLastChange";   // query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc BY n.ncaChanged DESC"
-    private final String FIND_DESC_BY_DESC                = "NonConformiteActions.findDescByNC";            // query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC"
-    private final String FIND_BY_NCLASTID                   = "NonConformiteActions.findAllByNCLastId";
-    
-    
-    private final String ITEMS_CREATE_IN_RANGE            = "NonConformiteActions.itemsCreateInRange";
+    private final String SELECTALLBYLASTCHANGED = "NonConformiteActions.selectAllByLastChange";
+    private final String FIND_BY_CODE = "NonConformiteActions.findByCode";       // query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus"),
+    private final String FIND_BY_DESIGNATION = "NonConformiteActions.findByDesignation";     //, query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation"),
+    private final String FIND_BY_NCLAST = "NonConformiteActions.findAllByNCLastChange";   // query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc BY n.ncaChanged DESC"
+    private final String FIND_DESC_BY_DESC = "NonConformiteActions.findDescByNC";            // query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC"
+    private final String FIND_BY_NCLASTID = "NonConformiteActions.findAllByNCLastId";
+
+    private final String ITEMS_CREATE_IN_RANGE = "NonConformiteActions.itemsCreateInRange";
     private final String ITEMS_CREATE_IN_RANGE_BY_PROCESSUS = "NonConformiteActions.itemsCreateInRangeByProcessus";
-    
-    
+
     public NonConformiteActionsFacade() {
         super(NonConformiteActions.class);
     }
@@ -53,30 +51,29 @@ public class NonConformiteActionsFacade extends AbstractFacade<NonConformiteActi
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
-    
+
     public List<NonConformiteActions> findByCode(String code) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_CODE).setParameter("pProcessus", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<NonConformiteActions> findByDesignation(String designation) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("pDesignation", designation);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
@@ -87,18 +84,18 @@ public class NonConformiteActionsFacade extends AbstractFacade<NonConformiteActi
         Query q = em.createNamedQuery(FIND_BY_NCLAST).setParameter("ncaNc", nc);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<NonConformiteActions> findAllByNCLastID(NonConformiteRequest nc) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_NCLASTID).setParameter("ncaNc", nc);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
@@ -109,19 +106,17 @@ public class NonConformiteActionsFacade extends AbstractFacade<NonConformiteActi
         Query q = em.createNamedQuery(FIND_DESC_BY_DESC).setParameter("ncaNc", nc);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
 
-    
-    
-        /**
-     * 
+    /**
+     *
      * @param fromInclude
      * @param toExclude
-     * @return 
+     * @return
      */
     public List<NonConformiteActions> itemsCreateInRange(Date fromInclude, Date toExclude) {
         em.flush();

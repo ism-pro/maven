@@ -108,7 +108,7 @@ public class AnalyseTypeController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared analyse type
      */
     public AnalyseType prepareCreate() {
@@ -335,7 +335,7 @@ public class AnalyseTypeController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return selected analyse type
      */
     public AnalyseType getSelected() {

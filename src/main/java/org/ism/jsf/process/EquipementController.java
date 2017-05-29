@@ -68,7 +68,6 @@ public class EquipementController implements Serializable {
         String src_12 = "EquipementField_EChanged";
         String src_13 = "EquipementField_ECompany";
 
-
         // Setup initial visibility
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
@@ -115,7 +114,7 @@ public class EquipementController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared equipement
      */
     public Equipement prepareCreate() {

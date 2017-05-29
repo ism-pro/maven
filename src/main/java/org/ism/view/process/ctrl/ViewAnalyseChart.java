@@ -150,8 +150,7 @@ public class ViewAnalyseChart implements Serializable {
      * Specify the progression of creation model
      */
     private Integer modelProgress = 0;
-    
-    
+
     private LazyDataModel<AnalyseData> lazyDataModel;
 
     /**
@@ -181,9 +180,7 @@ public class ViewAnalyseChart implements Serializable {
             analyseDataController.prepareCreate();
         }
         lazyDataModel = new DataLazyModel(analyseDataController.getItemsByLastChanged());
-        
-        
-        
+
         // Init selection case
         selected = new ViewAnalyseChartSelect();
 
@@ -270,17 +267,17 @@ public class ViewAnalyseChart implements Serializable {
 
         // If no sample point and analysis was allowed then creation finished
         if (selected.alloweds == null) {
-            elapseTiming = System.currentTimeMillis()-elapseTiming;
+            elapseTiming = System.currentTimeMillis() - elapseTiming;
             return;
         } else if (selected.alloweds.isEmpty()) {
-            elapseTiming = System.currentTimeMillis()-elapseTiming;
+            elapseTiming = System.currentTimeMillis() - elapseTiming;
             return;
         }
         // init. Progress status
         int progress = 0;
         Integer fullsize = selected.alloweds.size();
         modelProgress = 0;
-        
+
         // Loop hover selected chart
         Iterator<AnalyseAllowed> iterAnalyseAllowed = selected.alloweds.iterator();
         while (iterAnalyseAllowed.hasNext()) {
@@ -367,17 +364,17 @@ public class ViewAnalyseChart implements Serializable {
                 models.add(chartModel);
                 activeIndex = 1;
             } catch (Exception e) {
-                elapseTiming = System.currentTimeMillis()-elapseTiming;
+                elapseTiming = System.currentTimeMillis() - elapseTiming;
                 JsfUtil.addErrorMessage("ViewAnalyseChart",
                         ResourceBundle.getBundle(JsfUtil.BUNDLE).
                         getString("EmptyList"));
             }
             progress++;
-            modelProgress = 100*(progress / fullsize);
-            
+            modelProgress = 100 * (progress / fullsize);
+
         }
-        
-        elapseTiming = System.currentTimeMillis()-elapseTiming;
+
+        elapseTiming = System.currentTimeMillis() - elapseTiming;
 
     }
 
@@ -481,9 +478,4 @@ public class ViewAnalyseChart implements Serializable {
         this.lazyDataModel = lazyDataModel;
     }
 
-
-
-    
-    
-    
 }

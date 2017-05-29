@@ -27,8 +27,7 @@ public class EquipementFacade extends AbstractFacade<Equipement> {
     private final String SELECTALLBYLASTCHANGED = "Equipement.selectAllByLastChange";
     private final String FIND_BY_CODE = "Equipement.findByEEquipement";       // query = "SELECT s FROM StaffGroupDef s WHERE s.stgdGroupDef = :stgdGroupDef"
     private final String FIND_BY_DESIGNATION = "Equipement.findByEDesignation";     //query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDesignation = :stgdDesignation"
-    
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -37,7 +36,7 @@ public class EquipementFacade extends AbstractFacade<Equipement> {
     public EquipementFacade() {
         super(Equipement.class);
     }
-    
+
     public List<Equipement> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

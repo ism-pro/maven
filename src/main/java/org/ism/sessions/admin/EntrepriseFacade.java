@@ -29,5 +29,5 @@ public class EntrepriseFacade extends AbstractFacade<Entreprise> {
     public EntrepriseFacade() {
         super(Entreprise.class);
     }
-    
+
 }

@@ -32,7 +32,7 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean(name="nonConformiteUniteController")
+@ManagedBean(name = "nonConformiteUniteController")
 @SessionScoped
 public class NonConformiteUniteController implements Serializable {
 
@@ -63,7 +63,7 @@ public class NonConformiteUniteController implements Serializable {
         NonConformiteUniteField_ncuDeleted=Suppression
         NonConformiteUniteField_ncuCreated=Création
         NonConformiteUniteField_ncuChanged=Modif.
-        */
+         */
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteUniteField_ncuId"));
@@ -100,7 +100,7 @@ public class NonConformiteUniteController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared non conformite unite
      */
     public NonConformiteUnite prepareCreate() {
@@ -204,7 +204,7 @@ public class NonConformiteUniteController implements Serializable {
                 getString("NonConformiteUnitePersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteUnitePersistenceCreatedDetail")
-                + selected.getNcuUnite()+ " <br > " + selected.getNcuDesignation());
+                + selected.getNcuUnite() + " <br > " + selected.getNcuDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -236,7 +236,7 @@ public class NonConformiteUniteController implements Serializable {
                 getString("NonConformiteUnitePersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteUnitePersistenceUpdatedDetail")
-                + selected.getNcuUnite()+ " <br > " + selected.getNcuDesignation());
+                + selected.getNcuUnite() + " <br > " + selected.getNcuDesignation());
     }
 
     public void destroy() {
@@ -337,7 +337,9 @@ public class NonConformiteUniteController implements Serializable {
      * @return selected non conformite unite
      */
     public NonConformiteUnite getSelected() {
-        if(selected==null)   selected = new NonConformiteUnite();
+        if (selected == null) {
+            selected = new NonConformiteUnite();
+        }
         return selected;
     }
 

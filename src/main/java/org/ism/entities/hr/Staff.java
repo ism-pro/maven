@@ -122,7 +122,6 @@ public class Staff implements Serializable {
     @OneToMany(mappedBy = "ncrApprouver")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection4;
 
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncaStaff")
     private Collection<NonConformiteActions> nonConformiteActionsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncaStaffApprouver")
@@ -138,7 +137,7 @@ public class Staff implements Serializable {
     private Collection<StaffGroups> staffGroupsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stsStaff")
     private Collection<StaffSetup> staffSetupCollection;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "adSampler")
     private Collection<AnalyseData> analyseDataCollection;
     @OneToMany(mappedBy = "anStaff")
@@ -267,7 +266,6 @@ public class Staff implements Serializable {
         this.nonConformiteRequestCollection = nonConformiteRequestCollection;
     }
 
-    
     public Collection<NonConformiteRequest> getNonConformiteRequestCollection4() {
         return nonConformiteRequestCollection4;
     }
@@ -275,7 +273,7 @@ public class Staff implements Serializable {
     public void setNonConformiteRequestCollection4(Collection<NonConformiteRequest> nonConformiteRequestCollection4) {
         this.nonConformiteRequestCollection4 = nonConformiteRequestCollection4;
     }
-    
+
     @XmlTransient
     public Collection<NonConformiteActions> getNonConformiteActionsCollection() {
         return nonConformiteActionsCollection;
@@ -292,9 +290,6 @@ public class Staff implements Serializable {
     public void setNonConformiteActionsCollection1(Collection<NonConformiteActions> nonConformiteActionsCollection1) {
         this.nonConformiteActionsCollection1 = nonConformiteActionsCollection1;
     }
-    
-    
-
 
     public IsmGenre getStGenre() {
         return stGenre;
@@ -331,7 +326,6 @@ public class Staff implements Serializable {
         this.staffSetupCollection = staffSetupCollection;
     }
 
-    
     @XmlTransient
     public Collection<AnalyseData> getAnalyseDataCollection() {
         return analyseDataCollection;
@@ -350,7 +344,6 @@ public class Staff implements Serializable {
         this.analyseNotifyCollection = analyseNotifyCollection;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;

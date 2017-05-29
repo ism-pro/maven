@@ -30,27 +30,27 @@ public class RowExpandFeature implements DataTableFeature {
     }
 
     public void encode(FacesContext context, TableRenderer renderer, Table table) throws IOException {
-        Map<String,String> params = context.getExternalContext().getRequestParameterMap();
+        Map<String, String> params = context.getExternalContext().getRequestParameterMap();
         int expandedRowIndex = Integer.parseInt(params.get(table.getClientId(context) + "_expandedRowIndex"));
-        
+
         encodeExpansion(context, renderer, table, expandedRowIndex);
         table.setRowIndex(-1);
     }
-    
+
     public void encodeExpansion(FacesContext context, TableRenderer renderer, Table table, int rowIndex) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
         String rowIndexVar = table.getRowIndexVar();
         RowExpansion rowExpansion = table.getRowExpansion();
-        
+
         String styleClass = Table.EXPANDED_ROW_CONTENT_CLASS + " ui-widget-content";
-        if(rowExpansion.getStyleClass() != null) {
+        if (rowExpansion.getStyleClass() != null) {
             styleClass = styleClass + " " + rowExpansion.getStyleClass();
         }
 
         table.setRowIndex(rowIndex);
-        
-        if(rowExpansion.isRendered()) {
-            if(rowIndexVar != null) {
+
+        if (rowExpansion.isRendered()) {
+            if (rowIndexVar != null) {
                 context.getExternalContext().getRequestMap().put(rowIndexVar, rowIndex);
             }
 
@@ -75,5 +75,5 @@ public class RowExpandFeature implements DataTableFeature {
     public boolean shouldEncode(FacesContext context, Table table) {
         return context.getExternalContext().getRequestParameterMap().containsKey(table.getClientId(context) + "_rowExpansion");
     }
-    
+
 }

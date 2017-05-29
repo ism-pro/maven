@@ -16,43 +16,29 @@ import org.ism.jsf.util.JsfUtil;
  *
  * @author r.hendrick
  */
-
 @ManagedBean(name = "viewCrud")
 @ViewScoped
-public class ViewCrud implements Serializable{
-    
+public class ViewCrud implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     private Boolean toggleBtn = false;
-    
-    public ViewCrud(){
-        
+
+    public ViewCrud() {
+
     }
-    
+
     @PostConstruct
     public void init() {
         toggleBtn = false;
     }
 
-
     /**
      * This listener allow to make no action
      */
-    public void handleFake(){
+    public void handleFake() {
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public Boolean getToggleBtn() {
         return toggleBtn;
     }
@@ -61,8 +47,4 @@ public class ViewCrud implements Serializable{
         this.toggleBtn = toggleBtn;
     }
 
-    
-    
-    
-    
 }

@@ -10,11 +10,10 @@
         <title>#{ism.AppName}</title>
         <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
         <meta http-equiv="refresh" 
-              content="300;url=/ISM/faces/login.xhtml?faces-redirect=true"/>
+              content="300;url=/ISM/faces/index.xhtml?faces-redirect=true"/>
 
-        <h:outputStylesheet library="css" name="ism-login.css" />
-        <h:outputScript library="js" name="login.js" />
-        <h:outputScript library="js" name="jquery.leanModal.min.js" />
+        <h:outputStylesheet library="css" name="ism-login.min.css" />
+        <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
     </h:head>
 
     <h:body>
@@ -55,11 +54,11 @@
                             <br />
                             <br />
                             <p:commandButton    
-                                    value="ISM"
-                                    action="/faces/login.xhtml?faces-redirect=true" 
-                                    style="min-width: 240px; min-height: 42px;"
-                                    class="w3-btn w3-light-grey w3-large w3-center"
-                                    />
+                                value="ISM"
+                                action="/faces/login.xhtml?faces-redirect=true" 
+                                style="min-width: 240px; min-height: 42px;"
+                                class="w3-btn w3-light-grey w3-large w3-center"
+                                />
                         </center>
 
 

@@ -22,6 +22,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class StaffGroupDefRoleFacade extends AbstractFacade<StaffGroupDefRole> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -32,7 +33,6 @@ public class StaffGroupDefRoleFacade extends AbstractFacade<StaffGroupDefRole> {
 
     private final String SELECTALLBYLASTCHANGED = "StaffGroupDefRole.selectAllByLastChange";
 
-    
     public StaffGroupDefRoleFacade() {
         super(StaffGroupDefRole.class);
     }
@@ -42,12 +42,12 @@ public class StaffGroupDefRoleFacade extends AbstractFacade<StaffGroupDefRole> {
         Query q = em.createNamedQuery("StaffGroupDefRole.findByStgdrGroups").setParameter("stgdrGroupDef", groupDef);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public StaffGroupDefRole findBy(StaffGroupDef groupDef, IsmRole role) {
         em.flush();
         Query q = em.createNamedQuery("StaffGroupDefRole.findByStgdrGroupAndRole")
@@ -55,14 +55,12 @@ public class StaffGroupDefRoleFacade extends AbstractFacade<StaffGroupDefRole> {
                 .setParameter("stgdrRole", role);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return (StaffGroupDefRole) q.getSingleResult();
         }
         return null;
     }
-    
-    
-    
+
     public List<StaffGroupDefRole> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

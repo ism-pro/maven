@@ -47,7 +47,7 @@
                                          value="#{staffGroupsController.selected.stgGroupDef}"
                                          title="#{ism.StaffGroupsFieldInfo_stgGroupDef}" 
                                          required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgGroupDef}"
-                                         
+
                                          >
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{staffGroupDefController.getItemsGrouped()}"
@@ -57,7 +57,7 @@
                         </p:selectOneMenu>
                         <p:message for="stgCompany" />
                     </h:panelGrid>
-                    
+
 
                     <p:outputLabel value="#{ism.StaffGroupsField_stgCompany}" for="stgCompany" rendered="false" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false">
@@ -66,7 +66,7 @@
                                          value="#{staffGroupsController.selected.stgCompany}"
                                          title="#{ism.StaffGroupsFieldInfo_stgCompany}" 
                                          required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgCompany}"
-                                         
+
                                          >
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{companyController.itemsAvailableSelectOne}"
@@ -76,8 +76,8 @@
                         </p:selectOneMenu>
                         <p:message for="stgCompany" />
                     </h:panelGrid>
-                
-                    
+
+
                     <p:outputLabel value="#{ism.StaffGroupsField_stgActivated}" for="stgActivated" />
                     <p:selectBooleanCheckbox id="stgActivated" 
                                              value="#{staffGroupsController.selected.stgActivated}" 

@@ -442,10 +442,10 @@ span.ui-column-title{
     min-width: 150px;
 }
 ul .ui-columntoggler-items{
-    
+
 }
 li .ui-columntoggler-item{
-    
+
 }
 
 /** FILTER - INPUTEXT */
@@ -478,7 +478,7 @@ th .ui-btn-filters div:first-child span {
 th .ui-btn-filters div:nth-child(2) span {
     background: url("#{resource['img/ism/std/CheckedYes.png']}") no-repeat!important;
     background-size:contain!important;
-    
+
 }
 th .ui-btn-filters div:nth-child(3) span {
     background: url("#{resource['img/ism/std/CheckedNo.png']}") no-repeat!important;
@@ -527,7 +527,7 @@ th .ui-selectonemenu-label{
     Overlay menu
 ===============================================================================*/
 div .ui-menu.ui-menu-dynamic.ui-widget.ui-widget-content.ui-corner-all.ui-helper-clearfix.ui-shadow{
-    
+
 }
 ul.ui-menu-list.ui-helper-reset{
     padding: 0px;
@@ -548,7 +548,7 @@ span.ui-menuitem-text{
 ===============================================================================*/
 /** Main container element. */
 .ui-treetable {
-    
+
 }
 /** Header of treetable. */
 .ui-treetable-header {
@@ -570,27 +570,27 @@ span.ui-menuitem-text{
 }
 /** Container element of content. */
 .ui-wizard-content{
-    
+
 }
 /** Container of step titles. */
 .ui-wizard-step-titles{
-    
+
 }
 /** Each step title. */
 .ui-wizard-step-title{
-    
+
 }
 /** Container of navigation controls. */
 .ui-wizard-navbar{
-    
+
 }
 /** Back navigation control. */
 .ui-wizard-nav-back{
-    
+
 }
 /** Forward navigation control. */
 .ui-wizard-nav-next{
-    
+
 }
 
 .ui-tabs-panel.ui-widget-content.ui-corner-bottom{

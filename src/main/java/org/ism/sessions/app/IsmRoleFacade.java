@@ -19,6 +19,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class IsmRoleFacade extends AbstractFacade<IsmRole> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -37,10 +38,10 @@ public class IsmRoleFacade extends AbstractFacade<IsmRole> {
                 .setParameter("role", role);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return (IsmRole) q.getSingleResult();
         }
         return null;
     }
-    
+
 }

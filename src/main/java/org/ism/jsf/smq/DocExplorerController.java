@@ -494,10 +494,10 @@ public class DocExplorerController implements Serializable {
 
             DocExplorerController docExplorerController = null;
             //if (ejbFacade == null) {
-                FacesContext ctx = FacesContext.getCurrentInstance();
-                // Setup staff controller
-                docExplorerController = (DocExplorerController) ctx.getApplication().getELResolver().
-                        getValue(ctx.getELContext(), null, "docExplorerController");
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            // Setup staff controller
+            docExplorerController = (DocExplorerController) ctx.getApplication().getELResolver().
+                    getValue(ctx.getELContext(), null, "docExplorerController");
             //}
 
             List<DocExplorer> lst = docExplorerController.getItemsByDesignation(value);

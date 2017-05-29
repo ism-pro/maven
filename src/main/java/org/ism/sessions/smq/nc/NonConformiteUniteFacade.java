@@ -20,6 +20,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class NonConformiteUniteFacade extends AbstractFacade<NonConformiteUnite> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -28,11 +29,10 @@ public class NonConformiteUniteFacade extends AbstractFacade<NonConformiteUnite>
         return em;
     }
 
-    private final String SELECTALLBYLASTCHANGED           = "NonConformiteUnite.selectAllByLastChange";     // query = "SELECT n FROM NonConformiteUnite n ORDER BY n.ncuChanged DESC"
-    private final String FIND_BY_PROCESSUS                = "NonConformiteUnite.findByNcuUnite";            // query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuUnite = :ncuUnite"
-    private final String FIND_BY_DESIGNATION              = "NonConformiteUnite.findByNcuDesignation";      // query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuDesignation = :ncuDesignation"
-    
-    
+    private final String SELECTALLBYLASTCHANGED = "NonConformiteUnite.selectAllByLastChange";     // query = "SELECT n FROM NonConformiteUnite n ORDER BY n.ncuChanged DESC"
+    private final String FIND_BY_PROCESSUS = "NonConformiteUnite.findByNcuUnite";            // query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuUnite = :ncuUnite"
+    private final String FIND_BY_DESIGNATION = "NonConformiteUnite.findByNcuDesignation";      // query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuDesignation = :ncuDesignation"
+
     public NonConformiteUniteFacade() {
         super(NonConformiteUnite.class);
     }
@@ -42,30 +42,29 @@ public class NonConformiteUniteFacade extends AbstractFacade<NonConformiteUnite>
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
-    
+
     public List<NonConformiteUnite> findByCode(String code) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("ncuUnite", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<NonConformiteUnite> findByDesignation(String designation) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("ncuDesignation", designation);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;

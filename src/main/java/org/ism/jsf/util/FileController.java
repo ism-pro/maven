@@ -46,7 +46,7 @@ public class FileController implements Serializable {
         this.urlFile = url.replace("\"", "");
         File file = new File(this.urlFile);
         tftToTmp(file);
-        
+
         /*
         // Prepare.
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -94,7 +94,7 @@ public class FileController implements Serializable {
         // This is very important, otherwise you will get the following exception in the logs:
         // java.lang.IllegalStateException: Cannot forward after response has been committed.
         facesContext.responseComplete();
-                */
+         */
     }
 
     // Helpers (can be refactored to public utility class) ----------------------------------------

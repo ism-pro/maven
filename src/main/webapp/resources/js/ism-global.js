@@ -42,10 +42,10 @@ $(function () {
 
 });
 
-    function ext() {
+function ext() {
 //this = chart widget instance
 //this.cfg = options
-        this.cfg.seriesDefaults = {
-            shadowDepth: 0
-        };
-    }
+    this.cfg.seriesDefaults = {
+        shadowDepth: 0
+    };
+}

@@ -25,10 +25,9 @@ public class AnalyseCategoryFacade extends AbstractFacade<AnalyseCategory> {
     private EntityManager em;
 
     private final String SELECTALLBYLASTCHANGED = "AnalyseCategory.selectAllByLastChange";
-    private final String FIND_BY_CODE = "AnalyseCategory.findByAcMethod";       
-    private final String FIND_BY_DESIGNATION = "AnalyseCategory.findByAcDesignation";    
-    
-    
+    private final String FIND_BY_CODE = "AnalyseCategory.findByAcMethod";
+    private final String FIND_BY_DESIGNATION = "AnalyseCategory.findByAcDesignation";
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

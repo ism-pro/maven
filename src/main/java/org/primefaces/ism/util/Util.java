@@ -19,7 +19,7 @@ public class Util {
     public static final String UNSORTED = "UNSORTED";
     public static final String ASCENDING = "ASCENDING";
     public static final String DESCENDING = "DESCENDING";
-    
+
     public static String convertSortOrderParam(String order) {
         String sortOrder = null;
         int orderNumber = Integer.parseInt(order);

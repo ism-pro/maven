@@ -28,7 +28,7 @@
                                        value="#{staffGroupDefRoleController.selected.stgdrId}" />
                     </h:panelGrid>
 
-<p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrGroupDef}" for="stgdrGroupDef" />
+                    <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrGroupDef}" for="stgdrGroupDef" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectOneMenu id="stgdrGroupDef"  widgetVar="stgdrGroupDef"
                                          filter="true" filterMatchMode="contains"
@@ -53,7 +53,7 @@
                                          value="#{staffGroupDefRoleController.selected.stgdrRole}"
                                          title="#{ism.StaffGroupDefRoleFieldInfo_stgdrRole}" 
                                          required="true" requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrRole}"
-                                         
+
                                          >
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{ismRoleController.itemsAvailableSelectOne}"
@@ -106,10 +106,10 @@
                                        value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
                     </h:panelGrid>
                 </p:panelGrid>
-                
-                
-                
-                
+
+
+
+
 
 
                 <h:panelGroup id="btn-crud-zone_id"  >

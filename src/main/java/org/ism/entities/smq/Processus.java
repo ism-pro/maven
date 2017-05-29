@@ -52,6 +52,7 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "Processus.findAllApprouvedItems", query = "SELECT p FROM Processus p WHERE p.pDeleted=0 ORDER BY p.pChanged DESC")
 })
 public class Processus implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -211,5 +212,5 @@ public class Processus implements Serializable {
     public String toString() {
         return "org.ism.entities.Processus[ pId=" + pId + " ]";
     }
-    
+
 }

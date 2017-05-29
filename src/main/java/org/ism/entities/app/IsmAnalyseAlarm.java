@@ -129,5 +129,5 @@ public class IsmAnalyseAlarm implements Serializable {
     public String toString() {
         return "org.ism.entities.IsmAnalyseAlarm[ id=" + id + " ]";
     }
-    
+
 }

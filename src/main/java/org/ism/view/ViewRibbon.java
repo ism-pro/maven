@@ -42,10 +42,9 @@ public class ViewRibbon implements Serializable {
     private Integer reminingTimeSessionClock = 30;          // refresh all 30s
     private Integer reminingTimeSessionWakeUp_s = 60;       // dialogue open 60before
 
-    
     @Inject
     private ViewLayout viewLayout;
-    
+
     @PostConstruct
     public void init() {
     }
@@ -73,7 +72,7 @@ public class ViewRibbon implements Serializable {
         Tab activeTab = event.getTab();
         FacesContext ctx = FacesContext.getCurrentInstance();
         //System.out.println("Click Tab :" + activeTab.getId() + " on active index : " + getActiveIndex() + "Path Menu :" + pathMenu);
-              
+
         /*
         if (getActiveIndex() == 0) {    // Active le menu
             try {
@@ -92,7 +91,7 @@ public class ViewRibbon implements Serializable {
                 Logger.getLogger(ViewRibbon.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        */
+         */
         activeIndexSave = getActiveIndex(); // save active index
     }
 
@@ -122,9 +121,9 @@ public class ViewRibbon implements Serializable {
     }
 
     public void updateReminingTimeSession() {
-        reminingTimeSession-=reminingTimeSessionClock;
+        reminingTimeSession -= reminingTimeSessionClock;
         if (getReminingTimeSession() <= reminingTimeSessionWakeUp_s) {
-            reminingTimeSessionClock=1;
+            reminingTimeSessionClock = 1;
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dlgReminingTimeSessionWakeUp').show();");
         }
@@ -132,7 +131,7 @@ public class ViewRibbon implements Serializable {
 
     public void resetReminingTimeSession() {
         reminingTimeSession = 0;
-        reminingTimeSessionClock=30;
+        reminingTimeSessionClock = 30;
     }
 
     public Integer advanceSessionMaxInactiveInterval() {
@@ -156,19 +155,17 @@ public class ViewRibbon implements Serializable {
     public void setReminingTimeSessionWakeUp_s(Integer reminingTimeSessionWakeUp_s) {
         this.reminingTimeSessionWakeUp_s = reminingTimeSessionWakeUp_s;
     }
-    
-    
-    
-    public String getCurrentPath(){
+
+    public String getCurrentPath() {
         FacesContext ctx = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
         String[] lst = request.getPathInfo().split("/");
-        
+
         String currentPath = request.getContextPath() + request.getServletPath() + request.getPathInfo() + "?faces-redirect=true";
         return currentPath;
     }
-    
-    public String reloadCurrentPath(){
+
+    public String reloadCurrentPath() {
         return getCurrentPath();
     }
 }

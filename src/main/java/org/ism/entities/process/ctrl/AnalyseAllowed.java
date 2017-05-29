@@ -312,5 +312,5 @@ public class AnalyseAllowed implements Serializable {
     public String toString() {
         return "org.ism.entities.AnalyseAllowed[ aaId=" + aaId + " ]";
     }
-    
+
 }

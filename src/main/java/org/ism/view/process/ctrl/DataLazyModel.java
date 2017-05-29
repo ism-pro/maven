@@ -32,6 +32,7 @@ public class DataLazyModel extends LazyDataModel<AnalyseData> {
      * <p>
      * Default constructor with data to process
      * </p>
+     *
      * @param datasource Data provided
      */
     public DataLazyModel(List<AnalyseData> datasource) {
@@ -55,7 +56,7 @@ public class DataLazyModel extends LazyDataModel<AnalyseData> {
 
     @Override
     public List<AnalyseData> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        
+
         List<AnalyseData> datas = new ArrayList<AnalyseData>();
 
         //filter
@@ -109,7 +110,7 @@ public class DataLazyModel extends LazyDataModel<AnalyseData> {
 
     @Override
     public List<AnalyseData> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
-        
+
         List<AnalyseData> datas = new ArrayList<AnalyseData>();
 
         //filter
@@ -143,7 +144,7 @@ public class DataLazyModel extends LazyDataModel<AnalyseData> {
         //sort
         if (multiSortMeta != null) {
             Iterator<SortMeta> itr = multiSortMeta.iterator();
-            while(itr.hasNext()){
+            while (itr.hasNext()) {
                 SortMeta sortMeta = itr.next();
                 Collections.sort(datas, new DataLazySorter(sortMeta.getSortField(), sortMeta.getSortOrder()));
             }
@@ -164,8 +165,5 @@ public class DataLazyModel extends LazyDataModel<AnalyseData> {
             return datas;
         }
     }
-
-    
-
 
 }

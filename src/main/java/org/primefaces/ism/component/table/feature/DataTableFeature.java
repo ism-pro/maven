@@ -21,12 +21,12 @@ import org.primefaces.ism.component.table.Table;
 import org.primefaces.ism.component.table.TableRenderer;
 
 public interface DataTableFeature {
-    
+
     public boolean shouldDecode(FacesContext context, Table table);
-    
+
     public boolean shouldEncode(FacesContext context, Table table);
-    
+
     public void decode(FacesContext context, Table table);
-    
+
     public void encode(FacesContext context, TableRenderer renderer, Table table) throws IOException;
 }

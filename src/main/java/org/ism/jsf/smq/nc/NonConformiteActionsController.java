@@ -531,31 +531,29 @@ public class NonConformiteActionsController implements Serializable {
 
     /**
      * =========================================================================
-     * 
+     *
      * =========================================================================
      */
-    
-    
     /**
-     * 
+     *
      * @param from
      * @param to
-     * @return 
+     * @return
      */
     public List<NonConformiteActions> getItemsCreateInRange(Date from, Date to) {
         return getFacade().itemsCreateInRange(from, to);
     }
-    
-        /**
+
+    /**
      * *
      *
      */
     /**
-     * 
+     *
      * @param from
      * @param to
      * @param processus
-     * @return 
+     * @return
      */
     public List<NonConformiteActions> getItemsCreateInRangeByProcessus(Date from, Date to, Processus processus) {
         return getFacade().itemsCreateInRange(from, to, processus);

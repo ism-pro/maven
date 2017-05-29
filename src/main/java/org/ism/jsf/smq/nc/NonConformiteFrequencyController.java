@@ -32,7 +32,7 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean(name="nonConformiteFrequencyController")
+@ManagedBean(name = "nonConformiteFrequencyController")
 @SessionScoped
 public class NonConformiteFrequencyController implements Serializable {
 
@@ -63,7 +63,7 @@ public class NonConformiteFrequencyController implements Serializable {
         NonConformiteFrequencyField_ncfDeleted=Suppression
         NonConformiteFrequencyField_ncfCreated=Création
         NonConformiteFrequencyField_ncfChanged=Modif.
-        */
+         */
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteFrequencyField_ncfId"));
@@ -100,7 +100,7 @@ public class NonConformiteFrequencyController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared non conformite frequency
      */
     public NonConformiteFrequency prepareCreate() {
@@ -204,7 +204,7 @@ public class NonConformiteFrequencyController implements Serializable {
                 getString("NonConformiteFrequencyPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteFrequencyPersistenceCreatedDetail")
-                + selected.getNcfFrequency()+ " <br > " + selected.getNcfDesignation());
+                + selected.getNcfFrequency() + " <br > " + selected.getNcfDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -236,7 +236,7 @@ public class NonConformiteFrequencyController implements Serializable {
                 getString("NonConformiteFrequencyPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteFrequencyPersistenceUpdatedDetail")
-                + selected.getNcfFrequency()+ " <br > " + selected.getNcfDesignation());
+                + selected.getNcfFrequency() + " <br > " + selected.getNcfDesignation());
     }
 
     public void destroy() {
@@ -245,7 +245,7 @@ public class NonConformiteFrequencyController implements Serializable {
                 getString("NonConformiteFrequencyPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteFrequencyPersistenceDeletedDetail")
-                + selected.getNcfFrequency()+ " <br > " + selected.getNcfDesignation());
+                + selected.getNcfFrequency() + " <br > " + selected.getNcfDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
             selected = null;
@@ -334,10 +334,12 @@ public class NonConformiteFrequencyController implements Serializable {
      */
     /**
      *
-     * @return selected non conformite frequency 
+     * @return selected non conformite frequency
      */
     public NonConformiteFrequency getSelected() {
-        if(selected==null)   selected = new NonConformiteFrequency();
+        if (selected == null) {
+            selected = new NonConformiteFrequency();
+        }
         return selected;
     }
 

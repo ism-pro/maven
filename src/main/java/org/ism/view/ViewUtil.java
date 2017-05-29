@@ -84,7 +84,6 @@ public class ViewUtil implements Serializable {
         LocalDateTime ldt = LocalDateTime.ofInstant((new Date()).toInstant(), ZoneId.systemDefault());
         return ldt.getMonthValue();
     }
-    
 
     /**
      * Give the actual day of the month
@@ -95,7 +94,7 @@ public class ViewUtil implements Serializable {
         LocalDateTime ldt = LocalDateTime.ofInstant((new Date()).toInstant(), ZoneId.systemDefault());
         return ldt.getDayOfMonth();
     }
-    
+
     /**
      * This method recrate the local date and time of today with last time
      * 23:59:59

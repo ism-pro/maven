@@ -47,8 +47,7 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "NonConformiteActions.findAllByNCLastId", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC"),
     @NamedQuery(name = "NonConformiteActions.findDescByNC", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaNc=:ncaNc  ORDER BY n.ncaId DESC"),
     @NamedQuery(name = "NonConformiteActions.itemsCreateInRange", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaCreated >= :ncaFrom AND n.ncaCreated < :ncaTo"),
-    @NamedQuery(name = "NonConformiteActions.itemsCreateInRangeByProcessus", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaCreated >= :ncaFrom AND n.ncaCreated < :ncaTo AND n.ncaNc.ncrProcessus = :ncrProcessus"),
-})
+    @NamedQuery(name = "NonConformiteActions.itemsCreateInRangeByProcessus", query = "SELECT n FROM NonConformiteActions n WHERE n.ncaCreated >= :ncaFrom AND n.ncaCreated < :ncaTo AND n.ncaNc.ncrProcessus = :ncrProcessus"),})
 public class NonConformiteActions implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -94,8 +93,6 @@ public class NonConformiteActions implements Serializable {
     @JoinColumn(name = "nca_state", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private IsmNcastate ncaState;
-    
-    
 
     public NonConformiteActions() {
     }
@@ -104,7 +101,7 @@ public class NonConformiteActions implements Serializable {
         this.ncaId = ncaId;
     }
 
-    public NonConformiteActions(Integer ncaId, String ncaDescription, 
+    public NonConformiteActions(Integer ncaId, String ncaDescription,
             Date ncaDeadline, Date ncaCreated, Date ncaChanged) {
         this.ncaId = ncaId;
         this.ncaDescription = ncaDescription;
@@ -193,9 +190,6 @@ public class NonConformiteActions implements Serializable {
         this.ncaStaffApprouver = ncaStaffApprouver;
     }
 
-   
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -221,4 +215,4 @@ public class NonConformiteActions implements Serializable {
         return "org.ism.entities.NonConformiteActions[ ncaId=" + ncaId + " ]";
     }
 
-    }
+}

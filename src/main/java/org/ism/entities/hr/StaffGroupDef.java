@@ -212,5 +212,5 @@ public class StaffGroupDef implements Serializable {
     public void setAnalyseNotifyCollection(Collection<AnalyseNotify> analyseNotifyCollection) {
         this.analyseNotifyCollection = analyseNotifyCollection;
     }
-    
+
 }

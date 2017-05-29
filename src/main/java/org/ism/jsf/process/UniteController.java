@@ -96,7 +96,7 @@ public class UniteController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared unite
      */
     public Unite prepareCreate() {

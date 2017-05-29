@@ -66,7 +66,6 @@ public class StaffManagerView implements Serializable {
         access = (new CtrlAccessService()).securityStaff();
     }
 
-
     public void handleStaffEdit() {
         List<Staff> lstStaff = staffCtrl.findByStaff(staff.getStStaff());
         if (lstStaff != null) {
@@ -245,8 +244,6 @@ public class StaffManagerView implements Serializable {
         /*
         @EJB
         private org.ism.sessions.StaffFacade ejbFacade;*/
-
-
         @Override
         public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
             String value = o.toString();

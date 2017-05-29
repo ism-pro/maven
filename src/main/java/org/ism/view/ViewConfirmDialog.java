@@ -19,12 +19,11 @@ import org.primefaces.component.confirmdialog.ConfirmDialog;
 @ViewScoped
 public class ViewConfirmDialog {
 
-    private ConfirmDialog   dlg;            //!< Confirm dialogue
-    
-    private String          update;         //!< Value for update
-    private String          escape;         //!< Escape
-    
-    
+    private ConfirmDialog dlg;            //!< Confirm dialogue
+
+    private String update;         //!< Value for update
+    private String escape;         //!< Escape
+
     /*
     private String          message;        //!< Text to be displayed in body.
     private String          header;         //!< Text for the header
@@ -41,16 +40,13 @@ public class ViewConfirmDialog {
     private Boolean         closeOnEscape;  //!< Defines if dialog should hide on escape key.
     private String          dir;            //!< Defines text direction, valid values are ltr and rtl.
     private Boolean         global;         //!< When enabled, confirmDialog becomes a shared for other components that require confirmation.
-    */
-    
-    
+     */
     /**
      * Creates a new instance of viewConfirmDialog
      */
     public ViewConfirmDialog() {
     }
-    
-    
+
     @PostConstruct
     public void init() {
         dlg = new ConfirmDialog();
@@ -65,7 +61,7 @@ public class ViewConfirmDialog {
         dlg.setCloseOnEscape(false);
         dlg.setGlobal(true);
         update = "@all";
-        
+
         escape = "<br >";
     }
 
@@ -75,8 +71,7 @@ public class ViewConfirmDialog {
              icon="ui-icon-alert"
 
              />
-    */
-
+     */
     public ConfirmDialog getDlg() {
         return dlg;
     }
@@ -84,28 +79,28 @@ public class ViewConfirmDialog {
     public void setDlg(ConfirmDialog dlg) {
         this.dlg = dlg;
     }
-    
-    public void setHeader(String header){
+
+    public void setHeader(String header) {
         this.dlg.setHeader(header);
     }
-    
-    public String getHeader(){
+
+    public String getHeader() {
         return this.dlg.getHeader();
     }
-    
-    public void setMessage(String message){
+
+    public void setMessage(String message) {
         this.dlg.setMessage(message);
     }
-    
-    public String getMessage(){
+
+    public String getMessage() {
         return this.dlg.getMessage();
     }
-    
-    public void setSeverity(String severity){
+
+    public void setSeverity(String severity) {
         this.dlg.setSeverity(severity);
     }
-    
-    public String getSeverity(){
+
+    public String getSeverity() {
         return this.dlg.getSeverity();
     }
 
@@ -117,7 +112,6 @@ public class ViewConfirmDialog {
         this.update = update;
     }
 
-
     public String getEscape() {
         return escape;
     }
@@ -125,8 +119,5 @@ public class ViewConfirmDialog {
     public void setEscape(String escape) {
         this.escape = escape;
     }
-    
-    
-    
-    
+
 }

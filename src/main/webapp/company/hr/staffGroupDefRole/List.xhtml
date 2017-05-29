@@ -62,11 +62,11 @@
                                 />
                 </p:contextMenu>
 
-                
-                
-                
-                
-                
+
+
+
+
+
                 <p:dataTable id="datalist" widgetVar="datalist"
                              value="#{viewTabManager.staffGroupDefRole}" var="item"
                              filteredValue="#{viewTabManager.staffGroupDefRoleFiltered}"
@@ -91,7 +91,7 @@
 
 
 
-                   
+
                     <f:facet name="{Exporters}">
                         <div style="float:right" >
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
@@ -105,7 +105,7 @@
                             </p:commandLink>
                         </div>
                     </f:facet>
-                    
+
                     <f:facet name="header">
                         <p:commandButton id="toggler" type="button" value="Columns" 
                                          style="float:left;" icon="ui-icon-calculator" 
@@ -128,7 +128,7 @@
                     </f:facet>
 
 
-                    
+
 
 
 
@@ -138,10 +138,10 @@
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{staffGroupDefRoleController.handleColumnReorder}"  />
 
 
-                    
-                    
-                    
-                    
+
+
+
+
                     <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
                               exportable="false"
                               visible="#{staffGroupDefRoleController.getIsVisibleColKey(ism.CtrlShort)}" >
@@ -158,7 +158,7 @@
                               filterBy="#{item.stgdrId}" filterMatchMode="contains">
                         <h:outputText value="#{item.stgdrId}"/>
                     </p:column>
-                    
+
                     <p:column headerText="#{ism.StaffGroupDefRoleField_stgdrGroupDef}" 
                               visible="#{staffGroupDefRoleController.getIsVisibleColKey(ism.StaffGroupDefRoleField_stgdrGroupDef)}"
                               sortBy="#{item.stgdrGroupDef.stgdDesignation}" 
@@ -172,7 +172,7 @@
                               filterBy="#{item.stgdrRole.rolename}" filterMatchMode="contains">
                         <h:outputText value="#{item.stgdrRole.rolename}"/>
                     </p:column>
-                    
+
 
                     <p:column headerText="#{ism.StaffGroupDefRoleField_stgdrActivated}"
                               visible="#{staffGroupDefRoleController.getIsVisibleColKey(ism.StaffGroupDefRoleField_stgdrActivated)}"
@@ -187,7 +187,7 @@
                         </f:facet>
                         <p:selectBooleanCheckbox value="#{item.stgdrActivated}" disabled="true"/>
                     </p:column>
-                    
+
 
                     <p:column headerText="#{ism.StaffGroupDefRoleField_stgdrCreated}" 
                               visible="#{staffGroupDefRoleController.getIsVisibleColKey(ism.StaffGroupDefRoleField_stgdrCreated)}"
@@ -205,8 +205,8 @@
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    
-                    
+
+
 
                     <p:column headerText="#{ism.StaffGroupDefRoleField_stgdrChanged}" 
                               visible="#{staffGroupDefRoleController.getIsVisibleColKey(ism.StaffGroupDefRoleField_stgdrChanged)}"
@@ -224,7 +224,7 @@
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    
+
 
                     <p:column headerText="#{ism.StaffGroupDefRoleField_stgdrCompany}" 
                               visible="#{staffGroupDefRoleController.getIsVisibleColKey(ism.StaffGroupDefRoleField_stgdrCompany)}"
@@ -237,7 +237,7 @@
             </h:form>
 
         </ui:define>
-        
+
 
 
         <ui:define name="west" id="west">

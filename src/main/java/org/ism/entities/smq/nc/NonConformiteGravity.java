@@ -49,6 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteGravity.selectAllByLastChange", query = "SELECT n FROM NonConformiteGravity n ORDER BY n.ncgChanged DESC")
 })
 public class NonConformiteGravity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -189,5 +190,5 @@ public class NonConformiteGravity implements Serializable {
     public String toString() {
         return "org.ism.entities.NonConformiteGravity[ ncgId=" + ncgId + " ]";
     }
-    
+
 }

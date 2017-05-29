@@ -245,13 +245,6 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
         return null;
     }
 
-    
-    
-    
-    
-    
-    
-    
     /**
      *
      * @param fromInclude
@@ -259,7 +252,7 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
      * @param processus
      * @return
      */
-    public List<NonConformiteRequest> itemsCreateInRangeByProcessus(Date fromInclude, Date toExclude, Processus processus){
+    public List<NonConformiteRequest> itemsCreateInRangeByProcessus(Date fromInclude, Date toExclude, Processus processus) {
         em.flush();
         Query q = em.createNamedQuery(ITEMS_CREATE_IN_RANGE_BY_PROCESSUS)
                 .setParameter("ncrFrom", fromInclude).setParameter("ncrTo", toExclude)

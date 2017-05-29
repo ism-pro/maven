@@ -37,7 +37,7 @@ public class ScrollFeature implements DataTableFeature {
         if (table.isLazy()) {
             table.loadLazyScrollData(scrollOffset, scrollRows);
         }
-        
+
         if (table.isSelectionEnabled()) {
             table.findSelectedRowKeys();
         }
@@ -58,5 +58,5 @@ public class ScrollFeature implements DataTableFeature {
     public boolean shouldEncode(FacesContext context, Table table) {
         return context.getExternalContext().getRequestParameterMap().containsKey(table.getClientId(context) + "_scrolling");
     }
-    
+
 }

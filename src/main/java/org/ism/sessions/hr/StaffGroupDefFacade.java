@@ -21,6 +21,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class StaffGroupDefFacade extends AbstractFacade<StaffGroupDef> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -32,14 +33,13 @@ public class StaffGroupDefFacade extends AbstractFacade<StaffGroupDef> {
     private final String SELECTALLBYLASTCHANGED = "StaffGroupDef.selectAllByLastChange";
     private final String FIND_BY_CODE = "StaffGroupDef.findByStgdGroupDef";       // query = "SELECT s FROM StaffGroupDef s WHERE s.stgdGroupDef = :stgdGroupDef"
     private final String FIND_BY_DESIGNATION = "StaffGroupDef.findByStgdDesignation";     //query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDesignation = :stgdDesignation"
-    private final String FIND_GROUP_BY_COMPANY = "StaffGroupDef.findGroupByCompany"; 
-    private final String FIND_BY_COMPANY = "StaffGroupDef.findByStgdCompany"; 
+    private final String FIND_GROUP_BY_COMPANY = "StaffGroupDef.findGroupByCompany";
+    private final String FIND_BY_COMPANY = "StaffGroupDef.findByStgdCompany";
 
     public StaffGroupDefFacade() {
         super(StaffGroupDef.class);
     }
-    
-    
+
     public List<StaffGroupDef> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);

@@ -24,19 +24,19 @@ import org.primefaces.facelets.MethodRule;
 
 public class DataTableHandler extends ComponentHandler {
 
-	private static final MetaRule SORT_FUNCTION =
-			new MethodRule("sortFunction", Integer.class, new Class[]{Object.class, Object.class});
-	
-	public DataTableHandler(ComponentConfig config) {
-		super(config);
-	}
-	
-	@SuppressWarnings("unchecked")
-	protected MetaRuleset createMetaRuleset(Class type) { 
-		MetaRuleset metaRuleset = super.createMetaRuleset(type); 
+    private static final MetaRule SORT_FUNCTION
+            = new MethodRule("sortFunction", Integer.class, new Class[]{Object.class, Object.class});
 
-		metaRuleset.addRule(SORT_FUNCTION);
-		
-		return metaRuleset; 
-	} 
+    public DataTableHandler(ComponentConfig config) {
+        super(config);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected MetaRuleset createMetaRuleset(Class type) {
+        MetaRuleset metaRuleset = super.createMetaRuleset(type);
+
+        metaRuleset.addRule(SORT_FUNCTION);
+
+        return metaRuleset;
+    }
 }

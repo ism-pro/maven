@@ -19,10 +19,10 @@
 
                     <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfId}" rendered="true" for="ncfId" />
                     <p:outputLabel id="ncfId" rendered="true"
-                                 value="#{nonConformiteFrequencyController.selected.ncfId}" 
-                                 title="#{ism.NonConformiteFrequencyFieldInfo_ncfId}" />
+                                   value="#{nonConformiteFrequencyController.selected.ncfId}" 
+                                   title="#{ism.NonConformiteFrequencyFieldInfo_ncfId}" />
 
-                    
+
                     <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfFrequency}" for="ncfFrequency" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="ncfFrequency" 
@@ -48,8 +48,8 @@
                                              value="#{nonConformiteFrequencyController.selected.ncfDeleted}" 
                                              required="true" 
                                              requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfDeleted}"/>
-                    
-                    
+
+
                     <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfCreated}" 
                                    rendered="false" for="ncfCreated" />
                     <p:calendar id="ncfCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
@@ -59,8 +59,8 @@
                                 requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfCreated}" 
                                 showOn="button"/>
 
-                    
-                    
+
+
                     <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfChanged}" 
                                    rendered="false" for="ncfChanged" />
                     <p:calendar id="ncfChanged" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
@@ -69,7 +69,7 @@
                                 required="true" 
                                 requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfChanged}" 
                                 showOn="button"/>
-                    
+
 
                     <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfCompany}" for="ncfCompany" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">

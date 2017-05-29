@@ -48,6 +48,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "DocExplorer.selectAllByLastChange", query = "SELECT d FROM DocExplorer d ORDER BY d.dcChanged DESC")
 })
 public class DocExplorer implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -230,5 +231,5 @@ public class DocExplorer implements Serializable {
     public String toString() {
         return "org.ism.entities.DocExplorer[ dcId=" + dcId + " ]";
     }
-    
+
 }

@@ -230,7 +230,6 @@ public class Company implements Serializable {
         this.cChanged = cChanged;
     }
 
-
     @XmlTransient
     public Collection<Equipement> getEquipementCollection() {
         return equipementCollection;
@@ -239,7 +238,6 @@ public class Company implements Serializable {
     public void setEquipementCollection(Collection<Equipement> equipementCollection) {
         this.equipementCollection = equipementCollection;
     }
-
 
     @XmlTransient
     public Collection<Unite> getUniteCollection() {
@@ -405,5 +403,4 @@ public class Company implements Serializable {
         this.staffGroupDefCollection = staffGroupDefCollection;
     }
 
-
-    }
+}

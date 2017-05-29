@@ -25,7 +25,6 @@ public class ThemeConverter implements Converter {
     @ManagedProperty("#{themeService}")
     private ThemeService service;
 
-
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
@@ -44,7 +43,6 @@ public class ThemeConverter implements Converter {
             return null;
         }
     }
-
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object object) {

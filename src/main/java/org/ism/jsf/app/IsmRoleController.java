@@ -22,6 +22,7 @@ import javax.faces.convert.FacesConverter;
 @ManagedBean(name = "ismRoleController")
 @SessionScoped
 public class IsmRoleController implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -77,7 +78,7 @@ public class IsmRoleController implements Serializable {
 
     public List<IsmRole> getItems() {
         //if (items == null) {
-            items = getFacade().findAll();
+        items = getFacade().findAll();
         //}
         return items;
     }

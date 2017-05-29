@@ -297,8 +297,6 @@ public class AnalyseData implements Serializable {
     public void setAdsampleTime(Date adsampleTime) {
         this.adsampleTime = adsampleTime;
     }
-    
-    
 
     public boolean getAdDeleted() {
         return adDeleted;

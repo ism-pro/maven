@@ -17,6 +17,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class IsmGenreFacade extends AbstractFacade<IsmGenre> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -28,5 +29,5 @@ public class IsmGenreFacade extends AbstractFacade<IsmGenre> {
     public IsmGenreFacade() {
         super(IsmGenre.class);
     }
-    
+
 }

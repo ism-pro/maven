@@ -53,7 +53,6 @@ public class StaffAuthFacade implements Serializable {
     private final String NQ_STAFFGROUPS = "StaffGroups.findByStaffCompanyActivated";
     private final String NQ_STAFFGROUPS_COUNT = "StaffGroups.countStaffCompanyActivated";
 
-    
     public StaffAuthFacade() {
     }
 
@@ -84,7 +83,8 @@ public class StaffAuthFacade implements Serializable {
      * Cette méthode permet de récupérer les informations du staff lorsque celui
      * -ci a préalablement été défini ! Voir la méthode prenant en paramètre le
      * staff pour le spécifier directement
-     * @return  true if found staff
+     *
+     * @return true if found staff
      */
     public boolean findStaff() {
         try {
@@ -124,7 +124,7 @@ public class StaffAuthFacade implements Serializable {
      * Surcharge de la méthode permettant de spécifié la variable de staff
      *
      * @param staff : entités de staff
-     * @return  true if found staff
+     * @return true if found staff
      */
     public boolean findStaff(Staff staff) {
         setStaff(staff);
@@ -135,7 +135,7 @@ public class StaffAuthFacade implements Serializable {
      * Surcharge de la méthode permettant de spécifié la variable de code staff
      *
      * @param staff : code de staff
-     * @return  true if found staff
+     * @return true if found staff
      */
     public boolean findStaff(String staff) {
         getStaff().setStStaff(staff);
@@ -169,14 +169,15 @@ public class StaffAuthFacade implements Serializable {
 
         try {
             String txtPwd = staff.getStPassword();      //!< Text password
-            if(!findStaff())    return false;           // s'assure d'avoir récupérer toutes les infos utilisateur
+            if (!findStaff()) {
+                return false;           // s'assure d'avoir récupérer toutes les infos utilisateur
+            }
             request.login(getStaff().getStStaff(), txtPwd);
             session.setMaxInactiveInterval(getStaff().getStMaxInactiveInterval());
             em.flush();
 
             // Possibilité d'ajouter des tests supplémentaire ici comme la société 
             // ..... ici
-            
             //Validation de la session
             setAuthenticated(true);
             session.setAttribute("authenticated", true);
@@ -239,6 +240,4 @@ public class StaffAuthFacade implements Serializable {
         setStaff(null);
     }
 
-    
-    
 }

@@ -20,6 +20,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class ProcessusFacade extends AbstractFacade<Processus> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -27,57 +28,54 @@ public class ProcessusFacade extends AbstractFacade<Processus> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    private final String APPROUVEDITEMS                   = "Processus.findAllApprouvedItems";
-    private final String SELECTALLBYLASTCHANGED           = "Processus.selectAllByLastChange";
-    private final String FIND_BY_PROCESSUS                = "Processus.findByPProcessus";       // query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus"),
-    private final String FIND_BY_DESIGNATION              = "Processus.findByPDesignation";     //, query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation"),
-    
-    
-    
+    private final String APPROUVEDITEMS = "Processus.findAllApprouvedItems";
+    private final String SELECTALLBYLASTCHANGED = "Processus.selectAllByLastChange";
+    private final String FIND_BY_PROCESSUS = "Processus.findByPProcessus";       // query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus"),
+    private final String FIND_BY_DESIGNATION = "Processus.findByPDesignation";     //, query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation"),
+
     public ProcessusFacade() {
         super(Processus.class);
     }
 
-    public List<Processus> findApprouvedItems(){
+    public List<Processus> findApprouvedItems() {
         em.flush();
         Query q = em.createNamedQuery(APPROUVEDITEMS);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<Processus> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
-    
+
     public List<Processus> findByCode(String code) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("pProcessus", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<Processus> findByDesignation(String designation) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_DESIGNATION).setParameter("pDesignation", designation);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
-        if(count > 0){
+        if (count > 0) {
             return q.getResultList();
         }
         return null;

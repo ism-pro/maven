@@ -122,18 +122,16 @@ public class RibbonRenderer extends CoreRenderer {
 
         writer.writeAttribute(HTML.WIDGET_VAR, widgetVar, null);
 
-        if(orientation.equals("bottom")) {
+        if (orientation.equals("bottom")) {
             encodeTabContents(context, ribbon);
             encodeHeaders(context, ribbon);
-        }
-        else {
+        } else {
             encodeHeaders(context, ribbon);
             encodeTabContents(context, ribbon);
         }
 
         //encodeTabHeaders(context, ribbon);
         //encodeTabContents(context, ribbon);
-
         encodeStateHolder(context, ribbon, clientId + "_activeIndex", String.valueOf(ribbon.getActiveIndex()));
 
         if (ribbon.isScrollable()) {
@@ -197,13 +195,13 @@ public class RibbonRenderer extends CoreRenderer {
         ResponseWriter writer = context.getResponseWriter();
         String defaultStyleClass = active ? Ribbon.ACTIVE_TAB_HEADER_CLASS : Ribbon.INACTIVE_TAB_HEADER_CLASS;
         defaultStyleClass = defaultStyleClass + " ui-corner-" + ribbon.getOrientation();   //cornering
-        if(tab.isDisabled()) {
+        if (tab.isDisabled()) {
             defaultStyleClass = defaultStyleClass + " ui-state-disabled";
         }
         String styleClass = tab.getTitleStyleClass();
         styleClass = (styleClass == null) ? defaultStyleClass : defaultStyleClass + " " + styleClass;
         UIComponent titleFacet = tab.getFacet("title");
-        
+
         //header container
         String idString = tab.getClientId(context).split(":")[2];
         writer.startElement("li", null);
@@ -213,27 +211,30 @@ public class RibbonRenderer extends CoreRenderer {
         writer.writeAttribute("aria-expanded", String.valueOf(active), null);
         writer.writeAttribute("aria-selected", String.valueOf(active), null);
         writer.writeAttribute("aria-label", tab.getAriaLabel(), null);
-        if(tab.getTitleStyle() != null)  writer.writeAttribute("style", tab.getTitleStyle(), null);
-        if(tab.getTitletip() != null)  writer.writeAttribute("title", tab.getTitletip(), null);
+        if (tab.getTitleStyle() != null) {
+            writer.writeAttribute("style", tab.getTitleStyle(), null);
+        }
+        if (tab.getTitletip() != null) {
+            writer.writeAttribute("title", tab.getTitletip(), null);
+        }
 
         //title
         writer.startElement("a", null);
         writer.writeAttribute("id", idString, null);
         writer.writeAttribute("href", "#" + tab.getClientId(context), null);
         writer.writeAttribute("tabindex", "-1", null);
-        if(titleFacet == null) {
-        	String tabTitle = tab.getTitle(); 
-        	if(tabTitle != null) {
-        	    writer.write(tabTitle);
-        	}
-        }
-        else {
+        if (titleFacet == null) {
+            String tabTitle = tab.getTitle();
+            if (tabTitle != null) {
+                writer.write(tabTitle);
+            }
+        } else {
             titleFacet.encodeAll(context);
-        }        
+        }
         writer.endElement("a");
 
         //closable
-        if(tab.isClosable()) {
+        if (tab.isClosable()) {
             writer.startElement("span", null);
             writer.writeAttribute("class", "ui-icon ui-icon-close", null);
             writer.endElement("span");
@@ -242,8 +243,6 @@ public class RibbonRenderer extends CoreRenderer {
         writer.endElement("li");
     }
 
-    
-    
     protected void encodeTabHeaders(FacesContext context, Ribbon ribbon) throws IOException {
         /*
         ResponseWriter writer = context.getResponseWriter();
@@ -312,7 +311,7 @@ public class RibbonRenderer extends CoreRenderer {
             }
         }
         writer.endElement("ul");
-        */
+         */
     }
 
     protected void encodeTabContents(FacesContext context, Ribbon ribbon) throws IOException {
@@ -381,18 +380,17 @@ public class RibbonRenderer extends CoreRenderer {
 
     protected void encodeScrollerButton(FacesContext context, Ribbon ribbon, String styleClass, String iconClass) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-        
+
         writer.startElement("a", null);
         writer.writeAttribute("class", styleClass, null);
-        
+
         writer.startElement("span", null);
         writer.writeAttribute("class", iconClass, null);
         writer.endElement("span");
-        
+
         writer.endElement("a");
     }
-    
-    
+
     @Override
     public void encodeChildren(FacesContext context, UIComponent component) throws IOException {
         //Do nothing

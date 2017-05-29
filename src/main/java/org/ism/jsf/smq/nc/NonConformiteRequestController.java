@@ -460,8 +460,6 @@ public class NonConformiteRequestController implements Serializable {
      * ************************************************************************
      *
      */
-    
-    
     /**
      * *
      *
@@ -501,11 +499,6 @@ public class NonConformiteRequestController implements Serializable {
         return getFacade().itemsStateInChangeRange(state, from, to);
     }
 
-    
-    
-    
-    
-        
     /**
      * *
      *
@@ -548,15 +541,6 @@ public class NonConformiteRequestController implements Serializable {
         return getFacade().itemsStateInChangeRangeByProcessus(state, from, to, processus);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /**
      * ************************************************************************
      * CONVERTER

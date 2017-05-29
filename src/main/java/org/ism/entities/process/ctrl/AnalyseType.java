@@ -47,7 +47,7 @@ import org.ism.entities.process.Unite;
     @NamedQuery(name = "AnalyseType.findByAtDesignation", query = "SELECT a FROM AnalyseType a WHERE a.atDesignation = :atDesignation"),
     @NamedQuery(name = "AnalyseType.findByAtUnite", query = "SELECT a FROM AnalyseType a WHERE a.atUnite = :atUnite"),
     @NamedQuery(name = "AnalyseType.findByAtCategory", query = "SELECT a FROM AnalyseType a WHERE a.atCategory = :atCategory"),
-    @NamedQuery(name = "AnalyseType.findByAtMethod", query = "SELECT a FROM AnalyseType a WHERE a.atMethod = :atMethod"),    
+    @NamedQuery(name = "AnalyseType.findByAtMethod", query = "SELECT a FROM AnalyseType a WHERE a.atMethod = :atMethod"),
     @NamedQuery(name = "AnalyseType.findByAtTypeUnite", query = "SELECT a FROM AnalyseType a WHERE a.atType = :atType AND a.atUnite = :atUnite"),
     @NamedQuery(name = "AnalyseType.findByAtTypeCategory", query = "SELECT a FROM AnalyseType a WHERE a.atType = :atType AND a.atCategory = :atCategory"),
     @NamedQuery(name = "AnalyseType.findByAtTypeMethod", query = "SELECT a FROM AnalyseType a WHERE a.atType = :atType AND a.atMethod = :atMethod"),
@@ -255,5 +255,5 @@ public class AnalyseType implements Serializable {
     public String toString() {
         return "org.ism.entities.AnalyseType[ atId=" + atId + " ]";
     }
-    
+
 }

@@ -44,7 +44,7 @@
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="dctDesignation" 
                                      value="#{docTypeController.selected.dctDesignation}"
-                                        title="#{ism.DocTypeFieldInfo_dctDesignation}" 
+                                     title="#{ism.DocTypeFieldInfo_dctDesignation}" 
                                      validator="DocTypeDesignationValidator"
                                      required="true" requiredMessage="#{ism.DocTypeRequiredMsg_dctDesignation}"/>
                         <p:message for="dctDesignation"   />
@@ -57,7 +57,7 @@
                                              value="#{docTypeController.selected.dctDeleted}" 
                                              required="true" 
                                              requiredMessage="#{ism.DocTypeRequiredMsg_dctDeleted}"/>
-                    
+
 
                     <p:outputLabel value="#{ism.DocTypeField_dctCreated}" 
                                    rendered="false" for="dctCreated" />

@@ -92,7 +92,7 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
 
         writer.startElement("ul", null);
         writer.writeAttribute("class", Ribbon.SET_BIG_BUTTON_CLASS, null);
-       
+
         int childCount = groupSet.getChildCount();
         if (childCount > 0) {
             List<UIComponent> children = groupSet.getChildren();
@@ -105,7 +105,7 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
                 writer.endElement("div");
             }
         }
-        
+
         writer.endElement("ul");
         writer.endElement("div");
     }

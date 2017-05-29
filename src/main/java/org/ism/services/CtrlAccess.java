@@ -19,11 +19,10 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
     public enum AccessChecked {
         A_N, A_P, A_C
     }
-    
+
     private static final long serialVersionUID = 1L;
 
     //private String xName, xRoleName, xPath, xDescription, 
-    
     private String name;
     private String code = null;
     private String path = null;
@@ -31,7 +30,6 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
     private AccessChecked access = AccessChecked.A_N;
     private Company company = null;
     private StaffGroupDef staffGroupDef = null;
-
 
     /**
      *
@@ -48,7 +46,7 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         this.description = description;
         access = AccessChecked.A_N;
     }
-    
+
     public CtrlAccess(String name, String code, String path, String description, AccessChecked access) {
         this.name = name;
         this.code = code;
@@ -89,7 +87,7 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
 
     /**
      * Creates a new instance of CtrlAccess
-     * 
+     *
      * @param staffGroupDef the staff group definition
      * @param access the corresponding access
      */
@@ -115,7 +113,6 @@ public class CtrlAccess implements Serializable, Comparable<CtrlAccess> {
         this.access = access;
     }
 
-    
     public String getName() {
         return name;
     }

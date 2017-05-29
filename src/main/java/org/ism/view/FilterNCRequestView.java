@@ -25,14 +25,15 @@ import org.ism.jsf.smq.ProcessusController;
 @Named(value = "filterNCRequestView")
 @ViewScoped
 public class FilterNCRequestView implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private ProcessusController processusCtrl;
     private List<Processus> processus;
-    
+
     private IsmNcrstateController ismNcrstateCtrl;
     private List<IsmNcrstate> ismNcrstate;
-    
+
     private NonConformiteRequestController nonConformiteRequestCtrl;
     private List<NonConformiteRequest> nonConformiteRequest;
     private List<NonConformiteRequest> nonConformiteRequestFiltered;
@@ -54,11 +55,11 @@ public class FilterNCRequestView implements Serializable {
         processusCtrl = (ProcessusController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "processusController");
         processus = processusCtrl.getItems();
-        
+
         ismNcrstateCtrl = (IsmNcrstateController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "ismNcrstateController");
         ismNcrstate = ismNcrstateCtrl.getItems();
-        
+
         nonConformiteRequestCtrl = (NonConformiteRequestController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteRequestController");
         nonConformiteRequest = nonConformiteRequestCtrl.getItems();
@@ -71,7 +72,6 @@ public class FilterNCRequestView implements Serializable {
     public void setProcessus(List<Processus> processus) {
         this.processus = processus;
     }
-
 
     public List<NonConformiteRequest> getNonConformiteRequest() {
         return nonConformiteRequest;
@@ -97,7 +97,4 @@ public class FilterNCRequestView implements Serializable {
         this.ismNcrstate = ismNcrstate;
     }
 
-    
-    
-    
 }

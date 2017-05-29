@@ -97,7 +97,7 @@ public class StaffController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return staff prepared
      */
     public Staff prepareCreate() {
@@ -245,8 +245,7 @@ public class StaffController implements Serializable {
     public void update() {
         // Set time on creation action
         selected.setStChanged(new Date());
-        selected.setStPassword(JsfSecurity.convert(selected.getStPassword(), JsfSecurity.CODING.SHA256));
-
+        
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("StaffPersistenceUpdatedSummary"),
@@ -256,7 +255,13 @@ public class StaffController implements Serializable {
         isResetPassword = false;
     }
     
-    public void updateMaxInactiveInterval(){
+    
+    public void updatePassword(){
+        selected.setStPassword(JsfSecurity.convert(selected.getStPassword(), JsfSecurity.CODING.SHA256));
+        update();
+    }
+
+    public void updateMaxInactiveInterval() {
         update();
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         request.getSession().setMaxInactiveInterval(selected.getStMaxInactiveInterval());
@@ -370,7 +375,8 @@ public class StaffController implements Serializable {
      */
     /**
      * staff
-     * @return selected staff 
+     *
+     * @return selected staff
      */
     public Staff getSelected() {
         if (selected == null) {

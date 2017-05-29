@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.ism.sessions.smq.nc;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import javax.persistence.EntityManager;
 /**
  * <h1>AbstractFacade</h1>
  * <p>
- * This class coverts 
+ * This class coverts
  * </p>
  *
  *

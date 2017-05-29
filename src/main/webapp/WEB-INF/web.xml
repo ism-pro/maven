@@ -55,43 +55,43 @@
         <session-timeout>1</session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/login.xhtml</welcome-file>
+        <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>ISMAuth</realm-name>
         <form-login-config>
-            <form-login-page>/faces/login.xhtml</form-login-page>
-            <form-error-page>/faces/login.xhtml</form-error-page>
+            <form-login-page>/faces/index.xhtml</form-login-page>
+            <form-error-page>/faces/index.xhtml</form-error-page>
         </form-login-config>
     </login-config>
     <error-page>
         <error-code>403</error-code>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Exception</exception-type>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.IllegalStateException</exception-type>
-        <location>/faces/error.xhtml</location>
+        <location>/error.xhtml</location>
     </error-page>
     <filter>
         <filter-name>NoCacheFilter</filter-name>
@@ -160,6 +160,7 @@
     
     
     <!-- Resources security -->
+    <!--
     <security-constraint>
         <display-name>Resources Security Constraint</display-name>
         <web-resource-collection>
@@ -167,16 +168,21 @@
             <url-pattern>/javax.faces.resource/*</url-pattern>
         </web-resource-collection>
     </security-constraint>
+    -->
+    
+    <!-- No Guest security Contraint
     <security-constraint>
         <display-name>Guest Security onstraint</display-name>
         <web-resource-collection>
             <web-resource-name>Guest Web Security</web-resource-name>
-            <url-pattern>/faces/*</url-pattern>
+            <url-pattern>/faces/company/*</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+    -->
+    
     <security-constraint>
         <display-name>Staff Security onstraint</display-name>
         <web-resource-collection>

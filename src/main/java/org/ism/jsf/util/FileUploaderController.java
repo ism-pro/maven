@@ -113,7 +113,7 @@ public class FileUploaderController implements Serializable {
         FileUpload fu = (FileUpload) event.getSource();
         String fileName = uploadedFile.getFileName();
         String contentType = uploadedFile.getContentType();
-        
+
         InputStream is = null;
         FileOutputStream fos = null;
         Boolean success = (new File("C:/ISMFILES/SMQ/Documents")).mkdirs();
@@ -143,6 +143,5 @@ public class FileUploaderController implements Serializable {
     public void setSaveFileName(String saveFileName) {
         this.saveFileName = saveFileName;
     }
-    
-    
+
 }

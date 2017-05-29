@@ -24,26 +24,26 @@ import org.ism.jsf.smq.ProcessusController;
  */
 @Named(value = "filterSMQDocExplorerView")
 @ViewScoped
-public class FilterSMQDocExplorerView  implements Serializable {
+public class FilterSMQDocExplorerView implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private ProcessusController processusCtrl;
     private List<Processus> processus;
-    
+
     private DocTypeController docTypeCtrl;
     private List<DocType> docType;
-    
+
     private DocExplorerController docExplorerCtrl;
     private List<DocExplorer> docExplorer;
     private List<DocExplorer> docExplorerFiltered;
-    
-    
+
     /**
      * Creates a new instance of FilterNCRequestView
      */
     public FilterSMQDocExplorerView() {
     }
-    
+
     /**
      * Init. processus controller
      */
@@ -55,20 +55,17 @@ public class FilterSMQDocExplorerView  implements Serializable {
         processusCtrl = (ProcessusController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "processusController");
         processus = processusCtrl.getItems();
-        
+
         docTypeCtrl = (DocTypeController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docTypeController");
         docType = docTypeCtrl.getItems();
-        
-        
+
         docExplorerCtrl = (DocExplorerController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "docExplorerController");
         docExplorer = docExplorerCtrl.getItems();
-        
+
     }
-    
-    
-    
+
     public List<Processus> getProcessus() {
         return processus;
     }
@@ -124,6 +121,5 @@ public class FilterSMQDocExplorerView  implements Serializable {
     public void setDocType(List<DocType> docType) {
         this.docType = docType;
     }
-    
-    
+
 }

@@ -31,7 +31,7 @@ import org.primefaces.model.TreeNode;
  */
 @ManagedBean(name = "ctrlAccessService")
 @SessionScoped
-public class CtrlAccessService implements Serializable{
+public class CtrlAccessService implements Serializable {
 
     @Inject
     StaffGroupDefController staffGroupDefCtrl;
@@ -172,7 +172,7 @@ public class CtrlAccessService implements Serializable{
         // 0 - RACINE
         CheckboxTreeNode root = new CheckboxTreeNode(new CtrlAccess("Entreprise"), null);
 
-        if(staffGroupDefCtrl==null){
+        if (staffGroupDefCtrl == null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             staffGroupDefCtrl = (StaffGroupDefController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "staffGroupDefController");
@@ -201,7 +201,7 @@ public class CtrlAccessService implements Serializable{
         CheckboxTreeNode root = new CheckboxTreeNode(new CtrlAccess("Entreprise"), null);
 
         // 1 - 
-        if(staffGroupDefCtrl==null){
+        if (staffGroupDefCtrl == null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             staffGroupDefCtrl = (StaffGroupDefController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "staffGroupDefController");
@@ -222,7 +222,7 @@ public class CtrlAccessService implements Serializable{
                     for (int i = 0; i < selected.length; i++) {
                         CtrlAccess selectedAccess = (CtrlAccess) selected[i].getData();
                         CtrlAccess currentNode = (CtrlAccess) node.getData();
-                        if(currentNode.getName().matches(selectedAccess.getName())){
+                        if (currentNode.getName().matches(selectedAccess.getName())) {
                             node.setSelected(true);
                         }
                     }
@@ -902,12 +902,12 @@ public class CtrlAccessService implements Serializable{
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestvlidate_Path"),
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestvlidate_Description")),
                     nodeNcRequest);
-            
+
             CheckboxTreeNode nodeNcRequestCloture = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_Name"),
-                ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_RoleName"),
-                ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_Path"),
-                ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_Description")),
-                nodeNcRequest);
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_RoleName"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_Path"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncRequestCloture_Description")),
+                    nodeNcRequest);
 
             CheckboxTreeNode nodeNcUnite = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncUnite_Name"),
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("ncUnite_RoleName"),

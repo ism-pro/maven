@@ -12,29 +12,27 @@ import javax.faces.bean.ManagedProperty;
 import org.ism.domain.Theme;
 import org.ism.services.ThemeService;
 
-
-
 /**
  *
  * @author r.hendrick
  */
 @ManagedBean
 public class ThemeSwitcherView {
- 
+
     private List<Theme> themes;
     private String currentTheme = "ism";
-     
+
     @ManagedProperty("#{themeService}")
     private ThemeService service;
- 
+
     @PostConstruct
     public void init() {
         themes = service.getThemes();
     }
-     
+
     public List<Theme> getThemes() {
         return themes;
-    } 
+    }
 
     public String getCurrentTheme() {
         return currentTheme;
@@ -43,7 +41,7 @@ public class ThemeSwitcherView {
     public void setCurrentTheme(String currentTheme) {
         this.currentTheme = currentTheme;
     }
- 
+
     public void setService(ThemeService service) {
         this.service = service;
     }

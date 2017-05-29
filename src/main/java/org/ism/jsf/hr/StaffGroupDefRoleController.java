@@ -45,7 +45,7 @@ import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
 
 /**
- * 
+ *
  * @author r.hendrick
  */
 @ManagedBean(name = "staffGroupDefRoleController")
@@ -118,6 +118,7 @@ public class StaffGroupDefRoleController implements Serializable {
      */
     /**
      * Preapare
+     *
      * @return staff group def prepare
      */
     public StaffGroupDefRole prepareCreate() {
@@ -616,7 +617,7 @@ public class StaffGroupDefRoleController implements Serializable {
                         getString(M_SUMMARY_ID),
                         ResourceBundle.getBundle(JsfUtil.BUNDLE).
                         getString(M_DETAIL_ID)
-                        );
+                );
                 throw new ValidatorException(facesMsg);
             }
 

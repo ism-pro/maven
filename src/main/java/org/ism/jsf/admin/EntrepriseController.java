@@ -80,7 +80,7 @@ public class EntrepriseController implements Serializable {
 
     public List<Entreprise> getItems() {
         //if (items == null) {
-            items = getFacade().findAll();
+        items = getFacade().findAll();
         //}
         return items;
     }

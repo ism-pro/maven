@@ -49,6 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteFrequency.selectAllByLastChange", query = "SELECT n FROM NonConformiteFrequency n ORDER BY n.ncfChanged DESC")
 })
 public class NonConformiteFrequency implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -189,5 +190,5 @@ public class NonConformiteFrequency implements Serializable {
     public String toString() {
         return "org.ism.entities.NonConformiteFrequency[ ncfId=" + ncfId + " ]";
     }
-    
+
 }

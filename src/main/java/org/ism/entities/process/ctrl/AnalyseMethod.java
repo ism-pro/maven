@@ -203,5 +203,5 @@ public class AnalyseMethod implements Serializable {
     public String toString() {
         return "org.ism.entities.AnalyseMethod[ amId=" + amId + " ]";
     }
-    
+
 }

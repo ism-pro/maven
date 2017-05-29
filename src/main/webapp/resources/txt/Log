@@ -155,6 +155,38 @@ Configuration :
 
 
 
+================================================================================
+    Accès :
+    + Ajouter une page intermédiaire permettant le choix d'accéder soit aux 
+    application soit à la documentation,
+        : Une colonne disposera des différentes applications du système,
+        : Une autre disposera des différents support de documentation,
+        : Une autre d'information ou point qualité
+    
+    Staff : paramètre de profile 
+    Correction du problème de perte de mot de passe au changement de paramètre 
+    de temps de déconnexion
+
+
+Essai d'ajout de javamail api
+Activate less and cess css compilator sans test
+
+
+================================================================================
+    Processus :
+    + Création d'un diagramme de processus
+    + Ajouter la possibilité d'intégrer les informations requise d'un processus
+    voir fiche processus, ...
+
+
+
+
+================================================================================
+    Documentation :
+    + Insérer un graphique en batonnet horizontal permettant de visualiser le 
+    nombre de document par processus.
+    + Changer le mode de gestion, les documents doivent être stocké sur un 
+    répertoire du server
 
 
 

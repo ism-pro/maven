@@ -95,7 +95,7 @@ public class StaffGroupDefController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return a definition of a staff group
      */
     public StaffGroupDef prepareCreate() {

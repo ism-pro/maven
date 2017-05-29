@@ -24,6 +24,7 @@ import javax.faces.convert.FacesConverter;
 @ManagedBean(name = "companyController")
 @SessionScoped
 public class CompanyController implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -81,7 +82,7 @@ public class CompanyController implements Serializable {
 
     public List<Company> getItems() {
         //if (items == null) {
-            items = getFacade().findAll();
+        items = getFacade().findAll();
         //}
         return items;
     }

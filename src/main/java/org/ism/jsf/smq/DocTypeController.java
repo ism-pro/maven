@@ -32,7 +32,7 @@ import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 
-@ManagedBean(name="docTypeController")
+@ManagedBean(name = "docTypeController")
 @SessionScoped
 public class DocTypeController implements Serializable {
 
@@ -100,8 +100,8 @@ public class DocTypeController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
-     * @return prepared doc type 
+     *
+     * @return prepared doc type
      */
     public DocType prepareCreate() {
         selected = new DocType();
@@ -339,7 +339,9 @@ public class DocTypeController implements Serializable {
      * @return selected doc type
      */
     public DocType getSelected() {
-        if(selected==null)   selected = new DocType();
+        if (selected == null) {
+            selected = new DocType();
+        }
         return selected;
     }
 
@@ -382,7 +384,6 @@ public class DocTypeController implements Serializable {
      *
      * ************************************************************************
      */
-
     @FacesConverter(forClass = DocType.class)
     public static class DocTypeControllerConverter implements Converter {
 

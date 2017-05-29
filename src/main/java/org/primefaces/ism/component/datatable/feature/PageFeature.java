@@ -29,14 +29,14 @@ public class PageFeature implements DataTableFeature {
 
     public void encode(FacesContext context, DataTableRenderer renderer, DataTable table) throws IOException {
         table.updatePaginationData(context, table);
-        
-        if(table.isLazy()) {
+
+        if (table.isLazy()) {
             table.loadLazyData();
         }
-        
+
         table.getPagination().seekToPage(table.getPage());
         renderer.encodeTbody(context, table, true);
-        
+
         context.getApplication().publishEvent(context, PostPageEvent.class, table);
     }
 
@@ -47,5 +47,5 @@ public class PageFeature implements DataTableFeature {
     public boolean shouldEncode(FacesContext context, DataTable table) {
         return table.isPaginationRequest(context);
     }
-    
+
 }

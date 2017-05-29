@@ -189,7 +189,6 @@ public class AnalyseDataControllerJsf implements Serializable {
         return "List";
     }
 
-    
     public List<AnalyseData> getItemsByLastChanged() {
         return getFacade().findAllByLastChanged();
     }
@@ -353,8 +352,6 @@ public class AnalyseDataControllerJsf implements Serializable {
     public List<AnalyseData> getItemsAvailableSelectOneList() {
         return getFacade().findAll();
     }
-
-
 
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);

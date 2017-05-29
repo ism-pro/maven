@@ -47,6 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Entreprise.findByECreated", query = "SELECT e FROM Entreprise e WHERE e.eCreated = :eCreated"),
     @NamedQuery(name = "Entreprise.findByEChanged", query = "SELECT e FROM Entreprise e WHERE e.eChanged = :eChanged")})
 public class Entreprise implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -210,5 +211,5 @@ public class Entreprise implements Serializable {
     public String toString() {
         return "org.ism.entities.Entreprise[ eId=" + eId + " ]";
     }
-    
+
 }

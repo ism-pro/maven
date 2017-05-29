@@ -24,8 +24,8 @@ import org.ism.charts.model.properties.ChartType;
  * <h2>ViewCompanyCharts</h2>
  *
  * <h3>Description</h3>
- * ViewCompanyCharts is the managed bean which control the main company charts. It
- * contains all model needeed.
+ * ViewCompanyCharts is the managed bean which control the main company charts.
+ * It contains all model needeed.
  *
  * @author r.hendrick
  */
@@ -65,7 +65,7 @@ public class ViewCompanyCharts implements Serializable {
         ncStateCtrl = (IsmNcrstateController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "ismNcrstateController");
         ncStateCtrl.prepareCreate();
-        
+
         stStaffCtrl = (StaffController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "staffController");
         stStaffCtrl.prepareCreate();

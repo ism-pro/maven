@@ -62,11 +62,11 @@
                                 />
                 </p:contextMenu>
 
-                
-                
-                
-                
-                
+
+
+
+
+
                 <p:dataTable id="datalist" widgetVar="datalist"
                              value="#{viewTabManager.ncUnite}" var="item"
                              filteredValue="#{viewTabManager.ncUniteFiltered}"
@@ -92,7 +92,7 @@
 
 
 
-                   
+
                     <f:facet name="{Exporters}">
                         <div style="float:right" >
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
@@ -106,7 +106,7 @@
                             </p:commandLink>
                         </div>
                     </f:facet>
-                    
+
                     <f:facet name="header">
                         <p:commandButton id="toggler" type="button" value="Columns" 
                                          style="float:left;" icon="ui-icon-calculator" 
@@ -129,7 +129,7 @@
                     </f:facet>
 
 
-                    
+
 
 
 
@@ -139,10 +139,10 @@
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{nonConformiteUniteController.handleColumnReorder}"  />
 
 
-                    
-                    
-                    
-                    
+
+
+
+
                     <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
                               exportable="false"
                               visible="#{nonConformiteUniteController.getIsVisibleColKey(ism.CtrlShort)}" >
@@ -169,7 +169,7 @@
                         <h:outputText value="#{item.ncuUnite}"/>
                     </p:column>
 
-                    
+
                     <p:column headerText="#{ism.NonConformiteUniteField_ncuDesignation}" 
                               visible="#{nonConformiteUniteController.getIsVisibleColKey(ism.NonConformiteUniteField_ncuDesignation)}"
                               sortBy="#{item.ncuDesignation}" 
@@ -191,7 +191,7 @@
                         </f:facet>
                         <p:selectBooleanCheckbox value="#{item.ncuDeleted}" disabled="true"/>
                     </p:column>
-                    
+
 
 
                     <p:column headerText="#{ism.NonConformiteUniteField_ncuCreated}" 

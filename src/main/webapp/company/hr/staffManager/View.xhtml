@@ -60,25 +60,25 @@
 
                         <p:panelGrid>
 
-                                <p:row>
-                                    <p:column>
-                                        <p:outputLabel  value="#{ism.StaffCompaniesField_stcCompany}" for="accessTree" />
-                                    </p:column>
-                                    <p:column colspan="3">
-                                        <p:tree    id="accessTree"
-                                                   value="#{staffManagerController.accessTree}" 
-                                                   var="varCtrlAccess" 
-                                                   
-                                                   selection="#{staffManagerController.selectedAccessTree}"
-                                                   >
-                                            <p:treeNode >
-                                                <h:outputText value="#{varCtrlAccess}" />
-                                            </p:treeNode>
-                                        </p:tree>
-                                    </p:column>
-                                </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel  value="#{ism.StaffCompaniesField_stcCompany}" for="accessTree" />
+                                </p:column>
+                                <p:column colspan="3">
+                                    <p:tree    id="accessTree"
+                                               value="#{staffManagerController.accessTree}" 
+                                               var="varCtrlAccess" 
 
-                            </p:panelGrid>
+                                               selection="#{staffManagerController.selectedAccessTree}"
+                                               >
+                                        <p:treeNode >
+                                            <h:outputText value="#{varCtrlAccess}" />
+                                        </p:treeNode>
+                                    </p:tree>
+                                </p:column>
+                            </p:row>
+
+                        </p:panelGrid>
                     </p:panelGrid>
 
                     <p:commandButton value="#{ism.Close}" 

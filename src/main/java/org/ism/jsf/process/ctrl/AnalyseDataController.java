@@ -415,7 +415,7 @@ public class AnalyseDataController implements Serializable {
                             //filters.put(filterMeta.get, filterMeta.getSortOrder().name());
                         }
                     }
-                    
+
                     // Request the criteria Model
                     this.setModel(new ListDataModel(getFacade().findByCriteria(getPageFirstItem(), getPageSize(), sorts, filters)));
                     return this.getModel();

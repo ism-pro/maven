@@ -230,5 +230,5 @@ public class AnalysePoint implements Serializable {
     public String toString() {
         return "org.ism.entities.AnalysePoint[ apId=" + apId + " ]";
     }
-    
+
 }

@@ -195,10 +195,12 @@ body {
     min-width: 64px;
     min-height: 32px;*/
 }
-.ui-button-icon-left.ui-icon.ui-c.ui-btn-Connect{
-    background: url("#{resource['img/ism/std/Connect.png']}") no-repeat;
+
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Open, .ui-menuitem-icon.ui-icon.ui-btn-Open{
+    background: url("#{resource['img/ism/ism.png']}") no-repeat;
     background-size:contain;
 }
+
 
 .ui-growl { 
     /* Main container element of growl */

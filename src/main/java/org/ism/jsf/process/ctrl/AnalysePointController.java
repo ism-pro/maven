@@ -101,10 +101,10 @@ public class AnalysePointController implements Serializable {
      * CRUD OPTIONS
      *
      * ************************************************************************
-     * 
+     *
      */
     /**
-     * 
+     *
      * @return prepared analyse point
      */
     public AnalysePoint prepareCreate() {
@@ -303,7 +303,6 @@ public class AnalysePointController implements Serializable {
         return items;
     }
 
-
     public List<AnalysePoint> getItemsByLastChanged() {
         items = getFacade().findAllByLastChanged();
         return items;
@@ -316,7 +315,7 @@ public class AnalysePointController implements Serializable {
     public List<AnalysePoint> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
     }
-    
+
     public List<AnalysePoint> getItemsByEquipement(Equipement equipement) {
         return getFacade().findByEquipement(equipement);
     }
@@ -385,7 +384,7 @@ public class AnalysePointController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = AnalysePoint.class, value ="AnalysePointConverter")
+    @FacesConverter(forClass = AnalysePoint.class, value = "AnalysePointConverter")
     public static class AnalysePointControllerConverter implements Converter {
 
         @Override

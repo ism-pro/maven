@@ -51,29 +51,17 @@ public class AnalyseDataView implements Serializable {
         return ejbFacade;
     }
 
-    
-    
-    
-    
-    
-    
-    public void handleSelected(AjaxBehaviorEvent event){
-        if(event!=null){
-            if(event.getSource() instanceof HtmlDataTable){
-                HtmlDataTable htmlDataTable = (HtmlDataTable)event.getSource();
+    public void handleSelected(AjaxBehaviorEvent event) {
+        if (event != null) {
+            if (event.getSource() instanceof HtmlDataTable) {
+                HtmlDataTable htmlDataTable = (HtmlDataTable) event.getSource();
                 Util.out("Get Row Index : " + htmlDataTable.getRowIndex());
             }
-        }else{
+        } else {
             Util.out("No evnet define !!!!");
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
     public PaginationHelper getPagination() {
         if (pagination == null) {
             pagination = new PaginationHelper(10) {
@@ -211,7 +199,6 @@ public class AnalyseDataView implements Serializable {
         return "List";
     }
 
-    
     public List<AnalyseData> getItemsByLastChanged() {
         return getFacade().findAllByLastChanged();
     }
@@ -375,8 +362,6 @@ public class AnalyseDataView implements Serializable {
     public List<AnalyseData> getItemsAvailableSelectOneList() {
         return getFacade().findAll();
     }
-
-
 
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);

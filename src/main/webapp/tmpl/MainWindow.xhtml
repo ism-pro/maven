@@ -23,19 +23,19 @@
             <h:outputStylesheet library="css" name="ism-global.min.css" />
             <h:outputStylesheet library="css" name="ism.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
-            
-            
+
+
             <h:outputStylesheet library="vendor" name="font-awesome/4.4.7/css/font-awesome.min.css" />
             <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
 
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
-            
+
 
             <!-- Suppression dû au changement de primefaces vers la version 6.1 
             <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
             -->
-            
+
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
 
@@ -87,7 +87,7 @@
                           >
                 <f:facet name="header" class="unitNorthHeader">
                     <h:form id="shortcutForm">
-                        
+
                         <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
                                 listener="#{viewRibbon.updateReminingTimeSession()}" 
                                 update="shortcut-label-reminingTimeout" global="false"  />
@@ -178,12 +178,19 @@
                                    >
                                 <pi:ribbonGroup id="ribbonGroupHome" label="#{ism.StaffField_stStaff}"  >
                                     <pi:ribbonGroupSet id="ribbonGroupSetHome" set="small" >
+                                        <p:commandButton id="btnHomeIndex"
+                                                         actionListener="#{viewRibbon.setActiveIndex(0)}"
+                                                         title="Visualiser la page d'acceuil"
+                                                         action="/index.xhtml?faces-redirect=true"
+                                                         icon="ui-ribbonicon-home" 
+                                                         value="Acceuil"
+                                                         />
                                         <p:commandButton id="btnHomeHome"
                                                          actionListener="#{viewRibbon.setActiveIndex(0)}"
                                                          title="Visualiser la page d'acceuil"
                                                          action="/company/index.xhtml?faces-redirect=true"
                                                          icon="ui-ribbonicon-home" 
-                                                         value="Acceuil"
+                                                         value="Application"
                                                          />
                                         <p:commandButton id="btnHomeLogOut"
                                                          actionListener="#{viewRibbon.setActiveIndex(0)}"
@@ -468,7 +475,7 @@
                                                         rendered="#{request.isUserInRole('GUEST')}"
                                                         icon="ui-icon-analysedata" />
                                         </p:menuButton>
-                                        
+
                                         <p:commandButton id="btnProcessAnalyseDataStatis"
                                                          title="Gestion des données d'analyse par statistique"
                                                          action="/company/process/ctrl/AnalyseData/Request.xhtml?faces-redirect=true"
@@ -477,7 +484,7 @@
                                                          icon="ui-icon-analysedatastatis" 
                                                          value="Statistiques"
                                                          />
-                                        
+
                                     </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
                             </p:tab>

@@ -32,13 +32,12 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-
-
-@ManagedBean(name="analyseMethodController")
+@ManagedBean(name = "analyseMethodController")
 @SessionScoped
 public class AnalyseMethodController implements Serializable {
 
-    @EJB private org.ism.sessions.process.ctrl.AnalyseMethodFacade ejbFacade;
+    @EJB
+    private org.ism.sessions.process.ctrl.AnalyseMethodFacade ejbFacade;
     private List<AnalyseMethod> items = null;
     private AnalyseMethod selected;
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
@@ -63,8 +62,7 @@ public class AnalyseMethodController implements Serializable {
         String src_06 = "AnalyseMethodField_amCreated";
         String src_07 = "AnalyseMethodField_amChanged";
         String src_08 = "AnalyseMethodField_amCompany";
-        
-        
+
         // Setup initial visibility
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
@@ -101,7 +99,7 @@ public class AnalyseMethodController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared analyse method
      */
     public AnalyseMethod prepareCreate() {
@@ -217,8 +215,6 @@ public class AnalyseMethodController implements Serializable {
             }
         }
     }
-    
-    
 
     public void createUnReleasded() {
         isReleaseSelected = false;
@@ -379,7 +375,7 @@ public class AnalyseMethodController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass=AnalyseMethod.class)
+    @FacesConverter(forClass = AnalyseMethod.class)
     public static class AnalyseMethodControllerConverter implements Converter {
 
         @Override
@@ -387,7 +383,7 @@ public class AnalyseMethodController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            AnalyseMethodController controller = (AnalyseMethodController)facesContext.getApplication().getELResolver().
+            AnalyseMethodController controller = (AnalyseMethodController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "analyseMethodController");
             return controller.getAnalyseMethod(getKey(value));
         }
@@ -419,9 +415,6 @@ public class AnalyseMethodController implements Serializable {
         }
 
     }
-
-    
-    
 
     /**
      * ************************************************************************
@@ -466,7 +459,7 @@ public class AnalyseMethodController implements Serializable {
             }
         }
     }
-    
+
     @FacesValidator(value = "AnalyseMethod_DesignationValidator")
     public static class AnalyseMethodDesignationValidator implements Validator {
 

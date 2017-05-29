@@ -20,13 +20,13 @@ h1 {
 }
 
 a:link, a:visited {
-  color: #045491;
-  text-decoration: none;
+    color: #045491;
+    text-decoration: none;
 }
 
 a:link:hover, a:visited:hover  {
-  color: #045491;
-  text-decoration : underline;
+    color: #045491;
+    text-decoration : underline;
 }
 
 
@@ -39,12 +39,12 @@ a:link:hover, a:visited:hover  {
 }
 
 .staffImage a:link, a:visited {
-  color: #045491;
-  text-decoration: none;
+    color: #045491;
+    text-decoration: none;
 }
 
 .staffImage a:link:hover, a:visited:hover  {
-  color: #045491;
-  text-decoration : underline;
+    color: #045491;
+    text-decoration : underline;
 }
 

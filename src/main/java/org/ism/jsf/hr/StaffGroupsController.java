@@ -93,6 +93,7 @@ public class StaffGroupsController implements Serializable {
      */
     /**
      * Prepare
+     *
      * @return staff groups
      */
     public StaffGroups prepareCreate() {

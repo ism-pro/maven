@@ -17,6 +17,7 @@ import org.ism.sessions.AbstractFacade;
  */
 @Stateless
 public class IsmNcrstateFacade extends AbstractFacade<IsmNcrstate> {
+
     @PersistenceContext(unitName = "ISM_PU")
     private EntityManager em;
 
@@ -28,5 +29,5 @@ public class IsmNcrstateFacade extends AbstractFacade<IsmNcrstate> {
     public IsmNcrstateFacade() {
         super(IsmNcrstate.class);
     }
-    
+
 }

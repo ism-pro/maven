@@ -24,7 +24,6 @@ public class ViewSessionCounter {
     protected void initialize() {
     }
 
-    
     public Integer getSessionCounter() {
         return SessionCounterListener.getTotalActiveSession();
     }

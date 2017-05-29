@@ -26,11 +26,11 @@ public class AnalysePointFacade extends AbstractFacade<AnalysePoint> {
     private EntityManager em;
 
     private final String SELECTALLBYLASTCHANGED = "AnalysePoint.selectAllByLastChange";
-    private final String FIND_BY_CODE = "AnalysePoint.findByApPoint";       
-    private final String FIND_BY_DESIGNATION = "AnalysePoint.findByApDesignation";  
-    private final String FIND_BY_EQUIPEMENT = "AnalysePoint.findByApEquipement";  
-    private final String FIND_BY_POINT_EQUIPEMENT = "AnalysePoint.findByApPointEquipement";   
-    
+    private final String FIND_BY_CODE = "AnalysePoint.findByApPoint";
+    private final String FIND_BY_DESIGNATION = "AnalysePoint.findByApDesignation";
+    private final String FIND_BY_EQUIPEMENT = "AnalysePoint.findByApEquipement";
+    private final String FIND_BY_POINT_EQUIPEMENT = "AnalysePoint.findByApPointEquipement";
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

@@ -34,7 +34,6 @@ public class StaffFacade extends AbstractFacade<Staff> {
     private final String FIND_BY_LASTNAME = "Staff.findByStLastname";     // query = "SELECT s FROM Staff s WHERE s.stLastname = :stLastname"
     private final String FIND_BY_FIRSTNAME = "Staff.findByStFirstname";     // query = "SELECT s FROM Staff s WHERE s.stFirstname = :stFirstname"
     private final String FIND_BY_MIDDLENAME = "Staff.findByStMiddlename";     // query = "SELECT s FROM Staff s WHERE s.stMiddlename = :stMiddlename"
-    
 
     public StaffFacade() {
         super(Staff.class);
@@ -45,12 +44,12 @@ public class StaffFacade extends AbstractFacade<Staff> {
         Query q = em.createNamedQuery("Staff.findByStStaff").setParameter("stStaff", staff);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int countStaff = q.getResultList().size();
-        if(countStaff > 0){
+        if (countStaff > 0) {
             return q.getResultList();
         }
         return null;
     }
-    
+
     public List<Staff> findAllByLastChanged() {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
@@ -83,7 +82,7 @@ public class StaffFacade extends AbstractFacade<Staff> {
         }
         return null;
     }
-    
+
     public List<Staff> findByFirstName(String firstname) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_FIRSTNAME).setParameter("stFirstname", firstname);
@@ -94,7 +93,7 @@ public class StaffFacade extends AbstractFacade<Staff> {
         }
         return null;
     }
-    
+
     public List<Staff> findByMiddlename(String middlename) {
         em.flush();
         Query q = em.createNamedQuery(FIND_BY_MIDDLENAME).setParameter("stMiddlename", middlename);

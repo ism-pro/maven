@@ -5,7 +5,7 @@
  */
 // https://code.google.com/p/primefaces/wiki/PrimeFacesLocales
 // 
- 
+
 
 // Arabic
 PrimeFaces.locales ['ar'] = {
@@ -13,8 +13,8 @@ PrimeFaces.locales ['ar'] = {
     prevText: 'إلى الخلف',
     nextText: 'إلى الأمام',
     currentText: 'بداية',
-    monthNames: ['ديسمبر', 'نوفمبر', 'أكتوبر', 'سبتمبر', 'أغسطس', 'يوليو', 'يونيو', 'مايو', 'ابريل', 'مارس', 'فبراير', 'يناير' ],
-    monthNamesShort: ['ديسمبر', 'نوفمبر', 'أكتوبر', 'سبتمبر', 'أغسطس', 'يوليو', 'يونيو', 'مايو', 'ابريل', 'مارس', 'فبراير', 'يناير' ],
+    monthNames: ['ديسمبر', 'نوفمبر', 'أكتوبر', 'سبتمبر', 'أغسطس', 'يوليو', 'يونيو', 'مايو', 'ابريل', 'مارس', 'فبراير', 'يناير'],
+    monthNamesShort: ['ديسمبر', 'نوفمبر', 'أكتوبر', 'سبتمبر', 'أغسطس', 'يوليو', 'يونيو', 'مايو', 'ابريل', 'مارس', 'فبراير', 'يناير'],
     dayNames: ['يوم الأحد‎', 'يوم الإثنين‎', 'يوم الثلاثاء‎', '‏يوم الأَرْبعاء‎', '‏يوم الخَمِيس‎', 'يوم الجُمْعَة‎‎', 'يوم السَّبْت'],
     dayNamesShort: ['الأحد‎', 'الإثنين‎', 'الثلاثاء‎', 'الأَرْبعاء‎', 'الخَمِيس‎', 'الجُمْعَة‎‎', 'السَّبْت'],
     dayNamesMin: ['الأحد‎', 'الإثنين‎', 'الثلاثاء‎', 'الأَرْبعاء‎', 'الخَمِيس‎', 'الجُمْعَة‎‎', 'السَّبْت'],
@@ -22,9 +22,9 @@ PrimeFaces.locales ['ar'] = {
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix:'' ,
-    timeOnlyTitle: 'الوقت فقط' ,
-    timeText: 'الوقت' ,
+    yearSuffix: '',
+    timeOnlyTitle: 'الوقت فقط',
+    timeText: 'الوقت',
     hourText: 'ساعة',
     minuteText: 'دقيقة',
     secondText: 'ثانية',
@@ -41,11 +41,11 @@ PrimeFaces.locales['pt'] = {
     prevText: 'Anterior',
     nextText: 'Próximo',
     currentText: 'Começo',
-    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Dez'],
-    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
-    dayNamesMin: ['D','S','T','Q','Q','S','S'],
+    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+    dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
     weekHeader: 'Semana',
     firstDay: 0,
     isRTL: false,
@@ -60,7 +60,7 @@ PrimeFaces.locales['pt'] = {
     month: 'Mês',
     week: 'Semana',
     day: 'Dia',
-    allDayText : 'Todo o Dia'
+    allDayText: 'Todo o Dia'
 };
 
 // Dutch
@@ -69,8 +69,8 @@ PrimeFaces.locales['nl'] = {
     prevText: 'Terug',
     nextText: 'Volgende',
     currentText: 'Huidig',
-    monthNames: ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December' ],
-    monthNamesShort: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec' ],
+    monthNames: ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'],
+    monthNamesShort: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
     dayNames: ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
     dayNamesShort: ['zo', 'ma', 'di', 'woe', 'do', 'vr', 'za'],
     dayNamesMin: ['Zo', 'Ma', 'Di', 'Wo ', 'Do', 'Vr ', 'Za'],
@@ -78,7 +78,7 @@ PrimeFaces.locales['nl'] = {
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix:'',
+    yearSuffix: '',
     timeOnlyTitle: 'Alleen tijd',
     timeText: 'Tijd',
     hourText: 'Uur',
@@ -96,8 +96,8 @@ PrimeFaces.locales ['en_US'] = {
     closeText: 'Close',
     prevText: 'Previous',
     nextText: 'Next',
-    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
-    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Tue', 'Fri', 'Sat'],
     dayNamesMin: ['S', 'M', 'T', 'W ', 'T', 'F ', 'S'],
@@ -105,7 +105,7 @@ PrimeFaces.locales ['en_US'] = {
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix:'',
+    yearSuffix: '',
     timeOnlyTitle: 'Only Time',
     timeText: 'Time',
     hourText: 'Time',
@@ -151,7 +151,7 @@ PrimeFaces.locales ['en_US'] = {
         'javax.faces.converter.DateTimeConverter.TIME_detail': '{2}: \'{0}\' could not be understood as a time. Example: {1}',
         'javax.faces.converter.DateTimeConverter.DATETIME': '{2}: \'{0}\' could not be understood as a date and time.',
         'javax.faces.converter.DateTimeConverter.DATETIME_detail': '{2}: \'{0}\' could not be understood as a date and time. Example: {1}',
-        'javax.faces.converter.DateTimeConverter.PATTERN_TYPE': '{1}: A \'pattern\' or \'type\' attribute must be specified to convert the value \'{0}\'', 
+        'javax.faces.converter.DateTimeConverter.PATTERN_TYPE': '{1}: A \'pattern\' or \'type\' attribute must be specified to convert the value \'{0}\'',
         'javax.faces.converter.NumberConverter.CURRENCY': '{2}: \'{0}\' could not be understood as a currency value.',
         'javax.faces.converter.NumberConverter.CURRENCY_detail': '{2}: \'{0}\' could not be understood as a currency value. Example: {1}',
         'javax.faces.converter.NumberConverter.PERCENT': '{2}: \'{0}\' could not be understood as a percentage.',
@@ -176,8 +176,8 @@ PrimeFaces.locales ['fr'] = {
     closeText: 'Fermer',
     prevText: 'Précédent',
     nextText: 'Suivant',
-    monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
-    monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ],
+    monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+    monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
     dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
     dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
     dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
@@ -185,7 +185,7 @@ PrimeFaces.locales ['fr'] = {
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix:'',
+    yearSuffix: '',
     timeOnlyTitle: 'Choisir l\'heure',
     timeText: 'Heure',
     hourText: 'Heures',
@@ -197,10 +197,9 @@ PrimeFaces.locales ['fr'] = {
     week: 'Semaine',
     day: 'Jour',
     allDayText: 'Toute la journée',
-    
     backLabel: 'Précédent',
     nextLabel: 'Suivant'
-    
+
 };
 
 // German
@@ -236,11 +235,11 @@ PrimeFaces.locales['el'] = {
     closeText: 'Κλείσιμο',
     prevText: 'Προηγούμενο',
     nextText: 'Επόμενο',
-    monthNames: ['Ιανουάριος','Φεβρουάριος','Μάρτιος','Απρίλιος','Μάϊος','Ιούνιος','Ιούλιος','Άυγουστος','Σεπτέμβιος','Οκτώβριος','Νοέμβριος','Δεκέμβριος'],
-    monthNamesShort: ['Ιαν','Φεβ','Μαρ','Απρ','Μαι','Ιουν', 'Ιουλ','Αυγ','Σεπ','Οκτ','Νοε','Δεκ'],
-    dayNames: ['Κυριακή','Δευτέρα','Τρίτη','Τετάρτη','Πέμπτη','Παρασκευή','Σάββατο'],
-    dayNamesShort: ['Κυρ','Δευ','Τρι','Τετ','Πεμ','Παρ','Σαβ'],
-    dayNamesMin: ['Κ','Δ','Τρ','Τε','Πε','Πα','Σ'],
+    monthNames: ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάϊος', 'Ιούνιος', 'Ιούλιος', 'Άυγουστος', 'Σεπτέμβιος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'],
+    monthNamesShort: ['Ιαν', 'Φεβ', 'Μαρ', 'Απρ', 'Μαι', 'Ιουν', 'Ιουλ', 'Αυγ', 'Σεπ', 'Οκτ', 'Νοε', 'Δεκ'],
+    dayNames: ['Κυριακή', 'Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο'],
+    dayNamesShort: ['Κυρ', 'Δευ', 'Τρι', 'Τετ', 'Πεμ', 'Παρ', 'Σαβ'],
+    dayNamesMin: ['Κ', 'Δ', 'Τρ', 'Τε', 'Πε', 'Πα', 'Σ'],
     weekHeader: 'Εβδ',
     firstDay: 1,
     isRTL: false,
@@ -256,7 +255,7 @@ PrimeFaces.locales['el'] = {
     month: 'Μήνας',
     week: 'Εβδομάδα',
     day: 'Μέρα',
-    allDayText : 'Όλη Μέρα'
+    allDayText: 'Όλη Μέρα'
 };
 
 // Hebrew
@@ -264,13 +263,13 @@ PrimeFaces.locales ['he'] = {
     closeText: 'סגור',
     prevText: 'הקודם',
     nextText: 'הבא',
-    monthNames: ['ינואר','פברואר','מרץ','אפריל','מאי','יוני',
-    'יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'],
-    monthNamesShort: ['1','2','3','4','5','6',
-    '7','8','9','10','11','12'],
-    dayNames: ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'],
-    dayNamesShort: ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','שבת'],
-    dayNamesMin: ['א\'','ב\'','ג\'','ד\'','ה\'','ו\'','שבת'],
+    monthNames: ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני',
+        'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'],
+    monthNamesShort: ['1', '2', '3', '4', '5', '6',
+        '7', '8', '9', '10', '11', '12'],
+    dayNames: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'],
+    dayNamesShort: ['א\'', 'ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'שבת'],
+    dayNamesMin: ['א\'', 'ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'שבת'],
     weekHeader: 'שבוע',
     firstDay: 0,
     isRTL: true,
@@ -290,11 +289,11 @@ PrimeFaces.locales ['he'] = {
 };
 
 // Hungarian
-PrimeFaces.locales['hu']= {
+PrimeFaces.locales['hu'] = {
     closeText: 'Bezárás',
     prevText: 'Előző',
     nextText: 'Következő',
-    monthNames: ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December' ],
+    monthNames: ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'],
     monthNamesShort: ['Jan', 'Febr', 'Márc', 'Ápr', 'Máj', 'Jún', 'Júl', 'Aug', 'Szept', 'Okt', 'Nov', 'Dec'],
     dayNames: ['Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'],
     dayNamesShort: ['Vas', 'H', 'K', 'Sze', 'Csüt', 'P', 'Szo'],
@@ -303,7 +302,7 @@ PrimeFaces.locales['hu']= {
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: true,
-    yearSuffix:'.',
+    yearSuffix: '.',
     timeOnlyTitle: 'Csak óra',
     timeText: 'Időpont',
     hourText: 'Óra',
@@ -319,42 +318,42 @@ PrimeFaces.locales['hu']= {
 
 // Italian
 PrimeFaces.locales ['it'] = {
-     closeText: 'Chiudi',
-     prevText: 'Precedente',
-     nextText: 'Prossimo',
-     monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre' ],
-     monthNamesShort: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic' ],
-     dayNames: ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'],
-     dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
-     dayNamesMin: ['D', 'L', 'M', 'M ', 'G', 'V ', 'S'],
-     weekHeader: 'Sett',
-     firstDay: 1,
-     isRTL: false,
-     showMonthAfterYear: false,
-     yearSuffix:'',
-     timeOnlyTitle: 'Solo Tempo',
-     timeText: 'Ora',
-     hourText: 'Ore',
-     minuteText: 'Minuto',
-     secondText: 'Secondo',
-     currentText: 'Data Odierna',
-     ampm: false,
-     month: 'Mese',
-     week: 'Settimana',
-     day: 'Giorno',
-     allDayText: 'Tutto il Giorno'
- };
- 
+    closeText: 'Chiudi',
+    prevText: 'Precedente',
+    nextText: 'Prossimo',
+    monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+    monthNamesShort: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'],
+    dayNames: ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'],
+    dayNamesMin: ['D', 'L', 'M', 'M ', 'G', 'V ', 'S'],
+    weekHeader: 'Sett',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: '',
+    timeOnlyTitle: 'Solo Tempo',
+    timeText: 'Ora',
+    hourText: 'Ore',
+    minuteText: 'Minuto',
+    secondText: 'Secondo',
+    currentText: 'Data Odierna',
+    ampm: false,
+    month: 'Mese',
+    week: 'Settimana',
+    day: 'Giorno',
+    allDayText: 'Tutto il Giorno'
+};
+
 // Polish
 PrimeFaces.locales['pl'] = {
     closeText: 'Zamknij',
     prevText: 'Poprzedni',
     nextText: 'Następny',
-    monthNames: ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'],
-    monthNamesShort: ['Sty','Lut','Mar','Kwi','Maj','Cze', 'Lip','Sie','Wrz','Paź','Lis','Gru'],
-    dayNames: ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'],
-    dayNamesShort: ['Nie','Pon','Wt','Śr','Czw','Pt','So'],
-    dayNamesMin: ['N','P','W','Ś','Cz','P','S'],
+    monthNames: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+    monthNamesShort: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'],
+    dayNames: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'],
+    dayNamesShort: ['Nie', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'So'],
+    dayNamesMin: ['N', 'P', 'W', 'Ś', 'Cz', 'P', 'S'],
     weekHeader: 'Tydzień',
     firstDay: 1,
     isRTL: false,
@@ -370,7 +369,7 @@ PrimeFaces.locales['pl'] = {
     month: 'Miesiąc',
     week: 'Tydzień',
     day: 'Dzień',
-    allDayText : 'Cały dzień'
+    allDayText: 'Cały dzień'
 };
 
 // Romanian
@@ -379,8 +378,8 @@ PrimeFaces.locales ['ro'] = {
     prevText: 'Înapoi',
     nextText: 'Înainte',
     currentText: 'Acasă',
-    monthNames: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie' ],
-    monthNamesShort: ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec' ],
+    monthNames: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'],
+    monthNamesShort: ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec'],
     dayNames: ['Duminică', 'Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă'],
     dayNamesShort: ['Dum', 'Lun', 'Mar', 'Mie', 'Joi', 'Vin', 'Sâm'],
     dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
@@ -406,16 +405,16 @@ PrimeFaces.locales ['ru'] = {
     closeText: 'Закрыть',
     prevText: 'Назад',
     nextText: 'Вперёд',
-    monthNames: ['Январь', 'Февраль' , 'Март' , 'Апрель' , 'Май' , 'Июнь' , 'Июль' , 'Август' , 'Сентябрь','Октябрь','Ноябрь','Декабрь' ],
-    monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек' ],
+    monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+    monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
     dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Субота'],
-    dayNamesShort: ['Воск','Пон' , 'Вт' , 'Ср' , 'Четв' , 'Пят' , 'Суб'],
+    dayNamesShort: ['Воск', 'Пон', 'Вт', 'Ср', 'Четв', 'Пят', 'Суб'],
     dayNamesMin: ['В', 'П', 'Вт', 'С ', 'Ч', 'П ', 'Сб'],
     weekHeader: 'Неделя',
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix:'',
+    yearSuffix: '',
     timeOnlyTitle: 'Только время',
     timeText: 'Время',
     hourText: 'Час',
@@ -434,8 +433,8 @@ PrimeFaces.locales ['sr'] = {
     closeText: 'Zatvori',
     prevText: 'Nazad',
     nextText: 'Napred',
-    monthNames: ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Juni', 'Juli', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar' ],
-    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec' ],
+    monthNames: ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Juni', 'Juli', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar'],
+    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'],
     dayNames: ['Nedelja', 'Ponedeljak', 'Utorak', 'Sreda', 'Četvrtak', 'Petak', 'Subota'],
     dayNamesShort: ['Ned', 'Pon', 'Uto', 'Sre', 'Čet', 'Pet', 'Sub'],
     dayNamesMin: ['N', 'P', 'U', 'S ', 'Č', 'P ', 'S'],
@@ -443,7 +442,7 @@ PrimeFaces.locales ['sr'] = {
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix:'',
+    yearSuffix: '',
     timeOnlyTitle: 'Samo Vreme',
     timeText: 'Vreme',
     hourText: 'Sat',
@@ -463,11 +462,11 @@ PrimeFaces.locales['zh_CN'] = {
     prevText: '上个月',
     nextText: '下个月',
     currentText: '今天',
-    monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-    monthNamesShort: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-    dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
-    dayNamesShort: ['日','一','二','三','四','五','六'],
-    dayNamesMin: ['日','一','二','三','四','五','六'],
+    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    monthNamesShort: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+    dayNamesShort: ['日', '一', '二', '三', '四', '五', '六'],
+    dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
     weekHeader: '周',
     firstDay: 1,
     isRTL: false,
@@ -482,7 +481,7 @@ PrimeFaces.locales['zh_CN'] = {
     month: '月',
     week: '周',
     day: '日',
-    allDayText : '全天'
+    allDayText: '全天'
 };
 
 // Slovenian
@@ -490,16 +489,16 @@ PrimeFaces.locales ['sl'] = {
     closeText: 'Zapri',
     prevText: 'Nazaj',
     nextText: 'Naprej',
-    monthNames : ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December'],
-    monthNamesShort : ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'],
-    dayNames : ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', '\u010Cetrtek', 'Petek', 'Sobota'],
-    dayNamesShort : ['Ned', 'Pon', 'Tor', 'Sre', '\u010Cet', 'Pet', 'Sob'],
+    monthNames: ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December'],
+    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'],
+    dayNames: ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', '\u010Cetrtek', 'Petek', 'Sobota'],
+    dayNamesShort: ['Ned', 'Pon', 'Tor', 'Sre', '\u010Cet', 'Pet', 'Sob'],
     dayNamesMin: ['N', 'P', 'T', 'S', '\u010C', 'P ', 'S'],
     weekHeader: 'Teden',
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix:'',
+    yearSuffix: '',
     timeOnlyTitle: 'Samo \u010Das',
     timeText: '\u010Cas',
     hourText: '\u010Cas',
@@ -518,11 +517,11 @@ PrimeFaces.locales['es'] = {
     closeText: 'Cerrar',
     prevText: 'Anterior',
     nextText: 'Siguiente',
-    monthNames: ['Enero','Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-    dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
-    dayNamesShort: ['Dom','Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-    dayNamesMin: ['D','L','M','X','J','V','S'],
+    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+    dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
     weekHeader: 'Semana',
     firstDay: 1,
     isRTL: false,
@@ -538,7 +537,7 @@ PrimeFaces.locales['es'] = {
     month: 'Mes',
     week: 'Semana',
     day: 'Día',
-    allDayText : 'Todo el día'
+    allDayText: 'Todo el día'
 };
 
 // Traditional Chinese
@@ -547,11 +546,11 @@ PrimeFaces.locales['zh_TW'] = {
     prevText: '上個月',
     nextText: '下個月',
     currentText: '今天',
-    monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-    monthNamesShort: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-    dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
-    dayNamesShort: ['日','一','二','三','四','五','六'],
-    dayNamesMin: ['日','一','二','三','四','五','六'],
+    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    monthNamesShort: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+    dayNamesShort: ['日', '一', '二', '三', '四', '五', '六'],
+    dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
     weekHeader: '周',
     firstDay: 1,
     isRTL: false,
@@ -566,7 +565,7 @@ PrimeFaces.locales['zh_TW'] = {
     month: '月',
     week: '周',
     day: '日',
-    allDayText : '全天'
+    allDayText: '全天'
 };
 
 // Turkish
@@ -575,11 +574,11 @@ PrimeFaces.locales['tr'] = {
     prevText: 'geri',
     nextText: 'ileri',
     currentText: 'bugün',
-    monthNames: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
-    monthNamesShort: ['Oca','Şub','Mar','Nis','May','Haz', 'Tem','Ağu','Eyl','Eki','Kas','Ara'],
-    dayNames: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
-    dayNamesShort: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
-    dayNamesMin: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+    monthNames: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+    monthNamesShort: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+    dayNames: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+    dayNamesShort: ['Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct'],
+    dayNamesMin: ['Pz', 'Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct'],
     weekHeader: 'Hf',
     firstDay: 1,
     isRTL: false,
@@ -594,7 +593,7 @@ PrimeFaces.locales['tr'] = {
     month: 'Ay',
     week: 'Hafta',
     day: 'Gün',
-    allDayText : 'Tüm Gün'
+    allDayText: 'Tüm Gün'
 };
 
 // Vietnamese
@@ -603,7 +602,7 @@ PrimeFaces.locales['vi'] = {
     prevText: 'Tháng trước',
     nextText: 'Tháng sau',
     monthNames: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
-    monthNamesShort: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12' ],
+    monthNamesShort: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
     dayNames: ['Chúa Nhựt', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'],
     dayNamesShort: ['CN', 'Hai', 'Ba', 'Tư', 'Năm', 'Sáu', 'Bảy'],
     dayNamesMin: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
@@ -611,7 +610,7 @@ PrimeFaces.locales['vi'] = {
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
-    yearSuffix:'',
+    yearSuffix: '',
     timeOnlyTitle: 'Chọn giờ',
     timeText: 'Giờ',
     hourText: 'Giờ',

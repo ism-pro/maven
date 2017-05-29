@@ -23,18 +23,19 @@ public class JsfSecurity {
 
         public static final String SHA256 = "SHA-256";
         public static final String MDA = "MDA";
-        
+
         public static final int LENGTH_SHA256 = 65;
     }
 
     /**
      * Convert your string password in corresponding
      *
-     * admin        : 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-     * lshi170786   : 33abe8d5235ff29542e141d9bdd7fad168850d67f0e7953755f63b74b6fbdf0a
-     * keito        : cda19643119b1fd086d76fb23cf4e47c95e93cbf09259ae36486fee41e5b5ec0
-     * fox          : 776cb326ab0cd5f0a974c1b9606044d8485201f2db19cf8e3749bdee5f36e200 
-     * iSm          : d2cd76186c93a0d46befa655f222ffe47bbc362d55057460b1ba32ad91c22e9a
+     * admin : 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+     * lshi170786 :
+     * 33abe8d5235ff29542e141d9bdd7fad168850d67f0e7953755f63b74b6fbdf0a keito :
+     * cda19643119b1fd086d76fb23cf4e47c95e93cbf09259ae36486fee41e5b5ec0 fox :
+     * 776cb326ab0cd5f0a974c1b9606044d8485201f2db19cf8e3749bdee5f36e200 iSm :
+     * d2cd76186c93a0d46befa655f222ffe47bbc362d55057460b1ba32ad91c22e9a
      *
      * @param pwd password
      * @param code code of password like MDA, SHA-256
@@ -50,7 +51,7 @@ public class JsfSecurity {
                 byte[] digest = md.digest();
                 BigInteger bigInt = new BigInteger(1, digest);
                 safePwd = bigInt.toString(16);
-                if(safePwd.length()<64){
+                if (safePwd.length() < 64) {
                     safePwd = "0" + safePwd;
                 }
                 //System.out.println(safePwd);

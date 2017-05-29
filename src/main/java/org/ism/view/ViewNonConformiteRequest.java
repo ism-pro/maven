@@ -33,17 +33,17 @@ public class ViewNonConformiteRequest implements Serializable {
 
     @PostConstruct
     public void init() {
-        
+
     }
-  
-    private NonConformiteRequestController getNCRequestCtrl(){
+
+    private NonConformiteRequestController getNCRequestCtrl() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ncCtrl = (NonConformiteRequestController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "nonConformiteRequestController");
         return ncCtrl;
     }
 
-    public void doCancel(){
+    public void doCancel() {
         NonConformiteRequestController ncRequestCtrl = getNCRequestCtrl();
         //ncRequestCtrl.setIsEditInfos(false);
     }

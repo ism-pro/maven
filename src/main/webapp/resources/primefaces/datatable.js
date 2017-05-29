@@ -5,7 +5,6 @@
  */
 
 PrimeFaces.widget.ColumnFilterPanel = PrimeFaces.widget.BaseWidget.extend({
-    
     init: function (a) {
         this._super(a);
         this.content = this.jq.children("div.ui-overlaypanel-content");
@@ -30,7 +29,7 @@ PrimeFaces.widget.ColumnFilterPanel = PrimeFaces.widget.BaseWidget.extend({
             this.bindTargetEvents();
             this.setupDialogSupport()
         }
-    }, 
+    },
     bindTargetEvents: function () {
         var d = this;
         this.target.data("primefaces-overlay-target", this.id).find("*").data("primefaces-overlay-target", this.id);
@@ -102,7 +101,7 @@ PrimeFaces.widget.ColumnFilterPanel = PrimeFaces.widget.BaseWidget.extend({
                 c.align()
             }
         })
-    }, 
+    },
     toggle: function () {
         if (!this.isVisible()) {
             this.show()

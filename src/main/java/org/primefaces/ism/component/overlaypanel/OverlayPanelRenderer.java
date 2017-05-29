@@ -214,7 +214,7 @@ public class OverlayPanelRenderer extends CoreRenderer {
         writer.endElement("input");
 
         writer.startElement("span", null);
-        writer.writeAttribute("class", 
+        writer.writeAttribute("class",
                 OverlayPanel.COLUMN_FILTER_SEARCH_ICON, "class");
         writer.endElement("span");
 

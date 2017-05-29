@@ -32,7 +32,7 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean(name="nonConformiteGravityController")
+@ManagedBean(name = "nonConformiteGravityController")
 @SessionScoped
 public class NonConformiteGravityController implements Serializable {
 
@@ -63,7 +63,7 @@ public class NonConformiteGravityController implements Serializable {
         NonConformiteGravityField_ncgDeleted=Suppression
         NonConformiteGravityField_ncgCreated=Création
         NonConformiteGravityField_ncgChanged=Modif.
-        */
+         */
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
         headerTextMap.put(1, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteGravityField_ncgId"));
@@ -100,7 +100,7 @@ public class NonConformiteGravityController implements Serializable {
      * ************************************************************************
      */
     /**
-     * 
+     *
      * @return prepared non conformite gravity
      */
     public NonConformiteGravity prepareCreate() {
@@ -204,7 +204,7 @@ public class NonConformiteGravityController implements Serializable {
                 getString("NonConformiteGravityPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteGravityPersistenceCreatedDetail")
-                + selected.getNcgGravity()+ " <br > " + selected.getNcgDesignation());
+                + selected.getNcgGravity() + " <br > " + selected.getNcgDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -236,7 +236,7 @@ public class NonConformiteGravityController implements Serializable {
                 getString("NonConformiteGravityPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("NonConformiteGravityPersistenceUpdatedDetail")
-                + selected.getNcgGravity()+ " <br > " + selected.getNcgDesignation());
+                + selected.getNcgGravity() + " <br > " + selected.getNcgDesignation());
     }
 
     public void destroy() {
@@ -337,7 +337,9 @@ public class NonConformiteGravityController implements Serializable {
      * @return selected non conformite gravity.
      */
     public NonConformiteGravity getSelected() {
-        if(selected==null)   selected = new NonConformiteGravity();
+        if (selected == null) {
+            selected = new NonConformiteGravity();
+        }
         return selected;
     }
 

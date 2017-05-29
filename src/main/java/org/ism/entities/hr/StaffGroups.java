@@ -38,19 +38,20 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "StaffGroups.findByStgId", query = "SELECT s FROM StaffGroups s WHERE s.stgId = :stgId"),
     @NamedQuery(name = "StaffGroups.findByStgStaff", query = "SELECT s FROM StaffGroups s WHERE s.stgStaff = :stgStaff"),
     @NamedQuery(name = "StaffGroups.findByStgGroupDef", query = "SELECT s FROM StaffGroups s WHERE s.stgGroupDef = :stgGroupDef"),
-    @NamedQuery(name = "StaffGroups.findByStgStaffAndCompanyAndStaffGroupDef", 
+    @NamedQuery(name = "StaffGroups.findByStgStaffAndCompanyAndStaffGroupDef",
             query = "SELECT s FROM StaffGroups s WHERE s.stgStaff = :stgStaff AND s.stgCompany = :stgCompany AND s.stgGroupDef = :stgGroupDef"),
     @NamedQuery(name = "StaffGroups.findByStgActivated", query = "SELECT s FROM StaffGroups s WHERE s.stgActivated = :stgActivated"),
     @NamedQuery(name = "StaffGroups.findByStgCreated", query = "SELECT s FROM StaffGroups s WHERE s.stgCreated = :stgCreated"),
     @NamedQuery(name = "StaffGroups.findByStgChanged", query = "SELECT s FROM StaffGroups s WHERE s.stgChanged = :stgChanged"),
-    @NamedQuery(name = "StaffGroups.countStaffCompanyActivated", 
+    @NamedQuery(name = "StaffGroups.countStaffCompanyActivated",
             query = "SELECT count(s) FROM StaffGroups s WHERE s.stgCompany = :stgCompany AND s.stgStaff = :stgStaff AND s.stgActivated=1"),
-    @NamedQuery(name = "StaffGroups.findByStaffCompanyActivated", 
+    @NamedQuery(name = "StaffGroups.findByStaffCompanyActivated",
             query = "SELECT s FROM StaffGroups s WHERE s.stgCompany = :stgCompany AND s.stgStaff = :stgStaff AND s.stgActivated=1"),
-    @NamedQuery(name = "StaffGroups.selectAllByLastChange", 
+    @NamedQuery(name = "StaffGroups.selectAllByLastChange",
             query = "SELECT s FROM StaffGroups s ORDER BY s.stgChanged DESC")
 })
 public class StaffGroups implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -174,5 +175,5 @@ public class StaffGroups implements Serializable {
     public String toString() {
         return "org.ism.entities.StaffGroups[ stgId=" + stgId + " ]";
     }
-    
+
 }
