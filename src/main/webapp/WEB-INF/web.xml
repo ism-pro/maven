@@ -65,33 +65,36 @@
             <form-error-page>/faces/index.xhtml</form-error-page>
         </form-login-config>
     </login-config>
+    
+    
+    
     <error-page>
         <error-code>403</error-code>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Exception</exception-type>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.IllegalStateException</exception-type>
-        <location>/error.xhtml</location>
+        <location>/faces/error.xhtml</location>
     </error-page>
     <filter>
         <filter-name>NoCacheFilter</filter-name>
@@ -108,17 +111,10 @@
     <listener>
         <listener-class>org.ism.listener.SessionCounterListener</listener-class>
     </listener>
-    
-    
-    
     <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/META-INF/ism.taglib.xml</param-value>
     </context-param>
-    
-    
-    
-    
     <mime-mapping>
         <extension>eot</extension>
         <mime-type>application/vnd.ms-fontobject</mime-type>
@@ -127,40 +123,36 @@
         <extension>eot?#iefix</extension>
         <mime-type>application/vnd.ms-fontobject</mime-type>
     </mime-mapping>
-    <mime-mapping>  
-        <extension>otf</extension>  
-        <mime-type>font/opentype</mime-type>  
-    </mime-mapping>      
-    <mime-mapping>  
-        <extension>ttf</extension>  
-        <mime-type>application/x-font-ttf</mime-type>  
-    </mime-mapping>      
-    <mime-mapping>  
-        <extension>woff</extension>  
-        <mime-type>application/x-font-woff</mime-type>  
+    <mime-mapping>
+        <extension>otf</extension>
+        <mime-type>font/opentype</mime-type>
     </mime-mapping>
-    <mime-mapping>  
-        <extension>woff2</extension>  
-        <mime-type>application/x-font-woff2</mime-type>  
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/x-font-ttf</mime-type>
     </mime-mapping>
-    <mime-mapping>  
-        <extension>svg</extension>  
-        <mime-type>image/svg+xml</mime-type>  
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/x-font-woff</mime-type>
     </mime-mapping>
-    <mime-mapping>  
-        <extension>svg#glyphicons_halflingsregular</extension>  
-        <mime-type>image/svg+xml</mime-type>  
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>application/x-font-woff2</mime-type>
     </mime-mapping>
-    <mime-mapping>  
-        <extension>map</extension>  
-        <mime-type>css/map</mime-type>  
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
     </mime-mapping>
-    
-    
-    
-    
+    <mime-mapping>
+        <extension>svg#glyphicons_halflingsregular</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>map</extension>
+        <mime-type>css/map</mime-type>
+    </mime-mapping>
     <!-- Resources security -->
-    <!--
+    <!-- 
     <security-constraint>
         <display-name>Resources Security Constraint</display-name>
         <web-resource-collection>
@@ -169,20 +161,17 @@
         </web-resource-collection>
     </security-constraint>
     -->
-    
-    <!-- No Guest security Contraint
+    <!-- No Guest security Contraint-->
     <security-constraint>
         <display-name>Guest Security onstraint</display-name>
         <web-resource-collection>
             <web-resource-name>Guest Web Security</web-resource-name>
-            <url-pattern>/faces/company/*</url-pattern>
+            <url-pattern>/faces/*</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+            <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    -->
-    
     <security-constraint>
         <display-name>Staff Security onstraint</display-name>
         <web-resource-collection>
@@ -1093,6 +1082,9 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+    
+    
+    
     <security-constraint>
         <display-name>SMQ Documents Security onstraint</display-name>
         <web-resource-collection>
@@ -1158,6 +1150,76 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+    
+    
+    
+    
+    
+    <security-constraint>
+        <display-name>Create document access Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Create document access Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/CreateAccess.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER_CA</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Edit document access Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Edit document access Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/EditAccess.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER_EA</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>List documents access Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>List documents access Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/ListAccess.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER_LA</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>View document access Security onstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>View document access Web Security</web-resource-name>
+            <url-pattern>/faces/company/smq/docExplorer/ViewAccess.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>S_EXPLORER_VA</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <security-constraint>
         <display-name>SMQ Type Document Security onstraint</display-name>
         <web-resource-collection>
@@ -1612,7 +1674,7 @@
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
-    </security-constraint>   
+    </security-constraint>
     <security-constraint>
         <display-name>SMQ Unite Security onstraint</display-name>
         <web-resource-collection>
@@ -1971,6 +2033,28 @@
     <security-role>
         <role-name>S_EXPLORER_V</role-name>
     </security-role>
+    
+    
+    
+    <security-role>
+        <role-name>S_EXPLORER_CA</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_EXPLORER_EA</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_EXPLORER_LA</role-name>
+    </security-role>
+    <security-role>
+        <role-name>S_EXPLORER_VA</role-name>
+    </security-role>
+
+    
+    
+    
+    
+    
+    
     <security-role>
         <role-name>S_TYPE</role-name>
     </security-role>

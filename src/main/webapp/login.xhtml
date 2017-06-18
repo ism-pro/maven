@@ -19,6 +19,13 @@
               content="60;url=#{request.contextPath}#{request.servletPath}/logout.xhtml?faces-redirect=true"/>
 
 
+        <script>
+            document.onload() = function(){
+                if (window.location.href.indexOf('http://') === 0)
+                    window.location = 'https://' + window.location.hostname + ':8181' + window.location.pathname + window.location.search;
+            }
+        </script>
+
     </h:head>
 
     <h:body id="pBody">
@@ -92,17 +99,17 @@
                                            />
                         </p:selectOneMenu>
                     </div>
-                    
-                    
+
+
                     <div class="w3-container w3-margin-top w3-border-top w3-padding-2 w3-dark-grey" style="margin-left: -16px; margin-right: -16px;">
                         <p:commandButton id="btnLogIn" type="submit"
-                                     value="#{ism.LogIn}"
-                                     icon="ui-btn-Connect"
-                                     action="#{staffAuthController.login}"
-                                     update=":growl"
-                                     class="w3-btn w3-light-grey w3-right w3-margin-top w3-margin-bottom"
-                                     style="margin-right: -5px;"
-                                     />
+                                         value="#{ism.LogIn}"
+                                         icon="ui-btn-Connect"
+                                         action="#{staffAuthController.login}"
+                                         update=":growl"
+                                         class="w3-btn w3-light-grey w3-right w3-margin-top w3-margin-bottom"
+                                         style="margin-right: -5px;"
+                                         />
                     </div>
 
                 </h:form>
@@ -113,9 +120,9 @@
         <p:growl id="growl" life="8000" />
 
 
-        
-        
-        
+
+
+
     </h:body>
     <p:blockUI block="pBody" trigger="Form:btnLogIn">
         <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>

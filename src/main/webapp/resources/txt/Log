@@ -28,7 +28,7 @@ nommenclature.
 3 - Ajouter au bundle security les infos d'accès
 4 - Modifier le fichier CtrlAccessService de l'arbre d'application
 5 - Ajouter ou retirer l'accès des rôles existant en database en veillant au liaison de groupe
-6 - 
+6 - Ajouter à la page d'erreur les nouvelles erreur
 
 
 ================================================================================
@@ -156,20 +156,8 @@ Configuration :
 
 
 ================================================================================
-    Accès :
-    + Ajouter une page intermédiaire permettant le choix d'accéder soit aux 
-    application soit à la documentation,
-        : Une colonne disposera des différentes applications du système,
-        : Une autre disposera des différents support de documentation,
-        : Une autre d'information ou point qualité
-    
-    Staff : paramètre de profile 
-    Correction du problème de perte de mot de passe au changement de paramètre 
-    de temps de déconnexion
-
-
-Essai d'ajout de javamail api
-Activate less and cess css compilator sans test
+    Point Qualité :
+    + 
 
 
 ================================================================================
@@ -187,8 +175,6 @@ Activate less and cess css compilator sans test
     nombre de document par processus.
     + Changer le mode de gestion, les documents doivent être stocké sur un 
     répertoire du server
-
-
 
 
 

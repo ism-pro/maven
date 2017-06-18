@@ -34,6 +34,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.ism.entities.smq.PointInfos;
 
 /**
  *
@@ -143,6 +144,10 @@ public class Staff implements Serializable {
     @OneToMany(mappedBy = "anStaff")
     private Collection<AnalyseNotify> analyseNotifyCollection;
 
+    @OneToMany(mappedBy = "piStaff")
+    private Collection<PointInfos> pointInfosCollection;
+    
+    
     public Staff() {
     }
 
@@ -343,6 +348,16 @@ public class Staff implements Serializable {
     public void setAnalyseNotifyCollection(Collection<AnalyseNotify> analyseNotifyCollection) {
         this.analyseNotifyCollection = analyseNotifyCollection;
     }
+    
+    
+    @XmlTransient
+    public Collection<PointInfos> getPointInfosCollection() {
+        return pointInfosCollection;
+    }
+
+    public void setPointInfosCollection(Collection<PointInfos> pointInfosCollection) {
+        this.pointInfosCollection = pointInfosCollection;
+    }
 
     @Override
     public int hashCode() {
@@ -365,7 +380,7 @@ public class Staff implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.Staff[ stId=" + stId + " ]";
+        return "" + stFirstname + " " + stMiddlename + " " + stLastname + " [" + stId + " ]";
     }
 
 }

@@ -259,7 +259,8 @@
                             </p:panel>
 
                             <hr/>
-                            <p:panel header="Etat des non conformités par processus" toggleable="true" style="border: none;">
+                            <p:panel header="Etat des non conformités par processus" toggleable="true" 
+                                     style="border: none;" class="w3-hide">
 
                                 <table class="w3-table-all w3-responsive">
                                     <tr>
@@ -310,6 +311,31 @@
                                 </table>
                             </p:panel>
                         </div>
+                    </div>
+                </div>
+                <div class="w3-half w3-margin-bottom ui-g-8 w3-hide">
+                    <div class="w3-container w3-blue w3-center" style="padding: 8px;">
+                        <i class="fa fa-info-circle w3-margin-right"></i>News
+                        <span class="w3-button w3-orange"
+                              style="top: 0px;"
+                              onclick="PF('imageswitch').previous();">Previous</span>
+                        <span class="w3-button w3-green" onclick="PF('imageswitch').resumeSlideshow();">resume</span>
+                        <span class="w3-button w3-green" onclick="PF('imageswitch').pauseSlideshow();">Pause</span>
+                        <span class="w3-button w3-green" onclick="PF('imageswitch').next();">Next</span>
+                    </div>
+                    <div class="w3-container w3-white  w3-border w3-padding-16" style="min-height: 480px;">
+                        <p:imageSwitch effect="scrollLeft" 
+                                       slideshowAuto="true"
+                                       style="width: 100%; height: 480px;position:relative;" 
+                                       widgetVar="imageswitch" speed="1000" slideshowSpeed="9000"
+                                       >
+                            <p:graphicImage value="/img/Diapositive1.GIF" class="centered" />
+                            <p:graphicImage value="/img/Diapositive2.GIF" class="centered" />
+                            <p:graphicImage value="/img/Diapositive3.GIF" class="centered" />
+                            <p:graphicImage value="/img/Diapositive4.GIF" class="centered" />
+                            <p:graphicImage value="/img/Diapositive5.GIF" class="centered" />
+                        </p:imageSwitch>
+
                     </div>
                 </div>
 

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.ProcessAccessTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{processAccessController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paId}" rendered="false" for="paId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false">                
+                        <p:inputText id="paId" 
+                                     value="#{processAccessController.selected.paId}" 
+                                     title="#{ism.ProcessAccessFieldInfo_paId}" 
+                                     required="true" requiredMessage="#{ism.ProcessAccessRequiredMsg_paId}" 
+                                     />
+                        <p:message for="paId" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paIsgroup}"  for="paIsgroup" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="paIsgroup"
+                                                 value="#{processAccessController.selected.paIsgroup}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.ProcessAccessRequiredMsg_paIsgroup}" 
+                                                 />
+                        <p:message for="paIsgroup" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paDeleted}"  for="paDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="paDeleted"
+                                                 value="#{processAccessController.selected.paDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.ProcessAccessRequiredMsg_paDeleted}" 
+                                                 />
+                        <p:message for="paDeleted" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paCreated}"  for="paCreated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="paCreated" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{processAccessController.selected.paCreated}" 
+                                    title="#{ism.ProcessAccessFieldInfo_paCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.ProcessAccessRequiredMsg_paCreated}" 
+                                    showOn="button"/>
+                        <p:message for="paCreated" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paChanged}"  for="paChanged" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="paChanged" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{processAccessController.selected.paChanged}" 
+                                    title="#{ism.ProcessAccessFieldInfo_paChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.ProcessAccessRequiredMsg_paChanged}" 
+                                    showOn="button"/>
+                        <p:message for="paChanged" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paCompany}"  for="paCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="paCompany" widgetVar="paCompany"
+                                     value="#{processAccessController.selected.paCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.ProcessAccessRequiredMsg_paCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="paCompany" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paDocexplorer}"  for="paDocexplorer" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="paDocexplorer"  widgetVar="paDocexplorer"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{processAccessController.selected.paDocexplorer}"
+                                         required="true" 
+                                         requiredMessage="#{ism.ProcessAccessRequiredMsg_paDocexplorer}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{docExplorerController.itemsAvailableSelectOne}"
+                                           var="paDocexplorerItem"
+                                           itemLabel="#{paDocexplorerItem.dcDesignation} - #{paDocexplorerItem.dcVersion}" 
+                                           itemValue="#{paDocexplorerItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="paDocexplorer" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paGroupdef}"  for="paGroupdef" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="paGroupdef"  widgetVar="paGroupdef"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{processAccessController.selected.paGroupdef}"
+                                         required="true" 
+                                         requiredMessage="#{ism.ProcessAccessRequiredMsg_paGroupdef}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}"
+                                           var="paGroupdefItem"
+                                           itemLabel="#{paGroupdefItem.stgdGroupDef} - #{paGroupdefItem.stgdDesignation}" 
+                                           itemValue="#{paGroupdefItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="paGroupdef" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessAccessField_paStaff}"  for="paStaff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="paStaff"  widgetVar="paStaff"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{processAccessController.selected.paStaff}"
+                                         required="true" 
+                                         requiredMessage="#{ism.ProcessAccessRequiredMsg_paStaff}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="paStaffItem"
+                                           itemLabel="#{paGroupdefItem.stgdGroupDef} - #{paGroupdefItem.stgdDesignation}" 
+                                           itemValue="#{paStaffItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="paStaff" />
+                    </h:panelGrid>
+
+                    
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{processAccessController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{processAccessController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{processAccessController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:paCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{processAccessController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{processAccessController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:paCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!processAccessController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{processAccessController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+                
+                
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{docExplorerController.selected != null}">
+
+                    <h:outputText value="#{ism.DocExplorerField_Id}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcId}" 
+                                  title="#{ism.DocExplorerFieldInfo_Id}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Processus}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcProcessus.PProcessus} - #{docExplorerController.selected.dcProcessus.PDesignation}" 
+                                  title="#{ism.DocExplorerFieldInfo_Processus}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_DocType}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcType.dctType} - #{docExplorerController.selected.dcType.dctDesignation}" 
+                                  title="#{ism.DocExplorerFieldInfo_DocType}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Name}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcDesignation}" 
+                                  title="#{ism.DocExplorerFieldInfo_Name}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Version}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcVersion}" 
+                                  title="#{ism.DocExplorerFieldInfo_Version}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Commentaire}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcComment}" 
+                                  title="#{ism.DocExplorerFieldInfo_Commentaire}"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Link}"/>
+                    <p:commandLink    target="_blank"
+                                      title="#{docExplorerController.selected.dcLink}"
+                                      action="#{fileController.downloadPDF(docExplorerController.selected.dcLink)}"
+                                      ajax="false" immediate="false" 
+                                      style="margin: 0px; padding: 0px;"
+                                      >
+                        <h:graphicImage library="img" 
+                                        name="ism/std/ExtPDF.png"
+                                        width="14px"
+                                        height="16px"
+                                        style="margin: 0px; padding: 0px;"
+                                        />
+                        <h:outputText value="#{docExplorerController.selected.dcLink}" />
+                    </p:commandLink>
+
+                    <h:outputText value="#{ism.DocExplorerField_DateApprouved}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcApprouved}" 
+                                  title="#{ism.DocExplorerFieldInfo_DateApprouved}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.DocExplorerField_Activated}"/>
+                    <p:selectBooleanCheckbox 
+                        value="#{docExplorerController.selected.dcActivated}" disabled="true"/>
+
+                    <h:outputText value="#{ism.DocExplorerField_Created}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcCreated}" 
+                                  title="#{ism.DocExplorerFieldInfo_Created}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.DocExplorerField_Timestamp}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcChanged}" 
+                                  title="#{ism.DocExplorerFieldInfo_Timestamp}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+                    <h:outputText value="#{ism.DocExplorerField_Company}"/>
+                    <h:outputText value="#{docExplorerController.selected.dcCompany.CCompany} - #{docExplorerController.selected.dcCompany.CDesignation}" 
+                                  title="#{ism.DocExplorerFieldInfo_Company}"/>
+
+
+                </p:panelGrid>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{processAccessController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:paCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{processAccessController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{processAccessController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:paCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!processAccessController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{processAccessController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

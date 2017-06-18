@@ -12,7 +12,7 @@
         <title><ui:insert name="title">#{ism.AppName}</ui:insert></title>
         <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
         <meta http-equiv="refresh" 
-              content="#{viewRibbon.advanceSessionMaxInactiveInterval()};url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
+              content="#{viewRibbon.advanceSessionMaxInactiveInterval()};url=#{request.contextPath}#{request.servletPath}/index.xhtml?faces-redirect=true"/>
         <meta charset="UTF-8"/>
 
 
@@ -304,6 +304,20 @@
                                                         rendered="#{request.isUserInRole('SNC_REQUEST')}"
                                                         icon="ui-icon-smqnc-request" />
                                         </p:menuButton>
+
+                                    </pi:ribbonGroupSet>
+                                </pi:ribbonGroup>
+
+                                <pi:ribbonGroup label="Point Infos">
+                                    <pi:ribbonGroupSet id="ribSetPointInfos" set="big">
+                                        <p:commandButton id="btnPointInfos"
+                                                         title="Gestion du point informations"
+                                                         action="/company/smq/pointInfos/List.xhtml?faces-redirect=true"
+                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
+                                                         rendered="#{request.isUserInRole('HR_GROUP')}"
+                                                         icon="ui-btn-PointInfos" 
+                                                         value="Infos"
+                                                         />
                                     </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
                             </p:tab>
@@ -682,7 +696,7 @@
 
     <h:body rendered="#{!request.session.getAttribute('authenticated')}">
         <meta http-equiv="refresh" 
-              content="0;url=#{request.contextPath}#{request.servletPath}/login.xhtml?faces-redirect=true"/>
+              content="0;url=#{request.contextPath}#{request.servletPath}/index.xhtml?faces-redirect=true"/>
     </h:body>
 
 </html>

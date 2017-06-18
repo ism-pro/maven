@@ -9,16 +9,28 @@
 
     <h:head>
         <title>#{ism.AppName}</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
         <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
         <meta charset="UTF-8"/>
 
         <h:outputStylesheet library="css" name="ism-login.min.css" />
         <h:outputStylesheet library="vendor" name="font-awesome/4.4.7/css/font-awesome.min.css" />
         <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
+
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="refresh" 
+              content="60;url=#{request.contextPath}#{request.servletPath}/logout.xhtml?faces-redirect=true"/>
+
+        <script>
+            window.onload = function () {
+                if (window.location.href.indexOf('http://') == 0)
+                    window.location = 'https://' + window.location.hostname + ':8181' + window.location.pathname + window.location.search;
+            }
+        </script>
+
     </h:head>
 
-    <h:body class="w3-white">
+    <h:body id="Page" class="w3-white">
         <!-- STYLE -->
         <style>
             .is-pad{}
@@ -43,7 +55,16 @@
             .ui-panel .ui-panel-content{
                 /*padding: 0px;*/
             }
-            
+            .centered {
+                position: absolute;
+                height: 100px;
+                top: 0;
+                bottom: 0;
+                margin:auto;
+                width: 100%;
+                height: 100%;
+            }
+
         </style>
 
 
@@ -69,9 +90,33 @@
 
             <!-- Options area -->
             <h:form id="optionForm">
-                <div class="w3-padding-16 ui-g"  >
+                <div class=" ui-g"  >
 
                     <!-- First Column -->
+                    <div class="w3-third w3-margin-bottom ui-g-4" >
+                        <!-- Documentation Title -->
+                        <div class="w3-container w3-orange w3-text-white w3-center" style="padding: 4px;">
+                            <i class="fa fa-life-ring w3-margin-right"></i>
+                            #{ism.Documentations}
+                        </div>
+
+                        <!-- Documentation content -->
+                        <div class="w3-container w3-white  w3-border" >
+                            <h3>Web</h3>
+                            <h6 class="w3-opacity">#{ism.Disable}</h6>
+                            <h3>Pdf</h3>
+                            <h6 class="w3-opacity">#{ism.Disable}</h6>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <!-- Second Column -->
                     <div class="w3-third w3-margin-bottom ui-g-4" >
                         <!-- Application Title -->
                         <div class="w3-container w3-red w3-center" style="padding: 8px;">
@@ -81,13 +126,13 @@
                         <!-- Application content -->
                         <div class="w3-white  w3-border " >
                             <!-- When connection Requested -->
-                            <p:panel class="w3-border-0"  rendered="#{!request.session.getAttribute('authenticated')}">
+                            <p:panel class="w3-border-0"   rendered="#{!request.session.getAttribute('authenticated')}">
                                 <div class="w3-center">
                                     <img src="#{resource['img/ism/hr/img_avatar4.png']}" 
                                          alt="Avatar" style="width:25%" class="w3-circle w3-margin-top" />
                                 </div>
 
-                                <div class="w3-section" >
+                                <div class="w3-section w3-margin" >
 
                                     <p:inputText id="j_username" 
                                                  value="#{staffAuthController.staff.stStaff}"
@@ -153,39 +198,7 @@
 
                         <br />
 
-                        <!-- Documentation Title -->
-                        <div class="w3-container w3-orange w3-text-white w3-center" style="padding: 4px;">
-                            <i class="fa fa-life-ring w3-margin-right"></i>
-                            #{ism.Documentations}
-                        </div>
 
-                        <!-- Documentation content -->
-                        <div class="w3-container w3-white  w3-border" >
-                            <h3>Web</h3>
-                            <h6 class="w3-opacity">#{ism.Disable}</h6>
-                            <h3>Pdf</h3>
-                            <h6 class="w3-opacity">#{ism.Disable}</h6>
-                        </div>
-                    </div>
-
-
-                    <div class="w3-half w3-margin-bottom ui-g-8">
-                        <div class="w3-container w3-blue w3-center" style="padding: 8px;"><i class="fa fa-info-circle w3-margin-right"></i>News</div>
-                        <div class="w3-container w3-white  w3-border w3-padding-16" style="min-height: 480px;">
-                            <h3>#{ism.SlideEmpty}</h3>
-                            <p:imageSwitch effect="scrollLeft" 
-                                           style="width: 100%; height: 100%; border: 1px solid peru; float: left;" 
-                                           widgetVar="imageswitch"
-                                           >
-                                <p:graphicImage value="/img/database-icon.png"  style="width: inherit; height: inherit;"/>
-                                <p:graphicImage value="/img/database-icon.png" />
-                                <p:graphicImage value="/img/database-icon.png" />
-                            </p:imageSwitch>
-                            <span class="w3-button w3-orange"
-                                  style="top: 0px;"
-                                  onclick="PF('imageswitch').previous();">Previous</span>
-                            <span class="w3-button w3-green" onclick="PF('imageswitch').next();">Next</span>
-                        </div>
                     </div>
 
                 </div>
@@ -200,6 +213,13 @@
         <p:growl id="growl" life="8000" />
 
     </h:body>
+
+
+
+    <p:blockUI block="Page" trigger="optionForm:btnLogIn">
+        <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+    </p:blockUI>
+
 </html>
 
 

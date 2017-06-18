@@ -47,6 +47,9 @@
                                       action="#{fileController.downloadPDF(docExplorerController.selected.dcLink)}"
                                       ajax="false" immediate="false" 
                                       style="margin: 0px; padding: 0px;"
+                                      disabled="#{!processAccessController
+                                                  .isUserDocumentAllowed(docExplorerController.selected, staffAuthController.staff,
+                                                      staffGroupsController.getItemsByStaff(staffAuthController.staff))}"
                                       >
                         <h:graphicImage library="img" 
                                         name="ism/std/ExtPDF.png"
@@ -84,8 +87,13 @@
                                   title="#{ism.DocExplorerFieldInfo_Company}"/>
 
 
+
                 </p:panelGrid>
 
+
+
+
+                <!-- GROUPE ZONE BTN -->
                 <h:panelGroup id="btn-crud-zone_id">
                     <p:commandButton icon="ui-btn-Print"
                                      styleClass="ui-btn">
@@ -99,6 +107,19 @@
                                      disabled="#{empty docExplorerController.selected 
                                                  or empty docExplorerController.selected.dcId}"
                                      />
+                    <p:commandButton icon="ui-btn-FileAccess"
+                                     styleClass="ui-btn"
+                                     value="#{ism.WriteOn}"
+                                     action="CreateAccess.xhtml?faces-redirect=true"
+                                     actionListener="#{processAccessController.prepareCreate()}"
+                                     title="Permet de définir des droits d'accès sur le document."
+                                     disabled="#{empty docExplorerController.selected 
+                                                 or empty docExplorerController.selected.dcId}"
+                                     rendered="#{request.isUserInRole('S_EXPLORER_CA')}"
+                                     >
+                        <f:setPropertyActionListener target="#{processAccessController.selected.paDocexplorer}" value="#{docExplorerController.selected}" />
+                        <f:setPropertyActionListener target="#{processAccessController.selected.paCompany}" value="#{staffAuthController.company}" />
+                    </p:commandButton>
                     <p:commandButton icon="ui-btn-Delete"
                                      styleClass="ui-btn"
                                      value="#{ism.Delete}"
@@ -126,6 +147,219 @@
 
 
                 </h:panelGroup>
+
+
+
+
+
+                <!-- Droit d'accès -->
+                <style>
+                    .ui-panel .ui-panel-content {padding:0px;}
+                </style>
+                <p:panel toggleTitle="Réduire" toggleable="false" collapsed="false" styleClass="panel" 
+                         style="margin: 0px; margin-top:40px; padding: 0px;"
+                         rendered="#{processAccessController.getItemsByDocLast(docExplorerController.selected)!=null?true:false}"
+                         >
+
+
+
+                    <p:dataTable id="datalist" widgetVar="datalist"
+                                 value="#{processAccessController.getItemsByDocLast(docExplorerController.selected)}" var="item"
+
+                                 selectionMode="single" 
+                                 rowIndexVar="_rowIndex"
+                                 rowKey="#{item.paId}"
+                                 paginator="#{tableView.paginator}" 
+                                 rows="10" 
+                                 resizableColumns="#{tableView.resizableColumns}"
+                                 rowsPerPageTemplate="2,4,6,10,20,30,40,50"
+                                 paginatorTemplate="#{tableView.paginatorTemplate}"
+                                 currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                                 liveResize="#{tableView.liveResize}"
+                                 reflow="#{tableView.reflow}"
+                                 draggableColumns="#{tableView.draggableColumns}"
+                                 sortMode="#{tableView.sortMode}"
+
+                                 emptyMessage="#{ism.EmptyList}"
+                                 multiViewState="true"
+                                 >
+
+
+
+
+
+                        <f:facet name="{Exporters}">
+                            <div style="float:right" >
+                                <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                    <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                    <p:dataExporter type="xls" target="datalist" fileName="#{ism.ProcessAccessTitleList}_#{viewUtil.maintenant}" 
+                                                    postProcessor="#{tableView.handlePostProcessXLS}"/>
+                                </p:commandLink>
+                                <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                    <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                    <p:dataExporter type="pdf" target="datalist" fileName="#{ism.ProcessAccessTitleList}_#{viewUtil.maintenant}"  />
+                                </p:commandLink>
+                            </div>
+                        </f:facet>
+
+
+                        <f:facet name="header">
+                            <p:commandButton id="toggler" type="button" value="Columns" 
+                                             style="float:left;" icon="ui-icon-calculator" 
+                                             />
+                            <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                                <p:printer target="datalist"  />
+                            </p:commandButton>
+
+                            <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                                <p:ajax event="toggle" update=":growl"
+                                        listener="#{processAccessController.handleColumnToggle}" />
+                            </p:columnToggler>
+
+                            <p:outputPanel style="float:right;">
+                                <h:outputText value="#{ism.Search}"  />
+                                <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                             style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                            </p:outputPanel>
+
+                        </f:facet>
+
+
+
+
+
+
+                        <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                        <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                        <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                        <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processAccessController.handleColumnReorder}"  />
+
+
+
+
+
+
+                        <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                                  exportable="false"
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.CtrlShort)}" >
+                            <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                             title="#{ism.View}" action="ViewAccess.xhtml?faces-redirect=true">
+                                <f:setPropertyActionListener value="#{item}" target="#{processAccessController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paId}" style="max-width: 24px;" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paId)}"
+                                  sortBy="#{item.paId}" filterBy="#{item.paId}" 
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.paId}"/>
+                        </p:column>
+
+
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paDocexplorer}" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paDocexplorer)}"
+                                  sortBy="#{item.paDocexplorer}" filterBy="#{item.paDocexplorer}" 
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.paDocexplorer.dcId} #{item.paDocexplorer.dcVersion} : #{item.paDocexplorer.dcDesignation}"/>
+                        </p:column>
+
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paGroupdef}" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paGroupdef)}"
+                                  sortBy="#{item.paGroupdef}" filterBy="#{item.paGroupdef}" 
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.paGroupdef.stgdGroupDef} - #{item.paGroupdef.stgdDesignation}"/>
+                        </p:column>
+
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paStaff}" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paStaff)}"
+                                  sortBy="#{item.paStaff}" filterBy="#{item.paStaff}" 
+                                  filterMatchMode="contains" >
+                            <h:outputText value="-" rendered="#{item.paStaff==null}" />
+                            <h:outputText value="#{item.paStaff.stFirstname} #{item.paStaff.stMiddlename} #{item.paStaff.stLastname} [#{item.paStaff.stStaff}]"
+                                          rendered="#{item.paStaff!=null}"/>
+                        </p:column>
+
+
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paIsgroup}" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paIsgroup)}"
+                                  sortBy="#{item.paIsgroup}" filterBy="#{item.paIsgroup}" 
+                                  filterMatchMode="equals" >
+                            <f:facet name="filter">
+                                <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                    <f:converter converterId="javax.faces.Boolean" />
+                                    <f:selectItem itemLabel="" itemValue="" />
+                                    <f:selectItem itemLabel="" itemValue="true" />
+                                    <f:selectItem itemLabel="" itemValue="false" />
+                                </p:selectOneButton>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.paIsgroup}" disabled="true"/>
+                        </p:column>
+
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paDeleted}" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paDeleted)}"
+                                  sortBy="#{item.paDeleted}" filterBy="#{item.paDeleted}" 
+                                  filterMatchMode="equals" >
+                            <f:facet name="filter">
+                                <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                    <f:converter converterId="javax.faces.Boolean" />
+                                    <f:selectItem itemLabel="" itemValue="" />
+                                    <f:selectItem itemLabel="" itemValue="true" />
+                                    <f:selectItem itemLabel="" itemValue="false" />
+                                </p:selectOneButton>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.paDeleted}" disabled="true"/>
+                        </p:column>
+
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paCreated}" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paCreated)}"
+                                  sortBy="#{item.paCreated}" filterBy="#{item.paCreated}" 
+                                  filterFunction="#{viewUtil.handleDateRangeFilters}" >
+                            <h:outputText value="#{item.paCreated}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paChanged}" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paChanged)}"
+                                  sortBy="#{item.paChanged}" filterBy="#{item.paChanged}" 
+                                  filterFunction="#{viewUtil.handleDateRangeFilters}" >
+                            <h:outputText value="#{item.paChanged}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+
+
+                        <p:column headerText="#{ism.ProcessAccessField_paCompany}" 
+                                  visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paCompany)}"
+                                  sortBy="#{item.paCompany}" filterBy="#{item.paCompany}" 
+                                  filterMatchMode="contains" >
+                            <h:outputText value="#{item.paCompany.CCompany} - #{item.paCompany.CDesignation}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+
+
+
+                </p:panel>
+
 
             </h:form>
 

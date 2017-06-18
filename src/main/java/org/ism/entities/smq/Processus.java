@@ -81,10 +81,12 @@ public class Processus implements Serializable {
     @Column(name = "p_changed", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date pChanged;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrProcessus")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dcProcessus")
     private Collection<DocExplorer> docExplorerCollection;
+    
     @JoinColumn(name = "p_company", referencedColumnName = "c_company", nullable = false)
     @ManyToOne(optional = false)
     private Company pCompany;

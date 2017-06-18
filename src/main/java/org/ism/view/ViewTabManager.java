@@ -38,6 +38,7 @@ import org.ism.entities.hr.StaffGroupDef;
 import org.ism.entities.hr.StaffGroupDefRole;
 import org.ism.entities.hr.StaffGroups;
 import org.ism.entities.process.Unite;
+import org.ism.entities.smq.PointInfos;
 import org.ism.jsf.process.ctrl.AnalyseAllowedController;
 import org.ism.jsf.process.ctrl.AnalyseCategoryController;
 import org.ism.jsf.process.ctrl.AnalyseDataController;
@@ -59,6 +60,7 @@ import org.ism.jsf.hr.StaffGroupDefController;
 import org.ism.jsf.hr.StaffGroupDefRoleController;
 import org.ism.jsf.hr.StaffGroupsController;
 import org.ism.jsf.process.UniteController;
+import org.ism.jsf.smq.PointInfosController;
 import org.ism.view.process.ctrl.DataLazyModel;
 import org.primefaces.model.LazyDataModel;
 
@@ -156,6 +158,10 @@ public class ViewTabManager implements Serializable {
     private List<AnalyseType> analysetype;
     private List<AnalyseType> analysetypeFiltered;
 
+    private PointInfosController pointInfosController;
+    private List<PointInfos> pointInfos;
+    private List<PointInfos> pointInfosFiltered;
+
     /**
      * Creates a new instance of FilterNCRequestView
      */
@@ -252,6 +258,10 @@ public class ViewTabManager implements Serializable {
         analysetypeCtrl = (AnalyseTypeController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "analyseTypeController");
         analysetype = analysetypeCtrl.getItemsByLastChanged();
+
+        pointInfosController = (PointInfosController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "pointInfosController");
+        pointInfos = pointInfosController.getItemsByLastChanged();
 
     }
 
@@ -701,6 +711,27 @@ public class ViewTabManager implements Serializable {
     }
 
     /**
+     * *************************************************************************
+     * @return point infos
+     * *************************************************************************
+     */
+    public List<PointInfos> getPointInfos() {
+        return pointInfos;
+    }
+
+    public void setPointInfos(List<PointInfos> pointInfos) {
+        this.pointInfos = pointInfos;
+    }
+
+    public List<PointInfos> getPointInfosFiltered() {
+        return pointInfosFiltered;
+    }
+
+    public void setPointInfosFiltered(List<PointInfos> pointInfosFiltered) {
+        this.pointInfosFiltered = pointInfosFiltered;
+    }
+
+    /**
      * ************************************************************************
      *
      *
@@ -791,6 +822,8 @@ public class ViewTabManager implements Serializable {
         analysenotify = analysenotifyCtrl.getItemsByLastChanged();
         analysepoint = analysepointCtrl.getItemsByLastChanged();
         analysetype = analysetypeCtrl.getItemsByLastChanged();
+
+        pointInfos = pointInfosController.getItemsByLastChanged();
     }
 
     /**
@@ -884,11 +917,16 @@ public class ViewTabManager implements Serializable {
                 analysetypeCtrl.destroy();
                 analysetype = analysetypeCtrl.getItemsByLastChanged();
                 break;
+            case "pointInfos":
+                pointInfosController.destroy();
+                pointInfos = pointInfosController.getItemsByLastChanged();
+                break;
             default:
                 String allowedCtrl = " Allowed :  processus / docExplorer / docType / nonConformiteFrequency / "
                         + "nonConformiteGravity / nonConformiteNature / nonConformiteRequest / nonConformiteUnite / "
                         + " staffGroupDef / staffGroupDefRole / staffGroups / staff / equipement /"
-                        + "unite / analyseallowed / analysecategory / analysedata / analysemethod / analysenotify / analysetype ";
+                        + "unite / analyseallowed / analysecategory / analysedata / analysemethod / analysenotify / analysetype /"
+                        + " pointInfos";
                 throw new IllegalArgumentException("Invalid controller: " + ctrl + allowedCtrl);
         }
     }

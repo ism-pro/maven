@@ -113,7 +113,9 @@ time, mark, audio, video {
     font-size: 10pt;
 }
 
-
+.ui-selectonemenu-trigger.ui-state-default.ui-corner-right{
+    width: auto;
+}
 
 /* =============================================================================
  * Manage CRUD BUTTON / OPTIONS
@@ -300,7 +302,15 @@ time, mark, audio, video {
     background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
     background-size:contain;
 }
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-PointInfos, .ui-menuitem-icon.ui-icon.ui-btn-PointInfos{
+    background: url("#{resource['img/ism/std/PointInfos.png']}") no-repeat;
+    background-size:contain;
+}
 
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-FileAccess, .ui-menuitem-icon.ui-icon.ui-btn-FileAccess{
+    background: url("#{resource['img/ism/admin/smq_doc_access.png']}") no-repeat;
+    background-size:contain;
+}
 
 
 .ui-icon.ui-confirm-dialog-severity{

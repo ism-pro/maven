@@ -34,7 +34,13 @@ public class FileUploaderController implements Serializable {
     private Part file = null;
     private String text;
     private String saveFileName;
+    
+    public static String alternatedocroot_1 = "C:\\ISM\\rsc\\img\\";   // from=/img/*
+    public static String alternatedocroot_2 = "C:\\ISM\\rsc\\json\\";  // from=/json/*
+    public static String alternatedocroot_3 = "C:\\ISM\\rsc\\smq\\";   // from/smq/*
 
+    public static String diaporama = "C:\\ISM\\rsc\\img\\diaporama\\";   // from=/img/*
+    
     /**
      * Creates a new instance of FileUploaderController
      */
@@ -108,24 +114,30 @@ public class FileUploaderController implements Serializable {
         }
     }
 
-    public void handleFileUpload(FileUploadEvent event) throws IOException {
+    
+    /**
+     * 
+     * @param event
+     * @throws IOException 
+     */
+    public void handleUploadPointInfos(FileUploadEvent event) throws IOException {
         UploadedFile uploadedFile = event.getFile();
-        FileUpload fu = (FileUpload) event.getSource();
+        //FileUpload fu = (FileUpload) event.getSource();
         String fileName = uploadedFile.getFileName();
-        String contentType = uploadedFile.getContentType();
+        //String contentType = uploadedFile.getContentType();
 
         InputStream is = null;
         FileOutputStream fos = null;
-        Boolean success = (new File("C:/ISMFILES/SMQ/Documents")).mkdirs();
+        Boolean success = (new File(diaporama)).mkdirs();
         try {
             is = uploadedFile.getInputstream();
-            fos = new FileOutputStream("\\C:\\ISMFiles\\SMQ\\Documents\\" + fileName);
+            fos = new FileOutputStream(diaporama + fileName);
 
             int c;
             while ((c = is.read()) != -1) {
                 fos.write(c);
             }
-            saveFileName = "C:/ISMFILES/SMQ/Documents/" + fileName;
+            saveFileName = diaporama + fileName;
         } finally {
             if (is != null) {
                 is.close();
@@ -134,6 +146,10 @@ public class FileUploaderController implements Serializable {
                 fos.close();
             }
         }
+    }
+    
+    public void handleUploadChangePointInfos(FileUploadEvent event){
+        JsfUtil.out("Handle Change listener");
     }
 
     public String getSaveFileName() {

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.PointInfosTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{pointInfosController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piId}" rendered="true" for="piId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="piId"
+                                       style="margin-left: 5px;"
+                                       value="#{pointInfosController.selected.piId}"  />
+                        <p:message for="piId" rendered="false" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piGroup}"  for="piGroup" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="piGroup" 
+                                     value="#{pointInfosController.selected.piGroup}" 
+                                     title="#{ism.PointInfosFieldInfo_piGroup}" 
+                                     required="true" requiredMessage="#{ism.PointInfosRequiredMsg_piGroup}" 
+                                     />
+                        <p:message for="piGroup"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piSlideshow}"  for="piSlideshow" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="piSlideshow" 
+                                     value="#{pointInfosController.selected.piSlideshow}" 
+                                     title="#{ism.PointInfosFieldInfo_piSlideshow}" 
+                                     required="true" requiredMessage="#{ism.PointInfosRequiredMsg_piSlideshow}" 
+                                     />
+                        <p:message for="piSlideshow"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piSlide}"  for="piSlide" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="piSlide" 
+                                     value="#{pointInfosController.selected.piSlide}" 
+                                     title="#{ism.PointInfosFieldInfo_piSlide}" 
+                                     required="true" requiredMessage="#{ism.PointInfosRequiredMsg_piSlide}" 
+                                     />
+                        <p:message for="piSlide"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_pislidePath}"  for="pislidePath" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="pislidePath" 
+                                     value="#{pointInfosController.selected.pislidePath}" 
+                                     title="#{ism.PointInfosFieldInfo_pislidePath}" 
+                                     required="true" requiredMessage="#{ism.PointInfosRequiredMsg_pislidePath}" 
+                                     />
+                        <p:message for="pislidePath"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piDescription}"  for="piDescription" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="piDescription" 
+                                     value="#{pointInfosController.selected.piDescription}" 
+                                     title="#{ism.PointInfosFieldInfo_piDescription}" 
+                                     required="true" requiredMessage="#{ism.PointInfosRequiredMsg_piDescription}" 
+                                     />
+                        <p:message for="piDescription"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_pislideDuration}"  for="pislideDuration" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="pislideDuration" 
+                                     value="#{pointInfosController.selected.pislideDuration}" 
+                                     title="#{ism.PointInfosFieldInfo_pislideDuration}" 
+                                     required="true" requiredMessage="#{ism.PointInfosRequiredMsg_pislideDuration}" 
+                                     />
+                        <p:message for="pislideDuration"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_pislideShowDuration}"  for="pislideShowDuration" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="pislideShowDuration" 
+                                     value="#{pointInfosController.selected.pislideShowDuration}" 
+                                     title="#{ism.PointInfosFieldInfo_pislideShowDuration}" 
+                                     required="true" requiredMessage="#{ism.PointInfosRequiredMsg_pislideShowDuration}" 
+                                     />
+                        <p:message for="pislideShowDuration"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piEnabled}"  for="piEnabled" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="piEnabled"
+                                                 value="#{pointInfosController.selected.piEnabled}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.PointInfosRequiredMsg_piEnabled}" 
+                                                 />
+                        <p:message for="piEnabled"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_pilockOnStaff}"  for="pilockOnStaff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="pilockOnStaff"
+                                                 value="#{pointInfosController.selected.pilockOnStaff}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.PointInfosRequiredMsg_pilockOnStaff}" 
+                                                 />
+                        <p:message for="pilockOnStaff"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piDeleted}"  for="piDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="piDeleted"
+                                                 value="#{pointInfosController.selected.piDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.PointInfosRequiredMsg_piDeleted}" 
+                                                 />
+                        <p:message for="piDeleted"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piCreated}"  for="piCreated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="piCreated" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{pointInfosController.selected.piCreated}" 
+                                    title="#{ism.PointInfosFieldInfo_piCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.PointInfosRequiredMsg_piCreated}" 
+                                    showOn="button"/>
+                        <p:message for="piCreated"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piChanged}"  for="piChanged" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="piChanged" pattern="dd/MM/yyyy" rendered="true"
+                                    value="#{pointInfosController.selected.piChanged}" 
+                                    title="#{ism.PointInfosFieldInfo_piChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.PointInfosRequiredMsg_piChanged}" 
+                                    showOn="button"/>
+                        <p:message for="piChanged"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.PointInfosField_piStaff}"  for="piStaff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="piStaff"  widgetVar="piStaff"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{pointInfosController.selected.piStaff}"
+                                         required="true" 
+                                         requiredMessage="#{ism.PointInfosRequiredMsg_piStaff}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                           var="piStaffItem"
+                                           itemLabel="#{piStaffItem.Expected hash. entityDescriptor.id?replace(".","_") evaluated instead to freemarker.template.SimpleScalar on line 93, column 113 in unknown.} - #{piStaffItem.stgdDesignation}" 
+                                           itemValue="#{piStaffItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="piStaff"  />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{pointInfosController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{pointInfosController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{pointInfosController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{pointInfosController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

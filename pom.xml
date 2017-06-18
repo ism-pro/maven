@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1705.19</version>
+    <version>1706.20</version>
     <packaging>war</packaging>
 
     <name>ISM</name>

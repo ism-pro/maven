@@ -146,7 +146,7 @@
 
 
 
-                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                    <p:column headerText="#{ism.CtrlShort}" style="width:36px;text-align: center"
                               exportable="false"
                               visible="#{docExplorerController.getIsVisibleColKey(ism.CtrlShort)}" >
                         <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
@@ -165,7 +165,7 @@
                     </p:column>
 
 
-                    <p:column headerText="#{ism.DocExplorerField_Processus}" 
+                    <p:column headerText="#{ism.DocExplorerField_Processus}"  style="width:250px;"
                               visible="#{docExplorerController.getIsVisibleColKey(ism.DocExplorerField_Processus)}"
                               sortBy="#{item.dcProcessus.PProcessus} - #{item.dcProcessus.PDesignation}"
                               filterBy="#{item.dcProcessus}">
@@ -184,7 +184,7 @@
                     </p:column>
 
 
-                    <p:column headerText="#{ism.DocExplorerField_DocType}" 
+                    <p:column headerText="#{ism.DocExplorerField_DocType}"  style="width:170px;"
                               visible="#{docExplorerController.getIsVisibleColKey(ism.DocExplorerField_DocType)}"
                               sortBy="#{item.dcType.dctType} - #{item.dcType.dctDesignation}"
                               filterBy="#{item.dcType}">
@@ -203,7 +203,7 @@
                     </p:column>
 
 
-                    <p:column headerText="#{ism.DocExplorerField_Name}" 
+                    <p:column headerText="#{ism.DocExplorerField_Name}"  style="width:300px;"
                               visible="#{docExplorerController.getIsVisibleColKey(ism.DocExplorerField_Name)}"
                               sortBy="#{item.dcDesignation}" 
                               filterBy="#{item.dcDesignation}" filterMatchMode="contains">
@@ -211,7 +211,7 @@
                     </p:column>
 
 
-                    <p:column headerText="#{ism.DocExplorerField_Version}" 
+                    <p:column headerText="#{ism.DocExplorerField_Version}"  style="width:200px;"
                               visible="#{docExplorerController.getIsVisibleColKey(ism.DocExplorerField_Version)}"
                               sortBy="#{item.dcVersion}" 
                               filterBy="#{item.dcVersion}" filterMatchMode="contains">
@@ -219,7 +219,7 @@
                     </p:column>
 
 
-                    <p:column headerText="#{ism.DocExplorerField_Commentaire}" 
+                    <p:column headerText="#{ism.DocExplorerField_Commentaire}"
                               visible="#{docExplorerController.getIsVisibleColKey(ism.DocExplorerField_Commentaire)}"
                               sortBy="#{item.dcComment}" 
                               filterBy="#{item.dcComment}" filterMatchMode="contains">
@@ -227,13 +227,16 @@
                     </p:column>
 
 
-                    <p:column headerText="#{ism.DocExplorerField_Link}" style="width: 32px;" exportable="true"
+                    <p:column headerText="#{ism.DocExplorerField_Link}" style="width: 36px;" exportable="true"
                               visible="#{docExplorerController.getIsVisibleColKey(ism.DocExplorerField_Link)}">
                         <p:commandLink    target="_blank"
                                           title="#{item.dcLink}"
                                           action="#{fileController.downloadPDF(item.dcLink)}"
                                           ajax="false" immediate="false"  
                                           style="margin: 0px; padding: 0px;"
+                                          disabled="#{!processAccessController
+                                                      .isUserDocumentAllowed(item, staffAuthController.staff,
+                                                      staffGroupsController.getItemsByStaff(staffAuthController.staff))}"
                                           >
                             <h:graphicImage library="img" name="ism/std/ExtPDF.png" width="28px" height="32px" style="margin: 0px; padding: 0px;" />
                         </p:commandLink>

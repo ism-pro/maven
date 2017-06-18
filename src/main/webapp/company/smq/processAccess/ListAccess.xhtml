@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.ProcessAccessTitleList}"/></h1>
+
+            <h:form id="bodyForm">
+                <p:contextMenu id="contextMenu" for="datalist" >
+                    <p:menuitem icon="ui-btn-Create"
+                                styleClass="options-btn"
+                                value="#{ism.Create}"
+                                actionListener="#{processAccessController.prepareCreate}"
+                                action="Create.xhtml?faces-redirect=true"
+                                title="Permet de créer un nouveau ProcessAccess"
+                                />
+                    <p:separator />
+                    <p:menuitem icon="ui-btn-View" iconPos="left"
+                                styleClass="options-btn"
+                                value="#{ism.View}"
+                                action="View.xhtml?faces-redirect=true"
+                                title="Permet de visualiser le ProcessAccess sélectionné."
+                                disabled="#{empty processAccessController.selected}"
+                                />
+                    <p:menuitem icon="ui-btn-Edit"
+                                styleClass="options-btn"
+                                value="#{ism.Edit}"
+                                action="Edit.xhtml?faces-redirect=true"
+                                title="Permet d'editer le ProcessAccess sélectionné."
+                                disabled="#{empty processAccessController.selected}"
+                                />
+                    <p:menuitem icon="ui-btn-Delete"
+                                styleClass="options-btn"
+                                value="#{ism.Delete}"
+                                title="Permet de supprimer le ProcessAccess sélectionné !"
+                                actionListener="#{processAccessController.destroy}"
+                                update=":bodyForm:datalist, westGroup,:growl"
+                                onstart=";
+                                #{viewConfirmDialog.dlg.setHeader(ism.ProcessAccessDlgHeader)};
+                                #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                #{viewConfirmDialog.dlg.setMessage(ism.ProcessAccessDlgMessage)};
+                                PF('mainConfirmDialog').show();"
+                                disabled="#{empty processAccessController.selected}"
+                                >
+                        <p:confirm  />
+                    </p:menuitem>
+                    <p:menuitem icon="ui-btn-Refresh"
+                                styleClass="options-btn"
+                                value="#{ism.Refresh}"
+                                title="Permet de rafraichir la table des ProcessAccess "
+                                actionListener="#{processAccessController.releaseSelected()}"
+                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                disabled="#{empty processAccessController.selected }"
+                                />
+                </p:contextMenu>
+
+
+
+
+
+
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{processAccessController.itemsByLast}" var="item"
+                             filteredValue="#{processAccessController.itemsFiltered}"
+
+                             selectionMode="single" selection="#{processAccessController.selected}"
+                             rowIndexVar="_rowIndex"
+                             rowKey="#{item.paId}"
+                             paginator="#{tableView.paginator}"
+                             rows="#{tableView.rows}"
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+                             emptyMessage="#{ism.EmptyList}"
+                             >
+
+
+
+
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.ProcessAccessTitleList}_#{viewUtil.maintenant}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.ProcessAccessTitleList}_#{viewUtil.maintenant}"  />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+
+                    <f:facet name="header">
+                        <p:commandButton id="toggler" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="datalist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{processAccessController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+
+
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{processAccessController.handleColumnReorder}"  />
+
+
+
+
+
+
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
+                              visible="#{processAccessController.getIsVisibleColKey(ism.CtrlShort)}" >
+                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
+                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
+                            <f:setPropertyActionListener value="#{item}" target="#{processAccessController.selected}" />
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paId}" style="max-width: 24px;" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paId)}"
+                              sortBy="#{item.paId}" filterBy="#{item.paId}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.paId}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paIsgroup}" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paIsgroup)}"
+                              sortBy="#{item.paIsgroup}" filterBy="#{item.paIsgroup}" 
+                              filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.paIsgroup}" disabled="true"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paDeleted}" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paDeleted)}"
+                              sortBy="#{item.paDeleted}" filterBy="#{item.paDeleted}" 
+                              filterMatchMode="equals" >
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue="true" />
+                                <f:selectItem itemLabel="" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.paDeleted}" disabled="true"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paCreated}" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paCreated)}"
+                              sortBy="#{item.paCreated}" filterBy="#{item.paCreated}" 
+                              filterFunction="#{viewUtil.handleDateRangeFilters}" >
+                        <h:outputText value="#{item.paCreated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paChanged}" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paChanged)}"
+                              sortBy="#{item.paChanged}" filterBy="#{item.paChanged}" 
+                              filterFunction="#{viewUtil.handleDateRangeFilters}" >
+                        <h:outputText value="#{item.paChanged}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paCompany}" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paCompany)}"
+                              sortBy="#{item.paCompany}" filterBy="#{item.paCompany}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.paCompany}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paDocexplorer}" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paDocexplorer)}"
+                              sortBy="#{item.paDocexplorer}" filterBy="#{item.paDocexplorer}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.paDocexplorer}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paGroupdef}" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paGroupdef)}"
+                              sortBy="#{item.paGroupdef}" filterBy="#{item.paGroupdef}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.paGroupdef}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="#{ism.ProcessAccessField_paStaff}" 
+                              visible="#{processAccessController.getIsVisibleColKey(ism.ProcessAccessField_paStaff)}"
+                              sortBy="#{item.paStaff}" filterBy="#{item.paStaff}" 
+                              filterMatchMode="contains" >
+                        <h:outputText value="#{item.paStaff}"/>
+                    </p:column>
+
+
+
+
+
+                </p:dataTable>
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton id="createButton" 
+                                 icon="ui-btn-Create"
+                                 styleClass="options-btn"
+                                 value="#{ism.Create}" 
+                                 actionListener="#{processAccessController.prepareCreate()}"
+                                 action="Create.xhtml?faces-redirect=true"
+                                 title="Permet de créer un nouveau ProcessAccess"
+                                 />
+                <br />
+                <p:commandButton id="viewButton"
+                                 icon="ui-btn-View"
+                                 styleClass="options-btn"
+                                 value="#{ism.View}"
+                                 action="View.xhtml?faces-redirect=true"
+                                 title="Permet de visualiser le ProcessAccess sélectionné."
+                                 disabled="#{empty processAccessController.selected 
+                                             or empty processAccessController.selected.paId}"
+                                 />
+                <br />
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'editer le ProcessAccess sélectionné."
+                                 disabled="#{empty processAccessController.selected 
+                                             or empty processAccessController.selected.paId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer le ProcessAccess sélectionné !"
+                                 actionListener="#{processAccessController.destroy}"
+                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.ProcessAccessDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.ProcessAccessDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty processAccessController.selected 
+                                             or empty processAccessController.selected.paId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton id="refreshButton"
+                                 icon="ui-btn-Refresh"
+                                 styleClass="options-btn"
+                                 value="#{ism.Refresh}"
+                                 title="Permet de rafraichir la table des ProcessAccess "
+                                 actionListener="#{processAccessController.releaseSelected()}"
+                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
+                                 disabled="#{empty processAccessController.selected 
+                                             or empty processAccessController.selected.paId}"
+                                 />
+            </h:panelGroup>
+
+
+
+        </ui:define>
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        </p:blockUI>
+
+    </ui:composition>
+
+</html>

@@ -44,6 +44,8 @@ import org.ism.entities.smq.nc.NonConformiteUnite;
 import org.ism.entities.smq.Processus;
 import org.ism.entities.hr.StaffGroupDef;
 import org.ism.entities.process.Unite;
+import org.ism.entities.smq.PointInfos;
+import org.ism.entities.smq.ProcessAccess;
 
 /**
  *
@@ -95,6 +97,16 @@ public class Company implements Serializable {
     private Collection<NonConformiteGravity> nonConformiteGravityCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pCompany")
     private Collection<Processus> processusCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "piCompany")
+    private Collection<PointInfos> pointInfosCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "msCompany")
+    private Collection<Mailsender> mailsenderCollection;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paCompany")
+    private Collection<ProcessAccess> processAccessCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -278,7 +290,7 @@ public class Company implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.Company[ cId=" + cId + " ]";
+        return "" + cCompany + " - " + cDesignation + " [" + cId + "]";
     }
 
     @XmlTransient
@@ -329,6 +341,21 @@ public class Company implements Serializable {
     @XmlTransient
     public Collection<Processus> getProcessusCollection() {
         return processusCollection;
+    }
+
+    @XmlTransient
+    public Collection<PointInfos> getPointInfosCollection() {
+        return pointInfosCollection;
+    }
+
+    @XmlTransient
+    public Collection<Mailsender> getMailsenderCollection() {
+        return mailsenderCollection;
+    }
+    
+    @XmlTransient
+    public Collection<ProcessAccess> getProcessAccessCollection() {
+        return processAccessCollection;
     }
 
     @XmlTransient

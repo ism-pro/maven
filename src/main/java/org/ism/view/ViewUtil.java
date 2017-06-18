@@ -6,11 +6,16 @@
 package org.ism.view;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -115,4 +120,62 @@ public class ViewUtil implements Serializable {
         return toDate(year, month, day, hour, min, 0);
     }
 
+    
+    
+    
+    /**
+     * Method permettant de traduire la variable de deux date
+     * @param value a value
+     * @param filter a object filtred
+     * @param locale a local
+     * @return true if ok
+     * @throws ParseException an error
+     */
+    public boolean handleDateRangeFilters(Object value, Object filter, Locale locale) throws ParseException {
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+        if (value == null) {
+            return false;
+        }
+
+        //{"start":"2016-04-18","end":"2016-05-31"}
+        if (!filterText.contains("start")) {
+            return false;
+        }
+        String strDate = filterText;
+        strDate = strDate.replace("\"", "").replace(":", "")
+                .replace("{", "").replace("}", "")
+                .replace("start", "").replace("end", "");
+        String dates[] = strDate.split(",");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRENCH);
+        Date begin = format.parse(dates[0]);
+        Date end = format.parse(dates[1]);
+
+        //Extend limite in order to make it containt
+        Calendar calValue = Calendar.getInstance();
+        Calendar calBegin = Calendar.getInstance();
+        Calendar calEnd = Calendar.getInstance();
+        calValue.setTime((Date) value);
+        calBegin.setTime((Date) begin);
+        calEnd.setTime((Date) end);
+        calBegin.add(Calendar.DAY_OF_MONTH, -1);
+        calEnd.add(Calendar.DAY_OF_MONTH, +1);
+        begin = calBegin.getTime();
+        end = calEnd.getTime();
+
+        //Check contain
+        if (value instanceof Date) {
+            Date date = (Date) value;
+            if (date.before(begin) && !date.equals(begin)) {
+                return false;
+            }
+            if (date.after(end) && !date.equals(end)) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 }

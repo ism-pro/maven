@@ -699,6 +699,30 @@ public class CtrlAccessService implements Serializable {
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerView_Description")),
                     nodeDocExplorer);
 
+            CheckboxTreeNode nodeDocExplorerCreateAcces = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerCreateAcces_Name"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerCreateAcces_RoleName"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerCreateAcces_Path"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerCreateAcces_Description")),
+                    nodeDocExplorer);
+
+            CheckboxTreeNode nodeDocExplorerEditAcces = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerEditAcces_Name"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerEditAcces_RoleName"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerEditAcces_Path"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerEditAcces_Description")),
+                    nodeDocExplorer);
+
+            CheckboxTreeNode nodeDocExplorerListAcces = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerListAcces_Name"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerListAcces_RoleName"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerListAcces_Path"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerListAcces_Description")),
+                    nodeDocExplorer);
+
+            CheckboxTreeNode nodeDocExplorerViewAccess = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerViewAccess_Name"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerViewAccess_RoleName"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerViewAccess_Path"),
+                    ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docExplorerViewAccess_Description")),
+                    nodeDocExplorer);
+
             CheckboxTreeNode nodeDocType = new CheckboxTreeNode(new CtrlAccess(ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docType_Name"),
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docType_RoleName"),
                     ResourceBundle.getBundle(JsfUtil.SECURITY).getString("docType_Path"),

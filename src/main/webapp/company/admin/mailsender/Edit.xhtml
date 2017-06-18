@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.MailsenderTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{mailsenderController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msId}" rendered="true" for="msId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="msId"
+                                       style="margin-left: 5px;"
+                                       value="#{mailsenderController.selected.msId}"  />
+                        <p:message for="msId" rendered="false" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msAddress}"  for="msAddress" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="msAddress" 
+                                     value="#{mailsenderController.selected.msAddress}" 
+                                     title="#{ism.MailsenderFieldInfo_msAddress}" 
+                                     required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msAddress}" 
+                                     />
+                        <p:message for="msAddress"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msSmtpsrv}"  for="msSmtpsrv" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="msSmtpsrv" 
+                                     value="#{mailsenderController.selected.msSmtpsrv}" 
+                                     title="#{ism.MailsenderFieldInfo_msSmtpsrv}" 
+                                     required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msSmtpsrv}" 
+                                     />
+                        <p:message for="msSmtpsrv"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msPort}"  for="msPort" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="msPort" 
+                                     value="#{mailsenderController.selected.msPort}" 
+                                     title="#{ism.MailsenderFieldInfo_msPort}" 
+                                     required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msPort}" 
+                                     />
+                        <p:message for="msPort"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msSsl}"  for="msSsl" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="msSsl"
+                                                 value="#{mailsenderController.selected.msSsl}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MailsenderRequiredMsg_msSsl}" 
+                                                 />
+                        <p:message for="msSsl"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msrequiresAuth}"  for="msrequiresAuth" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="msrequiresAuth"
+                                                 value="#{mailsenderController.selected.msrequiresAuth}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MailsenderRequiredMsg_msrequiresAuth}" 
+                                                 
+                                                 >
+                            <p:ajax event="change" update="bodyForm,bodyForm:sslinfos" />
+                        </p:selectBooleanCheckbox>
+                        <p:message for="msrequiresAuth" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel id="sslinfos"  value="#{ism.MailsenderField_msUsername}"  for="msUsername" 
+                                   rendered="#{mailsenderController.selected.msrequiresAuth}"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" 
+                                 rendered="#{mailsenderController.selected.msrequiresAuth}">
+                        <p:inputText id="msUsername" 
+                                     value="#{mailsenderController.selected.msUsername}" 
+                                     title="#{ism.MailsenderFieldInfo_msUsername}" 
+                                     required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msUsername}" 
+                                     />
+                        <p:message for="msUsername" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel id="labPassword" value="#{ism.MailsenderField_msPassword}"  for="msPassword" 
+                                   rendered="#{mailsenderController.selected.msrequiresAuth}"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" 
+                                 rendered="#{mailsenderController.selected.msrequiresAuth}">         
+                        <p:inputText id="msPassword" 
+                                     value="#{mailsenderController.selected.msPassword}" 
+                                     title="#{ism.MailsenderFieldInfo_msPassword}" 
+                                     required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msPassword}" 
+                                     />
+                        <p:message for="msPassword" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_amEnabled}"  for="amEnabled" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="amEnabled"
+                                                 value="#{mailsenderController.selected.amEnabled}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MailsenderRequiredMsg_amEnabled}" 
+                                                 />
+                        <p:message for="amEnabled"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.ProcessusField_pCompany}" for="msCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="msCompany" widgetVar="msCompany"
+                                     value="#{mailsenderController.selected.msCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.MailsenderRequiredMsg_msCompany}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msDeleted}"  for="msDeleted" rendered="false"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
+                        <p:selectBooleanCheckbox id="msDeleted"
+                                                 value="#{mailsenderController.selected.msDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MailsenderRequiredMsg_msDeleted}" 
+                                                 />
+                        <p:message for="msDeleted" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msCreated}"  for="msCreated" rendered="false" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
+                        <p:calendar id="msCreated" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{mailsenderController.selected.msCreated}" 
+                                    title="#{ism.MailsenderFieldInfo_msCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.MailsenderRequiredMsg_msCreated}" 
+                                    showOn="button"/>
+                        <p:message for="msCreated" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailsenderField_msChanged}"  for="msChanged" rendered="false"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
+                        <p:calendar id="msChanged" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{mailsenderController.selected.msChanged}" 
+                                    title="#{ism.MailsenderFieldInfo_msChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.MailsenderRequiredMsg_msChanged}" 
+                                    showOn="button"/>
+                        <p:message for="msChanged" />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{mailsenderController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:msCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{mailsenderController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{mailsenderController.update}" 
+                                 onstart="#{p:widgetVar('bodyForm:msCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{mailsenderController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
