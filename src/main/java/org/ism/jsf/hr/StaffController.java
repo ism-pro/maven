@@ -62,11 +62,13 @@ public class StaffController implements Serializable {
         headerTextMap.put(5, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stMiddlename"));
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stBorned"));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stGenre"));
-        headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stActivated"));
-        headerTextMap.put(9, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stDeleted"));
-        headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stCreated"));
-        headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stChanged"));
+        headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stMaillist"));
+        headerTextMap.put(9, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stActivated"));
+        headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stDeleted"));
+        headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stCreated"));
+        headerTextMap.put(12, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stChanged"));
 
+        
         visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stId"), false);
@@ -76,6 +78,7 @@ public class StaffController implements Serializable {
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stMiddlename"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stBorned"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stGenre"), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stMaillist"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stActivated"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stDeleted"), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stCreated"), false);

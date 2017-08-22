@@ -49,7 +49,7 @@
                                       style="margin: 0px; padding: 0px;"
                                       disabled="#{!processAccessController
                                                   .isUserDocumentAllowed(docExplorerController.selected, staffAuthController.staff,
-                                                      staffGroupsController.getItemsByStaff(staffAuthController.staff))}"
+                                                  staffGroupsController.getItemsByStaff(staffAuthController.staff))}"
                                       >
                         <h:graphicImage library="img" 
                                         name="ism/std/ExtPDF.png"
@@ -384,6 +384,19 @@
                                  disabled="#{empty docExplorerController.selected 
                                              or empty docExplorerController.selected.dcId}"
                                  />
+                <p:commandButton icon="ui-btn-FileAccess"
+                                 styleClass="options-btn"
+                                 value="#{ism.WriteOn}"
+                                 action="CreateAccess.xhtml?faces-redirect=true"
+                                 actionListener="#{processAccessController.prepareCreate()}"
+                                 title="Permet de définir des droits d'accès sur le document."
+                                 disabled="#{empty docExplorerController.selected 
+                                             or empty docExplorerController.selected.dcId}"
+                                 rendered="#{request.isUserInRole('S_EXPLORER_CA')}"
+                                 >
+                    <f:setPropertyActionListener target="#{processAccessController.selected.paDocexplorer}" value="#{docExplorerController.selected}" />
+                    <f:setPropertyActionListener target="#{processAccessController.selected.paCompany}" value="#{staffAuthController.company}" />
+                </p:commandButton>
                 <p:commandButton icon="ui-btn-Delete"
                                  styleClass="options-btn"
                                  value="#{ism.Delete}"

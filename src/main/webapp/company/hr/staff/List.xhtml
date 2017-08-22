@@ -208,8 +208,7 @@
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-
-
+                  
 
                     <p:column headerText="#{ism.StaffField_stGenre}"
                               visible="#{staffController.getIsVisibleColKey(ism.StaffField_stGenre)}"
@@ -222,6 +221,16 @@
                         </f:facet>
                         <p:outputLabel value="#{item.stGenre.genre} - #{item.stGenre.genrename}" />
                     </p:column>
+                    
+                    
+                    
+                    <p:column headerText="#{ism.StaffField_stMaillist}" 
+                              visible="#{staffController.getIsVisibleColKey(ism.StaffField_stMaillist)}"
+                              sortBy="#{item.stMaillist}" 
+                              filterBy="#{item.stMaillist}" filterMatchMode="contains">
+                        <h:outputText value="#{item.stMaillist}"/>
+                    </p:column>
+                    
 
 
                     <p:column headerText="#{ism.StaffField_stActivated}"

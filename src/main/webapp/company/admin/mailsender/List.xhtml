@@ -6,298 +6,216 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1><h:outputText value="#{ism.MailsenderTitleList}"/></h1>
+            <h1><h:outputText value="#{ism.MailsenderTitleEdit}"/></h1>
 
             <h:form id="bodyForm">
-                <p:contextMenu id="contextMenu" for="datalist" >
-                    <p:menuitem icon="ui-btn-Create"
-                                styleClass="options-btn"
-                                value="#{ism.Create}"
-                                actionListener="#{mailsenderController.prepareCreate}"
-                                action="Create.xhtml?faces-redirect=true"
-                                title="Permet de créer un nouveau Mailsender"
-                                />
-                    <p:separator />
-                    <p:menuitem icon="ui-btn-View" iconPos="left"
-                                styleClass="options-btn"
-                                value="#{ism.View}"
-                                action="View.xhtml?faces-redirect=true"
-                                title="Permet de visualiser le Mailsender sélectionné."
-                                disabled="#{empty mailsenderController.selected}"
-                                />
-                    <p:menuitem icon="ui-btn-Edit"
-                                styleClass="options-btn"
-                                value="#{ism.Edit}"
-                                action="Edit.xhtml?faces-redirect=true"
-                                title="Permet d'editer le Mailsender sélectionné."
-                                disabled="#{empty mailsenderController.selected}"
-                                />
-                    <p:menuitem icon="ui-btn-Delete"
-                                styleClass="options-btn"
-                                value="#{ism.Delete}"
-                                title="Permet de supprimer le Mailsender sélectionné !"
-                                actionListener="#{mailsenderController.destroy()}"
-                                update=":bodyForm:datalist, westGroup,:growl"
-                                onstart=";
-                                #{viewConfirmDialog.dlg.setHeader(ism.MailsenderDlgHeader)};
-                                #{viewConfirmDialog.dlg.setSeverity('alert')};
-                                #{viewConfirmDialog.dlg.setMessage(ism.MailsenderDlgMessage)};
-                                PF('mainConfirmDialog').show();"
-                                disabled="#{empty mailsenderController.selected}"
-                                >
-                        <p:confirm  />
-                    </p:menuitem>
-                    <p:menuitem icon="ui-btn-Refresh"
-                                styleClass="options-btn"
-                                value="#{ism.Refresh}"
-                                title="Permet de rafraichir la table des Mailsender "
-                                actionListener="#{mailsenderController.releaseSelected()}"
-                                update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
-                                disabled="#{empty mailsenderController.selected }"
-                                />
-                </p:contextMenu>
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{mailsenderController.selected != null}">
 
 
+                    <p:outputLabel value="#{ism.MailsenderField_msId}" rendered="true" for="msId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="msId"
+                                       style="margin-left: 5px;"
+                                       value="#{mailsenderController.selected.msId}"  />
+                        <p:message for="msId" rendered="false" />
+                    </h:panelGrid>
 
 
-
-
-                <p:dataTable id="datalist" widgetVar="datalist"
-                             value="#{mailsenderController.itemsByLast}" var="item"
-                             filteredValue="#{mailsenderController.itemsFiltered}"
-
-                             selectionMode="single" selection="#{mailsenderController.selected}"
-                             rowIndexVar="_rowIndex"
-                             rowKey="#{item.msId}"
-                             paginator="#{tableView.paginator}"
-                             rows="#{tableView.rows}"
-                             resizableColumns="#{tableView.resizableColumns}"
-                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
-                             paginatorTemplate="#{tableView.paginatorTemplate}"
-                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
-                             liveResize="#{tableView.liveResize}"
-                             reflow="#{tableView.reflow}"
-                             draggableColumns="#{tableView.draggableColumns}"
-                             sortMode="#{tableView.sortMode}"
-                             emptyMessage="#{ism.EmptyList}"
-                             >
-
-
-
-
-
-                    <f:facet name="{Exporters}">
-                        <div style="float:right" >
-                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
-                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
-                                <p:dataExporter type="xls" target="datalist" fileName="#{ism.MailsenderTitleList}_#{viewUtil.maintenant}" 
-                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
-                            </p:commandLink>
-                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
-                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
-                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.MailsenderTitleList}_#{viewUtil.maintenant}"  />
-                            </p:commandLink>
-                        </div>
-                    </f:facet>
-
-
-                    <f:facet name="header">
-                        <p:commandButton id="toggler" type="button" value="Columns" 
-                                         style="float:left;" icon="ui-icon-calculator" 
+                    <p:outputLabel value="#{ism.MailsenderField_msAddress}"  for="msAddress" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">  
+                        <p:inplace editor="true"  emptyLabel="Clicker pour Editer">
+                            <p:inputText id="msAddress" 
+                                         value="#{mailsenderController.selected.msAddress}" 
+                                         title="#{ism.MailsenderFieldInfo_msAddress}" 
+                                         required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msAddress}" 
                                          />
-                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
-                            <p:printer target="datalist"  />
-                        </p:commandButton>
-
-                        <p:columnToggler id="tableColToggler" datasource="datalist" trigger="toggler" >
-                            <p:ajax event="toggle" update=":growl"
-                                    listener="#{mailsenderController.handleColumnToggle}" />
-                        </p:columnToggler>
-
-                        <p:outputPanel style="float:right;">
-                            <h:outputText value="#{ism.Search}"  />
-                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
-                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
-                        </p:outputPanel>
-
-                    </f:facet>
+                        </p:inplace>
+                        <p:message for="msAddress"  />
+                    </h:panelGrid>
 
 
 
 
 
-
-                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
-                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
-                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
-                    <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{mailsenderController.handleColumnReorder}"  />
-
-
-
-
-
-
-                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
-                              exportable="false"
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.CtrlShort)}" >
-                        <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
-                                         title="#{ism.View}" action="View.xhtml?faces-redirect=true">
-                            <f:setPropertyActionListener value="#{item}" target="#{mailsenderController.selected}" />
-                        </p:commandButton>
-                    </p:column>
+                    <p:outputLabel value="#{ism.MailsenderField_msSmtpsrv}"  for="msSmtpsrv" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >        
+                        <p:inplace editor="true"  emptyLabel="Clicker pour Editer">
+                            <p:inputText id="msSmtpsrv" 
+                                         value="#{mailsenderController.selected.msSmtpsrv}" 
+                                         title="#{ism.MailsenderFieldInfo_msSmtpsrv}" 
+                                         required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msSmtpsrv}" 
+                                         />
+                        </p:inplace>
+                        <p:message for="msSmtpsrv"  />
+                    </h:panelGrid>
 
 
-                    <p:column headerText="#{ism.MailsenderField_msId}" style="max-width: 24px;" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msId)}"
-                              sortBy="#{item.msId}" filterBy="#{item.msId}" 
-                              filterMatchMode="contains" >
-                        <h:outputText value="#{item.msId}"/>
-                    </p:column>
+                    <p:outputLabel value="#{ism.MailsenderField_msPort}"  for="msPort" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >    
+                        <p:inplace editor="true"  emptyLabel="Clicker pour Editer">
+                            <p:inputNumber id="msPort" 
+                                           value="#{mailsenderController.selected.msPort}" 
+                                           title="#{ism.MailsenderFieldInfo_msPort}" 
+                                           required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msPort}" 
+                                           />
+                        </p:inplace>
+                        <p:message for="msPort"  />
+                    </h:panelGrid>
 
 
-
-                    <p:column headerText="#{ism.MailsenderField_msAddress}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msAddress)}"
-                              sortBy="#{item.msAddress}" filterBy="#{item.msAddress}" 
-                              filterMatchMode="contains" >
-                        <h:outputText value="#{item.msAddress}"/>
-                    </p:column>
-
-
-
-                    <p:column headerText="#{ism.MailsenderField_msSmtpsrv}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msSmtpsrv)}"
-                              sortBy="#{item.msSmtpsrv}" filterBy="#{item.msSmtpsrv}" 
-                              filterMatchMode="contains" >
-                        <h:outputText value="#{item.msSmtpsrv}"/>
-                    </p:column>
+                    <p:outputLabel value="#{ism.MailsenderField_msSsl}"  for="msSsl" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >   
+                        <p:inplace editor="true"  emptyLabel="Clicker pour Editer">
+                            <p:selectBooleanCheckbox id="msSsl"
+                                                     value="#{mailsenderController.selected.msSsl}" 
+                                                     required="true" 
+                                                     requiredMessage="#{ism.MailsenderRequiredMsg_msSsl}" 
+                                                     />
+                        </p:inplace>
+                        <p:message for="msSsl"  />
+                    </h:panelGrid>
 
 
+                    <p:outputLabel value="#{ism.MailsenderField_msrequiresAuth}"  for="msrequiresAuth" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="msrequiresAuth"
+                                                 value="#{mailsenderController.selected.msrequiresAuth}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MailsenderRequiredMsg_msrequiresAuth}" 
 
-                    <p:column headerText="#{ism.MailsenderField_msPort}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msPort)}"
-                              sortBy="#{item.msPort}" filterBy="#{item.msPort}" 
-                              filterMatchMode="contains" >
-                        <h:outputText value="#{item.msPort}"/>
-                    </p:column>
-
-
-
-                    <p:column headerText="#{ism.MailsenderField_msSsl}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msSsl)}"
-                              sortBy="#{item.msSsl}" filterBy="#{item.msSsl}" 
-                              filterMatchMode="equals" >
-                        <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
-                                <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItem itemLabel="" itemValue="true" />
-                                <f:selectItem itemLabel="" itemValue="false" />
-                            </p:selectOneButton>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{item.msSsl}" disabled="true"/>
-                    </p:column>
+                                                 >
+                            <p:ajax event="change"  update="bodyForm,authInfosUser" />
+                        </p:selectBooleanCheckbox>
+                        <p:message for="msrequiresAuth" />
+                    </h:panelGrid>
 
 
-
-                    <p:column headerText="#{ism.MailsenderField_msrequiresAuth}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msrequiresAuth)}"
-                              sortBy="#{item.msrequiresAuth}" filterBy="#{item.msrequiresAuth}" 
-                              filterMatchMode="equals" >
-                        <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
-                                <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItem itemLabel="" itemValue="true" />
-                                <f:selectItem itemLabel="" itemValue="false" />
-                            </p:selectOneButton>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{item.msrequiresAuth}" disabled="true"/>
-                    </p:column>
+                    <p:outputLabel id="authInfosUser"  value="#{ism.MailsenderField_msUsername}"  for="msUsername" 
+                                   rendered="#{mailsenderController.selected.msrequiresAuth}"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" 
+                                 rendered="#{mailsenderController.selected.msrequiresAuth}">
+                        <p:inplace editor="true"  emptyLabel="Clicker pour Editer">
+                            <p:inputText id="msUsername" 
+                                         value="#{mailsenderController.selected.msUsername}" 
+                                         title="#{ism.MailsenderFieldInfo_msUsername}" 
+                                         required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msUsername}" 
+                                         />
+                        </p:inplace>
+                        <p:message for="msUsername" />
+                    </h:panelGrid>
 
 
-
-                    <p:column headerText="#{ism.MailsenderField_msUsername}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msUsername)}"
-                              sortBy="#{item.msUsername}" filterBy="#{item.msUsername}" 
-                              filterMatchMode="contains" >
-                        <h:outputText value="#{item.msUsername}"/>
-                    </p:column>
-
-
-
-                    <p:column headerText="#{ism.MailsenderField_msPassword}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msPassword)}"
-                              sortBy="#{item.msPassword}" filterBy="#{item.msPassword}" 
-                              filterMatchMode="contains" >
-                        <h:outputText value="#{item.msPassword}"/>
-                    </p:column>
+                    <p:outputLabel id="authInfosPwd" value="#{ism.MailsenderField_msPassword}"  for="msPassword" 
+                                   rendered="#{mailsenderController.selected.msrequiresAuth}"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" 
+                                 rendered="#{mailsenderController.selected.msrequiresAuth}">   
+                        <p:password  id="msPassword" 
+                                     value="#{mailsenderController.selected.msPassword}" 
+                                     title="#{ism.MailsenderFieldInfo_msPassword}" 
+                                     label="Mot de passe" placeholder="Mot de passe" 
+                                     redisplay="true" inline="false"
+                                     required="true" requiredMessage="#{ism.MailsenderRequiredMsg_msPassword}" 
+                                     />
+                        <p:message for="msPassword" />
+                    </h:panelGrid>
 
 
-
-                    <p:column headerText="#{ism.MailsenderField_amEnabled}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_amEnabled)}"
-                              sortBy="#{item.amEnabled}" filterBy="#{item.amEnabled}" 
-                              filterMatchMode="equals" >
-                        <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
-                                <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItem itemLabel="" itemValue="true" />
-                                <f:selectItem itemLabel="" itemValue="false" />
-                            </p:selectOneButton>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{item.amEnabled}" disabled="true"/>
-                    </p:column>
+                    <p:outputLabel value="#{ism.MailsenderField_amEnabled}"  for="amEnabled" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="amEnabled"
+                                                 value="#{mailsenderController.selected.amEnabled}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MailsenderRequiredMsg_amEnabled}" 
+                                                 />
+                        <p:message for="amEnabled"  />
+                    </h:panelGrid>
 
 
-
-                    <p:column headerText="#{ism.MailsenderField_msDeleted}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msDeleted)}"
-                              sortBy="#{item.msDeleted}" filterBy="#{item.msDeleted}" 
-                              filterMatchMode="equals" >
-                        <f:facet name="filter">
-                            <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
-                                <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItem itemLabel="" itemValue="true" />
-                                <f:selectItem itemLabel="" itemValue="false" />
-                            </p:selectOneButton>
-                        </f:facet>
-                        <p:selectBooleanCheckbox value="#{item.msDeleted}" disabled="true"/>
-                    </p:column>
+                    <p:outputLabel value="#{ism.ProcessusField_pCompany}" for="msCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="msCompany" widgetVar="msCompany"
+                                     value="#{mailsenderController.selected.msCompany = staffAuthController.company}" 
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.MailsenderRequiredMsg_msCompany}"/>
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                    </h:panelGrid>
 
 
+                    <p:outputLabel value="#{ism.MailsenderField_msDeleted}"  for="msDeleted" rendered="false"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
+                        <p:selectBooleanCheckbox id="msDeleted"
+                                                 value="#{mailsenderController.selected.msDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MailsenderRequiredMsg_msDeleted}" 
+                                                 />
+                        <p:message for="msDeleted" />
+                    </h:panelGrid>
 
-                    <p:column headerText="#{ism.MailsenderField_msCreated}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msCreated)}"
-                              sortBy="#{item.msCreated}" filterBy="#{item.msCreated}" 
-                              filterFunction="#{viewUtil.handleDateRangeFilters}" >
-                        <h:outputText value="#{item.msCreated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                    </p:column>
+
+                    <p:outputLabel value="#{ism.MailsenderField_msCreated}"  for="msCreated" rendered="false" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
+                        <p:calendar id="msCreated" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{mailsenderController.selected.msCreated}" 
+                                    title="#{ism.MailsenderFieldInfo_msCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.MailsenderRequiredMsg_msCreated}" 
+                                    showOn="button"/>
+                        <p:message for="msCreated" />
+                    </h:panelGrid>
 
 
+                    <p:outputLabel value="#{ism.MailsenderField_msChanged}"  for="msChanged" rendered="false"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
+                        <p:calendar id="msChanged" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{mailsenderController.selected.msChanged}" 
+                                    title="#{ism.MailsenderFieldInfo_msChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.MailsenderRequiredMsg_msChanged}" 
+                                    showOn="button"/>
+                        <p:message for="msChanged" />
+                    </h:panelGrid>
 
-                    <p:column headerText="#{ism.MailsenderField_msChanged}" 
-                              visible="#{mailsenderController.getIsVisibleColKey(ism.MailsenderField_msChanged)}"
-                              sortBy="#{item.msChanged}" filterBy="#{item.msChanged}" 
-                              filterFunction="#{viewUtil.handleDateRangeFilters}" >
-                        <h:outputText value="#{item.msChanged}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                    </p:column>
+
+                </p:panelGrid>
 
 
 
 
 
-                </p:dataTable>
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{mailsenderController.create()}" 
+                                     onstart="#{p:widgetVar('bodyForm:msCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{mailsenderController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
             </h:form>
 
         </ui:define>
@@ -306,73 +224,27 @@
 
 
 
-
         <ui:define name="west" id="west">
             <h:panelGroup id="westGroup">
-                <p:commandButton id="createButton" 
-                                 icon="ui-btn-Create"
+                <p:commandButton icon="ui-btn-Save"
                                  styleClass="options-btn"
-                                 value="#{ism.Create}" 
+                                 value="#{ism.Change}" 
+                                 actionListener="#{mailsenderController.create()}" 
+                                 onstart="#{p:widgetVar('bodyForm:msCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
                                  actionListener="#{mailsenderController.prepareCreate()}"
-                                 action="Create.xhtml?faces-redirect=true"
-                                 title="Permet de créer un nouveau Mailsender"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
                                  />
-                <br />
-                <p:commandButton id="viewButton"
-                                 icon="ui-btn-View"
-                                 styleClass="options-btn"
-                                 value="#{ism.View}"
-                                 action="View.xhtml?faces-redirect=true"
-                                 title="Permet de visualiser le Mailsender sélectionné."
-                                 disabled="#{empty mailsenderController.selected 
-                                             or empty mailsenderController.selected.msId}"
-                                 />
-                <br />
-                <p:commandButton id="editButton"
-                                 icon="ui-btn-Edit"
-                                 styleClass="options-btn"
-                                 value="#{ism.Edit}"
-                                 action="Edit.xhtml?faces-redirect=true"
-                                 title="Permet d'editer le Mailsender sélectionné."
-                                 disabled="#{empty mailsenderController.selected 
-                                             or empty mailsenderController.selected.msId}"
-                                 />
-                <p:commandButton id="deleteButton"
-                                 icon="ui-btn-Delete"
-                                 styleClass="options-btn"
-                                 value="#{ism.Delete}"
-                                 title="Permet de supprimer le Mailsender sélectionné !"
-                                 actionListener="#{mailsenderController.destroy}"
-                                 update=":bodyForm:datalist,westGroup,:growl"
-                                 onstart=";
-                                 #{viewConfirmDialog.dlg.setHeader(ism.MailsenderDlgHeader)};
-                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
-                                 #{viewConfirmDialog.dlg.setMessage(ism.MailsenderDlgMessage)};
-                                 PF('mainConfirmDialog').show()"
-                                 disabled="#{empty mailsenderController.selected 
-                                             or empty mailsenderController.selected.msId}"
-                                 >
-                    <p:confirm  />
-                </p:commandButton>
-                <p:commandButton id="refreshButton"
-                                 icon="ui-btn-Refresh"
-                                 styleClass="options-btn"
-                                 value="#{ism.Refresh}"
-                                 title="Permet de rafraichir la table des Mailsender "
-                                 actionListener="#{mailsenderController.releaseSelected()}"
-                                 update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
-                                 disabled="#{empty mailsenderController.selected 
-                                             or empty mailsenderController.selected.msId}"
-                                 />
+
             </h:panelGroup>
-
-
-
         </ui:define>
-        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
-            <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
-        </p:blockUI>
-
     </ui:composition>
-
 </html>

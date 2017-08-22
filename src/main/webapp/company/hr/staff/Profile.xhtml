@@ -39,6 +39,9 @@
                                 <p:calendar id="stBorned" pattern="dd/MM/yyyy" 
                                             value="#{staffController.selected.stBorned}" locale="fr"
                                             disabled="true"/>
+                                
+                                <p:outputLabel value="#{ism.StaffField_stMaillist} : " for="stMaillist" />
+                                <p:outputLabel id="stMaillist" value="#{staffController.selected.stMaillist}"  />
 
                                 <p:outputLabel value="#{ism.StaffField_stActivated}" for="stActivated" />
                                 <p:selectBooleanCheckbox id="stActivated" 

@@ -51,6 +51,13 @@
                     <h:outputText value="#{staffController.selected.stGenre.genre} - #{staffController.selected.stGenre.genrename}" 
                                   title="#{ism.StaffFieldInfo_stGenre}"/>
 
+                    
+                    
+                    <h:outputText value="#{ism.StaffField_stMaillist}"/>
+                    <h:outputText value="#{staffController.selected.stMaillist==null?'-':staffController.selected.stMaillist}" 
+                                  title="#{ism.StaffFieldInfo_stMaillist}"/>
+                    
+                    
                     <h:outputText value="#{ism.StaffField_stActivated}"/>
                     <p:selectBooleanCheckbox 
                         value="#{staffController.selected.stActivated}" disabled="true"/>

@@ -198,6 +198,15 @@ time, mark, audio, video {
 /* =============================================================================
  * Manage CRUD BUTTON ICON
  * ===========================================================================*/
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Home, .ui-menuitem-icon.ui-icon.ui-btn-Home{
+    background: url("#{resource['img/ism/ribbon/home.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-App, .ui-menuitem-icon.ui-icon.ui-btn-App{
+    background: url("#{resource['img/ism/ism.png']}") no-repeat;
+    background-size:contain;
+}
+
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-Open, .ui-menuitem-icon.ui-icon.ui-btn-Open{
     background: url("#{resource['img/ism/std/Open.png']}") no-repeat;
     background-size:contain;
@@ -290,6 +299,58 @@ time, mark, audio, video {
     background: url("#{resource['img/ism/std/Down.png']}") no-repeat;
     background-size:contain;
 }
+
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-PointInfos, .ui-menuitem-icon.ui-icon.ui-btn-PointInfos{
+    background: url("#{resource['img/ism/std/PointInfos.png']}") no-repeat;
+    background-size:contain;
+}
+
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-FileAccess, .ui-menuitem-icon.ui-icon.ui-btn-FileAccess{
+    background: url("#{resource['img/ism/admin/smq_doc_access.png']}") no-repeat;
+    background-size:contain;
+}
+
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-App, .ui-menuitem-icon.ui-icon.ui-btn-App{
+    background: url("#{resource['img/ism/ism.png']}") no-repeat;
+    background-size:contain;
+}
+
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-addressbook, .ui-menuitem-icon.ui-icon.ui-btn-addressbook{
+    background: url("#{resource['img/ism/mail/addressbook.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-addressbook_add, .ui-menuitem-icon.ui-icon.ui-btn-addressbook_add{
+    background: url("#{resource['img/ism/mail/addressbook_add.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-addressbook_delete, .ui-menuitem-icon.ui-icon.ui-btn-addressbook_delete{
+    background: url("#{resource['img/ism/mail/addressbook_delete.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-addressbook_edit, .ui-menuitem-icon.ui-icon.ui-btn-addressbook_edit{
+    background: url("#{resource['img/ism/mail/addressbook_edit.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-addressbook_search, .ui-menuitem-icon.ui-icon.ui-btn-addressbook_search{
+    background: url("#{resource['img/ism/mail/addressbook_search.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-Mail, .ui-menuitem-icon.ui-icon.ui-btn-Mail{
+    background: url("#{resource['img/ism/mail/mail.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-message, .ui-menuitem-icon.ui-icon.ui-btn-message{
+    background: url("#{resource['img/ism/mail/message.png']}") no-repeat;
+    background-size:contain;
+}
+.ui-button-icon-left.ui-icon.ui-c.ui-btn-smtp-server, .ui-menuitem-icon.ui-icon.ui-btn-smtp-server{
+    background: url("#{resource['img/ism/mail/smtp_server.png']}") no-repeat;
+    background-size:contain;
+}
+
+/* =============================================================================
+ * Manage ALERT
+ * ===========================================================================*/
 .ui-button-icon-left.ui-icon.ui-c.ui-btn-DlgCritical{
     background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
     background-size:contain;
@@ -302,17 +363,6 @@ time, mark, audio, video {
     background: url("#{resource['img/ism/std/DlgCritical.png']}") no-repeat;
     background-size:contain;
 }
-.ui-button-icon-left.ui-icon.ui-c.ui-btn-PointInfos, .ui-menuitem-icon.ui-icon.ui-btn-PointInfos{
-    background: url("#{resource['img/ism/std/PointInfos.png']}") no-repeat;
-    background-size:contain;
-}
-
-.ui-button-icon-left.ui-icon.ui-c.ui-btn-FileAccess, .ui-menuitem-icon.ui-icon.ui-btn-FileAccess{
-    background: url("#{resource['img/ism/admin/smq_doc_access.png']}") no-repeat;
-    background-size:contain;
-}
-
-
 .ui-icon.ui-confirm-dialog-severity{
     display: none;
 }

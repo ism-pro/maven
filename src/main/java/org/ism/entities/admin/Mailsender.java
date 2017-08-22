@@ -50,7 +50,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Mailsender.findByMsDeleted", query = "SELECT m FROM Mailsender m WHERE m.msDeleted = :msDeleted"),
     @NamedQuery(name = "Mailsender.findByMsCreated", query = "SELECT m FROM Mailsender m WHERE m.msCreated = :msCreated"),
     @NamedQuery(name = "Mailsender.findByMsChanged", query = "SELECT m FROM Mailsender m WHERE m.msChanged = :msChanged"),
-    @NamedQuery(name = "Mailsender.selectAllByLastChange", query = "SELECT m FROM Mailsender m ORDER BY m.msChanged DESC")
+    @NamedQuery(name = "Mailsender.selectAllByLastChange", query = "SELECT m FROM Mailsender m ORDER BY m.msChanged DESC"),
+    @NamedQuery(name = "Mailsender.findByCompany", query = "SELECT m FROM Mailsender m WHERE m.msCompany = :msCompany")
 })
 public class Mailsender implements Serializable {
 

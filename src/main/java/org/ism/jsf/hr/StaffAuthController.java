@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -31,8 +32,8 @@ public class StaffAuthController implements Serializable {
 
     @EJB
     private StaffAuthFacade staffAuthFacade;
-    @Inject
-    StaffSetupController staffSetupCtrl;
+    @ManagedProperty(value = "#{staffSetupController}")
+    private StaffSetupController staffSetupController ;
 
     /**
      * Staff used for connexion on login page
@@ -110,24 +111,24 @@ public class StaffAuthController implements Serializable {
      * Otherwise it set default value.
      */
     private void setupStaff() {
-        //if (staffSetupCtrl == null) {
+        //if (staffSetupController == null) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
 
         // Setup association staff à une companie
-        staffSetupCtrl = (StaffSetupController) facesContext.getApplication().getELResolver().
+        staffSetupController = (StaffSetupController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "staffSetupController");
         //} 
-        staffSetupCtrl.prepareCreate();
-        StaffSetup staffSetup = staffSetupCtrl.getStaffSetupByStaff(getStaff());
+        staffSetupController.prepareCreate();
+        StaffSetup staffSetup = staffSetupController.getStaffSetupByStaff(getStaff());
         if (staffSetup != null) { // Get existing setup
-            staffSetupCtrl.setSelected(staffSetup);
+            staffSetupController.setSelected(staffSetup);
         } else { // Set default staff setup
-            staffSetupCtrl.prepareCreate();
-            staffSetupCtrl.getSelected().setStsStaff(staff);
-            staffSetupCtrl.getSelected().setStsmenuIndex(1);
-            staffSetupCtrl.getSelected().setStstimeOutSession(0);
-            staffSetupCtrl.getSelected().setStsTheme(JsfUtil.defaultThemeName);
-            staffSetupCtrl.create();
+            staffSetupController.prepareCreate();
+            staffSetupController.getSelected().setStsStaff(staff);
+            staffSetupController.getSelected().setStsmenuIndex(1);
+            staffSetupController.getSelected().setStstimeOutSession(0);
+            staffSetupController.getSelected().setStsTheme(JsfUtil.defaultThemeName);
+            staffSetupController.create();
         }
     }
 
@@ -219,4 +220,10 @@ public class StaffAuthController implements Serializable {
         this.selectedAccessTree = selectedAccessTree;
     }
 
+    public void setStaffSetupController(StaffSetupController staffSetupController) {
+        this.staffSetupController = staffSetupController;
+    }
+
+    
+    
 }

@@ -32,7 +32,10 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import org.ism.entities.smq.Processus;
+import org.ism.jsf.admin.MailsenderController;
+import org.ism.services.MailServiceController;
 import org.primefaces.component.inputnumber.InputNumber;
 
 import org.primefaces.component.selectonemenu.SelectOneMenu;
@@ -45,6 +48,11 @@ public class NonConformiteRequestController implements Serializable {
 
     @EJB
     private org.ism.sessions.smq.nc.NonConformiteRequestFacade ejbFacade;
+    //@ManagedProperty(value = "#{mailServiceController}")
+    //private MailServiceController mailServiceController;
+    //@ManagedProperty(value = "#{mailsenderController}")
+    //private MailsenderController mailsenderController;
+
     private List<NonConformiteRequest> items = null;
     private NonConformiteRequest selected;
     private NonConformiteRequest edited;
@@ -247,6 +255,13 @@ public class NonConformiteRequestController implements Serializable {
                 + selected.getNcrTitle());
 
         if (!JsfUtil.isValidationFailed()) {
+
+//            mailServiceController.setTo("raphaelhendrick@gmail.com");
+//            mailServiceController.setSubject("ISM : NC Création d'une nouvelle nc");
+//            mailServiceController.setMessage(""
+//                    + "<h1>Non conformité n°" + selected.getNcrId() + " </h1>");
+//            mailServiceController.sendMail(mailsenderController.getItemsByCompany(selected.getNcrCompany()));
+
             items = null;    // Invalidate list of items to trigger re-query.
             if (isReleaseSelected) {
                 selected = null;
@@ -539,6 +554,18 @@ public class NonConformiteRequestController implements Serializable {
      */
     public List<NonConformiteRequest> getItemsStateChangeInRangeByProcessus(String state, Date from, Date to, Processus processus) {
         return getFacade().itemsStateInChangeRangeByProcessus(state, from, to, processus);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// Injection
+    ///
+    ////////////////////////////////////////////////////////////////////////////
+    public void setMailServiceController(MailServiceController mailServiceController) {
+        //this.mailServiceController = mailServiceController;
+    }
+
+    public void setMailsenderController(MailsenderController mailsenderController) {
+//        this.mailsenderController = mailsenderController;
     }
 
     /**

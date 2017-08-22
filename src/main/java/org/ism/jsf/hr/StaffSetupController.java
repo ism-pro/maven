@@ -31,8 +31,6 @@ import org.ism.entities.hr.Staff;
 @SessionScoped
 public class StaffSetupController implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @EJB
     private org.ism.sessions.hr.StaffSetupFacade ejbFacade;
     private List<StaffSetup> items = null;

@@ -30,12 +30,6 @@
 
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
 
-
-            <!-- Suppression dû au changement de primefaces vers la version 6.1 
-            <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
-            <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
-            -->
-
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
 
@@ -48,10 +42,8 @@
     </h:head>
 
     <h:body id="body" rendered="#{request.session.getAttribute('authenticated')}">
-        <!--    Reste affiché pendant 5s
-                Montre un résumer et affiche les détails
-                Seul les messages sans id sont affiché
-        -->
+
+        <!-- Affichage message maximum 5S -->
         <p:growl id="growl" life="5000" 
                  showDetail="true" showSummary="true" escape="false"/>  
 
@@ -85,6 +77,7 @@
                           effect="#{viewLayout.northUnit.effect}"
                           effectSpeed="#{viewLayout.northUnit.effectSpeed}"
                           >
+                
                 <f:facet name="header" class="unitNorthHeader">
                     <h:form id="shortcutForm">
 
@@ -163,34 +156,38 @@
                 </f:facet>
 
 
+                
+                
+                
+                
+                
+                
+                <!-- Formulaire du rubban -->
                 <h:form id="mainForm">
 
 
                     <div id="ribbon-layout">
-                        <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}"
-                                   widgetVar="ribbon">
-                            <p:ajax event="tabChange" 
-                                    listener="#{viewRibbon.onChange}"
-                                    />
+                        
+                        <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}" widgetVar="ribbon">
+                            <p:ajax event="tabChange" listener="#{viewRibbon.onChange}" />
 
-                            <p:tab id="main"
-                                   title="#{ism.Home}" titletip="#{ism.HomeTitle}"
-                                   >
+                            
+                            <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
+                                
                                 <pi:ribbonGroup id="ribbonGroupHome" label="#{ism.StaffField_stStaff}"  >
+                                    
                                     <pi:ribbonGroupSet id="ribbonGroupSetHome" set="small" >
-                                        <p:commandButton id="btnHomeIndex"
-                                                         actionListener="#{viewRibbon.setActiveIndex(0)}"
-                                                         title="Visualiser la page d'acceuil"
+                                        <p:commandButton actionListener="#{viewRibbon.setActiveIndex(0)}"
+                                                         title="Retour à la fenêtre de connexion"
                                                          action="/index.xhtml?faces-redirect=true"
-                                                         icon="ui-ribbonicon-home" 
+                                                         icon="ui-btn-Home" 
                                                          value="Acceuil"
                                                          />
-                                        <p:commandButton id="btnHomeHome"
-                                                         actionListener="#{viewRibbon.setActiveIndex(0)}"
+                                        <p:commandButton actionListener="#{viewRibbon.setActiveIndex(0)}"
                                                          title="Visualiser la page d'acceuil"
                                                          action="/company/index.xhtml?faces-redirect=true"
-                                                         icon="ui-ribbonicon-home" 
-                                                         value="Application"
+                                                         icon="ui-btn-App" 
+                                                         value="#{ism.Dashboard}"
                                                          />
                                         <p:commandButton id="btnHomeLogOut"
                                                          actionListener="#{viewRibbon.setActiveIndex(0)}"
@@ -222,6 +219,32 @@
 
                                     </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
+                                
+                                
+                                
+                                
+                                <pi:ribbonGroup id="ribbonGroupApp" label="#{ism.AppTitle}"  >
+                                    <pi:ribbonGroupSet id="ribbonGroupSetApp" set="small" >
+                                        <p:commandButton actionListener="#{mailsenderController.prepareCreate()}"
+                                                        title="Configuration du serveur de messagerie"
+                                                        action="/company/admin/mailsender/List.xhtml?faces-redirect=true"
+                                                        icon="ui-btn-smtp-server" 
+                                                        value="#{ism.AppMailServer}"
+                                                         />
+                                        
+                                        <p:commandButton title="Envoyer un email de test"
+                                                        actionListener="#{mailServiceController.sendMail()}"
+                                                        icon="ui-btn-message" 
+                                                        value="#{ism.AppMailServer}"
+                                                        update=":growl"
+                                                         />
+                                        
+                                    </pi:ribbonGroupSet>
+                                    
+                                </pi:ribbonGroup>
+                                
+                                
+                                
                             </p:tab>
 
                             <p:tab id="administration" title="#{ism.AdminPage}" titletip="#{ism.AdminPageTitle}">

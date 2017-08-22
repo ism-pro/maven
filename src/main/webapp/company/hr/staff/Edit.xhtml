@@ -150,6 +150,19 @@
                     </h:panelGrid>
 
 
+
+                    <p:outputLabel value="#{ism.StaffField_stMaillist}" for="stMaillist" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="stMaillist" 
+                                     value="#{staffController.selected.stMaillist}" 
+                                     title="#{ism.StaffFieldInfo_stMaillist}" 
+                                     required="true"
+                                     requiredMessage="#{ism.StaffRequiredMsg_stMaillist}"/>
+                        <p:message for="stMaillist"/>
+                    </h:panelGrid>
+
+
+
                     <p:outputLabel value="#{ism.StaffField_stActivated}" for="stActivated" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectBooleanCheckbox id="stActivated" 

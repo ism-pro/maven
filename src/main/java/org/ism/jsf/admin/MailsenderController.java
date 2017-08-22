@@ -31,14 +31,21 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
+import org.ism.entities.admin.Company;
+import org.ism.jsf.hr.StaffAuthController;
 
-
-
-@ManagedBean(name="mailsenderController")
+@ManagedBean(name = "mailsenderController")
 @SessionScoped
 public class MailsenderController implements Serializable {
 
-    @EJB private org.ism.sessions.admin.MailsenderFacade ejbFacade;
+    @EJB
+    private org.ism.sessions.admin.MailsenderFacade ejbFacade;
+
+    @ManagedProperty(value = "#{staffAuthController}")
+    StaffAuthController staffAuthController;
+
     private List<Mailsender> items = null;
     private Mailsender selected;
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
@@ -47,11 +54,9 @@ public class MailsenderController implements Serializable {
     private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
     private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
-    
-    private List<Mailsender>            itemsByLast;
-    private List<Mailsender>            itemsFiltered;
-    
-    
+    private List<Mailsender> itemsByLast;
+    private List<Mailsender> itemsFiltered;
+
     public MailsenderController() {
     }
 
@@ -59,11 +64,9 @@ public class MailsenderController implements Serializable {
     protected void initialize() {
         isReleaseSelected = true;   //!< by default, after a crud event select element is release (null)
         isOnMultiCreation = false;  //!< Par défaut, la création multiple n'est pas permise
-        
+
         // Initialize list of senders
         itemsByLast = getItemsByLastChanged();
-
-
 
         // STRING PARSE
         String src_01 = "MailsenderField_msId";
@@ -78,8 +81,7 @@ public class MailsenderController implements Serializable {
         String src_10 = "MailsenderField_msDeleted";
         String src_11 = "MailsenderField_msCreated";
         String src_12 = "MailsenderField_msChanged";
-        
-        
+
         // Setup initial visibility
         headerTextMap = new HashMap<>();
         headerTextMap.put(0, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"));
@@ -117,12 +119,21 @@ public class MailsenderController implements Serializable {
         return ejbFacade;
     }
 
+    public StaffAuthController getStaffAuthController() {
+        return staffAuthController;
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     /// SPECIFIC FONCTION
     ///
     ////////////////////////////////////////////////////////////////////////////
     public Mailsender prepareCreate() {
-        selected = new Mailsender();
+        if (selected == null) {
+            selected = new Mailsender();
+        }
+        if (getItemsByCompany(getStaffAuthController().getCompany()) != null) {
+            selected = getItemsByCompany(getStaffAuthController().getCompany());
+        }
         return selected;
     }
 
@@ -168,7 +179,6 @@ public class MailsenderController implements Serializable {
     /// TABLE OPTIONS
     ///
     ////////////////////////////////////////////////////////////////////////////
-
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
                 e.getVisibility() == Visibility.VISIBLE);
@@ -195,7 +205,6 @@ public class MailsenderController implements Serializable {
                 "Columns : <br>" + columns);
 
     }
-    
 
     public void handleTableChanges() {
         itemsByLast = getItemsByLastChanged();
@@ -210,11 +219,14 @@ public class MailsenderController implements Serializable {
     /// CRUD OPTIONS
     ///
     ////////////////////////////////////////////////////////////////////////////
-    
     public void create() {
+        if (selected.getMsCreated() == null) {
+            selected.setMsCreated(new Date());
+        } else {
+            update();
+        }
         // Set time on creation action
         selected.setMsChanged(new Date());
-        selected.setMsCreated(new Date());
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
@@ -223,6 +235,7 @@ public class MailsenderController implements Serializable {
                 getString("MailsenderPersistenceCreatedDetail")
                 + selected.getMsAddress() + " <br > " + selected.getMsSmtpsrv());
 
+        /*
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
             if (isReleaseSelected) {
@@ -237,9 +250,8 @@ public class MailsenderController implements Serializable {
                 selected = v_Mailsender.get(v_Mailsender.size() - 1);
             }
         }
+         */
     }
-    
-    
 
     public void createUnReleasded() {
         isReleaseSelected = false;
@@ -337,6 +349,10 @@ public class MailsenderController implements Serializable {
         return getFacade().findAll();
     }
 
+    public Mailsender getItemsByCompany(Company company) {
+        return getFacade().findByCompany(company);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     /// GETTER / SETTER
     ///
@@ -397,15 +413,24 @@ public class MailsenderController implements Serializable {
         this.itemsFiltered = itemsFiltered;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    /// Manage Injection
+    ///
+    ////////////////////////////////////////////////////////////////////////////
 
+    public void setStaffAuthController(StaffAuthController staffAuthController) {
+        this.staffAuthController = staffAuthController;
+    }
     
     
-
+    
+    
+    
     ////////////////////////////////////////////////////////////////////////////
     /// CONVERTER
     ///
     ////////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass=Mailsender.class)
+    @FacesConverter(forClass = Mailsender.class)
     public static class MailsenderControllerConverter implements Converter {
 
         @Override
@@ -413,7 +438,7 @@ public class MailsenderController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            MailsenderController controller = (MailsenderController)facesContext.getApplication().getELResolver().
+            MailsenderController controller = (MailsenderController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "mailsenderController");
             return controller.getMailsender(getKey(value));
         }
@@ -446,9 +471,6 @@ public class MailsenderController implements Serializable {
 
     }
 
-    
-    
-
     ////////////////////////////////////////////////////////////////////////////
     /// VALIDATOR
     ///
@@ -459,7 +481,8 @@ public class MailsenderController implements Serializable {
         public static final String P_DUPLICATION_CODE_SUMMARY_ID = "MailsenderDuplicationSummary_####";
         public static final String P_DUPLICATION_CODE_DETAIL_ID = "MailsenderDuplicationDetail_###";
 
-        @EJB private org.ism.sessions.admin.MailsenderFacade ejbFacade;
+        @EJB
+        private org.ism.sessions.admin.MailsenderFacade ejbFacade;
 
         @Override
         public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
@@ -488,14 +511,15 @@ public class MailsenderController implements Serializable {
             }
         }
     }
-    
+
     @FacesValidator(value = "Mailsender_DesignationValidator")
     public static class MailsenderDesignationValidator implements Validator {
 
         public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "MailsenderDuplicationSummary_#####";
         public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "MailsenderDuplicationDetail_#####";
 
-       @EJB private org.ism.sessions.admin.MailsenderFacade ejbFacade;
+        @EJB
+        private org.ism.sessions.admin.MailsenderFacade ejbFacade;
 
         @Override
         public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {

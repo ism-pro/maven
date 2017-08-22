@@ -53,6 +53,7 @@ import org.ism.entities.smq.PointInfos;
     @NamedQuery(name = "Staff.findByStFirstname", query = "SELECT s FROM Staff s WHERE s.stFirstname = :stFirstname"),
     @NamedQuery(name = "Staff.findByStMiddlename", query = "SELECT s FROM Staff s WHERE s.stMiddlename = :stMiddlename"),
     @NamedQuery(name = "Staff.findByStBorned", query = "SELECT s FROM Staff s WHERE s.stBorned = :stBorned"),
+    @NamedQuery(name = "Staff.findByStMaillist", query = "SELECT s FROM Staff s WHERE s.stMaillist = :stMaillist"),
     @NamedQuery(name = "Staff.findByStMaxInactiveInterval", query = "SELECT s FROM Staff s WHERE s.stMaxInactiveInterval = :stMaxInactiveInterval"),
     @NamedQuery(name = "Staff.findByStActivated", query = "SELECT s FROM Staff s WHERE s.stActivated = :stActivated"),
     @NamedQuery(name = "Staff.findByStDeleted", query = "SELECT s FROM Staff s WHERE s.stDeleted = :stDeleted"),
@@ -94,6 +95,10 @@ public class Staff implements Serializable {
     @Column(name = "st_borned")
     @Temporal(TemporalType.DATE)
     private Date stBorned;
+    @Size(max = 256)
+    @Column(name = "st_maillist", length = 256)
+    private String stMaillist;
+        
     @Basic(optional = false)
     @NotNull
     @Column(name = "st_maxInactiveInterval", nullable = false)
@@ -221,6 +226,16 @@ public class Staff implements Serializable {
     public void setStBorned(Date stBorned) {
         this.stBorned = stBorned;
     }
+
+    public String getStMaillist() {
+        return stMaillist;
+    }
+
+    public void setStMaillist(String stMaillist) {
+        this.stMaillist = stMaillist;
+    }
+    
+    
 
     public boolean getStActivated() {
         return stActivated;

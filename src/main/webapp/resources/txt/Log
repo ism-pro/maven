@@ -32,53 +32,9 @@ nommenclature.
 
 
 ================================================================================
-                COMMIT
-    Header
-    # This is an <h1> tag
-    ## This is an <h2> tag
-    ###### This is an <h6> tag
-
-    Emphasis
-    *This text will be italic*
-    _This will also be italic_
-    **This text will be bold**
-    __This will also be bold__
-    _You **can** combine them_
-
-    List-Unordered
-    * Item 1
-    * Item 2
-      * Item 2a
-      * Item 2b
-
-    List-ordered
-    1. Item 1
-    2. Item 2
-    3. Item 3
-       * Item 3a
-       * Item 3b
-
 
 ================================================================================
-# Internationalization : mise en forme des champs avec valeur standard français
 
-## Where :
-Process
-
-## Description :
-Les éléments modifier sont :
-    Unité,
-    Equipement,
-    Analyse Allowed
-    Analyse Catégorie
-    Analyse Data
-    Analyse Method
-    Analyse Notify
-    Analyse Point
-    Analyse Type
-
-## How
-Modification des fichiers ISM.properties et ISM_fr.properties
 
 
 
@@ -134,7 +90,14 @@ Configuration :
     + TODO SHORTCUT
     ++ Gestion des shortcut et toggler.
 
-    + TODO RESOURCES
+================================================================================
+    RESOURCES
+    + Presentation des utilisateurs sous differentes forme :
+        - Formes tabulaires,
+        - Formes icon
+
+
+
     ++ 
     ++ staffGroupDef : gestion crud de la définition des groupes utilisateur
     ++ staffRôleList : gestion crud de la définition des groupes utilisateur
@@ -144,6 +107,7 @@ Configuration :
     ++ Gestion de la création de staff
     ++ Présentation des staffs.
     
+================================================================================
     # TODO PROCESS ANALYSE
     ++ Activer la possibilité d'actualiser le graphique sans recharger la page
     ++ Possibilité de modifier le rendu graphique
@@ -175,6 +139,67 @@ Configuration :
     nombre de document par processus.
     + Changer le mode de gestion, les documents doivent être stocké sur un 
     répertoire du server
+
+
+    Système
+    Fournir la possibilité de créer l'application sans spécifier manuellement
+    la ressource ni le JMS
+    JDBC
+    https://docs.oracle.com/cd/E19798-01/821-1751/ggndp/index.html
+    JMS
+    https://docs.oracle.com/cd/E18930_01/html/821-2416/ablkb.html
+
+
+
+
+
+
+
+
+    Correction :
+    ============================================================================
+    Gestion des non conformités :
+    + Dans l'option de vue, validation, correction du message du titre 
+    infromations en information
+
+
+    Nouveautés :
+    ============================================================================
+    Système :
+    + Création des répertoire système permettant de faciliter la gestion de 
+    fichier.
+    + Structure dans C:
+        + ISM
+        + + rsc
+        + + + + documentation
+        + + + + img
+        + + + + diaporama
+        + + + + json
+        + + + + smq
+        + + + + + + doc
+
+    Documentation
+    + Droit d'accès sur la documentation :
+    - Tous les fichiers peuvent avoir des droits d'accès définit.
+    - Suite à la mise à jour tous les fichiers seront rendu inaccessible
+    - Seul les personnes ayant le rôle ou l'accès à la définition de droit peuvent
+    fournir des droits d'accès.
+    - Configuration des accès utilisateur afin de disposer des nouvelles fonctionnalité
+
+    E-mail
+    + Configuration du server SMTP "via mail senders"
+    - Ajout d'un bouton dans le groupe de menu application server mail pour accéder
+    au menu de configuration smtp
+    - Type de confirguration différent des pages standard. Ceci présupose un
+    droit administrateur pour effectuer ce type d'opération
+    + Test exécuter mais cela ajoute une latence dans l'exécution des opérations
+    laissant l'utilisateur en attente.
+
+
+
+
+
+
 
 
 

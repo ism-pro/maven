@@ -20,7 +20,7 @@
                                 actionListener="#{docExplorerController.prepareCreate()}"
                                 action="Create.xhtml?faces-redirect=true"
                                 title="Permet de créer un nouveau document"
-                                rendered="#{request.isUserInRole('CO_SMQDOCEXPLORER_W')}"
+                                rendered="#{request.isUserInRole('S_EXPLORER_C')}"
                                 />
                     <p:separator />
                     <p:menuitem icon="ui-btn-View" iconPos="left"
@@ -29,7 +29,7 @@
                                 action="View.xhtml?faces-redirect=true"
                                 title="Permet de visualiser un document sélectionné."
                                 disabled="#{empty docExplorerController.selected }"
-                                rendered="#{request.isUserInRole('CO')}"
+                                rendered="#{request.isUserInRole('S_EXPLORER_V')}"
                                 />
                     <p:menuitem icon="ui-btn-Edit"
                                 styleClass="options-btn"
@@ -37,8 +37,20 @@
                                 action="Edit.xhtml?faces-redirect=true"
                                 title="Permet d'editer le document sélectionné."
                                 disabled="#{empty docExplorerController.selected }"
-                                rendered="#{request.isUserInRole('CO_SMQDOCEXPLORER_W')}"
+                                rendered="#{request.isUserInRole('S_EXPLORER_E')}"
                                 />
+                    <p:menuitem icon="ui-btn-FileAccess"
+                                styleClass="options-btn"
+                                value="#{ism.WriteOn}"
+                                action="CreateAccess.xhtml?faces-redirect=true"
+                                title="Permet de définir des droits d'accès sur le document."
+                                disabled="#{empty docExplorerController.selected 
+                                            or empty docExplorerController.selected.dcId}"
+                                rendered="#{request.isUserInRole('S_EXPLORER_CA')}"
+                                >
+                        <f:setPropertyActionListener target="#{processAccessController.selected.paDocexplorer}" value="#{docExplorerController.selected}" />
+                        <f:setPropertyActionListener target="#{processAccessController.selected.paCompany}" value="#{staffAuthController.company}" />
+                    </p:menuitem>
                     <p:menuitem icon="ui-btn-Delete"
                                 styleClass="options-btn"
                                 value="#{ism.Delete}"
@@ -51,7 +63,7 @@
                                 #{viewConfirmDialog.dlg.setMessage(ism.DocExplorerDlgMessage)};
                                 PF('mainConfirmDialog').show();"
                                 disabled="#{empty docExplorerController.selected}"
-                                rendered="#{request.isUserInRole('CO_SMQDOCEXPLORER_W')}"
+                                rendered="#{request.isUserInRole('S_EXPLORER_E')}"
                                 >
                         <p:confirm  />
                     </p:menuitem>
@@ -334,6 +346,9 @@
                                  actionListener="#{docExplorerController.prepareCreate()}"
                                  action="Create.xhtml?faces-redirect=true"
                                  title="Permet de créer un nouveau document"
+                                 disabled="#{empty docExplorerController.selected 
+                                             or empty docExplorerController.selected.dcId
+                                             or !request.isUserInRole('S_EXPLORER_C')}"
                                  />
                 <br />
                 <p:commandButton id="viewButton"
@@ -343,7 +358,8 @@
                                  action="View.xhtml?faces-redirect=true"
                                  title="Permet de visualiser le document sélectionné."
                                  disabled="#{empty docExplorerController.selected 
-                                             or empty docExplorerController.selected.dcId}"
+                                             or empty docExplorerController.selected.dcId
+                                             or !request.isUserInRole('S_EXPLORER_V')}"
                                  />
                 <br />
                 <p:commandButton id="editButton"
@@ -353,8 +369,23 @@
                                  action="Edit.xhtml?faces-redirect=true"
                                  title="Permet d'editer le document sélectionné."
                                  disabled="#{empty docExplorerController.selected 
-                                             or empty docExplorerController.selected.dcId}"
+                                             or empty docExplorerController.selected.dcId
+                                             or !request.isUserInRole('S_EXPLORER_E')}"
                                  />
+                <p:commandButton id="fileAccessButton"
+                                 icon="ui-btn-FileAccess"
+                                 styleClass="options-btn"
+                                 value="#{ism.WriteOn}"
+                                 action="CreateAccess.xhtml?faces-redirect=true"
+                                 actionListener="#{processAccessController.prepareCreate()}"
+                                 title="Permet de définir des droits d'accès sur le document."
+                                 disabled="#{empty docExplorerController.selected 
+                                             or empty docExplorerController.selected.dcId}"
+                                 rendered="#{request.isUserInRole('S_EXPLORER_CA')}"
+                                 >
+                    <f:setPropertyActionListener target="#{processAccessController.selected.paDocexplorer}" value="#{docExplorerController.selected}" />
+                    <f:setPropertyActionListener target="#{processAccessController.selected.paCompany}" value="#{staffAuthController.company}" />
+                </p:commandButton>
                 <p:commandButton id="deleteButton"
                                  icon="ui-btn-Delete"
                                  styleClass="options-btn"
@@ -368,7 +399,8 @@
                                  #{viewConfirmDialog.dlg.setMessage(ism.DocExplorerDlgMessage)}
                                  PF('mainConfirmDialog').show()"
                                  disabled="#{empty docExplorerController.selected 
-                                             or empty docExplorerController.selected.dcId}"
+                                             or empty docExplorerController.selected.dcId
+                                             or !request.isUserInRole('S_EXPLORER_E')}"
                                  >
                     <p:confirm  />
                 </p:commandButton>
@@ -387,7 +419,7 @@
 
 
         </ui:define>
-        <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, fileAccessButton, deleteButton" >
             <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
         </p:blockUI>
 
