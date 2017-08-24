@@ -32,7 +32,6 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.inject.Inject;
 import org.ism.entities.admin.Company;
 import org.ism.jsf.hr.StaffAuthController;
 

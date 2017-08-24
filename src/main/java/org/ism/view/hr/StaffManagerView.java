@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -22,7 +23,9 @@ import javax.inject.Inject;
 import org.ism.entities.hr.Staff;
 import org.ism.entities.hr.StaffGroupDef;
 import org.ism.entities.hr.StaffGroups;
+import org.ism.jsf.admin.CompanyController;
 import org.ism.jsf.hr.StaffController;
+import org.ism.jsf.hr.StaffGroupDefController;
 import org.ism.jsf.hr.StaffGroupsController;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.services.CtrlAccess;
@@ -43,18 +46,61 @@ import org.primefaces.model.TreeNode;
 public class StaffManagerView implements Serializable {
 
     private static final long serialVersionUID = 1L;
+//
+    @Inject
+    private StaffController staffController;
+//    @Inject
+//    private StaffGroupsController staffGroupsCtrl;
+//    
+//    
+    /**
+     * Injection of CompanyController  <br>
+     * This contrôller allow to get all company
+     */
+//    @ManagedProperty(value = "#{companyController}")
+//    private CompanyController companyController;
 
-    @Inject
-    private StaffController staffCtrl;
-    @Inject
-    private StaffGroupsController staffGroupsCtrl;
+    /**
+     * Injection of StaffController   <br>
+     * This controller allow to get staff definition
+     */
+//    @ManagedProperty(value = "#{staffController}")
+//    private StaffController staffController;
+
+    /**
+     * Injection of StaffGroupDefController   <br>
+     * This controller allow to get definition of group
+     */
+    @ManagedProperty(value = "#{staffGroupDefController}")
+    private StaffGroupDefController staffGroupDefController;
+
+    /**
+     * Injection of staffGroupsController This controller link company / staff /
+     * stgd_group_def which allow to identify staff affected groups. Staff can
+     * have multiple group defined
+     */
+    @ManagedProperty(value = "#{staffGroupsController}")
+    private StaffGroupsController staffGroupsController;
 
     private Staff staff = null;                         //!< Utilisateur provisoire
     private Integer wizardStep = 0;                     //!< Current step
 
     private TreeNode access;                    //!< Racine de l'abre complet
-    private TreeNode accessStaff;                    //!< Racine de l'abre complet
+    private TreeNode accessStaff;               //!< Racine de l'abre complet
     private TreeNode accessChecked[];           //!< Tableau de élément sélectionné 
+
+    /**
+     * displayMode allow to specify which mode is to be set for display users
+     * <br>
+     * 1 is for list mode, <br>
+     * 2 is for tabular mode,<br>
+     * 3 is for grid mode
+     * <br>
+     * Default is 1. This set was introduce in order to display different mode
+     * from user perspective
+     *
+     */
+    private Integer displayMode = 1;
 
     public StaffManagerView() {
     }
@@ -66,8 +112,33 @@ public class StaffManagerView implements Serializable {
         access = (new CtrlAccessService()).securityStaff();
     }
 
+    public void prepareEdit(Staff staff) {
+        staff = new Staff();
+        wizardStep = 0;
+
+        // Setup company
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        CompanyController companyController = (CompanyController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "companyController");
+        companyController.prepareCreate();
+        
+
+        // Read back the staff group def associate to this user
+        List<StaffGroups> staffGroupsList = staffGroupsController.getItemsByStaff(staff);
+        // Create complete tree
+        CtrlAccessService ctrlAccessService = new CtrlAccessService();
+        if (staffGroupsList == null) {
+            access = ctrlAccessService.makeTreeNodeCompanyGroups(companyController.getItems(),
+                    staffGroupDefController.getItemsAvailableSelectMany());
+        } else {
+            access = ctrlAccessService.makeTreeNodeCompanyGroups(companyController.getItems(),
+                    staffGroupDefController.getItemsAvailableSelectMany(),
+                    staffGroupsList, accessChecked);
+        }
+    }
+
     public void handleStaffEdit() {
-        List<Staff> lstStaff = staffCtrl.findByStaff(staff.getStStaff());
+        List<Staff> lstStaff = staffController.findByStaff(staff.getStStaff());
         if (lstStaff != null) {
             JsfUtil.addErrorMessage("StaffManagerCreateForm:stStaff",
                     ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffManagerExist_stStaff"));
@@ -122,16 +193,16 @@ public class StaffManagerView implements Serializable {
 
     public void create() {
         // Create staff
-        staffCtrl.prepareCreate();
-        staffCtrl.setSelected(this.staff);
-        staffCtrl.setIsResetPassword(Boolean.TRUE);
-        staffCtrl.create();
-        List<Staff> lstStaff = staffCtrl.findByStaff(staff.getStStaff());
+        staffController.prepareCreate();
+        staffController.setSelected(this.staff);
+        staffController.setIsResetPassword(Boolean.TRUE);
+        staffController.create();
+        List<Staff> lstStaff = staffController.findByStaff(staff.getStStaff());
         Staff createStaff = null;
         if (lstStaff != null) {
             createStaff = lstStaff.get(0);
         } else {
-            JsfUtil.addErrorMessage("StaffMangerVIew : create",
+            JsfUtil.addErrorMessage("StaffMangerView : create",
                     "Staff " + this.staff.getStStaff() + " was not created !");
             return;
         }
@@ -157,8 +228,8 @@ public class StaffManagerView implements Serializable {
             groups.setStgGroupDef(stgd);    // Association à un groupe
             groups.setStgCompany(stgd.getStgdCompany());    // Creation de la société
             groups.setStgActivated(true);
-            staffGroupsCtrl.setSelected(groups);
-            staffGroupsCtrl.create();
+            staffGroupsController.setSelected(groups);
+            staffGroupsController.create();
         }
 
         this.staff = new Staff();
@@ -226,6 +297,30 @@ public class StaffManagerView implements Serializable {
 
     public void setWizardStep(Integer wizardStep) {
         this.wizardStep = wizardStep;
+    }
+
+    public Integer getDisplayMode() {
+        return displayMode;
+    }
+
+    public void setDisplayMode(Integer displayMode) {
+        this.displayMode = displayMode;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// Manage Injection
+    ///
+    ////////////////////////////////////////////////////////////////////////////
+//    public void setCompanyController(CompanyController companyController) {
+//        this.companyController = companyController;
+//    }
+
+    public void setStaffGroupDefController(StaffGroupDefController staffGroupDefController) {
+        this.staffGroupDefController = staffGroupDefController;
+    }
+
+    public void setStaffGroupsController(StaffGroupsController staffGroupsController) {
+        this.staffGroupsController = staffGroupsController;
     }
 
     /**

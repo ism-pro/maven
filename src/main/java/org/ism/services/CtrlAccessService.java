@@ -201,11 +201,13 @@ public class CtrlAccessService implements Serializable {
         CheckboxTreeNode root = new CheckboxTreeNode(new CtrlAccess("Entreprise"), null);
 
         // 1 - 
+        // Init. Staff Group def controller if not exist
         if (staffGroupDefCtrl == null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             staffGroupDefCtrl = (StaffGroupDefController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "staffGroupDefController");
         }
+        // Loop over each company defined in staff group def
         Iterator<StaffGroupDef> companyItr = staffGroupDefCtrl.getItemsGroupByCompany().iterator();
         while (companyItr.hasNext()) {
             StaffGroupDef gdef = companyItr.next();
@@ -214,10 +216,13 @@ public class CtrlAccessService implements Serializable {
             access.setName(gdef.getStgdCompany().getCCompany() + " - " + gdef.getStgdCompany().getCDesignation());
             CheckboxTreeNode cpNode = new CheckboxTreeNode(access, root);
 
+            // Loop over each group in the existing in staff group def for a specific company
             Iterator<StaffGroupDef> itr = staffGroupDefCtrl.getItemsByCompany(cp).iterator();
             while (itr.hasNext()) {
                 StaffGroupDef groupdef = itr.next();
+                // Add the new company
                 CheckboxTreeNode node = new CheckboxTreeNode(new CtrlAccess(groupdef), cpNode);
+                // Check if this group is selected
                 if (selected != null) {
                     for (int i = 0; i < selected.length; i++) {
                         CtrlAccess selectedAccess = (CtrlAccess) selected[i].getData();
