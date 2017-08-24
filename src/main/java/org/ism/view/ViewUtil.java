@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -120,11 +121,9 @@ public class ViewUtil implements Serializable {
         return toDate(year, month, day, hour, min, 0);
     }
 
-    
-    
-    
     /**
      * Method permettant de traduire la variable de deux date
+     *
      * @param value a value
      * @param filter a object filtred
      * @param locale a local
@@ -177,5 +176,63 @@ public class ViewUtil implements Serializable {
             return true;
         }
         return false;
+    }
+
+    /**
+     * yearsFrom allow to calculate the number of accomplished years from a
+     * specified date till now.
+     * <br>
+     * This method is useful for example while your need to compute the
+     * accomplished age.
+     *
+     * @param date from which to calculate the year from now. It has to be
+     * bigger than now.
+     * @return -1 if error, 0 if date is null, otherwise the correct
+     * accomplished years
+     */
+    public Integer yearsFrom(Date date) {
+        if (date == null) {
+            return 0;
+        }
+
+        long now = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long dt = date.toInstant().toEpochMilli();
+
+        if (dt > now) {
+            return -1;
+        }
+
+        long yearsl = now - dt;
+
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(yearsl), ZoneId.systemDefault()).getYear() - 1970;
+    }
+
+    /**
+     * daysOverYearsFrom allow to calculate the number of accomplished days from a
+     * specified date till now.
+     * <br>
+     * This method is useful for example while your need to compute the
+     * accomplished days over years of age.
+     *
+     * @param date from which to calculate the days from now. It has to be
+     * bigger than now.
+     * @return -1 if error, 0 if date is null, otherwise the correct
+     * accomplished days over years
+     */
+    public Integer daysOverYearsFrom(Date date) {
+        if (date == null) {
+            return 0;
+        }
+
+        long now = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long dt = date.toInstant().toEpochMilli();
+
+        if (dt > now) {
+            return -1;
+        }
+
+        long yearsl = now - dt;
+
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(yearsl), ZoneId.systemDefault()).getDayOfYear();
     }
 }
