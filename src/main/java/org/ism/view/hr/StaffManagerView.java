@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
@@ -30,6 +31,7 @@ import org.ism.jsf.hr.StaffGroupsController;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.services.CtrlAccess;
 import org.ism.services.CtrlAccessService;
+import org.primefaces.component.commandlink.CommandLink;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.NodeSelectEvent;
@@ -47,8 +49,8 @@ public class StaffManagerView implements Serializable {
 
     private static final long serialVersionUID = 1L;
 //
-    @Inject
-    private StaffController staffController;
+//    @Inject
+//    private StaffController staffController;
 //    @Inject
 //    private StaffGroupsController staffGroupsCtrl;
 //    
@@ -64,8 +66,8 @@ public class StaffManagerView implements Serializable {
      * Injection of StaffController   <br>
      * This controller allow to get staff definition
      */
-//    @ManagedProperty(value = "#{staffController}")
-//    private StaffController staffController;
+    @ManagedProperty(value = "#{staffController}")
+    private StaffController staffController;
 
     /**
      * Injection of StaffGroupDefController   <br>
@@ -112,8 +114,8 @@ public class StaffManagerView implements Serializable {
         access = (new CtrlAccessService()).securityStaff();
     }
 
-    public void prepareEdit(Staff staff) {
-        staff = new Staff();
+    public void prepareEdit() {
+        //staff = new Staff();
         wizardStep = 0;
 
         // Setup company
@@ -121,7 +123,6 @@ public class StaffManagerView implements Serializable {
         CompanyController companyController = (CompanyController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "companyController");
         companyController.prepareCreate();
-        
 
         // Read back the staff group def associate to this user
         List<StaffGroups> staffGroupsList = staffGroupsController.getItemsByStaff(staff);
@@ -237,6 +238,19 @@ public class StaffManagerView implements Serializable {
 
     }
 
+    public void handleStaffSelection(javax.faces.event.AjaxBehaviorEvent event) {
+        /* retrieve buttonId which you clicked */
+        CommandLink cmdl = ((CommandLink) event.getComponent());
+        Integer tabindex = Integer.valueOf(cmdl.getTabindex());
+        staffController.setSelected(staffController.getItems().get(tabindex));
+
+        //JsfUtil.out("TabIndex : " + tabindex);
+        this.staff = staffController.getSelected();
+        
+        JsfUtil.addSuccessMessage("Component id clicked " + cmdl.getId()
+                + " staff : " + staffController.getSelected().getStStaff());
+    }
+
     /* ========================================================================
    
     =========================================================================*/
@@ -314,6 +328,9 @@ public class StaffManagerView implements Serializable {
 //    public void setCompanyController(CompanyController companyController) {
 //        this.companyController = companyController;
 //    }
+    public void setStaffController(StaffController staffController) {
+        this.staffController = staffController;
+    }
 
     public void setStaffGroupDefController(StaffGroupDefController staffGroupDefController) {
         this.staffGroupDefController = staffGroupDefController;

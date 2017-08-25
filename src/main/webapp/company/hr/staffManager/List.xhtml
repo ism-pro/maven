@@ -10,8 +10,19 @@
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
         <ui:define name="body">
-            <h1><h:outputText value="#{ism.StaffTitleList}"/></h1>
             <h:form id="bodyForm">
+                <h1>
+                    <h:outputText value="#{ism.StaffTitleList}"/>
+                    <span>        </span>
+                    <p:selectOneButton value="#{staffManagerView.displayMode}"  >
+                        <p:ajax event="change" update=":bodyForm,:growl" />
+                        <f:selectItem itemLabel="List" itemValue="1"/>
+                        <f:selectItem itemLabel="Table" itemValue="2"/>
+                        <f:selectItem itemLabel="Grille" itemValue="3"/>
+                    </p:selectOneButton>
+                </h1>
+
+
                 <p:contextMenu id="contextMenu" for="datalist" >
                     <p:menuitem icon="ui-btn-Create"
                                 styleClass="options-btn"
@@ -65,14 +76,7 @@
 
 
 
-                <h3>
-                    <p:selectOneButton value="#{staffManagerView.displayMode}"  >
-                        <p:ajax event="change" update=":bodyForm,:growl" />
-                        <f:selectItem itemLabel="List" itemValue="1"/>
-                        <f:selectItem itemLabel="Table" itemValue="2"/>
-                        <f:selectItem itemLabel="Grille" itemValue="3"/>
-                    </p:selectOneButton>
-                </h3> 
+
 
                 <style>
                     .logo{
@@ -80,88 +84,115 @@
                         height: 48px;
                     }
                     .ui-datascroller-item{
-                        border-bottom: 1px solid #A8A8A8 !important;
-                        padding: 25px 10px;
+                        border-bottom: 1px solid #ececec !important;
+                        padding: 0px 0px;
                     }
+                    .ui-datascroller-item:hover{
+                        background-color: lightyellow;
+                    }
+                    .odd{
+                        background-color: #fcfcfc;
+                    }
+                    .odd:hover{
+                        background-color: lightyellow;
+                    }
+                    
                 </style>
-                <p:dataScroller value="#{staffController.items}" var="staff" chunkSize="5"
-                                mode="inline" 
-                                scrollHeight="580" 
+                <p:dataScroller id="datascroller" value="#{staffController.items}" var="staff" chunkSize="5"
+                                mode="inline" scrollHeight="680" rowIndexVar="rowIndex"
+                                
                                 rendered="#{staffManagerView.displayMode==1}">
                     <f:facet name="header">
                         Liste des utilisateurs
                     </f:facet>
 
-                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                        <p:graphicImage value="#{staff.stGenre.genre=='N' ? 
-                                                 '/resources/img/ism/hr/u_both.png' :
-                                                 staff.stGenre.genre=='H' ?
-                                                 '/resources/img/ism/hr/u_male.png' :
-                                                 '/resources/img/ism/hr/u_female.png'}" 
-                                        />
+                    <p:commandLink  tabindex="#{rowIndex}"
+                        style="text-decoration: inherit;"       
+                        
+                        >
+                        <p:ajax event="click" listener="#{staffManagerView.handleStaffSelection}" update=" westGroup, :growl" />
+                        <h:panelGrid columns="2" style="width:100%;" class="#{rowIndex % 2 == 1 ? 'odd' : ''}"  columnClasses="logo,detail">
+                            <f:ajax event="click" execute="bodyForm:datascroller" />
+                            
+                            <p:graphicImage value="#{staff.stGenre.genre=='N' ? 
+                                                     '/resources/img/ism/hr/u_both.png' :
+                                                     staff.stGenre.genre=='H' ?
+                                                     '/resources/img/ism/hr/u_male.png' :
+                                                     '/resources/img/ism/hr/u_female.png'}" 
+                                            />
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Matricule : " />
+                                    <h:panelGroup>
+                                        <h:outputText value="#{staff.stStaff} - #{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename}" style="font-weight: bold"/>
+                                        <h:outputText value=" [#{staff.stGenre.genre}]" />
+                                    </h:panelGroup>
 
-                        <p:outputPanel>
-                            <h:panelGrid columns="2" cellpadding="5">
-                                <h:outputText value="Matricule : " />
-                                <h:outputText value="#{staff.stStaff} - #{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename}" style="font-weight: bold"/>
+                                    <h:outputText value="Date naissance : " />
+                                    <h:panelGroup>
+                                        <h:outputText value="#{staff.stBorned}" 
+                                                      title="#{ism.StaffFieldInfo_stBorned}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy " />
+                                        </h:outputText>
+                                        <h:outputText value="(#{viewUtil.yearsFrom(staff.stBorned)} ans, #{viewUtil.daysOverYearsFrom(staff.stBorned)} jour(s))" />
+                                    </h:panelGroup>
 
-                                <h:outputText value="Date naissance : " />
-                                <h:panelGroup>
-                                    <h:outputText value="#{staff.stBorned}" 
-                                                  title="#{ism.StaffFieldInfo_stBorned}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy " />
-                                    </h:outputText>
-                                    <h:outputText value=" [#{staff.stGenre.genre}]" />
-                                </h:panelGroup>
+                                    <h:outputText value="E-mail : " />
+                                    <h:outputText value="#{empty staff.stMaillist?'-':staff.stMaillist}" />
 
-                                <h:outputText value="E-mail : " />
-                                <h:outputText value="#{staff.stMaillist}" />
+                                    <h:outputText value="Groupe(s) : " />
+                                    <ui:repeat  value="#{staffGroupsController.getItemsByStaff(staff)}" var="stg">
+                                        <h:outputText value="#{stg.stgGroupDef.stgdDesignation},     " />
+                                    </ui:repeat>
 
-                                <h:outputText value="Groupe(s) : " />
-                                <ui:repeat  value="#{staffGroupsController.getItemsByStaff(staff)}" var="stg">
-                                    <h:outputText value="#{stg.stgGroupDef.stgdDesignation},     " />
-                                </ui:repeat>
+                                    <h:outputText value="Options : " />
+                                    <h:panelGroup>
+                                        <p:commandButton    id="viewButton"
+                                                            actionListener="#{staffManagerController.prepareView(item)}"
+                                                            update="bodyForm"
+                                                            oncomplete="PF('StaffManagerViewDialog').show()" 
+                                                            icon="ui-icon-info"
+                                                            style="width: 18px; height: 18px;"
+                                                            />
 
-                                <h:outputText value="Options : " />
-                                <h:panelGroup>
-                                    <p:commandButton    id="viewButton"
-                                                        actionListener="#{staffManagerController.prepareView(item)}"
-                                                        update="bodyForm"
-                                                        oncomplete="PF('StaffManagerViewDialog').show()" 
-                                                        icon="ui-icon-info"
-                                                        style="width: 18px; height: 18px;"
-                                                        />
+                                        <p:commandButton    id="editButton"
+                                                            action="Edit.xhtml?faces-redirect=true"
+                                                            actionListener="#{staffManagerView.prepareEdit()}"
+                                                            icon="ui-icon-pencil"
+                                                            style="width: 18px; height: 18px;"
+                                                            />
 
-                                    <p:commandButton    id="editButton"
-                                                        action="Edit.xhtml?faces-redirect=true"
-                                                        actionListener="#{staffManagerView.prepareEdit(staff)}"
-                                                        icon="ui-icon-pencil"
-                                                        style="width: 18px; height: 18px;"
-                                                        />
-
-                                    <p:commandButton id="destroyButton"
-                                                     title="#{ism.Delete}"
-                                                     update=":bodyForm"
-                                                     actionListener="#{staffManagerController.destroy(item)}" 
-                                                     icon="ui-icon-trash"
-                                                     style="width: 18px; height: 18px;"
-                                                     >
-                                        <p:confirm header="#{ism.StaffTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                                   message="#{ism.ConfirmDeleteMessage}" 
-                                                   icon="ui-icon-alert"/>
+                                        <p:commandButton id="destroyButton"
+                                                         title="#{ism.Delete}"
+                                                         update=":bodyForm"
+                                                         actionListener="#{staffManagerController.destroy(item)}" 
+                                                         icon="ui-icon-trash"
+                                                         style="width: 18px; height: 18px;"
+                                                         >
+                                            <p:confirm header="#{ism.StaffTitleList} - #{ism.ConfirmDeleteTitle}" 
+                                                       message="#{ism.ConfirmDeleteMessage}" 
+                                                       icon="ui-icon-alert"/>
 
 
-                                    </p:commandButton>
-                                </h:panelGroup>
+                                        </p:commandButton>
+                                    </h:panelGroup>
 
 
-                            </h:panelGrid>
+                                </h:panelGrid>
 
-                        </p:outputPanel>
-                    </h:panelGrid>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:commandLink>
                 </p:dataScroller>
 
 
+                
+                
+                
+                
+                
+                
+                
 
 
                 <p:dataTable id="datalist" widgetVar="datalist"
@@ -404,6 +435,11 @@
 
 
 
+                
+                
+                
+                
+                
 
 
                 <p:dataGrid id="datagridlist" widgetVar="datagridlist"
