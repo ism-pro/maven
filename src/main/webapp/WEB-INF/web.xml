@@ -17,6 +17,10 @@
         <param-value>#{staffSetupController.themeName!=null?staffSetupController.themeName:"ism"}</param-value>
     </context-param>
     <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/ism.taglib.xml</param-value>
     </context-param>
@@ -146,6 +150,10 @@
     <mime-mapping>
         <extension>svg#glyphicons_halflingsregular</extension>
         <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>ico</extension>
+        <mime-type>image/x-icon</mime-type>
     </mime-mapping>
     <mime-mapping>
         <extension>map</extension>

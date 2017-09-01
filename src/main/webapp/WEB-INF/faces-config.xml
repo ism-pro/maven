@@ -10,6 +10,12 @@
             <supported-locale>fr</supported-locale>
         </locale-config>
         
+        <!-- Config. for adding font-awesome -->
+        <resource-handler>
+            org.omnifaces.resourcehandler.UnmappedResourceHandler
+        </resource-handler>
+        
+        
         <!-- Developpement only
          <lifecycle>
              <phase-listener>org.ism.listener.LogPhaseListener</phase-listener>
