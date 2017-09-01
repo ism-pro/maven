@@ -299,44 +299,7 @@ span.ui-menuitem-icon.ui-icon.ui-icon-smqnc-request {
     background: url("#{resource['img/ism/admin/smq_nc.png']}") no-repeat;
     background-size:contain;
 }
-/*******************************************************************************
-* RESOURCES / CONFIGURATION
-*******************************************************************************/
-span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffgroups{
-    background: url("#{resource['img/ism/hr/groupes.png']}") no-repeat;
-    background-size:contain;
-}
-span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffroles{
-    background: url("#{resource['img/ism/hr/roles.png']}") no-repeat;
-    background-size:contain;
-}
-span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffcompany{
-    background: url("#{resource['img/ism/hr/company.png']}") no-repeat;
-    background-size:contain;
-}
-span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffacces{
-    background: url("#{resource['img/ism/hr/acces.png']}") no-repeat;
-    background-size:contain;
-}
-span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffcreate{
-    background: url("#{resource['img/ism/hr/u_profil.png']}") no-repeat;
-    background-size:contain;
-}
-span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstafflist{
-    background: url("#{resource['img/ism/hr/u_setup.png']}") no-repeat;
-    background-size:contain;
-}
-span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffusers{
-    background: url("#{resource['img/ism/hr/st_users.png']}") no-repeat;
-    background-size:contain;
-}
 
-/* ============================================================================
-    SPECIAL CASE FOR RESOURCES
-==============================================================================*/
-ul.ui-ribbon-groups #RibbonGroupResources  {
-    width: 450px;
-}
 
 
 

@@ -26,7 +26,9 @@
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     border-width: 0;
-    padding: 0.2em 0.2em 0;
+    /*padding: 0.2em 0.2em 0;*/
+    padding: 0px;
+    width: auto;
 }
 
 .ui-ribbon .ui-ribbon-group .ui-ribbon-group-label {

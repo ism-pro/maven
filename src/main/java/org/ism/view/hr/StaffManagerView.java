@@ -7,6 +7,7 @@ package org.ism.view.hr;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -28,6 +29,7 @@ import org.ism.jsf.admin.CompanyController;
 import org.ism.jsf.hr.StaffController;
 import org.ism.jsf.hr.StaffGroupDefController;
 import org.ism.jsf.hr.StaffGroupsController;
+import org.ism.jsf.util.JsfSecurity;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.services.CtrlAccess;
 import org.ism.services.CtrlAccessService;
@@ -64,7 +66,7 @@ public class StaffManagerView implements Serializable {
 
     /**
      * Injection of StaffController   <br>
-     * This controller allow to get staff definition
+     * This controller allow to get selected definition
      */
     @ManagedProperty(value = "#{staffController}")
     private StaffController staffController;
@@ -77,15 +79,24 @@ public class StaffManagerView implements Serializable {
     private StaffGroupDefController staffGroupDefController;
 
     /**
-     * Injection of staffGroupsController This controller link company / staff /
-     * stgd_group_def which allow to identify staff affected groups. Staff can
-     * have multiple group defined
+     * Injection of staffGroupsController This controller link company /
+     * selected / stgd_group_def which allow to identify selected affected
+     * groups. Staff can have multiple group defined <br>
+     * In other word, staff are linked to a group by this controller
      */
     @ManagedProperty(value = "#{staffGroupsController}")
     private StaffGroupsController staffGroupsController;
 
-    private Staff staff = null;                         //!< Utilisateur provisoire
-    private Integer wizardStep = 0;                     //!< Current step
+    /**
+     * Current staff use for the controller view
+     */
+    private Staff selected = null;
+
+    /**
+     * Specify the current step page in a wizard<br>
+     * Default is 0
+     */
+    private Integer wizardStep = 0;
 
     private TreeNode access;                    //!< Racine de l'abre complet
     private TreeNode accessStaff;               //!< Racine de l'abre complet
@@ -104,19 +115,42 @@ public class StaffManagerView implements Serializable {
      */
     private Integer displayMode = 1;
 
-    public StaffManagerView() {
-    }
+    /**
+     * Specify the number of item to display in displayMode grid (3)
+     */
+    private Integer gridRows = 9;
+    /**
+     * Selector of number of  items to be displayed
+     */
+    private String rowsPerPageTemplate = "3,6,9,12,15,24,30,60,90,120"; 
 
+    
+    
+    /**
+     * Specify whether or no the selection must stay in memory after création
+     */
+    private Boolean isReleaseSelected;
+    /**
+     * Specify if password need to be reset.
+     */
+    private Boolean isResetPassword;
+
+    /**
+     * PreapareCreate allow to setup an empty selected user and tree access
+     */
     public void prepareCreate() {
-        staff = new Staff();
+        selected = new Staff();
         wizardStep = 0;
         accessChecked = null;
         access = (new CtrlAccessService()).securityStaff();
     }
 
+    /**
+     * PrepareEdit allow to setup company and groups tree for selected user.
+     */
     public void prepareEdit() {
-        //staff = new Staff();
         wizardStep = 0;
+        isResetPassword = false;
 
         // Setup company
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -124,8 +158,8 @@ public class StaffManagerView implements Serializable {
                 getValue(facesContext.getELContext(), null, "companyController");
         companyController.prepareCreate();
 
-        // Read back the staff group def associate to this user
-        List<StaffGroups> staffGroupsList = staffGroupsController.getItemsByStaff(staff);
+        // Read back the selected group def associate to this user
+        List<StaffGroups> staffGroupsList = staffGroupsController.getItemsByStaff(selected);
         // Create complete tree
         CtrlAccessService ctrlAccessService = new CtrlAccessService();
         if (staffGroupsList == null) {
@@ -137,24 +171,44 @@ public class StaffManagerView implements Serializable {
                     staffGroupsList, accessChecked);
         }
     }
+    
+    /**
+     * This method is useful to release actual selected ! That way nothing is
+     * selected
+     */
+    public void releaseSelected() {
+        isReleaseSelected = true;
+        selected = null;
+        JsfUtil.addSuccessMessage(
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffReleaseSelectedSummary"),
+                ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                getString("StaffReleaseSelectedDetail"));
+    }
 
+    /**
+     * @deprecated 
+     */
     public void handleStaffEdit() {
-        List<Staff> lstStaff = staffController.findByStaff(staff.getStStaff());
+        List<Staff> lstStaff = staffController.findByStaff(selected.getStStaff());
         if (lstStaff != null) {
             JsfUtil.addErrorMessage("StaffManagerCreateForm:stStaff",
                     ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffManagerExist_stStaff"));
         }
     }
 
+    /**
+     * @deprecated 
+     */
     public void handleStaffPwdEdit() {
-        /*if (!staff.getStPassword().matches(staff.getStPasswordConf())) {
+        /*if (!selected.getStPassword().matches(selected.getStPasswordConf())) {
             JsfUtil.addErrorMessage("stPassword", "StaffManagerCreateForm:stStaff",
                     ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffManagerMatch_stPwd"));
         }*/
     }
 
     /**
-     * *
+     * handleWizardFlow handle the wizard flow by affecting the wizard data.
      *
      * @param event flow event
      * @return a string page
@@ -192,40 +246,52 @@ public class StaffManagerView implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    /**
+     * Create allow to create an unexisting staff.<br>
+     * This method check if the staff defined by is code was not already defined
+     * before creation <br>
+     * After reading back the new created staff, we process to groups definition
+     */
     public void create() {
-        // Create staff
-        staffController.prepareCreate();
-        staffController.setSelected(this.staff);
-        staffController.setIsResetPassword(Boolean.TRUE);
-        staffController.create();
-        List<Staff> lstStaff = staffController.findByStaff(staff.getStStaff());
-        Staff createStaff = null;
-        if (lstStaff != null) {
-            createStaff = lstStaff.get(0);
-        } else {
+        // Check if staff does not already exist
+        List<Staff> staffs = staffController.findByStaff(selected.getStStaff());
+        if (staffs != null && !staffs.isEmpty()) {
             JsfUtil.addErrorMessage("StaffMangerView : create",
-                    "Staff " + this.staff.getStStaff() + " was not created !");
+                    "Staff " + this.selected.getStStaff() + " already exist can not be created twice !");
             return;
         }
-        if (createStaff == null) {
+
+        // Now create the new staff
+        staffController.prepareCreate();
+        staffController.setSelected(this.selected);
+        staffController.setIsResetPassword(Boolean.TRUE);
+        staffController.create();
+
+        // Now read back the new created staff
+        staffs = staffController.findByStaff(selected.getStStaff());
+        if (staffs != null) {
+            selected = staffs.get(0);
+        } else {
+            JsfUtil.addErrorMessage("StaffMangerView : create",
+                    "Staff " + this.selected.getStStaff() + " was not created !");
             return;
         }
 
         // Create list of group selected
-        List<StaffGroupDef> groupDef = new ArrayList<StaffGroupDef>();
+        List<StaffGroupDef> groupDef = new ArrayList<>();
         if (accessChecked != null) {
-            for (int i = 0; i < accessChecked.length; i++) {
-                CtrlAccess access = (CtrlAccess) accessChecked[i].getData();
-                groupDef.add(access.getStaffGroupDef());
+            for (TreeNode accCheck : accessChecked) {
+                CtrlAccess acc = (CtrlAccess) accCheck.getData();
+                groupDef.add(acc.getStaffGroupDef());
             }
         }
 
-        // Create all staff access right
+        // Create all selected access right
         Iterator<StaffGroupDef> itrGroupDef = groupDef.iterator();
         while (itrGroupDef.hasNext()) {
             StaffGroupDef stgd = itrGroupDef.next();
             StaffGroups groups = new StaffGroups();
-            groups.setStgStaff(createStaff); // Définition du staff
+            groups.setStgStaff(selected); // Définition du selected
             groups.setStgGroupDef(stgd);    // Association à un groupe
             groups.setStgCompany(stgd.getStgdCompany());    // Creation de la société
             groups.setStgActivated(true);
@@ -233,42 +299,128 @@ public class StaffManagerView implements Serializable {
             staffGroupsController.create();
         }
 
-        this.staff = new Staff();
-        JsfUtil.addSuccessMessage("Staff Creation Wizard", "Createion succed");
+        JsfUtil.addSuccessMessage("Staff Creation Wizard", "Creation " + selected.getStStaff() + " " + selected.getStFirstname() + " succeded");
+        selected = new Staff();
 
     }
 
-    public void handleStaffSelection(javax.faces.event.AjaxBehaviorEvent event) {
-        /* retrieve buttonId which you clicked */
-        CommandLink cmdl = ((CommandLink) event.getComponent());
-        Integer tabindex = Integer.valueOf(cmdl.getTabindex());
-        staffController.setSelected(staffController.getItems().get(tabindex));
+    /**
+     * update actualise selected staff with new value<br>
+     * First step actualise the staff. In this step, depend on the reset
+     * password value set this will also encrypt the password<br>
+     * Second step actualise the groupe definition<br>
+     */
+    public void update() {
+        staffController.setSelected(selected);
+        staffController.setSelected(this.selected);
+        staffController.setIsResetPassword(isResetPassword);
+        if (isResetPassword) {
+            staffController.updateWidthPassword();
+        } else {
+            staffController.update();
+        }
+        isResetPassword = false;
 
-        //JsfUtil.out("TabIndex : " + tabindex);
-        this.staff = staffController.getSelected();
+        // Get existing access affected to this user
+        List<StaffGroups> groups = staffGroupsController.getItemsByStaff(selected);
+
+        // Remove all access
+        if (groups != null) {
+            Iterator<StaffGroups> groupsItr = groups.iterator();
+            while (groupsItr.hasNext()) {
+                staffGroupsController.setSelected(groupsItr.next());
+                staffGroupsController.destroy();
+            }
+        }
+
+        // Get newly defined access
+        if (accessChecked.length == 0) {
+            JsfUtil.addSuccessMessage("StaffManagerView : update >> no access checked !");
+            return;
+        }
+        List<StaffGroupDef> groupDefs = new ArrayList<>();
+        for (TreeNode node : accessChecked) {
+            CtrlAccess ctrlAccess = (CtrlAccess) node.getData();
+            groupDefs.add(ctrlAccess.getStaffGroupDef());
+        }
+
+        // Create all new defined
+        Iterator<StaffGroupDef> itrGroupDefs = groupDefs.iterator();
+        while (itrGroupDefs.hasNext()) {
+            StaffGroupDef gd = itrGroupDefs.next();
+            staffGroupsController.prepareCreate();
+            staffGroupsController.getSelected().setStgCompany(gd.getStgdCompany());
+            staffGroupsController.getSelected().setStgStaff(selected);
+            staffGroupsController.getSelected().setStgGroupDef(gd);
+            staffGroupsController.getSelected().setStgActivated(true);
+            staffGroupsController.create();
+        }
+        JsfUtil.addSuccessMessage("StaffManagerView : update >> succed !");
+    }
+
+    
+    /**
+     * Destroy the user if not appearring in the list
+     */
+    public void destroy(){
+        // Get existing access affected to this user
+        List<StaffGroups> groups = staffGroupsController.getItemsByStaff(selected);
+
+        // Remove all access
+        if (groups != null) {
+            Iterator<StaffGroups> groupsItr = groups.iterator();
+            while (groupsItr.hasNext()) {
+                staffGroupsController.setSelected(groupsItr.next());
+                staffGroupsController.destroy();
+            }
+        }
         
-        JsfUtil.addSuccessMessage("Component id clicked " + cmdl.getId()
-                + " staff : " + staffController.getSelected().getStStaff());
+        // Now try to remove user
+        staffController.setSelected(selected);
+        if(!staffController.destroy()){
+            // reverse access
+            Iterator<StaffGroups> groupsItr = groups.iterator();
+            while (groupsItr.hasNext()) {
+                staffGroupsController.setSelected(groupsItr.next());
+                staffGroupsController.create();
+            }
+        }
+        
     }
-
     /* ========================================================================
    
     =========================================================================*/
     /**
      * *
      *
-     * @return staff
+     * @return selected
      */
-    public Staff getStaff() {
-        if (staff == null) {
-            staff = new Staff();
+    public Staff getSelected() {
+        if (selected == null) {
+            selected = new Staff();
         }
-        return staff;
+        return selected;
     }
 
-    public void setStaff(Staff staff) {
-        this.getStaff();
-        this.staff = staff;
+    public void setSelected(Staff staff) {
+        this.getSelected();
+        this.selected = staff;
+    }
+
+    public Boolean getIsReleaseSelected() {
+        return isReleaseSelected;
+    }
+
+    public void setIsReleaseSelected(Boolean isReleaseSelected) {
+        this.isReleaseSelected = isReleaseSelected;
+    }
+
+    public Boolean getIsResetPassword() {
+        return isResetPassword;
+    }
+
+    public void setIsResetPassword(Boolean isResetPassword) {
+        this.isResetPassword = isResetPassword;
     }
 
     /**
@@ -321,6 +473,24 @@ public class StaffManagerView implements Serializable {
         this.displayMode = displayMode;
     }
 
+    public Integer getGridRows() {
+        return gridRows;
+    }
+
+    public void setGridRows(Integer gridRows) {
+        this.gridRows = gridRows;
+    }
+
+    public String getRowsPerPageTemplate() {
+        return rowsPerPageTemplate;
+    }
+
+    public void setRowsPerPageTemplate(String rowsPerPageTemplate) {
+        this.rowsPerPageTemplate = rowsPerPageTemplate;
+    }
+    
+    
+
     ////////////////////////////////////////////////////////////////////////////
     /// Manage Injection
     ///
@@ -340,48 +510,39 @@ public class StaffManagerView implements Serializable {
         this.staffGroupsController = staffGroupsController;
     }
 
-    /**
-     * ************************************************************************
-     * VALIDATORS
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesValidator(value = "StaffManagerView_StaffValidator")
-    public static class StaffManagerView_StaffValidator implements Validator {
+    /// ////////////////////////////////////////////////////////////////////////
+    /// ////////////////////////////////////////////////////////////////////////
+    /// Validators
+    /// ////////////////////////////////////////////////////////////////////////
+    /// ////////////////////////////////////////////////////////////////////////
+    public void staffCodeValidator(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+        String SUMMARY_ID = "StaffDuplicationSummuryField_stStaff";
+        String DETAIL_ID_DUPLICATION = "StaffDuplicationDetailField_stStaff";
 
-        public static final String SUMMARY_ID = "StaffDuplicationSummuryField_stStaff";
-        public static final String DETAIL_ID_DUPLICATION = "StaffDuplicationDetailField_stStaff";
+        
+        String value = o.toString();
+        if ((fc == null) || (uic == null)) {
+            throw new NullPointerException();
+        }
+        if (!(uic instanceof InputText)) {
+            return;
+        }
 
-        /*
-        @EJB
-        private org.ism.sessions.StaffFacade ejbFacade;*/
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        StaffController staffCtrl = (StaffController) facesContext.getApplication().getELResolver().
+                getValue(facesContext.getELContext(), null, "staffController");
 
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            StaffController staffCtrl = (StaffController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "staffController");
-
-            List<Staff> staffs = staffCtrl.findByStaff(value);
-            if (staffs != null) {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(DETAIL_ID_DUPLICATION)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            } else {
-                return;
-            }
+        List<Staff> staffs = staffCtrl.findByStaff(value);
+        if (staffs != null) {
+            FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString(SUMMARY_ID),
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                    getString(DETAIL_ID_DUPLICATION)
+                    + value);
+            throw new ValidatorException(facesMsg);
+        } else {
+            return;
         }
     }
 }

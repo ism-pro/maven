@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -26,8 +27,12 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import org.ism.jsf.util.JsfSecurity;
+import org.primefaces.component.inputtext.InputText;
 
 @ManagedBean(name = "staffController")
 @SessionScoped
@@ -68,7 +73,6 @@ public class StaffController implements Serializable {
         headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stCreated"));
         headerTextMap.put(12, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stChanged"));
 
-        
         visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("StaffField_stId"), false);
@@ -248,7 +252,7 @@ public class StaffController implements Serializable {
     public void update() {
         // Set time on creation action
         selected.setStChanged(new Date());
-        
+
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("StaffPersistenceUpdatedSummary"),
@@ -257,9 +261,21 @@ public class StaffController implements Serializable {
                 + selected.getStStaff() + " <br > " + selected.getStFirstname() + " - " + selected.getStLastname() + " - " + selected.getStMiddlename());
         isResetPassword = false;
     }
-    
-    
-    public void updatePassword(){
+
+    /**
+     * @deprecated
+     */
+    public void updatePassword() {
+        selected.setStPassword(JsfSecurity.convert(selected.getStPassword(), JsfSecurity.CODING.SHA256));
+        update();
+    }
+
+    /**
+     * updateWidthPassword is the convenient method to use which allow to update
+     * the password by encoding in sha256 before saving all the staff setups.
+     * This one replace deprecated method update Password
+     */
+    public void updateWidthPassword() {
         selected.setStPassword(JsfSecurity.convert(selected.getStPassword(), JsfSecurity.CODING.SHA256));
         update();
     }
@@ -270,21 +286,25 @@ public class StaffController implements Serializable {
         request.getSession().setMaxInactiveInterval(selected.getStMaxInactiveInterval());
     }
 
-    public void destroy() {
-        persist(PersistAction.DELETE,
+    public Boolean destroy() {
+        Boolean err = persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("StaffPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("StaffPersistenceDeletedDetail")
                 + selected.getStStaff() + " <br > " + selected.getStFirstname() + " - " + selected.getStLastname() + " - " + selected.getStMiddlename());
 
+        
+            
+        
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
             selected = null;
         }
+        return err;
     }
 
-    private void persist(PersistAction persistAction, String summary, String detail) {
+    private Boolean persist(PersistAction persistAction, String summary, String detail) {
         if (selected != null) {
             setEmbeddableKeys();
             try {
@@ -306,11 +326,14 @@ public class StaffController implements Serializable {
                     JsfUtil.addErrorMessage(ex, summary,
                             ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
                 }
+                return false;
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JsfUtil.addErrorMessage(ex, summary, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("PersistenceErrorOccured"));
+                return false;
             }
         }
+        return true;
     }
 
     private void persist(PersistAction persistAction, String detail) {
@@ -436,13 +459,11 @@ public class StaffController implements Serializable {
         this.isResetPassword = isResetPassword;
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
+    /// ////////////////////////////////////////////////////////////////////////
+    /// ////////////////////////////////////////////////////////////////////////
+    /// Converters
+    /// ////////////////////////////////////////////////////////////////////////
+    /// ////////////////////////////////////////////////////////////////////////
     @FacesConverter(forClass = Staff.class)
     public static class StaffControllerConverter implements Converter {
 
@@ -484,14 +505,11 @@ public class StaffController implements Serializable {
 
     }
 
+    
+    /// ////////////////////////////////////////////////////////////////////////
+    /// ////////////////////////////////////////////////////////////////////////
+    /// Validators
+    /// ////////////////////////////////////////////////////////////////////////
+    /// ////////////////////////////////////////////////////////////////////////
+    
 }
-
-/*
-    
-
-    public String getPasswordByStaffId(java.lang.Integer id) {
-        return getFacade().find(id).getStPassword();
-    }
-
-    
- */

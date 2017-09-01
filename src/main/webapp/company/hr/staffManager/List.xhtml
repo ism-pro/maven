@@ -11,6 +11,7 @@
 
         <ui:define name="body">
             <h:form id="bodyForm">
+
                 <h1>
                     <h:outputText value="#{ism.StaffTitleList}"/>
                     <span>        </span>
@@ -79,129 +80,31 @@
 
 
                 <style>
-                    .logo{
-                        width: 42px;
-                        height: 48px;
+                    .staffIco{
+                        width: 96px;
+                        height: 96px;
+                        margin: 2px;
                     }
-                    .ui-datascroller-item{
-                        border-bottom: 1px solid #ececec !important;
-                        padding: 0px 0px;
+                    .ui-datatable tbody .field, .ui-datatable tbody .detail {
+                        border-style: none;
                     }
-                    .ui-datascroller-item:hover{
-                        background-color: lightyellow;
+                    .field{
+                        width: 120px;
                     }
-                    .odd{
-                        background-color: #fcfcfc;
-                    }
-                    .odd:hover{
-                        background-color: lightyellow;
-                    }
-                    
                 </style>
-                <p:dataScroller id="datascroller" value="#{staffController.items}" var="staff" chunkSize="5"
-                                mode="inline" scrollHeight="680" rowIndexVar="rowIndex"
-                                
-                                rendered="#{staffManagerView.displayMode==1}">
-                    <f:facet name="header">
-                        Liste des utilisateurs
-                    </f:facet>
-
-                    <p:commandLink  tabindex="#{rowIndex}"
-                        style="text-decoration: inherit;"       
-                        
-                        >
-                        <p:ajax event="click" listener="#{staffManagerView.handleStaffSelection}" update=" westGroup, :growl" />
-                        <h:panelGrid columns="2" style="width:100%;" class="#{rowIndex % 2 == 1 ? 'odd' : ''}"  columnClasses="logo,detail">
-                            <f:ajax event="click" execute="bodyForm:datascroller" />
-                            
-                            <p:graphicImage value="#{staff.stGenre.genre=='N' ? 
-                                                     '/resources/img/ism/hr/u_both.png' :
-                                                     staff.stGenre.genre=='H' ?
-                                                     '/resources/img/ism/hr/u_male.png' :
-                                                     '/resources/img/ism/hr/u_female.png'}" 
-                                            />
-                            <p:outputPanel>
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputText value="Matricule : " />
-                                    <h:panelGroup>
-                                        <h:outputText value="#{staff.stStaff} - #{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename}" style="font-weight: bold"/>
-                                        <h:outputText value=" [#{staff.stGenre.genre}]" />
-                                    </h:panelGroup>
-
-                                    <h:outputText value="Date naissance : " />
-                                    <h:panelGroup>
-                                        <h:outputText value="#{staff.stBorned}" 
-                                                      title="#{ism.StaffFieldInfo_stBorned}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy " />
-                                        </h:outputText>
-                                        <h:outputText value="(#{viewUtil.yearsFrom(staff.stBorned)} ans, #{viewUtil.daysOverYearsFrom(staff.stBorned)} jour(s))" />
-                                    </h:panelGroup>
-
-                                    <h:outputText value="E-mail : " />
-                                    <h:outputText value="#{empty staff.stMaillist?'-':staff.stMaillist}" />
-
-                                    <h:outputText value="Groupe(s) : " />
-                                    <ui:repeat  value="#{staffGroupsController.getItemsByStaff(staff)}" var="stg">
-                                        <h:outputText value="#{stg.stgGroupDef.stgdDesignation},     " />
-                                    </ui:repeat>
-
-                                    <h:outputText value="Options : " />
-                                    <h:panelGroup>
-                                        <p:commandButton    id="viewButton"
-                                                            actionListener="#{staffManagerController.prepareView(item)}"
-                                                            update="bodyForm"
-                                                            oncomplete="PF('StaffManagerViewDialog').show()" 
-                                                            icon="ui-icon-info"
-                                                            style="width: 18px; height: 18px;"
-                                                            />
-
-                                        <p:commandButton    id="editButton"
-                                                            action="Edit.xhtml?faces-redirect=true"
-                                                            actionListener="#{staffManagerView.prepareEdit()}"
-                                                            icon="ui-icon-pencil"
-                                                            style="width: 18px; height: 18px;"
-                                                            />
-
-                                        <p:commandButton id="destroyButton"
-                                                         title="#{ism.Delete}"
-                                                         update=":bodyForm"
-                                                         actionListener="#{staffManagerController.destroy(item)}" 
-                                                         icon="ui-icon-trash"
-                                                         style="width: 18px; height: 18px;"
-                                                         >
-                                            <p:confirm header="#{ism.StaffTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                                       message="#{ism.ConfirmDeleteMessage}" 
-                                                       icon="ui-icon-alert"/>
 
 
-                                        </p:commandButton>
-                                    </h:panelGroup>
 
 
-                                </h:panelGrid>
+                <p:dataTable id="tablelist" widgetVar="tablelist"
+                             value="#{viewTabManager.staff}" var="staff"
 
-                            </p:outputPanel>
-                        </h:panelGrid>
-                    </p:commandLink>
-                </p:dataScroller>
-
-
-                
-                
-                
-                
-                
-                
-                
-
-
-                <p:dataTable id="datalist" widgetVar="datalist"
-                             value="#{viewTabManager.staff}" var="item"
                              filteredValue="#{viewTabManager.staffFiltered}"
+                             selectionMode="single" selection="#{staffManagerView.selected}"
 
-                             selectionMode="single" selection="#{staffController.selected}"
                              rowIndexVar="_rowIndex"
-                             rowKey="#{item.stId}"
+                             rowKey="#{staff.stId}"
+
                              paginator="#{tableView.paginator}"
                              rows="#{tableView.rows}"
                              resizableColumns="#{tableView.resizableColumns}"
@@ -212,10 +115,143 @@
                              reflow="#{tableView.reflow}"
                              draggableColumns="#{tableView.draggableColumns}"
                              sortMode="#{tableView.sortMode}"
+
                              emptyMessage="#{ism.EmptyList}"
+
                              multiViewState="true"
-                             rendered="#{staffManagerView.displayMode==2}">
-                    >
+                             rendered="#{staffManagerView.displayMode==1}"
+
+                             >
+
+
+
+
+
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="tablelist" fileName="#{ism.StaffTitleList}_#{viewUtil.maintenant}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="tablelist" fileName="#{ism.StaffTitleList}_#{viewUtil.maintenant}"  />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+                    <f:facet name="header">
+                        <p:commandButton id="togglerstaff" type="button" value="Columns" 
+                                         style="float:left;" icon="ui-icon-calculator" 
+                                         />
+                        <p:commandButton type="button" icon="ui-icon-print" style="float:left;">
+                            <p:printer target="tablelist"  />
+                        </p:commandButton>
+
+                        <p:columnToggler id="tableColTogglerstaff" datasource="tablelist" trigger="togglerstaff" >
+                            <p:ajax event="toggle" update=":growl"
+                                    listener="#{staffController.handleColumnToggle}" />
+                        </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilterStaff" onkeyup="PF('tablelist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
+                    </f:facet>
+
+
+                    <p:ajax event="rowSelect" update="westGroup bodyForm"  />
+                    <p:ajax event="rowUnselect" update="westGroup bodyForm" />
+                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="colReorder" update="tablelist,tableColTogglerstaff,:growl" listener="#{staffController.handleColumnReorder}"  />
+
+
+                    <p:column headerText="#{ism.CtrlShort}" style="width:100px;text-align: center; padding: 0px;"
+                              exportable="false"
+                              visible="true" >
+                        <p:graphicImage value="#{staff.stGenre.genre=='N' ? 
+                                                 '/resources/img/ism/hr/u_both.png' :
+                                                 staff.stGenre.genre=='H' ?
+                                                 '/resources/img/ism/hr/u_male.png' :
+                                                 '/resources/img/ism/hr/u_female.png'}" 
+                                        class="staffIco"
+                                        />
+                    </p:column>
+
+                    <p:column headerText="#{ism.StaffField_stId}"
+                              visible="true"
+                              sortBy="#{staff.stId}" 
+                              filterBy="#{staff.stId}" filterMatchMode="contains">
+
+
+                        <h:panelGrid columns="2" style="border: none;"   columnClasses="field,detail" >
+                            <h:outputText value="Matricule : "   />
+                            <h:panelGroup>
+                                <h:outputText value="#{staff.stStaff} - #{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename}" style="font-weight: bold"/>
+                                <h:outputText value=" [#{staff.stGenre.genre}]" />
+                            </h:panelGroup>
+
+                            <h:outputText value="Date naissance : " />
+                            <h:panelGroup>
+                                <h:outputText value="#{staff.stBorned}" 
+                                              title="#{ism.StaffFieldInfo_stBorned}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy " />
+                                </h:outputText>
+                                <h:outputText value="(#{viewUtil.yearsFrom(staff.stBorned)} ans, #{viewUtil.daysOverYearsFrom(staff.stBorned)} jour(s))" />
+                            </h:panelGroup>
+
+                            <h:outputText value="E-mail : " />
+                            <h:outputText value="#{empty staff.stMaillist?'-':staff.stMaillist}" />
+
+                            <h:outputText value="Groupe(s) : " />
+                            <ui:repeat  value="#{staffGroupsController.getItemsByStaff(staff)}" var="stg">
+                                <h:outputText value="#{stg.stgGroupDef.stgdDesignation},     " />
+                            </ui:repeat>
+
+
+
+
+                        </h:panelGrid>
+
+                    </p:column>
+
+
+
+                </p:dataTable>
+
+
+
+
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{viewTabManager.staff}" var="item"
+
+                             filteredValue="#{viewTabManager.staffFiltered}"
+                             selectionMode="single" selection="#{staffManagerView.selected}"
+
+                             rowIndexVar="_rowIndex"
+                             rowKey="#{item.stId}"
+
+                             paginator="#{tableView.paginator}"
+                             rows="#{tableView.rows}"
+                             resizableColumns="#{tableView.resizableColumns}"
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             sortMode="#{tableView.sortMode}"
+
+                             emptyMessage="#{ism.EmptyList}"
+
+                             multiViewState="true"
+                             rendered="#{staffManagerView.displayMode==2}"
+
+                             >
 
 
 
@@ -276,7 +312,7 @@
                               visible="#{staffController.getIsVisibleColKey(ism.CtrlShort)}" >
                         <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
                                          title="#{ism.View}" action="View.xhtml?faces-redirect=true">
-                            <f:setPropertyActionListener value="#{item}" target="#{staffController.selected}" />
+                            <f:setPropertyActionListener value="#{item}" target="#{staffManagerView.selected}" />
                         </p:commandButton>
                     </p:column>
 
@@ -435,99 +471,101 @@
 
 
 
-                
-                
-                
-                
-                
+
+
+
+                <style>
+
+                </style>
+
+                <script>
+                    $(".ui-datagrid-column").mouseover(function () {
+                        $(this).addClass("ui-datatable-selectable ui-state-hover");
+                    });
+                    $(".ui-datagrid-column").mouseleave(function () {
+                        $(this).removeClass("ui-datatable-selectable ui-state-hover");
+                    });
+
+                </script>
 
 
                 <p:dataGrid id="datagridlist" widgetVar="datagridlist"
-                            value="#{viewTabManager.staff}" 
-                            var="item"
+                            value="#{viewTabManager.staff}" var="item"
+
                             rowIndexVar="_rowIndex"
+
                             paginator="#{tableView.paginator}"
-                            rows="#{tableView.rows}"
-                            rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
+                            rows="#{staffManagerView.gridRows}"
+                            rowsPerPageTemplate="#{staffManagerView.rowsPerPageTemplate}"
                             paginatorTemplate="#{tableView.paginatorTemplate}"
                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
-                            emptyMessage="#{ism.EmptyList}"
-                            rendered="#{staffManagerView.displayMode==3}">
-                    >
 
-                    <p:panelGrid columns="2">
-                        <f:facet name="header">
-                            <p:commandLink styleClass="staffImage"
-                                           actionListener="#{staffManagerController.prepareView(item)}"
-                                           update="bodyForm"
-                                           oncomplete="PF('StaffManagerViewDialog').show()" 
-                                           >
-                                <p:graphicImage value="#{staffAuthController.staff.stGenre=='N' ? 
+                            emptyMessage="#{ism.EmptyList}"
+
+
+                            rendered="#{staffManagerView.displayMode==3}"
+                            >
+
+
+                    <f:facet name="{Exporters}">
+                        <div style="float:right" >
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                                <p:dataExporter type="xls" target="tablelist" fileName="#{ism.StaffTitleList}_#{viewUtil.maintenant}" 
+                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                            </p:commandLink>
+                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
+                                <p:dataExporter type="pdf" target="tablelist" fileName="#{ism.StaffTitleList}_#{viewUtil.maintenant}"  />
+                            </p:commandLink>
+                        </div>
+                    </f:facet>
+
+
+
+                     <p:commandLink style="text-decoration: inherit; width: 100%; margin: 0px; padding: 0px;" ajax="false" 
+                                   >
+                        <f:setPropertyActionListener target="#{staffManagerView.selected}" value="#{item}"  />
+                        <p:ajax event="click" update="westGroup bodyForm"  />
+
+
+                        <div class="#{staffManagerView.selected==item?'ui-state-highlight':''}" >
+                            <div style="align-content: center;text-align: center;">
+                                <p:graphicImage value="#{item.stGenre.genre=='N' ? 
                                                          '/resources/img/ism/hr/u_both.png' :
-                                                         staffController.selected.stGenre.genre=='H' ?
+                                                         item.stGenre.genre=='H' ?
                                                          '/resources/img/ism/hr/u_male.png' :
                                                          '/resources/img/ism/hr/u_female.png'}" 
                                                 width="108px" height="128px" />
-                            </p:commandLink>
-                        </f:facet>
-
-                        <h:outputText value="#{ism.StaffField_stStaff}" />
-                        <h:outputText value="#{item.stStaff}" />
-
-                        <h:outputText value="#{ism.StaffField_stFirstname}" />
-                        <h:outputText value="#{item.stFirstname}" />
-
-                        <h:outputText value="#{ism.StaffField_stLastname}" />
-                        <h:outputText value="#{item.stLastname}" />
-
-                        <h:outputText value="#{ism.StaffField_stMiddlename}" />
-                        <h:outputText value="#{item.stMiddlename}" />
-
-                        <h:outputText value="#{ism.StaffField_stBorned}" />
-                        <h:outputText value="#{item.stBorned}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-
-                        <h:outputText value="#{ism.StaffField_stGenre}" />
-                        <p:graphicImage value="#{item.stGenre.genre=='N' ? 
-                                                 '/resources/img/staff/sex.png' :
-                                                 item.stGenre.genre=='H' ?
-                                                 '/resources/img/staff/metacontact_offline.png' :
-                                                 '/resources/img/staff/personal.png'
-                                                            }" 
-                                        width="16px" height="16px" />
-
-                        <f:facet name="footer">
-                            <p:commandButton    id="viewButton"
-                                                actionListener="#{staffManagerController.prepareView(item)}"
-                                                update="bodyForm"
-                                                oncomplete="PF('StaffManagerViewDialog').show()" 
-                                                icon="ui-icon-info"
-                                                style="width: 18px; height: 18px;"
-                                                />
-
-                            <p:commandButton    id="editButton"
-                                                action="Edit.xhtml?faces-redirect=true"
-                                                actionListener="#{staffManagerController.prepareView(item)}"
-                                                icon="ui-icon-pencil"
-                                                style="width: 18px; height: 18px;"
-                                                />
-
-                            <p:commandButton id="destroyButton"
-                                             title="#{ism.Delete}"
-                                             update=":bodyForm"
-                                             actionListener="#{staffManagerController.destroy(item)}" 
-                                             icon="ui-icon-trash"
-                                             style="width: 18px; height: 18px;"
-                                             >
-                                <p:confirm header="#{ism.StaffTitleList} - #{ism.ConfirmDeleteTitle}" 
-                                           message="#{ism.ConfirmDeleteMessage}" 
-                                           icon="ui-icon-alert"/>
+                            </div>
 
 
-                            </p:commandButton>
-                        </f:facet>
-                    </p:panelGrid>
+                            <p:panelGrid columns="2" style="width: 100%; border: none;" >
+
+                                <h:outputText value="#{ism.StaffField_stStaff}" />
+                                <h:outputText value="#{item.stStaff}" />
+
+                                <h:outputText value="#{ism.StaffField_stFirstname}" />
+                                <h:outputText value="#{item.stFirstname}" />
+
+                                <h:outputText value="#{ism.StaffField_stLastname}" />
+                                <h:outputText value="#{item.stLastname}" />
+
+                                <h:outputText value="#{ism.StaffField_stMiddlename}" />
+                                <h:outputText value="#{item.stMiddlename}" />
+
+                                <h:outputText value="#{ism.StaffField_stBorned}" />
+                                <h:outputText value="#{item.stBorned}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+
+                                <h:outputText value="#{ism.StaffField_stGenre}" />
+                                <p:graphicImage value="#{item.stGenre.genrename}" />
+
+
+                            </p:panelGrid>
+                        </div>
+                    </p:commandLink>
                 </p:dataGrid>
             </h:form>
 
@@ -541,7 +579,7 @@
                                  icon="ui-btn-Create"
                                  styleClass="options-btn"
                                  value="#{ism.Create}" 
-                                 actionListener="#{staffController.prepareCreate()}"
+                                 actionListener="#{staffManagerView.prepareCreate()}"
                                  action="Create.xhtml?faces-redirect=true"
                                  title="Permet de créer un nouveau staff"
                                  />
@@ -551,9 +589,10 @@
                                  styleClass="options-btn"
                                  value="#{ism.View}"
                                  action="View.xhtml?faces-redirect=true"
+                                 actionListener="#{staffManagerView.prepareEdit()}"
                                  title="Permet de visualiser le staff sélectionné."
-                                 disabled="#{empty staffController.selected 
-                                             or empty staffController.selected.stId}"
+                                 disabled="#{empty staffManagerView.selected 
+                                             or empty staffManagerView.selected.stId}"
                                  />
                 <br />
                 <p:commandButton id="editButton"
@@ -561,24 +600,25 @@
                                  styleClass="options-btn"
                                  value="#{ism.Edit}"
                                  action="Edit.xhtml?faces-redirect=true"
+                                 actionListener="#{staffManagerView.prepareEdit()}"
                                  title="Permet d'editer le staff sélectionné."
-                                 disabled="#{empty staffController.selected 
-                                             or empty staffController.selected.stId}"
+                                 disabled="#{empty staffManagerView.selected 
+                                             or empty staffManagerView.selected.stId}"
                                  />
                 <p:commandButton id="deleteButton"
                                  icon="ui-btn-Delete"
                                  styleClass="options-btn"
                                  value="#{ism.Delete}"
                                  title="Permet de supprimer le staff sélectionné !"
-                                 actionListener="#{viewTabManager.handleDestroy('staff')}"
-                                 update=":bodyForm:datalist,westGroup,:growl"
+                                 actionListener="#{staffManagerView.destroy}"
+                                 update=":bodyForm:tablelist, :bodyForm:datalist,westGroup,:growl"
                                  onstart=";
                                  #{viewConfirmDialog.dlg.setHeader(ism.StaffDlgHeader)};
                                  #{viewConfirmDialog.dlg.setSeverity('alert')};
                                  #{viewConfirmDialog.dlg.setMessage(ism.StaffDlgMessage)}
                                  PF('mainConfirmDialog').show()"
-                                 disabled="#{empty staffController.selected 
-                                             or empty staffController.selected.stId}"
+                                 disabled="#{empty staffManagerView.selected 
+                                             or empty staffManagerView.selected.stId}"
                                  >
                     <p:confirm  />
                 </p:commandButton>
@@ -587,10 +627,10 @@
                                  styleClass="options-btn"
                                  value="#{ism.Refresh}"
                                  title="Permet de rafraichir la table des staff "
-                                 actionListener="#{staffController.releaseSelected()}"
+                                 actionListener="#{staffManagerView.releaseSelected()}"
                                  update=":bodyForm,:bodyForm:datalist,westGroup,:growl"
-                                 disabled="#{empty staffController.selected 
-                                             or empty staffController.selected.stId}"
+                                 disabled="#{empty staffManagerView.selected 
+                                             or empty staffManagerView.selected.stId}"
                                  />
             </h:panelGroup>
 

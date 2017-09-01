@@ -77,7 +77,7 @@
                           effect="#{viewLayout.northUnit.effect}"
                           effectSpeed="#{viewLayout.northUnit.effectSpeed}"
                           >
-                
+
                 <f:facet name="header" class="unitNorthHeader">
                     <h:form id="shortcutForm">
 
@@ -156,26 +156,26 @@
                 </f:facet>
 
 
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
                 <!-- Formulaire du rubban -->
                 <h:form id="mainForm">
 
 
                     <div id="ribbon-layout">
-                        
+
                         <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}" widgetVar="ribbon">
                             <p:ajax event="tabChange" listener="#{viewRibbon.onChange}" />
 
-                            
+
                             <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
-                                
+
                                 <pi:ribbonGroup id="ribbonGroupHome" label="#{ism.StaffField_stStaff}"  >
-                                    
+
                                     <pi:ribbonGroupSet id="ribbonGroupSetHome" set="small" >
                                         <p:commandButton actionListener="#{viewRibbon.setActiveIndex(0)}"
                                                          title="Retour à la fenêtre de connexion"
@@ -219,32 +219,32 @@
 
                                     </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
-                                
-                                
-                                
-                                
+
+
+
+
                                 <pi:ribbonGroup id="ribbonGroupApp" label="#{ism.AppTitle}"  >
                                     <pi:ribbonGroupSet id="ribbonGroupSetApp" set="small" >
                                         <p:commandButton actionListener="#{mailsenderController.prepareCreate()}"
-                                                        title="Configuration du serveur de messagerie"
-                                                        action="/company/admin/mailsender/List.xhtml?faces-redirect=true"
-                                                        icon="ui-btn-smtp-server" 
-                                                        value="#{ism.AppMailServer}"
+                                                         title="Configuration du serveur de messagerie"
+                                                         action="/company/admin/mailsender/List.xhtml?faces-redirect=true"
+                                                         icon="ui-btn-smtp-server" 
+                                                         value="#{ism.AppMailServer}"
                                                          />
-                                        
+
                                         <p:commandButton title="Envoyer un email de test"
-                                                        actionListener="#{mailServiceController.sendMail()}"
-                                                        icon="ui-btn-message" 
-                                                        value="#{ism.AppMailServer}"
-                                                        update=":growl"
+                                                         actionListener="#{mailServiceController.sendMail()}"
+                                                         icon="ui-btn-message" 
+                                                         value="#{ism.AppMailServer}"
+                                                         update=":growl"
                                                          />
-                                        
+
                                     </pi:ribbonGroupSet>
-                                    
+
                                 </pi:ribbonGroup>
-                                
-                                
-                                
+
+
+
                             </p:tab>
 
                             <p:tab id="administration" title="#{ism.AdminPage}" titletip="#{ism.AdminPageTitle}">
@@ -347,63 +347,46 @@
 
                             <p:tab id="resources" title="#{ism.HRPage}" titletip="#{ism.HRPageTitle}">
                                 <pi:ribbonGroup id="RibbonGroupResources" label="Staff">
-                                    <pi:ribbonGroupSet id="ribbonGroupSetStaff" set="small">
-                                        <p:commandButton id="btnStaffGroup"
-                                                         rendered="#{request.isUserInRole('HR_GROUP')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(2)}"
-                                                         title="Gérer vos groupes de staff donnant accès au utilisateur"
-                                                         action="/company/hr/staffGroupDef/List.xhtml?faces-redirect=true"
-                                                         value="Groupes" 
-                                                         icon="ui-icon-hrstaffgroups" />
-                                        <p:commandButton id="btnStaffRole"
-                                                         rendered="#{request.isUserInRole('HR_GROUPROLE')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(2)}"
-                                                         title="Associer des rôles d'accès au groupes de staff sous forme tabulaire"
-                                                         action="/company/hr/staffGroupDefRole/List.xhtml?faces-redirect=true"
-                                                         value="Rôle List" 
-                                                         icon="ui-icon-hrstaffroles" />
-                                        <p:commandButton id="btnStaffRoleTree"
-                                                         rendered="#{request.isUserInRole('HR_GROUPROLE')}"
-                                                         actionListener="#{staffGroupDefRoleController.prepareCreate}"
-                                                         title="Associer des rôles d'accès au groupes de staff sous forme d'arbre"
-                                                         action="/company/hr/staffGroupDefRole/CreateTree.xhtml?faces-redirect=true"
-                                                         value="Rôle Tree" 
-                                                         icon="ui-icon-hrstaffroles" />
-
-                                        <p:commandButton id="btnStaffToGroup"
-                                                         rendered="#{request.isUserInRole('HR_GROUPSTAFF')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(2)}"
-                                                         title="Lier des utilisateur à un groupe d'accès"
-                                                         action="/company/hr/staffGroups/List.xhtml?faces-redirect=true"
-                                                         value="Accès"
-                                                         icon="ui-icon-hrstaffacces"  />
-                                    </pi:ribbonGroupSet>
                                     <pi:ribbonGroupSet id="ribbonGroupSetStaffCreate" set="big">
+                                        <p:menuButton   id="menubutton-hr-accessright" 
+                                                        value="Droits"
+                                                        styleClass="ui-ribbon ui-menubutton-accessright"
+                                                        >
+                                            <p:menuitem id="splitButtonMenuItemHRGroup"
+                                                        disabled="#{!request.isUserInRole('HR_GROUP')}"
+                                                        actionListener="#{viewRibbon.setActiveIndex(2)}"
+                                                        title="Gérer vos groupes de staff donnant accès au utilisateur"
+                                                        action="/company/hr/staffGroupDef/List.xhtml?faces-redirect=true"
+                                                        value="Gestion des Groupes" 
+                                                        icon="ui-icon-hrstaffgroups"
+                                                        />
+                                            <p:menuitem id="splitButtonMenuItemHRRole"
+                                                        disabled="#{!request.isUserInRole('HR_GROUPROLE')}"
+                                                        actionListener="#{staffGroupDefRoleController.prepareCreate}"
+                                                        title="Associer des rôles d'accès au groupes de staff sous forme d'arbre"
+                                                        action="/company/hr/staffGroupDefRole/CreateTree.xhtml?faces-redirect=true"
+                                                        value="Gestion des rôles" 
+                                                        icon="ui-icon-hrstaffroles" 
+                                                        onsuccess="#{viewRibbon.setActiveIndex(2)}"/>
+                                            <p:separator />
+                                            <p:menuitem id="splitButtonMenuItemHRAcces"
+                                                        disabled="#{!request.isUserInRole('HR_GROUPSTAFF')}"
+                                                        actionListener="#{viewRibbon.setActiveIndex(2)}"
+                                                        title="Lier des utilisateur à un groupe d'accès"
+                                                        action="/company/hr/staffGroups/List.xhtml?faces-redirect=true"
+                                                        value="Gestion des droits"
+                                                        icon="ui-icon-hrstaffacces"
+                                                        />
 
-                                        <p:commandButton id="btnStaffCreate"
-                                                         rendered="#{request.isUserInRole('HR_MANAGER')}"
-                                                         actionListener="#{staffManagerView.prepareCreate}"
-                                                         title="Créer un utilisateur"
-                                                         action="/company/hr/staffManager/Create.xhtml?faces-redirect=true"
-                                                         value="Staff Création" 
-                                                         icon="ui-icon-hrstaffcreate" />
-
-
-                                        <p:commandButton id="btnStaffList"
-                                                         rendered="#{request.isUserInRole('HR_MANAGER')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(2)}"
-                                                         title="Tableau de la liste du staffs (utilisateurs)"
-                                                         action="/company/hr/staff/List.xhtml?faces-redirect=true"
-                                                         value="Staff List" 
-                                                         icon="ui-icon-hrstafflist" />
-
+                                        </p:menuButton>
                                         <p:commandButton id="btnStaffManageList"
                                                          rendered="#{request.isUserInRole('HR_MANAGER')}"
                                                          actionListener="#{staffManagerController.prepareCreate}"
                                                          title="Grille de la liste du staffs (utilisateurs)"
                                                          action="/company/hr/staffManager/List.xhtml?faces-redirect=true"
-                                                         value="Staff List" 
-                                                         icon="ui-icon-hrstaffusers" />
+                                                         value="Staffs" 
+                                                         icon="ui-icon-hrstaffusers"
+                                                         onsuccess="#{viewRibbon.setActiveIndex(2)}"/>
                                     </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
                             </p:tab>

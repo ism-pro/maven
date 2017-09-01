@@ -117,6 +117,10 @@ time, mark, audio, video {
     width: auto;
 }
 
+.ui-menu{
+    width: 15.5em!important;
+}
+
 /* =============================================================================
  * Manage CRUD BUTTON / OPTIONS
  * ===========================================================================*/
@@ -194,6 +198,51 @@ time, mark, audio, video {
 }
 
 
+/* =============================================================================
+ * Manage Ribbon Button
+ * ===========================================================================*/
+
+/* // RESSOURCES / CONFIGURATIONS */
+
+
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffcompany{
+    background: url("#{resource['img/ism/hr/company.png']}") no-repeat;
+    background-size:contain;
+}
+
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffcreate{
+    background: url("#{resource['img/ism/hr/u_profil.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstafflist{
+    background: url("#{resource['img/ism/hr/u_setup.png']}") no-repeat;
+    background-size:contain;
+}
+
+
+
+.ui-menubutton-accessright .ui-button-icon-left.ui-icon.ui-c.ui-icon-triangle-1-s{
+    background: url("#{resource['img/ism/hr/acces.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffgroups, .ui-menuitem-icon.ui-icon.ui-icon-hrstaffgroups{
+    background: url("#{resource['img/ism/hr/groupes.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffroles, .ui-menuitem-icon.ui-icon.ui-icon-hrstaffroles{
+    background: url("#{resource['img/ism/hr/roles.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffacces, .ui-menuitem-icon.ui-icon.ui-icon-hrstaffacces{
+    background: url("#{resource['img/ism/hr/acces.png']}") no-repeat;
+    background-size:contain;
+}
+
+
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffusers{
+    background: url("#{resource['img/ism/hr/st_users.png']}") no-repeat;
+    background-size:contain;
+}
 
 /* =============================================================================
  * Manage CRUD BUTTON ICON

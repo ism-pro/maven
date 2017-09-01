@@ -1,91 +1,164 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="StaffManagerViewDlg" 
-                  widgetVar="StaffManagerViewDialog"  
-                  dynamic="true" showEffect="clip"  hideEffect="clip"  
-                  modal="true" 
-                  resizable="false" appendTo="@(body)" 
-                  header="#{ism.StaffTitleView}">
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-            <h:form id="StaffManagerViewForm">
-                <h:panelGroup id="display">
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.StaffTitleView}"/></h1>
 
-                    <p:panelGrid columns="2" 
-                                 rendered="#{staffManagerController.staffCtrl.selected != null}">
+            <h:form id="bodyForm">
 
-                        <h:panelGrid columns="2">
-                            <h:outputText value="#{ism.StaffField_stStaff}"/>
-                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stStaff}" 
-                                          title="#{ism.StaffFieldInfo_stStaff}"/>
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{staffManagerView.selected != null}">
 
-                            <h:outputText value="#{ism.StaffField_stPassword}" rendered="false"/>
-                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stPassword}" 
-                                          title="#{ism.StaffFieldInfo_stPassword}" rendered="false" />
+                    <h:outputText value="#{ism.StaffField_stStaff}"/>
+                    <h:outputText value="#{staffManagerView.selected.stStaff}" 
+                                  title="#{ism.StaffFieldInfo_stStaff}"/>
 
-                            <h:outputText value="#{ism.StaffField_stLastname}"/>
-                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stLastname}" 
-                                          title="#{ism.StaffFieldInfo_stLastname}"/>
+                    <h:outputText value="#{ism.StaffField_stPassword}" rendered="false"/>
+                    <h:outputText value="#{staffManagerView.selected.stPassword}" 
+                                  title="#{ism.StaffFieldInfo_stPassword}" rendered="false" />
 
-                            <h:outputText value="#{ism.StaffField_stFirstname}"/>
-                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stFirstname}" 
-                                          title="#{ism.StaffFieldInfo_stFirstname}"/>
+                    <h:outputText value="#{ism.StaffField_stLastname}"/>
+                    <h:outputText value="#{staffManagerView.selected.stLastname}" 
+                                  title="#{ism.StaffFieldInfo_stLastname}"/>
 
-                            <h:outputText value="#{ism.StaffField_stMiddlename}"/>
-                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stMiddlename}" 
-                                          title="#{ism.StaffFieldInfo_stMiddlename}"/>
+                    <h:outputText value="#{ism.StaffField_stFirstname}"/>
+                    <h:outputText value="#{staffManagerView.selected.stFirstname}" 
+                                  title="#{ism.StaffFieldInfo_stFirstname}"/>
 
-                            <h:outputText value="#{ism.StaffField_stBorned}"/>
-                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stBorned}" 
-                                          title="#{ism.StaffFieldInfo_stBorned}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
+                    <h:outputText value="#{ism.StaffField_stMiddlename}"/>
+                    <h:outputText value="#{staffManagerView.selected.stMiddlename}" 
+                                  title="#{ism.StaffFieldInfo_stMiddlename}"/>
 
-                            <h:outputText value="#{ism.StaffField_stGenre}"/>
-                            <h:outputText value="#{staffManagerController.staffCtrl.selected.stGenre.genre} - #{staffManagerController.staffCtrl.selected.stGenre.genrename}" 
-                                          title="#{ism.StaffFieldInfo_stGenre}"/>
+                    <h:outputText value="#{ism.StaffField_stBorned}"/>
+                    <h:outputText value="#{staffManagerView.selected.stBorned}" 
+                                  title="#{ism.StaffFieldInfo_stBorned}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
 
-                            <h:outputText value="#{ism.StaffField_stActivated}"/>
-                            <p:selectBooleanCheckbox 
-                                value="#{staffManagerController.staffCtrl.selected.stActivated}" disabled="true"/>
-                        </h:panelGrid>
+                    <h:outputText value="#{ism.StaffField_stGenre}"/>
+                    <h:outputText value="#{staffManagerView.selected.stGenre.genre} - #{staffManagerView.selected.stGenre.genrename}" 
+                                  title="#{ism.StaffFieldInfo_stGenre}"/>
+
+                    <h:outputText value="#{ism.StaffField_stActivated}"/>
+                    <p:selectBooleanCheckbox 
+                        value="#{staffManagerView.selected.stActivated}" disabled="true"/>
+
+                    <p:outputLabel  value="#{ism.StaffCompaniesField_stcCompany}" for="selectedAccessTree" />
+                    <p:tree    id="selectedAccessTree"
+                               value="#{staffManagerView.access}" 
+                               var="accessChecked" 
+                               selection="#{staffManagerView.accessChecked}"
+                               animate="true"
+                               highlight="true" cache="true" 
+                               >
+                        <p:treeNode>
+                            <h:outputText value="#{accessChecked.name}" />
+                        </p:treeNode>
+                    </p:tree>
+
+                </p:panelGrid>
 
 
-                        <p:panelGrid>
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     actionListener="#{staffManagerView.prepareEdit()}"
+                                     title="Permet d'editer le staff sélectionné."
+                                     disabled="#{empty staffManagerView.selected 
+                                                 or empty staffManagerView.selected.stId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le staff sélectionné !"
+                                     actionListener="#{staffManagerView.destroy}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.StaffDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.StaffDlgMessage)}
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty staffManagerView.selected 
+                                                 or empty staffManagerView.selected.stId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
 
-                            <p:row>
-                                <p:column>
-                                    <p:outputLabel  value="#{ism.StaffCompaniesField_stcCompany}" for="accessTree" />
-                                </p:column>
-                                <p:column colspan="3">
-                                    <p:tree    id="accessTree"
-                                               value="#{staffManagerController.accessTree}" 
-                                               var="varCtrlAccess" 
-
-                                               selection="#{staffManagerController.selectedAccessTree}"
-                                               >
-                                        <p:treeNode >
-                                            <h:outputText value="#{varCtrlAccess}" />
-                                        </p:treeNode>
-                                    </p:tree>
-                                </p:column>
-                            </p:row>
-
-                        </p:panelGrid>
-                    </p:panelGrid>
-
-                    <p:commandButton value="#{ism.Close}" 
-                                     onclick="StaffManagerViewDialog.hide()"/>
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton id="editButton"
+                                 icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 actionListener="#{staffManagerView.prepareEdit()}"
+                                 title="Permet d'editer le staff sélectionné."
+                                 disabled="#{empty staffManagerView.selected 
+                                             or empty staffManagerView.selected.stId}"
+                                 />
+                <p:commandButton id="deleteButton"
+                                 icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 title="Permet de supprimer le staff sélectionné !"
+                                 actionListener="#{staffManagerView.destroy}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.StaffDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.StaffDlgMessage)}
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty staffManagerView.selected 
+                                             or empty staffManagerView.selected.stId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

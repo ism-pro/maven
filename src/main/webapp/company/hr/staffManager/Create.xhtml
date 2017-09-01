@@ -30,10 +30,12 @@
                             <p:outputLabel value="#{ism.StaffField_stStaff}" for="stStaff" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:inputText id="stStaff" 
-                                             value="#{staffManagerView.staff.stStaff}" 
+                                             value="#{staffManagerView.selected.stStaff}" 
                                              title="#{ism.StaffFieldInfo_stStaff}" 
                                              required="true" 
                                              requiredMessage="#{ism.StaffRequiredMsg_stStaff}"
+                                             validator="#{staffCodeValidator.validate}"
+                                             validatorMessage="#{ism.StaffDuplicationDetail_stStaff}"
                                              >
                                     <p:ajax event="change" update="bodyForm, :growl"  />
                                 </p:inputText>
@@ -46,7 +48,7 @@
                             <p:outputLabel value="#{ism.StaffField_stPassword}" for="stPassword" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:password id="stPassword" 
-                                            value="#{staffManagerView.staff.stPassword}" 
+                                            value="#{staffManagerView.selected.stPassword}" 
                                             title="#{ism.StaffFieldInfo_stPassword}" 
                                             redisplay="false" feedback="true"
                                             required="true" requiredMessage="#{ism.StaffRequiredMsg_stPassword}"
@@ -66,7 +68,7 @@
                             <p:outputLabel value="#{ism.StaffField_stPasswordConf}" for="stPasswordConf" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:password id="stPasswordConf" 
-                                            value="#{staffManagerView.staff.stPassword}" 
+                                            value="#{staffManagerView.selected.stPassword}" 
                                             title="#{ism.StaffFieldInfo_stPasswordConf}" 
                                             redisplay="false" required="true" 
                                             requiredMessage="#{ism.StaffRequiredMsg_stPasswordConf}"
@@ -81,7 +83,7 @@
                             <p:outputLabel value="#{ism.StaffField_stLastname}" for="stLastname" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:inputText id="stLastname" 
-                                             value="#{staffManagerView.staff.stLastname}" 
+                                             value="#{staffManagerView.selected.stLastname}" 
                                              title="#{ism.StaffFieldInfo_stLastname}" 
                                              required="true"
                                              requiredMessage="#{ism.StaffRequiredMsg_stLastname}"
@@ -93,7 +95,7 @@
                             <p:outputLabel value="#{ism.StaffField_stFirstname}" for="stFirstname" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:inputText id="stFirstname" 
-                                             value="#{staffManagerView.staff.stFirstname}" 
+                                             value="#{staffManagerView.selected.stFirstname}" 
                                              title="#{ism.StaffFieldInfo_stFirstname}" 
                                              required="true"
                                              requiredMessage="#{ism.StaffRequiredMsg_stFirstname}"/>
@@ -104,7 +106,7 @@
                             <p:outputLabel value="#{ism.StaffField_stMiddlename}" for="stMiddlename" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:inputText id="stMiddlename" 
-                                             value="#{staffManagerView.staff.stMiddlename}" 
+                                             value="#{staffManagerView.selected.stMiddlename}" 
                                              title="#{ism.StaffFieldInfo_stMiddlename}" />
                                 <h:panelGroup />
                             </h:panelGrid>
@@ -113,7 +115,7 @@
                             <p:outputLabel value="#{ism.StaffField_stBorned}" for="stBorned" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:calendar id="stBorned" pattern="#{ism.DatePatternU}" 
-                                            value="#{staffManagerView.staff.stBorned}" 
+                                            value="#{staffManagerView.selected.stBorned}" 
                                             title="#{ism.StaffFieldInfo_stBorned}" 
                                             mode="popup" showOn="button"
                                             locale="fr" navigator="true"
@@ -128,7 +130,7 @@
 
                             <p:outputLabel value="#{ism.StaffField_stGenre}" for="stGenre" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                                <p:selectOneMenu id="stGenre" value="#{staffManagerView.staff.stGenre}" >
+                                <p:selectOneMenu id="stGenre" value="#{staffManagerView.selected.stGenre}" >
                                     <f:selectItems value="#{ismGenreController.itemsAvailableSelectOne}"
                                                    var="stGenreItem"
                                                    itemLabel="#{stGenreItem.genre} - #{stGenreItem.genrename}"
@@ -140,9 +142,9 @@
                             <p:outputLabel value="#{ism.StaffField_stMaillist}" for="stMaillist" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:inputText id="stMaillist" 
-                                             value="#{staffManagerView.staff.stMaillist}" 
+                                             value="#{staffManagerView.selected.stMaillist}" 
                                              title="#{ism.StaffFieldInfo_stMaillist}" 
-                                             required="true"
+                                             required="false"
                                              requiredMessage="#{ism.StaffRequiredMsg_stMaillist}"/>
                                 <p:message for="stMaillist"/>
                             </h:panelGrid>
@@ -151,7 +153,7 @@
                             <p:outputLabel value="#{ism.StaffField_stActivated}" for="stActivated" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:selectBooleanCheckbox id="stActivated" 
-                                                         value="#{staffManagerView.staff.stActivated}" 
+                                                         value="#{staffManagerView.selected.stActivated}" 
                                                          required="true" 
                                                          requiredMessage="#{ism.StaffRequiredMsg_stActivated}"/>
                                 <h:panelGroup />
@@ -219,38 +221,38 @@
                                          rendered="true">
 
                                 <h:outputText value="#{ism.StaffField_stStaff}"/>
-                                <h:outputText value="#{staffManagerView.staff.stStaff}" 
+                                <h:outputText value="#{staffManagerView.selected.stStaff}" 
                                               title="#{ism.StaffFieldInfo_stStaff}"/>
 
                                 <h:outputText value="#{ism.StaffField_stPassword}" rendered="false"/>
-                                <h:outputText value="#{staffManagerView.staff.stPassword}" 
+                                <h:outputText value="#{staffManagerView.selected.stPassword}" 
                                               title="#{ism.StaffFieldInfo_stPassword}" rendered="false" />
 
                                 <h:outputText value="#{ism.StaffField_stLastname}"/>
-                                <h:outputText value="#{staffManagerView.staff.stLastname}" 
+                                <h:outputText value="#{staffManagerView.selected.stLastname}" 
                                               title="#{ism.StaffFieldInfo_stLastname}"/>
 
                                 <h:outputText value="#{ism.StaffField_stFirstname}"/>
-                                <h:outputText value="#{staffManagerView.staff.stFirstname}" 
+                                <h:outputText value="#{staffManagerView.selected.stFirstname}" 
                                               title="#{ism.StaffFieldInfo_stFirstname}"/>
 
                                 <h:outputText value="#{ism.StaffField_stMiddlename}"/>
-                                <h:outputText value="#{staffManagerView.staff.stMiddlename}" 
+                                <h:outputText value="#{staffManagerView.selected.stMiddlename}" 
                                               title="#{ism.StaffFieldInfo_stMiddlename}"/>
 
                                 <h:outputText value="#{ism.StaffField_stBorned}"/>
-                                <h:outputText value="#{staffManagerView.staff.stBorned}" 
+                                <h:outputText value="#{staffManagerView.selected.stBorned}" 
                                               title="#{ism.StaffFieldInfo_stBorned}">
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:outputText>
 
                                 <h:outputText value="#{ism.StaffField_stGenre}"/>
-                                <h:outputText value="#{staffManagerView.staff.stGenre.genre} - #{staffManagerView.staff.stGenre.genrename}" 
+                                <h:outputText value="#{staffManagerView.selected.stGenre.genre} - #{staffManagerView.selected.stGenre.genrename}" 
                                               title="#{ism.StaffFieldInfo_stGenre}"/>
 
                                 <h:outputText value="#{ism.StaffField_stActivated}"/>
                                 <p:selectBooleanCheckbox 
-                                    value="#{staffManagerView.staff.stActivated}" 
+                                    value="#{staffManagerView.selected.stActivated}" 
                                     disabled="true" />
                             </p:panelGrid>
 
@@ -265,8 +267,6 @@
                                            selection="#{staffManagerView.accessChecked}"
 
                                            >
-                                    <p:ajax event="select" listener="#{staffManagerView.handleTreeSelect}" update=":growl" />
-                                    <p:ajax event="unselect" listener="#{staffManagerView.handleTreeUnSelect}" update=":growl" />
 
                                     <p:treeNode>
                                         <h:outputText value="#{accessChecked.name}" />
@@ -287,7 +287,7 @@
                                              update="bodyForm, :growl"/>
                             <p:commandButton value="#{ism.Save}"  icon="ui-btn-Save"
                                              style="float:left;"
-                                             action="/company/hr/staff/List.xhtml?faces-redirect=true"
+                                             action="/company/hr/staffManager/List.xhtml?faces-redirect=true"
                                              actionListener="#{staffManagerView.create}" 
                                              />
                         </div>
