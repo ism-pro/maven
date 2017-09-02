@@ -346,9 +346,7 @@
                                  actionListener="#{docExplorerController.prepareCreate()}"
                                  action="Create.xhtml?faces-redirect=true"
                                  title="Permet de créer un nouveau document"
-                                 disabled="#{empty docExplorerController.selected 
-                                             or empty docExplorerController.selected.dcId
-                                             or !request.isUserInRole('S_EXPLORER_C')}"
+                                 disabled="#{!request.isUserInRole('S_EXPLORER_C')}"
                                  />
                 <br />
                 <p:commandButton id="viewButton"
