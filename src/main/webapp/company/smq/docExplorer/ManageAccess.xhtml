@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h:form id="bodyForm">
+
+                <h1>
+                    <h:outputText value="#{ism.ProcessAccessTitle}"/>
+                    <span>        </span>
+                    <p:selectOneButton id="fieldMode" 
+                                       value="#{docExplorerRightsView.displayMode}"  
+                                       >
+                        <p:ajax event="change" update=":bodyForm,:growl" />
+                        <f:selectItem itemLabel="#{ism.Staff}" itemValue="1" />
+                        <f:selectItem itemLabel="#{ism.Document}" itemValue="2"/>
+                    </p:selectOneButton>
+                </h1>
+
+
+
+
+                <p:panelGrid id="panelFormStaff" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{docExplorerRightsView.displayMode==1}" >
+
+                    <p:outputLabel value="#{ism.StaffField_stStaff}" for="staff" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="staff" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{docExplorerRightsView.selected.paStaff}" 
+                                         required="false" 
+                                         requiredMessage="#{ism.StaffRequiredMsg_stStaff}"
+                                         valueChangeListener="#{docExplorerRightsView.handleStaffChanged}"
+                                         >
+                            <p:ajax event="change"  update="westGroup @form, :growl" />
+                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue=""/>
+                            <f:selectItems value="#{staffController.itemsAvailableSelectOne}" 
+                                           var="staff"
+                                           itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]"
+                                           itemValue="#{staff}"
+
+                                           />
+                        </p:selectOneMenu>
+                        <p:message for="staff" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.WriteManagement}" for="documentPickList"
+                                   rendered="#{docExplorerRightsView.selected.paStaff!=null}"/>
+                    <p:pickList id="documentPickList" value="#{docExplorerRightsView.documentModel}" 
+                                var="doc" effect="bounce"
+                                itemLabel="#{doc.dcVersion} : #{doc.dcDesignation}"
+                                itemValue="#{doc}"
+                                showCheckbox="true" responsive="true"
+                                showSourceFilter="true" showTargetFilter="true"
+                                filterMatchMode="contains" converter="docExplorerConverter"
+                                rendered="#{docExplorerRightsView.selected.paStaff!=null}"
+                                >
+
+                        <f:facet name="sourceCaption">#{ism.Unaffected}</f:facet>
+                        <f:facet name="targetCaption">#{ism.Affected}</f:facet>
+
+                        <p:ajax event="transfer" listener="#{docExplorerRightsView.handleDocumentTransfer}" update=":growl" />
+                        <p:ajax event="select" listener="#{docExplorerRightsView.handleDocumentSelect}" update=":growl" />
+                        <p:ajax event="unselect" listener="#{docExplorerRightsView.handleDocumentUnselect}" update=":growl" />
+                        <p:ajax event="reorder" listener="#{docExplorerRightsView.handleDocumentReorder}" update=":growl" />
+
+                        <p:column style="width:10%">
+                            <h:graphicImage library="img" 
+                                            name="ism/std/ExtPDF.png" 
+                                            width="18" height="18" />
+                        </p:column>
+
+                        <p:column style="width:90%;">
+                            <h:outputText value="#{doc.dcVersion} : #{doc.dcDesignation} [#{doc.dcId}]]" />
+                        </p:column>
+                    </p:pickList>
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+
+
+
+                <p:panelGrid id="panelFormDocument" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{docExplorerRightsView.displayMode==2}" >
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Id}" for="docExplorerId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:selectOneMenu id="docExplorerId" 
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{docExplorerRightsView.selected.paDocexplorer}" 
+                                         required="false" 
+                                         requiredMessage="#{ism.DocExplorerRequiredMsg_Id}"
+                                         valueChangeListener="#{docExplorerRightsView.handleDocumentChanged}"
+
+                                         >
+                            <p:ajax event="change" update="westGroup @form, :growl" />
+                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue=""/>
+                            <f:selectItems value="#{docExplorerController.itemsAvailableSelectOne}" 
+                                           var="doc"
+                                           itemLabel="#{doc.dcVersion} : #{doc.dcDesignation}"
+                                           itemValue="#{doc}"
+
+                                           />
+                        </p:selectOneMenu>
+                        <p:message for="docExplorerId" />
+                    </h:panelGrid>
+
+                    <p:outputLabel value="#{ism.WriteManagement}" for="staffPickList"
+                                   rendered="#{docExplorerRightsView.selected.paDocexplorer!=null}"/>
+                    <p:pickList id="staffPickList" value="#{docExplorerRightsView.staffModel}" 
+                                var="staff" effect="bounce"
+                                itemValue="#{staff}" 
+                                itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]"
+                                showCheckbox="true" responsive="true"
+                                showSourceFilter="true" showTargetFilter="true"
+                                filterMatchMode="contains" converter="staffConverter"
+                                rendered="#{docExplorerRightsView.selected.paDocexplorer!=null}"
+                                >
+
+                        <f:facet name="sourceCaption">#{ism.Unaffected}</f:facet>
+                        <f:facet name="targetCaption">#{ism.Affected}</f:facet>
+
+                        <p:ajax event="transfer" listener="#{docExplorerRightsView.handleStaffTransfer}" update=":growl" />
+                        <p:ajax event="select" listener="#{docExplorerRightsView.handleStaffSelect}" update=":growl" />
+                        <p:ajax event="unselect" listener="#{docExplorerRightsView.handleStaffUnselect}" update=":growl" />
+                        <p:ajax event="reorder" listener="#{docExplorerRightsView.handleStaffReorder}" update=":growl" />
+
+                        <p:column style="width:10%">
+                            <p:graphicImage value="#{staff.stGenre.genre=='N' ? 
+                                                     '/resources/img/ism/hr/u_both.png' :
+                                                     staff.stGenre.genre=='H' ?
+                                                     '/resources/img/ism/hr/u_male.png' :
+                                                     '/resources/img/ism/hr/u_female.png'}" 
+                                            width="18" height="18"
+                                            />
+                        </p:column>
+
+                        <p:column style="width:90%;">
+                            <h:outputText value="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" />
+                        </p:column>
+                    </p:pickList>
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{docExplorerRightsView.updateChange()}" 
+                                     update="bodyForm,:growl" 
+                                     action="./ManageAccess.xhtml?faces-redirect=true"
+                                     widgetVar="btnSave"
+                                     id="btnSave"
+                                     onclick="PF('w_progress').start();PF('btnSave').disable();"
+                                     >
+                        <p:confirm header="#{ism.StaffTitleList} - #{ism.ConfirmApplyTitle}" 
+                                   message="#{ism.ConfirmApplyMessage}" 
+                                   icon="ui-icon-alert"/>
+                        <p:confirmDialog global="true">
+                            <p:commandButton id="btnConfirmYesCrud" value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
+                                             icon="ui-icon-check">
+                            </p:commandButton>
+                            <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
+                                             icon="ui-icon-close"/>
+                        </p:confirmDialog>
+                    </p:commandButton>
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{processAccessController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+                </h:panelGroup>
+
+                <br />
+                <br />
+                <p:progressBar widgetVar="w_progress" ajax="true" 
+                               value="#{docExplorerRightsView.progressValue}" 
+                               interval="1500"
+                               labelTemplate="{value}%" styleClass="animated" global="false">
+                    <p:ajax event="complete" update="bodyForm" oncomplete="PF('btnSave').enable()"/>
+                </p:progressBar>
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{docExplorerRightsView.updateChange()}" 
+                                 update="bodyForm,:growl" 
+                                 action="./ManageAccess.xhtml?faces-redirect=true"
+                                 widgetVar="btnOptionSave"
+                                 onclick="PF('w_progress').start();PF('btnOptionSave').disable();"
+                                 >
+                    <p:confirm header="#{ism.StaffTitleList} - #{ism.ConfirmApplyTitle}" 
+                               message="#{ism.ConfirmApplyMessage}" 
+                               icon="ui-icon-alert"/>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="#{ism.ConfirmYes}" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="#{ism.ConfirmNo}" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
+                    </p:confirmDialog>
+                </p:commandButton>
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{processAccessController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

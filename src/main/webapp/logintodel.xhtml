@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" 
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <title>#{ism.AppName}</title>
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+        <meta charset="UTF-8"/>
+
+        <h:outputStylesheet library="css" name="ism-login.min.css" />
+        <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="refresh" 
+              content="60;url=#{request.contextPath}#{request.servletPath}/logout.xhtml?faces-redirect=true"/>
+
+
+        <script>
+            document.onload() = function(){
+                if (window.location.href.indexOf('http://') === 0)
+                    window.location = 'https://' + window.location.hostname + ':8181' + window.location.pathname + window.location.search;
+            }
+        </script>
+
+    </h:head>
+
+    <h:body id="pBody">
+        <p:commandButton    icon="ui-btn-Connect"
+                            onclick="document.getElementById('id01').style.display = 'block'" 
+                            class="w3-btn w3-light-grey w3-large w3-right"/>
+
+        <header class="w3-container w3-teal w3-grey" >
+            <center>
+                <h:graphicImage value="#{resource['img/ism/ism.png']}"  
+                                width="240px" 
+                                height="64px"   />
+
+            </center>
+        </header>
+
+
+
+        <br />
+
+        <center >
+            <div id="welcome">#{ism.Welcome}</div>
+            <div id="loginMsg">#{ism.AppName} - #{ism.AppVersion}</div>
+        </center>
+
+
+        <div id="id01"  >
+            <div class="w3-modal-content w3-card-6 w3-animate-zoom" style="max-width:480px">
+
+                <div class="w3-center">
+                    <br />
+                    <span onclick="document.getElementById('id01').style.display = 'none'" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                    <img src="#{resource['img/ism/hr/img_avatar4.png']}" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top" />
+                </div>
+
+                <h:form id="Form" class="w3-container"  >
+                    <div class="w3-section">
+
+                        <p:inputText id="j_username" 
+                                     value="#{staffAuthController.staff.stStaff}"
+                                     required="true"
+                                     a:autocorrect="off" 
+                                     autocomplete="off"
+                                     title="#{ism.AuthenticationFieldInfo_staff}"
+                                     label="#{ism.Login}"
+                                     placeholder="#{ism.Login}"
+                                     class="w3-input w3-margin-bottom w3-white"
+                                     style="width:97%"
+                                     />
+
+                        <p:password id="j_password"
+                                    value="#{staffAuthController.staff.stPassword}"
+                                    required="true"
+                                    autocomplete="off"                                                 
+                                    title="#{ism.AuthenticationFieldInfo_password}"
+                                    label="#{ism.Password}"
+                                    placeholder="#{ism.Password}"
+                                    class="w3-input w3-margin-bottom w3-white"
+                                    style="width:97%"
+                                    />
+
+                        <p:selectOneMenu id="company"
+                                         class="w3-btn w3-white"
+                                         style="width: 101%;"
+                                         value="#{staffAuthController.company}"
+                                         >
+                            <f:selectItems value="#{companyController.itemsAvailableSelectOne}" 
+                                           var="jCompanyItem"
+                                           itemLabel="#{jCompanyItem.CCompany} - #{jCompanyItem.CDesignation}"
+                                           itemValue="#{jCompanyItem}"
+                                           />
+                        </p:selectOneMenu>
+                    </div>
+
+
+                    <div class="w3-container w3-margin-top w3-border-top w3-padding-2 w3-dark-grey" style="margin-left: -16px; margin-right: -16px;">
+                        <p:commandButton id="btnLogIn" type="submit"
+                                         value="#{ism.LogIn}"
+                                         icon="ui-btn-Connect"
+                                         action="#{staffAuthController.login}"
+                                         update=":growl"
+                                         class="w3-btn w3-light-grey w3-right w3-margin-top w3-margin-bottom"
+                                         style="margin-right: -5px;"
+                                         />
+                    </div>
+
+                </h:form>
+            </div>
+        </div>
+
+
+        <p:growl id="growl" life="8000" />
+
+
+
+
+
+    </h:body>
+    <p:blockUI block="pBody" trigger="Form:btnLogIn">
+        <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+    </p:blockUI>
+
+
+</html>
+
+
+

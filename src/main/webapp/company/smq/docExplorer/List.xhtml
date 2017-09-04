@@ -384,6 +384,19 @@
                     <f:setPropertyActionListener target="#{processAccessController.selected.paDocexplorer}" value="#{docExplorerController.selected}" />
                     <f:setPropertyActionListener target="#{processAccessController.selected.paCompany}" value="#{staffAuthController.company}" />
                 </p:commandButton>
+                <br/>
+                <p:commandButton id="manageAccessrightButton" 
+                                 icon="fa fa-share-alt"
+                                 styleClass="options-btn"
+                                 value="#{ism.WriteManagement}"
+                                 action="ManageAccess.xhtml?faces-redirect=true"
+                                 title="Permet de définir des droits d'accès sur le document."
+                                 disabled="#{!request.isUserInRole('S_EXPLORER_CA')}"
+                                 >
+                    <f:setPropertyActionListener target="#{processAccessController.selected.paDocexplorer}" value="#{docExplorerController.selected}" />
+                    <f:setPropertyActionListener target="#{processAccessController.selected.paCompany}" value="#{staffAuthController.company}" />
+                </p:commandButton>
+                <br />
                 <p:commandButton id="deleteButton"
                                  icon="ui-btn-Delete"
                                  styleClass="options-btn"
@@ -417,7 +430,7 @@
 
 
         </ui:define>
-        <p:blockUI block="body" trigger="createButton, viewButton, editButton, fileAccessButton, deleteButton" >
+        <p:blockUI block="body" trigger="createButton, viewButton, editButton, fileAccessButton, manageAccessrightButton,  deleteButton" >
             <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
         </p:blockUI>
 

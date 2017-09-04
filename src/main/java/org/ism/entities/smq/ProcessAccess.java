@@ -53,7 +53,8 @@ import org.ism.entities.hr.StaffGroupDef;
     @NamedQuery(name = "ProcessAccess.findByPaGroupdef", query = "SELECT p FROM ProcessAccess p WHERE p.paGroupdef = :paGroupdef"),
     @NamedQuery(name = "ProcessAccess.findByPaStaff", query = "SELECT p FROM ProcessAccess p WHERE p.paStaff = :paStaff"),
     @NamedQuery(name = "ProcessAccess.selectAllByLastChange", query = "SELECT p FROM ProcessAccess p ORDER BY p.paChanged DESC"),
-    @NamedQuery(name = "ProcessAccess.findByUser", query = "SELECT p FROM ProcessAccess p WHERE p.paStaff = :paStaff"),
+    @NamedQuery(name = "ProcessAccess.findByStaff", query = "SELECT p FROM ProcessAccess p WHERE p.paStaff = :paStaff"),
+    @NamedQuery(name = "ProcessAccess.findByUngroupDoc", query = "SELECT p FROM ProcessAccess p WHERE p.paIsgroup=0 AND p.paDocexplorer = :paDocexplorer"),
     @NamedQuery(name = "ProcessAccess.findByGroupdef", query = "SELECT p FROM ProcessAccess p WHERE p.paGroupdef = :paGroupdef"),
     @NamedQuery(name = "ProcessAccess.findByDocAndUser", query = "SELECT p FROM ProcessAccess p WHERE p.paDocexplorer = :paDocexplorer AND p.paStaff = :paStaff"),
     @NamedQuery(name = "ProcessAccess.findByDocAndGroupdef", query = "SELECT p FROM ProcessAccess p WHERE  p.paDocexplorer = :paDocexplorer  AND p.paGroupdef = :paGroupdef")

@@ -354,11 +354,11 @@
                                                         >
                                             <p:menuitem id="splitButtonMenuItemHRGroup"
                                                         disabled="#{!request.isUserInRole('HR_GROUP')}"
-                                                        actionListener="#{viewRibbon.setActiveIndex(2)}"
                                                         title="Gérer vos groupes de staff donnant accès au utilisateur"
                                                         action="/company/hr/staffGroupDef/List.xhtml?faces-redirect=true"
                                                         value="Gestion des Groupes" 
                                                         icon="ui-icon-hrstaffgroups"
+                                                        onsuccess="#{viewRibbon.setActiveIndex(2)}"
                                                         />
                                             <p:menuitem id="splitButtonMenuItemHRRole"
                                                         disabled="#{!request.isUserInRole('HR_GROUPROLE')}"
@@ -367,15 +367,16 @@
                                                         action="/company/hr/staffGroupDefRole/CreateTree.xhtml?faces-redirect=true"
                                                         value="Gestion des rôles" 
                                                         icon="ui-icon-hrstaffroles" 
-                                                        onsuccess="#{viewRibbon.setActiveIndex(2)}"/>
+                                                        onsuccess="#{viewRibbon.setActiveIndex(2)}"
+                                                        />
                                             <p:separator />
                                             <p:menuitem id="splitButtonMenuItemHRAcces"
                                                         disabled="#{!request.isUserInRole('HR_GROUPSTAFF')}"
-                                                        actionListener="#{viewRibbon.setActiveIndex(2)}"
                                                         title="Lier des utilisateur à un groupe d'accès"
                                                         action="/company/hr/staffGroups/List.xhtml?faces-redirect=true"
                                                         value="Gestion des droits"
                                                         icon="ui-icon-hrstaffacces"
+                                                        onsuccess="#{viewRibbon.setActiveIndex(2)}"
                                                         />
 
                                         </p:menuButton>

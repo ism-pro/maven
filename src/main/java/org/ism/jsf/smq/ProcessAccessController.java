@@ -31,10 +31,8 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import org.ism.entities.hr.Staff;
-import org.ism.entities.hr.StaffGroupDef;
 import org.ism.entities.hr.StaffGroups;
 import org.ism.entities.smq.DocExplorer;
 import org.ism.jsf.hr.StaffAuthController;
@@ -342,6 +340,14 @@ public class ProcessAccessController implements Serializable {
     public List<ProcessAccess> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
+    
+    public List<ProcessAccess> getItemsByStaff(Staff staff){
+        return getFacade().findByStaff(staff);
+    }
+    
+    public List<ProcessAccess> getItemsByDocument(DocExplorer docExplorer){
+        return getFacade().findByUnGroupDocument(docExplorer);
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     /// GETTER / SETTER
@@ -407,7 +413,7 @@ public class ProcessAccessController implements Serializable {
     }
 
     public Boolean isUserAllowed(Staff staff) {
-        List<ProcessAccess> lst = getFacade().findAllByUser(staff);
+        List<ProcessAccess> lst = getFacade().findByStaff(staff);
         if (lst == null) {
             return false;
         }
