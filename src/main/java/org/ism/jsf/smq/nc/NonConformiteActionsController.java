@@ -540,6 +540,15 @@ public class NonConformiteActionsController implements Serializable {
      * @param to
      * @return
      */
+
+    public Integer getCountItemsCreateInRange(Date from, Date to) {
+        List<NonConformiteActions> l = getFacade().itemsCreateInRange(from, to);
+        if (l == null || l.isEmpty()) {
+            return 0;
+        }
+        return l.size();
+    }
+
     public List<NonConformiteActions> getItemsCreateInRange(Date from, Date to) {
         return getFacade().itemsCreateInRange(from, to);
     }

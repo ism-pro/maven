@@ -138,9 +138,12 @@
     text-align: center;
 }
 
-/* RIBBON BIG BUTTON SETUP */
+/* /////////////////////////////////////////////////////////////////////////////
+// RIBBON BIG BUTTON SETUP 
+// ////////////////////////////////////////////////////////////////////////// */
 .ui-ribbon-group-set{
     float:left;
+    margin-right: 4px;
 }
 .ui-ribbon-group-set.big .big{
     float: left;
@@ -184,55 +187,104 @@
     margin-left: 16px
 }
 
-/* RIBBON SMALL BUTTON SETUP */
-ul.ui-ribbonset-small{
+/* /////////////////////////////////////////////////////////////////////////////
+// RIBBON MIDDLE BUTTON SETUP 
+// ////////////////////////////////////////////////////////////////////////// */
+.ui-ribbon-group-set.middle{
     float: left;
-    list-style-type:none;
-    margin: 0px;
-    margin-right: 4px;
+    width: 96px;
     height: 74px;
+    padding: 1px;
+    /*    margin-left: 1px;*/
 }
-ul.ui-ribbonset-small .ui-ribbonset-icon{
+.ui-ribbon-group-set .middle{
+    float: left;
+    width: 94px;
+    height: 35px;
     padding: 0px;
-    margin: 0px;
-    margin-left: -42px;
-    margin-top: 0px;
-    height: 24px;
-    min-height: 24px;
-    width: 86px;
-    max-height: 24px;
+    margin: 1px;
 }
-ul.ui-ribbonset-small .ui-ribbonset-icon .ui-button{
-    width: 86px;
-    height: 20px;
-    margin-top: 0px;
-    padding: 0px;
-    min-width: 86px;
-    min-height: 22px;
-    text-align: left;
+.ui-ribbon-group-set .middle .ui-button{
+    width: 100%;
+    height: 100%;
     border: none;
-    border-radius: 0px;
 }
-ul.ui-ribbonset-small .ui-ribbonset-icon .ui-button:hover{
+.ui-ribbon-group-set .middle .ui-button:hover{
     background-color: #6cd8ba;
-}
-ul.ui-ribbonset-small .ui-ribbonset-icon .ui-button-text.ui-c{
-    margin: 0px;
-    padding:0px;
-    padding-top: 3px;
-    padding-left: 22px;
-    height: 20px;
-    text-align: left;
-    font-size: 9pt;
-    font-weight: lighter;
-
-}
-ul.ui-ribbonset-small .ui-ribbonset-icon .ui-button-text.ui-c:hover{
     color:white;
 }
-ul.ui-ribbonset-small .ui-ribbonset-icon .ui-icon{
-    width: 18px;
-    height: 18px;
-    margin-left:-5px;
+
+.ui-ribbon-group-set .middle span.ui-button-icon-left.ui-icon.ui-c{
+    float: left;
+    margin: 0px;
+    margin-top: -16px;
+    margin-left: -16px;
+    width: 32px;
+    height: 32px;
 }
 
+
+.ui-ribbon-group-set .ui-button span.ui-button-text.ui-c{
+    float: left;
+    margin: 0px;
+    width: 100%;
+    padding-left: 32px;
+    font-family :  "Trebuchet MS",Helvetica, calibri, sans-serif !important;
+    font-size: 8pt;
+    font-weight: lighter;
+}
+.ui-ribbon-group-set.middle .ui-button-text.ui-c:hover{
+    color:white;
+}
+
+
+
+/* /////////////////////////////////////////////////////////////////////////////
+// RIBBON SMALL BUTTON SETUP 
+// ////////////////////////////////////////////////////////////////////////// */
+.ui-ribbon-group-set.small{
+    float: left;
+    width: 96px;
+    height: 74px;
+    padding: 1px;
+    /*    margin-left: 1px;*/
+}
+.ui-ribbon-group-set .small{
+    float: left;
+    width: 94px;
+    height: 23px;
+    padding: 0px;
+    margin: 1px;
+}
+.ui-ribbon-group-set .small .ui-button{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.ui-ribbon-group-set .small .ui-button:hover{
+    background-color: #6cd8ba;
+    color:white;
+}
+
+.ui-ribbon-group-set .small span.ui-button-icon-left.ui-icon.ui-c{
+    float: left;
+    margin: 0px;
+    margin-top: -12px;
+    margin-left: -3px;
+    width: 22px;
+    height: 22px;
+}
+
+
+.ui-ribbon-group-set .ui-button span.ui-button-text.ui-c{
+    float: left;
+    margin: 0px;
+    width: 100%;
+    padding-left: 22px;
+    font-family :  "Trebuchet MS",Helvetica, calibri, sans-serif !important;
+    font-size: 8pt;
+    font-weight: lighter;
+}
+.ui-ribbon-group-set.small .ui-button-text.ui-c:hover{
+    color:white;
+}

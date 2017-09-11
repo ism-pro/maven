@@ -261,7 +261,6 @@ public class NonConformiteRequestController implements Serializable {
 //            mailServiceController.setMessage(""
 //                    + "<h1>Non conformité n°" + selected.getNcrId() + " </h1>");
 //            mailServiceController.sendMail(mailsenderController.getItemsByCompany(selected.getNcrCompany()));
-
             items = null;    // Invalidate list of items to trigger re-query.
             if (isReleaseSelected) {
                 selected = null;
@@ -482,8 +481,24 @@ public class NonConformiteRequestController implements Serializable {
      * @param to
      * @return
      */
+    public Integer getCountItemsCreateInRange(Date from, Date to) {
+        List<NonConformiteRequest> l = getFacade().itemsCreateInRange(from, to);
+        if (l == null || l.isEmpty()) {
+            return 0;
+        }
+        return l.size();
+    }
+
     public List<NonConformiteRequest> getItemsCreateInRange(Date from, Date to) {
         return getFacade().itemsCreateInRange(from, to);
+    }
+
+    public Integer getCountItemsApprouvedInRange(Date from, Date to) {
+        List<NonConformiteRequest> l = getFacade().itemsApprouvedInRange(from, to);
+        if (l == null || l.isEmpty()) {
+            return 0;
+        }
+        return l.size();
     }
 
     public List<NonConformiteRequest> getItemsApprouvedInRange(Date from, Date to) {
@@ -498,6 +513,14 @@ public class NonConformiteRequestController implements Serializable {
      * @param to
      * @return
      */
+    public Integer getCountItemsStateFromTo(String state, Date from, Date to) {
+        List<NonConformiteRequest> l = getFacade().itemsStateInRange(state, from, to);
+        if (l == null || l.isEmpty()) {
+            return 0;
+        }
+        return l.size();
+    }
+
     public List<NonConformiteRequest> getItemsStateFromTo(String state, Date from, Date to) {
         return getFacade().itemsStateInRange(state, from, to);
     }
@@ -510,6 +533,14 @@ public class NonConformiteRequestController implements Serializable {
      * @param to
      * @return
      */
+    public Integer getCountItemsStateChangeInRange(String state, Date from, Date to) {
+        List<NonConformiteRequest> l = getFacade().itemsStateInChangeRange(state, from, to);
+        if (l == null || l.isEmpty()) {
+            return 0;
+        }
+        return l.size();
+    }
+
     public List<NonConformiteRequest> getItemsStateChangeInRange(String state, Date from, Date to) {
         return getFacade().itemsStateInChangeRange(state, from, to);
     }

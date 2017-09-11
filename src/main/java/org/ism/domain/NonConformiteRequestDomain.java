@@ -28,11 +28,11 @@ public class NonConformiteRequestDomain {
     private List<NonConformiteRequest> itemsFinished;
     private List<NonConformiteRequest> itemsCanceled;
 
-    private List<Integer> itemsCounterCreated;
-    private List<Integer> itemsCounterRequest;
-    private List<Integer> itemsCounterProcessing;
-    private List<Integer> itemsCounterFinished;
-    private List<Integer> itemsCounterCanceled;
+    private List<Object> itemsCounterCreated;
+    private List<Object> itemsCounterRequest;
+    private List<Object> itemsCounterProcessing;
+    private List<Object> itemsCounterFinished;
+    private List<Object> itemsCounterCanceled;
 
     private List<List<Integer>> itemsCounterCreatedByProcessus;
     private List<List<Integer>> itemsCounterRequestByProcessus;
@@ -123,43 +123,43 @@ public class NonConformiteRequestDomain {
         this.itemsCanceled = itemsCanceled;
     }
 
-    public List<Integer> getItemsCounterCreated() {
+    public List<Object> getItemsCounterCreated() {
         return itemsCounterCreated;
     }
 
-    public void setItemsCounterCreated(List<Integer> itemsCounterCreated) {
+    public void setItemsCounterCreated(List<Object> itemsCounterCreated) {
         this.itemsCounterCreated = itemsCounterCreated;
     }
 
-    public List<Integer> getItemsCounterRequest() {
+    public List<Object> getItemsCounterRequest() {
         return itemsCounterRequest;
     }
 
-    public void setItemsCounterRequest(List<Integer> itemsCounterRequest) {
+    public void setItemsCounterRequest(List<Object> itemsCounterRequest) {
         this.itemsCounterRequest = itemsCounterRequest;
     }
 
-    public List<Integer> getItemsCounterProcessing() {
+    public List<Object> getItemsCounterProcessing() {
         return itemsCounterProcessing;
     }
 
-    public void setItemsCounterProcessing(List<Integer> itemsCounterProcessing) {
+    public void setItemsCounterProcessing(List<Object> itemsCounterProcessing) {
         this.itemsCounterProcessing = itemsCounterProcessing;
     }
 
-    public List<Integer> getItemsCounterFinished() {
+    public List<Object> getItemsCounterFinished() {
         return itemsCounterFinished;
     }
 
-    public void setItemsCounterFinished(List<Integer> itemsCounterFinished) {
+    public void setItemsCounterFinished(List<Object> itemsCounterFinished) {
         this.itemsCounterFinished = itemsCounterFinished;
     }
 
-    public List<Integer> getItemsCounterCanceled() {
+    public List<Object> getItemsCounterCanceled() {
         return itemsCounterCanceled;
     }
 
-    public void setItemsCounterCanceled(List<Integer> itemsCounterCanceled) {
+    public void setItemsCounterCanceled(List<Object> itemsCounterCanceled) {
         this.itemsCounterCanceled = itemsCounterCanceled;
     }
 

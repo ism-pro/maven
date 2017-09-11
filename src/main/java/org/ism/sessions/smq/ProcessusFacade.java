@@ -29,6 +29,7 @@ public class ProcessusFacade extends AbstractFacade<Processus> {
         return em;
     }
     private final String APPROUVEDITEMS = "Processus.findAllApprouvedItems";
+    private final String APPROUVEDITEMS_ASSTRING = "Processus.findAllApprouvedItemsAsString";
     private final String SELECTALLBYLASTCHANGED = "Processus.selectAllByLastChange";
     private final String FIND_BY_PROCESSUS = "Processus.findByPProcessus";       // query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus"),
     private final String FIND_BY_DESIGNATION = "Processus.findByPDesignation";     //, query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation"),
@@ -40,6 +41,17 @@ public class ProcessusFacade extends AbstractFacade<Processus> {
     public List<Processus> findApprouvedItems() {
         em.flush();
         Query q = em.createNamedQuery(APPROUVEDITEMS);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+        return null;
+    }
+    
+        public List<String> findApprouvedItemsAsString() {
+        em.flush();
+        Query q = em.createNamedQuery(APPROUVEDITEMS_ASSTRING);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
         if (count > 0) {

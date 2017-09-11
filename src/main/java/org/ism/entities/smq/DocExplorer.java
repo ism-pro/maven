@@ -45,7 +45,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "DocExplorer.findByDcActivated", query = "SELECT d FROM DocExplorer d WHERE d.dcActivated = :dcActivated"),
     @NamedQuery(name = "DocExplorer.findByDcCreated", query = "SELECT d FROM DocExplorer d WHERE d.dcCreated = :dcCreated"),
     @NamedQuery(name = "DocExplorer.findByDcChanged", query = "SELECT d FROM DocExplorer d WHERE d.dcChanged = :dcChanged"),
-    @NamedQuery(name = "DocExplorer.selectAllByLastChange", query = "SELECT d FROM DocExplorer d ORDER BY d.dcChanged DESC")
+    @NamedQuery(name = "DocExplorer.selectAllByLastChange", query = "SELECT d FROM DocExplorer d ORDER BY d.dcChanged DESC"),
+    @NamedQuery(name = "DocExplorer.findByProcessus", query = "SELECT d FROM DocExplorer d WHERE d.dcProcessus = :dcProcessus"),
+    @NamedQuery(name = "DocExplorer.findByProcessusAndType", query = "SELECT d FROM DocExplorer d WHERE d.dcProcessus = :dcProcessus and d.dcType = :dcType")
 })
 public class DocExplorer implements Serializable {
 

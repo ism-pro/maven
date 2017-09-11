@@ -302,6 +302,10 @@ public class ProcessusController implements Serializable {
         items = getFacade().findApprouvedItems();
         return items;
     }
+    
+    public List<String> getApprouvedItemsAsString(){
+        return getFacade().findApprouvedItemsAsString();
+    }
 
     public List<Processus> getItemsByLastChanged() {
         items = getFacade().findAllByLastChanged();

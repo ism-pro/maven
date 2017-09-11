@@ -81,17 +81,13 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
         String ribbonSetClass = groupSet.getStyleClass();
         ribbonSetClass = (ribbonSetClass == null) ? Ribbon.GROUP_SET_CLASS : Ribbon.GROUP_SET_CLASS + " " + ribbonSetClass;
         String style = groupSet.getStyle();
-        String set = groupSet.getSet();
 
         writer.startElement("div", null);
-        writer.writeAttribute("class", ribbonSetClass + " " + Ribbon.RIBBON_SET_BIG_BUTTON, null);
+        writer.writeAttribute("class", ribbonSetClass + " " + Ribbon.RIBBON_SET_MID_BUTTON, null);
         writer.writeAttribute("id", groupSet.getId(), null);
         if (style != null) {
             writer.writeAttribute("style", style, null);
         }
-
-        writer.startElement("ul", null);
-        writer.writeAttribute("class", Ribbon.SET_BIG_BUTTON_CLASS, null);
 
         int childCount = groupSet.getChildCount();
         if (childCount > 0) {
@@ -99,14 +95,12 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
             for (int i = 0; i < childCount; i++) {
                 UIComponent child = children.get(i);
                 writer.startElement("div", null);
-                writer.writeAttribute("class", Ribbon.SET_UI_ICON, null);
+                writer.writeAttribute("class", Ribbon.RIBBON_SET_MID_BUTTON, null);
                 writer.writeAttribute("id", child.getId(), null);
                 renderChild(context, child);
                 writer.endElement("div");
             }
         }
-
-        writer.endElement("ul");
         writer.endElement("div");
     }
 
@@ -116,10 +110,9 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
         String ribbonSetClass = groupSet.getStyleClass();
         ribbonSetClass = (ribbonSetClass == null) ? Ribbon.GROUP_SET_CLASS : Ribbon.GROUP_SET_CLASS + " " + ribbonSetClass;
         String style = groupSet.getStyle();
-        String set = groupSet.getSet();
 
         writer.startElement("div", null);
-        writer.writeAttribute("class", ribbonSetClass + " ." + Ribbon.RIBBON_SET_SMALL_BUTTON, null);
+        writer.writeAttribute("class", ribbonSetClass + " " + Ribbon.RIBBON_SET_SMALL_BUTTON, null);
         writer.writeAttribute("id", groupSet.getId(), null);
         if (style != null) {
             writer.writeAttribute("style", style, null);
@@ -128,22 +121,28 @@ public class RibbonGroupSetRenderer extends CoreRenderer {
         int childCount = groupSet.getChildCount();
         if (childCount > 0) {
             List<UIComponent> children = groupSet.getChildren();
+            Boolean asClosed = true;
             for (int i = 0; i < childCount; i++) {
-                if ((i % 3) == 0) {
-                    writer.startElement("ul", null);
-                    writer.writeAttribute("class", Ribbon.SET_SMALL_BUTTON_CLASS, null);
-                }
-
                 UIComponent child = children.get(i);
+                if ((i + 1) % 3 == 1) {
+                    writer.startElement("div", null);
+                    writer.writeAttribute("class", Ribbon.RIBBON_GROUP_BUTTON, null);
+                    writer.writeAttribute("id", child.getId() + "_group", null);
+                    asClosed = false;
+                }
                 writer.startElement("div", null);
-                writer.writeAttribute("class", Ribbon.SET_UI_ICON, null);
+                writer.writeAttribute("class", Ribbon.RIBBON_SET_SMALL_BUTTON, null);
                 writer.writeAttribute("id", child.getId(), null);
                 renderChild(context, child);
                 writer.endElement("div");
-
-                if ((i % 3) == 2) {
-                    writer.endElement("ul");
+                
+                if ((i + 1) % 3 == 0) {
+                    writer.endElement("div");
+                    asClosed = true;
                 }
+            }
+            if(asClosed==false){
+                writer.endElement("div");
             }
         }
         writer.endElement("div");

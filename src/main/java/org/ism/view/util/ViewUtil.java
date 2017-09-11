@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ism.view;
+package org.ism.view.util;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -14,8 +14,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -234,5 +237,22 @@ public class ViewUtil implements Serializable {
         long yearsl = now - dt;
 
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(yearsl), ZoneId.systemDefault()).getDayOfYear();
+    }
+    
+    
+    /**
+     * Methodd permettand de convertir une list en entier en double method utile
+     * pour utilisation des graphique
+     *
+     * @param integerList list d'entier à convertir en double
+     * @return liste des entiers ayant été converti en double
+     */
+    public static List<Double> IntToDoubleList(List<Integer> integerList) {
+        List<Double> l = new ArrayList<>();
+        Iterator<Integer> iter = integerList.iterator();
+        while (iter.hasNext()) {
+            l.add(1.00 * iter.next());
+        }
+        return l;
     }
 }

@@ -12,7 +12,7 @@
         <title><ui:insert name="title">#{ism.AppName}</ui:insert></title>
         <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
         <meta http-equiv="refresh" 
-              content="#{viewRibbon.advanceSessionMaxInactiveInterval()};url=#{request.contextPath}#{request.servletPath}/index.xhtml?faces-redirect=true"/>
+              content="#{ribbonView.advanceSessionMaxInactiveInterval()};url=#{request.contextPath}#{request.servletPath}/index.xhtml?faces-redirect=true"/>
         <meta charset="UTF-8"/>
 
 
@@ -24,7 +24,6 @@
             <h:outputStylesheet library="css" name="ism.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
 
-
             <h:outputStylesheet name="webjars/font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
             <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
 
@@ -33,11 +32,7 @@
             <h:outputScript library="js" name="daterangepicker/moment.min.js" target="head" />
             <h:outputScript library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.js" />
 
-
             <h:outputScript library="js" name="ism-global.min.js" />
-            <!--
-            <h:outputScript library="js" name="lang.min.js" />
-            -->
         </f:facet>
     </h:head>
 
@@ -81,8 +76,8 @@
                 <f:facet name="header" class="unitNorthHeader">
                     <h:form id="shortcutForm">
 
-                        <p:poll id="poll" interval="#{viewRibbon.reminingTimeSessionClock}" 
-                                listener="#{viewRibbon.updateReminingTimeSession()}" 
+                        <p:poll id="poll" interval="#{ribbonView.reminingTimeSessionClock}" 
+                                listener="#{ribbonView.updateReminingTimeSession()}" 
                                 update="shortcut-label-reminingTimeout" global="false"  />
 
 
@@ -90,12 +85,12 @@
                         <div id="layout-shortcut" >
                             <div id="shortcut-main" >
                                 <p:menuButton id="shortcut-selector" value=""  >
-                                    <p:menuitem actionListener="#{viewRibbon.findComponent('btn_1')}" value="btn 1" update="@form" />
-                                    <p:menuitem actionListener="#{viewRibbon.findComponent('btn_2')}" value="btn 2" update="@form" />
+                                    <p:menuitem actionListener="#{ribbonView.findComponent('btn_1')}" value="btn 1" update="@form" />
+                                    <p:menuitem actionListener="#{ribbonView.findComponent('btn_2')}" value="btn 2" update="@form" />
                                     <p:separator />
-                                    <p:menuitem actionListener="#{viewRibbon.findComponent('shortcut-btn-theme')}" value="#{ism.Themes}" update="@form" />
-                                    <p:menuitem actionListener="#{viewRibbon.findComponent('shortcut-btn-logout')}" value="#{ism.Authentication_Disconnect}" update="@form" />
-                                    <p:menuitem actionListener="#{viewRibbon.findComponent('shortcut-label-reminingTimeout')}" value="TimeOut" update="@form" />
+                                    <p:menuitem actionListener="#{ribbonView.findComponent('shortcut-btn-theme')}" value="#{ism.Themes}" update="@form" />
+                                    <p:menuitem actionListener="#{ribbonView.findComponent('shortcut-btn-logout')}" value="#{ism.Authentication_Disconnect}" update="@form" />
+                                    <p:menuitem actionListener="#{ribbonView.findComponent('shortcut-label-reminingTimeout')}" value="TimeOut" update="@form" />
                                 </p:menuButton>
                             </div>
                             <div id="shortcut-left">
@@ -129,9 +124,9 @@
                                     </p:column>
                                 </p:selectOneMenu>
 
-                                <div id="shortcut-timeout">
+                                <div class="shortcut-timeout" >
                                     <p:outputLabel  id="shortcut-label-reminingTimeout"
-                                                    value="#{viewRibbon.reminingTimeSession / 60}'"
+                                                    value="#{ribbonView.reminingTimeSession / 60}'"
                                                     rendered="true"
                                                     />
                                 </div>
@@ -148,7 +143,6 @@
                                                  styleClass="shortcut-btn"
                                                  value="#{ism.Authentication_Disconnect}" 
                                                  action="#{staffAuthController.logout}"
-                                                 actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                  />
                             </div>
                         </div>
@@ -168,33 +162,23 @@
 
                     <div id="ribbon-layout">
 
-                        <pi:ribbon id="ism-ribbon"  activeIndex="#{viewRibbon.activeIndex}" widgetVar="ribbon">
-                            <p:ajax event="tabChange" listener="#{viewRibbon.onChange}" />
+                        <pi:ribbon id="ism-ribbon" activeIndex="#{ribbonView.activeIndex}" widgetVar="ribbon">
+                            <p:ajax event="tabChange" listener="#{ribbonView.handleTabChange}" />
 
 
-                            <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}" >
+                            <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}"   >
 
                                 <pi:ribbonGroup id="ribbonGroupHome" label="#{ism.StaffField_stStaff}"  >
-
-                                    <pi:ribbonGroupSet id="ribbonGroupSetHome" set="small" >
-                                        <p:commandButton actionListener="#{viewRibbon.setActiveIndex(0)}"
-                                                         title="Retour à la fenêtre de connexion"
+                                    <pi:ribbonGroupSet set="middle">
+                                        <p:commandButton title="Retour à la fenêtre de connexion"
                                                          action="/index.xhtml?faces-redirect=true"
-                                                         icon="ui-btn-Home" 
+                                                         icon="fa fa-home fa-3x" 
                                                          value="Acceuil"
                                                          />
-                                        <p:commandButton actionListener="#{viewRibbon.setActiveIndex(0)}"
-                                                         title="Visualiser la page d'acceuil"
+                                        <p:commandButton title="Visualiser la page d'acceuil"
                                                          action="/company/index.xhtml?faces-redirect=true"
-                                                         icon="ui-btn-App" 
+                                                         icon="fa fa-tachometer fa-3x" 
                                                          value="#{ism.Dashboard}"
-                                                         />
-                                        <p:commandButton id="btnHomeLogOut"
-                                                         actionListener="#{viewRibbon.setActiveIndex(0)}"
-                                                         title="Quitter l'application"
-                                                         action="#{staffAuthController.logout()}"
-                                                         icon="ui-ribbonicon-exit"  
-                                                         value="#{ism.Logout}"
                                                          />
                                     </pi:ribbonGroupSet>
 
@@ -252,7 +236,6 @@
                                     <pi:ribbonGroupSet id="ribbonGroupSetSMQ" set="big" >
                                         <p:commandButton id="btnSMQProcessus"
                                                          rendered="#{request.isUserInRole('S_PROCESSUS')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                          title="Visualiser les processus"
                                                          action="/company/smq/processus/List.xhtml?faces-redirect=true"
                                                          icon="ui-ribbonicon-new" 
@@ -260,7 +243,6 @@
                                                          />
                                         <p:commandButton id="btnSMQDocType"
                                                          rendered="#{request.isUserInRole('S_TYPE')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                          title="Visualiser les types de document"
                                                          action="/company/smq/docType/List.xhtml?faces-redirect=true"
                                                          icon="ui-ribbonicon-new" 
@@ -268,7 +250,6 @@
                                                          />
                                         <p:commandButton id="btnSMQDocument"
                                                          rendered="#{request.isUserInRole('S_EXPLORER')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                          title="Liste de document"
                                                          action="/company/smq/docExplorer/List.xhtml?faces-redirect=true"
                                                          icon="ui-ribbonicon-new" 
@@ -282,7 +263,6 @@
                                         <p:commandButton id="btnSMQNC"
                                                          title="Gestion de non conformité"
                                                          action="/company/smq/nc/Request/List.xhtml?faces-redirect=true"
-                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                          rendered="#{request.isUserInRole('SNC_REQUEST')}"
                                                          icon="ui-icon-smqnc" 
                                                          value="Gérer"
@@ -295,37 +275,34 @@
                                             <p:menuitem id="splitButtonMenuItemNCUnit"
                                                         value="Unités"
                                                         action="/company/smq/nc/Unite/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                         rendered="#{request.isUserInRole('SNC_UNITE')}"
                                                         icon="ui-icon-smqnc-unit"
                                                         />
                                             <p:menuitem id="splitButtonMenuItemNCNature"
                                                         value="Nature" 
                                                         action="/company/smq/nc/Nature/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                         rendered="#{request.isUserInRole('SNC_NATURE')}"
                                                         icon="ui-icon-smqnc-nature"
                                                         />
                                             <p:menuitem id="splitButtonMenuItemNCGravity"
                                                         value="Gravités" 
                                                         action="/company/smq/nc/Gravite/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                         rendered="#{request.isUserInRole('SNC_GRAVITE')}"
                                                         icon="ui-icon-smqnc-gravite"
                                                         />
                                             <p:menuitem id="splitButtonMenuItemNCFrequency"
                                                         value="Fréquences" 
                                                         action="/company/smq/nc/Frequence/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                         rendered="#{request.isUserInRole('SNC_FREQUENCE')}"
-                                                        icon="ui-icon-smqnc-frequence"/>
+                                                        icon="ui-icon-smqnc-frequence"
+                                                        />
                                             <p:separator />
                                             <p:menuitem id="splitButtonMenuItemNCRequest"
                                                         value="Non conformité" 
                                                         action="/company/smq/nc/Request/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                         rendered="#{request.isUserInRole('SNC_REQUEST')}"
-                                                        icon="ui-icon-smqnc-request" />
+                                                        icon="ui-icon-smqnc-request" 
+                                                        />
                                         </p:menuButton>
 
                                     </pi:ribbonGroupSet>
@@ -336,7 +313,6 @@
                                         <p:commandButton id="btnPointInfos"
                                                          title="Gestion du point informations"
                                                          action="/company/smq/pointInfos/List.xhtml?faces-redirect=true"
-                                                         actionListener="#{viewRibbon.setActiveIndex(1)}"
                                                          rendered="#{request.isUserInRole('HR_GROUP')}"
                                                          icon="ui-btn-PointInfos" 
                                                          value="Infos"
@@ -358,7 +334,6 @@
                                                         action="/company/hr/staffGroupDef/List.xhtml?faces-redirect=true"
                                                         value="Gestion des Groupes" 
                                                         icon="ui-icon-hrstaffgroups"
-                                                        onsuccess="#{viewRibbon.setActiveIndex(2)}"
                                                         />
                                             <p:menuitem id="splitButtonMenuItemHRRole"
                                                         disabled="#{!request.isUserInRole('HR_GROUPROLE')}"
@@ -367,7 +342,6 @@
                                                         action="/company/hr/staffGroupDefRole/CreateTree.xhtml?faces-redirect=true"
                                                         value="Gestion des rôles" 
                                                         icon="ui-icon-hrstaffroles" 
-                                                        onsuccess="#{viewRibbon.setActiveIndex(2)}"
                                                         />
                                             <p:separator />
                                             <p:menuitem id="splitButtonMenuItemHRAcces"
@@ -376,7 +350,6 @@
                                                         action="/company/hr/staffGroups/List.xhtml?faces-redirect=true"
                                                         value="Gestion des droits"
                                                         icon="ui-icon-hrstaffacces"
-                                                        onsuccess="#{viewRibbon.setActiveIndex(2)}"
                                                         />
 
                                         </p:menuButton>
@@ -387,7 +360,7 @@
                                                          action="/company/hr/staffManager/List.xhtml?faces-redirect=true"
                                                          value="Staffs" 
                                                          icon="ui-icon-hrstaffusers"
-                                                         onsuccess="#{viewRibbon.setActiveIndex(2)}"/>
+                                                         />
                                     </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
                             </p:tab>
@@ -404,19 +377,19 @@
                                     <pi:ribbonGroupSet id="ribbonGroupSetProcessIndustriel" set="small">
                                         <p:commandButton id="btnProcessEquipement"
                                                          rendered="#{request.isUserInRole('GUEST')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                          title="Gérer vos équipements industriel"
                                                          action="/company/process/equipement/List.xhtml?faces-redirect=true"
                                                          value="#{ism.EquipementTitle}" 
-                                                         icon="ui-icon-equipement" />
+                                                         icon="ui-icon-equipement" 
+                                                         />
 
                                         <p:commandButton id="btnProcessUnite"
                                                          rendered="#{request.isUserInRole('GUEST')}"
-                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                          title="Gérer vos unité industriel"
                                                          action="/company/process/unite/List.xhtml?faces-redirect=true"
                                                          value="#{ism.UniteTitle}" 
-                                                         icon="ui-icon-unite" />
+                                                         icon="ui-icon-unite"
+                                                         />
                                     </pi:ribbonGroupSet>
                                 </pi:ribbonGroup>
 
@@ -425,7 +398,6 @@
                                         <p:commandButton id="btnProcessAnalysePoint"
                                                          title="Gestion des points d'échantillonnage"
                                                          action="/company/process/ctrl/AnalysePoint/List.xhtml?faces-redirect=true"
-                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                          rendered="#{request.isUserInRole('GUEST')}"
                                                          icon="ui-icon-analysepoint" 
                                                          value="Point Echant." 
@@ -434,7 +406,6 @@
                                         <p:commandButton id="btnProcessAnalyseData"
                                                          title="Gestion des données d'analyse d'échantillonnage"
                                                          action="/company/process/ctrl/AnalyseData/List.xhtml?faces-redirect=true"
-                                                         actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                          rendered="#{request.isUserInRole('GUEST')}"
                                                          icon="ui-icon-analysedata" 
                                                          value="Résultats"
@@ -447,14 +418,12 @@
                                             <p:menuitem id="sBtnItemProcessAnalyseCategory"
                                                         value="Catégorie d'analyse"
                                                         action="/company/process/ctrl/AnalyseCategory/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                         rendered="#{request.isUserInRole('GUEST')}"
                                                         icon="ui-icon-analysecategory"
                                                         />
                                             <p:menuitem id="sBtnItemProcessAnalyseMethod"
                                                         value="Méthode d'analyse"
                                                         action="/company/process/ctrl/AnalyseMethod/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                         rendered="#{request.isUserInRole('GUEST')}"
                                                         icon="ui-icon-analysemethod"
                                                         />
@@ -462,14 +431,12 @@
                                             <p:menuitem id="sBtnItemProcessAnalyseType"
                                                         value="Type d'analyse"
                                                         action="/company/process/ctrl/AnalyseType/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                         rendered="#{request.isUserInRole('GUEST')}"
                                                         icon="ui-icon-analysetype"
                                                         />
                                             <p:menuitem id="sBtnItemProcessAnalysePoint"
                                                         value="Point d'analyse"
                                                         action="/company/process/ctrl/AnalysePoint/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                         rendered="#{request.isUserInRole('GUEST')}"
                                                         icon="ui-icon-analysepoint"
                                                         />
@@ -477,14 +444,12 @@
                                             <p:menuitem id="sBtnItemProcessAnalyseAllowed"
                                                         value="Analyse possible"
                                                         action="/company/process/ctrl/AnalyseAllowed/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                         rendered="#{request.isUserInRole('GUEST')}"
                                                         icon="ui-icon-analyseallowed"
                                                         />
                                             <p:menuitem id="sBtnItemProcessAnalyseNotify"
                                                         value="Notifications"
                                                         action="/company/process/ctrl/AnalyseNotify/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                         rendered="#{request.isUserInRole('GUEST')}"
                                                         icon="ui-icon-analysenotify"
                                                         />
@@ -492,9 +457,9 @@
                                             <p:menuitem id="sBtnItemProcessAnalyseData"
                                                         value="Résultats" 
                                                         action="/company/process/ctrl/AnalyseData/List.xhtml?faces-redirect=true"
-                                                        actionListener="#{viewRibbon.setActiveIndex(3)}"
                                                         rendered="#{request.isUserInRole('GUEST')}"
-                                                        icon="ui-icon-analysedata" />
+                                                        icon="ui-icon-analysedata"
+                                                        />
                                         </p:menuButton>
 
                                         <p:commandButton id="btnProcessAnalyseDataStatis"
@@ -632,7 +597,7 @@
                       modal="true" height="50" width="400" 
                       closable="false" resizable="false" >
                 <h:outputText value="Continuer avec ISM ... " /> <br />
-                <h:outputText value="#{viewRibbon.currentPath}" />
+                <h:outputText value="#{ribbonView.currentPath}" />
                 <br /><br />
 
 
@@ -641,7 +606,7 @@
                                      value="#{ism.Accept}"
                                      onclick="PF('dlgReminingTimeSessionWakeUp').hide();
                                              location.reload(true);"
-                                     action="#{viewRibbon.reloadCurrentPath()}"
+                                     action="#{ribbonView.reloadCurrentPath()}"
                                      />
                     <p:commandButton id="dlgReminingTimeSessionWakeUpNo" 
                                      value="#{ism.Refused}"

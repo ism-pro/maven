@@ -198,11 +198,13 @@ public class Ribbon extends UITabPanel implements org.primefaces.component.api.W
     public static final String INACTIVE_TAB_CONTENT_CLASS = "ui-tabs-panel ui-widget-content ui-corner-bottom ui-helper-hidden";
     public static final String GROUPS_CLASS = "ui-ribbon-groups ui-helper-reset ui-helper-clearfix ui-widget-content";
     public static final String GROUP_CLASS = "ui-ribbon-group";
+    public static final String RIBBON_GROUP_BUTTON = "ui-ribbon-group-button";
     public static final String GROUP_CONTENT_CLASS = "ui-ribbon-group-content";
     public static final String GROUP_LABEL_CLASS = "ui-ribbon-group-label";
 
     public static final String GROUPS_SET_CLASS = "ui-ribbon-groups-set ui-helper-reset ui-helper-clearfix ui-widget-content";
     public static final String GROUP_SET_CLASS = "ui-ribbon-group-set";
+    public static final String GROUP_SET_SMALL_CLASS = "ui-ribbon-group-set-small";
     public static final String GROUP_SET_CONTENT_CLASS = "ui-ribbon-group-content";
 
     public static final String RIBBON_SET_BIG_BUTTON = "big";

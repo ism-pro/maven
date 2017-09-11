@@ -49,7 +49,8 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "Processus.findByPCreated", query = "SELECT p FROM Processus p WHERE p.pCreated = :pCreated"),
     @NamedQuery(name = "Processus.findByPChanged", query = "SELECT p FROM Processus p WHERE p.pChanged = :pChanged"),
     @NamedQuery(name = "Processus.selectAllByLastChange", query = "SELECT p FROM Processus p ORDER BY p.pChanged DESC"),
-    @NamedQuery(name = "Processus.findAllApprouvedItems", query = "SELECT p FROM Processus p WHERE p.pDeleted=0 ORDER BY p.pChanged DESC")
+    @NamedQuery(name = "Processus.findAllApprouvedItems", query = "SELECT p FROM Processus p WHERE p.pDeleted=0 ORDER BY p.pChanged DESC"),
+    @NamedQuery(name = "Processus.findAllApprouvedItemsAsString", query = "SELECT concat(p.pProcessus, \" - \", p.pDesignation) FROM Processus p WHERE p.pDeleted=0 ORDER BY p.pChanged DESC")
 })
 public class Processus implements Serializable {
 
@@ -212,7 +213,8 @@ public class Processus implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.Processus[ pId=" + pId + " ]";
+        //return "org.ism.entities.Processus[ pId=" + pId + " ]";
+        return pProcessus + " - " + pDesignation;
     }
 
 }

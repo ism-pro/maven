@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ism.view;
+package org.ism.view.app;
 
 import java.util.List;
 import javax.annotation.PostConstruct;

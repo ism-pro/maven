@@ -5,7 +5,6 @@
  */
 package org.ism.services;
 
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -14,15 +13,19 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import org.ism.charts.model.ChartModel;
-import org.ism.charts.model.ChartSerie;
-import org.ism.charts.model.ChartSerieData;
+import org.ism.charts.model.axis.Crosshair;
+import org.ism.charts.model.axis.PlotLines;
 import org.ism.charts.model.properties.Align;
 import org.ism.charts.model.properties.ChartType;
+import org.ism.charts.model.properties.DataLabels;
+import org.ism.charts.model.series.Data;
+import org.ism.charts.model.series.Legend;
+import org.ism.charts.model.series.PlotOptions;
+import org.ism.charts.model.series.Series;
+import org.ism.charts.model.series.type.LineSerie;
 import org.ism.domain.NonConformiteRequestDomain;
-import org.ism.entities.app.IsmNcrstate;
 import org.ism.entities.smq.Processus;
 import org.ism.entities.smq.nc.NonConformiteActions;
 import org.ism.entities.smq.nc.NonConformiteRequest;
@@ -30,7 +33,7 @@ import org.ism.jsf.smq.ProcessusController;
 import org.ism.jsf.smq.nc.NonConformiteActionsController;
 import org.ism.jsf.smq.nc.NonConformiteRequestController;
 import org.ism.jsf.util.JsfUtil;
-import org.ism.view.ViewUtil;
+import org.ism.view.util.ViewUtil;
 
 /**
  * <h1>NonConformiteRequestService</h1>
@@ -107,8 +110,8 @@ public class NonConformiteRequestService {
         generateMonthStateValueByProcessus(4);
     }
 
-    public List<Integer> counterCreate(Integer year) {
-        List<Integer> lst = new ArrayList<>();
+    public List<Object> counterCreate(Integer year) {
+        List<Object> lst = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Date from = ViewUtil.toDate(year, month, 1, 0, 0);
             Date to;
@@ -118,20 +121,18 @@ public class NonConformiteRequestService {
             } else {
                 to = ViewUtil.toDate(year, month + 1, 1, 0, 0);
             }
-            //JsfUtil.out("From : " + from.toString() + "  To : " + to.toString());
-            List<NonConformiteRequest> mlst = nonConformiteRequestController.getItemsCreateInRange(from, to);
-            if (mlst != null) {
-                lst.add(mlst.size());
-                //JsfUtil.out("Month " + month + " is not empty");
-            } else {
+            Integer count = nonConformiteRequestController.getCountItemsCreateInRange(from, to);
+            if (count == null) {
                 lst.add(0);
+            } else {
+                lst.add(count);
             }
         }
         return lst;
     }
 
-    public List<Integer> counterApprouved(Integer year) {
-        List<Integer> lst = new ArrayList<>();
+    public List<Object> counterApprouved(Integer year) {
+        List<Object> lst = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Date from = ViewUtil.toDate(year, month, 1, 0, 0);
             Date to;
@@ -141,20 +142,18 @@ public class NonConformiteRequestService {
             } else {
                 to = ViewUtil.toDate(year, month + 1, 1, 0, 0);
             }
-            //JsfUtil.out("From : " + from.toString() + "  To : " + to.toString());
-            List<NonConformiteRequest> mlst = nonConformiteRequestController.getItemsApprouvedInRange(from, to);
-            if (mlst != null) {
-                lst.add(mlst.size());
-                //JsfUtil.out("Month " + month + " is not empty");
-            } else {
+            Integer count = nonConformiteRequestController.getCountItemsApprouvedInRange(from, to);
+            if (count == null) {
                 lst.add(0);
+            } else {
+                lst.add(count);
             }
         }
         return lst;
     }
 
-    public List<Integer> counterProcessing(Integer year) {
-        List<Integer> lst = new ArrayList<>();
+    public List<Object> counterProcessing(Integer year) {
+        List<Object> lst = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Date from = ViewUtil.toDate(year, month, 1, 0, 0);
             Date to;
@@ -164,20 +163,18 @@ public class NonConformiteRequestService {
             } else {
                 to = ViewUtil.toDate(year, month + 1, 1, 0, 0);
             }
-            //JsfUtil.out("From : " + from.toString() + "  To : " + to.toString());
-            List<NonConformiteActions> mlst = nonConformiteActionsController.getItemsCreateInRange(from, to);
-            if (mlst != null) {
-                lst.add(mlst.size());
-                //JsfUtil.out("Month " + month + " is not empty");
-            } else {
+            Integer count = nonConformiteActionsController.getCountItemsCreateInRange(from, to);
+            if (count == null) {
                 lst.add(0);
+            } else {
+                lst.add(count);
             }
         }
         return lst;
     }
 
-    public List<Integer> counterState(String state, Integer year) {
-        List<Integer> lst = new ArrayList<>();
+    public List<Object> counterState(String state, Integer year) {
+        List<Object> lst = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Date from = ViewUtil.toDate(year, month, 1, 0, 0);
             Date to;
@@ -187,13 +184,11 @@ public class NonConformiteRequestService {
             } else {
                 to = ViewUtil.toDate(year, month + 1, 1, 0, 0);
             }
-            JsfUtil.out("From : " + from.toString() + "  To : " + to.toString());
-            List<NonConformiteRequest> mlst = nonConformiteRequestController.getItemsStateFromTo(state, from, to);
-            if (mlst != null) {
-                lst.add(mlst.size());
-                JsfUtil.out("Month " + month + " is not empty");
-            } else {
+            Integer count = nonConformiteRequestController.getCountItemsStateFromTo(state, from, to);
+            if (count == null) {
                 lst.add(0);
+            } else {
+                lst.add(count);
             }
         }
         return lst;
@@ -205,8 +200,8 @@ public class NonConformiteRequestService {
      * @param year
      * @return
      */
-    public List<Integer> counterStateChange(String state, Integer year) {
-        List<Integer> lst = new ArrayList<>();
+    public List<Object> counterStateChange(String state, Integer year) {
+        List<Object> lst = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Date from = ViewUtil.toDate(year, month, 1, 0, 0);
             Date to;
@@ -216,13 +211,11 @@ public class NonConformiteRequestService {
             } else {
                 to = ViewUtil.toDate(year, month + 1, 1, 0, 0);
             }
-            //JsfUtil.out("From : " + from.toString() + "  To : " + to.toString());
-            List<NonConformiteRequest> mlst = nonConformiteRequestController.getItemsStateChangeInRange(state, from, to);
-            if (mlst != null) {
-                lst.add(mlst.size());
-                //JsfUtil.out("Month " + month + " is not empty");
-            } else {
+            Integer count = nonConformiteRequestController.getCountItemsStateChangeInRange(state, from, to);
+            if (count == null) {
                 lst.add(0);
+            } else {
+                lst.add(count);
             }
         }
         return lst;
@@ -384,62 +377,54 @@ public class NonConformiteRequestService {
      * This method create the new method
      */
     private void createNcLineModel() {
+        // Managing Chart
         ChartModel model = new ChartModel();
         model.getChart().setType(ChartType.LINE);
-        model.getChart().setPlotBackgroundCorlor(null);
-        model.getChart().setPlotBorderWidth(null);
-        model.getChart().setPlotShadow(false);
-        // Seutp Title
+//        model.getChart().setPlotBackgroundCorlor(null);
+//        model.getChart().setPlotBorderWidth(null);
+//        model.getChart().setPlotShadow(false);
+
+        // Setup Title
         model.getTitle().setText("Evolution des non conformités " + getYear());
-        model.getTitle().setX(-20);
+        //model.getTitle().setX(-20);
+
         // Setup xAxis
-        List<String> xAxis = new ArrayList<String>();
+        List<String> xAxis = new ArrayList<>();
         Collections.addAll(xAxis, "Jan", "Fev", "Mar", "Avr", "Mai", "Jui", "Juil", "Auo", "Sep", "Oct", "Nov", "Dec");
         model.getxAxis().setCategories(xAxis);
+
         // Setup yAxis
         model.getyAxis().getTitle().setText("Nombre");
+        model.getyAxis().setPlotLines(new PlotLines());
         model.getyAxis().getPlotLines().setValue(0);
         model.getyAxis().getPlotLines().setWidth(1);
         model.getyAxis().getPlotLines().setColor("#808080");
-        // Setup Tooltip
-        //model.getTooltip().setPointFormat("<b>{point.percentage:.1f}%</b>");
-        // Setup plotOptions
-        model.getPlotOptions().setAllowPointSelect(true);
-        model.getPlotOptions().setCursor("pointer");
-        model.getPlotOptions().getDataLabels().setEnabled(true);
-        //model.getPlotOptions().getDataLabels().setFormat("<b>{point.name}</b>: {point.percentage:.1f} %");
-        model.getPlotOptions().getDataLabels().setStyle("color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'");
+        model.getyAxis().setCrosshair(new Crosshair());
+        model.getyAxis().getCrosshair().setSnap(Boolean.TRUE);
 
+        // Setup plotOptions
+//        model.setPlotOptions(new PlotOptions());
+//        model.getPlotOptions().setAllowPointSelect(true);
+//        model.getPlotOptions().setCursor("pointer");
+//        model.getPlotOptions().setDataLabels(new DataLabels());
+//        model.getPlotOptions().getDataLabels().setEnabled(true);
+//        model.getPlotOptions().getDataLabels().setStyle("color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'");
         // Setup Legend
-        model.getLegend().setLayout(Align.VERTICAL);
-        model.getLegend().setAlign(Align.RIGHT);
-        model.getLegend().setVerticalAlign(Align.MIDDLE);
+        model.setLegend(new Legend());
+        model.getLegend().setLayout(Align.HORIZONTAL);
+        model.getLegend().setAlign(Align.CENTER);
+        model.getLegend().setVerticalAlign(Align.BOTTOM);
         model.getLegend().setBorderWidth(0);
 
         // Serie Create
-        ChartSerie serieCreate = new ChartSerie("Créée");
-        serieCreate.add(new ChartSerieData(IntToDoubleList(nonConformiteRequestDomain.getItemsCounterCreated())));
-        model.addSerie(serieCreate);
-
-        // Serie Approuved
-        ChartSerie serieApprouved = new ChartSerie("En attente de solution");
-        serieApprouved.add(new ChartSerieData(IntToDoubleList(nonConformiteRequestDomain.getItemsCounterRequest())));
-        model.addSerie(serieApprouved);
-
-        // Serie Processing
-        ChartSerie serieProcessing = new ChartSerie("En cours");
-        serieProcessing.add(new ChartSerieData(IntToDoubleList(nonConformiteRequestDomain.getItemsCounterProcessing())));
-        model.addSerie(serieProcessing);
-
-        // Serie Finished
-        ChartSerie serieFinished = new ChartSerie("Terminée");
-        serieFinished.add(new ChartSerieData(IntToDoubleList(nonConformiteRequestDomain.getItemsCounterFinished())));
-        model.addSerie(serieFinished);
-
-        // Serie Cancel
-        ChartSerie serieCanceled = new ChartSerie("Annulée");
-        serieCanceled.add(new ChartSerieData(IntToDoubleList(nonConformiteRequestDomain.getItemsCounterCanceled())));
-        model.addSerie(serieCanceled);
+        model.setSeries(new Series());
+        model.getSeries().setLineSerie(new LineSerie());
+        model.getSeries().getLineSerie().setData(new ArrayList<>());
+        model.getSeries().getLineSerie().getData().add(new Data("Créée", nonConformiteRequestDomain.getItemsCounterCreated()));
+        model.getSeries().getLineSerie().getData().add(new Data("En attente de solution", nonConformiteRequestDomain.getItemsCounterRequest()));
+        model.getSeries().getLineSerie().getData().add(new Data("En cours", nonConformiteRequestDomain.getItemsCounterProcessing()));
+        model.getSeries().getLineSerie().getData().add(new Data("Terminée", nonConformiteRequestDomain.getItemsCounterFinished()));
+        model.getSeries().getLineSerie().getData().add(new Data("Annulée", nonConformiteRequestDomain.getItemsCounterCanceled()));
 
         nonConformiteRequestDomain.setNcStateLineModel(model);
 

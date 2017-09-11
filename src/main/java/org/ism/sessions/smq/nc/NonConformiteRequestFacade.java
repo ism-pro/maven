@@ -58,6 +58,8 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
     private final String FIND_BY_CODE = "";
     private final String FIND_BY_DESIGNATION = "NonConformiteRequest.findByNcrTitle";            // query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"
 
+    private final String COUNT_ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.countItemsCreateInRange";
+    
     private final String ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.itemsCreateInRange";
     private final String ITEMS_APPROUVED_IN_RANGE = "NonConformiteRequest.itemsApprouvedInRange";
     private final String ITEMS_STATE_IN_RANGE = "NonConformiteRequest.itemsStateInRange";
@@ -173,6 +175,7 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
         return 0;
     }
 
+        
     /**
      *
      * @param fromInclude

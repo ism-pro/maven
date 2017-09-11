@@ -31,6 +31,8 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.smq.DocType;
+import org.ism.entities.smq.Processus;
 
 @ManagedBean(name = "docExplorerController")
 @SessionScoped
@@ -338,6 +340,14 @@ public class DocExplorerController implements Serializable {
         return getFacade().findAll();
     }
 
+    public List<DocExplorer> getItemsByProcessus(Processus processus) {
+        return getFacade().findByProcessus(processus);
+    }
+
+    public List<DocExplorer> getItemsByProcessusAndType(Processus processus, DocType docType) {
+        return getFacade().findByProcessusAndType(processus, docType);
+    }
+
     /**
      * ************************************************************************
      * GETTER / SETTER
@@ -387,6 +397,10 @@ public class DocExplorerController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    /// Manage Injection
+    ///
+    ////////////////////////////////////////////////////////////////////////////
     /**
      * ************************************************************************
      * CONVERTER

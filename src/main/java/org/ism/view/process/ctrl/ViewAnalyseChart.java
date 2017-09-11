@@ -28,8 +28,6 @@ import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.charts.model.ChartModel;
-import org.ism.charts.model.ChartSerie;
-import org.ism.charts.model.ChartSerieData;
 import org.ism.charts.model.properties.ChartType;
 import org.ism.entities.process.ctrl.AnalyseData;
 import org.primefaces.model.LazyDataModel;
@@ -309,66 +307,66 @@ public class ViewAnalyseChart implements Serializable {
             chartModel.getyAxis().getPlotLines().setWidth(1);
             chartModel.getyAxis().getPlotLines().setColor("#808080");
             // Setup Tooltip
-            chartModel.getTooltip().setValueSuffix(currentAnalyse.getAaType().getAtUnite().getUUnite());
+//            chartModel.getTooltip().setValueSuffix(currentAnalyse.getAaType().getAtUnite().getUUnite());
 
             // Manage serie title
-            ChartSerie sMain = new ChartSerie(currentAnalyse.getAaType().getAtType()
-                    + " - "
-                    + currentAnalyse.getAaType().getAtDesignation());
-            ChartSerie sLimitHH = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                    getString("AnalyseAllowedField_aalimitHH"));
-            ChartSerie sLimitH = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                    getString("AnalyseAllowedField_aalimitH"));
-            ChartSerie sLimitB = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                    getString("AnalyseAllowedField_aalimitB"));
-            ChartSerie sLimitBB = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                    getString("AnalyseAllowedField_aalimitBB"));
+//            ChartSerie sMain = new ChartSerie(currentAnalyse.getAaType().getAtType()
+//                    + " - "
+//                    + currentAnalyse.getAaType().getAtDesignation());
+//            ChartSerie sLimitHH = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+//                    getString("AnalyseAllowedField_aalimitHH"));
+//            ChartSerie sLimitH = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+//                    getString("AnalyseAllowedField_aalimitH"));
+//            ChartSerie sLimitB = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+//                    getString("AnalyseAllowedField_aalimitB"));
+//            ChartSerie sLimitBB = new ChartSerie(ResourceBundle.getBundle(JsfUtil.BUNDLE).
+//                    getString("AnalyseAllowedField_aalimitBB"));
 
-            try {
-                List<Double> datas = analyseDataController
-                        .getItemsByPointTypeSampleTimeRangeD(currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
-                                dateFrom, dateTo);
-                if (datas != null) {
-                    sMain.add(new ChartSerieData(datas));
-                    chartModel.addSerie(sMain);
-                }
-                List<Double> adLimitHH = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
-                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
-                        dateFrom, dateTo, "HH");
-                if (adLimitHH != null) {
-                    sLimitHH.add(new ChartSerieData(adLimitHH));
-                    chartModel.addSerie(sLimitHH);
-                }
-                List<Double> adLimitH = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
-                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
-                        dateFrom, dateTo, "H");
-                if (adLimitH != null) {
-                    sLimitH.add(new ChartSerieData(adLimitH));
-                    chartModel.addSerie(sLimitH);
-                }
-                List<Double> adLimitB = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
-                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
-                        dateFrom, dateTo, "B");
-                if (adLimitB != null) {
-                    sLimitB.add(new ChartSerieData(adLimitB));
-                    chartModel.addSerie(sLimitB);
-                }
-                List<Double> adLimitBB = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
-                        currentAnalyse.getAaPoint(),
-                        currentAnalyse.getAaType(),
-                        dateFrom, dateTo, "BB");
-                if (adLimitBB != null) {
-                    sLimitBB.add(new ChartSerieData(adLimitBB));
-                    chartModel.addSerie(sLimitBB);
-                }
-                models.add(chartModel);
-                activeIndex = 1;
-            } catch (Exception e) {
-                elapseTiming = System.currentTimeMillis() - elapseTiming;
-                JsfUtil.addErrorMessage("ViewAnalyseChart",
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString("EmptyList"));
-            }
+//            try {
+//                List<Double> datas = analyseDataController
+//                        .getItemsByPointTypeSampleTimeRangeD(currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+//                                dateFrom, dateTo);
+//                if (datas != null) {
+//                    sMain.add(new ChartSerieData(datas));
+//                    chartModel.addSerie(sMain);
+//                }
+//                List<Double> adLimitHH = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
+//                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+//                        dateFrom, dateTo, "HH");
+//                if (adLimitHH != null) {
+//                    sLimitHH.add(new ChartSerieData(adLimitHH));
+//                    chartModel.addSerie(sLimitHH);
+//                }
+//                List<Double> adLimitH = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
+//                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+//                        dateFrom, dateTo, "H");
+//                if (adLimitH != null) {
+//                    sLimitH.add(new ChartSerieData(adLimitH));
+//                    chartModel.addSerie(sLimitH);
+//                }
+//                List<Double> adLimitB = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
+//                        currentAnalyse.getAaPoint(), currentAnalyse.getAaType(),
+//                        dateFrom, dateTo, "B");
+//                if (adLimitB != null) {
+//                    sLimitB.add(new ChartSerieData(adLimitB));
+//                    chartModel.addSerie(sLimitB);
+//                }
+//                List<Double> adLimitBB = analyseDataController.getItemsByPointTypeSampleTimeRangeLimite(
+//                        currentAnalyse.getAaPoint(),
+//                        currentAnalyse.getAaType(),
+//                        dateFrom, dateTo, "BB");
+//                if (adLimitBB != null) {
+//                    sLimitBB.add(new ChartSerieData(adLimitBB));
+//                    chartModel.addSerie(sLimitBB);
+//                }
+//                models.add(chartModel);
+//                activeIndex = 1;
+//            } catch (Exception e) {
+//                elapseTiming = System.currentTimeMillis() - elapseTiming;
+//                JsfUtil.addErrorMessage("ViewAnalyseChart",
+//                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
+//                        getString("EmptyList"));
+//            }
             progress++;
             modelProgress = 100 * (progress / fullsize);
 
