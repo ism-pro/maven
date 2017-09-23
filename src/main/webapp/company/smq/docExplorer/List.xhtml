@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      >
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -78,9 +79,36 @@
                 </p:contextMenu>
 
 
+                <p:dialog id="PrintDlg" widgetVar="PrintDlg" 
+                          dynamic="true" showEffect="clip"  hideEffect="clip" modal="true" resizable="false" appendTo="@(body)" 
+                          header="Options d'impression">
+                    <h:form id="printForm">
+                        <p:panelGrid id="printPanel" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                                     >
+
+
+                            <p:outputLabel value="Paysage ?" for="exportLandscape" />
+                            <p:selectBooleanCheckbox id="exportLandscape" value="#{docExplorerController.exporter.landscape}" />
+
+                            <p:outputLabel value="Marge horizontal" for="horizontalMargin" />
+                            <p:inputNumber id="horizontalMargin" value="#{docExplorerController.exporter.marginLeft}" />
+
+                            <p:outputLabel value="Marge verticale" for="verticalMargin" />
+                            <p:inputNumber id="verticalMargin" value="#{docExplorerController.exporter.marginTop}" />
+
+
+                        </p:panelGrid>
+                        
+                        <p:commandButton value="#{ism.Cancel}" 
+                                         onclick="PF('PrintDlg').close()"/>
+                    </h:form>
+                </p:dialog>
 
 
 
+
+                <p:outputLabel value="Path" />
+                <p:inputText value="#{docExplorerController.jasperPath}" />
 
                 <p:dataTable id="datalist" widgetVar="datalist"
                              value="#{viewTabManager.docExplorer}" var="item"
@@ -110,15 +138,23 @@
 
                     <f:facet name="{Exporters}">
                         <div style="float:right" >
-                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
-                                <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
+                            <p:commandButton ajax="false" 
+                                             icon="fa fa-file-excel-o"
+                                             onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
                                 <p:dataExporter type="xls" target="datalist" fileName="#{ism.DocExplorerTitleList}_#{viewUtil.maintenant}"  
-                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
-                            </p:commandLink>
-                            <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
-                                <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
-                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.DocExplorerTitleList}_#{viewUtil.maintenant}"  />
-                            </p:commandLink>
+                                                postProcessor="#{tableView.handlePostProcessXLS}"
+                                                pageOnly="true"
+                                                />
+                            </p:commandButton>
+                            <p:commandButton ajax="false" 
+                                             icon="fa fa-file-pdf-o"
+                                             onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
+                                <p:dataExporter type="pdf" target="datalist" fileName="#{ism.DocExplorerTitleList}_#{viewUtil.maintenant}" 
+                                                postProcessor="#{docExplorerController.handlePostProcessPDF}"
+                                                preProcessor="#{docExplorerController.handlePreProcessPDF}"
+                                                pageOnly="true"
+                                                />
+                            </p:commandButton>
                         </div>
                     </f:facet>
 
@@ -141,6 +177,10 @@
                                          style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
                         </p:outputPanel>
 
+                        <p:commandLink   value="Print"
+                                             update=":bodyForm" 
+                                             ajax="false"
+                                             actionListener="#{docExplorerController.exportPDF}"/>
                     </f:facet>
 
 

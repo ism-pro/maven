@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><CrystalReportEngine-configuration>
+    <reportlocation>../..</reportlocation>
+    <timeout>10</timeout>
+    
+    <ExternalFunctionLibraryClassNames> 
+		<classname> </classname>
+		<classname> </classname>
+    </ExternalFunctionLibraryClassNames>
+    
+<keycode>B5W6G-01C0200-0003P20-0UM1</keycode>
+<Javaserver-configuration>
+<DataDriverCommon>
+	<JavaDir>C:\j2re1.4.2_04\bin</JavaDir>
+    <Classpath>C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/crlovmanifest.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/CRLOVExternal.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/CRDBJavaServerCommon.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/CRDBJavaServer.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/CRDBJDBCServer.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/CRDBXMLServer.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/CRDBJavaBeansServer.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/CRDBXMLExternal.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/log4j.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/cecore.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/celib.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/ebus405.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/corbaidl.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/freessl201.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/asn1.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/certj.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/jsafe.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/sslj.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/mysql-connector-java-5.1.34-bin.jar;C:\Program Files (x86)\Common Files\Business Objects\3.0\java/lib/external/mysql-connector-java-5.1.44-bin.jar;${CLASSPATH}</Classpath>
+	<IORFileLocation>${TEMP}</IORFileLocation>
+	<JavaServerTimeout>1800</JavaServerTimeout>
+	<JVMMaxHeap>64000000</JVMMaxHeap>
+	<JVMMinHeap>32000000</JVMMinHeap>
+	<NumberOfThreads>100</NumberOfThreads>
+</DataDriverCommon>
+<JDBC>
+	<CacheRowSetSize>100</CacheRowSetSize>
+	<JDBCURL></JDBCURL>
+	<JDBCClassName></JDBCClassName>
+	<JDBCUserName></JDBCUserName>
+	<JNDIURL></JNDIURL>
+	<JNDIConnectionFactory></JNDIConnectionFactory>
+	<JNDIInitContext>/</JNDIInitContext>
+	<JNDIUserName>weblogic</JNDIUserName>
+	<GenericJDBCDriver>
+		<Option>No</Option>
+		<DatabaseStructure>catalogs,tables</DatabaseStructure>
+		<StoredProcType>Standard</StoredProcType>
+		<LogonStyle>Oracle</LogonStyle>
+	</GenericJDBCDriver>
+</JDBC>
+<XML>
+	<CacheRowSetSize>100</CacheRowSetSize>
+	<PreReadNBytes>4096</PreReadNBytes>
+	<XMLLocalURL></XMLLocalURL>
+	<SchemaLocalURL></SchemaLocalURL>
+	<XMLHttpURL></XMLHttpURL>
+	<SchemaHttpURL></SchemaHttpURL>
+</XML>
+<JavaBeans>
+    <CacheRowSetSize>100</CacheRowSetSize>
+	<JavaBeansClassPath></JavaBeansClassPath>
+</JavaBeans>
+</Javaserver-configuration>
+</CrystalReportEngine-configuration>

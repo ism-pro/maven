@@ -12,7 +12,7 @@
         <title><ui:insert name="title">#{ism.AppName}</ui:insert></title>
         <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
         <meta http-equiv="refresh" 
-              content="#{ribbonView.advanceSessionMaxInactiveInterval()};url=#{request.contextPath}#{request.servletPath}/index.xhtml?faces-redirect=true"/>
+              content="#{ribbonView.advanceSessionMaxInactiveInterval()+2};url=#{request.contextPath}#{request.servletPath}/index.xhtml?faces-redirect=true"/>
         <meta charset="UTF-8"/>
 
 

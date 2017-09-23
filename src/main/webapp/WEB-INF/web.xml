@@ -40,6 +40,11 @@
         <param-name>javax.faces.application.CONFIG_FILES</param-name>
         <param-value>/WEB-INF/faces-config.xml</param-value>
     </context-param>
+    <context-param>
+        <description>Permet d'indiquer ou trouver les resources de l'application réaliser depuis jasperreport</description>
+        <param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
+        <param-value>/resources</param-value>
+    </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -69,9 +74,6 @@
             <form-error-page>/faces/index.xhtml</form-error-page>
         </form-login-config>
     </login-config>
-    
-    
-    
     <error-page>
         <error-code>403</error-code>
         <location>/faces/error.xhtml</location>
@@ -159,6 +161,50 @@
         <extension>map</extension>
         <mime-type>css/map</mime-type>
     </mime-mapping>
+    
+    
+    
+    
+    <!-- START SETUPS FOR CRYSTAL REPORT -->
+    <context-param>
+        <param-name>crystal_image_uri</param-name>
+        <param-value>/ISM/crystalreportviewers</param-value>
+    </context-param>
+    <context-param>
+        <param-name>crystalview</param-name>
+        <param-value>/ISM/crystalview</param-value>
+    </context-param>
+    <context-param>
+        <param-name>crystal_image_use_relative</param-name>
+        <param-value>/crystalreportviewers/images</param-value>
+    </context-param>
+    <context-param>
+        <param-name>crystal_servlet_uri</param-name>
+        <param-value>/CrystalReportViewerHandler</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>CrystalReportViewerServlet</servlet-name>
+        <servlet-class>com.crystaldecisions.report.web.viewer.CrystalReportViewerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CrystalReportViewerServlet</servlet-name>
+        <url-pattern>/CrystalReportViewerHandler</url-pattern>
+    </servlet-mapping>
+    <!-- Setup for jndi resource cs -->
+    <!-- <resource-ref>
+        <description>DB Connection</description>
+        <res-ref-name>jdbc/JNDIISM</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+    -->
+    <!-- END SETUPS FOR CRYSTAL REPORT -->
+    
+    
+    
+    
+    
     <!-- Resources security -->
     <!-- 
     <security-constraint>
@@ -1090,9 +1136,6 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    
-    
-    
     <security-constraint>
         <display-name>SMQ Documents Security onstraint</display-name>
         <web-resource-collection>
@@ -1158,11 +1201,6 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    
-    
-    
-    
-    
     <security-constraint>
         <display-name>Create document access Security onstraint</display-name>
         <web-resource-collection>
@@ -1215,19 +1253,6 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <security-constraint>
         <display-name>SMQ Type Document Security onstraint</display-name>
         <web-resource-collection>
@@ -2041,9 +2066,6 @@
     <security-role>
         <role-name>S_EXPLORER_V</role-name>
     </security-role>
-    
-    
-    
     <security-role>
         <role-name>S_EXPLORER_CA</role-name>
     </security-role>
@@ -2056,13 +2078,6 @@
     <security-role>
         <role-name>S_EXPLORER_VA</role-name>
     </security-role>
-
-    
-    
-    
-    
-    
-    
     <security-role>
         <role-name>S_TYPE</role-name>
     </security-role>
