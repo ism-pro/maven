@@ -4,7 +4,6 @@ import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.PdfPTable;
 import java.io.File;
 import java.io.IOException;
@@ -40,13 +39,6 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -70,7 +62,6 @@ public class DocExplorerController implements Serializable {
     private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
     private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
-    private org.ism.domain.exporter.Document exporter = new org.ism.domain.exporter.Document();
 
     public DocExplorerController() {
     }
@@ -255,56 +246,56 @@ public class DocExplorerController implements Serializable {
      */
     public void handlePreProcessPDF(Object document) {
 
-        try {
-            try {
-                Document pdf = (Document) document;
-                float hMargin = -50.0f;
-                float vMargin = 10.0f;
-                pdf.setPageSize(exporter.getLandscape() ? exporter.getPageSize().getPage().rotate() : exporter.getPageSize().getPage());
-                pdf.setMargins(hMargin, hMargin, vMargin, vMargin);
-
-                // Insert logo
-                pdf.open();
-                ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-                String logo = servletContext.getRealPath("")
-                        + File.separator + "resources"
-                        + File.separator + "img"
-                        + File.separator + "ism"
-                        + File.separator + "ism.png";
-                Image img = Image.getInstance(logo);
-                img.setWidthPercentage(0.25f);
-                pdf.add(img);
-
-                // MANAGING TABLE
-                int colCount = visibleColMap.size()-1-3; // pas de colonne activé, company,
-                PdfPTable table = new PdfPTable(colCount);
-                List<DocExplorer> docs = items;
-                for (DocExplorer doc : docs) {
-
-                    table.addCell(doc.getDcId().toString());
-                    table.addCell(doc.getDcProcessus().toString());
-                    table.addCell(doc.getDcType().toString());
-                    table.addCell(doc.getDcVersion());
-                    table.addCell(doc.getDcDesignation());
-                    table.addCell(doc.getDcComment());
-                    //table.addCell(doc.getDcLink());
-                    table.addCell(doc.getDcApprouved().toString());
-                    //table.addCell(String.valueOf(doc.getDcActivated()));
-                    table.addCell(doc.getDcCreated().toString());
-                    table.addCell(doc.getDcChanged().toString());
-                    //table.addCell(doc.getDcCompany().toString());
-                    
-                    
-                }
-
-                pdf.add(table);
-            } catch (BadElementException | IOException ex) {
-                //Logger.getLogger(DocExplorerController.class.getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
-            }
-        } catch (DocumentException ex) {
-            JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
-        }
+//        try {
+//            try {
+//                Document pdf = (Document) document;
+//                float hMargin = -50.0f;
+//                float vMargin = 10.0f;
+//                pdf.setPageSize(exporter.getLandscape() ? exporter.getPageSize().getPage().rotate() : exporter.getPageSize().getPage());
+//                pdf.setMargins(hMargin, hMargin, vMargin, vMargin);
+//
+//                // Insert logo
+//                pdf.open();
+//                ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+//                String logo = servletContext.getRealPath("")
+//                        + File.separator + "resources"
+//                        + File.separator + "img"
+//                        + File.separator + "ism"
+//                        + File.separator + "ism.png";
+//                Image img = Image.getInstance(logo);
+//                img.setWidthPercentage(0.25f);
+//                pdf.add(img);
+//
+//                // MANAGING TABLE
+//                int colCount = visibleColMap.size()-1-3; // pas de colonne activé, company,
+//                PdfPTable table = new PdfPTable(colCount);
+//                List<DocExplorer> docs = items;
+//                for (DocExplorer doc : docs) {
+//
+//                    table.addCell(doc.getDcId().toString());
+//                    table.addCell(doc.getDcProcessus().toString());
+//                    table.addCell(doc.getDcType().toString());
+//                    table.addCell(doc.getDcVersion());
+//                    table.addCell(doc.getDcDesignation());
+//                    table.addCell(doc.getDcComment());
+//                    //table.addCell(doc.getDcLink());
+//                    table.addCell(doc.getDcApprouved().toString());
+//                    //table.addCell(String.valueOf(doc.getDcActivated()));
+//                    table.addCell(doc.getDcCreated().toString());
+//                    table.addCell(doc.getDcChanged().toString());
+//                    //table.addCell(doc.getDcCompany().toString());
+//                    
+//                    
+//                }
+//
+//                pdf.add(table);
+//            } catch (BadElementException | IOException ex) {
+//                //Logger.getLogger(DocExplorerController.class.getName()).log(Level.SEVERE, null, ex);
+//                JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
+//            }
+//        } catch (DocumentException ex) {
+//            JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
+//        }
     }
 
     /**
@@ -331,50 +322,7 @@ public class DocExplorerController implements Serializable {
 //            JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
 //        }
     }
-    
-    String jasperPath = "E:\\APPLICATIONS\\Java\\ISM\\maven\\src\\main\\webapp\\resources\\reports\\docExplorer.jasper";
 
-    public String getJasperPath() {
-        return jasperPath;
-    }
-
-    public void setJasperPath(String jasperPath) {
-        this.jasperPath = jasperPath;
-    }
-    
-    /**
-     * Export PDF
-     * 
-     * Allow to create then download the report
-     */
-    public void exportPDF(){
-        
-        String filename = "docExplorer.pdf";
-        //String jasperPath = "/resources/reports/docExplorer.jasper";
-        
-        List<DocExplorer> its = getItems();
-        try {
-            PDF(new HashMap(), jasperPath, its, filename);
-        } catch (JRException ex) {
-            JsfUtil.addErrorMessage("DocExplorerController", "exportPDF : " + ex.getLocalizedMessage());
-        } catch (IOException ex) {
-            JsfUtil.addErrorMessage("DocExplorerController", "exportPDF : " + ex.getLocalizedMessage());
-        }
-    }
-    
-    
-    public void PDF(Map<String, Object> params, String jasperPath, List<?> dataSource, String fileName) throws JRException, IOException {
-        //String relativeWebPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(jasperPath);
-        File file = new File(jasperPath);
-        JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(dataSource, false);
-        JasperPrint print = JasperFillManager.fillReport(file.getPath(), params, source);
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-       
-        response.addHeader("Content-disposition", "attachment;filename=" + fileName);
-        ServletOutputStream stream = response.getOutputStream();
-        JasperExportManager.exportReportToPdfStream(print, stream);
-        FacesContext.getCurrentInstance().responseComplete();
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     ///
@@ -568,13 +516,7 @@ public class DocExplorerController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    public org.ism.domain.exporter.Document getExporter() {
-        return exporter;
-    }
 
-    public void setExporter(org.ism.domain.exporter.Document exporter) {
-        this.exporter = exporter;
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     /// Manage Injection

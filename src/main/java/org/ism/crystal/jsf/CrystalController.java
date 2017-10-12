@@ -5,7 +5,7 @@
  */
 package org.ism.crystal.jsf;
 
-//import com.crystaldecisions.reports.sdk.ReportClientDocument;
+
 import com.crystaldecisions.report.web.viewer.CrPrintMode;
 import com.crystaldecisions.report.web.viewer.CrystalReportViewer;
 import com.crystaldecisions.sdk.occa.report.application.OpenReportOptions;
@@ -22,7 +22,6 @@ import com.crystaldecisions.sdk.occa.report.lib.ReportSDKException;
 import com.crystaldecisions.sdk.occa.report.lib.ReportSDKExceptionBase;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;

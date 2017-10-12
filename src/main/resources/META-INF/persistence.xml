@@ -5,6 +5,9 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <!-- This allow to see JPQL Code while debugging 
+      <property name="eclipselink.logging.level" value="FINE"/>
+      -->
     </properties>
   </persistence-unit>
 </persistence>

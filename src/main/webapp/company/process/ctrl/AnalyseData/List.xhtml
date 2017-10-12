@@ -4,8 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ism="http://primefaces.org/ui/ism">
+      xmlns:p="http://primefaces.org/ui">
 
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -63,167 +62,37 @@
                 </p:contextMenu>
 
 
-                <style>
-                    .ui-column-filters{
-                        display: inline-block;
-                        margin: -3px 0px -3px 2px;
-                        padding: 2px 0 0px 0;
-                        /*border: 1px solid #cccccc;*/
-                    }
-                    .ui-column-filters-icon{
-                        display: inline-block;
-                        display: block;
-                        text-indent: -99999px;
-                        overflow: hidden;
-                        background-repeat: no-repeat;
-                        cursor: pointer;
-                        margin: 0px;
-                        width: 12px;
-                        height: 12px;
-                        padding: 0px;
-                        background: url(#{resource['primefaces/sorting-filters.png']}) no-repeat;
-                        background-size:contain;
-                    }
-
-                    th.ui-column-filters-overlaypanel {
-                        overflow: visible;
-                    }
-                    .ui-column-filters-overlaypanel {
-                        border: 1px solid #cccccc;
-                        margin: 0px;
-                        padding: 0px;
-                        position: absolute;
-                        top: 315px;
-                        z-index: 8000;
-                        opacity: 1;
-                    }
-
-                    .ui-column-filters-overlaypanel-content{
-                        padding: 2px!important;
-                        margin: 0px;
-                        width: 200px;
-                        min-width: 200px;
-                        max-width: 200px;
-                    }
-                    .ui-column-filters-overlaypanel-content ul{
-                        margin: 0px;
-                        padding: 0px;
-                    }
-                    .ui-column-filters-overlaypanel-content li{
-                        list-style: none;
-                        /*margin: 0px;*/
-                        padding: 0px;
-                        cursor: pointer;
-                        text-align: left;
-                    }
-                    .ui-column-filters-overlaypanel-content li:hover{
-                        background-color: #dad55e;
-                        opacity: 0.95;
-                    }
-
-                    .ui-sort-filter-icon{
-                        display: inline-block;
-                        margin: 2px 5px 2px 2px;
-                        width: 12px;
-                        height: 12px;
-                        padding: 1px;
-                    }
-
-                    .ui-sort-filter-ascending-icon{
-                        background: url(#{resource['primefaces/sort-ascend.png']}) no-repeat;
-                        background-size:contain;
-                    }
-                    .ui-sort-filter-descending-icon{
-                        background: url(#{resource['primefaces/sort-descend.png']}) no-repeat;
-                        background-size:contain;
-                    }
-                    .ui-sort-filter-unsorted-icon{
-                        background: url(#{resource['primefaces/sort-unsorted.png']}) no-repeat;
-                        background-size:contain;
-                    }
-
-
-                    .ui-column-filters-overlaypanel .ui-selectonemenu{
-                        font-size: 0.8em;
-                        width: 175px;
-                    }
-                    .ui-column-filters-overlaypanel .ui-selectonemenu-list-item{
-                        font-size: 0.7em!important;
-
-                    }
-
-                    .ui-filter-search{
-                        margin-top: 2px;
-                        border: 1px solid #9e9e9e;
-                    }
-                    .ui-filter-search:hover{
-                        background: none!important;
-                    }
-                    .ui-filter-search-input{
-                        display: inline-block!important;
-                        font-weight: normal!important;
-                        border:none;
-                        margin: 0px;
-                        padding : 1px;
-                        width: 168px!important;
-                    }
-                    .ui-filter-search-icon{
-                        float: right;
-                        border: 1px solid #9e9e9e;
-                        display: inline-block;
-                        text-indent: -99999px;
-                        overflow: hidden;
-                        padding: 1px;
-                        cursor: pointer;
-                        margin: 0px;
-                        min-width: 20px;
-                        min-height: 20px;
-                        margin-top: 0px;
-                        background: url(#{resource['primefaces/sorting-filters.png']}) no-repeat;
-                        background-size:contain;
-                    }
-
-                    .ui-filter-content{
-                        margin-top: 2px;
-                        min-height: 175px;
-                        border: 1px solid #9e9e9e;
-                        background-color: white;
-                    }
-                    .ui-column-separator{
-                        margin: 0px; padding: 0px;
-                    }
-                </style>
 
 
 
-
-                <ism:dataTable id="datalist" widgetVar="datalist" 
-                               value="#{analyseDataController.modelItems}" var="item"
-
-                               rows="#{analyseDataController.pagination.pageSize}"
-                               pagination="#{analyseDataController.pagination}"
-
-                               selectionMode="single" selection="#{analyseDataController.selected}"
-
-                               sortMode="multiple"
-
-                               filteredValue="#{viewTabManager.analysedataFiltered}"
-                               rowIndexVar="_rowIndex"
-                               rowKey="#{item.adId}"
-                               paginator="#{tableView.paginator}"
-
-                               resizableColumns="#{tableView.resizableColumns}"
-                               rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
-                               paginatorTemplate="#{tableView.paginatorTemplate}"
-                               currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
-                               liveResize="#{tableView.liveResize}"
-                               reflow="#{tableView.reflow}"
-                               draggableColumns="#{tableView.draggableColumns}"
-                               emptyMessage="#{ism.EmptyList}"
-
-
-
-                               >
+                
+                <p:dataTable id="datalist" widgetVar="datalist"
+                             value="#{analyseDataController.lazyModel}" var="item"
+                             selectionMode="single" selection="#{analyseDataController.selected}"
+                             rowIndexVar="_rowIndex"
+                             rowKey="#{item.adId}"
+                             
+                             paginator="#{analyseDataController.tableSet.paginator}"
+                             rows="#{analyseDataController.tableSet.rows}"
+                             
+                             resizableColumns="#{analyseDataController.tableSet.resizableColumns}"
+                             rowsPerPageTemplate="#{analyseDataController.tableSet.rowsPerPageTemplate}"
+                             paginatorTemplate="#{analyseDataController.tableSet.paginatorTemplate}"
+                             currentPageReportTemplate="#{analyseDataController.tableSet.currentPageReportTemplate}"
+                             
+                             liveResize="#{analyseDataController.tableSet.liveResize}"
+                             reflow="#{analyseDataController.tableSet.reflow}"
+                             
+                             draggableColumns="#{analyseDataController.tableSet.draggableColumns}"
+                             sortMode="#{analyseDataController.tableSet.sortMode}"
+                             
+                             emptyMessage="#{ism.EmptyList}"
+                             
+                             
+                             filterDelay="1000"
+                             lazy="#{analyseDataController.tableSet.lazy}"
+                             multiViewState="#{analyseDataController.tableSet.multiViewState}"
+                             >
 
 
 
@@ -234,7 +103,7 @@
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
                                 <p:graphicImage library="img" name="ism/std/ExtXLS.png" width="24" height="24"/>
                                 <p:dataExporter type="xls" target="datalist" fileName="#{ism.AnalyseDataTitleList}_#{viewUtil.maintenant}" 
-                                                postProcessor="#{tableView.handlePostProcessXLS}"/>
+                                                postProcessor="#{analyseDataController.tableSet.handlePostProcessXLS}"/>
                             </p:commandLink>
                             <p:commandLink ajax="false" onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)">
                                 <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
@@ -256,13 +125,6 @@
                             <p:ajax event="toggle" update=":growl"
                                     listener="#{analyseDataController.handleColumnToggle}" />
                         </p:columnToggler>
-
-                        <p:outputPanel style="float:right;">
-                            <h:outputText value="#{ism.Search}"  />
-                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
-                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
-                        </p:outputPanel>
-
                     </f:facet>
 
 
@@ -272,17 +134,17 @@
 
                     <p:ajax event="rowSelect" update="westGroup bodyForm"  />
                     <p:ajax event="rowUnselect" update="westGroup bodyForm" />
-                    <p:ajax event="rowDblselect" listener="#{tableView.handleRowDoubleClick}" />
+                    <p:ajax event="rowDblselect" listener="#{analyseDataController.tableSet.handleRowDoubleClick}" />
                     <p:ajax event="colReorder" update="datalist,tableColToggler,:growl" listener="#{analyseDataController.handleColumnReorder}"  />
+                    <p:ajax event="filter" listener="#{analyseDataController.handleFiltering}" />
 
 
 
 
 
 
-                    <p:column headerText="#{ism.CtrlShort}" 
-                              style="width:32px;text-align: center"
-                              exportable="false" sortable="false" filterable="false"
+                    <p:column headerText="#{ism.CtrlShort}" style="width:32px;text-align: center"
+                              exportable="false"
                               visible="#{analyseDataController.getIsVisibleColKey(ism.CtrlShort)}" >
                         <p:commandButton icon="ui-btn-View" style="width: 22px; height: 16px;"
                                          title="#{ism.View}" action="View.xhtml?faces-redirect=true">
@@ -294,18 +156,14 @@
                     <p:column headerText="#{ism.AnalyseDataField_adId}" style="max-width: 24px;" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adId)}"
                               sortBy="#{item.adId}" filterBy="#{item.adId}" 
-                              filterMatchMode="contains"  >
+                              filterMatchMode="contains" >
                         <h:outputText value="#{item.adId}"/>
                     </p:column>
 
 
-
-
-
                     <p:column headerText="#{ism.AnalyseDataField_adPoint}" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adPoint)}"
-                              sortBy="#{item.adPoint}" 
-                              filterBy="#{item.adPoint.apPoint} - #{item.adPoint.apDesignation}" 
+                              sortBy="#{item.adPoint}" filterBy="#{item.adPoint}" 
                               filterMatchMode="contains" >
                         <h:outputText value="#{item.adPoint.apPoint} - #{item.adPoint.apDesignation}"/>
                     </p:column>
@@ -313,8 +171,7 @@
 
                     <p:column headerText="#{ism.AnalyseDataField_adType}" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adType)}"
-                              sortBy="#{item.adType}" 
-                              filterBy="#{item.adType.atType} - #{item.adType.atDesignation}" 
+                              sortBy="#{item.adType}" filterBy="#{item.adType}" 
                               filterMatchMode="contains" >
                         <h:outputText value="#{item.adType.atType} - #{item.adType.atDesignation} [#{item.adType.atUnite.UUnite}]"/>
                     </p:column>
@@ -343,8 +200,8 @@
 
                     <p:column headerText="#{ism.AnalyseDataField_adSampler}" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adSampler)}"
-                              sortBy="#{item.adSampler.stFirstname} #{item.adSampler.stLastname} #{item.adSampler.stMiddlename} [#{item.adSampler.stStaff}]" 
-                              filterBy="#{item.adSampler.stFirstname} #{item.adSampler.stLastname} #{item.adSampler.stMiddlename} [#{item.adSampler.stStaff}]" 
+                              sortBy="#{item.adSampler}" 
+                              filterBy="#{item.adSampler}" 
                               filterMatchMode="contains" >
                         <h:outputText value="#{item.adSampler.stFirstname} #{item.adSampler.stLastname} #{item.adSampler.stMiddlename} [#{item.adSampler.stStaff}]"/>
                     </p:column>
@@ -370,8 +227,8 @@
 
                     <p:column headerText="#{ism.AnalyseDataField_adValidator}" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adValidator)}"
-                              sortBy="#{item.adValidator.stFirstname} #{item.adValidator.stLastname} #{item.adValidator.stMiddlename} [#{item.adValidator.stStaff}]" 
-                              filterBy="#{item.adValidator.stFirstname} #{item.adValidator.stLastname} #{item.adValidator.stMiddlename} [#{item.adValidator.stStaff}]" 
+                              sortBy="#{item.adValidator}" 
+                              filterBy="#{item.adValidator}" 
                               filterMatchMode="contains" >
                         <h:outputText value="#{item.adValidator.stFirstname} #{item.adValidator.stLastname} #{item.adValidator.stMiddlename} [#{item.adValidator.stStaff}]"/>
                     </p:column>
@@ -460,6 +317,10 @@
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adenlimitBB)}"
                               sortBy="#{item.adenlimitBB}" filterBy="#{item.adenlimitBB}" 
                               filterMatchMode="equals" >
+                        
+                        <f:facet name="filterMatchMode">
+                            <p:outputLabel value="Test Match Mode" />
+                        </f:facet>
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
                                 <f:converter converterId="javax.faces.Boolean" />
@@ -493,7 +354,8 @@
                               style="width: 72px;" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adsampleTime)}"
                               sortBy="#{item.adsampleTime}" filterBy="#{item.adsampleTime}" 
-                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
+                               >
                         <f:facet name="filter">
                             <p:inputText id="filterAdsampleTime" 
                                          onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
@@ -571,14 +433,14 @@
 
                     <p:column headerText="#{ism.AnalyseDataField_adCompany}" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adCompany)}"
-                              sortBy="#{item.adCompany.CCompany} - #{item.adCompany.CDesignation}" 
+                              sortBy="#{item.adCompany}" 
                               filterBy="#{item.adCompany.CCompany} - #{item.adCompany.CDesignation}" 
                               filterMatchMode="contains" >
                         <h:outputText value="#{item.adCompany.CCompany} - #{item.adCompany.CDesignation}"/>
                     </p:column>
 
 
-                </ism:dataTable>
+                </p:dataTable>
             </h:form>
 
         </ui:define>

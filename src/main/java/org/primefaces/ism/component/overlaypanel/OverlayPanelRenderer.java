@@ -16,15 +16,11 @@
 package org.primefaces.ism.component.overlaypanel;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.model.SelectItem;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
-import org.primefaces.component.selectonemenu.SelectOneMenuRenderer;
 
 import org.primefaces.expression.SearchExpressionFacade;
 import static org.primefaces.ism.component.overlaypanel.OverlayPanel.CONSTRAINT;

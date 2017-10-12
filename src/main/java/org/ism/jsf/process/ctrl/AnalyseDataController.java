@@ -34,15 +34,16 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
-import javax.inject.Inject;
+import javax.faces.bean.ManagedProperty;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
-import org.primefaces.ism.util.PaginationHelper;
-import org.primefaces.model.FilterMeta;
+import org.ism.lazy.process.ctrl.AnalyseDataLazyModel;
+import org.ism.services.TableSet;
+import org.primefaces.event.data.FilterEvent;
+import org.primefaces.event.data.SortEvent;
 import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
 
 @ManagedBean(name = "analyseDataController")
 @SessionScoped
@@ -52,17 +53,40 @@ public class AnalyseDataController implements Serializable {
     private org.ism.sessions.process.ctrl.AnalyseDataFacade ejbFacade;
     private List<AnalyseData> items = null;
     private AnalyseData selected;
-    private DataModel modelItems = null;            //!< Model Item
-    private PaginationHelper pagination;            //!< Pagination
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
     private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
 
     private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
     private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
-    @Inject
+    /**
+     * Multi Sort Meta save table sorting
+     */
+    private List<SortMeta> multiSortMeta = null;
+    /**
+     * filters save table filters
+     */
+    private Map<String, Object> filters = null;
+
+    /**
+     * Define table setups include with Analyse data controller
+     */
+    private TableSet tableSet = new TableSet();
+
+    /**
+     * Define lazy model to load progressively data
+     */
+    private AnalyseDataLazyModel lazyModel;
+
+    /**
+     * Injection of analyse allowed controller
+     */
+    @ManagedProperty(value = "#{analyseAllowedController}")
     AnalyseAllowedController analyseAllowedController;
-    @Inject
+    /**
+     * Injection of analyse type controller
+     */
+    @ManagedProperty(value = "#{analyseTypeController}")
     AnalyseTypeController analyseTypeController;
 
     private List<AnalyseAllowed> typesAllowedByPoint;
@@ -152,19 +176,24 @@ public class AnalyseDataController implements Serializable {
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_22), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_23), false);
 
+        // Initialise model
+        lazyModel = new AnalyseDataLazyModel(ejbFacade);
+
     }
 
     private AnalyseDataFacade getFacade() {
         return ejbFacade;
     }
 
-    /*
-     * ************************************************************************
-     * CRUD OPTIONS
-     *
-     * ************************************************************************
-     */
+    /// ////////////////////////////////////////////////////////////////////////
+    ///
+    ///
+    /// BUTTONS OPTIONS
+    ///
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
     /**
+     * Preparation de la création
      *
      * @return Data analysis
      */
@@ -211,13 +240,16 @@ public class AnalyseDataController implements Serializable {
                 getString("AnalyseDataToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
+    /// ////////////////////////////////////////////////////////////////////////
+    ///
+    ///
+    /// TABLE OPTIONS
+    ///
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
     /**
-     * ************************************************************************
-     * TABLE OPTIONS
-     *
-     * ************************************************************************
-     */
-    /**
+     * Handle column Toggle manage column visibilit by changing state and saving
+     * it in the scoe.
      *
      * @param e toogle event
      */
@@ -227,9 +259,13 @@ public class AnalyseDataController implements Serializable {
 
         JsfUtil.addSuccessMessage("AnalyseData : Toggle Column",
                 "Column n° " + e.getData() + " is now " + e.getVisibility());
-
     }
 
+    /**
+     * Handle column Reorder save the table ordering
+     *
+     * @param e event column reorder
+     */
     public void handleColumnReorder(javax.faces.event.AjaxBehaviorEvent e) {
         DataTable table = (DataTable) e.getSource();
         String columns = "";
@@ -268,11 +304,45 @@ public class AnalyseDataController implements Serializable {
     }
 
     /**
-     * ************************************************************************
-     * CRUD OPTIONS
+     * Handle filtering is used to save state of filters and restore it to lazy
+     * model if it is different from lazy
      *
-     * ************************************************************************
+     * @param event filter event
      */
+    public void handleFiltering(FilterEvent event) {
+        filters = event.getFilters();
+        lazyModel.setFilters(filters);
+    }
+
+    /**
+     * Handle sorting is used to save state of sort in the lazy model to allow
+     * restore while staying in the same stage.
+     *
+     * @param event while sorting
+     */
+    public void handleSorting(SortEvent event) {
+        
+        SortMeta sortMeta = new SortMeta(event.getSortColumn(), 
+                event.getSortColumn().getField(), 
+                event.isAscending()?SortOrder.ASCENDING:SortOrder.DESCENDING, 
+                null);
+        if(!multiSortMeta.contains(sortMeta))
+            multiSortMeta.add(sortMeta);
+        else {
+            // reorder
+            multiSortMeta.remove(sortMeta);
+            multiSortMeta.add(sortMeta);
+        }
+        lazyModel.setMultiSortMeta(multiSortMeta);
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////
+    ///
+    ///
+    /// CRUD OPTIONS
+    ///
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
     public void create() {
         // Set time on creation action
         selected.setAdChanged(new Date());
@@ -320,6 +390,9 @@ public class AnalyseDataController implements Serializable {
     }
 
     public void destroy() {
+        if (selected == null) {
+            return;
+        }
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
                 getString("AnalyseDataPersistenceDeletedSummary"),
@@ -365,67 +438,15 @@ public class AnalyseDataController implements Serializable {
         persist(persistAction, detail, detail);
     }
 
+    /// ////////////////////////////////////////////////////////////////////////
+    ///
+    ///
+    /// JPA
+    ///
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
     /**
-     * ************************************************************************
-     * JPA
-     *
-     * ************************************************************************
-     */
-    /**
-     * Create a pagination helper to use in current controller
-     *
-     * @return the create pagination helper.
-     */
-    public PaginationHelper getPagination() {
-        if (pagination == null) {
-            pagination = new PaginationHelper() {
-
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
-
-                @Override
-                public DataModel createPageDataModel() {
-                    if (this.getSortMeta() != null) {
-                        return sortBy();
-                    }
-                    this.setModel(new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageLastItem()})));
-                    return this.getModel();
-                }
-
-                @Override
-                public DataModel sortBy() {
-                    // Managing Sort Meta
-                    Map<String, String> sorts = null;
-                    if (this.getSortMeta() != null && !this.getSortMeta().isEmpty()) {
-                        List<SortMeta> sortMetas = this.getSortMeta();
-                        sorts = new HashMap<>();
-                        for (SortMeta meta : sortMetas) {
-                            sorts.put(meta.getSortField(), meta.getSortOrder().name());
-                        }
-                    }
-
-                    // Managing Filter Meta
-                    Map<String, String> filters = null;
-                    if (this.getFilterMeta() != null && !this.getFilterMeta().isEmpty()) {
-                        List<FilterMeta> filterMetas = this.getFilterMeta();
-                        filters = new HashMap<>();
-                        for (FilterMeta filterMeta : filterMetas) {
-                            //filters.put(filterMeta.get, filterMeta.getSortOrder().name());
-                        }
-                    }
-
-                    // Request the criteria Model
-                    this.setModel(new ListDataModel(getFacade().findByCriteria(getPageFirstItem(), getPageSize(), sorts, filters)));
-                    return this.getModel();
-                }
-            };
-        }
-        return pagination;
-    }
-
-    /**
+     * Read Analyse Data define from an id
      *
      * @param id of analyse data
      * @return corresponding analyse data of the object
@@ -439,12 +460,20 @@ public class AnalyseDataController implements Serializable {
         return items;
     }
 
-    public DataModel getModelItems() {
-        if (modelItems == null) {
-            modelItems = getPagination().sortBy();
-            //modelItems = getPagination().createPageDataModel();
-        }
-        return modelItems;
+    public AnalyseDataLazyModel getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(AnalyseDataLazyModel lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
+    public TableSet getTableSet() {
+        return tableSet;
+    }
+
+    public void setTableSet(TableSet tableSet) {
+        this.tableSet = tableSet;
     }
 
     public List<AnalyseData> getItemsByLastChanged() {
@@ -659,13 +688,28 @@ public class AnalyseDataController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
+    /// ////////////////////////////////////////////////////////////////////////
+    ///
+    ///
+    /// MANAGED INJECTION
+    ///
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
+    public void setAnalyseAllowedController(AnalyseAllowedController analyseAllowedController) {
+        this.analyseAllowedController = analyseAllowedController;
+    }
+
+    public void setAnalyseTypeController(AnalyseTypeController analyseTypeController) {
+        this.analyseTypeController = analyseTypeController;
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////
+    ///
+    ///
+    /// CONVERTER
+    ///
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
     @FacesConverter(forClass = AnalyseData.class)
     public static class AnalyseDataControllerConverter implements Converter {
 

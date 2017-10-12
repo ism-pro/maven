@@ -1,5 +1,6 @@
 package org.ism.view.process.ctrl;
 
+import org.ism.lazy.process.ctrl.AnalyseDataLazyModel;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -177,7 +178,7 @@ public class ViewAnalyseChart implements Serializable {
                     getValue(facesContext.getELContext(), null, "analyseDataController");
             analyseDataController.prepareCreate();
         }
-        lazyDataModel = new DataLazyModel(analyseDataController.getItemsByLastChanged());
+        //lazyDataModel = new AnalyseDataLazyModel(analyseDataController.getItemsByLastChanged());
 
         // Init selection case
         selected = new ViewAnalyseChartSelect();

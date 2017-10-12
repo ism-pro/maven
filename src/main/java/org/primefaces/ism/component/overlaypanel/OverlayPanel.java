@@ -36,10 +36,16 @@ import javax.faces.model.SelectItem;
 import org.primefaces.util.Constants;
 
 @ResourceDependencies({
-    @ResourceDependency(library = "primefaces", name = "primefaces.css"),
-    @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
-    @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
-    @ResourceDependency(library = "primefaces", name = "primefaces.js")
+//    @ResourceDependency(library = "primefaces", name = "primefaces.css"),
+    //    @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
+    //    @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
+    //    @ResourceDependency(library = "primefaces", name = "primefaces.js")
+        
+        @ResourceDependency(library="primefaces", name="components.css"),
+	@ResourceDependency(library="primefaces", name="jquery/jquery.js"),
+	@ResourceDependency(library="primefaces", name="jquery/jquery-plugins.js"),
+	@ResourceDependency(library="primefaces", name="ism/core.js"),
+	@ResourceDependency(library="primefaces", name="ism/components.js")
 })
 public class OverlayPanel extends UIPanel implements org.primefaces.component.api.Widget {
 

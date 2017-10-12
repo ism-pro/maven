@@ -81,20 +81,28 @@ import org.primefaces.ism.util.PaginationHelper;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.util.ComponentUtils;
 import org.primefaces.util.SharedStringBuilder;
+import javax.faces.event.BehaviorEvent;
+import org.primefaces.component.datatable.TableState;
+import org.primefaces.component.headerrow.HeaderRow;
 
 @ResourceDependencies({
-    @ResourceDependency(library = "primefaces", name = "primefaces.css"),
-    @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
-    @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
-    @ResourceDependency(library = "primefaces", name = "ism/primefaces.js")
+//    @ResourceDependency(library = "primefaces", name = "primefaces.css"),
+    //    @ResourceDependency(library = "primefaces", name = "jquery/jquery.js"),
+    //    @ResourceDependency(library = "primefaces", name = "jquery/jquery-plugins.js"),
+    //    @ResourceDependency(library = "primefaces", name = "ism/primefaces.js")
+        @ResourceDependency(library="primefaces", name="components.css"),
+	@ResourceDependency(library="primefaces", name="jquery/jquery.js"),
+	@ResourceDependency(library="primefaces", name="jquery/jquery-plugins.js"),
+	@ResourceDependency(library="primefaces", name="ism/coremin..js"),
+	@ResourceDependency(library="primefaces", name="ism/components.min.js")
 })
-public class DataTable extends UIData implements org.primefaces.component.api.Widget, org.primefaces.component.api.RTLAware, javax.faces.component.behavior.ClientBehaviorHolder {
+public class DataTable extends UIData implements org.primefaces.component.api.Widget, org.primefaces.component.api.RTLAware, javax.faces.component.behavior.ClientBehaviorHolder,org.primefaces.component.api.PrimeClientBehaviorHolder,org.primefaces.component.api.Pageable {
 
     public static final String COMPONENT_TYPE = "org.primefaces.ism.component.DataTable";
     public static final String COMPONENT_FAMILY = "org.primefaces.ism.component";
     private static final String DEFAULT_RENDERER = "org.primefaces.ism.component.DataTableRenderer";
 
-    protected enum PropertyKeys {
+    public enum PropertyKeys {
 
         widgetVar,
         scrollable,
@@ -119,12 +127,42 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
         editable,
         filteredValue,
         sortMode,
-        editMode, editingRow, cellSeparator, summary, frozenRows,
-        dir, liveResize, stickyHeader, expandedRow, disabledSelection,
-        rowSelectMode, rowExpandMode, dataLocale, nativeElements, frozenColumns,
-        draggableRows, caseSensitiveSort, skipChildren, disabledTextSelection,
-        sortField, initMode, nullSortOrder, tabindex, reflow, liveScrollBuffer,
-        rowHover, resizeMode, pagination;
+        editMode,
+        editingRow,
+        cellSeparator,
+        summary,
+        frozenRows,
+        dir,
+        liveResize,
+        stickyHeader,
+        expandedRow,
+        disabledSelection,
+        rowSelectMode,
+        rowExpandMode,
+        dataLocale,
+        nativeElements,
+        frozenColumns,
+        draggableRows,
+        caseSensitiveSort,
+        skipChildren,
+        disabledTextSelection,
+        sortField,
+        initMode,
+        nullSortOrder,
+        tabindex,
+        reflow,
+        liveScrollBuffer,
+        rowHover, resizeMode,
+        ariaRowLabel,
+        saveOnCellBlur,
+        clientCache,
+        multiViewState,
+        filterBy,
+        globalFilter,
+        cellEditMode,
+        expandableRowGroups,
+        virtualScroll,
+        pagination;
 
         String toString;
 
@@ -535,7 +573,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
     }
 
     public java.lang.String getTabindex() {
-        return (java.lang.String) getStateHelper().eval(PropertyKeys.tabindex, null);
+        return (java.lang.String) getStateHelper().eval(PropertyKeys.tabindex, "0");
     }
 
     public void setTabindex(java.lang.String _tabindex) {
@@ -572,6 +610,78 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
 
     public void setResizeMode(java.lang.String _resizeMode) {
         getStateHelper().put(PropertyKeys.resizeMode, _resizeMode);
+    }
+
+    public java.lang.String getAriaRowLabel() {
+        return (java.lang.String) getStateHelper().eval(PropertyKeys.ariaRowLabel, null);
+    }
+
+    public void setAriaRowLabel(java.lang.String _ariaRowLabel) {
+        getStateHelper().put(PropertyKeys.ariaRowLabel, _ariaRowLabel);
+    }
+
+    public boolean isSaveOnCellBlur() {
+        return (java.lang.Boolean) getStateHelper().eval(PropertyKeys.saveOnCellBlur, true);
+    }
+
+    public void setSaveOnCellBlur(boolean _saveOnCellBlur) {
+        getStateHelper().put(PropertyKeys.saveOnCellBlur, _saveOnCellBlur);
+    }
+
+    public boolean isClientCache() {
+        return (java.lang.Boolean) getStateHelper().eval(PropertyKeys.clientCache, false);
+    }
+
+    public void setClientCache(boolean _clientCache) {
+        getStateHelper().put(PropertyKeys.clientCache, _clientCache);
+    }
+
+    public boolean isMultiViewState() {
+        return (java.lang.Boolean) getStateHelper().eval(PropertyKeys.multiViewState, false);
+    }
+
+    public void setMultiViewState(boolean _multiViewState) {
+        getStateHelper().put(PropertyKeys.multiViewState, _multiViewState);
+    }
+
+    public java.util.List getFilterBy() {
+        return (java.util.List) getStateHelper().eval(PropertyKeys.filterBy, null);
+    }
+
+    public void setFilterBy(java.util.List _filterBy) {
+        getStateHelper().put(PropertyKeys.filterBy, _filterBy);
+    }
+
+    public java.lang.String getGlobalFilter() {
+        return (java.lang.String) getStateHelper().eval(PropertyKeys.globalFilter, null);
+    }
+
+    public void setGlobalFilter(java.lang.String _globalFilter) {
+        getStateHelper().put(PropertyKeys.globalFilter, _globalFilter);
+    }
+
+    public java.lang.String getCellEditMode() {
+        return (java.lang.String) getStateHelper().eval(PropertyKeys.cellEditMode, "eager");
+    }
+
+    public void setCellEditMode(java.lang.String _cellEditMode) {
+        getStateHelper().put(PropertyKeys.cellEditMode, _cellEditMode);
+    }
+
+    public boolean isExpandableRowGroups() {
+        return (java.lang.Boolean) getStateHelper().eval(PropertyKeys.expandableRowGroups, false);
+    }
+
+    public void setExpandableRowGroups(boolean _expandableRowGroups) {
+        getStateHelper().put(PropertyKeys.expandableRowGroups, _expandableRowGroups);
+    }
+
+    public boolean isVirtualScroll() {
+        return (java.lang.Boolean) getStateHelper().eval(PropertyKeys.virtualScroll, false);
+    }
+
+    public void setVirtualScroll(boolean _virtualScroll) {
+        getStateHelper().put(PropertyKeys.virtualScroll, _virtualScroll);
     }
 
     public PaginationHelper getPagination() {
@@ -632,13 +742,25 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
     public static final String SCROLLABLE_BODY_CLASS = "ui-datatable-scrollable-body";
     public static final String SCROLLABLE_FOOTER_CLASS = "ui-widget-header ui-datatable-scrollable-footer";
     public static final String SCROLLABLE_FOOTER_BOX_CLASS = "ui-datatable-scrollable-footer-box";
+    public static final String VIRTUALSCROLL_WRAPPER_CLASS = "ui-datatable-virtualscroll-wrapper";
+    public static final String VIRTUALSCROLL_TABLE_CLASS = "ui-datatable-virtualscroll-table";
     public static final String COLUMN_RESIZER_CLASS = "ui-column-resizer";
     public static final String RESIZABLE_CONTAINER_CLASS = "ui-datatable-resizable";
     public static final String SUBTABLE_HEADER = "ui-datatable-subtable-header";
     public static final String SUBTABLE_FOOTER = "ui-datatable-subtable-footer";
     public static final String SUMMARY_ROW_CLASS = "ui-datatable-summaryrow ui-widget-header";
+    public static final String HEADER_ROW_CLASS = "ui-rowgroup-header ui-datatable-headerrow ui-widget-header";
+    public static final String ROW_GROUP_TOGGLER_CLASS = "ui-rowgroup-toggler";
+    public static final String ROW_GROUP_TOGGLER_ICON_CLASS = "ui-rowgroup-toggler-icon ui-icon ui-icon-circle-triangle-s";
     public static final String EDITING_ROW_CLASS = "ui-row-editing";
     public static final String STICKY_HEADER_CLASS = "ui-datatable-sticky";
+
+    public static final String ARIA_FILTER_BY = "primefaces.datatable.aria.FILTER_BY";
+    public static final String ARIA_HEADER_CHECKBOX_ALL = "primefaces.datatable.aria.HEADER_CHECKBOX_ALL";
+    public static final String SORT_LABEL = "primefaces.datatable.SORT_LABEL";
+    public static final String SORT_ASC = "primefaces.datatable.SORT_ASC";
+    public static final String SORT_DESC = "primefaces.datatable.SORT_DESC";
+    public final static String ROW_GROUP_TOGGLER = "primefaces.rowgrouptoggler.aria.ROW_GROUP_TOGGLER";
 
     public static final String MOBILE_CONTAINER_CLASS = "ui-datatable ui-shadow";
     public static final String MOBILE_TABLE_CLASS = "ui-responsive ui-table table-stripe";
@@ -650,8 +772,37 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
     public static final String MOBILE_SORTED_COLUMN_CLASS = "ui-column-sorted";
     public static final String MOBILE_CELL_LABEL = "ui-table-cell-label";
 
-    private static final Collection<String> EVENT_NAMES = Collections.unmodifiableCollection(Arrays.asList("page", "sort", "filter", "rowSelect",
-            "rowUnselect", "rowEdit", "rowEditInit", "rowEditCancel", "colResize", "toggleSelect", "colReorder", "contextMenu", "rowSelectRadio", "rowSelectCheckbox", "rowUnselectCheckbox", "rowDblselect", "rowToggle", "cellEdit", "rowReorder", "swipeleft", "swiperight", "tap", "taphold"));
+    private static final Map<String, Class<? extends BehaviorEvent>> BEHAVIOR_EVENT_MAPPING = Collections.unmodifiableMap(new HashMap<String, Class<? extends BehaviorEvent>>() {
+        {
+            put("page", PageEvent.class);
+            put("sort", SortEvent.class);
+            put("filter", FilterEvent.class);
+            put("rowSelect", SelectEvent.class);
+            put("rowUnselect", UnselectEvent.class);
+            put("rowEdit", RowEditEvent.class);
+            put("rowEditInit", RowEditEvent.class);
+            put("rowEditCancel", RowEditEvent.class);
+            put("colResize", ColumnResizeEvent.class);
+            put("toggleSelect", ToggleSelectEvent.class);
+            put("colReorder", null);
+            put("contextMenu", SelectEvent.class);
+            put("rowSelectRadio", SelectEvent.class);
+            put("rowSelectCheckbox", SelectEvent.class);
+            put("rowUnselectCheckbox", UnselectEvent.class);
+            put("rowDblselect", SelectEvent.class);
+            put("rowToggle", ToggleEvent.class);
+            put("cellEditInit", CellEditEvent.class);
+            put("cellEdit", CellEditEvent.class);
+            put("rowReorder", ReorderEvent.class);
+            put("swipeleft", SwipeEvent.class);
+            put("swiperight", SwipeEvent.class);
+            put("tap", SelectEvent.class);
+            put("taphold", SelectEvent.class);
+            put("cellEditCancel", CellEditEvent.class);
+        }
+    });
+
+    private static final Collection<String> EVENT_NAMES = BEHAVIOR_EVENT_MAPPING.keySet();
 
     static Map<DataTableFeatureKey, DataTableFeature> FEATURES;
 
@@ -668,9 +819,10 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
         FEATURES.put(DataTableFeatureKey.ROW_EXPAND, new RowExpandFeature());
         FEATURES.put(DataTableFeatureKey.SCROLL, new ScrollFeature());
         FEATURES.put(DataTableFeatureKey.DRAGGABLE_ROWS, new DraggableRowsFeature());
+        FEATURES.put(DataTableFeatureKey.ADD_ROW, new AddRowFeature());
     }
 
-    public DataTableFeature getFeature(org.primefaces.ism.component.datatable.feature.DataTableFeatureKey key) {
+    public DataTableFeature getFeature(DataTableFeatureKey key) {
         return FEATURES.get(key);
     }
 
@@ -680,6 +832,22 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
 
     public boolean isRowEditRequest(FacesContext context) {
         return context.getExternalContext().getRequestParameterMap().containsKey(this.getClientId(context) + "_rowEditAction");
+    }
+
+    public boolean isCellEditCancelRequest(FacesContext context) {
+        return context.getExternalContext().getRequestParameterMap().containsKey(this.getClientId(context) + "_cellEditCancel");
+    }
+
+    public boolean isCellEditInitRequest(FacesContext context) {
+        return context.getExternalContext().getRequestParameterMap().containsKey(this.getClientId(context) + "_cellEditInit");
+    }
+
+    public boolean isClientCacheRequest(FacesContext context) {
+        return context.getExternalContext().getRequestParameterMap().containsKey(this.getClientId(context) + "_clientCache");
+    }
+
+    public boolean isPageStateRequest(FacesContext context) {
+        return context.getExternalContext().getRequestParameterMap().containsKey(this.getClientId(context) + "_pageState");
     }
 
     public boolean isRowEditCancelRequest(FacesContext context) {
@@ -741,7 +909,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
     public void processUpdates(FacesContext context) {
         super.processUpdates(context);
 
-        ValueExpression selectionVE = this.getValueExpression("selection");
+        ValueExpression selectionVE = this.getValueExpression(PropertyKeys.selection.toString());
 
         if (selectionVE != null) {
             selectionVE.setValue(context.getELContext(), this.getLocalSelection());
@@ -754,7 +922,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
             ELContext eLContext = context.getELContext();
             for (FilterMeta fm : filterMeta) {
                 UIColumn column = fm.getColumn();
-                ValueExpression columnFilterValueVE = column.getValueExpression("filterValue");
+                ValueExpression columnFilterValueVE = column.getValueExpression(Column.PropertyKeys.filterValue.toString());
                 if (columnFilterValueVE != null) {
                     if (column.isDynamic()) {
                         DynamicColumn dynamicColumn = (DynamicColumn) column;
@@ -838,7 +1006,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
                 setRowIndex(Integer.parseInt(rowIndex));
 
                 wrapperEvent = new ToggleEvent(this, behaviorEvent.getBehavior(), visibility, getRowData());
-            } else if (eventName.equals("cellEdit")) {
+            } else if (eventName.equals("cellEdit") || eventName.equals("cellEditCancel") || eventName.equals("cellEditInit")) {
                 String[] cellInfo = params.get(clientId + "_cellInfo").split(",");
                 int rowIndex = Integer.parseInt(cellInfo[0]);
                 int cellIndex = Integer.parseInt(cellInfo[1]);
@@ -908,6 +1076,10 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
     }
 
     public UIColumn findColumnInGroup(String clientId, ColumnGroup group) {
+        if (group == null) {
+            return null;
+        }
+
         FacesContext context = this.getFacesContext();
 
         for (UIComponent row : group.getChildren()) {
@@ -967,23 +1139,29 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
 
         if (model != null && model instanceof LazyDataModel) {
             LazyDataModel lazyModel = (LazyDataModel) model;
-
             List<?> data = null;
 
-            // #7176
             calculateFirst();
 
+            FacesContext context = getFacesContext();
+            int first = getFirst();
+
+            if (this.isClientCacheRequest(context)) {
+                Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+                first = Integer.valueOf(params.get(getClientId(context) + "_first")) + getRows();
+            }
+
             if (this.isMultiSort()) {
-                data = lazyModel.load(getFirst(), getRows(), getMultiSortMeta(), getFilters());
+                data = lazyModel.load(first, getRows(), getMultiSortMeta(), getFilters());
             } else {
-                data = lazyModel.load(getFirst(), getRows(), resolveSortField(), convertSortOrder(), getFilters());
+                data = lazyModel.load(first, getRows(), resolveSortField(), convertSortOrder(), getFilters());
             }
 
             lazyModel.setPageSize(getRows());
             lazyModel.setWrappedData(data);
 
-            //Update paginator for callback
-            if (this.isPaginator()) {
+            //Update paginator/livescroller for callback
+            if (this.isRequestSource(context) && (this.isPaginator() || this.isLiveScroll())) {
                 RequestContext requestContext = RequestContext.getCurrentInstance();
 
                 if (requestContext != null) {
@@ -1010,8 +1188,8 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
             lazyModel.setPageSize(rows);
             lazyModel.setWrappedData(data);
 
-            //Update paginator for callback
-            if (this.isPaginator()) {
+            //Update paginator/livescroller  for callback
+            if (this.isRequestSource(getFacesContext()) && (this.isPaginator() || this.isLiveScroll())) {
                 RequestContext requestContext = RequestContext.getCurrentInstance();
 
                 if (requestContext != null) {
@@ -1021,18 +1199,10 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
         }
     }
 
-    @Override
-    public int getRowCount() {
-        if (this.getPagination() != null) {
-            return this.getPagination().getItemsCount();
-        }
-        return super.getRowCount();
-    }
-
     protected String resolveSortField() {
         String sortField = null;
         UIColumn column = this.getSortColumn();
-        ValueExpression tableSortByVE = this.getValueExpression("sortBy");
+        ValueExpression tableSortByVE = this.getValueExpression(org.primefaces.component.datatable.DataTable.PropertyKeys.sortBy.toString());
         Object tableSortByProperty = this.getSortBy();
 
         if (column == null) {
@@ -1043,7 +1213,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
                 sortField = field;
             }
         } else {
-            ValueExpression columnSortByVE = column.getValueExpression("sortBy");
+            ValueExpression columnSortByVE = column.getValueExpression(org.primefaces.component.datatable.DataTable.PropertyKeys.sortBy.toString());
 
             if (column.isDynamic()) {
                 ((DynamicColumn) sortColumn).applyStatelessModel();
@@ -1089,20 +1259,30 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
     }
 
     public String resolveDynamicField(ValueExpression expression) {
-        if (expression != null) {
-            String expressionString = expression.getExpressionString();
+
+        if (expression == null) {
+            return null;
+        }
+
+        FacesContext context = getFacesContext();
+        ELContext elContext = context.getELContext();
+
+        String expressionString = expression.getExpressionString();
+
+        // old syntax compatibility
+        // #{car[column.property]}
+        // new syntax is:
+        // #{column.property} or even a method call
+        if (expressionString.startsWith("#{" + getVar() + "[")) {
             expressionString = expressionString.substring(expressionString.indexOf("[") + 1, expressionString.indexOf("]"));
             expressionString = "#{" + expressionString + "}";
 
-            FacesContext context = getFacesContext();
-            ELContext eLContext = context.getELContext();
             ValueExpression dynaVE = context.getApplication()
-                    .getExpressionFactory().createValueExpression(eLContext, expressionString, String.class);
-
-            return (String) dynaVE.getValue(eLContext);
-        } else {
-            return null;
+                    .getExpressionFactory().createValueExpression(elContext, expressionString, String.class);
+            return (String) dynaVE.getValue(elContext);
         }
+
+        return (String) expression.getValue(elContext);
     }
 
     public void clearLazyCache() {
@@ -1126,6 +1306,14 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
 
     public void setScrollOffset(int scrollOffset) {
         getStateHelper().put("scrollOffset", scrollOffset);
+    }
+
+    @Override
+    public int getRowCount() {
+        if (this.getPagination() != null) {
+            return this.getPagination().getItemsCount();
+        }
+        return super.getRowCount();
     }
 
     private List filterMetadata;
@@ -1160,6 +1348,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
         this.setSortByVE(null);
         this.setSortColumn(null);
         this.setSortField(null);
+        this.setDefaultSort(true);
         this.clearMultiSortMeta();
     }
 
@@ -1185,6 +1374,11 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
 
     public Object getLocalSelection() {
         return getStateHelper().get(PropertyKeys.selection);
+    }
+
+    @Override
+    public Map<String, Class<? extends BehaviorEvent>> getBehaviorEventMapping() {
+        return BEHAVIOR_EVENT_MAPPING;
     }
 
     @Override
@@ -1225,7 +1419,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
 
     public Object getRowData(String rowKey) {
 
-        boolean hasRowKeyVe = this.getValueExpression("rowKey") != null;
+        boolean hasRowKeyVe = this.getValueExpression(PropertyKeys.rowKey.toString()) != null;
         DataModel model = getDataModel();
 
         // use rowKey if available and if != lazy
@@ -1261,7 +1455,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
     public void findSelectedRowKeys() {
         Object selection = this.getSelection();
         selectedRowKeys = new ArrayList<Object>();
-        boolean hasRowKeyVe = this.getValueExpression("rowKey") != null;
+        boolean hasRowKeyVe = this.getValueExpression(PropertyKeys.rowKey.toString()) != null;
         String var = this.getVar();
         Map<String, Object> requestMap = getFacesContext().getExternalContext().getRequestMap();
 
@@ -1326,6 +1520,16 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
         return null;
     }
 
+    public HeaderRow getHeaderRow() {
+        for (UIComponent kid : getChildren()) {
+            if (kid.isRendered() && kid instanceof HeaderRow) {
+                return (HeaderRow) kid;
+            }
+        }
+
+        return null;
+    }
+
     private int columnsCount = -1;
 
     public int getColumnsCount() {
@@ -1340,7 +1544,9 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
                             columnsCount += dynamicColumnsCount;
                         }
                     } else if (kid instanceof Column) {
-                        columnsCount++;
+                        if (((UIColumn) kid).isVisible()) {
+                            columnsCount++;
+                        }
                     } else if (kid instanceof SubTable) {
                         SubTable subTable = (SubTable) kid;
                         for (UIComponent subTableKid : subTable.getChildren()) {
@@ -1370,7 +1576,10 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
                             columnsCountWithSpan += dynamicColumnsCount;
                         }
                     } else if (kid instanceof Column) {
-                        columnsCountWithSpan += ((Column) kid).getColspan();
+                        Column col = (Column) kid;
+                        if (col.isVisible()) {
+                            columnsCountWithSpan += col.getColspan();
+                        }
                     } else if (kid instanceof SubTable) {
                         SubTable subTable = (SubTable) kid;
                         for (UIComponent subTableKid : subTable.getChildren()) {
@@ -1427,7 +1636,13 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
 
     @Override
     protected boolean shouldSkipChildren(FacesContext context) {
-        return this.isSkipChildren() || context.getExternalContext().getRequestParameterMap().containsKey(this.getClientId(context) + "_skipChildren");
+        Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+        String paramValue = params.get(Constants.RequestParams.SKIP_CHILDREN_PARAM);
+        if (paramValue != null && Boolean.valueOf(paramValue) == false) {
+            return false;
+        } else {
+            return (this.isSkipChildren() || params.containsKey(this.getClientId(context) + "_skipChildren"));
+        }
     }
 
     private UIColumn sortColumn;
@@ -1480,7 +1695,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
                 multiSortMeta.add(sortMeta);
             }
         } else {
-            ValueExpression ve = this.getValueExpression("sortBy");
+            ValueExpression ve = this.getValueExpression(PropertyKeys.sortBy.toString());
             if (ve != null) {
                 multiSortMeta = (List<SortMeta>) ve.getValue(getFacesContext().getELContext());
             }
@@ -1628,6 +1843,19 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
         return (MethodExpression) this.getStateHelper().get("defaultSortFunction");
     }
 
+    public void setDefaultSort(boolean defaultSort) {
+        this.getStateHelper().put("defaultSort", defaultSort);
+    }
+
+    public boolean isDefaultSort() {
+        Object value = this.getStateHelper().get("defaultSort");
+        if (value == null) {
+            return true;
+        } else {
+            return (java.lang.Boolean) value;
+        }
+    }
+
     public Locale resolveDataLocale() {
         FacesContext context = this.getFacesContext();
         Object userLocale = this.getDataLocale();
@@ -1676,7 +1904,7 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
     }
 
     public void updateFilteredValue(FacesContext context, List<?> value) {
-        ValueExpression ve = this.getValueExpression("filteredValue");
+        ValueExpression ve = this.getValueExpression(PropertyKeys.filteredValue.toString());
 
         if (ve != null) {
             ve.setValue(context.getELContext(), value);
@@ -1735,15 +1963,83 @@ public class DataTable extends UIData implements org.primefaces.component.api.Wi
         }
     }
 
-    public String resolveWidgetVar() {
-        FacesContext context = getFacesContext();
-        String userWidgetVar = (String) getAttributes().get("widgetVar");
+    public void restoreTableState() {
+        TableState ts = this.getTableState(false);
+        if (ts != null) {
+            if (this.isPaginator()) {
+                this.setFirst(ts.getFirst());
+                int rows = (ts.getRows() == 0) ? this.getRows() : ts.getRows();
+                this.setRows(rows);
+            }
 
-        if (userWidgetVar != null) {
-            return userWidgetVar;
-        } else {
-            return "widget_" + getClientId(context).replaceAll("-|" + UINamingContainer.getSeparatorChar(context), "_");
+            this.setMultiSortMeta(ts.getMultiSortMeta());
+            this.setValueExpression("sortBy", ts.getSortBy());
+            this.setSortOrder(ts.getSortOrder());
+            this.setSortFunction(ts.getSortFunction());
+            this.setSortField(ts.getSortField());
+            this.setDefaultSort(false);
+            this.setDefaultSortByVE(ts.getDefaultSortBy());
+            this.setDefaultSortOrder(ts.getDefaultSortOrder());
+            this.setDefaultSortFunction(ts.getDefaultSortFunction());
+
+            if (this.isSelectionEnabled()) {
+                this.selectedRowKeys = ts.getRowKeys();
+            }
+
+            this.setFilterBy(ts.getFilters());
+            this.setGlobalFilter(ts.getGlobalFilterValue());
         }
+    }
+
+    public TableState getTableState(boolean create) {
+        FacesContext fc = this.getFacesContext();
+        Map<String, Object> sessionMap = fc.getExternalContext().getSessionMap();
+        Map<String, TableState> dtState = (Map) sessionMap.get(Constants.TABLE_STATE);
+        String viewId = fc.getViewRoot().getViewId().replaceFirst("^/*", "");
+        String stateKey = viewId + "_" + this.getClientId(fc);
+        TableState ts;
+
+        if (dtState == null) {
+            dtState = new HashMap<String, TableState>();
+            sessionMap.put(Constants.TABLE_STATE, dtState);
+        }
+
+        ts = dtState.get(stateKey);
+        if (ts == null && create) {
+            ts = new TableState();
+            dtState.put(stateKey, ts);
+        }
+
+        return ts;
+    }
+
+    public String getGroupedColumnIndexes() {
+        List<UIColumn> columns = this.getColumns();
+        int size = columns.size();
+        boolean hasIndex = false;
+        if (size > 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
+            for (int i = 0; i < size; i++) {
+                UIColumn column = columns.get(i);
+                if (column.isGroupRow()) {
+                    if (hasIndex) {
+                        sb.append(",");
+                    }
+
+                    sb.append(i);
+                    hasIndex = true;
+                }
+            }
+            sb.append("]");
+
+            return sb.toString();
+        }
+        return null;
+    }
+
+    public String resolveWidgetVar() {
+        return ComponentUtils.resolveWidgetVar(getFacesContext(), this);
     }
 
     @Override

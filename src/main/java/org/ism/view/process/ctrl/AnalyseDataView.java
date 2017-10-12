@@ -36,6 +36,9 @@ public class AnalyseDataView implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
+    private List<AnalyseData> analysedataFiltered;
+    
+    
     public AnalyseDataView() {
     }
 
@@ -374,5 +377,24 @@ public class AnalyseDataView implements Serializable {
     public AnalyseData getAnalyseData(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
+
+    public AnalyseData getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(AnalyseData current) {
+        this.current = current;
+    }
+
+    public List<AnalyseData> getAnalysedataFiltered() {
+        return analysedataFiltered;
+    }
+
+    public void setAnalysedataFiltered(List<AnalyseData> analysedataFiltered) {
+        this.analysedataFiltered = analysedataFiltered;
+    }
+    
+    
+    
 
 }

@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1709.10</version>
+    <version>1710.15</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -147,11 +147,13 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>charts</artifactId>
             <version>1701.05</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jsfc</artifactId>
             <version>1701.01</version>
+            <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
         <dependency>
@@ -159,32 +161,42 @@
             <artifactId>javax.mail-api</artifactId>
             <version>1.5.6</version>
         </dependency>
+        <!-- Font awesome require webjars and omnifaces -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>font-awesome</artifactId>
             <version>4.7.0</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
-            <version>2.6.4</version>
+            <version>2.3</version>
+            <scope>compile</scope>
         </dependency>
+        -->
+        <!-- END Font awesome require webjars and omnifaces -->
         
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
-            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javacc</groupId>
+            <artifactId>javacc</artifactId>
+            <version>4.1</version>
+            <scope>compile</scope>
         </dependency>
         
         
         <!-- START JASPER REPORT -->
+        <!--
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
@@ -196,6 +208,7 @@
             <artifactId>groovy-all</artifactId>
             <version>2.4.12</version>
         </dependency>
+        -->
         <!-- END JASPER REPORT -->
         
         
@@ -208,6 +221,7 @@
             <artifactId>CrystalReportsRuntime</artifactId>
             <version>2</version>
             <scope>provided</scope>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.crystaldecisions</groupId>
@@ -350,6 +364,13 @@
         <!-- End CRYSTAL REPORT DEPENDENCY -->
         
         
+        <!-- GOOGLE MAP 
+        <dependency>
+            <groupId>com.googlecode.gmaps4jsf</groupId>
+            <artifactId>gmaps4jsf-core</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+         End GOOGLE MAP -->
         
         
         
@@ -427,6 +448,10 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>googlecode.com</id>
+            <url>http://gmaps4jsf.googlecode.com/svn/trunk/gmaps4jsf-repo</url>
         </repository>
     </repositories>
     <description>Industrial System Manager - ISM

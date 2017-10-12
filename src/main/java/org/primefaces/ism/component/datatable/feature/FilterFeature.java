@@ -16,6 +16,7 @@
 package org.primefaces.ism.component.datatable.feature;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.logging.Logger;
 import javax.el.ELContext;
@@ -31,6 +32,8 @@ import org.primefaces.component.api.DynamicColumn;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.columngroup.ColumnGroup;
 import org.primefaces.component.columns.Columns;
+import org.primefaces.component.datatable.FilterState;
+import org.primefaces.component.datatable.TableState;
 import org.primefaces.ism.component.datatable.DataTable;
 import org.primefaces.ism.component.datatable.DataTableRenderer;
 import org.primefaces.component.row.Row;
@@ -99,6 +102,7 @@ public class FilterFeature implements DataTableFeature {
     @Override
     public void encode(FacesContext context, DataTableRenderer renderer, DataTable table) throws IOException {
         Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+        String globalFilterValue = null;
 
         //reset state
         String clientId = table.getClientId(context);
@@ -114,13 +118,18 @@ public class FilterFeature implements DataTableFeature {
         }
 
         if (table.isLazy()) {
-            table.loadLazyData();
+            if (table.isLiveScroll()) {
+                table.loadLazyScrollData(0, table.getScrollRows());
+            } else {
+                table.loadLazyData();
+            }
         } else {
             String globalFilterParam = clientId + UINamingContainer.getSeparatorChar(context) + "globalFilter";
-            filter(context, table, table.getFilterMetadata(), globalFilterParam);
+            globalFilterValue = params.get(globalFilterParam);
+            filter(context, table, table.getFilterMetadata(), globalFilterValue);
 
             //sort new filtered data to restore sort state
-            boolean sorted = (table.getValueExpression("sortBy") != null || table.getSortBy() != null);
+            boolean sorted = (table.getSortField() != null || table.getValueExpression(DataTable.PropertyKeys.sortBy.toString()) != null || table.getSortBy() != null);
             if (sorted) {
                 SortFeature sortFeature = (SortFeature) table.getFeature(DataTableFeatureKey.SORT);
 
@@ -135,64 +144,75 @@ public class FilterFeature implements DataTableFeature {
         context.getApplication().publishEvent(context, PostFilterEvent.class, table);
 
         renderer.encodeTbody(context, table, true);
+
+        if (table.isMultiViewState()) {
+            List<FilterMeta> filterMetadata = table.getFilterMetadata();
+            List<FilterState> filters = new ArrayList<FilterState>();
+
+            for (FilterMeta filterMeta : filterMetadata) {
+                filters.add(new FilterState(filterMeta.getColumn().getColumnKey(), filterMeta.getFilterValue()));
+            }
+
+            TableState ts = table.getTableState(true);
+            ts.setFilters(filters);
+            ts.setGlobalFilterValue(globalFilterValue);
+
+            if (table.isPaginator()) {
+                ts.setFirst(table.getFirst());
+                ts.setRows(table.getRows());
+            }
+        }
     }
 
-    public void filter(FacesContext context, DataTable table, List<FilterMeta> filterMetadata, String globalFilterParam) {
-        Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+    public void filter(FacesContext context, DataTable table, List<FilterMeta> filterMetadata, String globalFilterValue) {
         List filteredData = new ArrayList();
         Locale filterLocale = table.resolveDataLocale();
-        boolean hasGlobalFilter = globalFilterParam != null ? params.containsKey(globalFilterParam) : false;
-        String globalFilterValue = hasGlobalFilter ? params.get(globalFilterParam) : null;
+        boolean hasGlobalFilter = globalFilterValue != null && globalFilterValue.trim().length() > 0;
         GlobalFilterConstraint globalFilterConstraint = (GlobalFilterConstraint) FILTER_CONSTRAINTS.get(GLOBAL_MODE);
         ELContext elContext = context.getELContext();
 
-        /*        for(int i = 0; i < table.getRowCount(); i++) {
+        for (int i = 0; i < table.getRowCount(); i++) {
             table.setRowIndex(i);
-         */
-        boolean localMatch = true;
-        boolean globalMatch = false;
+            boolean localMatch = true;
+            boolean globalMatch = false;
 
-        for (FilterMeta filterMeta : filterMetadata) {
-            Object filterValue = filterMeta.getFilterValue();
-            UIColumn column = filterMeta.getColumn();
-            MethodExpression filterFunction = column.getFilterFunction();
-            ValueExpression filterByVE = filterMeta.getFilterByVE();
+            for (FilterMeta filterMeta : filterMetadata) {
+                Object filterValue = filterMeta.getFilterValue();
+                UIColumn column = filterMeta.getColumn();
+                MethodExpression filterFunction = column.getFilterFunction();
+                ValueExpression filterByVE = filterMeta.getFilterByVE();
 
-            if (column instanceof DynamicColumn) {
-                ((DynamicColumn) column).applyStatelessModel();
-            }
+                if (column instanceof DynamicColumn) {
+                    ((DynamicColumn) column).applyStatelessModel();
+                }
 
-            Object columnValue = filterByVE.getValue(elContext);
-            FilterConstraint filterConstraint = this.getFilterConstraint(column);
+                Object columnValue = filterByVE.getValue(elContext);
+                FilterConstraint filterConstraint = this.getFilterConstraint(column);
 
-            /*
-                if(hasGlobalFilter && !globalMatch) {
+                if (hasGlobalFilter && !globalMatch) {
                     globalMatch = globalFilterConstraint.applies(columnValue, globalFilterValue, filterLocale);
                 }
 
-                if(filterFunction != null) {
+                if (filterFunction != null) {
                     localMatch = (Boolean) filterFunction.invoke(elContext, new Object[]{columnValue, filterValue, filterLocale});
-                }
-                else if(!filterConstraint.applies(columnValue, filterValue, filterLocale)) {
+                } else if (!filterConstraint.applies(columnValue, filterValue, filterLocale)) {
                     localMatch = false;
                 }
-                
-                if(!localMatch) {
+
+                if (!localMatch) {
                     break;
                 }
-             */
-        }
-        /*
+            }
+
             boolean matches = localMatch;
-            if(hasGlobalFilter) {
+            if (hasGlobalFilter) {
                 matches = localMatch && globalMatch;
             }
 
-            if(matches) {
+            if (matches) {
                 filteredData.add(table.getRowData());
             }
         }
-         */
 
         //Metadata for callback
         if (table.isPaginator()) {
@@ -218,32 +238,42 @@ public class FilterFeature implements DataTableFeature {
 
         for (FilterMeta filterMeta : filterMetadata) {
             Object filterValue = filterMeta.getFilterValue();
-            UIColumn column = filterMeta.getColumn();
 
-            if (filterValue != null && !filterValue.toString().trim().equals(Constants.EMPTY_STRING)) {
-                String filterField = null;
-                ValueExpression filterByVE = column.getValueExpression("filterBy");
-
-                if (column.isDynamic()) {
-                    ((DynamicColumn) column).applyStatelessModel();
-                    Object filterByProperty = column.getFilterBy();
-                    String field = column.getField();
-                    if (field == null) {
-                        filterField = (filterByProperty == null) ? table.resolveDynamicField(filterByVE) : filterByProperty.toString();
-                    } else {
-                        filterField = field;
-                    }
-                } else {
-                    String field = column.getField();
-                    if (field == null) {
-                        filterField = (filterByVE == null) ? (String) column.getFilterBy() : table.resolveStaticField(filterByVE);
-                    } else {
-                        filterField = field;
-                    }
-                }
-
-                filterParameterMap.put(filterField, filterValue);
+            if (filterValue == null) {
+                continue;
             }
+
+            if (filterValue.getClass().isArray() && Array.getLength(filterValue) == 0) {
+                continue;
+            }
+
+            if (filterValue.toString().trim().equals(Constants.EMPTY_STRING)) {
+                continue;
+            }
+
+            UIColumn column = filterMeta.getColumn();
+            String filterField = null;
+            ValueExpression filterByVE = column.getValueExpression(Column.PropertyKeys.filterBy.toString());
+
+            if (column.isDynamic()) {
+                ((DynamicColumn) column).applyStatelessModel();
+                Object filterByProperty = column.getFilterBy();
+                String field = column.getField();
+                if (field == null) {
+                    filterField = (filterByProperty == null) ? table.resolveDynamicField(filterByVE) : filterByProperty.toString();
+                } else {
+                    filterField = field;
+                }
+            } else {
+                String field = column.getField();
+                if (field == null) {
+                    filterField = (filterByVE == null) ? (String) column.getFilterBy() : table.resolveStaticField(filterByVE);
+                } else {
+                    filterField = field;
+                }
+            }
+
+            filterParameterMap.put(filterField, filterValue);
         }
 
         if (params.containsKey(globalFilterParam)) {
@@ -295,13 +325,21 @@ public class FilterFeature implements DataTableFeature {
                     if (headerRowChild instanceof Column) {
                         Column column = (Column) headerRowChild;
                         if (column.isRendered()) {
-                            ValueExpression columnFilterByVE = column.getValueExpression("filterBy");
-                            if (columnFilterByVE != null) {
-                                ValueExpression filterByVE = columnFilterByVE;
+                            ValueExpression filterVE;
+                            String columnField = column.getField();
+                            if (columnField != null) {
+                                filterVE = context.getApplication()
+                                        .getExpressionFactory()
+                                        .createValueExpression("#{'" + columnField + "'}",
+                                                String.class);
+                            } else {
+                                filterVE = column.getValueExpression(Column.PropertyKeys.filterBy.toString());
+                            }
+                            if (filterVE != null) {
                                 UIComponent filterFacet = column.getFacet("filter");
                                 Object filterValue = (filterFacet == null) ? params.get(column.getClientId(context) + separator + "filter") : ((ValueHolder) filterFacet).getLocalValue();
 
-                                filterMetadata.add(new FilterMeta(column, filterByVE, filterValue));
+                                filterMetadata.add(new FilterMeta(column, filterVE, filterValue));
                             }
                         }
                     } else if (headerRowChild instanceof Columns) {
@@ -311,13 +349,22 @@ public class FilterFeature implements DataTableFeature {
                         for (DynamicColumn dynaColumn : dynamicColumns) {
                             dynaColumn.applyStatelessModel();
                             if (dynaColumn.isRendered()) {
-                                ValueExpression columnFilterByVE = dynaColumn.getValueExpression("filterBy");
-                                if (columnFilterByVE != null) {
+                                ValueExpression filterVE;
+                                String columnField = dynaColumn.getField();
+                                if (columnField != null) {
+                                    filterVE = context.getApplication()
+                                            .getExpressionFactory()
+                                            .createValueExpression("#{'" + columnField + "'}",
+                                                    String.class);
+                                } else {
+                                    filterVE = dynaColumn.getValueExpression(Column.PropertyKeys.filterBy.toString());
+                                }
+                                if (filterVE != null) {
                                     String filterId = dynaColumn.getContainerClientId(context) + separator + "filter";
                                     UIComponent filterFacet = dynaColumn.getFacet("filter");
                                     Object filterValue = (filterFacet == null) ? params.get(filterId) : ((ValueHolder) filterFacet).getLocalValue();
 
-                                    filterMetadata.add(new FilterMeta(dynaColumn, columnFilterByVE, filterValue));
+                                    filterMetadata.add(new FilterMeta(dynaColumn, filterVE, filterValue));
                                 }
                             }
                         }
@@ -329,30 +376,33 @@ public class FilterFeature implements DataTableFeature {
 
     private void populateFilterMetaDataWithoutColumnGroups(FacesContext context, DataTable table, List<FilterMeta> filterMetadata, Map<String, String> params, String separator) {
         for (UIColumn column : table.getColumns()) {
-            ValueExpression columnFilterByVE = column.getValueExpression("filterBy");
-
-            if (columnFilterByVE != null) {
+            ValueExpression filterVE;
+            String columnField = column.getField();
+            if (columnField != null) {
+                filterVE = context.getApplication()
+                        .getExpressionFactory()
+                        .createValueExpression("#{'" + columnField + "'}",
+                                String.class);
+            } else {
+                filterVE = column.getValueExpression(Column.PropertyKeys.filterBy.toString());
+            }
+            if (filterVE != null) {
                 UIComponent filterFacet = column.getFacet("filter");
-                ValueExpression filterByVE = columnFilterByVE;
                 Object filterValue = null;
-                String filterId = null;
+                String filterId;
 
                 if (column instanceof Column) {
                     filterId = column.getClientId(context) + separator + "filter";
+                    filterValue = (filterFacet == null) ? params.get(filterId) : ((ValueHolder) filterFacet).getLocalValue();
                 } else if (column instanceof DynamicColumn) {
                     DynamicColumn dynamicColumn = (DynamicColumn) column;
-                    dynamicColumn.applyStatelessModel();
+                    dynamicColumn.applyModel();
                     filterId = dynamicColumn.getContainerClientId(context) + separator + "filter";
-                    dynamicColumn.cleanStatelessModel();
+                    filterValue = (filterFacet == null) ? params.get(filterId) : ((ValueHolder) filterFacet).getLocalValue();
+                    dynamicColumn.cleanModel();
                 }
 
-                if (filterFacet == null) {
-                    filterValue = params.get(filterId);
-                } else {
-                    filterValue = ((ValueHolder) filterFacet).getLocalValue();
-                }
-
-                filterMetadata.add(new FilterMeta(column, filterByVE, filterValue));
+                filterMetadata.add(new FilterMeta(column, filterVE, filterValue));
             }
         }
     }

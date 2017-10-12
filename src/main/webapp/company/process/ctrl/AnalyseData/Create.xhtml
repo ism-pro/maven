@@ -4,8 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:pe="http://primefaces.org/ui/extensions">
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
 
@@ -90,15 +89,14 @@
 
                     <p:outputLabel value="#{ism.AnalyseDataField_adValue}"  for="adValue" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <pe:inputNumber id="adValue" 
+                        <p:inputNumber id="adValue" 
                                         thousandSeparator=" "
                                         decimalSeparator="."
                                         value="#{analyseDataController.selected.adValue}" 
                                         title="#{ism.AnalyseDataFieldInfo_adValue}" 
                                         required="true" 
                                         requiredMessage="#{ism.AnalyseDataRequiredMsg_adValue}" 
-                                        >
-                        </pe:inputNumber>
+                                        />
                         <p:message for="adValue" />
                     </h:panelGrid>
 

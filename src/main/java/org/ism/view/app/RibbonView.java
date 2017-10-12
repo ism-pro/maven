@@ -93,7 +93,7 @@ public class RibbonView implements Serializable {
         StaffSetup staffSetup = staffSetupController.getStaffSetupByStaff(staffAuthController.getStaff());
         activeIndex = staffSetup.getStsmenuIndex();
         activeIndexSave = activeIndex;
-        JsfUtil.out("RibbonView : init ", "Active index : " + activeIndex);
+        //JsfUtil.out("RibbonView : init ", "Active index : " + activeIndex);
     }
 
     /**
@@ -105,9 +105,9 @@ public class RibbonView implements Serializable {
         Tab activeTab = event.getTab();
         // Use active index which is automatically change in ribbon while active
         // index is changed
-        JsfUtil.out("RibbonView : handleTabChange Before");
+        //JsfUtil.out("RibbonView : handleTabChange Before");
         handleTabIndexChange(activeIndex);
-        JsfUtil.out("RibbonView : handleTabChange After");
+        //JsfUtil.out("RibbonView : handleTabChange After");
         
     }
 
@@ -122,7 +122,7 @@ public class RibbonView implements Serializable {
      * @param index specify active tab index
      */
     public void handleTabIndexChange(Integer index) {
-        JsfUtil.out("RibbonView : handleTabIndexChange Before == Active index : " + activeIndex + " == Active index save : " + activeIndexSave);
+        //JsfUtil.out("RibbonView : handleTabIndexChange Before == Active index : " + activeIndex + " == Active index save : " + activeIndexSave);
         if (!Objects.equals(index, activeIndexSave)) {
             // Get current staff Setup
             StaffSetup staffSetup = staffSetupController.getStaffSetupByStaff(staffAuthController.getStaff());
@@ -136,7 +136,7 @@ public class RibbonView implements Serializable {
             activeIndex = index;
             activeIndexSave = index;
         }
-        JsfUtil.out("RibbonView : handleTabIndexChange After == Active index : " + activeIndex + " == Active index save : " + activeIndexSave);
+        //JsfUtil.out("RibbonView : handleTabIndexChange After == Active index : " + activeIndex + " == Active index save : " + activeIndexSave);
     }
 
 

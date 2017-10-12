@@ -497,7 +497,8 @@ PrimeFaces.ajax = {VIEW_HEAD: "javax.faces.ViewHead", VIEW_BODY: "javax.faces.Vi
                     }
                 }
             }
-        }, updateElement: function (f, c, e) {
+        }, 
+        updateElement: function (f, c, e) {
             if (f.indexOf(PrimeFaces.VIEW_STATE) !== -1) {
                 PrimeFaces.ajax.Utils.updateFormStateInput(PrimeFaces.VIEW_STATE, c, e)
             } else {
@@ -2469,6 +2470,8 @@ PrimeFaces.widget.Carousel = PrimeFaces.widget.DeferredWidget.extend({init: func
     }, stopAutoplay: function () {
         clearInterval(this.interval)
     }});
+
+
 PrimeFaces.widget.ColumnToggler = PrimeFaces.widget.DeferredWidget.extend({init: function (a) {
         this._super(a);
         this.table = PrimeFaces.expressions.SearchExpressionFacade.resolveComponentsAsSelector(this.cfg.datasource);

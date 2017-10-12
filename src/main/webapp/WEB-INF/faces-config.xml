@@ -11,9 +11,11 @@
         </locale-config>
         
         <!-- Config. for adding font-awesome -->
+        <!--
         <resource-handler>
             org.omnifaces.resourcehandler.UnmappedResourceHandler
         </resource-handler>
+        -->
         
         
         <!-- Developpement only
@@ -29,30 +31,6 @@
         </resource-bundle>
         <resource-bundle>
             <base-name>/META-INF/Security</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
         <resource-bundle>

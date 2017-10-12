@@ -61,7 +61,7 @@ import org.ism.jsf.hr.StaffGroupDefRoleController;
 import org.ism.jsf.hr.StaffGroupsController;
 import org.ism.jsf.process.UniteController;
 import org.ism.jsf.smq.PointInfosController;
-import org.ism.view.process.ctrl.DataLazyModel;
+import org.ism.lazy.process.ctrl.AnalyseDataLazyModel;
 import org.primefaces.model.LazyDataModel;
 
 /**
@@ -138,9 +138,9 @@ public class ViewTabManager implements Serializable {
     private List<AnalyseCategory> analysecategory;
     private List<AnalyseCategory> analysecategoryFiltered;
 
-    private AnalyseDataController analysedataCtrl;
-    private List<AnalyseData> analysedata;
-    private List<AnalyseData> analysedataFiltered;
+//    private AnalyseDataController analysedataCtrl;
+//    private List<AnalyseData> analysedata;
+//    private List<AnalyseData> analysedataFiltered;
 
     private AnalyseMethodController analysemethodCtrl;
     private List<AnalyseMethod> analysemethod;
@@ -239,8 +239,8 @@ public class ViewTabManager implements Serializable {
                 getValue(facesContext.getELContext(), null, "analyseCategoryController");
         analysecategory = analysecategoryCtrl.getItemsByLastChanged();
 
-        analysedataCtrl = (AnalyseDataController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "analyseDataController");
+//        analysedataCtrl = (AnalyseDataController) facesContext.getApplication().getELResolver().
+//                getValue(facesContext.getELContext(), null, "analyseDataController");
         //analysedata = analysedataCtrl.getItemsByLastChanged();
 
         analysemethodCtrl = (AnalyseMethodController) facesContext.getApplication().getELResolver().
@@ -606,25 +606,25 @@ public class ViewTabManager implements Serializable {
      * @return analyse data
      * *************************************************************************
      */
-    public LazyDataModel<AnalyseData> getAnalyseDataModel() {
-        return new DataLazyModel(analysedata);
-    }
-
-    public List<AnalyseData> getAnalysedata() {
-        return analysedata;
-    }
-
-    public void setAnalysedata(List<AnalyseData> analysedata) {
-        this.analysedata = analysedata;
-    }
-
-    public List<AnalyseData> getAnalysedataFiltered() {
-        return analysedataFiltered;
-    }
-
-    public void setAnalysedataFiltered(List<AnalyseData> analysedataFiltered) {
-        this.analysedataFiltered = analysedataFiltered;
-    }
+//    public LazyDataModel<AnalyseData> getAnalyseDataModel() {
+//        return new AnalyseDataLazyModel(analysedata);
+//    }
+//
+//    public List<AnalyseData> getAnalysedata() {
+//        return analysedata;
+//    }
+//
+//    public void setAnalysedata(List<AnalyseData> analysedata) {
+//        this.analysedata = analysedata;
+//    }
+//
+//    public List<AnalyseData> getAnalysedataFiltered() {
+//        return analysedataFiltered;
+//    }
+//
+//    public void setAnalysedataFiltered(List<AnalyseData> analysedataFiltered) {
+//        this.analysedataFiltered = analysedataFiltered;
+//    }
 
     /**
      * *************************************************************************
@@ -817,7 +817,7 @@ public class ViewTabManager implements Serializable {
         unite = uniteCtrl.getItemsByLastChanged();
         analyseallowed = analyseallowedCtrl.getItemsByLastChanged();
         analysecategory = analysecategoryCtrl.getItemsByLastChanged();
-        analysedata = analysedataCtrl.getItemsByLastChanged();
+//        analysedata = analysedataCtrl.getItemsByLastChanged();
         analysemethod = analysemethodCtrl.getItemsByLastChanged();
         analysenotify = analysenotifyCtrl.getItemsByLastChanged();
         analysepoint = analysepointCtrl.getItemsByLastChanged();
@@ -897,10 +897,10 @@ public class ViewTabManager implements Serializable {
                 analysecategoryCtrl.destroy();
                 analysecategory = analysecategoryCtrl.getItemsByLastChanged();
                 break;
-            case "analysedata":
-                analysedataCtrl.destroy();
-                analysedata = analysedataCtrl.getItemsByLastChanged();
-                break;
+//            case "analysedata":
+//                analysedataCtrl.destroy();
+//                analysedata = analysedataCtrl.getItemsByLastChanged();
+//                break;
             case "analysemethod":
                 analysemethodCtrl.destroy();
                 analysemethod = analysemethodCtrl.getItemsByLastChanged();

@@ -6,12 +6,9 @@
 package org.ism.sessions.process.ctrl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
@@ -65,8 +62,8 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
         em.flush();
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
-        int count = q.getResultList().size();
-        if (count > 0) {
+        //int count = q.getResultList().size();
+        if (!q.getResultList().isEmpty()) {
             return q.getResultList();
         }
         return null;
@@ -166,189 +163,83 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
         return null;
     }
 
-    public List<AnalyseData> findByCriteria(Integer firstItem, Integer rows,
-            Map<String, String> sorts, Map<String, String> filters) {
-        em.flush();
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<AnalyseData> criteriaQuery = criteriaBuilder.createQuery(AnalyseData.class);
-        Metamodel metamodel = em.getMetamodel();
-        EntityType<AnalyseData> et = metamodel.entity(AnalyseData.class);
-        Root<AnalyseData> root = criteriaQuery.from(AnalyseData.class);
-
-        List<Order> orders = sortBy(sorts);
-        List<Predicate> predicates = filterBy(filters);
-
-        // Apply Select
-        criteriaQuery = criteriaQuery.select(root);
-
-        // Apply filters
-        if (predicates != null) {
-            criteriaQuery = criteriaQuery.where(predicates.toArray(new Predicate[0]));
-        }
-        // Sort By
-        if (orders != null) {
-            criteriaQuery = criteriaQuery.orderBy(orders);
-        } else {
-            criteriaQuery = criteriaQuery.orderBy(criteriaBuilder.desc(root.get("adId")));
-        }
-
-        TypedQuery<AnalyseData> q = em.createQuery(criteriaQuery);
-        q.setFirstResult(firstItem);
-        q.setMaxResults(rows);
-        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
-        int count = q.getResultList().size();
-        if (count > 0) {
-            return q.getResultList();
-        }
-        return null;
-    }
-
-    public List<Order> sortBy(Map<String, String> sorts) {
-        // Case of empty sorting
-        if (sorts == null || sorts.isEmpty()) {
-            return null;
-        }
-
-        // Process sorting
-        em.flush();
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<AnalyseData> criteriaQuery = criteriaBuilder.createQuery(AnalyseData.class);
-        Metamodel metamodel = em.getMetamodel();
-        EntityType<AnalyseData> et = metamodel.entity(AnalyseData.class);
-        Root<AnalyseData> root = criteriaQuery.from(em.getMetamodel().entity(AnalyseData.class));
-
-        List<Order> orders = new ArrayList<>();
-        for (Map.Entry<String, String> sort : sorts.entrySet()) {
-            Order order = ordering(sort.getKey(), sort.getValue());
-            if (order != null) {
-                orders.add(order);
-            }
-        }
-        return orders;
-    }
-
-    public List<Predicate> filterBy(Map<String, String> filters) {
-        // Case of empty sorting
-        if (filters == null || filters.isEmpty()) {
-            return null;
-        }
-
-        // Process filtering
-        List<Predicate> predicates = null;
-        return predicates;
-    }
-
-    public Order ordering(String field, String sortway) {
-        Order order = null;
-        // Dismiss rong way
-        if (sortway == null || sortway.matches("UNSORTED")) {
-            return null;
-        }
-        // Define way
-        Boolean asc = sortway.matches("ASCENDING");
-        // Get managin order
-        em.flush();
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        Root<AnalyseData> root = cb.createQuery(AnalyseData.class).from(em.getMetamodel().entity(AnalyseData.class));
-
-        Expression<String> ex = null;
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Criteria
+    //
+    //
+    // /////////////////////////////////////////////////////////////////////////
+    /**
+     * Filtring allow to append condition to a predicate depending on field.
+     * Main purpose of filtring is to implement entities conditions.
+     *
+     * String src_01 = "AnalyseDataField_adId";<br>
+     * String src_02 = "AnalyseDataField_adPoint";<br>
+     * String src_03 = "AnalyseDataField_adType";<br>
+     * String src_04 = "AnalyseDataField_adValue";<br>
+     * String src_05 = "AnalyseDataField_adValueT";<br>
+     * String src_06 = "AnalyseDataField_adSampler";<br>
+     * String src_07 = "AnalyseDataField_adValidate";<br>
+     * String src_08 = "AnalyseDataField_adValidator";<br>
+     * String src_09 = "AnalyseDataField_adenlimitHH";<br>
+     * String src_10 = "AnalyseDataField_adlimitHH";<br>
+     * String src_11 = "AnalyseDataField_adenlimitH";<br>
+     * String src_12 = "AnalyseDataField_adlimitH";<br>
+     * String src_13 = "AnalyseDataField_adenlimitB";<br>
+     * String src_14 = "AnalyseDataField_adlimitB";<br>
+     * String src_15 = "AnalyseDataField_adenlimitBB";<br>
+     * String src_16 = "AnalyseDataField_adlimitBB";<br>
+     * String src_17 = "AnalyseDataField_adBatch";<br>
+     * String src_18 = "AnalyseDataField_adsampleTime";<br>
+     * String src_19 = "AnalyseDataField_adObservation";<br>
+     * String src_20 = "AnalyseDataField_adDeleted";<br>
+     * String src_21 = "AnalyseDataField_adCreated";<br>
+     * String src_22 = "AnalyseDataField_adChanged";<br>
+     * String src_23 = "AnalyseDataField_adCompany";<br>
+     *
+     * @param cb is a criteria builder allowing to concat in this case
+     * @param rt is the main data
+     * @param filter couple of field filter and value of filter
+     * @return a predicate of filter
+     */
+    @Override
+    public Predicate filtring(CriteriaBuilder cb, Root<AnalyseData> rt, Map.Entry<String, Object> filter) {
+        Expression<String> expr;
+        final String field = filter.getKey();
+        final String value = filter.getValue().toString(); //"%" + f.getValue() + "%";
+        Predicate p = null;
         switch (field) {
-            case "adId":
-                ex = root.get("adId");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adCompany":
-                ex = root.get("adCompany");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
             case "adPoint":
-                ex = root.get("adPoint");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
+                p = likeFieldComposite(cb, rt, field, "apPoint", "apDesignation", value);
                 break;
             case "adType":
-                ex = root.get("adType");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adValue":
-                ex = root.get("adValue");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adValueT":
-                ex = root.get("adValueT");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
+                p = likeFieldComposite(cb, rt, field, "atType", "atDesignation", value);
                 break;
             case "adSampler":
-                ex = root.get("adSampler");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adValidate":
-                ex = root.get("adValidate");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
+                p = likeFieldStaffComposite(cb, rt, "adSampler", value);
                 break;
             case "adValidator":
-                ex = root.get("adValidator");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adenlimitHH":
-                ex = root.get("adenlimitHH");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adlimitHH":
-                ex = root.get("adlimitHH");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adenlimitH":
-                ex = root.get("adenlimitH");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adlimitH":
-                ex = root.get("adlimitH");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adenlimitBB":
-                ex = root.get("adenlimitBB");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adlimitBB":
-                ex = root.get("adlimitBB");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adenlimitB":
-                ex = root.get("adenlimitB");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adlimitB":
-                ex = root.get("adlimitB");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adBatch":
-                ex = root.get("adBatch");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
+                p = likeFieldStaffComposite(cb, rt, "adValidator", value);
                 break;
             case "adsampleTime":
-                ex = root.get("adsampleTime");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adObservation":
-                ex = root.get("adObservation");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
-                break;
-            case "adDeleted":
-                ex = root.get("adDeleted");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
+                p = betweenFieldDate(cb, rt, field, value);
                 break;
             case "adCreated":
-                ex = root.get("adCreated");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
+                p = betweenFieldDate(cb, rt, field, value);
                 break;
             case "adChanged":
-                ex = root.get("adChanged");
-                order = asc ? cb.asc(ex) : cb.desc(ex);
+                p = betweenFieldDate(cb, rt, field, value);
+                break;
+            case "adCompany":
+                p = likeFieldComposite(cb, rt, field, "c_company", "c_designation", value);
                 break;
             default:
+                expr = rt.get(field);
+                p = cb.like(expr, value);
                 break;
         }
-        return order;
+        return p;
     }
 
 }

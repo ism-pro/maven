@@ -112,6 +112,7 @@ public class SortFeature implements DataTableFeature {
         }
     }
 
+    @Override
     public void encode(FacesContext context, TableRenderer renderer, Table table) throws IOException {
         table.setFirst(0);
 
