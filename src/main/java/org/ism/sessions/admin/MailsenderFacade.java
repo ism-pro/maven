@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.ism.entities.admin.Company;
 import org.ism.entities.admin.Mailsender;
+import org.ism.sessions.AbstractFacade;
 
 /**
  * <h1>MailsenderFacade</h1>

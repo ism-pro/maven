@@ -35,7 +35,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import org.ism.entities.smq.Processus;
 import org.ism.jsf.admin.MailsenderController;
-import org.ism.services.MailServiceController;
 import org.primefaces.component.inputnumber.InputNumber;
 
 import org.primefaces.component.selectonemenu.SelectOneMenu;
@@ -48,10 +47,9 @@ public class NonConformiteRequestController implements Serializable {
 
     @EJB
     private org.ism.sessions.smq.nc.NonConformiteRequestFacade ejbFacade;
-    //@ManagedProperty(value = "#{mailServiceController}")
-    //private MailServiceController mailServiceController;
-    //@ManagedProperty(value = "#{mailsenderController}")
-    //private MailsenderController mailsenderController;
+
+    @ManagedProperty(value = "#{mailsenderController}")
+    private MailsenderController mailsenderController;
 
     private List<NonConformiteRequest> items = null;
     private NonConformiteRequest selected;
@@ -591,12 +589,8 @@ public class NonConformiteRequestController implements Serializable {
     /// Injection
     ///
     ////////////////////////////////////////////////////////////////////////////
-    public void setMailServiceController(MailServiceController mailServiceController) {
-        //this.mailServiceController = mailServiceController;
-    }
-
     public void setMailsenderController(MailsenderController mailsenderController) {
-//        this.mailsenderController = mailsenderController;
+        this.mailsenderController = mailsenderController;
     }
 
     /**

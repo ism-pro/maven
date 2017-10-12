@@ -18,9 +18,6 @@
 
         <f:facet name="last">
             <h:outputStylesheet library="css" name="ribbon/ism-ribbon.min.css" />
-            <!--
-            <h:outputStylesheet library="css" name="ribbon/ism-MainMenu.min.css" />
-            -->
             <h:outputStylesheet library="css" name="ism-layout.min.css" />
             <h:outputStylesheet library="css" name="ism-global.min.css" />
             <h:outputStylesheet library="css" name="ism.min.css" />
@@ -55,6 +52,7 @@
                   stateful="true" 
                   widgetVar="fpLayoutWidget"
                   > 
+            
             <p:ajax event="resize" listener="#{viewLayout.handleResize}" update="growl"/>
             <p:ajax event="close" listener="#{viewLayout.handleClose}" update="growl"/>
             <p:ajax event="toggle" listener="#{viewLayout.handleToggle}" update="growl"/>
@@ -219,7 +217,7 @@
                                                          />
 
                                         <p:commandButton title="Envoyer un email de test"
-                                                         actionListener="#{mailServiceController.sendMail()}"
+                                                         actionListener="#{mailsenderController.sendTestMail()}"
                                                          icon="ui-btn-message" 
                                                          value="#{ism.AppMailServer}"
                                                          update=":growl"
