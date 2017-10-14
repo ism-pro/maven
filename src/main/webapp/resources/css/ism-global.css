@@ -204,6 +204,21 @@ time, mark, audio, video {
 
 /* // RESSOURCES / CONFIGURATIONS */
 
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-company-business-entreprise{
+    margin-left: -8px!important;
+    background: url("#{resource['img/ism/admin/business-entreprise.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-company-woldwork{
+    margin-left: -8px!important;
+    background: url("#{resource['img/ism/admin/business-woldwork.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-icon-company-work{
+    margin-left: -8px!important;
+    background: url("#{resource['img/ism/admin/business-work.png']}") no-repeat;
+    background-size:contain;
+}
 
 span.ui-button-icon-left.ui-icon.ui-c.ui-icon-hrstaffcompany{
     background: url("#{resource['img/ism/hr/company.png']}") no-repeat;

@@ -64,7 +64,7 @@ public class MailFacade {
             props.put("mail.smtp.host", mailsender.getMsSmtpsrv());
             props.put("mail.smtp.auth", mailsender.getMsrequiresAuth());
             props.put("mail.smtp.port", mailsender.getMsPort());
-            JsfUtil.out("Port : " + mailsender.getMsPort());
+            //JsfUtil.out("Port : " + mailsender.getMsPort());
 
             Session session;
             if (mailsender.getMsrequiresAuth()) {
@@ -88,10 +88,10 @@ public class MailFacade {
 
             // -- Send the message --
             Transport.send(msg);
-            JsfUtil.addSuccessMessage("Sending Mail", "Send mail to " + mail.getTo() + " OK.");
+            //JsfUtil.addSuccessMessage("Sending Mail", "Send mail to " + mail.getTo() + " OK.");
             return new AsyncResult<>("Mail Facade : succed >> send !");
         } catch (Exception ex) {
-            JsfUtil.addErrorMessage("Sending Mail", "exception on sending email " + ex.getMessage());
+            //JsfUtil.addErrorMessage("Sending Mail", "exception on sending email " + ex.getMessage());
             return new AsyncResult<>("Mail Facade : error >> with " + ex.getMessage());
         }
     }

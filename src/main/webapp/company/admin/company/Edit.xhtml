@@ -6,44 +6,173 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
+    <ui:composition template="/tmpl/MainWindow.xhtml">
 
-        <p:dialog id="CompanyEditDlg" widgetVar="CompanyEditDialog" 
-                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditCompanyTitle}">
-            <h:form id="CompanyEditForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{companyController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CId}" for="CId" />
-                        <p:inputText id="CId" value="#{companyController.selected.CId}" title="#{bundle.EditCompanyTitle_CId}" required="true" requiredMessage="#{bundle.EditCompanyRequiredMessage_CId}"/>
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CCompany}" for="CCompany" />
-                        <p:inputText id="CCompany" value="#{companyController.selected.CCompany}" title="#{bundle.EditCompanyTitle_CCompany}" required="true" requiredMessage="#{bundle.EditCompanyRequiredMessage_CCompany}"/>
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CDesignation}" for="CDesignation" />
-                        <p:inputText id="CDesignation" value="#{companyController.selected.CDesignation}" title="#{bundle.EditCompanyTitle_CDesignation}" />
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CBuilded}" for="CBuilded" />
-                        <p:inputText id="CBuilded" value="#{companyController.selected.CBuilded}" title="#{bundle.EditCompanyTitle_CBuilded}" />
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CMain}" for="CMain" />
-                        <p:selectBooleanCheckbox id="CMain" value="#{companyController.selected.CMain}" required="true" requiredMessage="#{bundle.EditCompanyRequiredMessage_CMain}"/>
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CActivated}" for="CActivated" />
-                        <p:selectBooleanCheckbox id="CActivated" value="#{companyController.selected.CActivated}" required="true" requiredMessage="#{bundle.EditCompanyRequiredMessage_CActivated}"/>
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CDeleted}" for="CDeleted" />
-                        <p:selectBooleanCheckbox id="CDeleted" value="#{companyController.selected.CDeleted}" required="true" requiredMessage="#{bundle.EditCompanyRequiredMessage_CDeleted}"/>
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CCreated}" for="CCreated" />
-                        <p:calendar id="CCreated" pattern="MM/dd/yyyy HH:mm:ss" value="#{companyController.selected.CCreated}" title="#{bundle.EditCompanyTitle_CCreated}" required="true" requiredMessage="#{bundle.EditCompanyRequiredMessage_CCreated}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CChanged}" for="CChanged" />
-                        <p:calendar id="CChanged" pattern="MM/dd/yyyy HH:mm:ss" value="#{companyController.selected.CChanged}" title="#{bundle.EditCompanyTitle_CChanged}" required="true" requiredMessage="#{bundle.EditCompanyRequiredMessage_CChanged}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditCompanyLabel_CEntreprise}" for="CEntreprise" />
-                        <p:selectOneMenu id="CEntreprise" value="#{companyController.selected.CEntreprise}" required="true" requiredMessage="#{bundle.EditCompanyRequiredMessage_CEntreprise}">
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.CompanyTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{companyController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.CompanyField_CId}" rendered="true" for="CId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="true">                
+                        <p:outputLabel id="CId"
+                                       style="margin-left: 5px;"
+                                       value="#{companyController.selected.CId}"  />
+                        <p:message for="CId" rendered="false" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.CompanyField_CCompany}"  for="CCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="CCompany" widgetVar="CCompany"
+                                     value="#{companyController.selected.CCompany}"  
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.CompanyRequiredMsg_CCompany}" />
+                        <p:message for="CCompany"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.CompanyField_CDesignation}"  for="CDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="CDesignation" 
+                                     value="#{companyController.selected.CDesignation}" 
+                                     title="#{ism.CompanyFieldInfo_CDesignation}" 
+                                     required="true" requiredMessage="#{ism.CompanyRequiredMsg_CDesignation}" 
+                                     />
+                        <p:message for="CDesignation"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.CompanyField_CBuilded}"  for="CBuilded" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="CBuilded" 
+                                     value="#{companyController.selected.CBuilded}" 
+                                     title="#{ism.CompanyFieldInfo_CBuilded}" 
+                                     required="true" requiredMessage="#{ism.CompanyRequiredMsg_CBuilded}" 
+                                     />
+                        <p:message for="CBuilded"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.CompanyField_CMain}"  for="CMain" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="CMain"
+                                                 value="#{companyController.selected.CMain}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.CompanyRequiredMsg_CMain}" 
+                                                 />
+                        <p:message for="CMain"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.CompanyField_CActivated}"  for="CActivated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="CActivated"
+                                                 value="#{companyController.selected.CActivated}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.CompanyRequiredMsg_CActivated}" 
+                                                 />
+                        <p:message for="CActivated"  />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.CompanyField_CEntreprise}"  for="CEntreprise" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="CEntreprise"  widgetVar="CEntreprise"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{companyController.selected.CEntreprise}"
+                                         required="true" 
+                                         requiredMessage="#{ism.CompanyRequiredMsg_CEntreprise}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{entrepriseController.itemsAvailableSelectOne}"
                                            var="CEntrepriseItem"
+                                           itemLabel="#{CEntrepriseItem.EEntreprise} - #{CEntrepriseItem.EDesignation}" 
                                            itemValue="#{CEntrepriseItem}"/>
                         </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{companyController.update}" value="#{bundle.Save}" update="display,:CompanyListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CompanyEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="CompanyEditDialog.hide()"/>
-                </h:panelGroup>
-            </h:form>
-        </p:dialog>
+                        <p:message for="CEntreprise"  />
+                    </h:panelGrid>
 
+
+                    <p:outputLabel value="#{ism.CompanyField_CDeleted}"  for="CDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="CDeleted"
+                                                 value="#{companyController.selected.CDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.CompanyRequiredMsg_CDeleted}" 
+                                                 />
+                        <p:message for="CDeleted"  />
+                    </h:panelGrid>
+
+
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{companyController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:CCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{companyController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{companyController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{companyController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

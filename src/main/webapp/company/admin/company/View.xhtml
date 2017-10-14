@@ -6,42 +6,165 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
 
-        <p:dialog id="CompanyViewDlg" widgetVar="CompanyViewDialog" 
-                  dynamic="true" showEffect="clip"  hideEffect="clip"  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCompanyTitle}">
-            <h:form id="CompanyViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{companyController.selected != null}">
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CId}"/>
-                        <h:outputText value="#{companyController.selected.CId}" title="#{bundle.ViewCompanyTitle_CId}"/>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CCompany}"/>
-                        <h:outputText value="#{companyController.selected.CCompany}" title="#{bundle.ViewCompanyTitle_CCompany}"/>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CDesignation}"/>
-                        <h:outputText value="#{companyController.selected.CDesignation}" title="#{bundle.ViewCompanyTitle_CDesignation}"/>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CBuilded}"/>
-                        <h:outputText value="#{companyController.selected.CBuilded}" title="#{bundle.ViewCompanyTitle_CBuilded}"/>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CMain}"/>
-                        <p:selectBooleanCheckbox value="#{companyController.selected.CMain}" disabled="true"/>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CActivated}"/>
-                        <p:selectBooleanCheckbox value="#{companyController.selected.CActivated}" disabled="true"/>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CDeleted}"/>
-                        <p:selectBooleanCheckbox value="#{companyController.selected.CDeleted}" disabled="true"/>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CCreated}"/>
-                        <h:outputText value="#{companyController.selected.CCreated}" title="#{bundle.ViewCompanyTitle_CCreated}">
+        <ui:composition template="/tmpl/MainWindow.xhtml">
+
+            <ui:define name="body">
+                <h1><h:outputText value="#{ism.CompanyTitleView}"/></h1>
+
+                <h:form id="bodyForm">
+
+                    <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                                 rendered="#{companyController.selected != null}">
+
+                        <h:outputText value="#{ism.CompanyField_CId}"  />
+                        <h:outputText value="#{companyController.selected.CId}" 
+                                      title="#{ism.CompanyFieldInfo_CId}" />
+                        
+                        
+                        <h:outputText value="#{ism.CompanyField_CCompany}"  />
+                        <h:outputText value="#{companyController.selected.CCompany}" 
+                                      title="#{ism.CompanyFieldInfo_CCompany}" />
+                        
+                        
+                        <h:outputText value="#{ism.CompanyField_CDesignation}"  />
+                        <h:outputText value="#{companyController.selected.CDesignation}" 
+                                      title="#{ism.CompanyFieldInfo_CDesignation}" />
+                        
+                        
+                        <h:outputText value="#{ism.CompanyField_CBuilded}"  />
+                        <h:outputText value="#{companyController.selected.CBuilded}" 
+                                      title="#{ism.CompanyFieldInfo_CBuilded}" />
+                        
+                        
+                        <h:outputText value="#{ism.CompanyField_CMain}"  />
+                        <p:selectBooleanCheckbox value="#{companyController.selected.CMain}" 
+                                                 disabled="true"/>
+                        
+                        
+                        <h:outputText value="#{ism.CompanyField_CActivated}"  />
+                        <p:selectBooleanCheckbox value="#{companyController.selected.CActivated}" 
+                                                 disabled="true"/>
+                                                
+                        <h:outputText value="#{ism.CompanyField_CEntreprise}"  />
+                        <h:outputText value="#{companyController.selected.CEntreprise.EEntreprise} - #{companyController.selected.CEntreprise.EDesignation}" 
+                                      title="#{ism.CompanyFieldInfo_CEntreprise}" />
+                        
+                        
+                        <h:outputText value="#{ism.CompanyField_CDeleted}"  />
+                        <p:selectBooleanCheckbox value="#{companyController.selected.CDeleted}" 
+                                                 disabled="true"/>
+                        
+                        
+                        <h:outputText value="#{ism.CompanyField_CCreated}"  />
+                        <h:outputText value="#{companyController.selected.CCreated}" 
+                                      title="#{ism.CompanyFieldInfo_CCreated}" >
                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                         </h:outputText>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CChanged}"/>
-                        <h:outputText value="#{companyController.selected.CChanged}" title="#{bundle.ViewCompanyTitle_CChanged}">
+                        
+                        
+                        <h:outputText value="#{ism.CompanyField_CChanged}"  />
+                        <h:outputText value="#{companyController.selected.CChanged}" 
+                                      title="#{ism.CompanyFieldInfo_CChanged}" >
                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                         </h:outputText>
-                        <h:outputText value="#{bundle.ViewCompanyLabel_CEntreprise}"/>
-                        <h:outputText value="#{companyController.selected.CEntreprise}" title="#{bundle.ViewCompanyTitle_CEntreprise}"/>
+                        
+
+                        
+                        
+                        
+                        
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="CompanyViewDialog.hide()"/>
-                </h:panelGroup>
-            </h:form>
-        </p:dialog>
 
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le processus sélectionné."
+                                     disabled="#{empty companyController.selected 
+                                                 or empty companyController.selected.CId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le Company sélectionné !"
+                                     actionListener="#{companyController.destroy}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.CompanyDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.CompanyDlgMessage)};
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty companyController.selected 
+                                                 or empty companyController.selected.CId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le processus sélectionné."
+                                 disabled="#{empty companyController.selected 
+                                                 or empty companyController.selected.CId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le Company sélectionné !"
+                                 actionListener="#{companyController.destroy}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.CompanyDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.CompanyDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty companyController.selected 
+                                         or empty companyController.selected.CId}"
+                                    >
+                        <p:confirm  />
+                    </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
     </ui:composition>
 </html>

@@ -65,7 +65,9 @@ import org.ism.entities.smq.ProcessAccess;
     @NamedQuery(name = "Company.findByCActivated", query = "SELECT c FROM Company c WHERE c.cActivated = :cActivated"),
     @NamedQuery(name = "Company.findByCDeleted", query = "SELECT c FROM Company c WHERE c.cDeleted = :cDeleted"),
     @NamedQuery(name = "Company.findByCCreated", query = "SELECT c FROM Company c WHERE c.cCreated = :cCreated"),
-    @NamedQuery(name = "Company.findByCChanged", query = "SELECT c FROM Company c WHERE c.cChanged = :cChanged")})
+    @NamedQuery(name = "Company.findByCChanged", query = "SELECT c FROM Company c WHERE c.cChanged = :cChanged"),
+    @NamedQuery(name = "Company.selectAllByLastChange", query = "SELECT c FROM Company c ORDER BY c.cChanged DESC")
+})
 public class Company implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "aaCompany")

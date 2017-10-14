@@ -54,7 +54,7 @@ public abstract class AbstractFacade<T> {
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
-
+    
     public List<T> findRange(int[] range) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
@@ -77,6 +77,23 @@ public abstract class AbstractFacade<T> {
     // Lazy data model
     //
     // /////////////////////////////////////////////////////////////////////////
+    
+    public List<T> findAllByFieldDescending(String field){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> root = cq.from(entityClass);
+        cq = cq.select(root);
+
+        // Setup corresponding sort by
+        if(field!=null)
+            cq = cq.orderBy(cb.desc(root.get(field)));
+
+        // Processing Query
+        TypedQuery<T> q = getEntityManager().createQuery(cq);
+        return q.getResultList();
+    }
+    
+    
     /**
      * Count result of criterias filters
      *

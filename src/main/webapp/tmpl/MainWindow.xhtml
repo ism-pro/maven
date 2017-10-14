@@ -208,6 +208,22 @@
 
 
                                 <pi:ribbonGroup id="ribbonGroupApp" label="#{ism.AppTitle}"  >
+                                    <pi:ribbonGroupSet set="middle">
+                                        <p:commandButton title="#{ism.EntrepriseTitle}"
+                                                         action="/company/admin/entreprise/List.xhtml?faces-redirect=true"
+                                                         icon="ui-icon-company-woldwork" 
+                                                         value="#{ism.EntrepriseField_EEntreprise}"
+                                                         disabled="#{!request.isUserInRole('A_ENTREPRISE_L')}"
+                                                         />
+                                        <p:commandButton title="#{ism.CompanyTitleList}"
+                                                         action="/company/admin/company/List.xhtml?faces-redirect=true"
+                                                         icon="ui-icon-company-work" 
+                                                         value="#{ism.CompanyField_CCompany}"
+                                                         disabled="#{!request.isUserInRole('A_COMPANY_L')}"
+                                                         />
+                                    </pi:ribbonGroupSet>
+                                    
+                                    
                                     <pi:ribbonGroupSet id="ribbonGroupSetApp" set="small" >
                                         <p:commandButton actionListener="#{mailsenderController.prepareCreate()}"
                                                          title="Configuration du serveur de messagerie"
@@ -708,8 +724,9 @@
 
 
             <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false"
+                      showHeader="false" resizable="false" 
                       closable="false">
-                <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+                <p:graphicImage width="120px" height="120px" library="img" name="ism/std/Onload.gif"/>
             </p:dialog>
 
             <p:ajaxStatus onstart="PF('statusDialog').show()" 

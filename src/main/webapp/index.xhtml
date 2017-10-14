@@ -16,7 +16,7 @@
         <h:outputStylesheet library="css" name="ism-login.min.css" />
         <h:outputStylesheet name="webjars/font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
         <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
-        
+
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="refresh" 
               content="60;url=#{request.contextPath}#{request.servletPath}/logout.xhtml?faces-redirect=true"/>
@@ -211,13 +211,14 @@
 
 
         <p:growl id="growl" life="8000" />
-
     </h:body>
 
 
 
+
+
     <p:blockUI block="Page" trigger="optionForm:btnLogIn">
-        <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+        <p:graphicImage width="120px" height="120px" library="img" name="ism/std/Onload.gif"/>
     </p:blockUI>
 
 </html>

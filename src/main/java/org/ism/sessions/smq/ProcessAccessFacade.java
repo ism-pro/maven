@@ -15,7 +15,7 @@ import org.ism.entities.hr.Staff;
 import org.ism.entities.hr.StaffGroupDef;
 import org.ism.entities.smq.DocExplorer;
 import org.ism.entities.smq.ProcessAccess;
-import org.ism.entities.smq.Processus;
+import org.ism.sessions.AbstractFacade;
 
 /**
  * <h1>ProcessAccessFacade</h1>

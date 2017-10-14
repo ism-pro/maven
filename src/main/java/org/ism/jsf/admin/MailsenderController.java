@@ -1,8 +1,8 @@
 package org.ism.jsf.admin;
 
 import org.ism.entities.admin.Mailsender;
-import org.ism.jsf.admin.util.JsfUtil;
-import org.ism.jsf.admin.util.JsfUtil.PersistAction;
+import org.ism.jsf.util.JsfUtil;
+import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.admin.MailsenderFacade;
 
 import java.io.Serializable;
@@ -195,8 +195,11 @@ public class MailsenderController implements Serializable {
         }
         Mail mail = new Mail("raphaelhendrick@gmail.com",
                 "Test Asynchronous Email",
-                message());
+                message()
+                .replace("%Title%", "Message de Test")
+                .replace("%Content%", "Ceci est un message Test de la classe " + this.getClass().getName()));
         ejbMailFacade.send(selected, mail);
+        JsfUtil.addSuccessMessage("Envoi de message test executé.");
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -569,51 +572,11 @@ public class MailsenderController implements Serializable {
     }
 
     private String message() {
-        return "<body bgcolor=\"#C0DFFD\">\n"
-                + "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n"
-                + "  <tr bgcolor=\"#3366CC\">\n"
-                + "    <td colspan=\"2\" rowspan=\"2\" nowrap=\"nowrap\"><img src=\"mm_travel_photo.jpg\" alt=\"Header image\" width=\"382\" height=\"127\" border=\"0\" /></td>\n"
-                + "    <td width=\"262\" height=\"63\" id=\"logo\" valign=\"bottom\" align=\"center\" nowrap=\"nowrap\">ISM MESSAGER</td>\n"
-                + "    <td width=\"854\">&nbsp;</td>\n"
-                + "  </tr>\n"
-                + "  <tr bgcolor=\"#3366CC\">\n"
-                + "    <td height=\"64\" id=\"tagline\" valign=\"top\" align=\"center\">RESTER INFORMER</td>\n"
-                + "	<td width=\"854\">&nbsp;</td>\n"
-                + "  </tr>\n"
-                + "  <tr>\n"
-                + "    <td colspan=\"4\" bgcolor=\"#003366\"><img src=\"mm_spacer.gif\" alt=\"\" width=\"1\" height=\"1\" border=\"0\" /></td>\n"
-                + "  </tr>\n"
-                + "\n"
-                + "  <tr bgcolor=\"#CCFF99\">\n"
-                + "  	<td>&nbsp;</td>\n"
-                + "  	<td colspan=\"3\" id=\"dateformat\" height=\"25\"><a href=\"javascript:;\">Rapport </a> : du jours : <script language=\"JavaScript\" type=\"text/javascript\">\n"
-                + "      document.write(TODAY);	</script>	</td>\n"
-                + "  </tr>\n"
-                + " <tr>\n"
-                + "    <td colspan=\"4\" bgcolor=\"#003366\"><img src=\"mm_spacer.gif\" alt=\"\" width=\"1\" height=\"1\" border=\"0\" /></td>\n"
-                + "  </tr>\n"
-                + " <tr>\n"
-                + "    <td width=\"40\">&nbsp;</td>\n"
-                + "    <td colspan=\"2\" valign=\"top\">&nbsp;<br />\n"
-                + "    &nbsp;<br />\n"
-                + "    <table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"500\">\n"
-                + "        <tr>\n"
-                + "          <td class=\"pageName\">Situation des non conformités</td>\n"
-                + "        </tr>\n"
-                + "        <tr>\n"
-                + "          <td class=\"bodyText\"><p>Message à transmettre</p>			</td>\n"
-                + "		</tr>\n"
-                + "      </table>	  </td>\n"
-                + "	<td width=\"854\">&nbsp;</td>\n"
-                + "  </tr>\n"
-                + "\n"
-                + " <tr>\n"
-                + "    <td width=\"40\">&nbsp;</td>\n"
-                + "    <td width=\"342\">&nbsp;</td>\n"
-                + "    <td width=\"262\">&nbsp;</td>\n"
-                + "	<td width=\"854\">&nbsp;</td>\n"
-                + "  </tr>\n"
-                + "</table>\n"
+        return "<head>\n"
+                + "<!-- Copyright 2005 Macromedia, Inc. All rights reserved. -->\n"
+                + "<title>Text</title>\n"
+                + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n"
+                + "<link rel=\"stylesheet\" href=\"mm_travel2.css\" type=\"text/css\" />\n"
                 + "<style>\n"
                 + "/* Global Styles */\n"
                 + "\n"
@@ -737,6 +700,53 @@ public class MailsenderController implements Serializable {
                 + "	\n"
                 + "\n"
                 + "</style>\n"
+                + "</head>\n"
+                + "<body bgcolor=\"#C0DFFD\">\n"
+                + "\n"
+                + "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n"
+                + "  <tr bgcolor=\"#3366CC\">\n"
+                + "    <td colspan=\"2\" rowspan=\"2\" nowrap=\"nowrap\"><img src=\"https://localhost:8181/ISM/faces/javax.faces.resource/img/ism/ism.png\" alt=\"Header image\" width=\"382\" height=\"127\" border=\"0\" /></td>\n"
+                + "    <td width=\"262\" height=\"63\" id=\"logo\" valign=\"bottom\" align=\"center\" nowrap=\"nowrap\">ISM MESSAGER</td>\n"
+                + "    <td width=\"854\">&nbsp;</td>\n"
+                + "  </tr>\n"
+                + "  <tr bgcolor=\"#3366CC\">\n"
+                + "    <td height=\"64\" id=\"tagline\" valign=\"top\" align=\"center\">RESTER INFORMER</td>\n"
+                + "	<td width=\"854\">&nbsp;</td>\n"
+                + "  </tr>\n"
+                + "  <tr>\n"
+                + "    <td colspan=\"4\" bgcolor=\"#003366\"><img src=\"mm_spacer.gif\" alt=\"\" width=\"1\" height=\"1\" border=\"0\" /></td>\n"
+                + "  </tr>\n"
+                + "\n"
+                + "  <tr bgcolor=\"#CCFF99\">\n"
+                + "  	<td>&nbsp;</td>\n"
+                + "  	<td colspan=\"3\" id=\"dateformat\" height=\"25\"><a href=\"javascript:;\">Rapport </a> :</td>\n"
+                + "  </tr>\n"
+                + " <tr>\n"
+                + "    <td colspan=\"4\" bgcolor=\"#003366\"><img src=\"mm_spacer.gif\" alt=\"\" width=\"1\" height=\"1\" border=\"0\" /></td>\n"
+                + "  </tr>\n"
+                + " <tr>\n"
+                + "    <td width=\"21\">&nbsp;</td>\n"
+                + "    <td colspan=\"2\" valign=\"top\">&nbsp;<br />\n"
+                + "    &nbsp;<br />\n"
+                + "    <table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"573\">\n"
+                + "        <tr>\n"
+                + "          <td width=\"569\" class=\"pageName\">%Title%</td>\n"
+                + "        </tr>\n"
+                + "        <tr>\n"
+                + "          <td class=\"bodyText\"><p>%Content%</p>			</td>\n"
+                + "		</tr>\n"
+                + "      </table>	  </td>\n"
+                + "	<td width=\"854\">&nbsp;</td>\n"
+                + "  </tr>\n"
+                + "\n"
+                + " <tr>\n"
+                + "    <td width=\"21\">&nbsp;</td>\n"
+                + "    <td width=\"361\">&nbsp;</td>\n"
+                + "    <td width=\"262\">&nbsp;</td>\n"
+                + "	<td width=\"854\">&nbsp;</td>\n"
+                + "  </tr>\n"
+                + "</table>\n"
+                + "\n"
                 + "</body>";
     }
 }
