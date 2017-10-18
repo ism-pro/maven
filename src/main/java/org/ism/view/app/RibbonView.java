@@ -18,11 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.ism.entities.hr.StaffSetup;
 import org.ism.jsf.hr.StaffAuthController;
 import org.ism.jsf.hr.StaffSetupController;
-import org.ism.jsf.smq.ProcessusController;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
-import org.ism.jsf.smq.util.JsfUtil;
+import org.ism.jsf.util.JsfUtil;
 
 /**
  *

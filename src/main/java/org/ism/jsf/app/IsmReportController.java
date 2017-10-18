@@ -1,12 +1,11 @@
-package org.ism.jsf.smq;
+package org.ism.jsf.app;
 
-import org.ism.entities.smq.ProcessAccess;
+import org.ism.entities.app.IsmReport;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.jsf.util.JsfUtil.PersistAction;
-import org.ism.sessions.smq.ProcessAccessFacade;
+import org.ism.sessions.app.IsmReportFacade;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,36 +30,53 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.inject.Inject;
-import org.ism.entities.hr.Staff;
-import org.ism.entities.hr.StaffGroups;
-import org.ism.entities.smq.DocExplorer;
-import org.ism.jsf.hr.StaffAuthController;
+import org.ism.services.TableSet;
+import org.primefaces.model.SortMeta;
 
-@ManagedBean(name = "processAccessController")
+@ManagedBean(name = "ismReportController")
 @SessionScoped
-public class ProcessAccessController implements Serializable {
+public class IsmReportController implements Serializable {
 
     @EJB
-    private org.ism.sessions.smq.ProcessAccessFacade ejbFacade;
-    private List<ProcessAccess> items = null;
-    private List<ProcessAccess> itemsDoc = null;
-    private ProcessAccess selected;
+    private org.ism.sessions.app.IsmReportFacade ejbFacade;
+    private List<IsmReport> items = null;
+    private IsmReport selected;
     private Boolean isReleaseSelected;              //!< Spécifie si oui ou non l'élément selection doit rester en mémoire après création
     private Boolean isOnMultiCreation;              //!< Spécifie si le mode de création multiple est activé
 
     private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
     private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
-    private List<ProcessAccess> itemsByLast;  // Specify current items list
-    private List<ProcessAccess> itemsFiltered;// Specify current filtered
+    private List<IsmReport> itemsByLast;  // Specify current items list
+    private List<IsmReport> itemsFiltered;// Specify current filtered
 
-    @Inject
-    StaffAuthController staffAuthController;
-    @Inject
-    DocExplorerController docExplorerController;
+    /**
+     * Multi Sort Meta save table sorting
+     */
+    private List<SortMeta> multiSortMeta = null;
+    /**
+     * Filters save table filters
+     */
+    private Map<String, Object> filters = null;
 
-    public ProcessAccessController() {
+    /**
+     * Define table setups include with controller
+     */
+    private TableSet tableSet = new TableSet();
+
+    /**
+     * Define lazy model to load progressively data
+     */
+    //private IsmReportLazyModel lazyModel;
+
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Constructor
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+    public IsmReportController() {
     }
 
     @PostConstruct
@@ -71,16 +87,27 @@ public class ProcessAccessController implements Serializable {
         // Init. list
         itemsByLast = getItemsByLastChanged();
 
-        // 
         // STRING PARSE
-        String src_01 = "ProcessAccessField_paId";
-        String src_02 = "ProcessAccessField_paDocexplorer";
-        String src_03 = "ProcessAccessField_paGroupdef";
-        String src_04 = "ProcessAccessField_paStaff";
-        String src_05 = "ProcessAccessField_paIsgroup";
-        String src_06 = "ProcessAccessField_paDeleted";
-        String src_07 = "ProcessAccessField_paCreated";
-        String src_08 = "ProcessAccessField_paChanged";
+        String src_01 = "IsmReportField_";
+        String src_02 = "IsmReportField_";
+        String src_03 = "IsmReportField_";
+        String src_04 = "IsmReportField_";
+        String src_05 = "IsmReportField_";
+        String src_06 = "IsmReportField_";
+        String src_07 = "IsmReportField_";
+        String src_08 = "IsmReportField_";
+        String src_09 = "IsmReportField_";
+        String src_10 = "IsmReportField_";
+        String src_11 = "IsmReportField_";
+        String src_12 = "IsmReportField_";
+        String src_13 = "IsmReportField_";
+        String src_14 = "IsmReportField_";
+        String src_15 = "IsmReportField_";
+        String src_16 = "IsmReportField_";
+        String src_17 = "IsmReportField_";
+        String src_18 = "IsmReportField_";
+        String src_19 = "IsmReportField_";
+        String src_20 = "IsmReportField_";
 
         // Setup initial visibility
         headerTextMap = new HashMap<>();
@@ -93,30 +120,57 @@ public class ProcessAccessController implements Serializable {
         headerTextMap.put(6, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_06));
         headerTextMap.put(7, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_07));
         headerTextMap.put(8, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_08));
+        headerTextMap.put(9, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_09));
+        headerTextMap.put(10, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_10));
+        headerTextMap.put(11, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_11));
+        headerTextMap.put(12, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_12));
+        headerTextMap.put(13, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_13));
+        headerTextMap.put(14, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_14));
+        headerTextMap.put(15, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_15));
+        headerTextMap.put(16, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_16));
+        headerTextMap.put(17, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_17));
+        headerTextMap.put(18, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_18));
+        headerTextMap.put(19, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_19));
+        headerTextMap.put(20, ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_20));
 
         visibleColMap = new HashMap<>();
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("CtrlShort"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_01), false);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_02), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_03), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_04), true);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_05), false);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_06), false);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_07), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_05), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_06), true);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_07), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_08), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_09), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_10), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_11), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_12), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_13), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_14), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_15), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_16), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_17), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_18), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_19), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_20), false);
 
     }
 
-    private ProcessAccessFacade getFacade() {
+    private IsmReportFacade getFacade() {
         return ejbFacade;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    /// SPECIFIC FONCTION
-    ///
-    ////////////////////////////////////////////////////////////////////////////
-    public ProcessAccess prepareCreate() {
-        selected = new ProcessAccess();
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Container
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+    public IsmReport prepareCreate() {
+        selected = new IsmReport();
         return selected;
     }
 
@@ -129,9 +183,9 @@ public class ProcessAccessController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessReleaseSelectedSummary"),
+                getString("IsmReportReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessReleaseSelectedDetail"));
+                getString("IsmReportReleaseSelectedDetail"));
     }
 
     /**
@@ -141,9 +195,9 @@ public class ProcessAccessController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessToggleMultiCreationSummary"),
+                getString("IsmReportToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessToggleMultiCreationDetail") + isOnMultiCreation);
+                getString("IsmReportToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -153,20 +207,23 @@ public class ProcessAccessController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessToggleMultiCreationSummary"),
+                getString("IsmReportToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessToggleMultiCreationDetail") + isOnMultiCreation);
+                getString("IsmReportToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    /// TABLE OPTIONS
-    ///
-    ////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // HANDLE TABLE OPERATIONS
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
     public void handleColumnToggle(ToggleEvent e) {
         visibleColMap.replace(headerTextMap.get((Integer) e.getData()),
                 e.getVisibility() == Visibility.VISIBLE);
 
-        JsfUtil.addSuccessMessage("ProcessAccess : Toggle Column",
+        JsfUtil.addSuccessMessage("IsmReport : Toggle Column",
                 "Column n° " + e.getData() + " is now " + e.getVisibility());
 
     }
@@ -184,7 +241,7 @@ public class ProcessAccessController implements Serializable {
             columns += headerText + "(" + visible + ") <br >";
             i++;
         }
-        JsfUtil.addSuccessMessage("ProcessAccess : Reorder Column",
+        JsfUtil.addSuccessMessage("IsmReport : Reorder Column",
                 "Columns : <br>" + columns);
 
     }
@@ -198,21 +255,24 @@ public class ProcessAccessController implements Serializable {
         itemsByLast = getItemsByLastChanged();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    /// CRUD OPTIONS
-    ///
-    ////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // TABLE CRUD
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
     public void create() {
         // Set time on creation action
-        selected.setPaChanged(new Date());
-        selected.setPaCreated(new Date());
+//        selected.setIsmChanged(new Date());
+//        selected.setIsmCreated(new Date());
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessPersistenceCreatedSummary"),
+                getString("IsmReportPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessPersistenceCreatedDetail")
-                + selected.getPaDocexplorer().getDcId());
+                getString("IsmReportPersistenceCreatedDetail")
+                + selected.getReport() + " <br > " + selected.getDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -220,41 +280,40 @@ public class ProcessAccessController implements Serializable {
                 selected = null;
             }
             if (isOnMultiCreation) {
-                selected = new ProcessAccess();
+                selected = new IsmReport();
 
             } else {
                 JsfUtil.out("is not on multicreation");
-                List<ProcessAccess> v_ProcessAccess = getFacade().findAll();
-                selected = v_ProcessAccess.get(v_ProcessAccess.size() - 1);
+                List<IsmReport> v_IsmReport = getFacade().findAll();
+                selected = v_IsmReport.get(v_IsmReport.size() - 1);
             }
         }
     }
 
-    public void createUnReleased() {
+    public void createUnReleasded() {
         isReleaseSelected = false;
         create();
     }
 
     public void update() {
         // Set time on creation action
-        selected.setPaChanged(new Date());
+        //selected.setIsmChanged(new Date());
+
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessPersistenceUpdatedSummary"),
+                getString("IsmReportPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessPersistenceUpdatedDetail")
-                + selected.getPaDocexplorer().getDcId() + " <br > ");
-
+                getString("IsmReportPersistenceUpdatedDetail")
+                + selected.getReport() + " <br > " + selected.getDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessPersistenceDeletedSummary"),
+                getString("IsmReportPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessAccessPersistenceDeletedDetail")
-                + selected.getPaDocexplorer().getDcId() + " <br > ");
-
+                getString("IsmReportPersistenceDeletedDetail")
+                + selected.getReport() + " <br > " + selected.getDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
             selected = null;
@@ -293,79 +352,59 @@ public class ProcessAccessController implements Serializable {
         persist(persistAction, detail, detail);
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    /// JPA
-    ///
-    ////////////////////////////////////////////////////////////////////////////
-    public ProcessAccess getProcessAccess(java.lang.Integer id) {
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // JPA CONTAINER
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+    public IsmReport getIsmReport(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<ProcessAccess> getItems() {
+    public List<IsmReport> getItems() {
         items = getFacade().findAll();
         return items;
     }
 
-    public List<ProcessAccess> getItemsByLastChanged() {
+    public List<IsmReport> getItemsByLastChanged() {
         items = getFacade().findAllByLastChanged();
         return items;
     }
 
-    public List<ProcessAccess> getItemsByDocLast(DocExplorer document) {
-        itemsDoc = getFacade().findAllByDocLast(document);
-        return itemsDoc;
+    public List<IsmReport> getItemsByIsmReport(String _IsmReport) {
+        return getFacade().findByCode(_IsmReport);
     }
 
-    public List<ProcessAccess> getItemsDoc() {
-        return itemsDoc;
-    }
-
-    public void setItemsDoc(List<ProcessAccess> itemsDoc) {
-        this.itemsDoc = itemsDoc;
-    }
-
-    /*
-    public List<ProcessAccess> getItemsByProcessAccess(String _ProcessAccess) {
-        return getFacade().findByCode(_ProcessAccess);
-    }
-
-    public List<ProcessAccess> getItemsByDesignation(String designation) {
+    public List<IsmReport> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
     }
-     */
-    public List<ProcessAccess> getItemsAvailableSelectMany() {
+
+    public List<IsmReport> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<ProcessAccess> getItemsAvailableSelectOne() {
+    public List<IsmReport> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-    
-    public List<ProcessAccess> getItemsByStaff(Staff staff){
-        return getFacade().findByStaff(staff);
-    }
-    
-    public List<ProcessAccess> getItemsByDocument(DocExplorer docExplorer){
-        return getFacade().findByUnGroupDocument(docExplorer);
-    }
 
-    ////////////////////////////////////////////////////////////////////////////
-    /// GETTER / SETTER
-    ///
-    ////////////////////////////////////////////////////////////////////////////
-    public ProcessAccess getSelected() {
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Getter / Setter
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+    public IsmReport getSelected() {
         if (selected == null) {
-            selected = new ProcessAccess();
+            selected = new IsmReport();
         }
         return selected;
     }
 
-    public void setSelected(ProcessAccess selected) {
+    public void setSelected(IsmReport selected) {
         this.selected = selected;
-    }
-
-    public void setSelectedExplorer(DocExplorer docExplorer) {
-        this.selected.setPaDocexplorer(docExplorer);
     }
 
     public Boolean getIsReleaseSelected() {
@@ -396,83 +435,40 @@ public class ProcessAccessController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    public List<ProcessAccess> getItemsByLast() {
+    public List<IsmReport> getItemsByLast() {
         return itemsByLast;
     }
 
-    public void setItemsByLast(List<ProcessAccess> itemsByLast) {
+    public void setItemsByLast(List<IsmReport> itemsByLast) {
         this.itemsByLast = itemsByLast;
     }
 
-    public List<ProcessAccess> getItemsFiltered() {
+    public List<IsmReport> getItemsFiltered() {
         return itemsFiltered;
     }
 
-    public void setItemsFiltered(List<ProcessAccess> itemsFiltered) {
+    public void setItemsFiltered(List<IsmReport> itemsFiltered) {
         this.itemsFiltered = itemsFiltered;
     }
 
-    public Boolean isUserAllowed(Staff staff) {
-        List<ProcessAccess> lst = getFacade().findByStaff(staff);
-        if (lst == null) {
-            return false;
-        }
-        return true;
-    }
-
-    public Boolean isGroupAllowed(List<StaffGroups> staffGroups) {
-        if (staffGroups == null) {
-            return false;
-        }
-        for (int i = 0; i < staffGroups.size(); i++) {
-            List<ProcessAccess> lst = getFacade().findAllByGroup(staffGroups.get(i).getStgGroupDef());
-            if (lst != null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Boolean isUserDocumentAllowed(DocExplorer docExplorer, Staff staff, List<StaffGroups> staffGroups) {
-        if (docExplorer == null) {
-            return false;
-        }
-
-        if (staff != null) {
-            List<ProcessAccess> lst = getFacade().findByDocAndStaff(docExplorer, staff);
-            if (lst != null && lst.size() > 0) {
-                return true;
-            }
-        }
-
-        if (staffGroups == null) {
-            return false;
-        }
-        for (int i = 0; i < staffGroups.size(); i++) {
-            List<ProcessAccess> lst = getFacade().findByDocAndGroup(docExplorer, staffGroups.get(i).getStgGroupDef());
-            if (lst != null) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    /// CONVERTER
-    ///
-    ////////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = ProcessAccess.class)
-    public static class ProcessAccessControllerConverter implements Converter {
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // CONVERTERS
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+    @FacesConverter(forClass = IsmReport.class)
+    public static class IsmReportControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            ProcessAccessController controller = (ProcessAccessController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "processAccessController");
-            return controller.getProcessAccess(getKey(value));
+            IsmReportController controller = (IsmReportController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "ismReportController");
+            return controller.getIsmReport(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -492,29 +488,32 @@ public class ProcessAccessController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof ProcessAccess) {
-                ProcessAccess o = (ProcessAccess) object;
-                return getStringKey(o.getPaId());
+            if (object instanceof IsmReport) {
+                IsmReport o = (IsmReport) object;
+                return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), ProcessAccess.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), IsmReport.class.getName()});
                 return null;
             }
         }
 
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    /// VALIDATOR
-    ///
-    ////////////////////////////////////////////////////////////////////////////
-    @FacesValidator(value = "ProcessAccess_ProcessAccessValidator")
-    public static class ProcessAccess_ProcessAccessValidator implements Validator {
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // VALIDATORS
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+    @FacesValidator(value = "IsmReport_IsmReportValidator")
+    public static class IsmReport_IsmReportValidator implements Validator {
 
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "ProcessAccessDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "ProcessAccessDuplicationDetail_###";
+        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "IsmReportDuplicationSummary_####";
+        public static final String P_DUPLICATION_CODE_DETAIL_ID = "IsmReportDuplicationDetail_###";
 
         @EJB
-        private org.ism.sessions.smq.ProcessAccessFacade ejbFacade;
+        private org.ism.sessions.app.IsmReportFacade ejbFacade;
 
         @Override
         public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
@@ -526,7 +525,7 @@ public class ProcessAccessController implements Serializable {
                 return;
             }
             InputText input = (InputText) uic;
-            List<ProcessAccess> lst = null;//= ejbFacade.findByCode(value);
+            List<IsmReport> lst = ejbFacade.findByCode(value);
             if (lst != null) {
                 if (input.getValue() != null) {
                     if (value.matches((String) input.getValue())) {
@@ -544,14 +543,14 @@ public class ProcessAccessController implements Serializable {
         }
     }
 
-    @FacesValidator(value = "ProcessAccess_DesignationValidator")
-    public static class ProcessAccessDesignationValidator implements Validator {
+    @FacesValidator(value = "IsmReport_DesignationValidator")
+    public static class IsmReportDesignationValidator implements Validator {
 
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "ProcessAccessDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "ProcessAccessDuplicationDetail_#####";
+        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "IsmReportDuplicationSummary_#####";
+        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "IsmReportDuplicationDetail_#####";
 
         @EJB
-        private org.ism.sessions.smq.ProcessAccessFacade ejbFacade;
+        private org.ism.sessions.app.IsmReportFacade ejbFacade;
 
         @Override
         public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
@@ -563,7 +562,7 @@ public class ProcessAccessController implements Serializable {
                 return;
             }
             InputText input = (InputText) uic;
-            List<ProcessAccess> lst = null;//= ejbFacade.findByDesignation(value);
+            List<IsmReport> lst = ejbFacade.findByDesignation(value);
             if (lst != null) {
                 if (input.getValue() != null) {
                     if (value.matches((String) input.getValue())) {

@@ -1,8 +1,8 @@
 package org.ism.jsf.smq;
 
 import org.ism.entities.smq.PointInfos;
-import org.ism.jsf.smq.util.JsfUtil;
-import org.ism.jsf.smq.util.JsfUtil.PersistAction;
+import org.ism.jsf.util.JsfUtil;
+import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.smq.PointInfosFacade;
 
 import java.io.Serializable;

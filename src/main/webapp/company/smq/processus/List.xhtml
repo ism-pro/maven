@@ -304,7 +304,21 @@
                                  disabled="#{empty processusController.selected 
                                              or empty processusController.selected.PId}"
                                  />
+                <p:commandButton id="reportButton"
+                                 icon="fa fa-balance-scale"
+                                 styleClass="options-btn"
+                                 value="#{ism.Report}"
+                                 title="Permet d'editer un rapport"
+                                 onstart="#{crystalController.handleCSReportViewerClose();crystalController.handleClearSet()}"
+                                 onclick="#{csDialogView.prepareReport('SMQ-PROC-001 : Liste des processus',
+                                            '/crystal/smq/ProcessusLists.rpt', 
+                                            null)}"
+                                 oncomplete="PF('ReportDlg').show()"
+                                 disabled="#{!request.isUserInRole('S_EXPLORER_E')}"
+                                 />
+
             </h:panelGroup>
+
 
 
 
@@ -312,6 +326,7 @@
         <p:blockUI block="body" trigger="createButton, viewButton, editButton, deleteButton" >
             <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
         </p:blockUI>
+
 
     </ui:composition>
 

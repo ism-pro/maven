@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.IsmReportTitleEdit}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{ismReportController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.IsmReportField_id}"  for="id" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="id" 
+                                     value="#{ismReportController.selected.id}" 
+                                     title="#{ism.IsmReportFieldInfo_id}" 
+                                     required="true" requiredMessage="#{ism.IsmReportRequiredMsg_id}" 
+                                     />
+                        <p:message for="id"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.IsmReportField_report}"  for="report" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="report" 
+                                     value="#{ismReportController.selected.report}" 
+                                     title="#{ism.IsmReportFieldInfo_report}" 
+                                     required="true" requiredMessage="#{ism.IsmReportRequiredMsg_report}" 
+                                     />
+                        <p:message for="report"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.IsmReportField_designation}"  for="designation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="designation" 
+                                     value="#{ismReportController.selected.designation}" 
+                                     title="#{ism.IsmReportFieldInfo_designation}" 
+                                     required="true" requiredMessage="#{ism.IsmReportRequiredMsg_designation}" 
+                                     />
+                        <p:message for="designation"  />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.IsmReportField_path}"  for="path" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="path" 
+                                     value="#{ismReportController.selected.path}" 
+                                     title="#{ism.IsmReportFieldInfo_path}" 
+                                     required="true" requiredMessage="#{ism.IsmReportRequiredMsg_path}" 
+                                     />
+                        <p:message for="path"  />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Change}" 
+                                     actionListener="#{ismReportController.update}" 
+                                     onstart="#{p:widgetVar('bodyForm:')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     action="List.xhtml?faces-redirect=true"
+                                     />
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{ismReportController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Change}" 
+                                 actionListener="#{ismReportController.update}" 
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 actionListener="#{ismReportController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

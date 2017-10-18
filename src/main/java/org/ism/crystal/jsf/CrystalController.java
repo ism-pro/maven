@@ -5,7 +5,6 @@
  */
 package org.ism.crystal.jsf;
 
-
 import com.crystaldecisions.report.web.viewer.CrPrintMode;
 import com.crystaldecisions.report.web.viewer.CrystalReportViewer;
 import com.crystaldecisions.sdk.occa.report.application.OpenReportOptions;
@@ -36,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 import org.ism.jsf.util.JsfUtil;
+import org.ism.services.Util;
 
 /**
  * <h1>crystalController</h1><br>
@@ -65,6 +65,11 @@ public class CrystalController implements Serializable {
      * otherwise download if false
      */
     private Boolean readMode = true;
+
+    /**
+     * Allow to force reaload file
+     */
+    private Boolean reloadFile = false;
 
     ////////////////////////////////////////////////////////////////////////////
     //
@@ -147,41 +152,14 @@ public class CrystalController implements Serializable {
      */
     public void handleCSReportViewer() {
         handleCSReportViewerClose();
+
         if (fileReport.isEmpty()) {
             JsfUtil.out("File report is empty...");
             return;
         }
 
         try {
-
-            File file = new File(fileReport);
-            String filename = "";
-
-            // Check if the file already exist
-            if (!file.isFile()) {
-                // maybe it is a resources
-                ResourceHandler resourceHandler = FacesContext.getCurrentInstance().getApplication().getResourceHandler();
-                InputStream in = resourceHandler.createResource(fileReport).getInputStream();
-                if (in == null) {
-                    JsfUtil.out("File event not exist in resource");
-                    return;
-                }
-
-                // If it is an resource now check if it is not already create
-                String rscname = "C:/ISM/rsc/" + fileReport;
-                file = new File(rscname);
-                if (!file.isFile()) {
-                    JsfUtil.out("File " + rscname + " does not exist ... create one...");
-                    writeToFileSystem(in, rscname);
-                }else {
-                    JsfUtil.out("File " + rscname + " already exist....");
-                }
-
-                // Définit le nom du fichier
-                filename = rscname;
-            } else {
-                filename = fileReport;
-            }
+            String filename = Util.writeResourceToFileSystem(fileReport, reloadFile);
 
             // Start by openning the report
             ReportClientDocument reportClientDocument = new ReportClientDocument();
@@ -192,9 +170,6 @@ public class CrystalController implements Serializable {
             session.setAttribute(ATT_REPORTSOURCE, reportClientDocument.getReportSource());
 
             reportClientDocument.close();
-
-        } catch (ReportSDKException | IOException ex) {
-            Logger.getLogger(CrystalController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(CrystalController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -221,85 +196,21 @@ public class CrystalController implements Serializable {
                 CrystalReportViewer crystalReportViewer = new CrystalReportViewer();
                 crystalReportViewer.setReportSource(reportSource);
                 crystalReportViewer.dispose();
-                JsfUtil.out("Dispose preview resource");
+                Util.out("Dispose preview resource");
             } catch (ReportSDKExceptionBase ex) {
                 Logger.getLogger(CrystalController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else
-            JsfUtil.out("No resource found to be closed");
-
-    }
-
-    /**
-     * Pas fonctionnel
-     *
-     * @deprecated
-     */
-    public void handleCSView() {
-        try {
-            CrystalReportViewer crystalReportViewer;
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-            Object reportSource = session.getAttribute("ReportSource");
-
-            crystalReportViewer = new CrystalReportViewer();
-            crystalReportViewer.setOwnPage(true);
-            crystalReportViewer.setPrintMode(CrPrintMode.ACTIVEX);
-            crystalReportViewer.setReportSource(reportSource);
-
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            crystalReportViewer.processHttpRequest(request, response, servletContext, null);
-
-        } catch (ReportSDKException ex) {
-            Logger.getLogger(CrystalController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ReportSDKExceptionBase ex) {
-            Logger.getLogger(CrystalController.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            Util.out("No resource found to be closed");
         }
     }
-
+    
     /**
-     * Utility method that demonstrates how to write an input stream to the
-     * server's local file system.
+     * Clear set allow to clear defined file report and load mode
      */
-    private void writeToFileSystem(ByteArrayInputStream byteArrayInputStream, String exportFile) throws Exception {
-
-        //Use the Java I/O libraries to write the exported content to the file system.
-        byte byteArray[] = new byte[byteArrayInputStream.available()];
-
-        //Create a new file that will contain the exported result.
-        File file = new File(exportFile);
-        file.getParentFile().mkdirs();
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(byteArrayInputStream.available());
-            int x = byteArrayInputStream.read(byteArray, 0, byteArrayInputStream.available());
-
-            byteArrayOutputStream.write(byteArray, 0, x);
-            byteArrayOutputStream.writeTo(fileOutputStream);
-
-            //Close streams.
-            byteArrayInputStream.close();
-            byteArrayOutputStream.close();
-        }
-
-    }
-
-    /**
-     * Convenient method for write an input stream to a file 
-     * @param initialStream stream to be write to new filename 
-     * @param filename a path and name which to be create
-     * @throws IOException  exception
-     */
-    public void writeToFileSystem(InputStream initialStream, String filename) throws IOException {
-
-        File targetFile = new File(filename);
-        targetFile.getParentFile().mkdirs();
-        java.nio.file.Files.copy(
-                initialStream,
-                targetFile.toPath(),
-                StandardCopyOption.REPLACE_EXISTING);
-
-        IOUtils.closeQuietly(initialStream);
+    public void handleClearSet(){
+        fileReport = "";
+        reloadFile = false;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -353,6 +264,14 @@ public class CrystalController implements Serializable {
 
     public void setReadMode(Boolean readMode) {
         this.readMode = readMode;
+    }
+
+    public Boolean getReloadFile() {
+        return reloadFile;
+    }
+
+    public void setReloadFile(Boolean reloadFile) {
+        this.reloadFile = reloadFile;
     }
 
 }

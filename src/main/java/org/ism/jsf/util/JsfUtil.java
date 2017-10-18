@@ -19,6 +19,7 @@ public class JsfUtil {
 
     public static final String BUNDLE = "/com/ISM";
     public static final String SECURITY = "/com/Security";
+    public static final String RSCDIR = "/ISM/rsc/";
     public static Boolean debug = true;
     public static final String defaultThemeName = "ism";
     /**
@@ -169,4 +170,6 @@ public class JsfUtil {
         return found[0];
 
     }
+
+
 }

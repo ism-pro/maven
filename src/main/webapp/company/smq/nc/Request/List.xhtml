@@ -539,49 +539,13 @@
                                  styleClass="options-btn"
                                  value="#{ism.Report}"
                                  title="Permet d'editer un rapport"
-                                 onclick="PF('PrintDlg').show()"
-                                 disabled="#{!request.isUserInRole('SNC_REQUEST_E')}"
+                                 onstart="#{crystalController.handleCSReportViewerClose();crystalController.handleClearSet()}"
+                                 onclick="#{csDialogView.prepareReport('SMQ-NC-001 : Liste des demandes de non conformités',
+                                            '/crystal/smq/NonConformitesRequests.rpt', 
+                                            null)}"
+                                 oncomplete="PF('ReportDlg').show()"
+                                 disabled="#{!request.isUserInRole('S_EXPLORER_E')}"
                                  />
-                <p:confirmDialog id="PrintDlg" widgetVar="PrintDlg" 
-                                 showEffect="clip"  hideEffect="clip" appendTo="@(body)" 
-                                 header="#{ism.ReportDlgTitle}" width="640"
-                                 >
-                    <f:facet name="message">
-                        <p:outputLabel value="#{ism.ReportDlgMsg}" />
-                    </f:facet>
-                    <h:form id="printForm">
-                        <p:panelGrid id="printPanel" 
-                                     columns="2" 
-                                     columnClasses="columnFieldClass, columnContentClass" 
-                                     styleClass="panelGridClass">
-
-                            <p:outputLabel value="#{ism.ReportChooseOne}" />
-                            <p:selectOneMenu value="#{crystalController.fileReport}"
-                                             >
-                                <p:ajax event="change" listener="#{crystalController.setFileReport(crystalController.fileReport)}" update="outputReportPath" />
-                                <f:selectItem itemLabel="#{ism.SelectList}" itemValue="" />
-                                <f:selectItem itemLabel="#{ism.ReportStandard}" itemValue="/crystal/smq/SMQ_NC_List.rpt"  />
-                            </p:selectOneMenu>
-
-                            <p:outputLabel value="Rapport sélectionné" />
-                            <p:outputLabel id="outputReportPath" value="#{crystalController.fileReport==''?'-':crystalController.fileReport}" />
-
-                        </p:panelGrid>
-                        <p:commandButton  value="#{ism.ReportRun}" ajax="false"
-                                          action="Report.xhtml?faces-redirect=true"
-                                          oncomplete="PF('PrintDlg').hide()"
-                                          actionListener="#{crystalController.handleCSReportViewer()}"
-                                          icon="fa fa-eye"
-                                          />
-                        <p:commandButton  value="#{ism.ReportFlush}" ajax="false"
-                                          actionListener="#{crystalController.handleCSReportViewerClose()}"
-                                          icon="fa fa-eye-slash"
-                                          />
-                        <p:commandButton value="#{ism.Cancel}" 
-                                         icon="fa fa-times"
-                                         onclick="PF('PrintDlg').hide()"/>
-                    </h:form>
-                </p:confirmDialog> 
             </h:panelGroup>
 
 
