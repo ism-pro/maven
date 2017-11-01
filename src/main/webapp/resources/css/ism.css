@@ -47,3 +47,94 @@ i-padding-5{
 }
 
 
+
+
+/*** MANAGING TEAL       ************************************************** ***/
+.teal > div.huge {
+    font-size: 24px;
+}
+.teal > div.title {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+}
+
+/** === ORANGE TEAL **/
+.panel-orange {
+    border-color: #ff9800!important;
+}
+.panel-orange > .panel-heading {
+    border-color: #ff9800;
+    color: white;
+    background-color: #ff9800;
+}
+.panel-orange > a {
+    color: #ff9800;
+}
+.panel-orange > a:hover {
+    color: #9c27b0;
+}
+
+
+/** === BLUE TEAL **/
+.panel-blue {
+    border-color: #2196f3!important;
+}
+.panel-blue > .panel-heading {
+    border-color: #2196f3;
+    color: white;
+    background-color: #2196f3;
+}
+.panel-blue > a {
+    color: #2196f3;
+}
+.panel-blue > a:hover {
+    color: #9c27b0;
+}
+
+/** === GREEN DARK TEAL **/
+.panel-green-dark {
+    border-color: #009688!important;
+}
+.panel-green-dark > .panel-heading {
+    border-color: #009688;
+    color: white;
+    background-color: #009688;
+}
+.panel-green-dark > a {
+    color: #009688;
+}
+.panel-green-dark > a:hover {
+    color: #9c27b0;
+}
+
+/** === RED PURE TEAL **/
+.panel-red-pure {
+    border-color: #f44336!important;
+}
+.panel-red-pure > .panel-heading {
+    border-color: #f44336;
+    color: white;
+    background-color: #f44336;
+}
+.panel-red-pure > a {
+    color: #f44336;
+}
+.panel-red-pure > a:hover {
+    color: #9c27b0;
+}
+
+
+
+/** LOGIN PAGE **/
+.login-logo,.register-logo{
+    font-size:35px;
+    text-align:center;
+    margin-bottom:25px;font-weight:300}
+.login-logo a,.register-logo a{color:#444}
+.login-page,.register-page{
+    background: #f2f2f2; /*#d2d6de;*/
+}
+.login-box,.register-box{width:360px;margin:7% auto}@media (max-width:768px){.login-box,.register-box{width:90%;margin-top:20px}}.login-box-body,.register-box-body{background:#fff;padding:20px;color:#444;border-top:0;color:#666}.login-box-body .form-control-feedback,.register-box-body .form-control-feedback{color:#777}.login-box-msg,.register-box-msg{margin:0;text-align:center;padding:0 20px 20px 20px}.social-auth-links{margin:10px 0}.error-page{width:600px;margin:20px auto 0 auto}@media (max-width:991px){.error-page{width:100%}}.error-page>.headline{float:left;font-size:100px;font-weight:300}@media (max-width:991px){.error-page>.headline{float:none;text-align:center}}.error-page>.error-content{margin-left:190px;display:block}
+
+
+

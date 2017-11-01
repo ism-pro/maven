@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.MailaddressTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{mailaddressController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.MailaddressField_maId}" rendered="false" for="maId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false">                
+                        <p:inputText id="maId" 
+                                     value="#{mailaddressController.selected.maId}" 
+                                     title="#{ism.MailaddressFieldInfo_maId}" 
+                                     required="true" requiredMessage="#{ism.MailaddressRequiredMsg_maId}" 
+                                     />
+                        <p:message for="maId" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailaddressField_maGroupe}"  for="maGroupe" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="maGroupe" 
+                                     value="#{mailaddressController.selected.maGroupe}" 
+                                     title="#{ism.MailaddressFieldInfo_maGroupe}" 
+                                     required="true" requiredMessage="#{ism.MailaddressRequiredMsg_maGroupe}" 
+                                     />
+                        <p:message for="maGroupe" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailaddressField_maAddress}"  for="maAddress" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="maAddress" 
+                                     value="#{mailaddressController.selected.maAddress}" 
+                                     title="#{ism.MailaddressFieldInfo_maAddress}" 
+                                     required="true" requiredMessage="#{ism.MailaddressRequiredMsg_maAddress}" 
+                                     />
+                        <p:message for="maAddress" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailaddressField_maDeleted}"  for="maDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="maDeleted"
+                                                 value="#{mailaddressController.selected.maDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MailaddressRequiredMsg_maDeleted}" 
+                                                 />
+                        <p:message for="maDeleted" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailaddressField_maCreated}"  for="maCreated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="maCreated" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{mailaddressController.selected.maCreated}" 
+                                    title="#{ism.MailaddressFieldInfo_maCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.MailaddressRequiredMsg_maCreated}" 
+                                    showOn="button"/>
+                        <p:message for="maCreated" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailaddressField_maChanged}"  for="maChanged" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="maChanged" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{mailaddressController.selected.maChanged}" 
+                                    title="#{ism.MailaddressFieldInfo_maChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.MailaddressRequiredMsg_maChanged}" 
+                                    showOn="button"/>
+                        <p:message for="maChanged" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MailaddressField_maCompany}"  for="maCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="maCompany" widgetVar="maCompany"
+                                     value="#{mailaddressController.selected.maCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.MailaddressRequiredMsg_maCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="maCompany" />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{mailaddressController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{mailaddressController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{mailaddressController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:maCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{mailaddressController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{mailaddressController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:maCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!mailaddressController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{mailaddressController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{mailaddressController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:maCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{mailaddressController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{mailaddressController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:maCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!mailaddressController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{mailaddressController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

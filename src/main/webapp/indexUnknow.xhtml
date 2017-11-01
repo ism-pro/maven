@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" 
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <title>#{ism.AppName}</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+        <meta charset="UTF-8"/>
+
+        <h:outputStylesheet library="css" name="ism-login.min.css" />
+        <h:outputStylesheet name="webjars/font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
+        <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="refresh" 
+              content="60;url=#{request.contextPath}#{request.servletPath}/logout.xhtml?faces-redirect=true"/>
+
+        <script>
+            window.onload = function () {
+                if (window.location.href.indexOf('http://') == 0)
+                    window.location = 'https://' + window.location.hostname + ':8181' + window.location.pathname + window.location.search;
+            }
+        </script>
+
+    </h:head>
+
+    <h:body id="Page" class="w3-white">
+        <!-- STYLE -->
+        <style>
+            .is-pad{}
+            .is-pad-128 {    width: 128px;    height: 128px;   }
+            .is-pad .ui-button-icon-left{
+                position: inherit; 
+                top: inherit; 
+                margin-top: auto;
+                left: inherit;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .is-pad .ui-button-text{
+                padding: inherit;
+            }
+            .is-pad-128 .ui-button-icon-left{   width: 96px;    height: 96px;   }
+
+            #optionForm\:company .ui-selectonemenu-trigger.ui-state-default.ui-corner-right{
+                width: auto;
+            }
+            .ui-panel .ui-panel-content{
+                /*padding: 0px;*/
+            }
+            .centered {
+                position: absolute;
+                height: 100px;
+                top: 0;
+                bottom: 0;
+                margin:auto;
+                width: 100%;
+                height: 100%;
+            }
+
+        </style>
+
+
+        <!-- Header -->
+        <header class="w3-container w3-theme w3-padding w3-grey" id="myHeader">
+            <div class="w3-center">
+                <h:graphicImage value="#{resource['img/ism/ism.png']}"  
+                                class="w3-xxxlarge w3-animate-bottom"
+                                width="240px" 
+                                height="64px"   />
+                <div class="w3-center w3-margin-top">#{ism.AppName} - #{ism.AppVersion}</div>
+            </div>
+
+        </header>
+
+
+        <!-- Content -->
+        <div class="i-content w3-content w3-row-padding" style="max-width:1400px;"  >
+            <!-- Welcome area -->
+            <center><div id="welcome">#{ism.Welcome}</div></center>
+
+
+
+            <!-- Options area -->
+            <h:form id="optionForm">
+                <div class=" ui-g"  >
+
+                    <!-- First Column -->
+                    <div class="w3-third w3-margin-bottom ui-g-4" >
+                        <!-- Documentation Title -->
+                        <div class="w3-container w3-orange w3-text-white w3-center" style="padding: 4px;">
+                            <i class="fa fa-life-ring w3-margin-right"></i>
+                            #{ism.Documentations}
+                        </div>
+
+                        <!-- Documentation content -->
+                        <div class="w3-container w3-white  w3-border" >
+                            <h3>Web</h3>
+                            <h6 class="w3-opacity">#{ism.Disable}</h6>
+                            <h3>Pdf</h3>
+                            <h6 class="w3-opacity">#{ism.Disable}</h6>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <!-- Second Column -->
+                    <div class="w3-third w3-margin-bottom ui-g-4" >
+                        <!-- Application Title -->
+                        <div class="w3-container w3-red w3-center" style="padding: 8px;">
+                            <i class="fa fa-gavel w3-margin-right"></i>
+                            #{ism.Applications}
+                        </div>
+                        <!-- Application content -->
+                        <div class="w3-white  w3-border " >
+                            <!-- When connection Requested -->
+                            <p:panel class="w3-border-0"   rendered="#{!request.session.getAttribute('authenticated')}">
+                                <div class="w3-center">
+                                    <img src="#{resource['img/ism/hr/img_avatar4.png']}" 
+                                         alt="Avatar" style="width:25%" class="w3-circle w3-margin-top" />
+                                </div>
+
+                                <div class="w3-section w3-margin" >
+
+                                    <p:inputText id="j_username" 
+                                                 value="#{staffAuthController.staff.stStaff}"
+                                                 required="true"
+                                                 a:autocorrect="off" 
+                                                 autocomplete="off"
+                                                 title="#{ism.AuthenticationFieldInfo_staff}"
+                                                 label="#{ism.Login}"
+                                                 placeholder="#{ism.Login}"
+                                                 class="w3-input w3-margin-bottom w3-white w3-border-0 w3-border-bottom"
+
+                                                 />
+
+                                    <p:password id="j_password"
+                                                value="#{staffAuthController.staff.stPassword}"
+                                                required="true"
+                                                autocomplete="off"                                                 
+                                                title="#{ism.AuthenticationFieldInfo_password}"
+                                                label="#{ism.Password}"
+                                                placeholder="#{ism.Password}"
+                                                class="w3-input w3-margin-bottom w3-white w3-border-0 w3-border-bottom"
+                                                />
+
+                                    <p:selectOneMenu id="company"
+                                                     class="w3-border "
+                                                     style="width:100%"
+                                                     value="#{staffAuthController.company}"
+                                                     >
+                                        <f:selectItems value="#{companyController.itemsAvailableSelectOne}" 
+                                                       var="jCompanyItem"
+                                                       itemLabel="#{jCompanyItem.CCompany} - #{jCompanyItem.CDesignation}"
+                                                       itemValue="#{jCompanyItem}"
+                                                       />
+                                    </p:selectOneMenu>
+
+                                    <p:commandButton id="btnLogIn" type="submit"
+                                                     value="#{ism.LogIn}"
+                                                     action="#{staffAuthController.login}"
+                                                     update=":growl"
+                                                     class="w3-button w3-block w3-green w3-section w3-padding"
+                                                     style="width: 100%;"
+                                                     />
+
+
+                                </div>
+
+                            </p:panel>
+
+                            <!-- In Case Already Connected -->
+                            <p:panel class="w3-border-0" rendered="#{request.session.getAttribute('authenticated')}">
+                                <h5>Vous êtes déjà connecté</h5>
+                                <p:commandButton id="ismBtn" type="submit"
+                                                 value="#{ism.AppName}"
+                                                 action="/company/index.xhtml?faces-redirect=true"
+                                                 update=":growl"
+                                                 class="w3-button w3-block w3-green w3-section w3-padding"
+                                                 style="width: 100%;"
+                                                 />
+                            </p:panel>
+
+
+                        </div>
+
+                        <br />
+
+
+                    </div>
+
+                </div>
+            </h:form>
+        </div>
+
+
+
+
+
+
+        <p:growl id="growl" life="8000" />
+    </h:body>
+
+
+
+
+
+
+
+
+
+    <p:blockUI block="Page" trigger="optionForm:btnLogIn">
+        <p:graphicImage width="120px" height="120px" library="img" name="ism/std/Onload.gif"/>
+    </p:blockUI>
+
+</html>
+
+
+

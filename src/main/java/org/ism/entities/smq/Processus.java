@@ -29,6 +29,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.ism.entities.admin.Maillist;
 import org.ism.entities.smq.nc.NonConformiteRequest;
 import org.ism.entities.hr.Staff;
 
@@ -94,6 +95,8 @@ public class Processus implements Serializable {
     @JoinColumn(name = "p_staffmanager", referencedColumnName = "st_staff")
     @ManyToOne
     private Staff pStaffmanager;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mlProcessus")
+    private Collection<Maillist> maillistCollection;
 
     public Processus() {
     }

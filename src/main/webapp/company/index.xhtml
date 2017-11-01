@@ -13,152 +13,112 @@
 
 
         <ui:define name="body">
-            <style>
-                .userlist{
-                    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
-                }
-                .userlist ul{
-                    /*
-                    padding: 2px;
-                    margin: 12px;
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                    */
-
-                    list-style-type: none;
-                    padding: 0;
-                    margin: 0;
-
-
-                    color: #000!important;
-                    background-color: #fff!important;
-
-                    color: #000!important;
-                    background-color: #fff!important;
-                }
-
-                .userlist ul li{
-                    padding: 8px 2px 10px 16px;
-                    border-bottom: 1px solid #ddd;
-                }
-
-
-                .idash-top{
-                    margin-left: 10px;
-                    margin-right: 10px;
-                }
-                .idash-top .ui-grid-col-3{
-                    margin: 2px;
-                    padding: 0px;
-                    border: 1px solid #dddddd;
-                }
-                .bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
-                    background-color: #00c0ef !important;
-                }
-                .bg-red, .bg-yellow, .bg-aqua, .bg-blue, .bg-light-blue, .bg-green, .bg-navy, .bg-teal, .bg-olive, .bg-lime, .bg-orange, .bg-fuchsia, .bg-purple, .bg-maroon, .bg-black, .bg-red-active, .bg-yellow-active, .bg-aqua-active, .bg-blue-active, .bg-light-blue-active, .bg-green-active, .bg-navy-active, .bg-teal-active, .bg-olive-active, .bg-lime-active, .bg-orange-active, .bg-fuchsia-active, .bg-purple-active, .bg-maroon-active, .bg-black-active, .callout.callout-danger, .callout.callout-warning, .callout.callout-info, .callout.callout-success, .alert-success, .alert-danger, .alert-error, .alert-warning, .alert-info, .label-danger, .label-info, .label-waring, .label-primary, .label-success, .modal-primary .modal-body, .modal-primary .modal-header, .modal-primary .modal-footer, .modal-warning .modal-body, .modal-warning .modal-header, .modal-warning .modal-footer, .modal-info .modal-body, .modal-info .modal-header, .modal-info .modal-footer, .modal-success .modal-body, .modal-success .modal-header, .modal-success .modal-footer, .modal-danger .modal-body, .modal-danger .modal-header, .modal-danger .modal-footer {
-                    color: #fff !important;
-                }
-                .small-box {
-                    border-radius: 2px;
-                    position: relative;
-                    display: block;
-                    margin-bottom: 20px;
-                    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-                }
-                .small-box>.small-box-footer {
-                    position: relative;
-                    text-align: center;
-                    padding: 3px 0;
-                    color: #fff;
-                    color: rgba(255,255,255,0.8);
-                    display: block;
-                    z-index: 10;
-                    background: rgba(0,0,0,0.1);
-                    text-decoration: none;
-                }
-
-
-                .ui-grid {
-                    margin: 10px;
-                }
-                .m-spacing-r4{  margin-right: 4px;}
-                .m-spacing-r8{  margin-right: 8px;}
-                .m-spacing-r16{  margin-right: 16px;}
-                .m-spacing-r32{  margin-right: 32px;}
-
-                .m-spacing-l4{  margin-left: 4px;}
-                .m-spacing-l8{  margin-left: 8px;}
-                .m-spacing-l16{  margin-left: 16px;}
-                .m-spacing-l32{  margin-left: 32px;}
-
-                .m-spacing-t4{  margin-top: 4px;}
-                .m-spacing-t8{  margin-top: 8px;}
-                .m-spacing-t16{  margin-top: 16px;}
-                .m-spacing-t32{  margin-right: 32px;}
-
-                .m-spacing-b4{  margin-bottom: 4px;}
-                .m-spacing-b8{  margin-bottom: 8px;}
-                .m-spacing-b16{  margin-bottom: 16px;}
-                .m-spacing-b32{  margin-bottom: 32px;}
-
-                .m-inner-tb0{  margin-top:0px; margin-bottom: 0px;}
-                .m-inner-tb2{  margin-top:2px; margin-bottom: 2px;}
-                .m-inner-tb4{  margin-top:4px; margin-bottom: 4px;}
-                .m-inner-tb8{  margin-top:8px; margin-bottom: 8px;}
-                .m-inner-tb16{  margin-top:16px; margin-bottom: 16px;}
-                .m-inner-tb32{  margin-top:32px; margin-bottom: 32px;}
-
-                .m-padding-tb0{  padding-top:0px; padding-bottom: 0px;}
-                .m-padding-tb2{  padding-top:2px; padding-bottom: 2px;}
-                .m-padding-tb4{  padding-top:4px; padding-bottom: 4px;}
-                .m-padding-tb8{  padding-top:8px; padding-bottom: 8px;}
-                .m-padding-tb16{  padding-top:16px; padding-bottom: 16px;}
-                .m-padding-tb32{  padding-top:32px; padding-bottom: 32px;}
-            </style>
+            <div class="page-header">
+                <h1>Tableau de bord</h1>
+            </div>
 
             <h:form id="bodyForm">
 
-                <div class="ui-grid ui-grid-responsive">
 
-                    <!-- Vignette d'informations -->
-                    <div class="ui-grid-row ">
-                        <div class="ui-grid-col-3 w3-container w3-orange w3-text-white w3-blue m-spacing-r4">
-                            <div class="w3-left w3-margin-top"><i class="fa fa-users fa-2x"></i></div>
-                            <div class="w3-right">
-                                <h5>#{viewSessionCounter.activeStaff.size()} / #{staffController.items.size()}</h5>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-orange ">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-users fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right teal">
+                                        <div class="huge">#{viewSessionCounter.activeStaff.size()} / #{staffController.items.size()}</div>
+                                        <div class="title">Utilisateurs</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="w3-clear"></div>
-                            <h5 class="m-spacing-tb2">Utilisateurs</h5>
-                        </div>
-
-                        <div class="ui-grid-col-3 w3-container w3-blue m-spacing-r4">
-                            <div class="w3-left w3-margin-top"><i class="fa fa-eye fa-2x"></i></div>
-                            <div class="w3-right">
-                                <h5>#{processusController.approuvedItems.size()}</h5>
-                            </div>
-                            <div class="w3-clear"></div>
-                            <h5>Processus</h5>
-                        </div>
-
-                        <div class="ui-grid-col-3 w3-container w3-teal m-spacing-r4">
-                            <div class="w3-left w3-margin-top"><i class="fa fa-file-pdf-o fa-2x"></i></div>
-                            <div class="w3-right">
-                                <h5>#{docExplorerController.items.size()}</h5>
-                            </div>
-                            <div class="w3-clear"></div>
-                            <h5>Documentations</h5>
-                        </div>
-
-                        <div class="ui-grid-col-3 w3-red  w3-container ">
-                            <div class="w3-left w3-margin-top"><i class="fa fa-thumbs-o-down fa-2x"></i></div>
-                            <div class="w3-right">
-                                <h5>#{nonConformiteRequestController.items.size()}</h5>
-                            </div>
-
-                            <div class="w3-clear"></div>
-                            <h5>Non conformités</h5>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Voir Plus</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
                         </div>
                     </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-blue">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-eye fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right teal">
+                                        <div class="huge">#{processusController.approuvedItems.size()}</div>
+                                        <div class="title">Processus</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Voir Plus</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green-dark">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-file-pdf-o fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right teal">
+                                        <div class="huge">#{docExplorerController.items.size()}</div>
+                                        <div class="title">Documentations</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Voir Plus</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-red-pure">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-thumbs-o-down fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right teal">
+                                        <div class="huge">#{nonConformiteRequestController.items.size()}</div>
+                                        <div class="title">Non conformités</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Voir Plus</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+
+
+
+                <div class="ui-grid ui-grid-responsive">
+
+
 
 
 
@@ -279,6 +239,90 @@
                 </div>
 
 
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Condensed Full Width Table</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body no-padding">
+
+                                <p:dataTable value="#{viewSessionCounter.activeStaff}" 
+                                             var="item" 
+                                            paginator="false" rows="10" 
+                                            styleClass="paginated table table-condensed" 
+                                            class="table table-condensed"
+                                            >
+                                    
+                                    <p:column>
+                                        <h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]" style="display:inline-block"/>
+                                    </p:column>
+                                    <h:graphicImage library="img" name="ism/hr/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px" />
+                                    <span class="w3-large"><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]" style="display:inline-block"/></span><br/>
+                                </p:dataTable>
+
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Task</th>
+                                        <th>Progress</th>
+                                        <th style="width: 40px">Label</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1.</td>
+                                        <td>Update software</td>
+                                        <td>
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-red">55%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2.</td>
+                                        <td>Clean database</td>
+                                        <td>
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-yellow">70%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3.</td>
+                                        <td>Cron job running</td>
+                                        <td>
+                                            <div class="progress progress-xs progress-striped active">
+                                                <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-light-blue">30%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4.</td>
+                                        <td>Fix and squish bugs</td>
+                                        <td>
+                                            <div class="progress progress-xs progress-striped active">
+                                                <div class="progress-bar progress-bar-success" style="width: 90%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-green">90%</span></td>
+                                    </tr>
+                                </table>
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
+                    </div><!-- /.col -->
+
+                </div><!-- /.row -->
+
+
+
+
+
+
+
                 <div class="w3-half w3-margin-bottom ui-g-8 w3-hide">
                     <div class="w3-container w3-blue w3-center" style="padding: 8px;">
                         <i class="fa fa-info-circle w3-margin-right"></i>News
@@ -305,10 +349,112 @@
                     </div>
                 </div>
 
-
-
             </h:form>
 
+
+
+            <style>
+                .userlist{
+                    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+                }
+                .userlist ul{
+                    /*
+                    padding: 2px;
+                    margin: 12px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    */
+
+                    list-style-type: none;
+                    padding: 0;
+                    margin: 0;
+
+
+                    color: #000!important;
+                    background-color: #fff!important;
+
+                    color: #000!important;
+                    background-color: #fff!important;
+                }
+
+                .userlist ul li{
+                    padding: 8px 2px 10px 16px;
+                    border-bottom: 1px solid #ddd;
+                }
+
+
+                .idash-top{
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
+                .idash-top .ui-grid-col-3{
+                    margin: 2px;
+                    padding: 0px;
+                    border: 1px solid #dddddd;
+                }
+                .bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+                    background-color: #00c0ef !important;
+                }
+                .bg-red, .bg-yellow, .bg-aqua, .bg-blue, .bg-light-blue, .bg-green, .bg-navy, .bg-teal, .bg-olive, .bg-lime, .bg-orange, .bg-fuchsia, .bg-purple, .bg-maroon, .bg-black, .bg-red-active, .bg-yellow-active, .bg-aqua-active, .bg-blue-active, .bg-light-blue-active, .bg-green-active, .bg-navy-active, .bg-teal-active, .bg-olive-active, .bg-lime-active, .bg-orange-active, .bg-fuchsia-active, .bg-purple-active, .bg-maroon-active, .bg-black-active, .callout.callout-danger, .callout.callout-warning, .callout.callout-info, .callout.callout-success, .alert-success, .alert-danger, .alert-error, .alert-warning, .alert-info, .label-danger, .label-info, .label-waring, .label-primary, .label-success, .modal-primary .modal-body, .modal-primary .modal-header, .modal-primary .modal-footer, .modal-warning .modal-body, .modal-warning .modal-header, .modal-warning .modal-footer, .modal-info .modal-body, .modal-info .modal-header, .modal-info .modal-footer, .modal-success .modal-body, .modal-success .modal-header, .modal-success .modal-footer, .modal-danger .modal-body, .modal-danger .modal-header, .modal-danger .modal-footer {
+                    color: #fff !important;
+                }
+                .small-box {
+                    border-radius: 2px;
+                    position: relative;
+                    display: block;
+                    margin-bottom: 20px;
+                    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+                }
+                .small-box>.small-box-footer {
+                    position: relative;
+                    text-align: center;
+                    padding: 3px 0;
+                    color: #fff;
+                    color: rgba(255,255,255,0.8);
+                    display: block;
+                    z-index: 10;
+                    background: rgba(0,0,0,0.1);
+                    text-decoration: none;
+                }
+
+
+                .ui-grid {
+                    margin: 10px;
+                }
+                .m-spacing-r4{  margin-right: 4px;}
+                .m-spacing-r8{  margin-right: 8px;}
+                .m-spacing-r16{  margin-right: 16px;}
+                .m-spacing-r32{  margin-right: 32px;}
+
+                .m-spacing-l4{  margin-left: 4px;}
+                .m-spacing-l8{  margin-left: 8px;}
+                .m-spacing-l16{  margin-left: 16px;}
+                .m-spacing-l32{  margin-left: 32px;}
+
+                .m-spacing-t4{  margin-top: 4px;}
+                .m-spacing-t8{  margin-top: 8px;}
+                .m-spacing-t16{  margin-top: 16px;}
+                .m-spacing-t32{  margin-right: 32px;}
+
+                .m-spacing-b4{  margin-bottom: 4px;}
+                .m-spacing-b8{  margin-bottom: 8px;}
+                .m-spacing-b16{  margin-bottom: 16px;}
+                .m-spacing-b32{  margin-bottom: 32px;}
+
+                .m-inner-tb0{  margin-top:0px; margin-bottom: 0px;}
+                .m-inner-tb2{  margin-top:2px; margin-bottom: 2px;}
+                .m-inner-tb4{  margin-top:4px; margin-bottom: 4px;}
+                .m-inner-tb8{  margin-top:8px; margin-bottom: 8px;}
+                .m-inner-tb16{  margin-top:16px; margin-bottom: 16px;}
+                .m-inner-tb32{  margin-top:32px; margin-bottom: 32px;}
+
+                .m-padding-tb0{  padding-top:0px; padding-bottom: 0px;}
+                .m-padding-tb2{  padding-top:2px; padding-bottom: 2px;}
+                .m-padding-tb4{  padding-top:4px; padding-bottom: 4px;}
+                .m-padding-tb8{  padding-top:8px; padding-bottom: 8px;}
+                .m-padding-tb16{  padding-top:16px; padding-bottom: 16px;}
+                .m-padding-tb32{  padding-top:32px; padding-bottom: 32px;}
+            </style>
         </ui:define>
     </ui:composition>
 

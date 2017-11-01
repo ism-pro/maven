@@ -1,22 +1,25 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 26-mai-2016, 23:33:10
-    Author     : r.hendrick
-*/
 
+/** ======= NORTH LAYOUT UNIT */
+.ui-layout-unit.ui-widget.ui-widget-content.ui-corner-all.ui-layout-north.ui-layout-pane.ui-layout-pane-north{
+    
+}
 
-#unitNorth .ui-layout-unit-header.ui-widget-header.ui-corner-all{
+.ui-layout-unit.ui-widget.ui-widget-content.ui-corner-all.ui-layout-north.ui-layout-pane.ui-layout-pane-north .ui-layout-unit-header.ui-widget-header.ui-corner-all{
     padding: 0px;
     margin: 0px;
-    height: 24px; 
+    margin-top: 2px;
+    border: none;
+    height: 24px;
 }
-#unitNorth .ui-layout-unit-header-title{
+/** ================== Cache le bouton de réduction dans ruban **/
+.ui-layout-unit.ui-widget.ui-widget-content.ui-corner-all.ui-layout-north.ui-layout-pane.ui-layout-pane-north .ui-layout-unit-header.ui-widget-header.ui-corner-all > a{
+    display: none;
+}
+
+.ui-layout-unit.ui-widget.ui-widget-content.ui-corner-all.ui-layout-north.ui-layout-pane.ui-layout-pane-north .ui-layout-unit-header-title{
     float: left;
-}
+}   
+/*
 #unitNorth .ui-layout-unit-content.ui-widget-content{
     padding: 0px;
     margin: 0px;
@@ -24,13 +27,13 @@ and open the template in the editor.
 }
 #unitNorth a.ui-layout-unit-header-icon.ui-state-default.ui-corner-all{
     display: none;
-}
+}*/
 
 
 /* ==============================================*/
-.unitNorthHeader{
+/*.unitNorthHeader{
     max-height: 10px; 
-}
+}*/
 
 #unitNorth-resizer{
     background-color: lightgrey;

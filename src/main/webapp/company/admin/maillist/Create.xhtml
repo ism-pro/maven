@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.MaillistTitleCreate}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{maillistController.selected != null}">
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlId}" rendered="false" for="mlId" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false">                
+                        <p:inputText id="mlId" 
+                                     value="#{maillistController.selected.mlId}" 
+                                     title="#{ism.MaillistFieldInfo_mlId}" 
+                                     required="true" requiredMessage="#{ism.MaillistRequiredMsg_mlId}" 
+                                     />
+                        <p:message for="mlId" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlEvent}"  for="mlEvent" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="mlEvent" 
+                                     value="#{maillistController.selected.mlEvent}" 
+                                     title="#{ism.MaillistFieldInfo_mlEvent}" 
+                                     required="true" requiredMessage="#{ism.MaillistRequiredMsg_mlEvent}" 
+                                     />
+                        <p:message for="mlEvent" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlGroupe}"  for="mlGroupe" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="mlGroupe" 
+                                     value="#{maillistController.selected.mlGroupe}" 
+                                     title="#{ism.MaillistFieldInfo_mlGroupe}" 
+                                     required="true" requiredMessage="#{ism.MaillistRequiredMsg_mlGroupe}" 
+                                     />
+                        <p:message for="mlGroupe" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlTos}"  for="mlTos" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="mlTos" 
+                                     value="#{maillistController.selected.mlTos}" 
+                                     title="#{ism.MaillistFieldInfo_mlTos}" 
+                                     required="true" requiredMessage="#{ism.MaillistRequiredMsg_mlTos}" 
+                                     />
+                        <p:message for="mlTos" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlCcs}"  for="mlCcs" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="mlCcs" 
+                                     value="#{maillistController.selected.mlCcs}" 
+                                     title="#{ism.MaillistFieldInfo_mlCcs}" 
+                                     required="true" requiredMessage="#{ism.MaillistRequiredMsg_mlCcs}" 
+                                     />
+                        <p:message for="mlCcs" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlCcis}"  for="mlCcis" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="mlCcis" 
+                                     value="#{maillistController.selected.mlCcis}" 
+                                     title="#{ism.MaillistFieldInfo_mlCcis}" 
+                                     required="true" requiredMessage="#{ism.MaillistRequiredMsg_mlCcis}" 
+                                     />
+                        <p:message for="mlCcis" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlDeleted}"  for="mlDeleted" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectBooleanCheckbox id="mlDeleted"
+                                                 value="#{maillistController.selected.mlDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.MaillistRequiredMsg_mlDeleted}" 
+                                                 />
+                        <p:message for="mlDeleted" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlCreated}"  for="mlCreated" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="mlCreated" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{maillistController.selected.mlCreated}" 
+                                    title="#{ism.MaillistFieldInfo_mlCreated}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.MaillistRequiredMsg_mlCreated}" 
+                                    showOn="button"/>
+                        <p:message for="mlCreated" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlChanged}"  for="mlChanged" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:calendar id="mlChanged" pattern="dd/MM/yyyy" rendered="false"
+                                    value="#{maillistController.selected.mlChanged}" 
+                                    title="#{ism.MaillistFieldInfo_mlChanged}" 
+                                    required="true" 
+                                    requiredMessage="#{ism.MaillistRequiredMsg_mlChanged}" 
+                                    showOn="button"/>
+                        <p:message for="mlChanged" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlCompany}"  for="mlCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="mlCompany" widgetVar="mlCompany"
+                                     value="#{maillistController.selected.mlCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.MaillistRequiredMsg_mlCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="mlCompany" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlProcessus}"  for="mlProcessus" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="mlProcessus"  widgetVar="mlProcessus"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{maillistController.selected.mlProcessus}"
+                                         required="true" 
+                                         requiredMessage="#{ism.MaillistRequiredMsg_mlProcessus}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
+                                           var="mlProcessusItem"
+                                           itemLabel="#{mlProcessusItem.Expected hash. entityDescriptor.id?replace(".","_") evaluated instead to freemarker.template.SimpleScalar on line 89, column 113 in unknown.} - #{mlProcessusItem.stgdDesignation}" 
+                                           itemValue="#{mlProcessusItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="mlProcessus" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.MaillistField_mlType}"  for="mlType" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="mlType"  widgetVar="mlType"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{maillistController.selected.mlType}"
+                                         required="true" 
+                                         requiredMessage="#{ism.MaillistRequiredMsg_mlType}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{ismMailtypeController.itemsAvailableSelectOne}"
+                                           var="mlTypeItem"
+                                           itemLabel="#{mlTypeItem.Expected hash. entityDescriptor.id?replace(".","_") evaluated instead to freemarker.template.SimpleScalar on line 89, column 113 in unknown.} - #{mlTypeItem.stgdDesignation}" 
+                                           itemValue="#{mlTypeItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="mlType" />
+                    </h:panelGrid>
+
+
+                </p:panelGrid>
+
+
+
+
+
+
+
+
+                <h:panelGroup id="btn-crud-zone_id"  >
+                    <p:outputLabel  value="#{ism.CreateMultiple}" style="margin-right: 10px;"/>
+                    <p:selectBooleanButton  value="#{maillistController.isOnMultiCreation}" 
+                                            onLabel="#{ism.Yes}" offLabel="#{ism.No}" 
+                                            onIcon="ui-icon-check" offIcon="ui-icon-close" 
+                                            styleClass="ui-btn"
+                                            >
+                        <p:ajax update=":bodyForm:btn-crud-zone_id,westGroup,:growl" listener="#{maillistController.toggleMultiCreationFake()}"  />
+                    </p:selectBooleanButton>
+
+                    <p:commandButton icon="ui-btn-Save"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{maillistController.create}" 
+                                     onstart="#{p:widgetVar('bodyForm:mlCompany')}.enable();"
+                                     update=":bodyForm,:growl" 
+                                     rendered="#{maillistController.isOnMultiCreation}"
+                                     />
+                    <p:commandButton icon="ui-btn-SaveOne"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Save}" 
+                                     actionListener="#{maillistController.createUnReleasded()}" 
+                                     onstart="#{p:widgetVar('bodyForm:mlCompany')}.enable();"
+                                     update=":bodyForm,:growl"
+                                     action="List.xhtml?faces-redirect=true"
+                                     rendered="#{!maillistController.isOnMultiCreation}"
+                                     />
+
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     update=":bodyForm,:growl"
+                                     actionListener="#{maillistController.prepareCreate()}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+                <p:messages showDetail="true" showSummary="false"
+                            escape="false"/>
+
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Save"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{maillistController.create}" 
+                                 onstart="#{p:widgetVar('bodyForm:mlCompany')}.enable();"
+                                 update=":bodyForm,:growl" 
+                                 rendered="#{maillistController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+                <p:commandButton icon="ui-btn-SaveOne"
+                                 styleClass="options-btn"
+                                 value="#{ism.Save}" 
+                                 actionListener="#{maillistController.createUnReleasded()}" 
+                                 onstart="#{p:widgetVar('bodyForm:mlCompany')}.enable();"
+                                 update=":bodyForm,:growl"
+                                 action="List.xhtml?faces-redirect=true"
+                                 rendered="#{!maillistController.isOnMultiCreation}"
+                                 form="bodyForm"
+                                 />
+
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 update=":bodyForm,:growl"
+                                 actionListener="#{maillistController.prepareCreate()}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.MailaddressTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{mailaddressController.selected != null}">
+
+                    <h:outputText value="#{ism.MailaddressField_maId}"  />
+                    <h:outputText value="#{mailaddressController.selected.maId}" 
+                                  title="#{ism.MailaddressFieldInfo_maId}" />
+
+
+                    <h:outputText value="#{ism.MailaddressField_maGroupe}"  />
+                    <h:outputText value="#{mailaddressController.selected.maGroupe}" 
+                                  title="#{ism.MailaddressFieldInfo_maGroupe}" />
+
+
+                    <h:outputText value="#{ism.MailaddressField_maAddress}"  />
+                    <h:outputText value="#{mailaddressController.selected.maAddress}" 
+                                  title="#{ism.MailaddressFieldInfo_maAddress}" />
+
+
+                    <h:outputText value="#{ism.MailaddressField_maDeleted}"  />
+                    <p:selectBooleanCheckbox value="#{mailaddressController.selected.maDeleted}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.MailaddressField_maCreated}"  />
+                    <h:outputText value="#{mailaddressController.selected.maCreated}" 
+                                  title="#{ism.MailaddressFieldInfo_maCreated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.MailaddressField_maChanged}"  />
+                    <h:outputText value="#{mailaddressController.selected.maChanged}" 
+                                  title="#{ism.MailaddressFieldInfo_maChanged}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.MailaddressField_maCompany}"  />
+                    <h:outputText value="#{mailaddressController.selected.maCompany}" 
+                                  title="#{ism.MailaddressFieldInfo_maCompany}" />
+
+
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le processus sélectionné."
+                                     disabled="#{empty mailaddressController.selected 
+                                                 or empty mailaddressController.selected.maId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le Mailaddress sélectionné !"
+                                     actionListener="#{mailaddressController.destroy}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.MailaddressDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.MailaddressDlgMessage)};
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty mailaddressController.selected 
+                                                 or empty mailaddressController.selected.maId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le processus sélectionné."
+                                 disabled="#{empty mailaddressController.selected 
+                                             or empty mailaddressController.selected.maId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le Mailaddress sélectionné !"
+                                 actionListener="#{mailaddressController.destroy}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.MailaddressDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.MailaddressDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty mailaddressController.selected 
+                                             or empty mailaddressController.selected.maId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

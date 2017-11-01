@@ -23,8 +23,13 @@
             <h:outputStylesheet library="css" name="ism.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
 
-            <h:outputStylesheet name="webjars/font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
+                        
+            <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
+            <h:outputStylesheet library="webjars" name="bootstrap/3.3.7/css/bootstrap.min.css" />
+
+            <!--
             <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
+            -->
 
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
 
@@ -33,6 +38,14 @@
 
             <h:outputScript library="js" name="ism-global.min.js" />
             
+            <!--
+            <h:outputScript library="webjars" name="popper.js/1.12.5/dist/umd/popper-utils.min.js" />
+            <h:outputScript library="webjars" name="popper.js/1.12.5/dist/umd/popper.min.js" />
+            -->
+            <h:outputScript library="webjars" name="bootstrap/3.3.7/js/bootstrap.min.js" />
+            
+
+
         </f:facet>
     </h:head>
 
@@ -83,8 +96,8 @@
 
 
 
-                        <div id="layout-shortcut" >
-                            <div id="shortcut-main" >
+                        <div id="layout-shortcut" class="ui-layout-shortcut" >
+                            <div id="shortcut-main" class="ui-main" >
                                 <p:menuButton id="shortcut-selector" value=""  >
                                     <p:menuitem actionListener="#{ribbonView.findComponent('btn_1')}" value="btn 1" update="@form" />
                                     <p:menuitem actionListener="#{ribbonView.findComponent('btn_2')}" value="btn 2" update="@form" />
@@ -94,14 +107,14 @@
                                     <p:menuitem actionListener="#{ribbonView.findComponent('shortcut-label-reminingTimeout')}" value="TimeOut" update="@form" />
                                 </p:menuButton>
                             </div>
-                            <div id="shortcut-left">
+                            <div id="shortcut-left" class="ui-left">
                                 <p:commandButton id="btn_1"  value='' rendered="false" />
                                 <p:commandButton id="btn_2" value=''  rendered="false" />
                             </div>
-                            <div id="shortcut-center">
+                            <div id="shortcut-center" class="ui-center">
                                 <p:outputLabel value="#{ism.AppNameA} [ #{ism.AppVersion} ]  -  #{ism.CompanyName} - #{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}"/>
                             </div>
-                            <div id="shortcut-right">
+                            <div id="shortcut-right" class="ui-right">
                                 <p:selectOneMenu  id="shortcut-btn-theme" 
                                                   style="float:left;"
                                                   value="#{staffSetupController.theme}" 

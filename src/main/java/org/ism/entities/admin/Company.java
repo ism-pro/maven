@@ -70,6 +70,11 @@ import org.ism.entities.smq.ProcessAccess;
 })
 public class Company implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "maCompany")
+    private Collection<Mailaddress> mailaddressCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mlCompany")
+    private Collection<Maillist> maillistCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "aaCompany")
     private Collection<AnalyseAllowed> analyseAllowedCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "apCompany")
@@ -430,6 +435,24 @@ public class Company implements Serializable {
 
     public void setStaffGroupDefCollection(Collection<StaffGroupDef> staffGroupDefCollection) {
         this.staffGroupDefCollection = staffGroupDefCollection;
+    }
+
+    @XmlTransient
+    public Collection<Mailaddress> getMailaddressCollection() {
+        return mailaddressCollection;
+    }
+
+    public void setMailaddressCollection(Collection<Mailaddress> mailaddressCollection) {
+        this.mailaddressCollection = mailaddressCollection;
+    }
+
+    @XmlTransient
+    public Collection<Maillist> getMaillistCollection() {
+        return maillistCollection;
+    }
+
+    public void setMaillistCollection(Collection<Maillist> maillistCollection) {
+        this.maillistCollection = maillistCollection;
     }
 
 }

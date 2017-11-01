@@ -190,45 +190,14 @@ Configuration :
 
 
 
-<p:dialog id="PrintDlg" widgetVar="PrintDlg" 
-                                  dynamic="true" showEffect="clip"  hideEffect="clip" modal="true" resizable="false" appendTo="@(body)" 
-                                  header="Options d'impression">
-                            <h:form id="printForm">
-                                <p:panelGrid id="printPanel" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
-                                             >
 
 
-                                    <p:outputLabel value="Paysage ?" for="exportLandscape" />
-                                    <p:selectBooleanCheckbox id="exportLandscape" value="#{docExplorerController.exporter.landscape}" />
-
-                                    <p:outputLabel value="Marge horizontal" for="horizontalMargin" />
-                                    <p:inputNumber id="horizontalMargin" value="#{docExplorerController.exporter.marginLeft}" />
-
-                                    <p:outputLabel value="Marge verticale" for="verticalMargin" />
-                                    <p:inputNumber id="verticalMargin" value="#{docExplorerController.exporter.marginTop}" />
 
 
-                                </p:panelGrid>
-                                <p:commandLink ajax="false" onclick="PF('PrintDlg').show()">
-                                    <p:graphicImage library="img" name="ism/std/ExtPDF.png" width="24" height="24"/>
-                                    <p:dataExporter type="pdf" target="datalist" fileName="#{ism.DocExplorerTitleList}_#{viewUtil.maintenant}" 
-                                                    postProcessor="#{docExplorerController.handlePostProcessPDF}"
-                                                    preProcessor="#{docExplorerController.handlePreProcessPDF}"
-                                                    pageOnly="true"
-                                                    />
-                                </p:commandLink>
-                                <p:commandButton id="pdfPrintOptions" 
-                                                 icon="ui-icon-plus"   
-                                                 value="#{ism.Print}" 
-                                                 oncomplete="PF('PrintDlg').close()">
-
-                                </p:commandButton>
-                                <p:commandButton value="#{ism.Cancel}" 
-                                                 onclick="PF('PrintDlg').close()"/>
-                            </h:form>
-                        </p:dialog>
 
 
- <p:commandButton icon="fa fa-print"   
-                                             update=":bodyForm" 
-                                             oncomplete="PF('PrintDlg').show()"/>
+
+
+
+
+

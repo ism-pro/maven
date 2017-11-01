@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:composition template="/tmpl/MainWindow.xhtml">
+
+        <ui:define name="body">
+            <h1><h:outputText value="#{ism.MaillistTitleView}"/></h1>
+
+            <h:form id="bodyForm">
+
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             rendered="#{maillistController.selected != null}">
+
+                    <h:outputText value="#{ism.MaillistField_mlId}"  />
+                    <h:outputText value="#{maillistController.selected.mlId}" 
+                                  title="#{ism.MaillistFieldInfo_mlId}" />
+
+
+                    <h:outputText value="#{ism.MaillistField_mlEvent}"  />
+                    <h:outputText value="#{maillistController.selected.mlEvent}" 
+                                  title="#{ism.MaillistFieldInfo_mlEvent}" />
+
+
+                    <h:outputText value="#{ism.MaillistField_mlGroupe}"  />
+                    <h:outputText value="#{maillistController.selected.mlGroupe}" 
+                                  title="#{ism.MaillistFieldInfo_mlGroupe}" />
+
+
+                    <h:outputText value="#{ism.MaillistField_mlTos}"  />
+                    <h:outputText value="#{maillistController.selected.mlTos}" 
+                                  title="#{ism.MaillistFieldInfo_mlTos}" />
+
+
+                    <h:outputText value="#{ism.MaillistField_mlCcs}"  />
+                    <h:outputText value="#{maillistController.selected.mlCcs}" 
+                                  title="#{ism.MaillistFieldInfo_mlCcs}" />
+
+
+                    <h:outputText value="#{ism.MaillistField_mlCcis}"  />
+                    <h:outputText value="#{maillistController.selected.mlCcis}" 
+                                  title="#{ism.MaillistFieldInfo_mlCcis}" />
+
+
+                    <h:outputText value="#{ism.MaillistField_mlDeleted}"  />
+                    <p:selectBooleanCheckbox value="#{maillistController.selected.mlDeleted}" 
+                                             disabled="true"/>
+
+
+                    <h:outputText value="#{ism.MaillistField_mlCreated}"  />
+                    <h:outputText value="#{maillistController.selected.mlCreated}" 
+                                  title="#{ism.MaillistFieldInfo_mlCreated}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.MaillistField_mlChanged}"  />
+                    <h:outputText value="#{maillistController.selected.mlChanged}" 
+                                  title="#{ism.MaillistFieldInfo_mlChanged}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+
+
+                    <h:outputText value="#{ism.MaillistField_mlCompany}"  />
+                    <h:outputText value="#{maillistController.selected.mlCompany}" 
+                                  title="#{ism.MaillistFieldInfo_mlCompany}" />
+
+
+                    <h:outputText value="#{ism.MaillistField_mlProcessus}"  />
+                    <h:outputText value="#{maillistController.selected.mlProcessus}" 
+                                  title="#{ism.MaillistFieldInfo_mlProcessus}" />
+
+
+                    <h:outputText value="#{ism.MaillistField_mlType}"  />
+                    <h:outputText value="#{maillistController.selected.mlType}" 
+                                  title="#{ism.MaillistFieldInfo_mlType}" />
+
+
+
+
+                </p:panelGrid>
+
+                <h:panelGroup id="btn-crud-zone_id">
+                    <p:commandButton icon="ui-btn-Print"
+                                     styleClass="ui-btn">
+                        <p:printer target="bodyForm"  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Edit"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Edit}"
+                                     action="Edit.xhtml?faces-redirect=true"
+                                     title="Permet d'éditer le processus sélectionné."
+                                     disabled="#{empty maillistController.selected 
+                                                 or empty maillistController.selected.mlId}"
+                                     />
+                    <p:commandButton icon="ui-btn-Delete"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Delete}"
+                                     action="./List.xhtml?faces-redirect=true"
+                                     title="Permet de supprimer le Maillist sélectionné !"
+                                     actionListener="#{maillistController.destroy}"
+                                     update=":bodyForm,westGroup,:growl"
+                                     onstart=";
+                                     #{viewConfirmDialog.dlg.setHeader(ism.MaillistDlgHeader)};
+                                     #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                     #{viewConfirmDialog.dlg.setMessage(ism.MaillistDlgMessage)};
+                                     PF('mainConfirmDialog').show()"
+                                     disabled="#{empty maillistController.selected 
+                                                 or empty maillistController.selected.mlId}"
+                                     >
+                        <p:confirm  />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-btn-Cancel"
+                                     styleClass="ui-btn"
+                                     value="#{ism.Cancel}" 
+                                     action="./List.xhtml?faces-redirect=true"
+                                     update=":bodyForm,:growl"
+                                     immediate="true"
+                                     />
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </ui:define>
+
+
+
+
+
+        <ui:define name="west" id="west">
+            <h:panelGroup id="westGroup">
+                <p:commandButton icon="ui-btn-Print"
+                                 styleClass="options-btn"
+                                 value="#{ism.Print}" type="button">
+                    <p:printer target="bodyForm"  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Edit"
+                                 styleClass="options-btn"
+                                 value="#{ism.Edit}"
+                                 action="Edit.xhtml?faces-redirect=true"
+                                 title="Permet d'éditer le processus sélectionné."
+                                 disabled="#{empty maillistController.selected 
+                                             or empty maillistController.selected.mlId}"
+                                 />
+                <p:commandButton icon="ui-btn-Delete"
+                                 styleClass="options-btn"
+                                 value="#{ism.Delete}"
+                                 action="./List.xhtml?faces-redirect=true"
+                                 title="Permet de supprimer le Maillist sélectionné !"
+                                 actionListener="#{maillistController.destroy}"
+                                 update=":bodyForm,westGroup,:growl"
+                                 onstart=";
+                                 #{viewConfirmDialog.dlg.setHeader(ism.MaillistDlgHeader)};
+                                 #{viewConfirmDialog.dlg.setSeverity('alert')};
+                                 #{viewConfirmDialog.dlg.setMessage(ism.MaillistDlgMessage)};
+                                 PF('mainConfirmDialog').show()"
+                                 disabled="#{empty maillistController.selected 
+                                             or empty maillistController.selected.mlId}"
+                                 >
+                    <p:confirm  />
+                </p:commandButton>
+                <p:commandButton icon="ui-btn-Cancel"
+                                 styleClass="options-btn"
+                                 value="#{ism.Cancel}" 
+                                 action="./List.xhtml?faces-redirect=true"
+                                 update=":bodyForm,:growl"
+                                 immediate="true"
+                                 />
+
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

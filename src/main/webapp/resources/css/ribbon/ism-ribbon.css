@@ -72,81 +72,87 @@ body {
 *  + shortcut-center
 *  + shortcut-right
 *******************************************************************************/
-#layout-shortcut{
+.ui-layout-shortcut{
     width: 100%;
-    max-height: 24px;
     position: absolute; 
-    /*z-index: 2;*/
-    float:left;
+    top: 0px;
 }
-#layout-shortcut .ui-button{
-    margin: 1px;
+/* =================== shortcut main container  === */
+.ui-layout-shortcut .ui-main{
+    float: left;
+    height: 22px;
+    max-height: 22px;
+}
+/* Gestion du format des buttons dans le shortcut */
+.ui-main button  {
+    margin: 2px;
     padding:0px;    /*Supprime le padding de tous les boutons */
     border: none;   /*Supprime les bordure de tous les button */
     min-height: 22px;
     max-height: 22px;
-    min-width:  24px;
-    max-width: 24px;
+    min-width:  22px;
+    max-width: 22px;
 }
-#layout-shortcut .ui-button-icon-left.ui-icon.ui-c.ui-icon-triangle-1-s{
-    display: none!important; /* Supprime l'affichage d'icône dans les bouttons de la barre shortcut */
-    margin-left: -5px!important;
+/** Supprime l'affichage de text dans les boutton */
+.ui-layout-shortcut  .ui-button-text.ui-c{
+    display: none!important;  
 }
-#layout-shortcut .ui-button-text.ui-c{
-    display: none!important; /* Supprime l'affichage de texte des buttons dans shortcut*/
-}
-
-/* ====================== */
-#shortcutForm\3a shortcut-selector_button > span.ui-button-text.ui-c  {
-    background: url("#{resource['img/ism/ribbon/shortcut.png']}") no-repeat!important;
-    background-size:contain;
-}
-
-
-#layout-shortcut #shortcut-main {
+/* =================== shortcut left container  === */
+.ui-layout-shortcut .ui-left {
     float: left;
+    top: 0px;
 }
-#layout-shortcut #shortcut-left {
-    float: left;
-}
-#layout-shortcut #shortcut-center {
+
+/* =================== shortcut center container  === */
+.ui-layout-shortcut .ui-center {
     float: left;
     margin-top: -22px;
     width: 100%;
-    height: 24px!important;
+    height: 22px;
+    line-height: 22px;
     font-weight: normal;
     font-size: 10pt;
     color: #4f4949;
     text-align: center;
-
-
 }
-#layout-shortcut #shortcut-right {
+
+/* =================== shortcut center container  === */
+.ui-layout-shortcut .ui-right {
     float: right;
-    margin-top: -27px;
-    max-height: 24px!important;
+    margin-top: -22px;
+    height: 22px;
+    max-height: 22px;
 }
-#layout-shortcut #shortcut-right * {
+.ui-layout-shortcut .ui-right * {
     margin-left: 2px;
     font-size: 8pt;
     float: left;
     height: 24px;
 }
+
+/* =================== shortcut center container  === */
+
 #shortcutForm\3a shortcut-btn-theme > div.ui-selectonemenu-trigger.ui-state-default.ui-corner-right > span{
     height: 16px!important;
 }
 #shortcutForm\3a shortcut-btn-theme > div.ui-selectonemenu-trigger.ui-state-default.ui-corner-right{
     height: 22px!important;
 }
+
+
 .shortcut-timeout {
-    margin-top: 0px!important;
-    min-width: 24px!important;
-    height: 24px!important;
+    margin-top: 0px;
+    min-width: 24px;
+    
     padding: 2px 2px 2px 2px;
     border: 1px solid #c5c5c5!important;
-    text-align: center;
     background-color: white;
+    height: 24px;
+    line-height: 18px;
+    text-align: center;
+    
 }
+
 
 
 

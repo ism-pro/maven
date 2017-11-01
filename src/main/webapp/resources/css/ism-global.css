@@ -109,8 +109,8 @@ time, mark, audio, video {
 #file-layout .ui-widget-content,
 #file-layout .ui-widget-header .ui-widget-header,
 #file-layout .ui-widget-content .ui-widget-content {
-    font-family: calibri, Helvetica,"Trebuchet MS",  sans-serif !important;
-    font-size: 10pt;
+/*    font-family: calibri, Helvetica,"Trebuchet MS",  sans-serif !important;
+    font-size: 10pt;*/
 }
 
 .ui-selectonemenu-trigger.ui-state-default.ui-corner-right{
