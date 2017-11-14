@@ -6,10 +6,12 @@
 package org.ism.view.smq;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import org.ism.entities.hr.Staff;
 import org.ism.entities.smq.Processus;
 import org.ism.jsf.admin.MailaddressController;
 import org.ism.jsf.admin.MaillistController;
@@ -48,6 +50,12 @@ public class NCMailView implements Serializable {
      * Specifiy the current selected processus
      */
     private Processus selectedProcessus;
+    
+    
+    /**
+     * Represent a list of staff
+     */
+    List<Staff> mailTos = null;
 
     // /////////////////////////////////////////////////////////////////////////
     //
@@ -75,6 +83,16 @@ public class NCMailView implements Serializable {
     public void setSelectedProcessus(Processus selectedProcessus) {
         this.selectedProcessus = selectedProcessus;
     }
+
+    public List<Staff> getStaffs() {
+        return mailTos;
+    }
+
+    public void setStaffs(List<Staff> staffs) {
+        this.mailTos = staffs;
+    }
+    
+    
 
     // /////////////////////////////////////////////////////////////////////////
     //

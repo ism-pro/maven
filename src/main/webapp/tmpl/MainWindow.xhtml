@@ -20,16 +20,17 @@
             <h:outputStylesheet library="css" name="ribbon/ism-ribbon.min.css" />
             <h:outputStylesheet library="css" name="ism-layout.min.css" />
             <h:outputStylesheet library="css" name="ism-global.min.css" />
-            <h:outputStylesheet library="css" name="ism.min.css" />
             <h:outputStylesheet library="css" name="admin/ism-smq-nc.min.css" />
 
                         
             <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
             <h:outputStylesheet library="webjars" name="bootstrap/3.3.7/css/bootstrap.min.css" />
+            
+            
+            <!-- After bootstrap is mendatory -->
+            
+            <h:outputStylesheet library="css" name="ism.min.css" /> 
 
-            <!--
-            <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
-            -->
 
             <h:outputStylesheet library="js" name="daterangepicker/jquery.comiseo.daterangepicker.min.css" />
 
@@ -43,6 +44,7 @@
             <h:outputScript library="webjars" name="popper.js/1.12.5/dist/umd/popper.min.js" />
             -->
             <h:outputScript library="webjars" name="bootstrap/3.3.7/js/bootstrap.min.js" />
+            <h:outputStylesheet library="css" name="jqplot.min.css" /> 
             
 
 
@@ -356,7 +358,7 @@
                                     <pi:ribbonGroupSet id="ribbonGroupSetStaffCreate" set="big">
                                         <p:menuButton   id="menubutton-hr-accessright" 
                                                         value="Droits"
-                                                        styleClass="ui-ribbon ui-menubutton-accessright"
+                                                        styleClass="ui-menubutton-accessright"
                                                         >
                                             <p:menuitem id="splitButtonMenuItemHRGroup"
                                                         disabled="#{!request.isUserInRole('HR_GROUP')}"
@@ -823,6 +825,8 @@
                                  onclick="PF('ReportDlg').hide()"/>
             </h:form>
         </p:dialog> 
+        
+        
     </h:body>
 
 

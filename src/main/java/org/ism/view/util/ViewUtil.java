@@ -211,8 +211,8 @@ public class ViewUtil implements Serializable {
     }
 
     /**
-     * daysOverYearsFrom allow to calculate the number of accomplished days from a
-     * specified date till now.
+     * daysOverYearsFrom allow to calculate the number of accomplished days from
+     * a specified date till now.
      * <br>
      * This method is useful for example while your need to compute the
      * accomplished days over years of age.
@@ -238,8 +238,7 @@ public class ViewUtil implements Serializable {
 
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(yearsl), ZoneId.systemDefault()).getDayOfYear();
     }
-    
-    
+
     /**
      * Methodd permettand de convertir une list en entier en double method utile
      * pour utilisation des graphique
@@ -254,5 +253,68 @@ public class ViewUtil implements Serializable {
             l.add(1.00 * iter.next());
         }
         return l;
+    }
+
+    /**
+     * Convert a duraction in in the way of day, hour, min, sec
+     *
+     * @param milliSec correspond to a time specefied in millesecond
+     * @return a string formated like ##j ##:##.30
+     */
+    public String durationFromMilliSec(Long milliSec) {
+
+        Integer value = Integer.valueOf(milliSec.toString()) / 1000;
+        Integer sec = (value % 60);
+        Integer min = (value / 60) % 60;
+        Integer hour = (value / (60 * 60)) % 24;
+        Integer day = (value / (60 * 60 * 24));
+
+        String date = "";
+        if (day > 0) {
+            date += day + "j ";
+        }
+        if (hour > 0) {
+            date += hour + "h ";
+        }
+        if (min > 0) {
+            date += min + "' ";
+        }
+        date += sec + "''";
+
+        return date;
+    }
+
+    public static final Integer PART_DAY = 0;
+    public static final Integer PART_HOUR = 1;
+    public static final Integer PART_MIN = 2;
+    public static final Integer PART_SEC = 3;
+
+    /**
+     * Get part of a duration specify in milli seconde
+     *
+     * @param milliSec a number of milli seconde
+     * @param part one of PART_DAY, PART_HOUR, PART_MIN, PART_SEC
+     * @return the corresponding value of the part if recognized otherwise value
+     * in seconde
+     */
+    public Integer durationPartFromMilliSec(Long milliSec, Integer part) {
+        Integer value = Integer.valueOf(milliSec.toString()) / 1000;
+
+        switch (part) {
+            case 0:
+                return (value / (60 * 60 * 24));
+            case 1:
+                return (value / (60 * 60)) % 24;
+            case 2:
+                return (value / 60) % 60;
+            case 3:
+                return (value % 60);
+            default:
+                return value;
+        }
+    }
+    
+    public Integer durationPFMS(Long milliSec, Integer part){
+        return durationPartFromMilliSec(milliSec, part);
     }
 }

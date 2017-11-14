@@ -14,25 +14,189 @@
             <h:form id="bodyForm" >
                 <h1><h:outputText value="#{ism.MaillistTitle}"/></h1>
 
-            
-                <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" for="ncrProcessus" />
-                <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                    <p:selectOneMenu id="ncrProcessus" 
-                                     filter="true" filterMatchMode="contains"
-                                     title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}" 
-                                     required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"
-                                     >
-                        <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
-                        <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
-                                       var="processusItem"
-                                       itemLabel="#{processusItem.PProcessus} - #{processusItem.PDesignation}"
-                                       itemValue="#{processusItem}"/>
-                    </p:selectOneMenu>
-                    <p:message for="ncrProcessus" />
-                </h:panelGrid>
 
 
+                <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                             >
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" for="ncrProcessus" />
+                    <h:panelGroup>
+                        <p:selectOneMenu id="ncrProcessus" 
+                                         filter="true" filterMatchMode="contains"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}" 
+                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
+                                           var="processusItem"
+                                           itemLabel="#{processusItem.PProcessus} - #{processusItem.PDesignation}"
+                                           itemValue="#{processusItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="ncrProcessus" />
+                    </h:panelGroup>
+
+
+                    <p:outputLabel value="Réclamations" for="ncrReclame" />
+                    <h:panelGroup>
+                        <p:selectBooleanButton id="ncrReclame" 
+                                               value="#{bean.value}" onLabel="Yes"
+                                               offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" />
+                    </h:panelGroup>
+
+
+                </p:panelGrid>
+
+                <hr />
+
+                <style>
+                    #bodyForm\3a MailDefintionView > ul {
+                        float: left;
+                        width: 150px;
+                        height: 300px;
+                        background-image: none;
+                        padding-top: 1px;
+                        border-right: 1px solid #1889fc;
+                    }
+                    #bodyForm\3a MailDefintionView > div{
+                        float: left;
+                        width: calc(100%-150px);
+                        height: 300px;
+                    }
+                </style>
+                <h5>Liste d'envoi</h5>
+                <p:tabView id="MailDefintionViewa" >
+                    <p:tab id="tabCreate" title="Créé">
+                        <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                                      >
+                            <p:outputLabel value="A" for="fCreateTos" />
+
+                            <h:panelGroup >
+                                <p:chips id="fCreateTos" placeholder="#{ism.MailListOfStaff}" style="display: inherit;float:left;" 
+                                         value="#{ncMailView.staffs}"/>
+                                <p:commandButton id="btnSearchUser"
+                                                 icon="fa fa-search"
+                                                 styleClass="btn btn-primary"
+                                                 style="border-radius: 0px; "
+                                                 title="Permet de rechercher un utilisateur"
+                                                 onclick="PF('MailSearchStaff').show()"
+                                                 disabled="#{!request.isUserInRole('S_EXPLORER_E')}"
+
+                                                 />
+
+
+                            </h:panelGroup>
+                            <p:outputLabel value="CC" for="fCreateCcs" />
+                            <h:panelGroup >
+                                <p:chips id="fCreateCcs" />
+                            </h:panelGroup>
+                            <p:outputLabel value="CCi" for="fCreateCcis" />
+                            <p:chips id="fCreateCcis" />
+
+                        </p:panelGrid>
+                        <hr />
+                        <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
+                                      >
+                            <p:outputLabel value="A" for="fCreateReclamTos" />
+                            <p:chips id="fCreateReclamTos" />
+                            <p:outputLabel value="CC" for="fCreateReclamCcs" />
+                            <p:chips id="fCreateReclamCcs" />
+                            <p:outputLabel value="CCi" for="fCreateReclamCcis" />
+                            <p:chips id="fCreateReclamCcis" />
+
+                        </p:panelGrid>
+
+                    </p:tab>
+
+
+
+
+                    <p:tab id="WaitForSolution" title="En attente de solution">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
+                            <h:outputText value="Francis Ford Coppola's legendary..." />
+                        </h:panelGrid>
+                    </p:tab>
+
+
+
+
+                    <p:tab id="InProgress" title="En cours">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                            <h:outputText value="After a break of more than 15 years..." />
+                        </h:panelGrid>
+                    </p:tab>
+
+
+
+                    <p:tab id="Finished" title="Terminé">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                            <h:outputText value="After a break of more than 15 years..." />
+                        </h:panelGrid>
+                    </p:tab>
+
+
+
+                    <p:tab id="Cancel" title="Annulé">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+                            <h:outputText value="After a break of more than 15 years..." />
+                        </h:panelGrid>
+                    </p:tab>
+
+
+                </p:tabView>
+
+                <p:dialog id="MailSearchStaff" widgetVar="MailSearchStaff" 
+                          showEffect="clip"  hideEffect="clip" appendTo="@(body)" 
+                          header="#{ism.MailSearchStaffDlgTitle} : #{ism.MailSearchStaffDlgMsg}" 
+                          width="610"
+                          draggable="false" resizable="false" modal="true" 
+
+                          fitViewport="true" 
+                          >
+
+                    <h:form id="mailSearchStaffForm">
+                        <p:panelGrid id="mailSearchStaffPanel" 
+                                     columns="2" 
+                                     columnClasses="columnFieldClass, columnContentClass" 
+                                     styleClass="panelGridClass">
+
+                            <p:outputLabel value="#{ism.StaffGroupsField_stgStaff}" for="msStaff" />
+                            <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                                <p:selectOneMenu id="msStaff"  widgetVar="msStaff"
+                                                 filter="true" filterMatchMode="contains"
+                                                 value="#{staffGroupsController.selected.stgStaff}"
+                                                 title="#{ism.StaffGroupsFieldInfo_stgStaff}" 
+                                                 required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgStaff}"
+                                                 >
+                                    <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                                    <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
+                                                   var="stgStaffItem"
+                                                   itemLabel="#{stgStaffItem.stFirstname} #{stgStaffItem.stLastname} #{stgStaffItem.stMiddlename} [#{stgStaffItem.stStaff}]"
+                                                   itemValue="#{stgStaffItem}"/>
+                                </p:selectOneMenu>
+                                <p:message for="msStaff" />
+                            </h:panelGrid>
+
+
+                        </p:panelGrid>
+                        <br/>
+
+                        <p:commandButton  value="#{ism.ReportRun}" ajax="false"
+                                          action="Report.xhtml?faces-redirect=true"
+                                          oncomplete="PF('ReportDlg').hide()"
+                                          actionListener="#{crystalController.handleCSReportViewer()}"
+                                          icon="fa fa-eye"
+                                          />
+                        <p:commandButton value="#{ism.Cancel}" 
+                                         icon="fa fa-times"
+                                         onclick="PF('ReportDlg').hide()"/>
+                    </h:form>
+                </p:dialog> 
             </h:form>
+
+
         </ui:define>
 
 

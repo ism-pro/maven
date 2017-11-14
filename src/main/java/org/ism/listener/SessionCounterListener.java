@@ -10,16 +10,14 @@ package org.ism.listener;
  * @author r.hendrick
  */
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.ism.entities.hr.Staff;
-import org.ism.jsf.hr.StaffAuthController;
-import org.ism.jsf.hr.StaffController;
 
 public class SessionCounterListener implements HttpSessionListener {
 
@@ -28,6 +26,11 @@ public class SessionCounterListener implements HttpSessionListener {
 
     private static List<HttpSession> sessionList = new ArrayList<HttpSession>(); //!< List de toutes les sessions de l'application
     private static int sessionListSize = 0;                     //!< Conserve le nombre de sessions pour éviter de recalculer inutilement
+
+    public static String AUTHENTICATED = "authenticated";
+    public static String EPOCH_START = "EpochStart";
+    public static String EPOCH_END = "EpochEnd";
+    public static String ATT_STAFF = "astaff";
 
     public static int getTotalActiveSession() {
         return totalActiveSessions;
@@ -39,16 +42,18 @@ public class SessionCounterListener implements HttpSessionListener {
     }
 
     @Override
-    public void sessionCreated(HttpSessionEvent arg0) {
+    public void sessionCreated(HttpSessionEvent sessionEvent) {
         totalActiveSessions++;
-        sessionList.add(arg0.getSession());
+        sessionEvent.getSession().setAttribute(EPOCH_START, System.currentTimeMillis());
+        sessionList.add(sessionEvent.getSession());
         //System.out.println("sessionCreated - " + arg0.getSession().getId() + " - add one session into counter. Counter = "+ totalActiveSessions +  " contre List = " + sessionList.size());
     }
 
     @Override
-    public void sessionDestroyed(HttpSessionEvent arg0) {
+    public void sessionDestroyed(HttpSessionEvent sessionEvent) {
         totalActiveSessions--;
-        sessionList.remove(arg0.getSession());
+        sessionEvent.getSession().setAttribute(EPOCH_END, System.currentTimeMillis());
+        sessionList.remove(sessionEvent.getSession());
         //System.out.println("sessionDestroyed - " + arg0.getSession().getId() + " - deduct one session from counter");
     }
 
@@ -61,9 +66,9 @@ public class SessionCounterListener implements HttpSessionListener {
         while (sessionIterator.hasNext()) {
             HttpSession s = sessionIterator.next();
             //System.out.println("    In one session active counter");
-            if (s.getAttribute("authenticated") != null) {
+            if (s.getAttribute(AUTHENTICATED) != null) {
                 //System.out.println("    Authenticated attribut is define");
-                if (((boolean) s.getAttribute("authenticated"))) {
+                if (((boolean) s.getAttribute(AUTHENTICATED))) {
                     sessionListSize++;
                     //System.out.println("    increment sessionList to " + sessionListSize);
                 }
@@ -79,10 +84,10 @@ public class SessionCounterListener implements HttpSessionListener {
         while (sessionIterator.hasNext()) {
             HttpSession s = sessionIterator.next();
             //System.out.println("    In one session active counter");
-            if (s.getAttribute("authenticated") != null) {
+            if (s.getAttribute(AUTHENTICATED) != null) {
                 //System.out.println("    Authenticated attribut is define");
-                if (((boolean) s.getAttribute("authenticated"))) {
-                    Staff staff = (Staff) s.getAttribute("astaff"); // define from staffAuthFacade
+                if (((boolean) s.getAttribute(AUTHENTICATED))) {
+                    Staff staff = (Staff) s.getAttribute(ATT_STAFF); // define from staffAuthFacade
                     if (staff != null) {
                         staffs.add(staff);
                     }
@@ -90,5 +95,26 @@ public class SessionCounterListener implements HttpSessionListener {
             }
         }
         return staffs;
+    }
+
+    /**
+     * Session duration all to return amount of milli second of a session
+     * duration corresponding to a specific staff.
+     *
+     * @param staff on which to define the amount of duration time
+     * @return the duration time since the session start
+     */
+    public static long sessionDuration(Staff staff) {
+        for (HttpSession s : sessionList) {
+            if (s.getAttribute(AUTHENTICATED) != null) {
+                if (((boolean) s.getAttribute(AUTHENTICATED))) {
+                    Staff staffIn = (Staff) s.getAttribute(ATT_STAFF);
+                    if (staffIn == staff) {
+                        return System.currentTimeMillis() - Long.valueOf(s.getAttribute(EPOCH_START).toString());
+                    }
+                }
+            }
+        }
+        return 0;
     }
 }

@@ -59,7 +59,7 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
     private final String FIND_BY_DESIGNATION = "NonConformiteRequest.findByNcrTitle";            // query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"
 
     private final String COUNT_ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.countItemsCreateInRange";
-    
+
     private final String ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.itemsCreateInRange";
     private final String ITEMS_APPROUVED_IN_RANGE = "NonConformiteRequest.itemsApprouvedInRange";
     private final String ITEMS_STATE_IN_RANGE = "NonConformiteRequest.itemsStateInRange";
@@ -69,6 +69,8 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
     private final String ITEMS_APPROUVED_IN_RANGE_BY_PROCESSUS = "NonConformiteRequest.itemsApprouvedInRangeByProcessus";
     private final String ITEMS_STATE_IN_RANGE_BY_PROCESSUS = "NonConformiteRequest.itemsStateInRangeByProcessus";
     private final String ITEMS_STATE_IN_CHANGE_RANGE_BY_PROCESSUS = "NonConformiteRequest.itemsStateInChangedRangeByProcessus";
+
+    private final String COUNT_PROCESSUS_IN_STATECODE = "NonConformiteRequest.countProcessusInState";
 
     public NonConformiteRequestFacade() {
         super(NonConformiteRequest.class);
@@ -175,7 +177,6 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
         return 0;
     }
 
-        
     /**
      *
      * @param fromInclude
@@ -332,4 +333,17 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
         return null;
     }
 
+    /**
+     * Count the amount of non conformite for a specified processus and state.
+     *
+     * @param processus is the object processus 
+     * @param state is one of the istate not the object like A, B, C, D, E
+     * @return a integer value corresponding to the result
+     */
+    public Integer countProcessusInState(Processus processus, String state) {
+        Query q = em.createNamedQuery(COUNT_PROCESSUS_IN_STATECODE)
+                .setParameter("ncrProcessus", processus)
+                .setParameter("ncrState", state);
+        return Integer.valueOf(q.getSingleResult().toString());
+    }
 }

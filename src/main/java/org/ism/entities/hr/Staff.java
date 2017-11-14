@@ -26,6 +26,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -98,6 +99,10 @@ public class Staff implements Serializable {
     @Size(max = 256)
     @Column(name = "st_maillist", length = 256)
     private String stMaillist;
+    
+    @JoinColumn(name = "st_processus", referencedColumnName = "p_processus")
+    @OneToOne
+    private Processus stProcessus;
         
     @Basic(optional = false)
     @NotNull
@@ -139,6 +144,9 @@ public class Staff implements Serializable {
 
     @OneToMany(mappedBy = "pStaffmanager")
     private Collection<Processus> processusCollection;
+    
+
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stgStaff")
     private Collection<StaffGroups> staffGroupsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "stsStaff")
@@ -327,6 +335,16 @@ public class Staff implements Serializable {
     public void setProcessusCollection(Collection<Processus> processusCollection) {
         this.processusCollection = processusCollection;
     }
+    
+    @XmlTransient
+    public Processus getStProcessus() {
+        return stProcessus;
+    }
+
+    public void setStProcessus(Processus stProcessus) {
+        this.stProcessus = stProcessus;
+    }
+    
 
     @XmlTransient
     public Collection<StaffGroups> getStaffGroupsCollection() {
@@ -374,6 +392,8 @@ public class Staff implements Serializable {
         this.pointInfosCollection = pointInfosCollection;
     }
 
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

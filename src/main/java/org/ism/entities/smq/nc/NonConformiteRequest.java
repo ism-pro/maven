@@ -71,6 +71,8 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "NonConformiteRequest.findByNcrClientemail", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClientemail = :ncrClientemail"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrClienttype", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrClienttype = :ncrClienttype"),
     
+    @NamedQuery(name = "NonConformiteRequest.countProcessusInState", query = "SELECT count(n) FROM NonConformiteRequest n WHERE n.ncrProcessus = :ncrProcessus AND n.ncrState.istate = :ncrState"),
+
    
     @NamedQuery(name = "NonConformiteRequest.itemsCreateInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated >= :ncrFrom AND n.ncrCreated < :ncrTo"),
     @NamedQuery(name = "NonConformiteRequest.itemsApprouvedInRange", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrapprouvedDate >= :ncrFrom AND n.ncrapprouvedDate < :ncrTo"),

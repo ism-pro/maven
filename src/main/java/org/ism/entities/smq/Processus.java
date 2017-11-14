@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -83,18 +84,22 @@ public class Processus implements Serializable {
     @Column(name = "p_changed", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date pChanged;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncrProcessus")
     private Collection<NonConformiteRequest> nonConformiteRequestCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dcProcessus")
     private Collection<DocExplorer> docExplorerCollection;
-    
+
     @JoinColumn(name = "p_company", referencedColumnName = "c_company", nullable = false)
     @ManyToOne(optional = false)
     private Company pCompany;
     @JoinColumn(name = "p_staffmanager", referencedColumnName = "st_staff")
     @ManyToOne
     private Staff pStaffmanager;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "stProcessus")
+    private Staff staff;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mlProcessus")
     private Collection<Maillist> maillistCollection;
 
@@ -177,6 +182,15 @@ public class Processus implements Serializable {
 
     public void setDocExplorerCollection(Collection<DocExplorer> docExplorerCollection) {
         this.docExplorerCollection = docExplorerCollection;
+    }
+
+    @XmlTransient
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     public Company getPCompany() {

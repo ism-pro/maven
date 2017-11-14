@@ -6,23 +6,22 @@
 package org.ism.view.app;
 
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
 import org.ism.entities.hr.Staff;
+import org.ism.jsf.hr.StaffAuthController;
 import org.ism.listener.SessionCounterListener;
 
-@Named
+
 @ManagedBean(name = "viewSessionCounter")
 @SessionScoped
 public class ViewSessionCounter {
 
     private static final long serialVersionUID = 20120925L;
-
-    @PostConstruct
-    protected void initialize() {
-    }
+    
+    @ManagedProperty(value = "#{staffAuthController}")
+    private StaffAuthController staffAuthController;
 
     public Integer getSessionCounter() {
         return SessionCounterListener.getTotalActiveSession();
@@ -34,6 +33,28 @@ public class ViewSessionCounter {
 
     public List<Staff> getActiveStaff() {
         return SessionCounterListener.getActiveStaff();
+    }
+    
+    public long currentSessionDuration(){
+        Staff staff = staffAuthController.getStaff();
+        return SessionCounterListener.sessionDuration(staff);
+    }
+    
+    public long staffSessionDuration(Staff staff){
+        return SessionCounterListener.sessionDuration(staff);
+    }
+    
+    
+    
+    /// ////////////////////////////////////////////////////////////////////////
+    ///
+    ///
+    /// GETTER / SETTER
+    ///
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
+    public void setStaffAuthController(StaffAuthController staffAuthController){
+        this.staffAuthController = staffAuthController;
     }
 
 }

@@ -13,15 +13,21 @@
 
 
         <ui:define name="body">
-            <div class="page-header">
-                <h1>Tableau de bord</h1>
-            </div>
 
             <h:form id="bodyForm">
 
 
-                <!-- /.row -->
+                <!-- ====================================================== -->
+                <!-- ====================================================== -->
+                <!-- row 1  =============================================== -->
+                <!-- ====================================================== -->
+                <!-- ====================================================== -->
                 <div class="row">
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
+                    <!-- COLUMN 1   =========================================== -->
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-orange ">
                             <div class="panel-heading">
@@ -35,15 +41,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <p:commandLink action="/company/hr/staffManager/List.xhtml?faces-redirect=true">
                                 <div class="panel-footer">
                                     <span class="pull-left">Voir Plus</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
-                            </a>
+                            </p:commandLink>
                         </div>
                     </div>
+
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
+                    <!-- COLUMN 2   =========================================== -->
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-blue">
                             <div class="panel-heading">
@@ -57,15 +69,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <p:commandLink action="/company/smq/processus/List.xhtml?faces-redirect=true">
                                 <div class="panel-footer">
                                     <span class="pull-left">Voir Plus</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
-                            </a>
+                            </p:commandLink>
                         </div>
                     </div>
+
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
+                    <!-- COLUMN 3   =========================================== -->
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-green-dark">
                             <div class="panel-heading">
@@ -79,15 +97,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <p:commandLink action="/company/smq/docExplorer/List.xhtml?faces-redirect=true">
                                 <div class="panel-footer">
                                     <span class="pull-left">Voir Plus</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
-                            </a>
+                            </p:commandLink>
                         </div>
                     </div>
+
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
+                    <!-- COLUMN 4   =========================================== -->
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-red-pure">
                             <div class="panel-heading">
@@ -101,13 +125,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <p:commandLink action="/company/smq/nc/Request/List.xhtml?faces-redirect=true">
                                 <div class="panel-footer">
                                     <span class="pull-left">Voir Plus</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
-                            </a>
+                            </p:commandLink>
                         </div>
                     </div>
                 </div>
@@ -116,29 +140,162 @@
 
 
 
-                <div class="ui-grid ui-grid-responsive">
+
+
+                <!-- ====================================================== -->
+                <!-- ====================================================== -->
+                <!-- row 2 =============================================== -->
+                <!-- ====================================================== -->
+                <!-- ====================================================== -->
+                <div class="row">
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
+                    <!-- COLUMN 1   =========================================== -->
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
+                    <div class="col-lg-8 col-md-8">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Bienvenu</div>
+                            <div class="panel-body">
+
+                                <div class="page-header">
+                                    <h1 class="display-3">Bonjour #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname}</h1>
+                                </div>
+
+                                <p>
+                                    Trouvez ci-dessous la situation de votre processus ISO9001:2015. 
+                                </p>
 
 
 
+                                <div class="col-lg-8 col-md-8">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">Votre situation des non conformités</div>
+                                        <p:dataTable id="dtNCState" rendered="#{staffAuthController.staff.stProcessus==null?false:true}"
+                                                     value="#{ismNcrstateController.items}"
+                                                     var="ncstate"
+                                                     class="table table-condensed"
+                                                     >
+                                            <p:column headerText="#{ism.NonConformiteUniteField_ncuId}"
+                                                      width="32"
+                                                      >
+                                                <h:outputText value="#{ncstate.id}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Etat">
+                                                <h:outputText value="#{ncstate.istate} - #{ncstate.statename}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Situation">
+                                                <div class="progress progress-xs  progress-striped active">
+                                                    <div class="progress-bar progress-bar-success" role="progressbar" 
+                                                         aria-valuenow="#{viewIndex.countStaffNC(ncstate.istate)}"
+                                                         aria-valuemin="0" aria-valuemax="100" 
+                                                         style="width:#{ncstate.id lt 4 ? viewIndex.indicOpenStaffNC(ncstate.istate) : viewIndex.indicClosedStaffNC(ncstate.istate)}%">
+                                                        <span style="color: #2d62b0">#{ncstate.id lt 4?viewIndex.indicOpenStaffNC(ncstate.istate):viewIndex.indicClosedStaffNC(state)}%</span>
+                                                    </div>
+                                                </div>
+
+                                            </p:column>
+
+                                            <p:column headerText="Label" width="64">
+                                                <span class="badge bg-yellow">#{viewIndex.countStaffNC(ncstate.istate)}</span>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div><!-- /.panel-body -->
+                                </div>
+
+                                <div  class="col-lg-4 col-md-4">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">Documentation</div>
+                                        <div class="panel-body">
+                                            <ic:chart id="chartBarStaffDocModel" type="column" rendered="#{staffAuthController.staff.stProcessus==null?false:true}"
+                                                      style="width: 100%"
+                                                      exporting="true"
+                                                      model="#{docExplorerChartView.barChartDocStaffModel}" />
+                                        </div>
+
+                                    </div>
+                                </div>
 
 
-
-
-                    <!-- Graphiques -->
-                    <div class="ui-grid-row m-spacing-t16 ">
-                        <div class="ui-grid-col-4 w3-container w3-border m-spacing-r4">
-                            <ic:chart id="chartSession" type="pie" exporting="true"
-                                      style="height: 310px; margin: 0 auto;"
-                                      model="#{viewCompanyCharts.sessionModel}" 
-                                      debug="false"
-                                      rendered="true"/>
+                            </div>
                         </div>
-                        <div class="ui-grid-col-8 w3-container w3-border">
-                            <ic:chart id="chartNonConformite" type="pie"  exporting="true"
-                                      style="height: 310px; " 
-                                      model="#{viewCompanyCharts.nonConformiteModel}" />
+
+                    </div>
+
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
+                    <!-- COLUMN 2   =========================================== -->
+                    <!-- ====================================================== -->
+                    <!-- ====================================================== -->
+                    <p:poll  update="panelConnectedUser" interval="15" global="false" form="bodyForm"  />
+                    <div  class="col-lg-4 col-md-4">
+                        <div  class="panel panel-primary">
+                            <div class="panel-heading">Utilisateurs en lignes</div>
+                            <h:panelGroup id="panelConnectedUser">
+                                <div  class="panel-body">
+                                    <ul class="list-group">
+                                        <ui:repeat  value="#{viewSessionCounter.activeStaff}" var="item">
+                                            <li class="list-group-item media">
+                                                <div class="media-left">
+                                                    <h:graphicImage library="img" name="ism/hr/avatar2.png"  style="width:35px; border-radius: 50%" />
+                                                </div>
+                                                <div class="media-body">
+                                                    #{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]
+                                                    <span class="badge pull-right">#{viewUtil.durationFromMilliSec(viewSessionCounter.staffSessionDuration(item))}</span>
+                                                </div>
+                                                <div class="media-right">
+                                                    <p:commandButton 
+                                                        type="button"
+                                                        icon="fa fa-unlink"
+                                                        class="btn btn-warning btn-circle #{request.isUserInRole('ADMIN')? disabled :''}"
+                                                        disabled="#{request.isUserInRole('ADMIN')? disabled :''}"
+                                                        />
+                                                </div>
+
+                                            </li>
+                                        </ui:repeat>
+                                    </ul>
+                                </div>
+                            </h:panelGroup>
                         </div>
                     </div>
+                </div>
+                <!-- /.row -->
+
+
+
+
+
+
+
+
+                <!-- ====================================================== -->
+                <!-- ====================================================== -->
+                <!-- row 3 =============================================== -->
+                <!-- ====================================================== -->
+                <!-- ====================================================== -->
+                <div class="row">
+
+                    <div class="col-lg-8 col-md-8">
+
+                    </div>
+
+                    <div  class="col-lg-4 col-md-4">
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ====================================================== -->
+                <!-- ====================================================== -->
+                <!-- row 4 =============================================== -->
+                <!-- ====================================================== -->
+                <!-- ====================================================== -->
+                <div class="ui-grid ui-grid-responsive">
                     <div class="ui-grid-row m-spacing-t16 ">
                         <div class="ui-grid-col-12 w3-container w3-border">
                             <ic:chart id="chartBarDocModel" type="column" 
@@ -153,308 +310,101 @@
 
                     <div class="ui-grid-row m-spacing-t16 ">
                         <div class="ui-grid-col-4 w3-container m-spacing-r4">
-                            <h5>Utilisateurs connectés</h5>
-                            <p:dataList value="#{viewSessionCounter.activeStaff}" var="item" 
-                                        type="unordered" itemType="none" paginator="false" rows="10" 
-                                        styleClass="paginated" 
-                                        itemStyleClass="" class="userlist"
-                                        >
-                                <h:graphicImage library="img" name="ism/hr/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px" />
-                                <span class="w3-large"><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]" style="display:inline-block"/></span><br/>
-                            </p:dataList>
-                        </div>
-
-
-
-
-
-                        <div class="ui-grid-col-8 w3-container">
-
-                            <p:panel rendered="false">
-                                <h5>Analyse annuelle <b>#{viewUtil.nowYear}</b> des non conformités </h5>
-
-                                <div class="w3-responsive">
-                                    <table class="w3-table-all">
-                                        <tr>
-                                            <th>Etats</th>
-
-                                            <th>Janvier</th>
-                                            <th>Février</th>
-                                            <th>Mars</th>
-                                            <th>Avril</th>
-                                            <th>Mai</th>
-                                            <th>Juin</th>
-                                            <th>Juillet</th>
-                                            <th>Août</th>
-                                            <th>Septembre</th>
-                                            <th>Octobre</th>
-                                            <th>Novembre</th>
-                                            <th>Décembre</th>
-                                        </tr>
-                                        <tr>
-                                            <td>[1A] Créée</td>
-                                            <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterCreated}" var="value">
-                                                <td>#{value}</td>
-                                            </ui:repeat>
-                                        </tr>
-                                        <tr>
-                                            <td>[2B] En attente de solution</td>
-                                            <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterRequest}" var="value">
-                                                <td>#{value}</td>
-                                            </ui:repeat>
-                                        </tr>
-                                        <tr>
-                                            <td>[3C] En cours</td>
-                                            <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterProcessing}" var="value">
-                                                <td>#{value}</td>
-                                            </ui:repeat>
-                                        </tr>
-                                        <tr>
-                                            <td>[4D] Terminée</td>
-                                            <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterFinished}" var="value">
-                                                <td>#{value}</td>
-                                            </ui:repeat>
-                                        </tr>
-                                        <tr>
-                                            <td>[5E] Annulée</td>
-                                            <ui:repeat  value="#{nonConformiteRequestService.nonConformiteRequestDomain.itemsCounterCanceled}" var="value">
-                                                <td>#{value}</td>
-                                            </ui:repeat>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </p:panel>
-
-                            <hr/>
-
-
-                            <p:panel rendered="true">
-                                <ic:chart id="chartNCQuantiteStateLine" type="line"  exporting="true"
-                                          style="height: 310px; " class="w3-responsive" debug="false"
-                                          model="#{nonConformiteRequestService.nonConformiteRequestDomain.ncStateLineModel}" />
-                            </p:panel>
 
                         </div>
+
+
+
                     </div>
                 </div>
 
 
-
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="box">
-                            <div class="box-header">
-                                <h3 class="box-title">Condensed Full Width Table</h3>
-                            </div><!-- /.box-header -->
-                            <div class="box-body no-padding">
-
-                                <p:dataTable value="#{viewSessionCounter.activeStaff}" 
-                                             var="item" 
-                                            paginator="false" rows="10" 
-                                            styleClass="paginated table table-condensed" 
-                                            class="table table-condensed"
-                                            >
-                                    
-                                    <p:column>
-                                        <h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]" style="display:inline-block"/>
-                                    </p:column>
-                                    <h:graphicImage library="img" name="ism/hr/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px" />
-                                    <span class="w3-large"><h:outputText value="#{item.stFirstname} #{item.stLastname} #{item.stMiddlename} [#{item.stStaff}]" style="display:inline-block"/></span><br/>
-                                </p:dataTable>
-
-                                <table class="table table-condensed">
-                                    <tr>
-                                        <th style="width: 10px">#</th>
-                                        <th>Task</th>
-                                        <th>Progress</th>
-                                        <th style="width: 40px">Label</th>
-                                    </tr>
-                                    <tr>
-                                        <td>1.</td>
-                                        <td>Update software</td>
-                                        <td>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-red">55%</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.</td>
-                                        <td>Clean database</td>
-                                        <td>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-yellow">70%</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.</td>
-                                        <td>Cron job running</td>
-                                        <td>
-                                            <div class="progress progress-xs progress-striped active">
-                                                <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-light-blue">30%</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.</td>
-                                        <td>Fix and squish bugs</td>
-                                        <td>
-                                            <div class="progress progress-xs progress-striped active">
-                                                <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-green">90%</span></td>
-                                    </tr>
-                                </table>
-                            </div><!-- /.box-body -->
-                        </div><!-- /.box -->
-                    </div><!-- /.col -->
-
-                </div><!-- /.row -->
-
-
-
-
-
-
-
-                <div class="w3-half w3-margin-bottom ui-g-8 w3-hide">
-                    <div class="w3-container w3-blue w3-center" style="padding: 8px;">
-                        <i class="fa fa-info-circle w3-margin-right"></i>News
-                        <span class="w3-button w3-orange"
-                              style="top: 0px;"
-                              onclick="PF('imageswitch').previous();">Previous</span>
-                        <span class="w3-button w3-green" onclick="PF('imageswitch').resumeSlideshow();">resume</span>
-                        <span class="w3-button w3-green" onclick="PF('imageswitch').pauseSlideshow();">Pause</span>
-                        <span class="w3-button w3-green" onclick="PF('imageswitch').next();">Next</span>
+                <!--
+                <row>
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <p:graphicImage value="/img/diaporama/Diapositive1.GIF" class="d-block img-fluid" alt="First slide"  width="960" height="540"/>
+                            </div>
+                            <div class="carousel-item">
+                                <p:graphicImage value="/img/diaporama/Diapositive2.GIF" class="d-block img-fluid" alt="Second slide" width="960" height="540"/>
+                            </div>
+                            <div class="carousel-item">
+                                <p:graphicImage value="/img/diaporama/Diapositive3.GIF" class="d-block img-fluid" alt="3 ième dias"  width="960" height="540"/>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
-                    <div class="w3-container w3-white  w3-border w3-padding-16" style="min-height: 480px;">
-                        <p:imageSwitch effect="scrollLeft" 
-                                       slideshowAuto="true"
-                                       style="width: 100%; height: 480px;position:relative;" 
-                                       widgetVar="imageswitch" speed="1000" slideshowSpeed="9000"
-                                       >
-                            <p:graphicImage value="/img/Diapositive1.GIF" class="centered" />
-                            <p:graphicImage value="/img/Diapositive2.GIF" class="centered" />
-                            <p:graphicImage value="/img/Diapositive3.GIF" class="centered" />
-                            <p:graphicImage value="/img/Diapositive4.GIF" class="centered" />
-                            <p:graphicImage value="/img/Diapositive5.GIF" class="centered" />
-                        </p:imageSwitch>
+                    <script>
+                        $(function () {
+                            $('.carousel').carousel();
+                            $('.carousel').click(function () {
+                                alert("Carousel clicked");
+                            });
+                        });
+                    </script>
 
+                </row>
+                -->
+
+
+
+
+
+
+                <!--
+                <row>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+
+                                <i class="fa fa-info-circle w3-margin-right"></i>News
+                                <span class="btn btn-info"
+                                      style="top: 0px;"
+                                      onclick="PF('imageswitch').previous();">Previous</span>
+                                <span class="btn btn-info" onclick="PF('imageswitch').resumeSlideshow();">resume</span>
+                                <span class="btn btn-info" onclick="PF('imageswitch').pauseSlideshow();">Pause</span>
+                                <span class="btn btn-info" onclick="PF('imageswitch').next();">Next</span>
+
+                            </div>
+
+
+
+
+
+                            <div class="panel-body"  >
+                                <p:imageSwitch effect="scrollLeft" 
+                                               slideshowAuto="true"
+
+                                               widgetVar="imageswitch" speed="1000" slideshowSpeed="9000"
+                                               >
+                                    <p:graphicImage value="/img/diaporama/Diapositive1.GIF" class="centered" width="960" height="540"/>
+                                    <p:graphicImage value="/img/diaporama/Diapositive2.GIF" class="centered" width="960" height="540"/>
+                                    <p:graphicImage value="/img/diaporama/Diapositive3.GIF" class="centered" width="960" height="540"/>
+                                    <p:graphicImage value="/img/diaporama/Diapositive4.GIF" class="centered" width="960" height="540"/>
+                                    <p:graphicImage value="/img/diaporama/Diapositive5.GIF" class="centered" width="960" height="540"/>
+                                </p:imageSwitch>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </row>
+                -->
 
             </h:form>
 
-
-
-            <style>
-                .userlist{
-                    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
-                }
-                .userlist ul{
-                    /*
-                    padding: 2px;
-                    margin: 12px;
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                    */
-
-                    list-style-type: none;
-                    padding: 0;
-                    margin: 0;
-
-
-                    color: #000!important;
-                    background-color: #fff!important;
-
-                    color: #000!important;
-                    background-color: #fff!important;
-                }
-
-                .userlist ul li{
-                    padding: 8px 2px 10px 16px;
-                    border-bottom: 1px solid #ddd;
-                }
-
-
-                .idash-top{
-                    margin-left: 10px;
-                    margin-right: 10px;
-                }
-                .idash-top .ui-grid-col-3{
-                    margin: 2px;
-                    padding: 0px;
-                    border: 1px solid #dddddd;
-                }
-                .bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
-                    background-color: #00c0ef !important;
-                }
-                .bg-red, .bg-yellow, .bg-aqua, .bg-blue, .bg-light-blue, .bg-green, .bg-navy, .bg-teal, .bg-olive, .bg-lime, .bg-orange, .bg-fuchsia, .bg-purple, .bg-maroon, .bg-black, .bg-red-active, .bg-yellow-active, .bg-aqua-active, .bg-blue-active, .bg-light-blue-active, .bg-green-active, .bg-navy-active, .bg-teal-active, .bg-olive-active, .bg-lime-active, .bg-orange-active, .bg-fuchsia-active, .bg-purple-active, .bg-maroon-active, .bg-black-active, .callout.callout-danger, .callout.callout-warning, .callout.callout-info, .callout.callout-success, .alert-success, .alert-danger, .alert-error, .alert-warning, .alert-info, .label-danger, .label-info, .label-waring, .label-primary, .label-success, .modal-primary .modal-body, .modal-primary .modal-header, .modal-primary .modal-footer, .modal-warning .modal-body, .modal-warning .modal-header, .modal-warning .modal-footer, .modal-info .modal-body, .modal-info .modal-header, .modal-info .modal-footer, .modal-success .modal-body, .modal-success .modal-header, .modal-success .modal-footer, .modal-danger .modal-body, .modal-danger .modal-header, .modal-danger .modal-footer {
-                    color: #fff !important;
-                }
-                .small-box {
-                    border-radius: 2px;
-                    position: relative;
-                    display: block;
-                    margin-bottom: 20px;
-                    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-                }
-                .small-box>.small-box-footer {
-                    position: relative;
-                    text-align: center;
-                    padding: 3px 0;
-                    color: #fff;
-                    color: rgba(255,255,255,0.8);
-                    display: block;
-                    z-index: 10;
-                    background: rgba(0,0,0,0.1);
-                    text-decoration: none;
-                }
-
-
-                .ui-grid {
-                    margin: 10px;
-                }
-                .m-spacing-r4{  margin-right: 4px;}
-                .m-spacing-r8{  margin-right: 8px;}
-                .m-spacing-r16{  margin-right: 16px;}
-                .m-spacing-r32{  margin-right: 32px;}
-
-                .m-spacing-l4{  margin-left: 4px;}
-                .m-spacing-l8{  margin-left: 8px;}
-                .m-spacing-l16{  margin-left: 16px;}
-                .m-spacing-l32{  margin-left: 32px;}
-
-                .m-spacing-t4{  margin-top: 4px;}
-                .m-spacing-t8{  margin-top: 8px;}
-                .m-spacing-t16{  margin-top: 16px;}
-                .m-spacing-t32{  margin-right: 32px;}
-
-                .m-spacing-b4{  margin-bottom: 4px;}
-                .m-spacing-b8{  margin-bottom: 8px;}
-                .m-spacing-b16{  margin-bottom: 16px;}
-                .m-spacing-b32{  margin-bottom: 32px;}
-
-                .m-inner-tb0{  margin-top:0px; margin-bottom: 0px;}
-                .m-inner-tb2{  margin-top:2px; margin-bottom: 2px;}
-                .m-inner-tb4{  margin-top:4px; margin-bottom: 4px;}
-                .m-inner-tb8{  margin-top:8px; margin-bottom: 8px;}
-                .m-inner-tb16{  margin-top:16px; margin-bottom: 16px;}
-                .m-inner-tb32{  margin-top:32px; margin-bottom: 32px;}
-
-                .m-padding-tb0{  padding-top:0px; padding-bottom: 0px;}
-                .m-padding-tb2{  padding-top:2px; padding-bottom: 2px;}
-                .m-padding-tb4{  padding-top:4px; padding-bottom: 4px;}
-                .m-padding-tb8{  padding-top:8px; padding-bottom: 8px;}
-                .m-padding-tb16{  padding-top:16px; padding-bottom: 16px;}
-                .m-padding-tb32{  padding-top:32px; padding-bottom: 32px;}
-            </style>
         </ui:define>
     </ui:composition>
 

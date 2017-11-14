@@ -584,6 +584,11 @@ public class NonConformiteRequestController implements Serializable {
     public List<NonConformiteRequest> getItemsStateChangeInRangeByProcessus(String state, Date from, Date to, Processus processus) {
         return getFacade().itemsStateInChangeRangeByProcessus(state, from, to, processus);
     }
+    
+    
+    public Integer countProcessusInState(Processus processus, String state){
+        return getFacade().countProcessusInState(processus, state);
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     /// Injection

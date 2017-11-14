@@ -144,17 +144,18 @@
             <version>6.0.4</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>org.ism</groupId>
             <artifactId>charts</artifactId>
             <version>1701.05</version>
-            <scope>compile</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jsfc</artifactId>
             <version>1701.01</version>
             <scope>compile</scope>
         </dependency>
+        -->
         <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
         <dependency>
             <groupId>javax.mail</groupId>

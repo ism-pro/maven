@@ -85,7 +85,7 @@
                                             requiredMessage="#{ism.StaffRequiredMsg_stPasswordConf}"
                                             placeholder="#{ism.PasswordConfirm}"
                                             validatorMessage="#{ism.PasswordMatch}"
-                                            
+
                                             >
                                     <p:ajax event="change" update="stStaffOutPwd" listener="#{staffManagerView.handleStaffPwdEdit()}" />
                                 </p:password>
@@ -193,6 +193,23 @@
                         <p:panelGrid columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
                                      rendered="true">
 
+                            <p:outputLabel value="#{ism.DocExplorerField_Processus}" for="dcProcessus" />
+                            <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                                <p:selectOneMenu id="dcProcessus" 
+                                                 filter="true" filterMatchMode="contains"
+                                                 value="#{staffManagerView.selected.stProcessus}"
+                                                 title="#{ism.DocExplorerFieldInfo_Processus}" 
+                                                 required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Processus}"
+                                                 >
+                                    <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                                    <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
+                                                   var="dcProcessusItem"
+                                                   itemLabel="#{dcProcessusItem.PProcessus} - #{dcProcessusItem.PDesignation}"
+                                                   itemValue="#{dcProcessusItem}"/>
+                                </p:selectOneMenu>
+                                <p:message for="dcProcessus" />
+                            </h:panelGrid>
+
                             <p:outputLabel  value="#{ism.StaffCompaniesField_stcCompany}" for="access" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                                 <p:tree    id="access"
@@ -267,6 +284,12 @@
                                 <p:selectBooleanCheckbox 
                                     value="#{staffManagerView.selected.stActivated}" 
                                     disabled="true" />
+                                
+                                
+                                <h:outputText  value="#{ism.DocExplorerField_Processus}"/>
+                                <h:outputText value="#{staffManagerView.selected.stProcessus.PProcessus} - #{staffManagerView.selected.stProcessus.PDesignation}" 
+                                              />
+                                
                             </p:panelGrid>
 
                             <h3>#{ism.StaffGroupDefRoleField_stgdrRole}</h3>
