@@ -34,7 +34,7 @@ import org.ism.entities.smq.Processus;
  * @author r.hendrick
  */
 @Entity
-@Table(catalog = "ism", schema = "", uniqueConstraints = {
+@Table(name = "maillist", catalog = "ism", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"ml_id"}),
     @UniqueConstraint(columnNames = {"ml_company", "ml_groupe"})})
 @XmlRootElement

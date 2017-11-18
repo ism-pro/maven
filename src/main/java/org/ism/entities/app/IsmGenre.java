@@ -121,5 +121,4 @@ public class IsmGenre implements Serializable {
     public String toString() {
         return "org.ism.entities.IsmGenre[ id=" + id + " ]";
     }
-
 }

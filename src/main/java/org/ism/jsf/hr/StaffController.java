@@ -289,9 +289,6 @@ public class StaffController implements Serializable {
                 getString("StaffPersistenceDeletedDetail")
                 + selected.getStStaff() + " <br > " + selected.getStFirstname() + " - " + selected.getStLastname() + " - " + selected.getStMiddlename());
 
-        
-            
-        
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
             selected = null;
@@ -446,6 +443,19 @@ public class StaffController implements Serializable {
         selected.setStMaxInactiveInterval(60 * min);
     }
 
+    /**
+     * Look after a staff define like firstname lastname middlename [staff] and
+     * give the list with a limit of "limit" result
+     *
+     * @param query is the start of the staff name
+     * @param limit the maximum result
+     * @return a list of corresponding available staff starting by query with
+     * max result 'limit'
+     */
+    public List<Staff> staffStartingWith(String query, int limit) {
+        return getFacade().findStaffStartingWith(query, limit);
+    }
+
     public Boolean getIsResetPassword() {
         return isResetPassword;
     }
@@ -459,52 +469,10 @@ public class StaffController implements Serializable {
     /// Converters
     /// ////////////////////////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = Staff.class)
-    public static class StaffControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            StaffController controller = (StaffController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "staffController");
-            return controller.getStaff(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Staff) {
-                Staff o = (Staff) object;
-                return getStringKey(o.getStId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Staff.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
     
     /// ////////////////////////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////////////////////////
     /// Validators
     /// ////////////////////////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////////////////////////
-    
 }

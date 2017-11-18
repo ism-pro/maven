@@ -18,134 +18,160 @@
 
                 <p:panelGrid id="panelForm" columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
                              >
-                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" for="ncrProcessus" />
+                    <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProcessus}" for="idProcessus" />
                     <h:panelGroup>
-                        <p:selectOneMenu id="ncrProcessus" 
+                        <p:selectOneMenu id="idProcessus" 
                                          filter="true" filterMatchMode="contains"
-                                         title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}" 
-                                         required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"
+                                         title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"                                          
+                                         value="#{ncMailView.selectedProcessus}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <p:ajax event="change" update="MailContent"  />
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"  />
                             <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
                                            var="processusItem"
                                            itemLabel="#{processusItem.PProcessus} - #{processusItem.PDesignation}"
                                            itemValue="#{processusItem}"/>
                         </p:selectOneMenu>
-                        <p:message for="ncrProcessus" />
+                        <p:message for="idProcessus" />
                     </h:panelGroup>
-
-
-                    <p:outputLabel value="Réclamations" for="ncrReclame" />
-                    <h:panelGroup>
-                        <p:selectBooleanButton id="ncrReclame" 
-                                               value="#{bean.value}" onLabel="Yes"
-                                               offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" />
-                    </h:panelGroup>
-
-
                 </p:panelGrid>
+                <br />
 
-                <hr />
 
+                <!--
                 <style>
+
+                    #bodyForm\3a MailDefintionView {
+                        padding : 0px;
+                    }
                     #bodyForm\3a MailDefintionView > ul {
-                        float: left;
                         width: 150px;
-                        height: 300px;
                         background-image: none;
                         padding-top: 1px;
                         border-right: 1px solid #1889fc;
+                        height: 350px;
                     }
                     #bodyForm\3a MailDefintionView > div{
                         float: left;
-                        width: calc(100%-150px);
-                        height: 300px;
+                        min-height: 300px;
+                        width: inherit;
+                        margin-left: 157px;
+                        margin-top: -350px;
                     }
+                    .btn-searcher{
+                        width: 0px!important;
+                        min-width: 0px; 
+                        max-width: 0px;
+                    }
+                    .btn-searcher > div.ui-selectonemenu-trigger.ui-state-default.ui-corner-right > span {
+                        text-indent: 0!important;
+                        background: url("#{resource['img/ism/std/Search.png']}") no-repeat;
+                        background-size:contain;
+                    }
+                    .columnFieldClassSmall { min-width: 100px; }
+                    .ui-selectlistbox-listcontainer{ width: 100%; }
+
                 </style>
-                <h5>Liste d'envoi</h5>
-                <p:tabView id="MailDefintionViewa" >
-                    <p:tab id="tabCreate" title="Créé">
-                        <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
-                                      >
-                            <p:outputLabel value="A" for="fCreateTos" />
-
-                            <h:panelGroup >
-                                <p:chips id="fCreateTos" placeholder="#{ism.MailListOfStaff}" style="display: inherit;float:left;" 
-                                         value="#{ncMailView.staffs}"/>
-                                <p:commandButton id="btnSearchUser"
-                                                 icon="fa fa-search"
-                                                 styleClass="btn btn-primary"
-                                                 style="border-radius: 0px; "
-                                                 title="Permet de rechercher un utilisateur"
-                                                 onclick="PF('MailSearchStaff').show()"
-                                                 disabled="#{!request.isUserInRole('S_EXPLORER_E')}"
-
-                                                 />
-
-
-                            </h:panelGroup>
-                            <p:outputLabel value="CC" for="fCreateCcs" />
-                            <h:panelGroup >
-                                <p:chips id="fCreateCcs" />
-                            </h:panelGroup>
-                            <p:outputLabel value="CCi" for="fCreateCcis" />
-                            <p:chips id="fCreateCcis" />
-
-                        </p:panelGrid>
-                        <hr />
-                        <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClass" styleClass="panelGridClass"
-                                      >
-                            <p:outputLabel value="A" for="fCreateReclamTos" />
-                            <p:chips id="fCreateReclamTos" />
-                            <p:outputLabel value="CC" for="fCreateReclamCcs" />
-                            <p:chips id="fCreateReclamCcs" />
-                            <p:outputLabel value="CCi" for="fCreateReclamCcis" />
-                            <p:chips id="fCreateReclamCcis" />
-
-                        </p:panelGrid>
-
-                    </p:tab>
+                -->
 
 
 
 
-                    <p:tab id="WaitForSolution" title="En attente de solution">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather2.jpg" />
-                            <h:outputText value="Francis Ford Coppola's legendary..." />
-                        </h:panelGrid>
-                    </p:tab>
+
+
+                <h:panelGroup id="MailContent">
+                    <p:outputLabel value="Veuillez choisir un processus..." rendered="#{ncMailView.selectedProcessus==null}" />
+
+                    <p:tabView id="MailDefintionView"   rendered="#{ncMailView.selectedProcessus!=null}">
+                        <p:tab id="tabCreate" title="Créé">
+                            <div style="margin-left: 4px;margin-right: 4px;">
+
+
+                                <h4>Standard </h4> 
+
+
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClassSmall, columnContentClass" styleClass="panelGridClass">
+
+                                    <p:outputLabel value="A"  />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailTos"   multiple="true"  value="#{ncMailView.mailTos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
 
 
 
 
-                    <p:tab id="InProgress" title="En cours">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
-                    </p:tab>
+                                    <p:outputLabel value="CC" for="fCreateCcs" />
+                                    <h:panelGroup >
+                                        <p:chips id="fCreateCcs"  />
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="fCreateCcis" />
+                                    <p:chips id="fCreateCcis" />
+
+                                </p:panelGrid>
 
 
 
-                    <p:tab id="Finished" title="Terminé">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
-                    </p:tab>
 
 
 
-                    <p:tab id="Cancel" title="Annulé">
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                            <h:outputText value="After a break of more than 15 years..." />
-                        </h:panelGrid>
-                    </p:tab>
+                                <h4>Réclamation</h4>
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClassSmall, columnContentClass" styleClass="panelGridClass"
+                                              >
+                                    <p:outputLabel value="A" for="fCreateReclamTos" />
+                                    <p:chips id="fCreateReclamTos" />
+                                    <p:outputLabel value="CC" for="fCreateReclamCcs" />
+                                    <p:chips id="fCreateReclamCcs" />
+                                    <p:outputLabel value="CCi" for="fCreateReclamCcis" />
+                                    <p:chips id="fCreateReclamCcis" />
+
+                                </p:panelGrid>
+                            </div>
+                        </p:tab>
 
 
-                </p:tabView>
+
+
+                        <p:tab id="WaitForSolution" title="En attente de solution">
+                            <h4>Standard</h4>
+                            <h:panelGrid columns="2" cellpadding="10">
+
+                                <h:outputText value="Francis Ford Coppola's legendary..." />
+                            </h:panelGrid>
+                        </p:tab>
+
+
+
+
+                        <p:tab id="InProgress" title="En cours">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <h:outputText value="After a break of more than 15 years..." />
+                            </h:panelGrid>
+                        </p:tab>
+
+
+
+                        <p:tab id="Finished" title="Terminé">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <h:outputText value="After a break of more than 15 years..." />
+                            </h:panelGrid>
+                        </p:tab>
+
+
+
+                        <p:tab id="Cancel" title="Annulé">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <h:outputText value="After a break of more than 15 years..." />
+                            </h:panelGrid>
+                        </p:tab>
+
+
+                    </p:tabView>
+                </h:panelGroup>
 
                 <p:dialog id="MailSearchStaff" widgetVar="MailSearchStaff" 
                           showEffect="clip"  hideEffect="clip" appendTo="@(body)" 

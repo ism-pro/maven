@@ -35,11 +35,12 @@ import org.ism.entities.smq.nc.NonConformiteRequest;
 import org.ism.entities.hr.Staff;
 
 /**
- *
+ * Processus
+ * 
  * @author r.hendrick
  */
 @Entity
-@Table(catalog = "ism", schema = "", uniqueConstraints = {
+@Table(name = "processus", catalog = "ism", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"p_id"})})
 @XmlRootElement
 @NamedQueries({
@@ -97,8 +98,8 @@ public class Processus implements Serializable {
     @ManyToOne
     private Staff pStaffmanager;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "stProcessus")
-    private Staff staff;
+    @OneToMany(mappedBy = "stProcessus")
+    private Collection<Staff> staffCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mlProcessus")
     private Collection<Maillist> maillistCollection;
@@ -185,14 +186,23 @@ public class Processus implements Serializable {
     }
 
     @XmlTransient
-    public Staff getStaff() {
-        return staff;
+    public Collection<Staff> getStaffCollection() {
+        return staffCollection;
     }
 
-    public void setStaff(Staff staff) {
-        this.staff = staff;
+    public void setStaffCollection(Collection<Staff> staffCollection) {
+        this.staffCollection = staffCollection;
     }
 
+    @XmlTransient
+    public Collection<Maillist> getMaillistCollection() {
+        return maillistCollection;
+    }
+
+    public void setMaillistCollection(Collection<Maillist> maillistCollection) {
+        this.maillistCollection = maillistCollection;
+    }
+    
     public Company getPCompany() {
         return pCompany;
     }
@@ -233,5 +243,24 @@ public class Processus implements Serializable {
         //return "org.ism.entities.Processus[ pId=" + pId + " ]";
         return pProcessus + " - " + pDesignation;
     }
+
+
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Container
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+
+
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Getter / Setter
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+
 
 }

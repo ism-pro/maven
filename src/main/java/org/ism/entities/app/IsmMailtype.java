@@ -141,17 +141,4 @@ public class IsmMailtype implements Serializable {
     //
     // /////////////////////////////////////////////////////////////////////////
 
-    
-    @XmlTransient
-    public Collection<Maillist> getMaillistCollection() {
-        return maillistCollection;
-    }
-
-    public void setMaillistCollection(Collection<Maillist> maillistCollection) {
-        this.maillistCollection = maillistCollection;
-    }
-
-   
-
-
-}
+ }

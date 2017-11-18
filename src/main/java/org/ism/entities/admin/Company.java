@@ -275,31 +275,7 @@ public class Company implements Serializable {
         this.cEntreprise = cEntreprise;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (cId != null ? cId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Company)) {
-            return false;
-        }
-        Company other = (Company) object;
-        if ((this.cId == null && other.cId != null) || (this.cId != null && !this.cId.equals(other.cId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "" + cCompany + " - " + cDesignation + " [" + cId + "]";
-    }
-
+    
     @XmlTransient
     public Collection<NonConformiteRequest> getNonConformiteRequestCollection() {
         return nonConformiteRequestCollection;
@@ -454,5 +430,33 @@ public class Company implements Serializable {
     public void setMaillistCollection(Collection<Maillist> maillistCollection) {
         this.maillistCollection = maillistCollection;
     }
+
+    
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (cId != null ? cId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Company)) {
+            return false;
+        }
+        Company other = (Company) object;
+        if ((this.cId == null && other.cId != null) || (this.cId != null && !this.cId.equals(other.cId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "" + cCompany + " - " + cDesignation + " [" + cId + "]";
+    }
+
+   
 
 }

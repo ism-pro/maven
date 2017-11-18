@@ -34,6 +34,8 @@ public class StaffFacade extends AbstractFacade<Staff> {
     private final String FIND_BY_LASTNAME = "Staff.findByStLastname";     // query = "SELECT s FROM Staff s WHERE s.stLastname = :stLastname"
     private final String FIND_BY_FIRSTNAME = "Staff.findByStFirstname";     // query = "SELECT s FROM Staff s WHERE s.stFirstname = :stFirstname"
     private final String FIND_BY_MIDDLENAME = "Staff.findByStMiddlename";     // query = "SELECT s FROM Staff s WHERE s.stMiddlename = :stMiddlename"
+    
+    private final String STARTWITH_NAME_AND_LIMIT = "Staff.startWithNameAndLimit";    //SELECT s FROM Staff s WHERE concat(s.stFirstname, ' ', s.stLastname, ' ', s.stMiddlename, ' [', s.stStaff, ']') like ':startWith%'  LIMIT :queryLimit
 
     public StaffFacade() {
         super(Staff.class);
@@ -103,5 +105,11 @@ public class StaffFacade extends AbstractFacade<Staff> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<Staff> findStaffStartingWith(String query, int limit) {
+        em.flush();
+        Query q = em.createNamedQuery(STARTWITH_NAME_AND_LIMIT).setParameter("startWith", query+"%");
+        return q.setMaxResults(limit).getResultList();
     }
 }

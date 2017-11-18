@@ -97,26 +97,26 @@ public class MailaddressController implements Serializable {
         itemsByLast = getItemsByLastChanged();
 
         // STRING PARSE
-        String src_01 = "MailaddressField_";
-        String src_02 = "MailaddressField_";
-        String src_03 = "MailaddressField_";
-        String src_04 = "MailaddressField_";
-        String src_05 = "MailaddressField_";
-        String src_06 = "MailaddressField_";
-        String src_07 = "MailaddressField_";
-        String src_08 = "MailaddressField_";
-        String src_09 = "MailaddressField_";
-        String src_10 = "MailaddressField_";
-        String src_11 = "MailaddressField_";
-        String src_12 = "MailaddressField_";
-        String src_13 = "MailaddressField_";
-        String src_14 = "MailaddressField_";
-        String src_15 = "MailaddressField_";
-        String src_16 = "MailaddressField_";
-        String src_17 = "MailaddressField_";
-        String src_18 = "MailaddressField_";
-        String src_19 = "MailaddressField_";
-        String src_20 = "MailaddressField_";
+        String src_01 = "CtrlShort";
+        String src_02 = "CtrlShort";
+        String src_03 = "CtrlShort";
+        String src_04 = "CtrlShort";
+        String src_05 = "CtrlShort";
+        String src_06 = "CtrlShort";
+        String src_07 = "CtrlShort";
+        String src_08 = "CtrlShort";
+        String src_09 = "CtrlShort";
+        String src_10 = "CtrlShort";
+        String src_11 = "CtrlShort";
+        String src_12 = "CtrlShort";
+        String src_13 = "CtrlShort";
+        String src_14 = "CtrlShort";
+        String src_15 = "CtrlShort";
+        String src_16 = "CtrlShort";
+        String src_17 = "CtrlShort";
+        String src_18 = "CtrlShort";
+        String src_19 = "CtrlShort";
+        String src_20 = "CtrlShort";
 
         // Setup initial visibility
         headerTextMap = new HashMap<>();

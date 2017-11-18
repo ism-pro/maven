@@ -42,7 +42,7 @@ import org.ism.entities.smq.PointInfos;
  * @author r.hendrick
  */
 @Entity
-@Table(catalog = "ism", schema = "", uniqueConstraints = {
+@Table(name = "staff", catalog = "ism", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"st_id", "st_staff"})})
 @XmlRootElement
 @NamedQueries({
@@ -64,7 +64,8 @@ import org.ism.entities.smq.PointInfos;
     @NamedQuery(name = "Staff.findByAllowed", query = "SELECT s FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1"),
     @NamedQuery(name = "Staff.countActiveUndeleted", query = "SELECT count(s) FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1 AND s.stDeleted=0"),
     @NamedQuery(name = "Staff.findByActiveUndeleted", query = "SELECT s FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1 AND s.stDeleted=0"),
-    @NamedQuery(name = "Staff.selectAllByLastChange", query = "SELECT s FROM Staff s ORDER BY s.stChanged DESC")
+    @NamedQuery(name = "Staff.selectAllByLastChange", query = "SELECT s FROM Staff s ORDER BY s.stChanged DESC"),
+    @NamedQuery(name = "Staff.startWithNameAndLimit", query = "SELECT s FROM Staff s WHERE  CONCAT(s.stFirstname, CONCAT(' ', CONCAT(s.stLastname, CONCAT(' ', CONCAT(s.stMiddlename, CONCAT(' [', CONCAT(s.stStaff, ']'))))))) like :startWith")
 })
 public class Staff implements Serializable {
 
@@ -99,11 +100,6 @@ public class Staff implements Serializable {
     @Size(max = 256)
     @Column(name = "st_maillist", length = 256)
     private String stMaillist;
-    
-    @JoinColumn(name = "st_processus", referencedColumnName = "p_processus")
-    @OneToOne
-    private Processus stProcessus;
-        
     @Basic(optional = false)
     @NotNull
     @Column(name = "st_maxInactiveInterval", nullable = false)
@@ -141,7 +137,10 @@ public class Staff implements Serializable {
     @JoinColumn(name = "st_genre", referencedColumnName = "genre")
     @ManyToOne
     private IsmGenre stGenre;
-
+    @JoinColumn(name = "st_processus", referencedColumnName = "p_processus")
+    @OneToOne
+    private Processus stProcessus;
+        
     @OneToMany(mappedBy = "pStaffmanager")
     private Collection<Processus> processusCollection;
     
@@ -277,6 +276,16 @@ public class Staff implements Serializable {
         this.stChanged = stChanged;
     }
 
+    
+    @XmlTransient
+    public Collection<Processus> getProcessusCollection() {
+        return processusCollection;
+    }
+
+    public void setProcessusCollection(Collection<Processus> processusCollection) {
+        this.processusCollection = processusCollection;
+    }
+    
     public int getStMaxInactiveInterval() {
         return stMaxInactiveInterval;
     }
@@ -326,17 +335,7 @@ public class Staff implements Serializable {
     public void setStGenre(IsmGenre stGenre) {
         this.stGenre = stGenre;
     }
-
-    @XmlTransient
-    public Collection<Processus> getProcessusCollection() {
-        return processusCollection;
-    }
-
-    public void setProcessusCollection(Collection<Processus> processusCollection) {
-        this.processusCollection = processusCollection;
-    }
-    
-    @XmlTransient
+  
     public Processus getStProcessus() {
         return stProcessus;
     }
@@ -417,5 +416,24 @@ public class Staff implements Serializable {
     public String toString() {
         return "" + stFirstname + " " + stMiddlename + " " + stLastname + " [" + stId + " ]";
     }
+
+
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Container
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+
+
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Getter / Setter
+    // 
+    //
+    // /////////////////////////////////////////////////////////////////////////
+
 
 }

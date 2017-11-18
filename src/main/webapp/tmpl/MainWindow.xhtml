@@ -44,11 +44,9 @@
             <h:outputScript library="webjars" name="popper.js/1.12.5/dist/umd/popper.min.js" />
             -->
             <h:outputScript library="webjars" name="bootstrap/3.3.7/js/bootstrap.min.js" />
-            <h:outputStylesheet library="css" name="jqplot.min.css" /> 
             
-
-
         </f:facet>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
     </h:head>
 
     <h:body id="body" rendered="#{request.session.getAttribute('authenticated')}">
