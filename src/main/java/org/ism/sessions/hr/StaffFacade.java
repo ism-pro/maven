@@ -109,7 +109,7 @@ public class StaffFacade extends AbstractFacade<Staff> {
 
     public List<Staff> findStaffStartingWith(String query, int limit) {
         em.flush();
-        Query q = em.createNamedQuery(STARTWITH_NAME_AND_LIMIT).setParameter("startWith", query+"%");
+        Query q = em.createNamedQuery(STARTWITH_NAME_AND_LIMIT).setParameter("startWith", query);
         return q.setMaxResults(limit).getResultList();
     }
 }

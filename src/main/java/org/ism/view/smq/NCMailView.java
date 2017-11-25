@@ -6,21 +6,24 @@
 package org.ism.view.smq;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ActionEvent;
+import org.ism.domain.mail.MailDefiner;
+import org.ism.entities.admin.Maillist;
+import org.ism.entities.app.IsmMailtype;
 import org.ism.entities.hr.Staff;
 import org.ism.entities.smq.Processus;
 import org.ism.jsf.admin.MailaddressController;
 import org.ism.jsf.admin.MaillistController;
+import org.ism.jsf.hr.StaffAuthController;
 import org.ism.jsf.hr.StaffController;
 import org.ism.jsf.smq.ProcessusController;
 import org.ism.jsf.util.JsfUtil;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.event.SelectEvent;
 
 /**
  * NonConformitesMailConfig class
@@ -50,34 +53,35 @@ public class NCMailView implements Serializable {
      */
     @ManagedProperty(value = "#{processusController}")
     private ProcessusController processusController;
-    
+
     /**
      * Contains list of available staff
      */
     @ManagedProperty(value = "#{staffController}")
     private StaffController staffController;
 
+    
+    /**
+     * Contains current user information
+     */
+    @ManagedProperty(value = "#{staffAuthController}")
+    private StaffAuthController staffAuthController;
+    
+    
     /**
      * Specifiy the current selected processus
      */
     private Processus selectedProcessus;
 
-    private Staff selectedStaffSearchTo = null;
-    private Staff selectedStaffSearchCc = null;
-    private Staff selectedStaffSearchCci = null;
-    private Staff selectedStaffSearchReclamTo = null;
-    private Staff selectedStaffSearchReclamCc = null;
-    private Staff selectedStaffSearchReclamCci = null;
-
     /**
      * Represent a list of staff
      */
-    List<Staff> mailTos = new ArrayList<>();
-    List<Staff> mailCcs = new ArrayList<>();
-    List<Staff> mailCcis = new ArrayList<>();
-    List<Staff> mailReclamTos = new ArrayList<>();
-    List<Staff> mailReclamCcs = new ArrayList<>();
-    List<Staff> mailReclamCcis = new ArrayList<>();
+    MailDefiner mailCreate;
+    MailDefiner mailWaiting;
+    MailDefiner mailProcessing;
+    MailDefiner mailFinished;
+    MailDefiner mailCanceled;
+    MailDefiner mailReclamCcis;
 
     // /////////////////////////////////////////////////////////////////////////
     //
@@ -88,31 +92,117 @@ public class NCMailView implements Serializable {
     // /////////////////////////////////////////////////////////////////////////
     @PostConstruct
     private void init() {
-
+        mailCreate = new MailDefiner();
+        mailWaiting = new MailDefiner();
+        mailProcessing = new MailDefiner();
+        mailFinished = new MailDefiner();
+        mailCanceled = new MailDefiner();
+        mailReclamCcis = new MailDefiner();
     }
+
+    /**
+     * Reset content of mail actualy set
+     */
+    public void prepareMail() {
+        mailCreate = new MailDefiner();
+        mailWaiting = new MailDefiner();
+        mailProcessing = new MailDefiner();
+        mailFinished = new MailDefiner();
+        mailCanceled = new MailDefiner();
+        mailReclamCcis = new MailDefiner();
+    }
+    
+    
+    /**
+     * Process change while processus is change form one to an other
+     * @param event current item select event
+     */
+    public void handleProcessusChanged(SelectEvent event){
+        SelectOneMenu som = (SelectOneMenu) event.getSource();
+        
+        if(som.getValue()==null){
+            JsfUtil.addErrorMessage("Aucun processus définit ! Aucune action...");
+            return;
+        }
+        
+        // Initialisaze all mail
+        prepareMail();
+        
+        // Read processus
+        Processus processus = (Processus) som.getValue();
+        
+        
+        
+    }
+    
 
     /**
      * Complete staff allow to help user on completion by providing list of
      * available data
      *
-     * @param query starting of seaching staff begining by firstname lastname middlename [staff]
-     * @return list of available staff starting with query with a result of maximum 10 staff
+     * @param query starting of seaching staff begining by firstname lastname
+     * middlename [staff]
+     * @return list of available staff starting with query with a result of
+     * maximum 10 staff
      */
     public List<Staff> completeStaff(String query) {
         return staffController.staffStartingWith(query, 10);
     }
 
-    public void addStaffTo() {
-        if (selectedStaffSearchTo == null) {
-            return;
-        }
-        if (!mailTos.contains(selectedStaffSearchTo)) {
-            mailTos.add(selectedStaffSearchTo);
-        } else {
-            JsfUtil.addErrorMessage(selectedStaffSearchTo.toString() + " est déjà définit !");
-        }
+    
+    
+    /**
+     * 
+     */
+    public void save(){
+        // First delete all existing setup of this processus
+        maillistController.destroyAllByProcessus(selectedProcessus);
+        
+        // Create new definition of this processus
+        
+        // Event
+        String onCreated = "A", onWaitingSolution = "B", onProgressed = "C", onFinished = "D", onCanceled = "E";
+        
+        // Create mail list
+        Maillist mlist = new Maillist();
+        mlist.setMlCompany(staffAuthController.getCompany());
+        mlist.setMlProcessus(selectedProcessus);
+        mlist.setMlGroupe("NC");
+        
+        // Create
+        mlist.setMlEvent(onCreated);
+        mlist.setMlType(new IsmMailtype(1)); // ism mail type 1: standard / 2 : réclamation
+        mlist.setMlTos(mailCreate.tosAsString());
+        mlist.setMlCcs(mailCreate.ccsAsString());
+        mlist.setMlCcis(mailCreate.ccisAsString());
+        maillistController.setSelected(mlist);
+        maillistController.create();
+        mlist.setMlType(new IsmMailtype(2)); // ism mail type 1: standard / 2 : réclamation
+        mlist.setMlTos(mailCreate.tosReclamAsString());
+        mlist.setMlCcs(mailCreate.ccsReclamAsString());
+        mlist.setMlCcis(mailCreate.ccisReclamAsString());
+        maillistController.setSelected(mlist);
+        maillistController.create();
+        
+        // En attente de solution
+        mlist.setMlEvent(onWaitingSolution);
+        mlist.setMlType(new IsmMailtype(1)); // ism mail type 1: standard / 2 : réclamation
+        mlist.setMlTos(mailWaiting.tosAsString());
+        mlist.setMlCcs(mailWaiting.ccsAsString());
+        mlist.setMlCcis(mailWaiting.ccisAsString());
+        maillistController.setSelected(mlist);
+        maillistController.create();
+        mlist.setMlType(new IsmMailtype(2)); // ism mail type 1: standard / 2 : réclamation
+        mlist.setMlTos(mailWaiting.tosReclamAsString());
+        mlist.setMlCcs(mailWaiting.ccsReclamAsString());
+        mlist.setMlCcis(mailWaiting.ccisReclamAsString());
+        maillistController.setSelected(mlist);
+        maillistController.create();
+        
+        
     }
-
+    
+    
     // /////////////////////////////////////////////////////////////////////////
     //
     //
@@ -128,101 +218,55 @@ public class NCMailView implements Serializable {
         this.selectedProcessus = selectedProcessus;
     }
 
-    public Staff getSelectedStaffSearchTo() {
-        return selectedStaffSearchTo;
+    public MailDefiner getMailCreate() {
+        return mailCreate;
     }
 
-    public void setSelectedStaffSearchTo(Staff selectedStaffSearchTo) {
-        this.selectedStaffSearchTo = selectedStaffSearchTo;
+    public void setMailCreate(MailDefiner mailCreate) {
+        this.mailCreate = mailCreate;
     }
 
-    public Staff getSelectedStaffSearchCc() {
-        return selectedStaffSearchCc;
+    public MailDefiner getMailWaiting() {
+        return mailWaiting;
     }
 
-    public void setSelectedStaffSearchCc(Staff selectedStaffSearchCc) {
-        this.selectedStaffSearchCc = selectedStaffSearchCc;
+    public void setMailWaiting(MailDefiner mailWaiting) {
+        this.mailWaiting = mailWaiting;
     }
 
-    public Staff getSelectedStaffSearchCci() {
-        return selectedStaffSearchCci;
+    public MailDefiner getMailProcessing() {
+        return mailProcessing;
     }
 
-    public void setSelectedStaffSearchCci(Staff selectedStaffSearchCci) {
-        this.selectedStaffSearchCci = selectedStaffSearchCci;
+    public void setMailProcessing(MailDefiner mailProcessing) {
+        this.mailProcessing = mailProcessing;
     }
 
-    public Staff getSelectedStaffSearchReclamTo() {
-        return selectedStaffSearchReclamTo;
+    public MailDefiner getMailFinished() {
+        return mailFinished;
     }
 
-    public void setSelectedStaffSearchReclamTo(Staff selectedStaffSearchReclamTo) {
-        this.selectedStaffSearchReclamTo = selectedStaffSearchReclamTo;
+    public void setMailFinished(MailDefiner mailFinished) {
+        this.mailFinished = mailFinished;
     }
 
-    public Staff getSelectedStaffSearchReclamCc() {
-        return selectedStaffSearchReclamCc;
+    public MailDefiner getMailCanceled() {
+        return mailCanceled;
     }
 
-    public void setSelectedStaffSearchReclamCc(Staff selectedStaffSearchReclamCc) {
-        this.selectedStaffSearchReclamCc = selectedStaffSearchReclamCc;
+    public void setMailCanceled(MailDefiner mailCanceled) {
+        this.mailCanceled = mailCanceled;
     }
 
-    public Staff getSelectedStaffSearchReclamCci() {
-        return selectedStaffSearchReclamCci;
-    }
-
-    public void setSelectedStaffSearchReclamCci(Staff selectedStaffSearchReclamCci) {
-        this.selectedStaffSearchReclamCci = selectedStaffSearchReclamCci;
-    }
-
-    public List<Staff> getMailTos() {
-        return mailTos;
-    }
-
-    public void setMailTos(List<Staff> mailTos) {
-        this.mailTos = mailTos;
-    }
-
-    public List<Staff> getMailCcs() {
-        return mailCcs;
-    }
-
-    public void setMailCcs(List<Staff> mailCcs) {
-        this.mailCcs = mailCcs;
-    }
-
-    public List<Staff> getMailCcis() {
-        return mailCcis;
-    }
-
-    public void setMailCcis(List<Staff> mailCcis) {
-        this.mailCcis = mailCcis;
-    }
-
-    public List<Staff> getMailReclamTos() {
-        return mailReclamTos;
-    }
-
-    public void setMailReclamTos(List<Staff> mailReclamTos) {
-        this.mailReclamTos = mailReclamTos;
-    }
-
-    public List<Staff> getMailReclamCcs() {
-        return mailReclamCcs;
-    }
-
-    public void setMailReclamCcs(List<Staff> mailReclamCcs) {
-        this.mailReclamCcs = mailReclamCcs;
-    }
-
-    public List<Staff> getMailReclamCcis() {
+    public MailDefiner getMailReclamCcis() {
         return mailReclamCcis;
     }
 
-    public void setMailReclamCcis(List<Staff> mailReclamCcis) {
+    public void setMailReclamCcis(MailDefiner mailReclamCcis) {
         this.mailReclamCcis = mailReclamCcis;
     }
+    
+    
 
     // /////////////////////////////////////////////////////////////////////////
     //
@@ -245,9 +289,14 @@ public class NCMailView implements Serializable {
     public void setMailaddressController(MailaddressController mailaddressController) {
         this.mailaddressController = mailaddressController;
     }
-    
-    public void setStaffController(StaffController staffController){
+
+    public void setStaffController(StaffController staffController) {
         this.staffController = staffController;
+    }
+    
+    
+    public void setStaffAuthController(StaffAuthController staffAuthController) {
+        this.staffAuthController = staffAuthController;
     }
 
 }

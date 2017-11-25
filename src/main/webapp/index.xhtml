@@ -8,28 +8,49 @@
     xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
     <h:head>
-        <title>#{ism.AppName}</title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
-        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+        <!-- STANDARD CONFIG -->
         <meta charset="UTF-8"/>
-
-        <h:outputStylesheet library="css" name="ism-login.min.css" />
-        <h:outputStylesheet library="css" name="ism.min.css" />
-        <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
-        <h:outputStylesheet library="webjars" name="bootstrap/3.3.7/css/bootstrap.min.css" />
-
-        <h:outputScript library="webjars" name="bootstrap/3.3.7/js/bootstrap.min.js" />
-
-
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta http-equiv="refresh" 
-              content="60;url=#{request.contextPath}#{request.servletPath}/logout.xhtml?faces-redirect=true"/>
+            <meta http-equiv="refresh" 
+                  content="60;url=#{request.contextPath}#{request.servletPath}/logout.xhtml?faces-redirect=true"/>
+
+        <!-- ISM TITLE PAGE -->
+        <title>#{ism.AppName}</title>
+
+        <!-- ISM LOGO -->
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+
+
+        <f:facet name="last">
+            <!-- CSS - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- CSS - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- CSS - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- CSS - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Font-Awesome -->
+            <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
+            
+            <!-- Bootstrap -->
+            <h:outputStylesheet library="webjars" name="bootstrap/3.3.7/css/bootstrap-jsf.css" />
+            
+            <!-- ISM -->
+            <h:outputStylesheet library="css" name="ism-login.min.css" />
+            <h:outputStylesheet library="css" name="ism.min.css" />
+
+            <!-- JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            
+            
+            <h:outputScript library="webjars" name="bootstrap/3.3.7/js/bootstrap.js" />
+
+        </f:facet>
 
         <script>
             window.onload = function () {
-                if (window.location.href.indexOf('http://') == 0)
+                if (window.location.href.indexOf('http://') === 0)
                     window.location = 'https://' + window.location.hostname + ':8181' + window.location.pathname + window.location.search;
-            }
+            };
         </script>
 
         <style>
@@ -74,6 +95,12 @@
         </style>
 
     </h:head>
+
+
+
+
+
+
 
     <h:body id="Page" class="login-page">
         <!-- Header -->

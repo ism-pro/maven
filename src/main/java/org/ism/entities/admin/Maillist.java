@@ -42,6 +42,7 @@ import org.ism.entities.smq.Processus;
     @NamedQuery(name = "Maillist.findAll", query = "SELECT m FROM Maillist m"),
     @NamedQuery(name = "Maillist.findByMlId", query = "SELECT m FROM Maillist m WHERE m.mlId = :mlId"),
     @NamedQuery(name = "Maillist.findByMlEvent", query = "SELECT m FROM Maillist m WHERE m.mlEvent = :mlEvent"),
+    @NamedQuery(name = "Maillist.findByMlProcessus", query = "SELECT m FROM Maillist m WHERE m.mlProcessus = :mlProcessus"),
     @NamedQuery(name = "Maillist.findByMlGroupe", query = "SELECT m FROM Maillist m WHERE m.mlGroupe = :mlGroupe"),
     @NamedQuery(name = "Maillist.findByMlTos", query = "SELECT m FROM Maillist m WHERE m.mlTos = :mlTos"),
     @NamedQuery(name = "Maillist.findByMlCcs", query = "SELECT m FROM Maillist m WHERE m.mlCcs = :mlCcs"),

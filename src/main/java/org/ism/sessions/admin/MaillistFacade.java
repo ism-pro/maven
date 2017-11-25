@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.ism.entities.admin.Maillist;
+import org.ism.entities.smq.Processus;
 import org.ism.sessions.AbstractFacade;
 
 /**
@@ -26,6 +27,7 @@ public class MaillistFacade extends AbstractFacade<Maillist> {
 
     private final String SELECTALLBYLASTCHANGED = "Maillist.selectAllByLastChange";
     private final String FIND_BY_CODE = "Maillist.findByMlEvent";
+    private final String FIND_BY_PROCESSUS = "Maillist.findByMlProcessus";
     private final String FIND_BY_DESIGNATION = "Maillist.findByMlGroupe";
     private final String FindById = "Maillist.findByMlId";
     private final String FindByEvent = "Maillist.findByMlEvent";
@@ -50,6 +52,22 @@ public class MaillistFacade extends AbstractFacade<Maillist> {
         Query q = em.createNamedQuery(SELECTALLBYLASTCHANGED);
         return q.getResultList();
     }
+    
+    
+    /**
+     * "Maillist.findByMlProcessus"
+     * query = "SELECT m FROM Maillist m WHERE m.mlProcessus = :mlProcessus")
+     * 
+     * @param processus 
+     * @return 
+     */
+    public List<Maillist> findByProcessus(Processus processus) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("mlProcessus", processus);
+        return q.getResultList();
+    }
+    
+    
     /**
      * @NamedQuery(name = "Maillist.findByMlEvent", 
      * query = "SELECT m FROM Maillist m WHERE m.mlEvent = :mlEvent"),

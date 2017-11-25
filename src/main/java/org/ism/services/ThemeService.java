@@ -71,6 +71,7 @@ public class ThemeService {
         themes.add(new Theme(37, "Vader", "vader"));
         themes.add(new Theme(38, "ISM", "ism"));
         themes.add(new Theme(39, "PRO", "pro"));
+        themes.add(new Theme(40, "OMEGA", "omega"));
     }
 
     public List<Theme> getThemes() {

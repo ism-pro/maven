@@ -25,7 +25,7 @@
                                          title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"                                          
                                          value="#{ncMailView.selectedProcessus}"
                                          >
-                            <p:ajax event="change" update="MailContent"  />
+                            <p:ajax event="itemSelect" update="MailContent, :growl" listener="#{ncMailView.handleProcessusChanged}"  />
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"  />
                             <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
                                            var="processusItem"
@@ -38,41 +38,34 @@
                 <br />
 
 
-                <!--
-                <style>
 
-                    #bodyForm\3a MailDefintionView {
-                        padding : 0px;
-                    }
-                    #bodyForm\3a MailDefintionView > ul {
-                        width: 150px;
-                        background-image: none;
-                        padding-top: 1px;
-                        border-right: 1px solid #1889fc;
-                        height: 350px;
-                    }
-                    #bodyForm\3a MailDefintionView > div{
-                        float: left;
-                        min-height: 300px;
-                        width: inherit;
-                        margin-left: 157px;
-                        margin-top: -350px;
-                    }
-                    .btn-searcher{
-                        width: 0px!important;
-                        min-width: 0px; 
-                        max-width: 0px;
-                    }
-                    .btn-searcher > div.ui-selectonemenu-trigger.ui-state-default.ui-corner-right > span {
-                        text-indent: 0!important;
-                        background: url("#{resource['img/ism/std/Search.png']}") no-repeat;
-                        background-size:contain;
-                    }
+                <style>
                     .columnFieldClassSmall { min-width: 100px; }
                     .ui-selectlistbox-listcontainer{ width: 100%; }
+                    .columnContentClassBig{
+                        width: 100%;
+                    }
+                    .ui-autocomplete{   width: 100%;    }
+                    .ui-autocomplete-multiple-container.ui-widget.ui-inputfield.ui-state-default.ui-corner-all{
+                        width: 100%;
+                    }
 
+                    .tab-content{
+                        border:1px solid #ddd; 
+                        border-top: none;
+                        padding: 5px;
+                    }
+                    .tab-content h4, h3{
+                        margin-top: 0px;
+                    }
+
+
+                    .nav>li>a {
+                        padding: 5px 10px;
+                        border-radius: initial;
+                    }
                 </style>
-                -->
+
 
 
 
@@ -82,35 +75,45 @@
                 <h:panelGroup id="MailContent">
                     <p:outputLabel value="Veuillez choisir un processus..." rendered="#{ncMailView.selectedProcessus==null}" />
 
-                    <p:tabView id="MailDefintionView"   rendered="#{ncMailView.selectedProcessus!=null}">
-                        <p:tab id="tabCreate" title="Créé">
-                            <div style="margin-left: 4px;margin-right: 4px;">
+                    <h:panelGroup rendered="#{ncMailView.selectedProcessus!=null}">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#create">Création</a></li>
+                            <li><a data-toggle="tab" href="#solution">En attente de solution</a></li>
+                            <li><a data-toggle="tab" href="#processing">En cours</a></li>
+                            <li><a data-toggle="tab" href="#finished">Terminé</a></li>
+                            <li><a data-toggle="tab" href="#canceled">Annulée</a></li>
+                        </ul>
+
+                        <div class="tab-content border-1" style="">
+                            <div id="create" class="tab-pane fade in active">
+
+                                <h5>Création Standard</h5> 
 
 
-                                <h4>Standard </h4> 
-
-
-                                <p:panelGrid  columns="2" columnClasses="columnFieldClassSmall, columnContentClass" styleClass="panelGridClass">
-
-                                    <p:outputLabel value="A"  />
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailTos" />
                                     <h:panelGroup >
-                                        <p:autoComplete id="mailTos"   multiple="true"  value="#{ncMailView.mailTos}" completeMethod="#{ncMailView.completeStaff}"
+                                        <p:autoComplete id="mailTos"   multiple="true"  value="#{ncMailView.mailCreate.tos}" completeMethod="#{ncMailView.completeStaff}"
                                                         var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
-                                                        
                                                         itemValue="#{staff}" converter="staffConverter" forceSelection="true">
                                         </p:autoComplete>
                                     </h:panelGroup>
 
-
-
-
-                                    <p:outputLabel value="CC" for="fCreateCcs" />
+                                    <p:outputLabel value="CC" for="mailCcs" />
                                     <h:panelGroup >
-                                        <p:chips id="fCreateCcs"  />
+                                        <p:autoComplete id="mailCcs"   multiple="true"  value="#{ncMailView.mailCreate.ccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
                                     </h:panelGroup>
 
-                                    <p:outputLabel value="CCi" for="fCreateCcis" />
-                                    <p:chips id="fCreateCcis" />
+                                    <p:outputLabel value="CCi" for="mailCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailCcis"   multiple="true"  value="#{ncMailView.mailCreate.ccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
 
                                 </p:panelGrid>
 
@@ -119,107 +122,343 @@
 
 
 
-                                <h4>Réclamation</h4>
-                                <p:panelGrid  columns="2" columnClasses="columnFieldClassSmall, columnContentClass" styleClass="panelGridClass"
-                                              >
-                                    <p:outputLabel value="A" for="fCreateReclamTos" />
-                                    <p:chips id="fCreateReclamTos" />
-                                    <p:outputLabel value="CC" for="fCreateReclamCcs" />
-                                    <p:chips id="fCreateReclamCcs" />
-                                    <p:outputLabel value="CCi" for="fCreateReclamCcis" />
-                                    <p:chips id="fCreateReclamCcis" />
+                                <h5>Réclamation</h5> 
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailReclamTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailReclamTos"   multiple="true"  value="#{ncMailView.mailCreate.rtos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailReclamCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailReclamCcs"   multiple="true"  value="#{ncMailView.mailCreate.rccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailReclamCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailReclamCcis"   multiple="true"  value="#{ncMailView.mailCreate.rccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
 
                                 </p:panelGrid>
                             </div>
-                        </p:tab>
 
 
 
 
-                        <p:tab id="WaitForSolution" title="En attente de solution">
-                            <h4>Standard</h4>
-                            <h:panelGrid columns="2" cellpadding="10">
 
-                                <h:outputText value="Francis Ford Coppola's legendary..." />
-                            </h:panelGrid>
-                        </p:tab>
+                            <div id="solution" class="tab-pane fade">
+
+                                <h5>En attente de solution standard</h5> 
 
 
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailWaitForSolutionTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailWaitForSolutionTos"   multiple="true"  value="#{ncMailView.mailWaiting.tos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailWaitForSolutionCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailWaitForSolutionCcs"   multiple="true"  value="#{ncMailView.mailWaiting.ccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailWaitForSolutionCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailWaitForSolutionCcis"   multiple="true"  value="#{ncMailView.mailWaiting.ccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
 
 
-                        <p:tab id="InProgress" title="En cours">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <h:outputText value="After a break of more than 15 years..." />
-                            </h:panelGrid>
-                        </p:tab>
+
+                                <h5>Réclamation</h5> 
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailWaitForSolutionReclamTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailWaitForSolutionReclamTos"   multiple="true"  value="#{ncMailView.mailWaiting.rtos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailWaitForSolutionReclamCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailWaitForSolutionReclamCcs"   multiple="true"  value="#{ncMailView.mailWaiting.rccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailWaitForSolutionReclamCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailWaitForSolutionReclamCcis"   multiple="true"  value="#{ncMailView.mailWaiting.rccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
+                            </div>
 
 
 
-                        <p:tab id="Finished" title="Terminé">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <h:outputText value="After a break of more than 15 years..." />
-                            </h:panelGrid>
-                        </p:tab>
+
+
+                            <div id="processing" class="tab-pane fade">
+                                <h5>En cours standard</h5> 
+
+
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailprocessingTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailprocessingTos"   multiple="true"  value="#{ncMailView.mailProcessing.tos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailprocessingCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailprocessingCcs"   multiple="true"  value="#{ncMailView.mailProcessing.ccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailprocessingCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailprocessingCcis"   multiple="true"  value="#{ncMailView.mailProcessing.ccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
 
 
 
-                        <p:tab id="Cancel" title="Annulé">
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <h:outputText value="After a break of more than 15 years..." />
-                            </h:panelGrid>
-                        </p:tab>
+                                <h5>Réclamation</h5> 
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailprocessingReclamTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailprocessingReclamTos"   multiple="true"  value="#{ncMailView.mailProcessing.rtos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailprocessingReclamCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailprocessingReclamCcs"   multiple="true"  value="#{ncMailView.mailProcessing.rccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailprocessingReclamCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailprocessingReclamCcis"   multiple="true"  value="#{ncMailView.mailProcessing.rccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
+                            </div>
 
 
-                    </p:tabView>
+
+
+
+                            <div id="finished" class="tab-pane fade">
+                                <h5>Terminé standard</h5> 
+
+
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailfinishedTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailfinishedTos"   multiple="true"  value="#{ncMailView.mailFinished.tos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailfinishedCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailfinishedCcs"   multiple="true"  value="#{ncMailView.mailFinished.ccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailfinishedCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailfinishedCcis"   multiple="true"  value="#{ncMailView.mailFinished.ccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
+
+
+
+                                <h5>Réclamation</h5> 
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailfinishedReclamTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailfinishedReclamTos"   multiple="true"  value="#{ncMailView.mailFinished.rtos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailfinishedReclamCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailfinishedReclamCcs"   multiple="true"  value="#{ncMailView.mailFinished.rccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailfinishedReclamCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailfinishedReclamCcis"   multiple="true"  value="#{ncMailView.mailFinished.rccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
+                            </div>
+
+
+
+                            
+                            
+                            
+                            
+                            
+                            <div id="canceled" class="tab-pane fade">
+                                <h5>Annuler standard</h5> 
+
+
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailcanceledTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailcanceledTos"   multiple="true"  value="#{ncMailView.mailCanceled.tos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailcanceledCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailcanceledCcs"   multiple="true"  value="#{ncMailView.mailCanceled.ccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailcanceledCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailcanceledCcis"   multiple="true"  value="#{ncMailView.mailCanceled.ccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
+
+
+
+                                <h5>Réclamation</h5> 
+                                <p:panelGrid  columns="2" columnClasses="columnFieldClass, columnContentClassBig" styleClass="panelGridClass">
+                                    <p:outputLabel value="A" for="mailcanceledReclamTos" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailcanceledReclamTos"   multiple="true"  value="#{ncMailView.mailCanceled.rtos}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CC" for="mailcanceledReclamCcs" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailcanceledReclamCcs"   multiple="true"  value="#{ncMailView.mailCanceled.rccs}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                    <p:outputLabel value="CCi" for="mailcanceledReclamCcis" />
+                                    <h:panelGroup >
+                                        <p:autoComplete id="mailcanceledReclamCcis"   multiple="true"  value="#{ncMailView.mailCanceled.rccis}" completeMethod="#{ncMailView.completeStaff}"
+                                                        var="staff" itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]" 
+                                                        itemValue="#{staff}" converter="staffConverter" forceSelection="true">
+                                        </p:autoComplete>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
+                            </div>
+
+
+
+
+
+
+                            <hr style="margin-top: 5px;margin-bottom: -5px;" />
+                            <h:panelGroup id="btn-crud-zone_id"    rendered="#{ncMailView.selectedProcessus!=null}" >
+                                <p:commandButton icon="ui-btn-SaveOne"
+                                                 styleClass="ui-btn"
+                                                 value="#{ism.Save}" 
+                                                 actionListener="#{ncMailView.save()}" 
+                                                 update=":bodyForm,:growl"
+                                                 action="Mail.xhtml?faces-redirect=true"
+                                                 />
+
+                                <p:commandButton icon="ui-btn-Cancel"
+                                                 styleClass="ui-btn"
+                                                 value="#{ism.Cancel}" 
+                                                 update=":bodyForm,:growl"
+                                                 actionListener="#{nonConformiteRequestController.prepareCreate()}"
+                                                 action="./List.xhtml?faces-redirect=true"
+                                                 immediate="true"
+                                                 />
+
+                            </h:panelGroup>
+
+                            <p:messages showDetail="true" showSummary="false"
+                                        escape="false"/>
+
+                        </div>
+
+                    </h:panelGroup>
+
+
+
                 </h:panelGroup>
 
-                <p:dialog id="MailSearchStaff" widgetVar="MailSearchStaff" 
-                          showEffect="clip"  hideEffect="clip" appendTo="@(body)" 
-                          header="#{ism.MailSearchStaffDlgTitle} : #{ism.MailSearchStaffDlgMsg}" 
-                          width="610"
-                          draggable="false" resizable="false" modal="true" 
-
-                          fitViewport="true" 
-                          >
-
-                    <h:form id="mailSearchStaffForm">
-                        <p:panelGrid id="mailSearchStaffPanel" 
-                                     columns="2" 
-                                     columnClasses="columnFieldClass, columnContentClass" 
-                                     styleClass="panelGridClass">
-
-                            <p:outputLabel value="#{ism.StaffGroupsField_stgStaff}" for="msStaff" />
-                            <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                                <p:selectOneMenu id="msStaff"  widgetVar="msStaff"
-                                                 filter="true" filterMatchMode="contains"
-                                                 value="#{staffGroupsController.selected.stgStaff}"
-                                                 title="#{ism.StaffGroupsFieldInfo_stgStaff}" 
-                                                 required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgStaff}"
-                                                 >
-                                    <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
-                                    <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
-                                                   var="stgStaffItem"
-                                                   itemLabel="#{stgStaffItem.stFirstname} #{stgStaffItem.stLastname} #{stgStaffItem.stMiddlename} [#{stgStaffItem.stStaff}]"
-                                                   itemValue="#{stgStaffItem}"/>
-                                </p:selectOneMenu>
-                                <p:message for="msStaff" />
-                            </h:panelGrid>
 
 
-                        </p:panelGrid>
-                        <br/>
 
-                        <p:commandButton  value="#{ism.ReportRun}" ajax="false"
-                                          action="Report.xhtml?faces-redirect=true"
-                                          oncomplete="PF('ReportDlg').hide()"
-                                          actionListener="#{crystalController.handleCSReportViewer()}"
-                                          icon="fa fa-eye"
-                                          />
-                        <p:commandButton value="#{ism.Cancel}" 
-                                         icon="fa fa-times"
-                                         onclick="PF('ReportDlg').hide()"/>
-                    </h:form>
-                </p:dialog> 
             </h:form>
 
 

@@ -65,7 +65,7 @@ import org.ism.entities.smq.PointInfos;
     @NamedQuery(name = "Staff.countActiveUndeleted", query = "SELECT count(s) FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1 AND s.stDeleted=0"),
     @NamedQuery(name = "Staff.findByActiveUndeleted", query = "SELECT s FROM Staff s WHERE s.stStaff = :stStaff AND s.stActivated=1 AND s.stDeleted=0"),
     @NamedQuery(name = "Staff.selectAllByLastChange", query = "SELECT s FROM Staff s ORDER BY s.stChanged DESC"),
-    @NamedQuery(name = "Staff.startWithNameAndLimit", query = "SELECT s FROM Staff s WHERE  CONCAT(s.stFirstname, CONCAT(' ', CONCAT(s.stLastname, CONCAT(' ', CONCAT(s.stMiddlename, CONCAT(' [', CONCAT(s.stStaff, ']'))))))) like :startWith")
+    @NamedQuery(name = "Staff.startWithNameAndLimit", query = "SELECT s FROM Staff s WHERE (s.stMaillist is not null) AND CONCAT(s.stFirstname, CONCAT(' ', CONCAT(s.stLastname, CONCAT(' ', CONCAT(s.stMiddlename, CONCAT(' [', CONCAT(s.stStaff, ']'))))))) like CONCAT(:startWith, '%')")
 })
 public class Staff implements Serializable {
 

@@ -35,6 +35,7 @@ import javax.faces.bean.ManagedProperty;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
+import org.ism.entities.smq.Processus;
 import org.ism.lazy.process.ctrl.AnalyseDataLazyModel;
 import org.ism.services.TableSet;
 import org.primefaces.event.data.FilterEvent;
@@ -328,6 +329,18 @@ public class MaillistController implements Serializable {
             selected = null;
         }
     }
+    
+    /**
+     * Allow to destroy all the mail list affected to a specific processus
+     * @param processus is the processus to destroy
+     */
+    public void destroyAllByProcessus(Processus processus) {
+        List<Maillist> mails =  ejbFacade.findByProcessus(processus);
+        for(Maillist mail : mails){
+            selected = mail;
+            destroy();
+        }
+    }
 
     private void persist(PersistAction persistAction, String summary, String detail) {
         if (selected != null) {
@@ -384,6 +397,10 @@ public class MaillistController implements Serializable {
 
     public List<Maillist> getItemsByMaillist(String _Maillist) {
         return getFacade().findByCode(_Maillist);
+    }
+    
+    public List<Maillist> getItemsByProcessus(Processus processus) {
+        return getFacade().findByProcessus(processus);
     }
 
     public List<Maillist> getItemsByDesignation(String designation) {
@@ -588,4 +605,5 @@ public class MaillistController implements Serializable {
 //            }
 //        }
 //    }
+
 }
