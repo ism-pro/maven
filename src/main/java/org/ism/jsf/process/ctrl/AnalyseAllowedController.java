@@ -6,6 +6,7 @@ import org.ism.jsf.util.JsfUtil.PersistAction;
 import org.ism.sessions.process.ctrl.AnalyseAllowedFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -363,6 +364,19 @@ public class AnalyseAllowedController implements Serializable {
         items = getFacade().findByPointType(aPoint, aType);
         return items;
     }
+    
+    public List<AnalyseType> getItemsTypeOnPoint(AnalysePoint point){
+        List<AnalyseAllowed> lst = getItemsByPoint(point);
+        if(lst==null)return null;
+        if(lst.isEmpty())return null;
+        List<AnalyseType> types = new ArrayList<>();
+        for(AnalyseAllowed a : lst){
+            types.add(a.getAaType());
+        }
+        return types;
+    }
+    
+    
 
     /**
      * ************************************************************************
