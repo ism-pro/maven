@@ -30,6 +30,7 @@ import org.ism.jsf.hr.StaffAuthController;
 import org.ism.jsf.smq.DocExplorerController;
 import org.ism.jsf.smq.DocTypeController;
 import org.ism.jsf.smq.ProcessusController;
+import org.ism.jsf.util.JsfUtil;
 
 /**
  * <h1>DocExplorerChartView</h1><br>
@@ -151,6 +152,11 @@ public class DocExplorerChartView implements Serializable {
     }
 
     private void createBarChartUserDocumentModel() {
+        if(staffAuthController.getStaff().getStProcessus()==null){
+            JsfUtil.out("L'utilisateur n'appartient à aucun processus");
+            barChartDocStaffModel = null;
+            return;
+        }
         ChartModel model = new ChartModel();
         model.getChart().setType(ChartType.COLUMN);
         model.getChart().setPlotBackgroundCorlor(null);

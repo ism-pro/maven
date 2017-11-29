@@ -78,11 +78,15 @@ public class ViewIndex {
     }
     
     public Integer indicOpenStaffNC(String state){
-        return (Integer)(100*countStaffNC(state)/(countStaffNC("A")+countStaffNC("B")+countStaffNC("C")));
+        Integer divider = (countStaffNC("A")+countStaffNC("B")+countStaffNC("C"));
+        if(divider<=0)return 0;
+        return (Integer)(100*countStaffNC(state)/divider);
     }
     
     public Integer indicClosedStaffNC(String state){
-        return (Integer)(100*countStaffNC(state)/(countStaffNC("D")+countStaffNC("E")));
+        Integer divider = (countStaffNC("D")+countStaffNC("E"));
+        if(divider<=0)return 0;
+        return (Integer)(100*countStaffNC(state)/divider);
     }
 
 }

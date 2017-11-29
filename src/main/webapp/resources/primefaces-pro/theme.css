@@ -91,7 +91,7 @@ a:visited.ui-button,
     border: 1px solid #c5c5c5;
     background: #00Afff;
     font-weight: normal;
-    color: #ffffff;
+    color: #cccccc;
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,
@@ -103,7 +103,7 @@ a:visited.ui-button,
 .ui-state-focus a:visited,
 a.ui-button:hover,
 a.ui-button:focus {
-    color: #ffffff;
+    color: #cccccc;
     text-decoration: none;
 }
 

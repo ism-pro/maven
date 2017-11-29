@@ -9,43 +9,9 @@ and open the template in the editor.
 */
 
 /*** MARGIN            ************************************************** ***/
-i-margin-no{
-    margin: 0px!important;
-}
 
-i-margin-no-ns{
-    margin-top: 0px!important;
-    margin-bottom: 0px!important;
-}
-
-i-margin-no-es{
-    margin-left: 0px!important;
-    margin-right: 0px!important;
-}
-
-i-margin-5{
-    margin: 5px!important;
-}
 
 /*** PADDING            ************************************************** ***/
-i-padding-no{
-    padding: 0px!important;
-}
-
-i-padding-no-ns{
-    padding-top: 0px!important;
-    padding-bottom: 0px!important;
-}
-
-i-padding-no-es{
-    padding-left: 0px!important;
-    padding-right: 0px!important;
-}
-
-i-padding-5{
-    padding: 5px!important;
-}
-
 
 
 
@@ -134,7 +100,16 @@ i-padding-5{
 .login-page,.register-page{
     background: #f2f2f2; /*#d2d6de;*/
 }
-.login-box,.register-box{width:360px;margin:7% auto}@media (max-width:768px){.login-box,.register-box{width:90%;margin-top:20px}}.login-box-body,.register-box-body{background:#fff;padding:20px;color:#444;border-top:0;color:#666}.login-box-body .form-control-feedback,.register-box-body .form-control-feedback{color:#777}.login-box-msg,.register-box-msg{margin:0;text-align:center;padding:0 20px 20px 20px}.social-auth-links{margin:10px 0}.error-page{width:600px;margin:20px auto 0 auto}@media (max-width:991px){.error-page{width:100%}}.error-page>.headline{float:left;font-size:100px;font-weight:300}@media (max-width:991px){.error-page>.headline{float:none;text-align:center}}.error-page>.error-content{margin-left:190px;display:block}
+.login-box,.register-box{width:360px;margin:3% auto} 
+
+@media (max-width:768px){
+    .login-box,.register-box{width:90%;margin-top:20px}
+}
+.login-box-body,.register-box-body{background:#fff;padding:20px;color:#444;border-top:0;color:#666}
+.login-box-body .form-control-feedback,.register-box-body .form-control-feedback{color:#777}
+.login-box-msg,.register-box-msg{margin:0;text-align:center;padding:0 20px 20px 20px}.social-auth-links{margin:10px 0}
+.error-page{width:600px;margin:20px auto 0 auto}
+@media (max-width:991px){.error-page{width:100%}}.error-page>.headline{float:left;font-size:100px;font-weight:300}@media (max-width:991px){.error-page>.headline{float:none;text-align:center}}.error-page>.error-content{margin-left:190px;display:block}
 
 
 

@@ -5,7 +5,8 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core" 
     xmlns:p="http://primefaces.org/ui"
-    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    >
 
     <h:head>
         <!-- STANDARD CONFIG -->
@@ -41,7 +42,7 @@
             <!-- JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <!-- JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             
-            
+            <!-- Bootstrap -->
             <h:outputScript library="webjars" name="bootstrap/3.3.7/js/bootstrap.js" />
 
         </f:facet>
@@ -102,15 +103,15 @@
 
 
 
-    <h:body id="Page" class="login-page">
+    <h:body id="Page" style="background-color: rgba(41, 43, 44, 0.07)!important;" >
         <!-- Header -->
-        <header class="text-center w3-container w3-theme w3-padding w3-grey" id="myHeader">
+        <header class="text-center container-fluid text-white" id="myHeader" style="background-color:#bbb!important; padding: 8px 16px!important;">
             <div class="w3-center">
                 <h:graphicImage value="#{resource['img/ism/ism.png']}"  
                                 class="w3-xxxlarge w3-animate-bottom"
                                 width="240px" 
                                 height="64px"   />
-                <div class="w3-center w3-margin-top">#{ism.AppName} - #{ism.AppVersion}</div>
+                <div style="padding: 10px;">#{ism.AppName} - #{ism.AppVersion}</div>
             </div>
 
         </header>
