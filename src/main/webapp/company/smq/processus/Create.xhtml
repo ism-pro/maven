@@ -27,7 +27,7 @@
                         <p:inputText id="PProcessus" 
                                      value="#{processusController.selected.PProcessus}" 
                                      title="#{ism.ProcessusFieldInfo_pProcessus}" 
-
+                                     validator="#{processusCodeValidator.validate}" 
                                      required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pProcessus}"/>
                         <p:message for="PProcessus" />
                     </h:panelGrid>
@@ -38,7 +38,7 @@
                         <p:inputText id="PDesignation" 
                                      value="#{processusController.selected.PDesignation}"
                                      title="#{ism.ProcessusFieldInfo_pDesignation}" 
-
+                                     validator="#{processusDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pDesignation}"/>
                         <p:message for="PDesignation"   />
                     </h:panelGrid>
@@ -50,10 +50,12 @@
                         <p:selectOneMenu id="PStaffmanager" 
                                          filter="true" filterMatchMode="contains"
                                          value="#{processusController.selected.PStaffmanager}" 
+                                         converter="staffConverter" 
+                                         validator="staffValidator" validatorMessage="#{ism.SelectionNullDetail}"
                                          required="true" 
                                          requiredMessage="#{ism.ProcessusRequiredMsg_pStaffManager}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
                                            var="PStaffmanagerItem"
                                            itemValue="#{PStaffmanagerItem}"

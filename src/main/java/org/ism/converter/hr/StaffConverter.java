@@ -15,6 +15,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.ism.entities.hr.Staff;
 import org.ism.jsf.hr.StaffController;
+import org.ism.jsf.util.JsfUtil;
 
 /**
  * <h1>StaffConverter</h1><br>
@@ -33,6 +34,14 @@ public class StaffConverter implements Converter {
         if (value == null || value.length() == 0) {
             return null;
         }
+
+        try {
+            Integer.valueOf(value);
+        } catch (NumberFormatException ex) {
+            JsfUtil.out("StaffConverter :  Impossible de convertir la valeur " + value + " en entier !");
+            return null;
+        }
+
         StaffController controller = (StaffController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "staffController");
         return controller.getStaff(getKey(value));

@@ -34,7 +34,7 @@
                         <p:inputText id="PProcessus" 
                                      value="#{processusController.selected.PProcessus}" 
                                      title="#{ism.ProcessusFieldInfo_pProcessus}" 
-
+                                     validator="#{processusCodeValidator.validate}" 
                                      required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pProcessus}"/>
                         <p:message for="PProcessus"   />
                     </h:panelGrid>
@@ -45,7 +45,7 @@
                         <p:inputText id="PDesignation" 
                                      value="#{processusController.selected.PDesignation}"
                                      title="#{ism.ProcessusFieldInfo_pDesignation}" 
-
+                                     validator="#{processusDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.ProcessusRequiredMsg_pDesignation}"/>
                         <p:message for="PDesignation"   />
                     </h:panelGrid>
@@ -57,9 +57,8 @@
                         <p:selectOneMenu id="PStaffmanager" 
                                          filter="true" filterMatchMode="contains"
                                          value="#{processusController.selected.PStaffmanager}" 
-                                         required="true" 
-
-                                         requiredMessage="#{ism.ProcessusRequiredMsg_pStaffManager}"
+                                         converter="staffConverter"
+                                         required="true"  requiredMessage="#{ism.ProcessusRequiredMsg_pStaffManager}"
                                          >
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}"

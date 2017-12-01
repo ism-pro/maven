@@ -7,7 +7,10 @@ import org.ism.sessions.process.ctrl.AnalyseDataFacade;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -169,7 +172,7 @@ public class AnalyseDataController implements Serializable {
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_15), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_16), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_17), true);
-        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_18), false);
+        visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_18), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_19), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_20), false);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString(src_21), false);
@@ -211,9 +214,9 @@ public class AnalyseDataController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataReleaseSelectedSummary"),
+                        getString("AnalyseDataReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataReleaseSelectedDetail"));
+                        getString("AnalyseDataReleaseSelectedDetail"));
     }
 
     /**
@@ -223,9 +226,9 @@ public class AnalyseDataController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataToggleMultiCreationSummary"),
+                        getString("AnalyseDataToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("AnalyseDataToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -235,9 +238,9 @@ public class AnalyseDataController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataToggleMultiCreationSummary"),
+                        getString("AnalyseDataToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("AnalyseDataToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /// ////////////////////////////////////////////////////////////////////////
@@ -289,24 +292,26 @@ public class AnalyseDataController implements Serializable {
      * component with specic Id "adPoint".
      */
     public void handlePointSelect() {
-//        UIComponent c = JsfUtil.findComponent("adPoint");
-//        org.primefaces.component.selectonemenu.SelectOneMenu som = (org.primefaces.component.selectonemenu.SelectOneMenu) c;
-//        if (selected.getAdPoint() == null) {
-//            som.setRequired(true);
-//            som.updateModel(FacesContext.getCurrentInstance());
-//            typesAllowedByPoint = null;
-//        } else {
-//            som.setRequired(false);
-//            som.updateModel(FacesContext.getCurrentInstance());
-//            AnalysePoint aPoint = (AnalysePoint) selected.getAdPoint();
-//            typesAllowedByPoint = analyseAllowedController.getItemsByPoint(aPoint);
-//        }
-
-        //typesAllowedByPoint = analyseAllowedController.getItemsTypeOnPoint(selected.getAdPoint());
-        JsfUtil.addSuccessMessage("Selected Point : " + selected.getAdPoint().toString());
         typesAllowedByPoint = analyseAllowedController.getItemsByPoint(selected.getAdPoint());
 
+    }
 
+    /**
+     * Handle Filter Date Range allow in a filter to manage a range sélection
+     *
+     * @param value a value is the corresponding filter
+     * @param filter a object filtred
+     * @param locale a local
+     * @return true if ok
+     * @throws ParseException an error
+     */
+    public boolean handleFilterDateRange(Object value, Object filter, Locale locale) throws ParseException {
+        return JsfUtil.dateRangeIn(value, filter, locale);
+    }
+
+    
+    public void handleTableChanges() {
+        
     }
 
     /**
@@ -327,14 +332,14 @@ public class AnalyseDataController implements Serializable {
      * @param event while sorting
      */
     public void handleSorting(SortEvent event) {
-        
-        SortMeta sortMeta = new SortMeta(event.getSortColumn(), 
-                event.getSortColumn().getField(), 
-                event.isAscending()?SortOrder.ASCENDING:SortOrder.DESCENDING, 
+
+        SortMeta sortMeta = new SortMeta(event.getSortColumn(),
+                event.getSortColumn().getField(),
+                event.isAscending() ? SortOrder.ASCENDING : SortOrder.DESCENDING,
                 null);
-        if(!multiSortMeta.contains(sortMeta))
+        if (!multiSortMeta.contains(sortMeta)) {
             multiSortMeta.add(sortMeta);
-        else {
+        } else {
             // reorder
             multiSortMeta.remove(sortMeta);
             multiSortMeta.add(sortMeta);
@@ -356,9 +361,9 @@ public class AnalyseDataController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataPersistenceCreatedSummary"),
+                        getString("AnalyseDataPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataPersistenceCreatedDetail")
+                        getString("AnalyseDataPersistenceCreatedDetail")
                 + selected.getAdPoint().getApPoint() + " - " + selected.getAdPoint().getApDesignation()
                 + " <br > " + selected.getAdType().getAtType() + " - " + selected.getAdType().getAtDesignation());
 
@@ -371,8 +376,8 @@ public class AnalyseDataController implements Serializable {
                 selected = new AnalyseData();
 
             } else {
-                List<AnalyseData> v_AnalyseData = getFacade().findAll();
-                selected = v_AnalyseData.get(v_AnalyseData.size() - 1);
+//                List<AnalyseData> v_AnalyseData = getFacade().findAll();
+//                selected = v_AnalyseData.get(v_AnalyseData.size() - 1);
             }
         }
     }
@@ -388,22 +393,24 @@ public class AnalyseDataController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataPersistenceUpdatedSummary"),
+                        getString("AnalyseDataPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataPersistenceUpdatedDetail")
+                        getString("AnalyseDataPersistenceUpdatedDetail")
                 + selected.getAdPoint().getApPoint() + " - " + selected.getAdPoint().getApDesignation()
                 + " <br > " + selected.getAdType().getAtType() + " - " + selected.getAdType().getAtDesignation());
     }
 
     public void destroy() {
         if (selected == null) {
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DeleteNotRecordForSummury"),
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("DeleteNotRecordForDetail"));
             return;
         }
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataPersistenceDeletedSummary"),
+                        getString("AnalyseDataPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseDataPersistenceDeletedDetail")
+                        getString("AnalyseDataPersistenceDeletedDetail")
                 + selected.getAdPoint().getApPoint() + " - " + selected.getAdPoint().getApDesignation()
                 + " <br > " + selected.getAdType().getAtType() + " - " + selected.getAdType().getAtDesignation());
         if (!JsfUtil.isValidationFailed()) {
@@ -792,9 +799,9 @@ public class AnalyseDataController implements Serializable {
                 }
                 FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
                         ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
+                                getString(P_DUPLICATION_CODE_SUMMARY_ID),
                         ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
+                                getString(P_DUPLICATION_CODE_DETAIL_ID)
                         + value);
                 throw new ValidatorException(facesMsg);
             }
@@ -829,9 +836,9 @@ public class AnalyseDataController implements Serializable {
                 }
                 FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
                         ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
+                                getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
                         ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
+                                getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
                         + value);
                 throw new ValidatorException(facesMsg);
             }

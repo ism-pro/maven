@@ -2,10 +2,15 @@ package org.ism.jsf.util;
 
 import com.sun.faces.component.visit.FullVisitContext;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.visit.VisitCallback;
@@ -171,5 +176,69 @@ public class JsfUtil {
 
     }
 
+    /**
+     * Date Range In return true or fase depending respectively if a date range
+     * spécified by value is in the range or not
+     * 
+     * @param value a value is the value to be filtrated
+     * @param filter a object is the spécified object by the user
+     * @param locale a local give local informations
+     * @return true if ok
+     */
+    public static boolean dateRangeIn(Object value, Object filter, Locale locale)  {
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+        if (value == null) {
+            return false;
+        }
+
+        //{"start":"2016-04-18","end":"2016-05-31"}
+        if (!filterText.contains("start")) {
+            return false;
+        }
+        String strDate = filterText;
+        strDate = strDate.replace("\"", "").replace(":", "")
+                .replace("{", "").replace("}", "")
+                .replace("start", "").replace("end", "");
+        String dates[] = strDate.split(",");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRENCH);
+        Date begin = null;
+        Date end = null;
+        try {
+            begin = format.parse(dates[0]);
+            end = format.parse(dates[1]);
+        } catch (ParseException ex) {
+            //Logger.getLogger(JsfUtil.class.getName()).log(Level.SEVERE, null, ex);
+            JsfUtil.addErrorMessage("Erreur suivante lors du filtrage de la période de date", ex.getLocalizedMessage());
+        }
+        
+
+        //Extend limite in order to make it containt
+        Calendar calValue = Calendar.getInstance();
+        Calendar calBegin = Calendar.getInstance();
+        Calendar calEnd = Calendar.getInstance();
+        calValue.setTime((Date) value);
+        calBegin.setTime((Date) begin);
+        calEnd.setTime((Date) end);
+        calBegin.add(Calendar.DAY_OF_MONTH, -1);
+        calEnd.add(Calendar.DAY_OF_MONTH, +1);
+        begin = calBegin.getTime();
+        end = calEnd.getTime();
+
+        //Check contain
+        if (value instanceof Date) {
+            Date date = (Date) value;
+            if (date.before(begin) && !date.equals(begin)) {
+                return false;
+            }
+            if (date.after(end) && !date.equals(end)) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 
 }

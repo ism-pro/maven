@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -26,8 +27,12 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import org.ism.jsf.util.JsfSecurity;
+import org.primefaces.component.inputtext.InputText;
 
 @ManagedBean(name = "staffController")
 @SessionScoped
@@ -129,9 +134,9 @@ public class StaffController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffReleaseSelectedSummary"),
+                        getString("StaffReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffReleaseSelectedDetail"));
+                        getString("StaffReleaseSelectedDetail"));
     }
 
     /**
@@ -141,9 +146,9 @@ public class StaffController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffToggleMultiCreationSummary"),
+                        getString("StaffToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("StaffToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -153,9 +158,9 @@ public class StaffController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffToggleMultiCreationSummary"),
+                        getString("StaffToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("StaffToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -219,9 +224,9 @@ public class StaffController implements Serializable {
         }
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffPersistenceCreatedSummary"),
+                        getString("StaffPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffPersistenceCreatedDetail")
+                        getString("StaffPersistenceCreatedDetail")
                 + selected.getStStaff() + " <br > " + selected.getStFirstname() + " - " + selected.getStLastname() + " - " + selected.getStMiddlename());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -250,9 +255,9 @@ public class StaffController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffPersistenceUpdatedSummary"),
+                        getString("StaffPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffPersistenceUpdatedDetail")
+                        getString("StaffPersistenceUpdatedDetail")
                 + selected.getStStaff() + " <br > " + selected.getStFirstname() + " - " + selected.getStLastname() + " - " + selected.getStMiddlename());
         isResetPassword = false;
     }
@@ -284,9 +289,9 @@ public class StaffController implements Serializable {
     public Boolean destroy() {
         Boolean err = persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffPersistenceDeletedSummary"),
+                        getString("StaffPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffPersistenceDeletedDetail")
+                        getString("StaffPersistenceDeletedDetail")
                 + selected.getStStaff() + " <br > " + selected.getStFirstname() + " - " + selected.getStLastname() + " - " + selected.getStMiddlename());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -469,10 +474,32 @@ public class StaffController implements Serializable {
     /// Converters
     /// ////////////////////////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////////////////////////
-    
     /// ////////////////////////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////////////////////////
     /// Validators
     /// ////////////////////////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////////////////////////
+    @FacesValidator(value = "staffValidator")
+    public static class staffValidator implements Validator {
+
+
+        @Override
+        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
+
+            if ((fc == null) || (uic == null)) {
+                throw new NullPointerException();
+            }
+
+            if (o != null) {
+                return;
+            }
+
+            FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                            getString("DeleteNotRecordForSummury"),
+                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
+                            getString("DeleteNotRecordForDetail"));
+            throw new ValidatorException(facesMsg);
+        }
+    }
 }

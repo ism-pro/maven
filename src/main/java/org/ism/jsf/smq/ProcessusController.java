@@ -31,6 +31,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 
 @ManagedBean(name = "processusController")
 @SessionScoped
@@ -115,9 +116,9 @@ public class ProcessusController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusReleaseSelectedSummary"),
+                        getString("ProcessusReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusReleaseSelectedDetail"));
+                        getString("ProcessusReleaseSelectedDetail"));
     }
 
     /**
@@ -127,9 +128,9 @@ public class ProcessusController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusToggleMultiCreationSummary"),
+                        getString("ProcessusToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("ProcessusToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -139,9 +140,9 @@ public class ProcessusController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusToggleMultiCreationSummary"),
+                        getString("ProcessusToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("ProcessusToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -194,9 +195,9 @@ public class ProcessusController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusPersistenceCreatedSummary"),
+                        getString("ProcessusPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusPersistenceCreatedDetail")
+                        getString("ProcessusPersistenceCreatedDetail")
                 + selected.getPProcessus() + " <br > " + selected.getPDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -226,18 +227,18 @@ public class ProcessusController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusPersistenceUpdatedSummary"),
+                        getString("ProcessusPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusPersistenceUpdatedDetail")
+                        getString("ProcessusPersistenceUpdatedDetail")
                 + selected.getPProcessus() + " <br > " + selected.getPDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusPersistenceDeletedSummary"),
+                        getString("ProcessusPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("ProcessusPersistenceDeletedDetail")
+                        getString("ProcessusPersistenceDeletedDetail")
                 + selected.getPProcessus() + " <br > " + selected.getPDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -302,8 +303,8 @@ public class ProcessusController implements Serializable {
         items = getFacade().findApprouvedItems();
         return items;
     }
-    
-    public List<String> getApprouvedItemsAsString(){
+
+    public List<String> getApprouvedItemsAsString() {
         return getFacade().findApprouvedItemsAsString();
     }
 
@@ -425,78 +426,5 @@ public class ProcessusController implements Serializable {
 
     }
 
-    @FacesValidator(value = "ProcessusCodeValidator")
-    public static class ProcessusCodeValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "ProcessusDuplicationField_codeSummary";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "ProcessusDuplicationField_codeDetail";
-
-        @EJB
-        private org.ism.sessions.smq.ProcessusFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<Processus> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "ProcessusDesignationValidator")
-    public static class ProcessusDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "ProcessusDuplicationField_designationSummary";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "ProcessusDuplicationField_designationDetail";
-
-        @EJB
-        private org.ism.sessions.smq.ProcessusFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<Processus> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
+    
 }

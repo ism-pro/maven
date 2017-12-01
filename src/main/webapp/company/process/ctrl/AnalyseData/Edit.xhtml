@@ -82,6 +82,7 @@
                         <p:selectOneMenu id="adValidator"  widgetVar="adValidator"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseDataController.selected.adValidator}"
+                                         converter="staffConverter"
                                          disabled="#{!analyseDataController.selected.adValidate}"
                                          required="#{analyseDataController.selected.adValidate}" 
                                          requiredMessage="#{ism.AnalyseDataRequiredMsg_adValidator}" 
@@ -106,7 +107,7 @@
                         <p:inputText id="adObservation" 
                                      value="#{analyseDataController.selected.adObservation}" 
                                      title="#{ism.AnalyseDataFieldInfo_adObservation}" 
-                                     required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adObservation}" 
+                                     required="false" requiredMessage="#{ism.AnalyseDataRequiredMsg_adObservation}" 
                                      />
                         <p:message for="adObservation"  />
                     </h:panelGrid>

@@ -40,7 +40,7 @@
                                 styleClass="options-btn"
                                 value="#{ism.Delete}"
                                 title="Permet de supprimer le AnalyseData sélectionné !"
-                                actionListener="#{viewTabManager.handleDestroy('analysedata')}"
+                                actionListener="#{analyseDataController.destroy()}"
                                 update=":bodyForm:datalist, westGroup,:growl"
                                 onstart=";
                                 #{viewConfirmDialog.dlg.setHeader(ism.AnalyseDataDlgHeader)};
@@ -398,7 +398,7 @@
                     <p:column headerText="#{ism.AnalyseDataField_adCreated}" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adCreated)}"
                               sortBy="#{item.adCreated}" filterBy="#{item.adCreated}" 
-                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                              filterFunction="#{analyseDataController.handleFilterDateRange}" >
                         <f:facet name="filter">
                             <p:inputText id="filterAdCreated" 
                                          onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
@@ -485,7 +485,7 @@
                                  styleClass="options-btn"
                                  value="#{ism.Delete}"
                                  title="Permet de supprimer le AnalyseData sélectionné !"
-                                 actionListener="#{viewTabManager.handleDestroy('analysedata')}"
+                                 actionListener="#{analyseDataController.destroy()}"
                                  update=":bodyForm:datalist,westGroup,:growl"
                                  onstart=";
                                  #{viewConfirmDialog.dlg.setHeader(ism.AnalyseDataDlgHeader)};

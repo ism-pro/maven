@@ -247,6 +247,11 @@ body {
     background-size:contain;
 }
 
+.ui-ribbonicon-dashboard{
+    background: url("#{resource['img/ism/ribbon/affichage-grid-9.png']}") no-repeat;
+    background-size:contain;
+}
+
 #btnHomeLogOut .ui-ribbonicon-exit{
     background: url("#{resource['img/ism/ribbon/exit.png']}") no-repeat;
     background-size:contain;
