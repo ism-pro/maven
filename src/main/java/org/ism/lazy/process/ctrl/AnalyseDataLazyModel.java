@@ -6,6 +6,7 @@
 package org.ism.lazy.process.ctrl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,11 @@ public class AnalyseDataLazyModel extends LazyDataModel<AnalyseData> implements 
         // Restore filter if required
         if (this.multiSortMeta != null && this.multiSortMeta!=multiSortMeta) {
             multiSortMeta = this.multiSortMeta;
+        }else{
+            // Sorting default by date d'échantillonnage
+            multiSortMeta = new ArrayList<>();
+            SortMeta metaSort = new SortMeta(null, "adsampleTime", SortOrder.DESCENDING, null);
+            multiSortMeta.add(metaSort);
         }
         if (this.filters != null && this.filters!=filters) {
             filters = this.filters;
