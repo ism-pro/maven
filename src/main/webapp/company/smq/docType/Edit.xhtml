@@ -34,7 +34,7 @@
                         <p:inputText id="dctType" 
                                      value="#{docTypeController.selected.dctType}" 
                                      title="#{ism.DocTypeFieldInfo_dctType}" 
-                                     validator="DocTypeCodeValidator"
+                                     validator="#{docTypeCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.DocTypeRequiredMsg_dctType}"/>
                         <p:message for="dctType"   />
                     </h:panelGrid>
@@ -45,7 +45,7 @@
                         <p:inputText id="dctDesignation" 
                                      value="#{docTypeController.selected.dctDesignation}"
                                      title="#{ism.DocTypeFieldInfo_dctDesignation}" 
-                                     validator="DocTypeDesignationValidator"
+                                     validator="#{docTypeDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.DocTypeRequiredMsg_dctDesignation}"/>
                         <p:message for="dctDesignation"   />
                     </h:panelGrid>

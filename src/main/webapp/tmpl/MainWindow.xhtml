@@ -196,15 +196,14 @@
                                 <p:tab id="main" title="#{ism.Home}" titletip="#{ism.HomeTitle}"   >
 
                                     <pi:ribbonGroup id="ribbonGroupHome" label="#{ism.StaffField_stStaff}"  >
-                                        <pi:ribbonGroupSet set="middle">
+                                        
+                                        <pi:ribbonGroupSet id="ribbonGroupSetHomeSetup" set="big" >
                                             <p:commandButton title="Visualiser la page d'acceuil"
                                                              action="/company/index.xhtml?faces-redirect=true"
-                                                             icon=".ui-ribbonicon-dashboard" 
+                                                             icon="ui-ribbonicon-dashboard-big" 
                                                              value="#{ism.Dashboard}"
                                                              />
-                                        </pi:ribbonGroupSet>
-
-                                        <pi:ribbonGroupSet id="ribbonGroupSetHomeSetup" set="big" >
+                                            
                                             <p:commandButton id="btnHomeStaffProfil"
                                                              actionListener="#{staffController.prepareUpdate(staffAuthController.staff.stStaff)}"
                                                              title="Visualiser votre profile"

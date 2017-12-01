@@ -26,6 +26,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import org.ism.entities.admin.Company;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
@@ -315,9 +316,17 @@ public class DocTypeController implements Serializable {
     public List<DocType> getItemsByCode(String code) {
         return getFacade().findByCode(code);
     }
+    
+    public List<DocType> getItemsByCode(String code, Company company) {
+        return getFacade().findByCode(code, company);
+    }
 
     public List<DocType> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+    
+    public List<DocType> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
     }
 
     public List<DocType> getItemsAvailableSelectMany() {
@@ -377,6 +386,7 @@ public class DocTypeController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
+
     /**
      * ************************************************************************
      * CONVERTER
@@ -424,79 +434,4 @@ public class DocTypeController implements Serializable {
         }
 
     }
-
-    @FacesValidator(value = "DocTypeCodeValidator")
-    public static class DocTypeCodeValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "DocTypeDuplicationField_codeSummary";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "DocTypeDuplicationField_codeDetail";
-
-        @EJB
-        private org.ism.sessions.smq.DocTypeFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<DocType> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "DocTypeDesignationValidator")
-    public static class DocTypeDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "DocTypeDuplicationField_designationSummary";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "DocTypeDuplicationField_designationDetail";
-
-        @EJB
-        private org.ism.sessions.smq.DocTypeFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<DocType> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
 }

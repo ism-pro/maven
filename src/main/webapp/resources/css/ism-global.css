@@ -202,6 +202,16 @@ time, mark, audio, video {
  * Manage Ribbon Button
  * ===========================================================================*/
 
+span.ui-button-icon-left.ui-icon.ui-c.ui-ribbonicon-dashboard-mid{
+    margin-left: -8px!important;
+    background: url("#{resource['img/ism/ribbon/affichage-grid-9.png']}") no-repeat;
+    background-size:contain;
+}
+span.ui-button-icon-left.ui-icon.ui-c.ui-ribbonicon-dashboard-big{
+    background: url("#{resource['img/ism/ribbon/affichage-grid-9.png']}") no-repeat;
+    background-size:contain;
+}
+
 /* // RESSOURCES / CONFIGURATIONS */
 
 span.ui-button-icon-left.ui-icon.ui-c.ui-icon-company-business-entreprise{

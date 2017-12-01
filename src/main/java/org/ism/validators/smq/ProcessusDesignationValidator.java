@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ism.validators.smq.processus;
+package org.ism.validators.smq;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -29,11 +28,11 @@ import org.primefaces.component.inputtext.InputText;
  */
 @ManagedBean
 @SessionScoped
-@FacesValidator("processusCodeValidator")
-public class ProcessusCodeValidator implements Validator, Serializable {
+@FacesValidator(value = "processusDesignationValidator")
+public class ProcessusDesignationValidator implements Validator, Serializable {
 
-    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "ProcessusDuplicationField_codeSummary";
-    public static final String P_DUPLICATION_CODE_DETAIL_ID = "ProcessusDuplicationField_codeDetail";
+    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "ProcessusDuplicationField_designationSummary";
+    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "ProcessusDuplicationField_designationDetail";
 
     @ManagedProperty(value = "#{processusController}")
     ProcessusController processusController;
@@ -48,9 +47,9 @@ public class ProcessusCodeValidator implements Validator, Serializable {
             return;
         }
         InputText input = (InputText) uic;
-        
-        List<Processus> lst = processusController.getItemsByCode(value);
-        if (lst != null) {
+        List<Processus> lst = processusController.getItemsByDesignation(value);
+
+        if (lst != null && !lst.isEmpty()) {
             if (input.getValue() != null) {
                 if (value.matches((String) input.getValue())) {
                     return;
@@ -58,9 +57,9 @@ public class ProcessusCodeValidator implements Validator, Serializable {
             }
             FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
                     ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                            getString(P_DUPLICATION_CODE_SUMMARY_ID),
+                            getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
                     ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                            getString(P_DUPLICATION_CODE_DETAIL_ID)
+                            getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
                     + value);
             throw new ValidatorException(facesMsg);
         }

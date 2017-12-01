@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "DocType.findByDctId", query = "SELECT d FROM DocType d WHERE d.dctId = :dctId"),
     @NamedQuery(name = "DocType.findByDctType", query = "SELECT d FROM DocType d WHERE d.dctType = :dctType"),
     @NamedQuery(name = "DocType.findByDctDesignation", query = "SELECT d FROM DocType d WHERE d.dctDesignation = :dctDesignation"),
+    @NamedQuery(name = "DocType.findByDctTypeOfCompany", query = "SELECT d FROM DocType d WHERE d.dctType = :dctType AND d.dctCompany = :dctCompany"),
+    @NamedQuery(name = "DocType.findByDctDesignationOfCompany", query = "SELECT d FROM DocType d WHERE d.dctDesignation = :dctDesignation AND d.dctCompany = :dctCompany"),
     @NamedQuery(name = "DocType.findByDctDeleted", query = "SELECT d FROM DocType d WHERE d.dctDeleted = :dctDeleted"),
     @NamedQuery(name = "DocType.findByDctCreated", query = "SELECT d FROM DocType d WHERE d.dctCreated = :dctCreated"),
     @NamedQuery(name = "DocType.findByDctChanged", query = "SELECT d FROM DocType d WHERE d.dctChanged = :dctChanged"),

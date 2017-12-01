@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.smq.DocType;
 import org.ism.sessions.AbstractFacade;
 
@@ -32,7 +33,10 @@ public class DocTypeFacade extends AbstractFacade<DocType> {
     private final String SELECTALLBYLASTCHANGED = "DocType.selectAllByLastChange";
     private final String FIND_BY_PROCESSUS = "DocType.findByDctType";            // query = "SELECT d FROM DocType d WHERE d.dctType = :dctType"
     private final String FIND_BY_DESIGNATION = "DocType.findByDctDesignation";     // query = "SELECT d FROM DocType d WHERE d.dctDesignation = :dctDesignation"
-
+    private final String FIND_BY_PROCESSUS_OF_COMPANY = "DocType.findByDctTypeOfCompany";
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "DocType.findByDctDesignationOfCompany";
+    
+    
     public DocTypeFacade() {
         super(DocType.class);
     }
@@ -68,5 +72,21 @@ public class DocTypeFacade extends AbstractFacade<DocType> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<DocType> findByCode(String code, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_PROCESSUS_OF_COMPANY)
+                .setParameter("dctType", code)
+                .setParameter("dctCompany", company);
+        return q.getResultList();
+    }
+
+    public List<DocType> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("dctDesignation", designation)
+                .setParameter("dctCompany", company);
+        return q.getResultList();
     }
 }
