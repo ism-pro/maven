@@ -34,8 +34,8 @@
                         <p:selectOneMenu id="adSampler"  widgetVar="adSampler"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseDataController.selected.adSampler}"
-                                         required="true" 
-                                         requiredMessage="#{ism.AnalyseDataRequiredMsg_adSampler}" 
+                                         converter="staffConverter"
+                                         required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adSampler}" 
                                          >
                             <f:selectItem itemLabel="#{staffAuthController.staff.stStaff} - #{staffAuthController.staff.stFirstname} #{staffAuthController.staff.stLastname} #{staffAuthController.staff.stMiddlename}" 
                                           itemValue="#{staffAuthController.staff}"/>
@@ -52,11 +52,11 @@
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
                         <p:selectOneMenu id="adPoint"  widgetVar="adPoint"
                                          filter="true" filterMatchMode="contains"
-                                         value="#{analyseDataController.selected.adPoint}"
-                                         required="true" 
-                                         requiredMessage="#{ism.AnalyseDataRequiredMsg_adPoint}" 
+                                         value="#{analyseDataController.selected.adPoint}" 
+                                         converter="AnalysePointConverter"
+                                         required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adPoint}"
                                          >
-                            <p:ajax event="change" update="adType, @this" listener="#{analyseDataController.handlePointSelect()}" />
+                            <p:ajax event="change" update="bodyForm,:growl" listener="#{analyseDataController.handlePointSelect()}"/>
                             <f:selectItem itemLabel="#{ism.SelectList}"   itemValue="#{null}" />
                             <f:selectItems value="#{analysePointController.items}"
                                            var="adPointItem"
@@ -72,9 +72,9 @@
                         <p:selectOneMenu id="adType"  widgetVar="adType" immediate="true"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseDataController.selected.adType}"
+                                         converter="AnalyseTypeConverter"
                                          disabled="#{analyseDataController.typesAllowedByPoint==null?true:false}"
-                                         required="true" 
-                                         requiredMessage="#{ism.AnalyseDataRequiredMsg_adType}" 
+                                         required="true" requiredMessage="#{ism.AnalyseDataRequiredMsg_adType}" 
                                          >
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
                             <f:selectItems id="typeSelect" value="#{analyseDataController.typesAllowedByPoint}"

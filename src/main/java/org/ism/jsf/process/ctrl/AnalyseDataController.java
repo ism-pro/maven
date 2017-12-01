@@ -289,18 +289,24 @@ public class AnalyseDataController implements Serializable {
      * component with specic Id "adPoint".
      */
     public void handlePointSelect() {
-        UIComponent c = JsfUtil.findComponent("adPoint");
-        org.primefaces.component.selectonemenu.SelectOneMenu som = (org.primefaces.component.selectonemenu.SelectOneMenu) c;
-        if (selected.getAdPoint() == null) {
-            som.setRequired(true);
-            som.updateModel(FacesContext.getCurrentInstance());
-            typesAllowedByPoint = null;
-        } else {
-            som.setRequired(false);
-            som.updateModel(FacesContext.getCurrentInstance());
-            AnalysePoint aPoint = (AnalysePoint) selected.getAdPoint();
-            typesAllowedByPoint = analyseAllowedController.getItemsByPoint(aPoint);
-        }
+//        UIComponent c = JsfUtil.findComponent("adPoint");
+//        org.primefaces.component.selectonemenu.SelectOneMenu som = (org.primefaces.component.selectonemenu.SelectOneMenu) c;
+//        if (selected.getAdPoint() == null) {
+//            som.setRequired(true);
+//            som.updateModel(FacesContext.getCurrentInstance());
+//            typesAllowedByPoint = null;
+//        } else {
+//            som.setRequired(false);
+//            som.updateModel(FacesContext.getCurrentInstance());
+//            AnalysePoint aPoint = (AnalysePoint) selected.getAdPoint();
+//            typesAllowedByPoint = analyseAllowedController.getItemsByPoint(aPoint);
+//        }
+
+        //typesAllowedByPoint = analyseAllowedController.getItemsTypeOnPoint(selected.getAdPoint());
+        JsfUtil.addSuccessMessage("Selected Point : " + selected.getAdPoint().toString());
+        typesAllowedByPoint = analyseAllowedController.getItemsByPoint(selected.getAdPoint());
+
+
     }
 
     /**
@@ -710,7 +716,7 @@ public class AnalyseDataController implements Serializable {
     ///
     ///
     /// ////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = AnalyseData.class)
+    @FacesConverter(forClass = AnalyseData.class, value = "analyseDataConverter")
     public static class AnalyseDataControllerConverter implements Converter {
 
         @Override

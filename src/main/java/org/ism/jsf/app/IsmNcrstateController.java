@@ -123,7 +123,7 @@ public class IsmNcrstateController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = IsmNcrstate.class)
+    @FacesConverter(forClass = IsmNcrstate.class, value = "ismNcrstateConverter")
     public static class IsmNcrstateControllerConverter implements Converter {
 
         @Override

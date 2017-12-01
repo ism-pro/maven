@@ -121,7 +121,7 @@ public class IsmGenreController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = IsmGenre.class)
+    @FacesConverter(forClass = IsmGenre.class, value = "ismGenreConverter")
     public static class IsmGenreControllerConverter implements Converter {
 
         @Override

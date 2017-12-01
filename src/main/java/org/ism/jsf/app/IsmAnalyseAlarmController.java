@@ -357,7 +357,7 @@ public class IsmAnalyseAlarmController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = IsmAnalyseAlarm.class)
+    @FacesConverter(forClass = IsmAnalyseAlarm.class, value = "ismAnalyseAlarmConverter")
     public static class IsmAnalyseAlarmControllerConverter implements Converter {
 
         @Override

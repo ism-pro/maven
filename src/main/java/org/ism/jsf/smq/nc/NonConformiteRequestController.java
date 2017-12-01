@@ -605,7 +605,7 @@ public class NonConformiteRequestController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = NonConformiteRequest.class)
+    @FacesConverter(forClass = NonConformiteRequest.class, value = "nonConformiteRequestConverter")
     public static class NonConformiteRequestControllerConverter implements Converter {
 
         @Override

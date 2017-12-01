@@ -467,7 +467,7 @@ public class MailaddressController implements Serializable {
     // 
     //
     // /////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = Mailaddress.class)
+    @FacesConverter(forClass = Mailaddress.class, value = "mailaddressConverter")
     public static class MailaddressControllerConverter implements Converter {
 
         @Override

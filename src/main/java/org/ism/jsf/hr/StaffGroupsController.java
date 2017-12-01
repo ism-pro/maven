@@ -381,7 +381,7 @@ public class StaffGroupsController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = StaffGroups.class)
+    @FacesConverter(forClass = StaffGroups.class, value = "staffGroupsConverter")
     public static class StaffGroupsControllerConverter implements Converter {
 
         @Override

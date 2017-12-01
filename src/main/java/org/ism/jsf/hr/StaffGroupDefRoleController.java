@@ -514,7 +514,7 @@ public class StaffGroupDefRoleController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = StaffGroupDefRole.class)
+    @FacesConverter(forClass = StaffGroupDefRole.class, value = "staffGroupDefRoleConverter")
     public static class StaffGroupDefRoleControllerConverter implements Converter {
 
         @Override

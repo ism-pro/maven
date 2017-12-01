@@ -384,7 +384,7 @@ public class AnalyseNotifyController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = AnalyseNotify.class)
+    @FacesConverter(forClass = AnalyseNotify.class, value = "analyseNotifyConverter")
     public static class AnalyseNotifyControllerConverter implements Converter {
 
         @Override

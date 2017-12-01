@@ -375,7 +375,7 @@ public class AnalyseCategoryController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = AnalyseCategory.class)
+    @FacesConverter(forClass = AnalyseCategory.class, value = "analyseCategoryConverter")
     public static class AnalyseCategoryControllerConverter implements Converter {
 
         @Override

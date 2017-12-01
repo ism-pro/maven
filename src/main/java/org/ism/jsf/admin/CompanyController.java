@@ -380,7 +380,7 @@ public class CompanyController implements Serializable {
     /// CONVERTER
     ///
     ////////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = Company.class)
+    @FacesConverter(forClass = Company.class, value = "companyConverter")
     public static class CompanyControllerConverter implements Converter {
 
         @Override

@@ -575,7 +575,7 @@ public class NonConformiteActionsController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = NonConformiteActions.class)
+    @FacesConverter(forClass = NonConformiteActions.class, value = "NonConformiteActionsConverter")
     public static class NonConformiteActionsControllerConverter implements Converter {
 
         @Override

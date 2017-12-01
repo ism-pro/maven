@@ -458,7 +458,7 @@ public class IsmMailtypeController implements Serializable {
     // 
     //
     // /////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = IsmMailtype.class)
+    @FacesConverter(forClass = IsmMailtype.class, value = "ismMailtypeConverter")
     public static class IsmMailtypeControllerConverter implements Converter {
 
         @Override

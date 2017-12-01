@@ -384,7 +384,7 @@ public class ProcessusController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = Processus.class)
+    @FacesConverter(forClass = Processus.class, value = "processusConverter")
     public static class ProcessusControllerConverter implements Converter {
 
         @Override

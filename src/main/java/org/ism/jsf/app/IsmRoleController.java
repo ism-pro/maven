@@ -127,7 +127,7 @@ public class IsmRoleController implements Serializable {
         return getFacade().findByRole(role);
     }
 
-    @FacesConverter(forClass = IsmRole.class)
+    @FacesConverter(forClass = IsmRole.class, value = "ismRoleConverter")
     public static class IsmRoleControllerConverter implements Converter {
 
         @Override

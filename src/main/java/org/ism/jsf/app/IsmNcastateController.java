@@ -159,7 +159,7 @@ public class IsmNcastateController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = IsmNcastate.class)
+    @FacesConverter(forClass = IsmNcastate.class, value = "ismNcastateConverter")
     public static class IsmNcastateControllerConverter implements Converter {
 
         @Override

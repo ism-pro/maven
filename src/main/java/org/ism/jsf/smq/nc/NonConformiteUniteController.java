@@ -382,7 +382,7 @@ public class NonConformiteUniteController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = NonConformiteUnite.class)
+    @FacesConverter(forClass = NonConformiteUnite.class, value = "nonConformiteUniteConverter")
     public static class NonConformiteUniteControllerConverter implements Converter {
 
         @Override

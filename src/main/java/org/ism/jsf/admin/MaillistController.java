@@ -484,46 +484,46 @@ public class MaillistController implements Serializable {
     // 
     //
     // /////////////////////////////////////////////////////////////////////////
-//    @FacesConverter(forClass = Maillist.class)
-//    public static class MaillistControllerConverter implements Converter {
-//
-//        @Override
-//        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-//            if (value == null || value.length() == 0) {
-//                return null;
-//            }
-//            MaillistController controller = (MaillistController) facesContext.getApplication().getELResolver().
-//                    getValue(facesContext.getELContext(), null, "maillistController");
-//            return controller.getMaillist(getKey(value));
-//        }
-//
-//        java.lang.Integer getKey(String value) {
-//            java.lang.Integer key;
-//            key = Integer.valueOf(value);
-//            return key;
-//        }
-//
-//        String getStringKey(java.lang.Integer value) {
-//            StringBuilder sb = new StringBuilder();
-//            sb.append(value);
-//            return sb.toString();
-//        }
-//
-//        @Override
-//        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-//            if (object == null) {
-//                return null;
-//            }
-//            if (object instanceof Maillist) {
-//                Maillist o = (Maillist) object;
-//                return getStringKey(o.getMlId());
-//            } else {
-//                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Maillist.class.getName()});
-//                return null;
-//            }
-//        }
-//
-//    }
+    @FacesConverter(forClass = Maillist.class, value = "maillistConverter")
+    public static class MaillistControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            MaillistController controller = (MaillistController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "maillistController");
+            return controller.getMaillist(getKey(value));
+        }
+
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Integer value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof Maillist) {
+                Maillist o = (Maillist) object;
+                return getStringKey(o.getMlId());
+            } else {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Maillist.class.getName()});
+                return null;
+            }
+        }
+
+    }
 
     // /////////////////////////////////////////////////////////////////////////
     //

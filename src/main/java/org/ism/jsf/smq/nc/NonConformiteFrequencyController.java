@@ -382,7 +382,7 @@ public class NonConformiteFrequencyController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = NonConformiteFrequency.class)
+    @FacesConverter(forClass = NonConformiteFrequency.class, value = "nonConformiteFrequencyConverter")
     public static class NonConformiteFrequencyControllerConverter implements Converter {
 
         @Override

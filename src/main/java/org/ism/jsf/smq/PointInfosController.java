@@ -367,7 +367,7 @@ public class PointInfosController implements Serializable {
     /// CONVERTER
     ///
     ////////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = PointInfos.class)
+    @FacesConverter(forClass = PointInfos.class, value = "pointInfosConverter")
     public static class PointInfosControllerConverter implements Converter {
 
         @Override

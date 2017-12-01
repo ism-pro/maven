@@ -382,7 +382,7 @@ public class NonConformiteNatureController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = NonConformiteNature.class)
+    @FacesConverter(forClass = NonConformiteNature.class, value = "nonConformiteNatureConverter")
     public static class NonConformiteNatureControllerConverter implements Converter {
 
         @Override

@@ -462,7 +462,7 @@ public class ProcessAccessController implements Serializable {
     /// CONVERTER
     ///
     ////////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = ProcessAccess.class)
+    @FacesConverter(forClass = ProcessAccess.class, value = "processAccessConverter")
     public static class ProcessAccessControllerConverter implements Converter {
 
         @Override

@@ -125,7 +125,7 @@ public class EntrepriseController implements Serializable {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Entreprise.class)
+    @FacesConverter(forClass = Entreprise.class, value = "entrepriseConverter")
     public static class EntrepriseControllerConverter implements Converter {
 
         @Override

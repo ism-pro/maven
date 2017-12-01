@@ -458,7 +458,7 @@ public class IsmReportController implements Serializable {
     // 
     //
     // /////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = IsmReport.class)
+    @FacesConverter(forClass = IsmReport.class, value = "ismReportConverter")
     public static class IsmReportControllerConverter implements Converter {
 
         @Override

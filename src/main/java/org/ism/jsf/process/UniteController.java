@@ -372,7 +372,7 @@ public class UniteController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = Unite.class)
+    @FacesConverter(forClass = Unite.class, value = "uniteConverter")
     public static class UniteControllerConverter implements Converter {
 
         @Override

@@ -384,7 +384,7 @@ public class AnalysePointController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = AnalysePoint.class, value = "AnalysePointConverter")
+    @FacesConverter(forClass = AnalysePoint.class, value = "analysePointConverter")
     public static class AnalysePointControllerConverter implements Converter {
 
         @Override

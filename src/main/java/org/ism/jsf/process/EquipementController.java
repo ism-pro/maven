@@ -390,7 +390,7 @@ public class EquipementController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = Equipement.class)
+    @FacesConverter(forClass = Equipement.class, value = "equipementConverter")
     public static class EquipementControllerConverter implements Converter {
 
         @Override

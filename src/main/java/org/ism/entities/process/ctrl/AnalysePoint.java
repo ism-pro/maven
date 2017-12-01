@@ -228,8 +228,8 @@ public class AnalysePoint implements Serializable {
 
     @Override
     public String toString() {
-        //return "org.ism.entities.AnalysePoint[ apId=" + apId + " ]";
-        return apPoint + " - " + apDesignation + "[" + apId +"]";
+        return "org.ism.entities.AnalysePoint[ apId=" + apId + " ]";
+        //return apPoint + " - " + apDesignation + "[" + apId +"]";
     }
 
 }

@@ -300,7 +300,7 @@ public class StaffSetupController implements Serializable {
     /* =========================================================================
      * Staff Setup Converter
      * ========================================================================*/
-    @FacesConverter(forClass = StaffSetup.class)
+    @FacesConverter(forClass = StaffSetup.class, value = "staffSetupConverter")
     public static class StaffSetupControllerConverter implements Converter {
 
         @Override

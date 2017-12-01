@@ -382,7 +382,7 @@ public class NonConformiteGravityController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = NonConformiteGravity.class)
+    @FacesConverter(forClass = NonConformiteGravity.class, value = "nonConformiteGravityConverter")
     public static class NonConformiteGravityControllerConverter implements Converter {
 
         @Override

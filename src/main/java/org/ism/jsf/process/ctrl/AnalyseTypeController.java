@@ -384,8 +384,8 @@ public class AnalyseTypeController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = AnalyseType.class)
-    public static class AnalyseTypeControllerConverter implements Converter {
+    @FacesConverter(forClass = AnalyseType.class, value = "analyseTypeConverter")
+    public static class AnalyseTypeConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {

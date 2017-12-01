@@ -529,7 +529,7 @@ public class DocExplorerController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = DocExplorer.class)
+    @FacesConverter(forClass = DocExplorer.class, value = "docExplorerConverter")
     public static class DocExplorerControllerConverter implements Converter {
 
         @Override
