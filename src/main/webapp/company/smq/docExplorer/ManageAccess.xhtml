@@ -34,13 +34,14 @@
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectOneMenu id="staff" 
                                          filter="true" filterMatchMode="contains"
-                                         value="#{docExplorerRightsView.selected.paStaff}" 
+                                         value="#{docExplorerRightsView.selected.paStaff}"
+                                         converter="#{staffConverter}"
                                          required="false" 
                                          requiredMessage="#{ism.StaffRequiredMsg_stStaff}"
                                          valueChangeListener="#{docExplorerRightsView.handleStaffChanged}"
                                          >
                             <p:ajax event="change"  update="westGroup @form, :growl" />
-                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}" 
                                            var="staff"
                                            itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]"
@@ -61,7 +62,7 @@
                                 itemValue="#{doc}"
                                 showCheckbox="true" responsive="true"
                                 showSourceFilter="true" showTargetFilter="true"
-                                filterMatchMode="contains" converter="docExplorerConverter"
+                                filterMatchMode="contains" converter="#{docExplorerConverter}"
                                 rendered="#{docExplorerRightsView.selected.paStaff!=null}"
                                 >
 
@@ -104,13 +105,14 @@
                         <p:selectOneMenu id="docExplorerId" 
                                          filter="true" filterMatchMode="contains"
                                          value="#{docExplorerRightsView.selected.paDocexplorer}" 
+                                         converter="#{docExplorerConverter}"
                                          required="false" 
                                          requiredMessage="#{ism.DocExplorerRequiredMsg_Id}"
                                          valueChangeListener="#{docExplorerRightsView.handleDocumentChanged}"
 
                                          >
                             <p:ajax event="change" update="westGroup @form, :growl" />
-                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue="#{null}"/>
                             <f:selectItems value="#{docExplorerController.itemsAvailableSelectOne}" 
                                            var="doc"
                                            itemLabel="#{doc.dcVersion} : #{doc.dcDesignation}"
@@ -129,8 +131,9 @@
                                 itemLabel="#{staff.stFirstname} #{staff.stLastname} #{staff.stMiddlename} [#{staff.stStaff}]"
                                 showCheckbox="true" responsive="true"
                                 showSourceFilter="true" showTargetFilter="true"
-                                filterMatchMode="contains" converter="staffConverter"
+                                filterMatchMode="contains" 
                                 rendered="#{docExplorerRightsView.selected.paDocexplorer!=null}"
+                                converter="#{staffConverter}"
                                 >
 
                         <f:facet name="sourceCaption">#{ism.Unaffected}</f:facet>

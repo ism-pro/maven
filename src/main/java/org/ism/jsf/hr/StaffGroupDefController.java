@@ -408,53 +408,6 @@ public class StaffGroupDefController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesConverter(forClass = StaffGroupDef.class, value = "staffGroupDefConverter")
-    public static class StaffGroupDefControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            StaffGroupDefController controller = (StaffGroupDefController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "staffGroupDefController");
-            return controller.getStaffGroupDef(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof StaffGroupDef) {
-                StaffGroupDef o = (StaffGroupDef) object;
-                return getStringKey(o.getStgdId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), StaffGroupDef.class.getName()});
-                return null;
-            }
-        }
-
-    }
 
     @FacesValidator(value = "StaffGroupDefCodeValidator")
     public static class StaffGroupDefCodeValidator implements Validator {

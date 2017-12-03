@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.smq.Processus;
 import org.ism.sessions.AbstractFacade;
 
@@ -33,6 +34,8 @@ public class ProcessusFacade extends AbstractFacade<Processus> {
     private final String SELECTALLBYLASTCHANGED = "Processus.selectAllByLastChange";
     private final String FIND_BY_PROCESSUS = "Processus.findByPProcessus";       // query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus"),
     private final String FIND_BY_DESIGNATION = "Processus.findByPDesignation";     //, query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation"),
+    private final String FIND_BY_PROCESSUS_OF_COMPANY = "Processus.findByPProcessusOfCompany";
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "Processus.findByPDesignationOfCompany";
 
     public ProcessusFacade() {
         super(Processus.class);
@@ -48,8 +51,8 @@ public class ProcessusFacade extends AbstractFacade<Processus> {
         }
         return null;
     }
-    
-        public List<String> findApprouvedItemsAsString() {
+
+    public List<String> findApprouvedItemsAsString() {
         em.flush();
         Query q = em.createNamedQuery(APPROUVEDITEMS_ASSTRING);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
@@ -91,6 +94,22 @@ public class ProcessusFacade extends AbstractFacade<Processus> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<Processus> findByCode(String code, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_PROCESSUS_OF_COMPANY)
+                .setParameter("pProcessus", code)
+                .setParameter("pCompany", company);
+        return q.getResultList();
+    }
+
+    public List<Processus> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("pDesignation", designation)
+                .setParameter("pCompany", company);
+        return q.getResultList();
     }
 
 }

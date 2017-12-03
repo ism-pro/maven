@@ -29,6 +29,7 @@
                         <p:inputText id="ncrTitle" 
                                      value="#{nonConformiteRequestController.selected.ncrTitle}"
                                      title="#{ism.NonConformiteRequestFieldInfo_ncrTitle}" 
+                                     validator="#{nonConformiteRequestDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteRequestRequiredMsg_ncrTitle}"/>
                         <p:message for="ncrTitle"   />
                     </h:panelGrid>
@@ -50,9 +51,10 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{nonConformiteRequestController.selected.ncrProcessus}"
                                          title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}" 
+                                         converter="#{processusConverter}"
                                          required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
                                            var="processusItem"
                                            itemLabel="#{processusItem.PProcessus} - #{processusItem.PDesignation}"
@@ -70,9 +72,10 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{nonConformiteRequestController.selected.ncrNature}"
                                          title="#{ism.NonConformiteRequestFieldInfo_ncrNature}" 
+                                         converter="#{nonConformiteNatureConverter}"
                                          required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrNature}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{nonConformiteNatureController.itemsAvailableSelectOne}"
                                            var="ncNatureItem"
                                            itemLabel="#{ncNatureItem.ncnNature} - #{ncNatureItem.ncnDesignation}"
@@ -88,9 +91,10 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{nonConformiteRequestController.selected.ncrGravity}"
                                          title="#{ism.NonConformiteRequestFieldInfo_ncrGravity}" 
+                                         converter="#{nonConformiteGravityConverter}"
                                          required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrGravity}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{nonConformiteGravityController.itemsAvailableSelectOne}"
                                            var="ncGravityItem"
                                            itemLabel="#{ncGravityItem.ncgGravity} - #{ncGravityItem.ncgDesignation}"
@@ -106,9 +110,10 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{nonConformiteRequestController.selected.ncrFrequency}"
                                          title="#{ism.NonConformiteRequestFieldInfo_ncrFrequency}" 
+                                         converter="#{nonConformiteFrequencyConverter}"
                                          required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrFrequency}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{nonConformiteFrequencyController.itemsAvailableSelectOne}"
                                            var="ncFrequencyItem"
                                            itemLabel="#{ncFrequencyItem.ncfFrequency} - #{ncFrequencyItem.ncfDesignation}"
@@ -118,11 +123,13 @@
                     </h:panelGrid>
 
 
+
                     <p:outputLabel value="#{ism.NonConformiteRequestField_ncrProduct}" for="ncrProduct" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="ncrProduct" 
                                      value="#{nonConformiteRequestController.selected.ncrProduct}"
                                      title="#{ism.NonConformiteRequestFieldInfo_ncrProduct}" 
+                                     validator="#{nonConformiteRequestTraceValidator.validate}"
                                      />
                         <p:message for="ncrProduct"   />
                     </h:panelGrid>
@@ -133,6 +140,7 @@
                         <p:inputText id="ncrTrace" 
                                      value="#{nonConformiteRequestController.selected.ncrTrace}"
                                      title="#{ism.NonConformiteRequestFieldInfo_ncrTrace}" 
+                                     validator="#{nonConformiteRequestTraceValidator.validate}"
                                      />
                         <p:message for="ncrTrace"   />
                     </h:panelGrid>
@@ -144,6 +152,7 @@
                                        value="#{nonConformiteRequestController.selected.ncrQuantity}"
                                        title="#{ism.NonConformiteRequestFieldInfo_ncrQuantity}" 
                                        decimalPlaces="6"
+                                       validator="#{nonConformiteRequestQuantityValidator.validate}"
                                        />
                         <p:message for="ncrQuantity"   />
                     </h:panelGrid>
@@ -155,9 +164,10 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{nonConformiteRequestController.selected.ncrUnite}"
                                          title="#{ism.NonConformiteRequestFieldInfo_ncrUnite}" 
+                                         converter="#{nonConformiteUniteConverter}"
                                          required="true" requiredMessage="#{ism.NonConformiteRequestFieldInfo_ncrUnite}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{nonConformiteUniteController.itemsAvailableSelectOne}"
                                            var="ncUniteItem"
                                            itemLabel="#{ncUniteItem.ncuUnite} - #{ncUniteItem.ncuDesignation}"

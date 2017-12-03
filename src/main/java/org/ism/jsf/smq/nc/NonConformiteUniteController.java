@@ -382,46 +382,6 @@ public class NonConformiteUniteController implements Serializable {
      *
      * ************************************************************************
      */
-    @FacesConverter(forClass = NonConformiteUnite.class, value = "nonConformiteUniteConverter")
-    public static class NonConformiteUniteControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            NonConformiteUniteController controller = (NonConformiteUniteController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "nonConformiteUniteController");
-            return controller.getNonConformiteUnite(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof NonConformiteUnite) {
-                NonConformiteUnite o = (NonConformiteUnite) object;
-                return getStringKey(o.getNcuId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), NonConformiteUnite.class.getName()});
-                return null;
-            }
-        }
-
-    }
 
     @FacesValidator(value = "NonConformiteUniteCodeValidator")
     public static class NonConformiteUniteCodeValidator implements Validator {

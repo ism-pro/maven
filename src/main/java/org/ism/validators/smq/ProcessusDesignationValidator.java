@@ -18,6 +18,7 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import org.ism.entities.smq.Processus;
+import org.ism.jsf.hr.StaffAuthController;
 import org.ism.jsf.smq.ProcessusController;
 import org.ism.jsf.util.JsfUtil;
 import org.primefaces.component.inputtext.InputText;
@@ -34,8 +35,13 @@ public class ProcessusDesignationValidator implements Validator, Serializable {
     public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "ProcessusDuplicationField_designationSummary";
     public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "ProcessusDuplicationField_designationDetail";
 
+    
     @ManagedProperty(value = "#{processusController}")
     ProcessusController processusController;
+    
+    @ManagedProperty(value = "#{staffAuthController}")
+    StaffAuthController staffAuthController;
+
 
     @Override
     public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
@@ -47,7 +53,7 @@ public class ProcessusDesignationValidator implements Validator, Serializable {
             return;
         }
         InputText input = (InputText) uic;
-        List<Processus> lst = processusController.getItemsByDesignation(value);
+        List<Processus> lst = processusController.getItemsByDesignation(value, staffAuthController.getCompany());
 
         if (lst != null && !lst.isEmpty()) {
             if (input.getValue() != null) {
@@ -65,7 +71,12 @@ public class ProcessusDesignationValidator implements Validator, Serializable {
         }
     }
 
+    
     public void setProcessusController(ProcessusController processusController) {
         this.processusController = processusController;
+    }
+    
+    public void setStaffAuthController(StaffAuthController staffAuthController) {
+        this.staffAuthController = staffAuthController;
     }
 }

@@ -12,6 +12,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.smq.Processus;
 import org.ism.entities.smq.nc.NonConformiteRequest;
 import org.ism.sessions.AbstractFacade;
@@ -58,6 +59,9 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
     private final String FIND_BY_CODE = "";
     private final String FIND_BY_DESIGNATION = "NonConformiteRequest.findByNcrTitle";            // query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"
 
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "NonConformiteRequest.findByNcrTitleOfCompany";
+    
+    
     private final String COUNT_ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.countItemsCreateInRange";
 
     private final String ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.itemsCreateInRange";
@@ -345,5 +349,26 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
                 .setParameter("ncrProcessus", processus)
                 .setParameter("ncrState", state);
         return Integer.valueOf(q.getSingleResult().toString());
+    }
+
+    public List<NonConformiteRequest> findByCode(String code, Company company) {
+        /*
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("pProcessus", code);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        int count = q.getResultList().size();
+        if (count > 0) {
+            return q.getResultList();
+        }
+         */
+        return null;
+    }
+
+    public List<NonConformiteRequest> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("ncrTitle", designation)
+                .setParameter("ncrCompany", company);
+        return q.getResultList();
     }
 }

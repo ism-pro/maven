@@ -1,12 +1,5 @@
 package org.ism.jsf.smq;
 
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Image;
-import com.lowagie.text.pdf.PdfPTable;
-import java.io.File;
-import java.io.IOException;
 import org.ism.entities.smq.DocExplorer;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.jsf.util.JsfUtil.PersistAction;
@@ -38,12 +31,12 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.servlet.ServletContext;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.ism.entities.admin.Company;
 import org.ism.entities.smq.DocType;
 import org.ism.entities.smq.Processus;
 
@@ -239,89 +232,6 @@ public class DocExplorerController implements Serializable {
         }
     }
 
-    /**
-     * Managing pre processing document to be export in PDF<br>
-     *
-     * @param document corresponding document
-     */
-    public void handlePreProcessPDF(Object document) {
-
-//        try {
-//            try {
-//                Document pdf = (Document) document;
-//                float hMargin = -50.0f;
-//                float vMargin = 10.0f;
-//                pdf.setPageSize(exporter.getLandscape() ? exporter.getPageSize().getPage().rotate() : exporter.getPageSize().getPage());
-//                pdf.setMargins(hMargin, hMargin, vMargin, vMargin);
-//
-//                // Insert logo
-//                pdf.open();
-//                ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-//                String logo = servletContext.getRealPath("")
-//                        + File.separator + "resources"
-//                        + File.separator + "img"
-//                        + File.separator + "ism"
-//                        + File.separator + "ism.png";
-//                Image img = Image.getInstance(logo);
-//                img.setWidthPercentage(0.25f);
-//                pdf.add(img);
-//
-//                // MANAGING TABLE
-//                int colCount = visibleColMap.size()-1-3; // pas de colonne activé, company,
-//                PdfPTable table = new PdfPTable(colCount);
-//                List<DocExplorer> docs = items;
-//                for (DocExplorer doc : docs) {
-//
-//                    table.addCell(doc.getDcId().toString());
-//                    table.addCell(doc.getDcProcessus().toString());
-//                    table.addCell(doc.getDcType().toString());
-//                    table.addCell(doc.getDcVersion());
-//                    table.addCell(doc.getDcDesignation());
-//                    table.addCell(doc.getDcComment());
-//                    //table.addCell(doc.getDcLink());
-//                    table.addCell(doc.getDcApprouved().toString());
-//                    //table.addCell(String.valueOf(doc.getDcActivated()));
-//                    table.addCell(doc.getDcCreated().toString());
-//                    table.addCell(doc.getDcChanged().toString());
-//                    //table.addCell(doc.getDcCompany().toString());
-//                    
-//                    
-//                }
-//
-//                pdf.add(table);
-//            } catch (BadElementException | IOException ex) {
-//                //Logger.getLogger(DocExplorerController.class.getName()).log(Level.SEVERE, null, ex);
-//                JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
-//            }
-//        } catch (DocumentException ex) {
-//            JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
-//        }
-    }
-
-    /**
-     * Managing post processing document to be export in PDF<br>
-     *
-     * @param document corresponding document
-     */
-    public void handlePostProcessPDF(Object document) {
-//        Document pdf = (Document) document;
-//        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-//        String logo = servletContext.getRealPath("")
-//                + File.separator + "resources"
-//                + File.separator + "img"
-//                + File.separator + "ism"
-//                + File.separator + "ism.png";
-//        try {
-//            try {
-//                pdf.add(Image.getInstance(logo));
-//            } catch (BadElementException | IOException ex) {
-//                //Logger.getLogger(DocExplorerController.class.getName()).log(Level.SEVERE, null, ex);
-//                JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
-//            }
-//        } catch (DocumentException ex) {
-//            JsfUtil.addErrorMessage("handlePostProcessPDF", ex.getMessage());
-//        }
-    }
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -447,9 +357,26 @@ public class DocExplorerController implements Serializable {
     public List<DocExplorer> getItemsByCode(String code) {
         return getFacade().findByCode(code);
     }
+    
+    public List<DocExplorer> getItemsByCode(String code, Company company) {
+        return getFacade().findByCode(code, company);
+    }
 
     public List<DocExplorer> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+    
+    public List<DocExplorer> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
+    }
+    
+    
+    public List<DocExplorer> getItemsByLink(String link) {
+        return getFacade().findByLink(link);
+    }
+    
+    public List<DocExplorer> getItemsByLink(String link, Company company) {
+        return getFacade().findByLink(link, company);
     }
 
     public List<DocExplorer> getItemsAvailableSelectMany() {
@@ -518,6 +445,7 @@ public class DocExplorerController implements Serializable {
 
 
 
+
     ////////////////////////////////////////////////////////////////////////////
     /// Manage Injection
     ///
@@ -570,91 +498,5 @@ public class DocExplorerController implements Serializable {
 
     }
 
-    @FacesValidator(value = "DocExplorerCodeValidator")
-    public static class DocExplorerCodeValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "DocExplorerDuplicationField_codeSummary";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "DocExplorerDuplicationField_codeDetail";
-
-        @EJB
-        private org.ism.sessions.smq.DocExplorerFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<DocExplorer> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "DocExplorerDesignationValidator")
-    public class DocExplorerDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "DocExplorerDuplicationField_designationSummary";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "DocExplorerDuplicationField_designationDetail";
-
-        @EJB
-        private org.ism.sessions.smq.DocExplorerFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-
-            DocExplorerController docExplorerController = null;
-            //if (ejbFacade == null) {
-            FacesContext ctx = FacesContext.getCurrentInstance();
-            // Setup staff controller
-            docExplorerController = (DocExplorerController) ctx.getApplication().getELResolver().
-                    getValue(ctx.getELContext(), null, "docExplorerController");
-            //}
-
-            List<DocExplorer> lst = docExplorerController.getItemsByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (lst.get(0).getDcDesignation().matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-
-        private DocExplorerFacade getFacade() {
-            return ejbFacade;
-        }
-    }
 
 }

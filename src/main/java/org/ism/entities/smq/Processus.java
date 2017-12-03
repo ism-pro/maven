@@ -48,6 +48,8 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "Processus.findByPId", query = "SELECT p FROM Processus p WHERE p.pId = :pId"),
     @NamedQuery(name = "Processus.findByPProcessus", query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus"),
     @NamedQuery(name = "Processus.findByPDesignation", query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation"),
+    @NamedQuery(name = "Processus.findByPProcessusOfCompany", query = "SELECT p FROM Processus p WHERE p.pProcessus = :pProcessus AND p.pCompany = :pCompany"),
+    @NamedQuery(name = "Processus.findByPDesignationOfCompany", query = "SELECT p FROM Processus p WHERE p.pDesignation = :pDesignation AND p.pCompany = :pCompany"),
     @NamedQuery(name = "Processus.findByPDeleted", query = "SELECT p FROM Processus p WHERE p.pDeleted = :pDeleted"),
     @NamedQuery(name = "Processus.findByPCreated", query = "SELECT p FROM Processus p WHERE p.pCreated = :pCreated"),
     @NamedQuery(name = "Processus.findByPChanged", query = "SELECT p FROM Processus p WHERE p.pChanged = :pChanged"),

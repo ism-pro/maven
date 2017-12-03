@@ -57,10 +57,10 @@
                         <p:selectOneMenu id="PStaffmanager" 
                                          filter="true" filterMatchMode="contains"
                                          value="#{processusController.selected.PStaffmanager}" 
-                                         converter="staffConverter"
+                                         converter="#{staffConverter}"
                                          required="true"  requiredMessage="#{ism.ProcessusRequiredMsg_pStaffManager}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
                                            var="PStaffmanagerItem"
                                            itemValue="#{PStaffmanagerItem}"

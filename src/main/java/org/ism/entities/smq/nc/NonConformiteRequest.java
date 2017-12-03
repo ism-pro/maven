@@ -50,6 +50,7 @@ import org.ism.entities.hr.Staff;
     @NamedQuery(name = "NonConformiteRequest.findByNcrTrace", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTrace = :ncrTrace"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrQuantity", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrQuantity = :ncrQuantity"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrTitle", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"),
+    @NamedQuery(name = "NonConformiteRequest.findByNcrTitleOfCompany", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle AND n.ncrCompany = :ncrCompany"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrLink", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrLink = :ncrLink"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrenddingAction", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrenddingAction = :ncrenddingAction"),
     @NamedQuery(name = "NonConformiteRequest.findByNcrCreated", query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrCreated = :ncrCreated"),

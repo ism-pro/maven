@@ -37,10 +37,11 @@
                         <p:selectOneMenu id="paGroupdef"  widgetVar="paGroupdef"
                                          filter="true" filterMatchMode="contains"
                                          value="#{processAccessController.selected.paGroupdef}"
+                                         converter="#{staffGroupDefConverter}"
                                          required="true" 
                                          requiredMessage="#{ism.ProcessAccessRequiredMsg_paGroupdef}" 
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}"
                                            var="paGroupdefItem"
                                            itemLabel="#{paGroupdefItem.stgdGroupDef} - #{paGroupdefItem.stgdDesignation}" 
@@ -55,10 +56,11 @@
                         <p:selectOneMenu id="paStaff"  widgetVar="paStaff"
                                          filter="true" filterMatchMode="contains"
                                          value="#{processAccessController.selected.paStaff}"
+                                         converter="#{staffConverter}"
                                          required="true" 
                                          requiredMessage="#{ism.ProcessAccessRequiredMsg_paStaff}" 
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
                                            var="paStaffItem"
                                            itemLabel="#{paStaffItem.stFirstname} #{paStaffItem.stMiddlename} #{paStaffItem.stLastname} [#{paStaffItem.stStaff}]" 

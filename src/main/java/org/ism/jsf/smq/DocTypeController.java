@@ -16,20 +16,12 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.ism.entities.admin.Company;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 
@@ -123,9 +115,9 @@ public class DocTypeController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypeReleaseSelectedSummary"),
+                        getString("DocTypeReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypeReleaseSelectedDetail"));
+                        getString("DocTypeReleaseSelectedDetail"));
     }
 
     /**
@@ -135,9 +127,9 @@ public class DocTypeController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypeToggleMultiCreationSummary"),
+                        getString("DocTypeToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypeToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("DocTypeToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -147,9 +139,9 @@ public class DocTypeController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypeToggleMultiCreationSummary"),
+                        getString("DocTypeToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypeToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("DocTypeToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -202,9 +194,9 @@ public class DocTypeController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypePersistenceCreatedSummary"),
+                        getString("DocTypePersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypePersistenceCreatedDetail")
+                        getString("DocTypePersistenceCreatedDetail")
                 + selected.getDctType() + " <br > " + selected.getDctDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -234,18 +226,18 @@ public class DocTypeController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypePersistenceUpdatedSummary"),
+                        getString("DocTypePersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypePersistenceUpdatedDetail")
+                        getString("DocTypePersistenceUpdatedDetail")
                 + selected.getDctType() + " <br > " + selected.getDctDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypePersistenceDeletedSummary"),
+                        getString("DocTypePersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("DocTypePersistenceDeletedDetail")
+                        getString("DocTypePersistenceDeletedDetail")
                 + selected.getDctType() + " <br > " + selected.getDctDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -316,7 +308,7 @@ public class DocTypeController implements Serializable {
     public List<DocType> getItemsByCode(String code) {
         return getFacade().findByCode(code);
     }
-    
+
     public List<DocType> getItemsByCode(String code, Company company) {
         return getFacade().findByCode(code, company);
     }
@@ -324,7 +316,7 @@ public class DocTypeController implements Serializable {
     public List<DocType> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
     }
-    
+
     public List<DocType> getItemsByDesignation(String designation, Company company) {
         return getFacade().findByDesignation(designation, company);
     }
@@ -386,52 +378,5 @@ public class DocTypeController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesConverter(forClass = DocType.class, value = "docTypeConverter")
-    public static class DocTypeControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            DocTypeController controller = (DocTypeController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "docTypeController");
-            return controller.getDocType(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof DocType) {
-                DocType o = (DocType) object;
-                return getStringKey(o.getDctId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), DocType.class.getName()});
-                return null;
-            }
-        }
-
-    }
+   
 }

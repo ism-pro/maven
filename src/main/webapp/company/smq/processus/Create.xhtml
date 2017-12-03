@@ -50,7 +50,7 @@
                         <p:selectOneMenu id="PStaffmanager" 
                                          filter="true" filterMatchMode="contains"
                                          value="#{processusController.selected.PStaffmanager}" 
-                                         converter="staffConverter" 
+                                         converter="#{staffConverter}" 
                                          validator="staffValidator" validatorMessage="#{ism.SelectionNullDetail}"
                                          required="true" 
                                          requiredMessage="#{ism.ProcessusRequiredMsg_pStaffManager}"

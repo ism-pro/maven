@@ -5,9 +5,11 @@
  */
 package org.ism.converter.hr;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,10 +26,13 @@ import org.ism.jsf.util.JsfUtil;
  * @author r.hendrick
  *
  */
-@FacesConverter(value = "staffConverter")
 @ManagedBean
 @SessionScoped
-public class StaffConverter implements Converter {
+@FacesConverter(value = "staffConverter")
+public class StaffConverter implements Converter, Serializable {
+
+    @ManagedProperty(value = "#{staffController}")
+    StaffController staffController;
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
@@ -38,13 +43,11 @@ public class StaffConverter implements Converter {
         try {
             Integer.valueOf(value);
         } catch (NumberFormatException ex) {
-            JsfUtil.out("StaffConverter :  Impossible de convertir la valeur " + value + " en entier !");
+            JsfUtil.out("StaffConverter :  Impossible de convertir la valeur " + value + " en entier ! Erreur : " + ex.getLocalizedMessage());
             return null;
         }
 
-        StaffController controller = (StaffController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "staffController");
-        return controller.getStaff(getKey(value));
+        return staffController.getStaff(getKey(value));
     }
 
     java.lang.Integer getKey(String value) {
@@ -71,6 +74,10 @@ public class StaffConverter implements Converter {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Staff.class.getName()});
             return null;
         }
+    }
+
+    public void setStaffController(StaffController staffController) {
+        this.staffController = staffController;
     }
 
 }

@@ -5,9 +5,11 @@
  */
 package org.ism.converter.smq;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -15,6 +17,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.ism.entities.smq.DocExplorer;
 import org.ism.jsf.smq.DocExplorerController;
+import org.ism.jsf.util.JsfUtil;
 
 /**
  * <h1>DocExplorerConverter</h1><br>
@@ -23,19 +26,29 @@ import org.ism.jsf.smq.DocExplorerController;
  * @author r.hendrick
  *
  */
-@FacesConverter(value = "docExplorerConverter")
 @ManagedBean
 @SessionScoped
-public class DocExplorerConverter implements Converter {
-
+@FacesConverter(value = "docExplorerConverter")
+public class DocExplorerConverter implements Converter, Serializable {
+    
+    @ManagedProperty(value = "#{docExplorerController}")
+    DocExplorerController docExplorerController;
+    
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
         if (value == null || value.length() == 0) {
             return null;
         }
-        DocExplorerController controller = (DocExplorerController) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "docExplorerController");
-        return controller.getDocExplorer(getKey(value));
+        
+        
+        try {
+            Integer.valueOf(value);
+        } catch (NumberFormatException ex) {
+            JsfUtil.out("DocExplorerConverter :  Impossible de convertir la valeur " + value + " en entier ! Erreur : " + ex.getLocalizedMessage());
+            return null;
+        }
+
+        return docExplorerController.getDocExplorer(getKey(value));
     }
 
     java.lang.Integer getKey(String value) {
@@ -62,6 +75,11 @@ public class DocExplorerConverter implements Converter {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), DocExplorer.class.getName()});
             return null;
         }
+    }
+    
+    
+    public void setDocExplorerController(DocExplorerController docExplorerController){
+        this.docExplorerController = docExplorerController;
     }
 
 }

@@ -29,9 +29,10 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{docExplorerController.selected.dcProcessus}"
                                          title="#{ism.DocExplorerFieldInfo_Processus}" 
+                                         converter="#{processusConverter}"
                                          required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Processus}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
                                            var="dcProcessusItem"
                                            itemLabel="#{dcProcessusItem.PProcessus} - #{dcProcessusItem.PDesignation}"
@@ -47,8 +48,9 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{docExplorerController.selected.dcType}" 
                                          title="#{ism.DocExplorerFieldInfo_DocType}" 
+                                         converter="#{docTypeConverter}"
                                          required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_DocType}">
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{docTypeController.itemsAvailableSelectOne}"
                                            var="dcTypeItem"
                                            itemLabel="#{dcTypeItem.dctType} - #{dcTypeItem.dctDesignation}"
@@ -58,25 +60,29 @@
                         <p:message for="dcType" />
                     </h:panelGrid>
 
-
-                    <p:outputLabel value="#{ism.DocExplorerField_Name}" for="dcDesignation" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                        <p:inputText id="dcDesignation" 
-                                     value="#{docExplorerController.selected.dcDesignation}" 
-                                     title="#{ism.DocExplorerFieldInfo_Name}" 
-                                     required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Name}"/>
-                        <p:message for="dcDesignation" />
-                    </h:panelGrid>
-
-
+                    
                     <p:outputLabel value="#{ism.DocExplorerField_Version}" for="dcVersion" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="dcVersion" 
                                      value="#{docExplorerController.selected.dcVersion}" 
                                      title="#{ism.DocExplorerFieldInfo_Version}" 
+                                     validator="#{docExplorerCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Version}"/>
                         <p:message for="dcVersion" />
                     </h:panelGrid>
+                    
+
+                    <p:outputLabel value="#{ism.DocExplorerField_Name}" for="dcDesignation" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
+                        <p:inputText id="dcDesignation" 
+                                     value="#{docExplorerController.selected.dcDesignation}" 
+                                     title="#{ism.DocExplorerFieldInfo_Name}"
+                                     validator="#{docExplorerDesignationValidator.validate}"
+                                     required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Name}"/>
+                        <p:message for="dcDesignation" />
+                    </h:panelGrid>
+
+
 
                     <p:outputLabel value="#{ism.DocExplorerField_Commentaire}" for="dcComment" />
                     <p:inputTextarea rows="4" cols="30" id="dcComment"
@@ -89,6 +95,7 @@
                         <p:inputText id="dcLink" 
                                      value="#{docExplorerController.selected.dcLink}" 
                                      title="#{ism.DocExplorerFieldInfo_Link}"
+                                     validator="#{docExplorerLinkValidator.validate}"
                                      required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Link}"/>
                         <p:message for="dcLink" />
                     </h:panelGrid>

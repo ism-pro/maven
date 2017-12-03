@@ -17,9 +17,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import org.ism.entities.smq.Processus;
+import org.ism.entities.smq.DocExplorer;
 import org.ism.jsf.hr.StaffAuthController;
-import org.ism.jsf.smq.ProcessusController;
+import org.ism.jsf.smq.DocExplorerController;
 import org.ism.jsf.util.JsfUtil;
 import org.primefaces.component.inputtext.InputText;
 
@@ -29,14 +29,15 @@ import org.primefaces.component.inputtext.InputText;
  */
 @ManagedBean
 @SessionScoped
-@FacesValidator("processusCodeValidator")
-public class ProcessusCodeValidator implements Validator, Serializable {
+@FacesValidator(value = "docExplorerDesignationValidator")
+public class DocExplorerDesignationValidator implements Validator, Serializable {
 
-    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "ProcessusDuplicationField_codeSummary";
-    public static final String P_DUPLICATION_CODE_DETAIL_ID = "ProcessusDuplicationField_codeDetail";
+    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "DocExplorerDuplicationField_designationSummary";
+    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "DocExplorerDuplicationField_designationDetail";
 
-    @ManagedProperty(value = "#{processusController}")
-    ProcessusController processusController;
+
+    @ManagedProperty(value = "#{docExplorerController}")
+    DocExplorerController docExplorerController;
     
     @ManagedProperty(value = "#{staffAuthController}")
     StaffAuthController staffAuthController;
@@ -51,26 +52,28 @@ public class ProcessusCodeValidator implements Validator, Serializable {
             return;
         }
         InputText input = (InputText) uic;
-        
-        List<Processus> lst = processusController.getItemsByCode(value, staffAuthController.getCompany());
+
+       
+        List<DocExplorer> lst = docExplorerController.getItemsByDesignation(value, staffAuthController.getCompany());
         if (lst != null && !lst.isEmpty()) {
             if (input.getValue() != null) {
-                if (value.matches((String) input.getValue())) {
+                if (lst.get(0).getDcDesignation().matches((String) input.getValue())) {
                     return;
                 }
             }
             FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
                     ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                            getString(P_DUPLICATION_CODE_SUMMARY_ID),
+                            getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
                     ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                            getString(P_DUPLICATION_CODE_DETAIL_ID)
+                            getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
                     + value);
             throw new ValidatorException(facesMsg);
         }
     }
 
-    public void setProcessusController(ProcessusController processusController) {
-        this.processusController = processusController;
+    
+    public void setDocExplorerController(DocExplorerController docExplorerController) {
+        this.docExplorerController = docExplorerController;
     }
     
     public void setStaffAuthController(StaffAuthController staffAuthController) {
