@@ -11,6 +11,8 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
+import org.ism.entities.smq.Processus;
 import org.ism.entities.smq.nc.NonConformiteUnite;
 import org.ism.sessions.AbstractFacade;
 
@@ -32,6 +34,8 @@ public class NonConformiteUniteFacade extends AbstractFacade<NonConformiteUnite>
     private final String SELECTALLBYLASTCHANGED = "NonConformiteUnite.selectAllByLastChange";     // query = "SELECT n FROM NonConformiteUnite n ORDER BY n.ncuChanged DESC"
     private final String FIND_BY_PROCESSUS = "NonConformiteUnite.findByNcuUnite";            // query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuUnite = :ncuUnite"
     private final String FIND_BY_DESIGNATION = "NonConformiteUnite.findByNcuDesignation";      // query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuDesignation = :ncuDesignation"
+    private final String FIND_BY_UNITE_OF_COMPANY = "NonConformiteUnite.findByNcuUniteOfCompany";
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "NonConformiteUnite.findByNcuDesignationOfCompany";
 
     public NonConformiteUniteFacade() {
         super(NonConformiteUnite.class);
@@ -68,6 +72,22 @@ public class NonConformiteUniteFacade extends AbstractFacade<NonConformiteUnite>
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<NonConformiteUnite> findByCode(String code, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_UNITE_OF_COMPANY)
+                .setParameter("ncuUnite", code)
+                .setParameter("ncuCompany", company);
+        return q.getResultList();
+    }
+
+    public List<NonConformiteUnite> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("ncuDesignation", designation)
+                .setParameter("ncuCompany", company);
+        return q.getResultList();
     }
 
 }

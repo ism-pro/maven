@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteUnite.findByNcuId", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuId = :ncuId"),
     @NamedQuery(name = "NonConformiteUnite.findByNcuUnite", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuUnite = :ncuUnite"),
     @NamedQuery(name = "NonConformiteUnite.findByNcuDesignation", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuDesignation = :ncuDesignation"),
+    @NamedQuery(name = "NonConformiteUnite.findByNcuUniteOfCompany", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuUnite = :ncuUnite AND n.ncuCompany = :ncuCompany"),
+    @NamedQuery(name = "NonConformiteUnite.findByNcuDesignationOfCompany", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuDesignation = :ncuDesignation AND n.ncuCompany = :ncuCompany"),
     @NamedQuery(name = "NonConformiteUnite.findByNcuDeleted", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuDeleted = :ncuDeleted"),
     @NamedQuery(name = "NonConformiteUnite.findByNcuCreated", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuCreated = :ncuCreated"),
     @NamedQuery(name = "NonConformiteUnite.findByNcuChanged", query = "SELECT n FROM NonConformiteUnite n WHERE n.ncuChanged = :ncuChanged"),

@@ -28,7 +28,7 @@
                         <p:inputText id="ncuUnite" 
                                      value="#{nonConformiteUniteController.selected.ncuUnite}" 
                                      title="#{ism.NonConformiteUniteFieldInfo_ncuUnite}" 
-                                     validator="NonConformiteUniteCodeValidator"
+                                     validator="#{nonConformiteUniteCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteUniteRequiredMsg_ncuUnite}"/>
                         <p:message for="ncuUnite" />
                     </h:panelGrid>
@@ -39,7 +39,7 @@
                         <p:inputText id="ncuDesignation" 
                                      value="#{nonConformiteUniteController.selected.ncuDesignation}"
                                      title="#{ism.NonConformiteUniteFieldInfo_ncuDesignation}" 
-                                     validator="NonConformiteUniteDesignationValidator"
+                                     validator="#{nonConformiteUniteDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteUniteRequiredMsg_ncuDesignation}"/>
                         <p:message for="ncuDesignation"   />
                     </h:panelGrid>

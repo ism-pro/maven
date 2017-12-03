@@ -28,6 +28,7 @@
                         <p:inputText id="ncnNature" 
                                      value="#{nonConformiteNatureController.selected.ncnNature}" 
                                      title="#{ism.NonConformiteNatureFieldInfo_ncnNature}" 
+                                     validator="#{nonConformiteNatureCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteNatureRequiredMsg_ncnNature}"/>
                         <p:message for="ncnNature" />
                     </h:panelGrid>
@@ -38,6 +39,7 @@
                         <p:inputText id="ncnDesignation" 
                                      value="#{nonConformiteNatureController.selected.ncnDesignation}"
                                      title="#{ism.NonConformiteNatureFieldInfo_ncnDesignation}" 
+                                     validator="#{nonConformiteNatureDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteNatureRequiredMsg_ncnDesignation}"/>
                         <p:message for="ncnDesignation"   />
                     </h:panelGrid>

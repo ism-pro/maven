@@ -16,21 +16,14 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 
 @ManagedBean(name = "nonConformiteFrequencyController")
 @SessionScoped
@@ -122,9 +115,9 @@ public class NonConformiteFrequencyController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyReleaseSelectedSummary"),
+                        getString("NonConformiteFrequencyReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyReleaseSelectedDetail"));
+                        getString("NonConformiteFrequencyReleaseSelectedDetail"));
     }
 
     /**
@@ -134,9 +127,9 @@ public class NonConformiteFrequencyController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyToggleMultiCreationSummary"),
+                        getString("NonConformiteFrequencyToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("NonConformiteFrequencyToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -146,9 +139,9 @@ public class NonConformiteFrequencyController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyToggleMultiCreationSummary"),
+                        getString("NonConformiteFrequencyToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("NonConformiteFrequencyToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -201,9 +194,9 @@ public class NonConformiteFrequencyController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyPersistenceCreatedSummary"),
+                        getString("NonConformiteFrequencyPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyPersistenceCreatedDetail")
+                        getString("NonConformiteFrequencyPersistenceCreatedDetail")
                 + selected.getNcfFrequency() + " <br > " + selected.getNcfDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -233,18 +226,18 @@ public class NonConformiteFrequencyController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyPersistenceUpdatedSummary"),
+                        getString("NonConformiteFrequencyPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyPersistenceUpdatedDetail")
+                        getString("NonConformiteFrequencyPersistenceUpdatedDetail")
                 + selected.getNcfFrequency() + " <br > " + selected.getNcfDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyPersistenceDeletedSummary"),
+                        getString("NonConformiteFrequencyPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteFrequencyPersistenceDeletedDetail")
+                        getString("NonConformiteFrequencyPersistenceDeletedDetail")
                 + selected.getNcfFrequency() + " <br > " + selected.getNcfDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -314,8 +307,16 @@ public class NonConformiteFrequencyController implements Serializable {
         return getFacade().findByCode(code);
     }
 
+    public List<NonConformiteFrequency> getItemsByCode(String code, Company company) {
+        return getFacade().findByCode(code, company);
+    }
+
     public List<NonConformiteFrequency> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+
+    public List<NonConformiteFrequency> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
     }
 
     public List<NonConformiteFrequency> getItemsAvailableSelectMany() {
@@ -373,89 +374,6 @@ public class NonConformiteFrequencyController implements Serializable {
 
     public Boolean getIsVisibleColKey(String key) {
         return this.visibleColMap.get(key);
-    }
-
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-
-
-    @FacesValidator(value = "NonConformiteFrequencyCodeValidator")
-    public static class NonConformiteFrequencyCodeValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "NonConformiteFrequencyDuplicationField_codeSummary";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "NonConformiteFrequencyDuplicationField_codeDetail";
-
-        @EJB
-        private org.ism.sessions.smq.nc.NonConformiteFrequencyFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<NonConformiteFrequency> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "NonConformiteFrequencyDesignationValidator")
-    public static class NonConformiteFrequencyDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "NonConformiteFrequencyDuplicationField_designationSummary";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "NonConformiteFrequencyDuplicationField_designationDetail";
-
-        @EJB
-        private org.ism.sessions.smq.nc.NonConformiteFrequencyFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<NonConformiteFrequency> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
     }
 
 }

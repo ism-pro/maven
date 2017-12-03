@@ -16,21 +16,15 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
+import org.ism.entities.smq.Processus;
 
 @ManagedBean(name = "nonConformiteUniteController")
 @SessionScoped
@@ -122,9 +116,9 @@ public class NonConformiteUniteController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUniteReleaseSelectedSummary"),
+                        getString("NonConformiteUniteReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUniteReleaseSelectedDetail"));
+                        getString("NonConformiteUniteReleaseSelectedDetail"));
     }
 
     /**
@@ -134,9 +128,9 @@ public class NonConformiteUniteController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUniteToggleMultiCreationSummary"),
+                        getString("NonConformiteUniteToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUniteToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("NonConformiteUniteToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -146,9 +140,9 @@ public class NonConformiteUniteController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUniteToggleMultiCreationSummary"),
+                        getString("NonConformiteUniteToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUniteToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("NonConformiteUniteToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -201,9 +195,9 @@ public class NonConformiteUniteController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUnitePersistenceCreatedSummary"),
+                        getString("NonConformiteUnitePersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUnitePersistenceCreatedDetail")
+                        getString("NonConformiteUnitePersistenceCreatedDetail")
                 + selected.getNcuUnite() + " <br > " + selected.getNcuDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -233,18 +227,18 @@ public class NonConformiteUniteController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUnitePersistenceUpdatedSummary"),
+                        getString("NonConformiteUnitePersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUnitePersistenceUpdatedDetail")
+                        getString("NonConformiteUnitePersistenceUpdatedDetail")
                 + selected.getNcuUnite() + " <br > " + selected.getNcuDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUnitePersistenceDeletedSummary"),
+                        getString("NonConformiteUnitePersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteUnitePersistenceDeletedDetail")
+                        getString("NonConformiteUnitePersistenceDeletedDetail")
                 + selected.getNcuUnite() + " <br > " + selected.getNcuDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -313,10 +307,21 @@ public class NonConformiteUniteController implements Serializable {
     public List<NonConformiteUnite> getItemsByCode(String code) {
         return getFacade().findByCode(code);
     }
+    
+    
+    public List<NonConformiteUnite> getItemsByCode(String code, Company company) {
+        return getFacade().findByCode(code, company);
+    }
 
     public List<NonConformiteUnite> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
     }
+    
+    
+    public List<NonConformiteUnite> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
+    }
+
 
     public List<NonConformiteUnite> getItemsAvailableSelectMany() {
         return getFacade().findAll();
@@ -375,86 +380,5 @@ public class NonConformiteUniteController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-
-    @FacesValidator(value = "NonConformiteUniteCodeValidator")
-    public static class NonConformiteUniteCodeValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "NonConformiteUniteDuplicationField_codeSummary";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "NonConformiteUniteDuplicationField_codeDetail";
-
-        @EJB
-        private org.ism.sessions.smq.nc.NonConformiteUniteFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<NonConformiteUnite> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "NonConformiteUniteDesignationValidator")
-    public static class NonConformiteUniteDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "NonConformiteUniteDuplicationField_designationSummary";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "NonConformiteUniteDuplicationField_designationDetail";
-
-        @EJB
-        private org.ism.sessions.smq.nc.NonConformiteUniteFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<NonConformiteUnite> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 
 }

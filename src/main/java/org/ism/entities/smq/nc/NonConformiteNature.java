@@ -42,6 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteNature.findByNcnId", query = "SELECT n FROM NonConformiteNature n WHERE n.ncnId = :ncnId"),
     @NamedQuery(name = "NonConformiteNature.findByNcnNature", query = "SELECT n FROM NonConformiteNature n WHERE n.ncnNature = :ncnNature"),
     @NamedQuery(name = "NonConformiteNature.findByNcnDesignation", query = "SELECT n FROM NonConformiteNature n WHERE n.ncnDesignation = :ncnDesignation"),
+    @NamedQuery(name = "NonConformiteNature.findByNcnNatureOfCompany", query = "SELECT n FROM NonConformiteNature n WHERE n.ncnNature = :ncnNature AND n.ncnCompany = :ncnCompany"),
+    @NamedQuery(name = "NonConformiteNature.findByNcnDesignationOfCompany", query = "SELECT n FROM NonConformiteNature n WHERE n.ncnDesignation = :ncnDesignation AND n.ncnCompany = :ncnCompany"),
     @NamedQuery(name = "NonConformiteNature.findByNcnDeleted", query = "SELECT n FROM NonConformiteNature n WHERE n.ncnDeleted = :ncnDeleted"),
     @NamedQuery(name = "NonConformiteNature.findByNcnCreated", query = "SELECT n FROM NonConformiteNature n WHERE n.ncnCreated = :ncnCreated"),
     @NamedQuery(name = "NonConformiteNature.findByNcnChanged", query = "SELECT n FROM NonConformiteNature n WHERE n.ncnChanged = :ncnChanged"),

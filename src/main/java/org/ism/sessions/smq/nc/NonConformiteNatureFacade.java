@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.smq.nc.NonConformiteNature;
 import org.ism.sessions.AbstractFacade;
 
@@ -30,8 +31,10 @@ public class NonConformiteNatureFacade extends AbstractFacade<NonConformiteNatur
     }
 
     private final String SELECTALLBYLASTCHANGED = "NonConformiteNature.selectAllByLastChange";    // query = "SELECT n FROM NonConformiteNature n ORDER BY n.ncnChanged DESC"
-    private final String FIND_BY_PROCESSUS = "NonConformiteNature.findByNcnNature";          // query = "SELECT n FROM NonConformiteNature n WHERE n.ncnNature = :ncnNature"
+    private final String FIND_BY_CODE = "NonConformiteNature.findByNcnNature";          // query = "SELECT n FROM NonConformiteNature n WHERE n.ncnNature = :ncnNature"
     private final String FIND_BY_DESIGNATION = "NonConformiteNature.findByNcnDesignation";     // query = "SELECT n FROM NonConformiteNature n WHERE n.ncnDesignation = :ncnDesignation"
+    private final String FIND_BY_CODE_OF_COMPANY = "NonConformiteNature.findByNcnNatureOfCompany";          // query = "SELECT n FROM NonConformiteNature n WHERE n.ncnNature = :ncnNature"
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "NonConformiteNature.findByNcnDesignationOfCompany";     // query = "SELECT n FROM NonConformiteNature n WHERE n.ncnDesignation = :ncnDesignation"
 
     public NonConformiteNatureFacade() {
         super(NonConformiteNature.class);
@@ -50,7 +53,7 @@ public class NonConformiteNatureFacade extends AbstractFacade<NonConformiteNatur
 
     public List<NonConformiteNature> findByCode(String code) {
         em.flush();
-        Query q = em.createNamedQuery(FIND_BY_PROCESSUS).setParameter("ncnNature", code);
+        Query q = em.createNamedQuery(FIND_BY_CODE).setParameter("ncnNature", code);
         q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
         int count = q.getResultList().size();
         if (count > 0) {
@@ -68,6 +71,22 @@ public class NonConformiteNatureFacade extends AbstractFacade<NonConformiteNatur
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<NonConformiteNature> findByCode(String code, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_CODE_OF_COMPANY)
+                .setParameter("ncnNature", code)
+                .setParameter("ncnCompany", company);
+        return q.getResultList();
+    }
+
+    public List<NonConformiteNature> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("ncnDesignation", designation)
+                .setParameter("ncnCompany", company);
+        return q.getResultList();
     }
 
 }

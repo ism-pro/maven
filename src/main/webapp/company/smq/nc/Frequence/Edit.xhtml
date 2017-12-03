@@ -23,11 +23,13 @@
                                    title="#{ism.NonConformiteFrequencyFieldInfo_ncfId}" />
 
 
+
                     <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfFrequency}" for="ncfFrequency" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="ncfFrequency" 
                                      value="#{nonConformiteFrequencyController.selected.ncfFrequency}" 
                                      title="#{ism.NonConformiteFrequencyFieldInfo_ncfFrequency}" 
+                                     validator="#{nonConformiteFrequencyCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfFrequency}"/>
                         <p:message for="ncfFrequency" />
                     </h:panelGrid>
@@ -38,10 +40,10 @@
                         <p:inputText id="ncfDesignation" 
                                      value="#{nonConformiteFrequencyController.selected.ncfDesignation}"
                                      title="#{ism.NonConformiteFrequencyFieldInfo_ncfDesignation}" 
+                                     validator="#{nonConformiteFrequencyDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteFrequencyRequiredMsg_ncfDesignation}"/>
                         <p:message for="ncfDesignation"   />
                     </h:panelGrid>
-
 
                     <p:outputLabel value="#{ism.NonConformiteFrequencyField_ncfDeleted}" for="ncfDeleted" />
                     <p:selectBooleanCheckbox id="ncfDeleted" 

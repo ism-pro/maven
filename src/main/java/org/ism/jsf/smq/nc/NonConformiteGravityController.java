@@ -16,21 +16,14 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 
 @ManagedBean(name = "nonConformiteGravityController")
 @SessionScoped
@@ -122,9 +115,9 @@ public class NonConformiteGravityController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityReleaseSelectedSummary"),
+                        getString("NonConformiteGravityReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityReleaseSelectedDetail"));
+                        getString("NonConformiteGravityReleaseSelectedDetail"));
     }
 
     /**
@@ -134,9 +127,9 @@ public class NonConformiteGravityController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityToggleMultiCreationSummary"),
+                        getString("NonConformiteGravityToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("NonConformiteGravityToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -146,9 +139,9 @@ public class NonConformiteGravityController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityToggleMultiCreationSummary"),
+                        getString("NonConformiteGravityToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("NonConformiteGravityToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -201,9 +194,9 @@ public class NonConformiteGravityController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityPersistenceCreatedSummary"),
+                        getString("NonConformiteGravityPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityPersistenceCreatedDetail")
+                        getString("NonConformiteGravityPersistenceCreatedDetail")
                 + selected.getNcgGravity() + " <br > " + selected.getNcgDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -233,18 +226,18 @@ public class NonConformiteGravityController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityPersistenceUpdatedSummary"),
+                        getString("NonConformiteGravityPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityPersistenceUpdatedDetail")
+                        getString("NonConformiteGravityPersistenceUpdatedDetail")
                 + selected.getNcgGravity() + " <br > " + selected.getNcgDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityPersistenceDeletedSummary"),
+                        getString("NonConformiteGravityPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("NonConformiteGravityPersistenceDeletedDetail")
+                        getString("NonConformiteGravityPersistenceDeletedDetail")
                 + selected.getNcgGravity() + " <br > " + selected.getNcgDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -314,8 +307,16 @@ public class NonConformiteGravityController implements Serializable {
         return getFacade().findByCode(code);
     }
 
+    public List<NonConformiteGravity> getItemsByCode(String code, Company company) {
+        return getFacade().findByCode(code, company); 
+    }
+
     public List<NonConformiteGravity> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+
+    public List<NonConformiteGravity> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
     }
 
     public List<NonConformiteGravity> getItemsAvailableSelectMany() {
@@ -373,88 +374,6 @@ public class NonConformiteGravityController implements Serializable {
 
     public Boolean getIsVisibleColKey(String key) {
         return this.visibleColMap.get(key);
-    }
-
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-
-    @FacesValidator(value = "NonConformiteGravityCodeValidator")
-    public static class NonConformiteGravityCodeValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "NonConformiteGravityDuplicationField_codeSummary";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "NonConformiteGravityDuplicationField_codeDetail";
-
-        @EJB
-        private org.ism.sessions.smq.nc.NonConformiteGravityFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<NonConformiteGravity> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "NonConformiteGravityDesignationValidator")
-    public static class NonConformiteGravityDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "NonConformiteGravityDuplicationField_designationSummary";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "NonConformiteGravityDuplicationField_designationDetail";
-
-        @EJB
-        private org.ism.sessions.smq.nc.NonConformiteGravityFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<NonConformiteGravity> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
     }
 
 }

@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteGravity.findByNcgId", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgId = :ncgId"),
     @NamedQuery(name = "NonConformiteGravity.findByNcgGravity", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgGravity = :ncgGravity"),
     @NamedQuery(name = "NonConformiteGravity.findByNcgDesignation", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgDesignation = :ncgDesignation"),
+    @NamedQuery(name = "NonConformiteGravity.findByNcgGravityOfCompany", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgGravity = :ncgGravity AND n.ncgCompany = :ncgCompany"),
+    @NamedQuery(name = "NonConformiteGravity.findByNcgDesignationOfCompany", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgDesignation = :ncgDesignation AND n.ncgCompany = :ncgCompany"),
     @NamedQuery(name = "NonConformiteGravity.findByNcgDeleted", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgDeleted = :ncgDeleted"),
     @NamedQuery(name = "NonConformiteGravity.findByNcgCreated", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgCreated = :ncgCreated"),
     @NamedQuery(name = "NonConformiteGravity.findByNcgChanged", query = "SELECT n FROM NonConformiteGravity n WHERE n.ncgChanged = :ncgChanged"),

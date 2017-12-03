@@ -8,7 +8,6 @@ package org.ism.validators.smq;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;

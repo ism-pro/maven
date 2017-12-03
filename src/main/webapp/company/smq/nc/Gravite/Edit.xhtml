@@ -28,6 +28,7 @@
                         <p:inputText id="ncgGravity" 
                                      value="#{nonConformiteGravityController.selected.ncgGravity}" 
                                      title="#{ism.NonConformiteGravityFieldInfo_ncgGravity}" 
+                                     validator="#{nonConformiteGravityCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteGravityRequiredMsg_ncgGravity}"/>
                         <p:message for="ncgGravity" />
                     </h:panelGrid>
@@ -38,6 +39,7 @@
                         <p:inputText id="ncgDesignation" 
                                      value="#{nonConformiteGravityController.selected.ncgDesignation}"
                                      title="#{ism.NonConformiteGravityFieldInfo_ncgDesignation}" 
+                                     validator="#{nonConformiteGravityDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.NonConformiteGravityRequiredMsg_ncgDesignation}"/>
                         <p:message for="ncgDesignation"   />
                     </h:panelGrid>

@@ -17,9 +17,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import org.ism.entities.smq.nc.NonConformiteRequest;
+import org.ism.entities.smq.nc.NonConformiteUnite;
 import org.ism.jsf.hr.StaffAuthController;
-import org.ism.jsf.smq.nc.NonConformiteRequestController;
+import org.ism.jsf.smq.nc.NonConformiteUniteController;
 import org.ism.jsf.util.JsfUtil;
 import org.primefaces.component.inputtext.InputText;
 
@@ -29,14 +29,14 @@ import org.primefaces.component.inputtext.InputText;
  */
 @ManagedBean
 @SessionScoped
-@FacesValidator("nonConformiteRequestCodeValidator")
-public class NonConformiteRequestCodeValidator implements Validator, Serializable {
+@FacesValidator("nonConformiteUniteCodeValidator")
+public class NonConformiteUniteCodeValidator implements Validator, Serializable {
 
-    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "NonConformiteRequestDuplicationField_codeSummary";
-    public static final String P_DUPLICATION_CODE_DETAIL_ID = "NonConformiteRequestDuplicationField_codeDetail";
+    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "NonConformiteUniteDuplicationField_codeSummary";
+    public static final String P_DUPLICATION_CODE_DETAIL_ID = "NonConformiteUniteDuplicationField_codeDetail";
 
-    @ManagedProperty(value = "#{nonConformiteRequestController}")
-    NonConformiteRequestController nonConformiteRequestController;
+    @ManagedProperty(value = "#{nonConformiteUniteController}")
+    NonConformiteUniteController nonConformiteUniteController;
 
     @ManagedProperty(value = "#{staffAuthController}")
     StaffAuthController staffAuthController;
@@ -51,8 +51,9 @@ public class NonConformiteRequestCodeValidator implements Validator, Serializabl
             return;
         }
         InputText input = (InputText) uic;
-        List<NonConformiteRequest> lst = nonConformiteRequestController.getItemsByCode(value, staffAuthController.getCompany());
-        if (lst != null) {
+
+        List<NonConformiteUnite> lst = nonConformiteUniteController.getItemsByCode(value, staffAuthController.getCompany());
+        if (lst != null && !lst.isEmpty()) {
             if (input.getValue() != null) {
                 if (value.matches((String) input.getValue())) {
                     return;
@@ -68,8 +69,8 @@ public class NonConformiteRequestCodeValidator implements Validator, Serializabl
         }
     }
 
-    public void setNonConformiteRequestController(NonConformiteRequestController nonConformiteRequestController) {
-        this.nonConformiteRequestController = nonConformiteRequestController;
+    public void setNonConformiteUniteController(NonConformiteUniteController nonConformiteUniteController) {
+        this.nonConformiteUniteController = nonConformiteUniteController;
     }
 
     public void setStaffAuthController(StaffAuthController staffAuthController) {

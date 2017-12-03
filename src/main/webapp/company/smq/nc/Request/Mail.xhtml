@@ -24,6 +24,7 @@
                                          filter="true" filterMatchMode="contains"
                                          title="#{ism.NonConformiteRequestFieldInfo_ncrProcessus}"                                          
                                          value="#{ncMailView.selectedProcessus}"
+                                         converter="#{processusConverter}"
                                          >
                             <p:ajax event="itemSelect" update="MailContent, :growl" listener="#{ncMailView.handleProcessusChanged}"  />
                             <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"  />

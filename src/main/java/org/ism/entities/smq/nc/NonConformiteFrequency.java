@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "NonConformiteFrequency.findByNcfId", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfId = :ncfId"),
     @NamedQuery(name = "NonConformiteFrequency.findByNcfFrequency", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfFrequency = :ncfFrequency"),
     @NamedQuery(name = "NonConformiteFrequency.findByNcfDesignation", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfDesignation = :ncfDesignation"),
+    @NamedQuery(name = "NonConformiteFrequency.findByNcfFrequencyOfCompany", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfFrequency = :ncfFrequency AND n.ncfCompany = :ncfCompany"),
+    @NamedQuery(name = "NonConformiteFrequency.findByNcfDesignationOfCompany", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfDesignation = :ncfDesignation AND n.ncfCompany = :ncfCompany"),
     @NamedQuery(name = "NonConformiteFrequency.findByNcfDeleted", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfDeleted = :ncfDeleted"),
     @NamedQuery(name = "NonConformiteFrequency.findByNcfCreated", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfCreated = :ncfCreated"),
     @NamedQuery(name = "NonConformiteFrequency.findByNcfChanged", query = "SELECT n FROM NonConformiteFrequency n WHERE n.ncfChanged = :ncfChanged"),
