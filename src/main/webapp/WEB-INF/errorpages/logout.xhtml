@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" 
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <title>#{ism.AppName}</title>
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+        <meta charset="UTF-8"/>
+
+        <h:outputStylesheet library="css" name="ism-login.min.css" />
+        <link href="#{resource['vendor/w3/w3.min.css']}" rel="stylesheet" type="text/css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="refresh" 
+              content="${request.session.maxInactiveInterval};url=#{request.contextPath}#{request.servletPath}/logout.xhtml"/>
+
+    </h:head>
+
+    <h:body id="pBody">
+        <header class="w3-container w3-teal w3-grey" >
+            <center>
+                <h:graphicImage value="#{resource['img/ism/ism.png']}"  
+                                width="240px" 
+                                height="64px"   />
+            </center>
+        </header>
+
+
+        <br />
+        <center >
+            <div id="welcome">#{ism.Welcome}</div>
+            <div id="loginMsg">#{ism.AppName} - #{ism.AppVersion}</div>
+        </center>
+
+        <h:form id="Form">
+            <center>
+                <p:commandButton    action="index.xhtml?faces-redirect=true" 
+                                    id="btnGoToLogin"
+                                    value="#{ism.LogIn} [#{request.session.maxInactiveInterval}]"
+                                    actionListener="#{staffAuthController.logout()}"
+                                    style="min-width: 240px; min-height: 42px;"
+                                    class="w3-btn w3-light-grey w3-large w3-center"
+                                    />
+            </center>
+        </h:form>
+
+
+    </h:body>
+    <p:blockUI block="pBody" trigger="Form:btnGoToLogin">
+        <p:graphicImage width="48px" height="48px" library="img" name="ism/std/Onload.gif"/>
+    </p:blockUI>
+
+
+</html>
+
+
+

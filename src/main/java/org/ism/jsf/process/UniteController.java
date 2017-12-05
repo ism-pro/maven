@@ -365,53 +365,7 @@ public class UniteController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesConverter(forClass = Unite.class, value = "uniteConverter")
-    public static class UniteControllerConverter implements Converter {
 
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            UniteController controller = (UniteController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "uniteController");
-            return controller.getUnite(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Unite) {
-                Unite o = (Unite) object;
-                return getStringKey(o.getUId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Unite.class.getName()});
-                return null;
-            }
-        }
-
-    }
 
     /**
      * ************************************************************************

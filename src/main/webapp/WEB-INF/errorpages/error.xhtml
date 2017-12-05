@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" 
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>#{ism.AppName}</title>
+        <link rel="shortcut icon" href="#{resource['img/ism/favico.png']}" type="image/x-png" /> 
+        <meta http-equiv="refresh" 
+              content="300;url=/ISM/faces/index.xhtml?faces-redirect=true"/>
+
+        <h:outputStylesheet library="css" name="ism-login.min.css" />
+        <h:outputStylesheet library="vendor" name="w3css/4/w3.min.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="refresh" 
+              content="60;url=#{request.contextPath}#{request.servletPath}/logout.xhtml?faces-redirect=true"/>
+
+    </h:head>
+
+    <h:body id="pBody">
+        <header class="w3-container w3-teal w3-grey" >
+            <center>
+                <h:graphicImage value="#{resource['img/ism/ism.png']}"  
+                                width="240px" 
+                                height="64px"   />
+            </center>
+        </header>
+
+
+        <br />
+        <center >
+            <div id="welcome">Error Code: #{errorHandlerController.statusCode}</div>
+            <div id="loginMsg">#{ism.AppName} - #{ism.AppVersion}</div>
+        </center>
+
+
+        <div id="window">
+            <div id="content">
+                <div >
+
+                    <h:outputText value="Error Code: #{errorHandlerController.statusCode}"></h:outputText>
+                    <br />
+                    <h:outputText value="Error Description: #{errorHandlerController.message}"></h:outputText>
+                    <br />
+                    <h:outputText value="Exception Type: #{errorHandlerController.exceptionType}"></h:outputText>
+                    <br />
+                    <h:outputText value="Exception Calss: #{errorHandlerController.exception}"></h:outputText>
+                    <br />
+                    <h:outputText value="Request URI : #{errorHandlerController.requestURI}"></h:outputText>
+
+
+                    <center>
+                        <br />
+                        <br />
+                        <h:form >
+                            <p:commandButton    
+                                value="ISM"
+                                action="/faces/login.xhtml?faces-redirect=true" 
+                                style="min-width: 240px; min-height: 42px;"
+                                class="w3-btn w3-light-grey w3-large w3-center"
+                                />
+                        </h:form>
+                    </center>
+
+
+
+                    <p:panel rendered="#{errorHandlerController.statusCode=='403'?true:false}"
+                             header="Grant access" >
+
+                        <br />
+                        <h:outputText value="User in role GUEST : #{request.isUserInRole('GUEST')}" />
+                        <br />
+                        <h:outputText value="User in role STAFF : #{request.isUserInRole('STAFF')}" />
+                        <br />
+                        <h:outputText value="User in role ADMIN : #{request.isUserInRole('ADMIN')}" />
+                        <br />
+                        <h:outputText value="User in role A_COMPANY : #{request.isUserInRole('A_COMPANY')}" />
+                        <br />
+                        <h:outputText value="User in role A_COMPANY_C : #{request.isUserInRole('A_COMPANY_C')}" />
+                        <br />
+                        <h:outputText value="User in role A_COMPANY_E : #{request.isUserInRole('A_COMPANY_E')}" />
+                        <br />
+                        <h:outputText value="User in role A_COMPANY_L : #{request.isUserInRole('A_COMPANY_L')}" />
+                        <br />
+                        <h:outputText value="User in role A_COMPANY_V : #{request.isUserInRole('A_COMPANY_V')}" />
+                        <br />
+                        <h:outputText value="User in role A_ENTREPRISE : #{request.isUserInRole('A_ENTREPRISE')}" />
+                        <br />
+                        <h:outputText value="User in role A_ENTREPRISE_C : #{request.isUserInRole('A_ENTREPRISE_C')}" />
+                        <br />
+                        <h:outputText value="User in role A_ENTREPRISE_E : #{request.isUserInRole('A_ENTREPRISE_E')}" />
+                        <br />
+                        <h:outputText value="User in role A_ENTREPRISE_L : #{request.isUserInRole('A_ENTREPRISE_L')}" />
+                        <br />
+                        <h:outputText value="User in role A_ENTREPRISE_V : #{request.isUserInRole('A_ENTREPRISE_V')}" />
+                        <br />
+                        <h:outputText value="User in role APP : #{request.isUserInRole('APP')}" />
+                        <br />
+                        <h:outputText value="User in role AP_GENRE : #{request.isUserInRole('AP_GENRE')}" />
+                        <br />
+                        <h:outputText value="User in role AP_GENRE_C : #{request.isUserInRole('AP_GENRE_C')}" />
+                        <br />
+                        <h:outputText value="User in role AP_GENRE_E : #{request.isUserInRole('AP_GENRE_E')}" />
+                        <br />
+                        <h:outputText value="User in role AP_GENRE_L : #{request.isUserInRole('AP_GENRE_L')}" />
+                        <br />
+                        <h:outputText value="User in role AP_GENRE_V : #{request.isUserInRole('AP_GENRE_V')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCSTATE : #{request.isUserInRole('AP_NCSTATE')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCSTATE_C : #{request.isUserInRole('AP_NCSTATE_C')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCSTATE_E : #{request.isUserInRole('AP_NCSTATE_E')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCSTATE_L : #{request.isUserInRole('AP_NCSTATE_L')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCSTATE_V : #{request.isUserInRole('AP_NCSTATE_V')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCRSTATE : #{request.isUserInRole('AP_NCRSTATE')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCRSTATE_C : #{request.isUserInRole('AP_NCRSTATE_C')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCRSTATE_E : #{request.isUserInRole('AP_NCRSTATE_E')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCRSTATE_L : #{request.isUserInRole('AP_NCRSTATE_L')}" />
+                        <br />
+                        <h:outputText value="User in role AP_NCRSTATE_V : #{request.isUserInRole('AP_NCRSTATE_V')}" />
+                        <br />
+                        <h:outputText value="User in role AP_ROLE : #{request.isUserInRole('AP_ROLE')}" />
+                        <br />
+                        <h:outputText value="User in role AP_ROLE_C : #{request.isUserInRole('AP_ROLE_C')}" />
+                        <br />
+                        <h:outputText value="User in role AP_ROLE_E : #{request.isUserInRole('AP_ROLE_E')}" />
+                        <br />
+                        <h:outputText value="User in role AP_ROLE_L : #{request.isUserInRole('AP_ROLE_L')}" />
+                        <br />
+                        <h:outputText value="User in role AP_ROLE_V : #{request.isUserInRole('AP_ROLE_V')}" />
+                        <br />
+                        <h:outputText value="User in role HRESOURCES : #{request.isUserInRole('HRESOURCES')}" />
+                        <br />
+                        <h:outputText value="User in role HR_STAFF : #{request.isUserInRole('HR_STAFF')}" />
+                        <br />
+                        <h:outputText value="User in role HR_STAFF_C : #{request.isUserInRole('HR_STAFF_C')}" />
+                        <br />
+                        <h:outputText value="User in role HR_STAFF_E : #{request.isUserInRole('HR_STAFF_E')}" />
+                        <br />
+                        <h:outputText value="User in role HR_STAFF_L : #{request.isUserInRole('HR_STAFF_L')}" />
+                        <br />
+                        <h:outputText value="User in role HR_STAFF_V : #{request.isUserInRole('HR_STAFF_V')}" />
+                        <br />
+                        <h:outputText value="User in role HR_STAFF_M : #{request.isUserInRole('HR_STAFF_M')}" />
+                        <br />
+                        <h:outputText value="User in role HR_STAFF_P : #{request.isUserInRole('HR_STAFF_P')}" />
+                        <br />
+                        <h:outputText value="User in role HR_STAFF_S : #{request.isUserInRole('HR_STAFF_S')}" />
+                        <br />
+                        <h:outputText value="User in role HR_COMPANY : #{request.isUserInRole('HR_COMPANY')}" />
+                        <br />
+                        <h:outputText value="User in role HR_COMPANY_C : #{request.isUserInRole('HR_COMPANY_C')}" />
+                        <br />
+                        <h:outputText value="User in role HR_COMPANY_E : #{request.isUserInRole('HR_COMPANY_E')}" />
+                        <br />
+                        <h:outputText value="User in role HR_COMPANY_L : #{request.isUserInRole('HR_COMPANY_L')}" />
+                        <br />
+                        <h:outputText value="User in role HR_COMPANY_V : #{request.isUserInRole('HR_COMPANY_V')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUP : #{request.isUserInRole('HR_GROUP')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUP_C : #{request.isUserInRole('HR_GROUP_C')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUP_E : #{request.isUserInRole('HR_GROUP_E')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUP_L : #{request.isUserInRole('HR_GROUP_L')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUP_V : #{request.isUserInRole('HR_GROUP_V')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPROLE : #{request.isUserInRole('HR_GROUPROLE')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPROLE_C : #{request.isUserInRole('HR_GROUPROLE_C')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPROLE_E : #{request.isUserInRole('HR_GROUPROLE_E')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPROLE_L : #{request.isUserInRole('HR_GROUPROLE_L')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPROLE_V : #{request.isUserInRole('HR_GROUPROLE_V')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPROLE_CP : #{request.isUserInRole('HR_GROUPROLE_CP')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPROLE_CT : #{request.isUserInRole('HR_GROUPROLE_CT')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPSTAFF : #{request.isUserInRole('HR_GROUPSTAFF')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPSTAFF_C : #{request.isUserInRole('HR_GROUPSTAFF_C')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPSTAFF_E : #{request.isUserInRole('HR_GROUPSTAFF_E')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPSTAFF_L : #{request.isUserInRole('HR_GROUPSTAFF_L')}" />
+                        <br />
+                        <h:outputText value="User in role HR_GROUPSTAFF_V : #{request.isUserInRole('HR_GROUPSTAFF_V')}" />
+                        <br />
+                        <h:outputText value="User in role HR_MANAGER : #{request.isUserInRole('HR_MANAGER')}" />
+                        <br />
+                        <h:outputText value="User in role HR_MANAGER_C : #{request.isUserInRole('HR_MANAGER_C')}" />
+                        <br />
+                        <h:outputText value="User in role HR_MANAGER_E : #{request.isUserInRole('HR_MANAGER_E')}" />
+                        <br />
+                        <h:outputText value="User in role HR_MANAGER_L : #{request.isUserInRole('HR_MANAGER_L')}" />
+                        <br />
+                        <h:outputText value="User in role HR_MANAGER_V : #{request.isUserInRole('HR_MANAGER_V')}" />
+                        <br />
+                        <h:outputText value="User in role HR_SETUP : #{request.isUserInRole('HR_SETUP')}" />
+                        <br />
+                        <h:outputText value="User in role HR_SETUP_C : #{request.isUserInRole('HR_SETUP_C')}" />
+                        <br />
+                        <h:outputText value="User in role HR_SETUP_E : #{request.isUserInRole('HR_SETUP_E')}" />
+                        <br />
+                        <h:outputText value="User in role HR_SETUP_L : #{request.isUserInRole('HR_SETUP_L')}" />
+                        <br />
+                        <h:outputText value="User in role HR_SETUP_V : #{request.isUserInRole('HR_SETUP_V')}" />
+                        <br />
+                        <h:outputText value="User in role HR_SETUP_M : #{request.isUserInRole('HR_SETUP_M')}" />
+                        <br />
+                        <h:outputText value="User in role SMQ : #{request.isUserInRole('SMQ')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER : #{request.isUserInRole('S_EXPLORER')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER_C : #{request.isUserInRole('S_EXPLORER_C')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER_E : #{request.isUserInRole('S_EXPLORER_E')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER_L : #{request.isUserInRole('S_EXPLORER_L')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER_V : #{request.isUserInRole('S_EXPLORER_V')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER_CA : #{request.isUserInRole('S_EXPLORER_CA')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER_EA : #{request.isUserInRole('S_EXPLORER_EA')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER_LA : #{request.isUserInRole('S_EXPLORER_LA')}" />
+                        <br />
+                        <h:outputText value="User in role S_EXPLORER_VA : #{request.isUserInRole('S_EXPLORER_VA')}" />
+                        <br />
+                        <h:outputText value="User in role S_TYPE : #{request.isUserInRole('S_TYPE')}" />
+                        <br />
+                        <h:outputText value="User in role S_TYPE_C : #{request.isUserInRole('S_TYPE_C')}" />
+                        <br />
+                        <h:outputText value="User in role S_TYPE_E : #{request.isUserInRole('S_TYPE_E')}" />
+                        <br />
+                        <h:outputText value="User in role S_TYPE_L : #{request.isUserInRole('S_TYPE_L')}" />
+                        <br />
+                        <h:outputText value="User in role S_TYPE_V : #{request.isUserInRole('S_TYPE_V')}" />
+                        <br />
+                        <h:outputText value="User in role SNC : #{request.isUserInRole('SNC')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_ACTIONS : #{request.isUserInRole('SNC_ACTIONS')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_ACTIONS_C : #{request.isUserInRole('SNC_ACTIONS_C')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_ACTIONS_E : #{request.isUserInRole('SNC_ACTIONS_E')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_ACTIONS_L : #{request.isUserInRole('SNC_ACTIONS_L')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_ACTIONS_V : #{request.isUserInRole('SNC_ACTIONS_V')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_FREQUENCE : #{request.isUserInRole('SNC_FREQUENCE')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_FREQUENCE_C : #{request.isUserInRole('SNC_FREQUENCE_C')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_FREQUENCE_E : #{request.isUserInRole('SNC_FREQUENCE_E')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_FREQUENCE_L : #{request.isUserInRole('SNC_FREQUENCE_L')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_FREQUENCE_V : #{request.isUserInRole('SNC_FREQUENCE_V')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_GRAVITE : #{request.isUserInRole('SNC_GRAVITE')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_GRAVITE_C : #{request.isUserInRole('SNC_GRAVITE_C')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_GRAVITE_E : #{request.isUserInRole('SNC_GRAVITE_E')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_GRAVITE_L : #{request.isUserInRole('SNC_GRAVITE_L')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_GRAVITE_V : #{request.isUserInRole('SNC_GRAVITE_V')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_NATURE : #{request.isUserInRole('SNC_NATURE')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_NATURE_C : #{request.isUserInRole('SNC_NATURE_C')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_NATURE_E : #{request.isUserInRole('SNC_NATURE_E')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_NATURE_L : #{request.isUserInRole('SNC_NATURE_L')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_NATURE_V : #{request.isUserInRole('SNC_NATURE_V')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST : #{request.isUserInRole('SNC_REQUEST')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST_C : #{request.isUserInRole('SNC_REQUEST_C')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST_E : #{request.isUserInRole('SNC_REQUEST_E')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST_L : #{request.isUserInRole('SNC_REQUEST_L')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST_V : #{request.isUserInRole('SNC_REQUEST_V')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST_A : #{request.isUserInRole('SNC_REQUEST_A')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST_R : #{request.isUserInRole('SNC_REQUEST_R')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST_VA : #{request.isUserInRole('SNC_REQUEST_VA')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_REQUEST_CL : #{request.isUserInRole('SNC_REQUEST_CL')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_UNITE : #{request.isUserInRole('SNC_UNITE')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_UNITE_C : #{request.isUserInRole('SNC_UNITE_C')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_UNITE_E : #{request.isUserInRole('SNC_UNITE_E')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_UNITE_L : #{request.isUserInRole('SNC_UNITE_L')}" />
+                        <br />
+                        <h:outputText value="User in role SNC_UNITE_V : #{request.isUserInRole('SNC_UNITE_V')}" />
+                        <br />
+                        <h:outputText value="User in role S_PROCESSUS : #{request.isUserInRole('S_PROCESSUS')}" />
+                        <br />
+                        <h:outputText value="User in role S_PROCESSUS_C : #{request.isUserInRole('S_PROCESSUS_C')}" />
+                        <br />
+                        <h:outputText value="User in role S_PROCESSUS_E : #{request.isUserInRole('S_PROCESSUS_E')}" />
+                        <br />
+                        <h:outputText value="User in role S_PROCESSUS_L : #{request.isUserInRole('S_PROCESSUS_L')}" />
+                        <br />
+                        <h:outputText value="User in role S_PROCESSUS_V : #{request.isUserInRole('S_PROCESSUS_V')}" />
+                    </p:panel>
+
+                </div>
+            </div>
+        </div>
+        <p:growl id="growl" life="8000" />
+
+    </h:body>
+</html>
+

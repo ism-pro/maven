@@ -33,7 +33,7 @@ public class StaffAuthController implements Serializable {
     @EJB
     private StaffAuthFacade staffAuthFacade;
     @ManagedProperty(value = "#{staffSetupController}")
-    private StaffSetupController staffSetupController ;
+    private StaffSetupController staffSetupController;
 
     /**
      * Staff used for connexion on login page
@@ -79,6 +79,13 @@ public class StaffAuthController implements Serializable {
         if (staffAuthFacade.login()) {
             this.setStaff(staffAuthFacade.getStaff());
             setupStaff();
+            // Manage ExceptionHandler for Invalidate session
+            String errorPageLocation = "/WEB-INF/errorpages/logout.xhtml";
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.setViewRoot(context.getApplication().getViewHandler().createView(context, errorPageLocation));
+            context.getPartialViewContext().setRenderAll(true);
+            context.renderResponse();
+
             return ON_LOGIN_SUCCESS;
         } else {
             Iterator<String> msgIterator = staffAuthFacade.getMsgList().iterator();
@@ -224,6 +231,4 @@ public class StaffAuthController implements Serializable {
         this.staffSetupController = staffSetupController;
     }
 
-    
-    
 }

@@ -10,13 +10,11 @@ package org.ism.listener;
  * @author r.hendrick
  */
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.ism.entities.hr.Staff;
 
 public class SessionCounterListener implements HttpSessionListener {
@@ -24,7 +22,7 @@ public class SessionCounterListener implements HttpSessionListener {
     private static int totalActiveSessions = 0;               //!< Compteur
     private static int totalActiveSessionsAuthenticated = 0;  //!< Compteur du nombre d'utilisateur authentifié
 
-    private static List<HttpSession> sessionList = new ArrayList<HttpSession>(); //!< List de toutes les sessions de l'application
+    public static List<HttpSession> sessionList = new ArrayList<HttpSession>(); //!< List de toutes les sessions de l'application
     private static int sessionListSize = 0;                     //!< Conserve le nombre de sessions pour éviter de recalculer inutilement
 
     public static String AUTHENTICATED = "authenticated";
@@ -97,6 +95,28 @@ public class SessionCounterListener implements HttpSessionListener {
         return staffs;
     }
 
+    public static Boolean removeActiveStaff(Staff activeStaff) {
+        Iterator<HttpSession> sessionIterator = sessionList.iterator();
+        while (sessionIterator.hasNext()) {
+            HttpSession s = sessionIterator.next();
+            //System.out.println("    In one session active counter");
+            if (s.getAttribute(AUTHENTICATED) != null) {
+                //System.out.println("    Authenticated attribut is define");
+                if (((boolean) s.getAttribute(AUTHENTICATED))) {
+                    Staff staff = (Staff) s.getAttribute(ATT_STAFF); // define from staffAuthFacade
+                    if (staff != null) {
+                        if (staff == activeStaff) {
+                            s.invalidate();
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+
+    }
+
     /**
      * Session duration all to return amount of milli second of a session
      * duration corresponding to a specific staff.
@@ -116,5 +136,9 @@ public class SessionCounterListener implements HttpSessionListener {
             }
         }
         return 0;
+    }
+    
+    public static List<HttpSession> getSessionList(){
+        return sessionList;
     }
 }

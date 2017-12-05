@@ -379,54 +379,6 @@ public class AnalyseNotifyController implements Serializable {
 
     /**
      * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesConverter(forClass = AnalyseNotify.class, value = "analyseNotifyConverter")
-    public static class AnalyseNotifyControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            AnalyseNotifyController controller = (AnalyseNotifyController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "analyseNotifyController");
-            return controller.getAnalyseNotify(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof AnalyseNotify) {
-                AnalyseNotify o = (AnalyseNotify) object;
-                return getStringKey(o.getAnId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), AnalyseNotify.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
-    /**
-     * ************************************************************************
      * VALIDATOR
      *
      *

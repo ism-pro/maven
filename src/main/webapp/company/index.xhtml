@@ -192,10 +192,11 @@
                                                          aria-valuenow="#{viewIndex.countStaffNC(ncstate.istate)}"
                                                          aria-valuemin="0" aria-valuemax="100" 
                                                          style="width:#{ncstate.id lt 4 ? viewIndex.indicOpenStaffNC(ncstate.istate) : viewIndex.indicClosedStaffNC(ncstate.istate)}%">
-                                                        <span style="color: #2d62b0">#{ncstate.id lt 4?viewIndex.indicOpenStaffNC(ncstate.istate):viewIndex.indicClosedStaffNC(state)}%</span>
+                                                        <span style="color: #2d62b0">#{ncstate.id lt 4 ? viewIndex.indicOpenStaffNC(ncstate.istate):viewIndex.indicClosedStaffNC(ncstate.istate)}%</span>
                                                     </div>
-                                                </div>
 
+
+                                                </div>
                                             </p:column>
 
                                             <p:column headerText="Label" width="64">
@@ -247,10 +248,11 @@
                                                 </div>
                                                 <div class="media-right">
                                                     <p:commandButton 
-                                                        type="button"
                                                         icon="fa fa-unlink"
                                                         class="btn btn-warning btn-circle #{request.isUserInRole('ADMIN')? disabled :''}"
                                                         disabled="#{request.isUserInRole('ADMIN')? disabled :''}"
+                                                        action="#{viewSessionCounter.removeSessionActive(item)}"
+                                                        title="Permet de déconnecter l'utilisateur..."
                                                         />
                                                 </div>
 

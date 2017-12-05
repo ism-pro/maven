@@ -368,53 +368,6 @@ public class AnalyseMethodController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesConverter(forClass = AnalyseMethod.class, value = "analyseMethodConverter")
-    public static class AnalyseMethodControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            AnalyseMethodController controller = (AnalyseMethodController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "analyseMethodController");
-            return controller.getAnalyseMethod(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof AnalyseMethod) {
-                AnalyseMethod o = (AnalyseMethod) object;
-                return getStringKey(o.getAmId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), AnalyseMethod.class.getName()});
-                return null;
-            }
-        }
-
-    }
 
     /**
      * ************************************************************************

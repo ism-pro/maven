@@ -44,6 +44,9 @@ public class ViewSessionCounter {
         return SessionCounterListener.sessionDuration(staff);
     }
     
+    public Boolean removeSessionActive(Staff staff){
+        return SessionCounterListener.removeActiveStaff(staff);
+    }
     
     
     /// ////////////////////////////////////////////////////////////////////////
