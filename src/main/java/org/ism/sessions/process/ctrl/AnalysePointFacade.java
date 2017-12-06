@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.Equipement;
 import org.ism.sessions.AbstractFacade;
@@ -28,6 +29,8 @@ public class AnalysePointFacade extends AbstractFacade<AnalysePoint> {
     private final String SELECTALLBYLASTCHANGED = "AnalysePoint.selectAllByLastChange";
     private final String FIND_BY_CODE = "AnalysePoint.findByApPoint";
     private final String FIND_BY_DESIGNATION = "AnalysePoint.findByApDesignation";
+    private final String FIND_BY_CODE_OF_COMPANY = "AnalysePoint.findByApPointOfCompany";
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "AnalysePoint.findByApDesignationOfCompany";
     private final String FIND_BY_EQUIPEMENT = "AnalysePoint.findByApEquipement";
     private final String FIND_BY_POINT_EQUIPEMENT = "AnalysePoint.findByApPointEquipement";
 
@@ -95,6 +98,22 @@ public class AnalysePointFacade extends AbstractFacade<AnalysePoint> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<AnalysePoint> findByCode(String point, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_CODE_OF_COMPANY)
+                .setParameter("apPoint", point)
+                .setParameter("apCompany", company);
+        return q.getResultList();
+    }
+
+    public List<AnalysePoint> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("apDesignation", designation)
+                .setParameter("apCompany", company);
+        return q.getResultList();
     }
 
 }

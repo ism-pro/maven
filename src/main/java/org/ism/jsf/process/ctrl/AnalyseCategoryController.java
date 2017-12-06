@@ -16,21 +16,14 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 
 @ManagedBean(name = "analyseCategoryController")
 @SessionScoped
@@ -116,9 +109,9 @@ public class AnalyseCategoryController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryReleaseSelectedSummary"),
+                        getString("AnalyseCategoryReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryReleaseSelectedDetail"));
+                        getString("AnalyseCategoryReleaseSelectedDetail"));
     }
 
     /**
@@ -128,9 +121,9 @@ public class AnalyseCategoryController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryToggleMultiCreationSummary"),
+                        getString("AnalyseCategoryToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("AnalyseCategoryToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -140,9 +133,9 @@ public class AnalyseCategoryController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryToggleMultiCreationSummary"),
+                        getString("AnalyseCategoryToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("AnalyseCategoryToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -195,9 +188,9 @@ public class AnalyseCategoryController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryPersistenceCreatedSummary"),
+                        getString("AnalyseCategoryPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryPersistenceCreatedDetail")
+                        getString("AnalyseCategoryPersistenceCreatedDetail")
                 + selected.getAcCategory() + " <br > " + selected.getAcDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -227,18 +220,18 @@ public class AnalyseCategoryController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryPersistenceUpdatedSummary"),
+                        getString("AnalyseCategoryPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryPersistenceUpdatedDetail")
+                        getString("AnalyseCategoryPersistenceUpdatedDetail")
                 + selected.getAcCategory() + " <br > " + selected.getAcDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryPersistenceDeletedSummary"),
+                        getString("AnalyseCategoryPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalyseCategoryPersistenceDeletedDetail")
+                        getString("AnalyseCategoryPersistenceDeletedDetail")
                 + selected.getAcCategory() + " <br > " + selected.getAcDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -307,8 +300,16 @@ public class AnalyseCategoryController implements Serializable {
         return getFacade().findByCode(_AnalyseCategory);
     }
 
+    public List<AnalyseCategory> getItemsByCode(String category, Company company) {
+        return getFacade().findByCode(category, company);
+    }
+
     public List<AnalyseCategory> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+
+    public List<AnalyseCategory> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
     }
 
     public List<AnalyseCategory> getItemsAvailableSelectMany() {
@@ -368,85 +369,4 @@ public class AnalyseCategoryController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-
-    /**
-     * ************************************************************************
-     * VALIDATOR
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesValidator(value = "AnalyseCategory_AnalyseCategoryValidator")
-    public static class AnalyseCategory_AnalyseCategoryValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "AnalyseCategoryDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "AnalyseCategoryDuplicationDetail_###";
-
-        @EJB
-        private org.ism.sessions.process.ctrl.AnalyseCategoryFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<AnalyseCategory> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "AnalyseCategory_DesignationValidator")
-    public static class AnalyseCategoryDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalyseCategoryDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalyseCategoryDuplicationDetail_#####";
-
-        @EJB
-        private org.ism.sessions.process.ctrl.AnalyseCategoryFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<AnalyseCategory> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 }

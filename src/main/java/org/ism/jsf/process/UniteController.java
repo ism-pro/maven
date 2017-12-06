@@ -31,6 +31,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 
 @ManagedBean(name = "uniteController")
 @SessionScoped
@@ -303,10 +304,21 @@ public class UniteController implements Serializable {
     public List<Unite> getItemsByUnite(String _Unite) {
         return getFacade().findByCode(_Unite);
     }
+    
+    
+    public List<Unite> getItemsByCode(String _Unite, Company company) {
+        return getFacade().findByCode(_Unite, company);
+    }
 
     public List<Unite> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
     }
+    
+    
+    public List<Unite> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
+    }
+
 
     public List<Unite> getItemsAvailableSelectMany() {
         return getFacade().findAll();
@@ -366,85 +378,4 @@ public class UniteController implements Serializable {
     }
 
 
-
-    /**
-     * ************************************************************************
-     * VALIDATOR
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesValidator(value = "Unite_UniteValidator")
-    public static class Unite_UniteValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "UniteDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "UniteDuplicationDetail_###";
-
-        @EJB
-        private org.ism.sessions.process.UniteFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<Unite> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "Unite_DesignationValidator")
-    public static class UniteDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "UniteDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "UniteDuplicationDetail_#####";
-
-        @EJB
-        private org.ism.sessions.process.UniteFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<Unite> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 }

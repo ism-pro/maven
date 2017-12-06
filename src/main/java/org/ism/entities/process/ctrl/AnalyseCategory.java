@@ -43,6 +43,8 @@ import org.ism.entities.admin.Company;
     @NamedQuery(name = "AnalyseCategory.findByAcId", query = "SELECT a FROM AnalyseCategory a WHERE a.acId = :acId"),
     @NamedQuery(name = "AnalyseCategory.findByAcCategory", query = "SELECT a FROM AnalyseCategory a WHERE a.acCategory = :acCategory"),
     @NamedQuery(name = "AnalyseCategory.findByAcDesignation", query = "SELECT a FROM AnalyseCategory a WHERE a.acDesignation = :acDesignation"),
+    @NamedQuery(name = "AnalyseCategory.findByAcCategoryOfCompany", query = "SELECT a FROM AnalyseCategory a WHERE a.acCategory = :acCategory AND a.acCompany = :acCompany"),
+    @NamedQuery(name = "AnalyseCategory.findByAcDesignationOfCompany", query = "SELECT a FROM AnalyseCategory a WHERE a.acDesignation = :acDesignation AND a.acCompany = :acCompany"),
     @NamedQuery(name = "AnalyseCategory.findByAcDeleted", query = "SELECT a FROM AnalyseCategory a WHERE a.acDeleted = :acDeleted"),
     @NamedQuery(name = "AnalyseCategory.findByAcCreated", query = "SELECT a FROM AnalyseCategory a WHERE a.acCreated = :acCreated"),
     @NamedQuery(name = "AnalyseCategory.findByAcChanged", query = "SELECT a FROM AnalyseCategory a WHERE a.acChanged = :acChanged"),

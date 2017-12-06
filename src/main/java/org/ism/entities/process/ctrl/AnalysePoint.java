@@ -45,6 +45,8 @@ import org.ism.entities.process.Equipement;
     @NamedQuery(name = "AnalysePoint.findByApId", query = "SELECT a FROM AnalysePoint a WHERE a.apId = :apId"),
     @NamedQuery(name = "AnalysePoint.findByApPoint", query = "SELECT a FROM AnalysePoint a WHERE a.apPoint = :apPoint"),
     @NamedQuery(name = "AnalysePoint.findByApDesignation", query = "SELECT a FROM AnalysePoint a WHERE a.apDesignation = :apDesignation"),
+    @NamedQuery(name = "AnalysePoint.findByApPointOfCompany", query = "SELECT a FROM AnalysePoint a WHERE a.apPoint = :apPoint AND a.apCompany = :apCompany"),
+    @NamedQuery(name = "AnalysePoint.findByApDesignationOfCompany", query = "SELECT a FROM AnalysePoint a WHERE a.apDesignation = :apDesignation AND a.apCompany = :apCompany"),
     @NamedQuery(name = "AnalysePoint.findByApEquipement", query = "SELECT a FROM AnalysePoint a WHERE a.apEquipement = :apEquipement"),
     @NamedQuery(name = "AnalysePoint.findByApEquipementStr", query = "SELECT a FROM AnalysePoint a WHERE a.apEquipement.eEquipement = :apEquipement"),
     @NamedQuery(name = "AnalysePoint.findByApPointEquipement", query = "SELECT a FROM AnalysePoint a WHERE a.apPoint = :apPoint AND a.apEquipement = :apEquipement"),

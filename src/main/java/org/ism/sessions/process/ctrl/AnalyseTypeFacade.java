@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.process.ctrl.AnalyseCategory;
 import org.ism.entities.process.ctrl.AnalyseMethod;
 import org.ism.entities.process.ctrl.AnalyseType;
@@ -30,6 +31,8 @@ public class AnalyseTypeFacade extends AbstractFacade<AnalyseType> {
     private final String SELECTALLBYLASTCHANGED = "AnalyseType.selectAllByLastChange";
     private final String FIND_BY_CODE = "AnalyseType.findByApType";
     private final String FIND_BY_DESIGNATION = "AnalyseType.findByAtDesignation";
+    private final String FIND_BY_CODE_OF_COMPANY = "AnalyseType.findByApTypeOfCompany";
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "AnalyseType.findByAtDesignationOfCompany";
     private final String FIND_BY_UNITE = "AnalyseType.findByAtUnite";
     private final String FIND_BY_CATEGORY = "AnalyseType.findByAtCategory";
     private final String FIND_BY_METHOD = "AnalyseType.findByAtMethod";
@@ -149,5 +152,21 @@ public class AnalyseTypeFacade extends AbstractFacade<AnalyseType> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<AnalyseType> findByCode(String type, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_CODE_OF_COMPANY)
+                .setParameter("atType", type)
+                .setParameter("atCompany", company);
+        return q.getResultList();
+    }
+
+    public List<AnalyseType> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("atDesignation", designation)
+                .setParameter("atCompany", company);
+        return q.getResultList();
     }
 }

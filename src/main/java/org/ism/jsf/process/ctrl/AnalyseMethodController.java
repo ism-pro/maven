@@ -16,21 +16,14 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 
 @ManagedBean(name = "analyseMethodController")
 @SessionScoped
@@ -306,9 +299,20 @@ public class AnalyseMethodController implements Serializable {
     public List<AnalyseMethod> getItemsByAnalyseMethod(String _AnalyseMethod) {
         return getFacade().findByCode(_AnalyseMethod);
     }
+    
+    
+    public List<AnalyseMethod> getItemsByCode(String method, Company company) {
+        return getFacade().findByCode(method, company);
+    }
+
 
     public List<AnalyseMethod> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+    
+    
+    public List<AnalyseMethod> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
     }
 
     public List<AnalyseMethod> getItemsAvailableSelectMany() {
@@ -369,84 +373,4 @@ public class AnalyseMethodController implements Serializable {
     }
 
 
-    /**
-     * ************************************************************************
-     * VALIDATOR
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesValidator(value = "AnalyseMethod_AnalyseMethodValidator")
-    public static class AnalyseMethod_AnalyseMethodValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "AnalyseMethodDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "AnalyseMethodDuplicationDetail_###";
-
-        @EJB
-        private org.ism.sessions.process.ctrl.AnalyseMethodFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<AnalyseMethod> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "AnalyseMethod_DesignationValidator")
-    public static class AnalyseMethodDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalyseMethodDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalyseMethodDuplicationDetail_#####";
-
-        @EJB
-        private org.ism.sessions.process.ctrl.AnalyseMethodFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<AnalyseMethod> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 }

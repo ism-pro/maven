@@ -44,6 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Unite.findByUId", query = "SELECT u FROM Unite u WHERE u.uId = :uId"),
     @NamedQuery(name = "Unite.findByUUnite", query = "SELECT u FROM Unite u WHERE u.uUnite = :uUnite"),
     @NamedQuery(name = "Unite.findByUDesignation", query = "SELECT u FROM Unite u WHERE u.uDesignation = :uDesignation"),
+    @NamedQuery(name = "Unite.findByUUniteOfCompany", query = "SELECT u FROM Unite u WHERE u.uUnite = :uUnite AND u.uCompany = :uCompany"),
+    @NamedQuery(name = "Unite.findByUDesignationOfCompany", query = "SELECT u FROM Unite u WHERE u.uDesignation = :uDesignation AND u.uCompany = :uCompany"),
     @NamedQuery(name = "Unite.findByUDeleted", query = "SELECT u FROM Unite u WHERE u.uDeleted = :uDeleted"),
     @NamedQuery(name = "Unite.findByUCreated", query = "SELECT u FROM Unite u WHERE u.uCreated = :uCreated"),
     @NamedQuery(name = "Unite.findByUChanged", query = "SELECT u FROM Unite u WHERE u.uChanged = :uChanged"),

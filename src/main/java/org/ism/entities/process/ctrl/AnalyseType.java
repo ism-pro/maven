@@ -45,6 +45,8 @@ import org.ism.entities.process.Unite;
     @NamedQuery(name = "AnalyseType.findByAtId", query = "SELECT a FROM AnalyseType a WHERE a.atId = :atId"),
     @NamedQuery(name = "AnalyseType.findByAtType", query = "SELECT a FROM AnalyseType a WHERE a.atType = :atType"),
     @NamedQuery(name = "AnalyseType.findByAtDesignation", query = "SELECT a FROM AnalyseType a WHERE a.atDesignation = :atDesignation"),
+    @NamedQuery(name = "AnalyseType.findByAtTypeOfCompany", query = "SELECT a FROM AnalyseType a WHERE a.atType = :atType AND a.atCompany = :atCompany"),
+    @NamedQuery(name = "AnalyseType.findByAtDesignationOfCompany", query = "SELECT a FROM AnalyseType a WHERE a.atDesignation = :atDesignation AND a.atCompany = :atCompany"),
     @NamedQuery(name = "AnalyseType.findByAtUnite", query = "SELECT a FROM AnalyseType a WHERE a.atUnite = :atUnite"),
     @NamedQuery(name = "AnalyseType.findByAtCategory", query = "SELECT a FROM AnalyseType a WHERE a.atCategory = :atCategory"),
     @NamedQuery(name = "AnalyseType.findByAtMethod", query = "SELECT a FROM AnalyseType a WHERE a.atMethod = :atMethod"),

@@ -43,6 +43,8 @@ import org.ism.entities.admin.Company;
     @NamedQuery(name = "AnalyseMethod.findByAmId", query = "SELECT a FROM AnalyseMethod a WHERE a.amId = :amId"),
     @NamedQuery(name = "AnalyseMethod.findByAmMethod", query = "SELECT a FROM AnalyseMethod a WHERE a.amMethod = :amMethod"),
     @NamedQuery(name = "AnalyseMethod.findByAmDesignation", query = "SELECT a FROM AnalyseMethod a WHERE a.amDesignation = :amDesignation"),
+    @NamedQuery(name = "AnalyseMethod.findByAmMethodOfCompany", query = "SELECT a FROM AnalyseMethod a WHERE a.amMethod = :amMethod AND a.amCompany = :amCompany"),
+    @NamedQuery(name = "AnalyseMethod.findByAmDesignationOfCompany", query = "SELECT a FROM AnalyseMethod a WHERE a.amDesignation = :amDesignation AND a.amCompany = :amCompany"),
     @NamedQuery(name = "AnalyseMethod.findByAmDeleted", query = "SELECT a FROM AnalyseMethod a WHERE a.amDeleted = :amDeleted"),
     @NamedQuery(name = "AnalyseMethod.findByAmCreated", query = "SELECT a FROM AnalyseMethod a WHERE a.amCreated = :amCreated"),
     @NamedQuery(name = "AnalyseMethod.findByAmChanged", query = "SELECT a FROM AnalyseMethod a WHERE a.amChanged = :amChanged"),

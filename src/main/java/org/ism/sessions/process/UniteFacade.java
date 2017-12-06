@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.process.Unite;
 import org.ism.sessions.AbstractFacade;
 
@@ -27,6 +28,8 @@ public class UniteFacade extends AbstractFacade<Unite> {
     private final String SELECTALLBYLASTCHANGED = "Unite.selectAllByLastChange";
     private final String FIND_BY_CODE = "Unite.findByUUnite";
     private final String FIND_BY_DESIGNATION = "Unite.findByUDesignation";
+    private final String FIND_BY_CODE_OF_COMPANY = "Unite.findByUUniteOfCompany";
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "Unite.findByUDesignationOfCompany";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -68,6 +71,24 @@ public class UniteFacade extends AbstractFacade<Unite> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<Unite> findByCode(String unite, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_CODE_OF_COMPANY)
+                .setParameter("uUnite", unite)
+                .setParameter("uCompany", company);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        return q.getResultList();
+    }
+
+    public List<Unite> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("uDesignation", designation)
+                .setParameter("uCompany", company);
+        q.setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.BYPASS);
+        return q.getResultList();
     }
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.process.Equipement;
 import org.ism.sessions.AbstractFacade;
 
@@ -27,6 +28,8 @@ public class EquipementFacade extends AbstractFacade<Equipement> {
     private final String SELECTALLBYLASTCHANGED = "Equipement.selectAllByLastChange";
     private final String FIND_BY_CODE = "Equipement.findByEEquipement";       // query = "SELECT s FROM StaffGroupDef s WHERE s.stgdGroupDef = :stgdGroupDef"
     private final String FIND_BY_DESIGNATION = "Equipement.findByEDesignation";     //query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDesignation = :stgdDesignation"
+    private final String FIND_BY_CODE_OF_COMPANY = "Equipement.findByEEquipementOfCompany";       // query = "SELECT s FROM StaffGroupDef s WHERE s.stgdGroupDef = :stgdGroupDef"
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "Equipement.findByEDesignationOfCompany";     //query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDesignation = :stgdDesignation"
 
     @Override
     protected EntityManager getEntityManager() {
@@ -68,6 +71,22 @@ public class EquipementFacade extends AbstractFacade<Equipement> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<Equipement> findByCode(String equipement, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_CODE_OF_COMPANY)
+                .setParameter("eEquipement", equipement)
+                .setParameter("eCompany", company);
+        return q.getResultList();
+    }
+
+    public List<Equipement> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("eDesignation", designation)
+                .setParameter("eCompany", company);
+        return q.getResultList();
     }
 
 }

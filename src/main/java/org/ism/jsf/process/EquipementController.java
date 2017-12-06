@@ -16,21 +16,14 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 
 @ManagedBean(name = "equipementController")
 @SessionScoped
@@ -131,9 +124,9 @@ public class EquipementController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementReleaseSelectedSummary"),
+                        getString("EquipementReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementReleaseSelectedDetail"));
+                        getString("EquipementReleaseSelectedDetail"));
     }
 
     /**
@@ -143,9 +136,9 @@ public class EquipementController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementToggleMultiCreationSummary"),
+                        getString("EquipementToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("EquipementToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -155,9 +148,9 @@ public class EquipementController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementToggleMultiCreationSummary"),
+                        getString("EquipementToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("EquipementToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -210,9 +203,9 @@ public class EquipementController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementPersistenceCreatedSummary"),
+                        getString("EquipementPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementPersistenceCreatedDetail")
+                        getString("EquipementPersistenceCreatedDetail")
                 + selected.getEEquipement() + " <br > " + selected.getEDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -242,18 +235,18 @@ public class EquipementController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementPersistenceUpdatedSummary"),
+                        getString("EquipementPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementPersistenceUpdatedDetail")
+                        getString("EquipementPersistenceUpdatedDetail")
                 + selected.getEEquipement() + " <br > " + selected.getEDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementPersistenceDeletedSummary"),
+                        getString("EquipementPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("EquipementPersistenceDeletedDetail")
+                        getString("EquipementPersistenceDeletedDetail")
                 + selected.getEEquipement() + " <br > " + selected.getEDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -322,8 +315,16 @@ public class EquipementController implements Serializable {
         return getFacade().findByCode(_Equipement);
     }
 
+    public List<Equipement> getItemsByCode(String equipement, Company company) {
+        return getFacade().findByCode(equipement, company);
+    }
+
     public List<Equipement> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+
+    public List<Equipement> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
     }
 
     public List<Equipement> getItemsAvailableSelectMany() {
@@ -383,92 +384,4 @@ public class EquipementController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-
-    /**
-     * ************************************************************************
-     * VALIDATOR
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesValidator(value = "Equipement_EquipementValidator")
-    public static class Equipement_EquipementValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "EquipementDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "EquipementDuplicationDetail_###";
-
-        @EJB
-        private org.ism.sessions.process.EquipementFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<Equipement> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "Equipement_DesignationValidator")
-    public static class EquipementDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "EquipementDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "EquipementDuplicationDetail_#####";
-
-        @EJB
-        private org.ism.sessions.process.EquipementFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<Equipement> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 }

@@ -150,7 +150,7 @@ public class AnalyseData implements Serializable {
     @JoinColumn(name = "ad_type", referencedColumnName = "at_type", nullable = false)
     @ManyToOne(optional = false)
     private AnalyseType adType;
-    @JoinColumn(name = "ad_validator", referencedColumnName = "st_staff", nullable = false)
+    @JoinColumn(name = "ad_validator", referencedColumnName = "st_staff", nullable = true)
     @ManyToOne(optional = false)
     private Staff adValidator;
 

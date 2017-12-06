@@ -16,21 +16,14 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 import org.ism.entities.process.Equipement;
 
 @ManagedBean(name = "analysePointController")
@@ -121,9 +114,9 @@ public class AnalysePointController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointReleaseSelectedSummary"),
+                        getString("AnalysePointReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointReleaseSelectedDetail"));
+                        getString("AnalysePointReleaseSelectedDetail"));
     }
 
     /**
@@ -133,9 +126,9 @@ public class AnalysePointController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointToggleMultiCreationSummary"),
+                        getString("AnalysePointToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("AnalysePointToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -145,9 +138,9 @@ public class AnalysePointController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointToggleMultiCreationSummary"),
+                        getString("AnalysePointToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("AnalysePointToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -200,9 +193,9 @@ public class AnalysePointController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointPersistenceCreatedSummary"),
+                        getString("AnalysePointPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointPersistenceCreatedDetail")
+                        getString("AnalysePointPersistenceCreatedDetail")
                 + selected.getApPoint() + " <br > " + selected.getApDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -232,18 +225,18 @@ public class AnalysePointController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointPersistenceUpdatedSummary"),
+                        getString("AnalysePointPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointPersistenceUpdatedDetail")
+                        getString("AnalysePointPersistenceUpdatedDetail")
                 + selected.getApPoint() + " <br > " + selected.getApDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointPersistenceDeletedSummary"),
+                        getString("AnalysePointPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("AnalysePointPersistenceDeletedDetail")
+                        getString("AnalysePointPersistenceDeletedDetail")
                 + selected.getApPoint() + " <br > " + selected.getApDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -312,8 +305,16 @@ public class AnalysePointController implements Serializable {
         return getFacade().findByCode(_AnalysePoint);
     }
 
+    public List<AnalysePoint> getItemsByCode(String point, Company company) {
+        return getFacade().findByCode(point, company);
+    }
+
     public List<AnalysePoint> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+
+    public List<AnalysePoint> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
     }
 
     public List<AnalysePoint> getItemsByEquipement(Equipement equipement) {
@@ -377,85 +378,4 @@ public class AnalysePointController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-
-    /**
-     * ************************************************************************
-     * VALIDATOR
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesValidator(value = "AnalysePoint_AnalysePointValidator")
-    public static class AnalysePoint_AnalysePointValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "AnalysePointDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "AnalysePointDuplicationDetail_###";
-
-        @EJB
-        private org.ism.sessions.process.ctrl.AnalysePointFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<AnalysePoint> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "AnalysePoint_DesignationValidator")
-    public static class AnalysePointDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalysePointDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalysePointDuplicationDetail_#####";
-
-        @EJB
-        private org.ism.sessions.process.ctrl.AnalysePointFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<AnalysePoint> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 }

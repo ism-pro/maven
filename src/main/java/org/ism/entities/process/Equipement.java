@@ -45,6 +45,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Equipement.findByEId", query = "SELECT e FROM Equipement e WHERE e.eId = :eId"),
     @NamedQuery(name = "Equipement.findByEEquipement", query = "SELECT e FROM Equipement e WHERE e.eEquipement = :eEquipement"),
     @NamedQuery(name = "Equipement.findByEDesignation", query = "SELECT e FROM Equipement e WHERE e.eDesignation = :eDesignation"),
+    @NamedQuery(name = "Equipement.findByEEquipementOfCompany", query = "SELECT e FROM Equipement e WHERE e.eEquipement = :eEquipement AND e.eCompany = :eCompany"),
+    @NamedQuery(name = "Equipement.findByEDesignationOfCompany", query = "SELECT e FROM Equipement e WHERE e.eDesignation = :eDesignation AND e.eCompany = :eCompany"),
     @NamedQuery(name = "Equipement.findByECf", query = "SELECT e FROM Equipement e WHERE e.eCf = :eCf"),
     @NamedQuery(name = "Equipement.findByEFamille", query = "SELECT e FROM Equipement e WHERE e.eFamille = :eFamille"),
     @NamedQuery(name = "Equipement.findByESsFamille", query = "SELECT e FROM Equipement e WHERE e.eSsFamille = :eSsFamille"),

@@ -95,15 +95,14 @@ public class AnalyseDataLazyModel extends LazyDataModel<AnalyseData> implements 
     public List<AnalyseData> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
 
         // Restore filter if required
-        if (this.multiSortMeta != null && this.multiSortMeta!=multiSortMeta) {
-            multiSortMeta = this.multiSortMeta;
-        }else{
+        if (multiSortMeta == null) {
             // Sorting default by date d'échantillonnage
             multiSortMeta = new ArrayList<>();
             SortMeta metaSort = new SortMeta(null, "adsampleTime", SortOrder.DESCENDING, null);
             multiSortMeta.add(metaSort);
         }
-        if (this.filters != null && this.filters!=filters) {
+
+        if (this.filters != null && this.filters != filters) {
             filters = this.filters;
         }
         // Get data
@@ -191,6 +190,5 @@ public class AnalyseDataLazyModel extends LazyDataModel<AnalyseData> implements 
     public void setFilters(Map<String, Object> filters) {
         this.filters = filters;
     }
-
 
 }
