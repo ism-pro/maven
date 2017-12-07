@@ -90,4 +90,13 @@ public class StaffGroupsFacade extends AbstractFacade<StaffGroups> {
         return findByStaffAndCompanyAndGroupDef(staff, groupDef.getStgdCompany(), groupDef);
     }
 
+    public List<StaffGroups> findByStaffAndGroupDef(Staff staff, StaffGroupDef staffGroupDef, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery("StaffGroups.findByStgStaffAndCompanyAndStaffGroupDef")
+                .setParameter("stgStaff", staff)
+                .setParameter("stgCompany", company)
+                .setParameter("stgGroupDef", staffGroupDef);
+        return q.getResultList();
+    }
+
 }

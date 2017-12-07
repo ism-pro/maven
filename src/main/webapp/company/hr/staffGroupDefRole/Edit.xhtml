@@ -34,9 +34,10 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{staffGroupDefRoleController.selected.stgdrGroupDef}"
                                          title="#{ism.StaffGroupDefRoleFieldInfo_stgdrGroupDef}" 
+                                         converter="#{staffGroupDefConverter}"
                                          required="true" requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrGroupDef}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}"
                                            var="stgdrGroupDefItem"
                                            itemLabel="#{stgdrGroupDefItem.stgdGroupDef} - #{stgdrGroupDefItem.stgdDesignation}"
@@ -52,10 +53,11 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{staffGroupDefRoleController.selected.stgdrRole}"
                                          title="#{ism.StaffGroupDefRoleFieldInfo_stgdrRole}" 
+                                         converter="#{ismRoleConverter}"
+                                         validator="#{staffGroupDefRoleOnGroupDefRoleValidator.validate}"
                                          required="true" requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrRole}"
-
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{ismRoleController.itemsAvailableSelectOne}"
                                            var="stgdrRoleItem"
                                            itemLabel="#{stgdrRoleItem.role} - #{stgdrRoleItem.rolename}"
@@ -63,6 +65,7 @@
                         </p:selectOneMenu>
                         <p:message for="stgdrRole" />
                     </h:panelGrid>
+
 
 
 
@@ -74,17 +77,6 @@
 
 
 
-                    <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrCreated}" 
-                                   rendered="false" for="stgdrCreated" />
-                    <p:calendar id="stgdrCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
-                                value="#{staffGroupDefRoleController.selected.stgdrCreated}" 
-                                title="#{ism.StaffGroupDefRoleFieldInfo_stgdrCreated}" 
-                                required="true" 
-                                requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrCreated}" 
-                                showOn="button"/>
-
-
-
                     <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrChanged}" 
                                    rendered="false" for="stgdrChanged" />
                     <p:calendar id="stgdrChanged"  rendered="false"
@@ -93,8 +85,22 @@
                                 title="#{ism.StaffGroupDefRoleFieldInfo_stgdrChanged}" 
                                 required="true" 
                                 requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrChanged}" 
-                                showOn="button"/>
+                                showOn="button"
+                                disabled="true"/>
 
+                    
+                    <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrCreated}" 
+                                   rendered="false" for="stgdrCreated" />
+                    <p:calendar id="stgdrCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
+                                value="#{staffGroupDefRoleController.selected.stgdrCreated}" 
+                                title="#{ism.StaffGroupDefRoleFieldInfo_stgdrCreated}" 
+                                required="true" 
+                                requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrCreated}" 
+                                showOn="button"
+                                disabled="true"/>
+
+
+                    
                     <p:outputLabel value="#{ism.StaffGroupDefRoleField_stgdrCompany}" for="stgdrCompany" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:inputText id="stgdrCompany" widgetVar="stgdrCompany"

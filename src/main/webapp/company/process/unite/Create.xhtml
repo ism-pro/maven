@@ -33,6 +33,7 @@
                         <p:inputText id="UUnite" 
                                      value="#{uniteController.selected.UUnite}" 
                                      title="#{ism.UniteFieldInfo_UUnite}" 
+                                     validator="#{uniteCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.UniteRequiredMsg_UUnite}" 
                                      />
                         <p:message for="UUnite" />
@@ -44,6 +45,7 @@
                         <p:inputText id="UDesignation" 
                                      value="#{uniteController.selected.UDesignation}" 
                                      title="#{ism.UniteFieldInfo_UDesignation}" 
+                                     validator="#{uniteDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.UniteRequiredMsg_UDesignation}" 
                                      />
                         <p:message for="UDesignation" />

@@ -28,7 +28,7 @@ public class AnalyseCategoryFacade extends AbstractFacade<AnalyseCategory> {
     private final String SELECTALLBYLASTCHANGED = "AnalyseCategory.selectAllByLastChange";
     private final String FIND_BY_CODE = "AnalyseCategory.findByAcMethod";
     private final String FIND_BY_DESIGNATION = "AnalyseCategory.findByAcDesignation";
-    private final String FIND_BY_CODE_OF_COMPANY = "AnalyseCategory.findByAcMethodOfCompany";
+    private final String FIND_BY_CODE_OF_COMPANY = "AnalyseCategory.findByAcCategoryOfCompany";
     private final String FIND_BY_DESIGNATION_OF_COMPANY = "AnalyseCategory.findByAcDesignationOfCompany";
 
     @Override

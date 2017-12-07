@@ -32,6 +32,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
 
@@ -365,6 +366,11 @@ public class AnalyseAllowedController implements Serializable {
         return items;
     }
     
+    
+    public List<AnalyseAllowed> getItemsByPointType(AnalysePoint aaPoint, AnalyseType aaType, Company company) {
+        return getFacade().findByPointType(aaPoint, aaType, company);
+    }
+    
     public List<AnalyseType> getItemsTypeOnPoint(AnalysePoint point){
         List<AnalyseAllowed> lst = getItemsByPoint(point);
         if(lst==null)return null;
@@ -426,6 +432,7 @@ public class AnalyseAllowedController implements Serializable {
     public Boolean getIsVisibleColKey(String key) {
         return this.visibleColMap.get(key);
     }
+
 
 
 

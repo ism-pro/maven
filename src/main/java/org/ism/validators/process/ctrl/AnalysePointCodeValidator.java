@@ -32,8 +32,8 @@ import org.primefaces.component.inputtext.InputText;
 @FacesValidator(value = "analysePointCodeValidator")
 public class AnalysePointCodeValidator implements Validator , Serializable {
 
-    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "AnalysePointDuplicationField_codeSummary";
-    public static final String P_DUPLICATION_CODE_DETAIL_ID = "AnalysePointDuplicationField_codeDetail";
+    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "AnalysePointDuplicationSummary_apPoint";
+    public static final String P_DUPLICATION_CODE_DETAIL_ID = "AnalysePointDuplicationDetail_apPoint";
 
 
     @ManagedProperty(value = "#{analysePointController}")

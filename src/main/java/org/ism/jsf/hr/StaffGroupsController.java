@@ -29,6 +29,7 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import org.ism.entities.admin.Company;
 import org.ism.entities.hr.Staff;
 import org.ism.entities.hr.StaffGroupDef;
 import org.ism.entities.hr.StaffGroups;
@@ -115,9 +116,9 @@ public class StaffGroupsController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsReleaseSelectedSummary"),
+                        getString("StaffGroupsReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsReleaseSelectedDetail"));
+                        getString("StaffGroupsReleaseSelectedDetail"));
     }
 
     /**
@@ -127,9 +128,9 @@ public class StaffGroupsController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsToggleMultiCreationSummary"),
+                        getString("StaffGroupsToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("StaffGroupsToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -139,9 +140,9 @@ public class StaffGroupsController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsToggleMultiCreationSummary"),
+                        getString("StaffGroupsToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("StaffGroupsToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -196,9 +197,9 @@ public class StaffGroupsController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsPersistenceCreatedSummary"),
+                        getString("StaffGroupsPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsPersistenceCreatedDetail")
+                        getString("StaffGroupsPersistenceCreatedDetail")
                 + selected.getStgStaff().getStStaff() + " <br > " + selected.getStgGroupDef() + selected.getStgGroupDef().getStgdCompany());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -228,18 +229,18 @@ public class StaffGroupsController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsPersistenceUpdatedSummary"),
+                        getString("StaffGroupsPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsPersistenceUpdatedDetail")
+                        getString("StaffGroupsPersistenceUpdatedDetail")
                 + selected.getStgStaff().getStStaff() + " <br > " + selected.getStgGroupDef() + selected.getStgGroupDef().getStgdCompany());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsPersistenceDeletedSummary"),
+                        getString("StaffGroupsPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupsPersistenceDeletedDetail")
+                        getString("StaffGroupsPersistenceDeletedDetail")
                 + selected.getStgStaff().getStStaff() + " <br > " + selected.getStgGroupDef() + selected.getStgGroupDef().getStgdCompany());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -316,6 +317,10 @@ public class StaffGroupsController implements Serializable {
     public StaffGroups getItemsByStaffGroups(Staff staff, StaffGroupDef groupDef) {
         return getFacade().findByStaffGroupDef(staff, groupDef);
     }
+            
+    public List<StaffGroups> getItemsByStaffAndGroupDef(Staff staff, StaffGroupDef staffGroupDef, Company company) {
+        return getFacade().findByStaffAndGroupDef(staff, staffGroupDef, company);
+    }
 
     public List<StaffGroups> getItemsAvailableSelectMany() {
         return getFacade().findAll();
@@ -374,119 +379,6 @@ public class StaffGroupsController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesConverter(forClass = StaffGroups.class, value = "staffGroupsConverter")
-    public static class StaffGroupsControllerConverter implements Converter {
 
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            StaffGroupsController controller = (StaffGroupsController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "staffGroupsController");
-            return controller.getStaffGroups(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof StaffGroups) {
-                StaffGroups o = (StaffGroups) object;
-                return getStringKey(o.getStgId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), StaffGroups.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
-    @FacesValidator(value = "StaffGroups_GroupDefValidator")
-    public static class StaffGroups_CompanyValidator implements Validator {
-
-        public static final String M_SUMMARY_ID = "StaffGroupsDuplicationField_groupDefSummary";
-        public static final String M_DETAIL_ID = "StaffGroupsDuplicationField_groupDefDetail";
-
-        @EJB
-        private org.ism.sessions.hr.StaffGroupsFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof SelectOneMenu)) {
-                return;
-            }
-
-            UIComponent uicStaff = JsfUtil.findComponent("stgStaff");
-            if (uicStaff == null) {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_SUMMARY_ID),
-                        "Component stgStaff does not exist !");
-                throw new ValidatorException(facesMsg);
-            }
-
-            SelectOneMenu somStaff = (SelectOneMenu) uicStaff;
-            SelectOneMenu somGroupDef = (SelectOneMenu) uic;
-
-            if (somStaff == null) {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_SUMMARY_ID),
-                        "Nothing send from stgStaff");
-                throw new ValidatorException(facesMsg);
-            }
-
-            if (somGroupDef == null) {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_SUMMARY_ID),
-                        "Nothing send from stgGroupDef");
-                throw new ValidatorException(facesMsg);
-            }
-
-            Staff staff = (Staff) somStaff.getValue();
-            StaffGroupDef groupDefValue = (StaffGroupDef) o;
-
-            StaffGroups staffGroups = ejbFacade.findByStaffGroupDef(staff, groupDefValue);
-
-            if (staffGroups == null) {
-                return;
-            } else {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_DETAIL_ID)
-                );
-                throw new ValidatorException(facesMsg);
-            }
-
-        }
-    }
 
 }

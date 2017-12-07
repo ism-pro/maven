@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ism.validators.process;
+package org.ism.validators.process.ctrl;
 
 import java.io.Serializable;
 import java.util.List;
@@ -32,8 +32,8 @@ import org.primefaces.component.inputtext.InputText;
 @FacesValidator(value = "analyseCategoryDesignationValidator")
 public class AnalyseCategoryDesignationValidator implements Validator, Serializable {
 
-    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalyseCategoryDuplicationField_designationSummary";
-    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalyseCategoryDuplicationField_designationDetail";
+    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalyseCategoryDuplicationSummary_acDesignation";
+    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalyseCategoryDuplicationDetail_acDesignation";
 
     @ManagedProperty(value = "#{analyseCategoryController}")
     AnalyseCategoryController analyseCategoryController;

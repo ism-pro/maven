@@ -33,6 +33,7 @@
                         <p:inputText id="acCategory" 
                                      value="#{analyseCategoryController.selected.acCategory}" 
                                      title="#{ism.AnalyseCategoryFieldInfo_acCategory}" 
+                                     validator="#{analyseCategoryCodeValidator.validate}" 
                                      required="true" requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acCategory}" 
                                      />
                         <p:message for="acCategory" />
@@ -44,6 +45,7 @@
                         <p:inputText id="acDesignation" 
                                      value="#{analyseCategoryController.selected.acDesignation}" 
                                      title="#{ism.AnalyseCategoryFieldInfo_acDesignation}" 
+                                     validator="#{analyseCategoryDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acDesignation}" 
                                      />
                         <p:message for="acDesignation" />
@@ -52,13 +54,14 @@
 
                     <p:outputLabel value="#{ism.AnalyseCategoryField_acDescription}"  for="acDescription" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:inputTextarea rows="4" cols="30" id="acDescription" value="#{analyseCategoryController.selected.acDescription}" title="#{bundle.CreateAnalyseCategoryTitle_acDescription}" />
+                        <p:inputTextarea rows="4" cols="30" id="acDescription" value="#{analyseCategoryController.selected.acDescription}" 
+                                         title="#{bundle.CreateAnalyseCategoryTitle_acDescription}" />
                         <p:message for="acDescription" />
                     </h:panelGrid>
 
 
-                    <p:outputLabel value="#{ism.AnalyseCategoryField_acDeleted}"  for="acDeleted" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                    <p:outputLabel value="#{ism.AnalyseCategoryField_acDeleted}"  for="acDeleted" rendered="false" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
                         <p:selectBooleanCheckbox id="acDeleted"
                                                  value="#{analyseCategoryController.selected.acDeleted}" 
                                                  required="true" 
@@ -67,29 +70,6 @@
                         <p:message for="acDeleted" />
                     </h:panelGrid>
 
-
-                    <p:outputLabel value="#{ism.AnalyseCategoryField_acCreated}"  for="acCreated" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:calendar id="acCreated" pattern="dd/MM/yyyy" rendered="false"
-                                    value="#{analyseCategoryController.selected.acCreated}" 
-                                    title="#{ism.AnalyseCategoryFieldInfo_acCreated}" 
-                                    required="true" 
-                                    requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acCreated}" 
-                                    showOn="button"/>
-                        <p:message for="acCreated" />
-                    </h:panelGrid>
-
-
-                    <p:outputLabel value="#{ism.AnalyseCategoryField_acChanged}"  for="acChanged" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:calendar id="acChanged" pattern="dd/MM/yyyy" rendered="false"
-                                    value="#{analyseCategoryController.selected.acChanged}" 
-                                    title="#{ism.AnalyseCategoryFieldInfo_acChanged}" 
-                                    required="true" 
-                                    requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acChanged}" 
-                                    showOn="button"/>
-                        <p:message for="acChanged" />
-                    </h:panelGrid>
 
 
                     <p:outputLabel value="#{ism.AnalyseCategoryField_acCompany}"  for="acCompany" />
@@ -153,11 +133,11 @@
 
                 </h:panelGroup>
 
-                <p:messages showDetail="true" showSummary="false"
-                            escape="false"/>
-
+                
+                <p:messages showDetail="true" showSummary="false" escape="false"/>
 
             </h:form>
+            
 
         </ui:define>
 

@@ -26,14 +26,16 @@
                     </h:panelGrid>
 
 
+                   
                     <p:outputLabel value="#{ism.AnalyseMethodField_amMethod}"  for="amMethod" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
                         <p:inputText id="amMethod" 
                                      value="#{analyseMethodController.selected.amMethod}" 
                                      title="#{ism.AnalyseMethodFieldInfo_amMethod}" 
+                                     validator="#{analyseMethodCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalyseMethodRequiredMsg_amMethod}" 
                                      />
-                        <p:message for="amMethod"  />
+                        <p:message for="amMethod" />
                     </h:panelGrid>
 
 
@@ -42,10 +44,13 @@
                         <p:inputText id="amDesignation" 
                                      value="#{analyseMethodController.selected.amDesignation}" 
                                      title="#{ism.AnalyseMethodFieldInfo_amDesignation}" 
+                                     validator="#{analyseMethodDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalyseMethodRequiredMsg_amDesignation}" 
                                      />
-                        <p:message for="amDesignation"  />
+                        <p:message for="amDesignation" />
                     </h:panelGrid>
+
+
 
 
                     <p:outputLabel value="#{ism.AnalyseMethodField_amDescription}"  for="amDescription" />
@@ -66,9 +71,9 @@
                     </h:panelGrid>
 
 
-                    <p:outputLabel value="#{ism.AnalyseMethodField_amCreated}"  for="amCreated" />
+                    <p:outputLabel value="#{ism.AnalyseMethodField_amCreated}"  for="amCreated"  />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:calendar id="amCreated" pattern="dd/MM/yyyy" rendered="true"
+                        <p:calendar id="amCreated" pattern="dd/MM/yyyy" disabled="true"
                                     value="#{analyseMethodController.selected.amCreated}" 
                                     title="#{ism.AnalyseMethodFieldInfo_amCreated}" 
                                     required="true" 
@@ -80,7 +85,7 @@
 
                     <p:outputLabel value="#{ism.AnalyseMethodField_amChanged}"  for="amChanged" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:calendar id="amChanged" pattern="dd/MM/yyyy" rendered="true"
+                        <p:calendar id="amChanged" pattern="dd/MM/yyyy" disabled="true"
                                     value="#{analyseMethodController.selected.amChanged}" 
                                     title="#{ism.AnalyseMethodFieldInfo_amChanged}" 
                                     required="true" 

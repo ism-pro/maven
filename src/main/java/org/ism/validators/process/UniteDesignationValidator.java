@@ -32,8 +32,8 @@ import org.primefaces.component.inputtext.InputText;
 @FacesValidator(value = "uniteDesignationValidator")
 public class UniteDesignationValidator implements Validator, Serializable {
 
-    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "UniteDuplicationField_designationSummary";
-    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "UniteDuplicationField_designationDetail";
+    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "UniteDuplicationSummary_UDesignation";
+    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "UniteDuplicationDetail_UDesignation";
 
 
     @ManagedProperty(value = "#{uniteController}")

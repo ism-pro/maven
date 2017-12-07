@@ -44,6 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StaffGroupDef.findByStgdId", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdId = :stgdId"),
     @NamedQuery(name = "StaffGroupDef.findByStgdGroupDef", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdGroupDef = :stgdGroupDef"),
     @NamedQuery(name = "StaffGroupDef.findByStgdDesignation", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDesignation = :stgdDesignation"),
+    @NamedQuery(name = "StaffGroupDef.findByStgdGroupDefOfCompany", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdGroupDef = :stgdGroupDef AND  s.stgdCompany = :stgdCompany"),
+    @NamedQuery(name = "StaffGroupDef.findByStgdDesignationOfCompany", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDesignation = :stgdDesignation AND  s.stgdCompany = :stgdCompany"),
     @NamedQuery(name = "StaffGroupDef.findByStgdDeleted", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDeleted = :stgdDeleted"),
     @NamedQuery(name = "StaffGroupDef.findByStgdCreated", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdCreated = :stgdCreated"),
     @NamedQuery(name = "StaffGroupDef.findByStgdChanged", query = "SELECT s FROM StaffGroupDef s WHERE s.stgdChanged = :stgdChanged"),
@@ -201,7 +203,8 @@ public class StaffGroupDef implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.StaffGroupDef[ stgdId=" + stgdId + " ]";
+        //return "org.ism.entities.StaffGroupDef[ stgdId=" + stgdId + " ]";
+        return stgdGroupDef + " - " + stgdDesignation + " [" + stgdId + "]";
     }
 
     @XmlTransient

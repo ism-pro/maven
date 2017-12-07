@@ -29,9 +29,9 @@ public class AnalyseTypeFacade extends AbstractFacade<AnalyseType> {
     private EntityManager em;
 
     private final String SELECTALLBYLASTCHANGED = "AnalyseType.selectAllByLastChange";
-    private final String FIND_BY_CODE = "AnalyseType.findByApType";
+    private final String FIND_BY_CODE = "AnalyseType.findByAtType";
     private final String FIND_BY_DESIGNATION = "AnalyseType.findByAtDesignation";
-    private final String FIND_BY_CODE_OF_COMPANY = "AnalyseType.findByApTypeOfCompany";
+    private final String FIND_BY_CODE_OF_COMPANY = "AnalyseType.findByAtTypeOfCompany";
     private final String FIND_BY_DESIGNATION_OF_COMPANY = "AnalyseType.findByAtDesignationOfCompany";
     private final String FIND_BY_UNITE = "AnalyseType.findByAtUnite";
     private final String FIND_BY_CATEGORY = "AnalyseType.findByAtCategory";

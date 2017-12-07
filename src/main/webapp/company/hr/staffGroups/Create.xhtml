@@ -28,10 +28,11 @@
                         <p:selectOneMenu id="stgStaff"  widgetVar="stgStaff"
                                          filter="true" filterMatchMode="contains"
                                          value="#{staffGroupsController.selected.stgStaff}"
-                                         title="#{ism.StaffGroupsFieldInfo_stgStaff}" 
+                                         title="#{ism.StaffGroupsFieldInfo_stgStaff}"
+                                         converter="#{staffConverter}"
                                          required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgStaff}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
                                            var="stgStaffItem"
                                            itemLabel="#{stgStaffItem.stFirstname} #{stgStaffItem.stLastname} #{stgStaffItem.stMiddlename} [#{stgStaffItem.stStaff}]"
@@ -46,16 +47,19 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{staffGroupsController.selected.stgGroupDef}"
                                          title="#{ism.StaffGroupsFieldInfo_stgGroupDef}" 
+                                         converter="#{staffGroupDefConverter}"
+                                         validator="#{staffGroupsGroupDefOnStaffValidator.validate}"
                                          required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgGroupDef}"
-
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffGroupDefController.getItemsGrouped()}"
                                            var="stgGroupDefItem" 
                                            itemLabel="#{stgGroupDefItem.label} - #{stgGroupDefItem.description}"
-                                           itemValue="#{stgGroupDefItem.value}"/>
+                                           itemValue="#{stgGroupDefItem.value}"
+                                           
+                                           />
                         </p:selectOneMenu>
-                        <p:message for="stgCompany" />
+                        <p:message for="stgGroupDef" />
                     </h:panelGrid>
 
 

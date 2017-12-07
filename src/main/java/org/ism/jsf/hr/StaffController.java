@@ -16,23 +16,16 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import org.ism.jsf.util.JsfSecurity;
-import org.primefaces.component.inputtext.InputText;
 
 @ManagedBean(name = "staffController")
 @SessionScoped
@@ -469,37 +462,4 @@ public class StaffController implements Serializable {
         this.isResetPassword = isResetPassword;
     }
 
-    /// ////////////////////////////////////////////////////////////////////////
-    /// ////////////////////////////////////////////////////////////////////////
-    /// Converters
-    /// ////////////////////////////////////////////////////////////////////////
-    /// ////////////////////////////////////////////////////////////////////////
-    /// ////////////////////////////////////////////////////////////////////////
-    /// ////////////////////////////////////////////////////////////////////////
-    /// Validators
-    /// ////////////////////////////////////////////////////////////////////////
-    /// ////////////////////////////////////////////////////////////////////////
-    @FacesValidator(value = "staffValidator")
-    public static class staffValidator implements Validator {
-
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-
-            if (o != null) {
-                return;
-            }
-
-            FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                            getString("DeleteNotRecordForSummury"),
-                    ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                            getString("DeleteNotRecordForDetail"));
-            throw new ValidatorException(facesMsg);
-        }
-    }
 }

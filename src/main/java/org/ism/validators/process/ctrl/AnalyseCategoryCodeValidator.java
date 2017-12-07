@@ -5,7 +5,6 @@
  */
 package org.ism.validators.process.ctrl;
 
-import org.ism.validators.process.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,8 +32,8 @@ import org.primefaces.component.inputtext.InputText;
 @FacesValidator(value = "analyseCategoryCodeValidator")
 public class AnalyseCategoryCodeValidator implements Validator , Serializable {
 
-    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "AnalyseCategoryDuplicationField_codeSummary";
-    public static final String P_DUPLICATION_CODE_DETAIL_ID = "AnalyseCategoryDuplicationField_codeDetail";
+    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "AnalyseCategoryDuplicationSummary_acCategory";
+    public static final String P_DUPLICATION_CODE_DETAIL_ID = "AnalyseCategoryDuplicationDetail_acCategory";
 
 
     @ManagedProperty(value = "#{analyseCategoryController}")

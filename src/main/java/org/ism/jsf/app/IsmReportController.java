@@ -68,7 +68,6 @@ public class IsmReportController implements Serializable {
      * Define lazy model to load progressively data
      */
     //private IsmReportLazyModel lazyModel;
-
     // /////////////////////////////////////////////////////////////////////////
     //
     //
@@ -183,9 +182,9 @@ public class IsmReportController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportReleaseSelectedSummary"),
+                        getString("IsmReportReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportReleaseSelectedDetail"));
+                        getString("IsmReportReleaseSelectedDetail"));
     }
 
     /**
@@ -195,9 +194,9 @@ public class IsmReportController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportToggleMultiCreationSummary"),
+                        getString("IsmReportToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("IsmReportToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -207,9 +206,9 @@ public class IsmReportController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportToggleMultiCreationSummary"),
+                        getString("IsmReportToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("IsmReportToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -269,9 +268,9 @@ public class IsmReportController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportPersistenceCreatedSummary"),
+                        getString("IsmReportPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportPersistenceCreatedDetail")
+                        getString("IsmReportPersistenceCreatedDetail")
                 + selected.getReport() + " <br > " + selected.getDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -301,18 +300,18 @@ public class IsmReportController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportPersistenceUpdatedSummary"),
+                        getString("IsmReportPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportPersistenceUpdatedDetail")
+                        getString("IsmReportPersistenceUpdatedDetail")
                 + selected.getReport() + " <br > " + selected.getDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportPersistenceDeletedSummary"),
+                        getString("IsmReportPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("IsmReportPersistenceDeletedDetail")
+                        getString("IsmReportPersistenceDeletedDetail")
                 + selected.getReport() + " <br > " + selected.getDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -451,132 +450,4 @@ public class IsmReportController implements Serializable {
         this.itemsFiltered = itemsFiltered;
     }
 
-    // /////////////////////////////////////////////////////////////////////////
-    //
-    //
-    // CONVERTERS
-    // 
-    //
-    // /////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = IsmReport.class, value = "ismReportConverter")
-    public static class IsmReportControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            IsmReportController controller = (IsmReportController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "ismReportController");
-            return controller.getIsmReport(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof IsmReport) {
-                IsmReport o = (IsmReport) object;
-                return getStringKey(o.getId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), IsmReport.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
-    // /////////////////////////////////////////////////////////////////////////
-    //
-    //
-    // VALIDATORS
-    // 
-    //
-    // /////////////////////////////////////////////////////////////////////////
-    @FacesValidator(value = "IsmReport_IsmReportValidator")
-    public static class IsmReport_IsmReportValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "IsmReportDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "IsmReportDuplicationDetail_###";
-
-        @EJB
-        private org.ism.sessions.app.IsmReportFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<IsmReport> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "IsmReport_DesignationValidator")
-    public static class IsmReportDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "IsmReportDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "IsmReportDuplicationDetail_#####";
-
-        @EJB
-        private org.ism.sessions.app.IsmReportFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<IsmReport> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 }

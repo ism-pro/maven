@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/tmpl/MainWindow.xhtml">
@@ -33,6 +32,7 @@
                         <p:inputText id="EEquipement" 
                                      value="#{equipementController.selected.EEquipement}" 
                                      title="#{ism.EquipementFieldInfo_EEquipement}" 
+                                     validator="#{equipementCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.EquipementRequiredMsg_EEquipement}" 
                                      />
                         <p:message for="EEquipement" />
@@ -44,6 +44,7 @@
                         <p:inputText id="EDesignation" 
                                      value="#{equipementController.selected.EDesignation}" 
                                      title="#{ism.EquipementFieldInfo_EDesignation}" 
+                                     validator="#{equipementDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.EquipementRequiredMsg_EDesignation}" 
                                      />
                         <p:message for="EDesignation" />

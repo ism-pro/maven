@@ -15,6 +15,7 @@ import org.ism.entities.app.IsmRole;
 import org.ism.entities.hr.StaffGroupDef;
 import org.ism.entities.hr.StaffGroupDefRole;
 import org.ism.sessions.AbstractFacade;
+import org.ism.entities.admin.Company;
 
 /**
  *
@@ -72,4 +73,12 @@ public class StaffGroupDefRoleFacade extends AbstractFacade<StaffGroupDefRole> {
         return null;
     }
 
+    public List<StaffGroupDefRole> findByGroupDefRole(StaffGroupDef groupDef, IsmRole role, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery("StaffGroupDefRole.findByStgdrGroupAndRoleOfCompany")
+                .setParameter("stgdrGroupDef", groupDef)
+                .setParameter("stgdrRole", role)
+                .setParameter("stgdrCompany", company);
+        return q.getResultList();
+    }
 }

@@ -18,17 +18,9 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
@@ -36,6 +28,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import org.ism.entities.admin.Company;
+import org.ism.entities.hr.Staff;
 
 @ManagedBean(name = "staffGroupDefController")
 @SessionScoped
@@ -117,9 +110,9 @@ public class StaffGroupDefController implements Serializable {
         selected = null;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefReleaseSelectedSummary"),
+                        getString("StaffGroupDefReleaseSelectedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefReleaseSelectedDetail"));
+                        getString("StaffGroupDefReleaseSelectedDetail"));
     }
 
     /**
@@ -129,9 +122,9 @@ public class StaffGroupDefController implements Serializable {
         isOnMultiCreation = !isOnMultiCreation;
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefToggleMultiCreationSummary"),
+                        getString("StaffGroupDefToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("StaffGroupDefToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -141,9 +134,9 @@ public class StaffGroupDefController implements Serializable {
         /*isOnMultiCreation = !isOnMultiCreation;*/
         JsfUtil.addSuccessMessage(
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefToggleMultiCreationSummary"),
+                        getString("StaffGroupDefToggleMultiCreationSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefToggleMultiCreationDetail") + isOnMultiCreation);
+                        getString("StaffGroupDefToggleMultiCreationDetail") + isOnMultiCreation);
     }
 
     /**
@@ -196,9 +189,9 @@ public class StaffGroupDefController implements Serializable {
 
         persist(PersistAction.CREATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefPersistenceCreatedSummary"),
+                        getString("StaffGroupDefPersistenceCreatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefPersistenceCreatedDetail")
+                        getString("StaffGroupDefPersistenceCreatedDetail")
                 + selected.getStgdGroupDef() + " <br > " + selected.getStgdDesignation());
 
         if (!JsfUtil.isValidationFailed()) {
@@ -228,18 +221,18 @@ public class StaffGroupDefController implements Serializable {
 
         persist(PersistAction.UPDATE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefPersistenceUpdatedSummary"),
+                        getString("StaffGroupDefPersistenceUpdatedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefPersistenceUpdatedDetail")
+                        getString("StaffGroupDefPersistenceUpdatedDetail")
                 + selected.getStgdGroupDef() + " <br > " + selected.getStgdDesignation());
     }
 
     public void destroy() {
         persist(PersistAction.DELETE,
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefPersistenceDeletedSummary"),
+                        getString("StaffGroupDefPersistenceDeletedSummary"),
                 ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                getString("StaffGroupDefPersistenceDeletedDetail")
+                        getString("StaffGroupDefPersistenceDeletedDetail")
                 + selected.getStgdGroupDef() + " <br > " + selected.getStgdDesignation());
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -309,8 +302,16 @@ public class StaffGroupDefController implements Serializable {
         return getFacade().findByCode(code);
     }
 
+    public List<StaffGroupDef> getItemsByCode(String code, Company company) {
+        return getFacade().findByCode(code, company);
+    }
+
     public List<StaffGroupDef> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
+    }
+
+    public List<StaffGroupDef> getItemsByDesignation(String designation, Company company) {
+        return getFacade().findByDesignation(designation, company);
     }
 
     public List<StaffGroupDef> getItemsByCompany(Company company) {
@@ -406,81 +407,6 @@ public class StaffGroupDefController implements Serializable {
 
     public Boolean getIsVisibleColKey(String key) {
         return this.visibleColMap.get(key);
-    }
-
-
-    @FacesValidator(value = "StaffGroupDefCodeValidator")
-    public static class StaffGroupDefCodeValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "StaffGroupDefDuplicationField_codeSummary";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "StaffGroupDefDuplicationField_codeDetail";
-
-        @EJB
-        private org.ism.sessions.hr.StaffGroupDefFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<StaffGroupDef> lst = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "StaffGroupDefDesignationValidator")
-    public static class StaffGroupDefDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "StaffGroupDefDuplicationField_designationSummary";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "StaffGroupDefDuplicationField_designationDetail";
-
-        @EJB
-        private org.ism.sessions.hr.StaffGroupDefFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<StaffGroupDef> lst = ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
     }
 
 }

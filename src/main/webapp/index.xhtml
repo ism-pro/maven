@@ -167,7 +167,7 @@
                             <p:selectOneMenu id="company"
                                              class="form-control "
                                              style="width:100%"
-                                             value="#{staffAuthController.company}" converter="companyConverter"
+                                             value="#{staffAuthController.company}" converter="#{companyConverter}"
                                              >
                                 <f:selectItems value="#{companyController.itemsAvailableSelectOne}" 
                                                var="jCompanyItem"

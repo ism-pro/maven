@@ -124,7 +124,8 @@ public class IsmRole implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.IsmRole[ id=" + id + " ]";
+        //return "org.ism.entities.IsmRole[ id=" + id + " ]";
+        return role + " - " + rolename + " [" + id + "]";
     }
 
 }

@@ -29,9 +29,10 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{staffGroupDefRoleController.selected.stgdrGroupDef}"
                                          title="#{ism.StaffGroupDefRoleFieldInfo_stgdrGroupDef}" 
+                                         converter="#{staffGroupDefConverter}"
                                          required="true" requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrGroupDef}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}"
                                            var="stgdrGroupDefItem"
                                            itemLabel="#{stgdrGroupDefItem.stgdGroupDef} - #{stgdrGroupDefItem.stgdDesignation}"
@@ -47,10 +48,11 @@
                                          filter="true" filterMatchMode="contains"
                                          value="#{staffGroupDefRoleController.selected.stgdrRole}"
                                          title="#{ism.StaffGroupDefRoleFieldInfo_stgdrRole}" 
+                                         converter="#{ismRoleConverter}"
+                                         validator="#{staffGroupDefRoleOnGroupDefRoleValidator.validate}"
                                          required="true" requiredMessage="#{ism.StaffGroupDefRoleRequiredMsg_stgdrRole}"
-
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{ismRoleController.itemsAvailableSelectOne}"
                                            var="stgdrRoleItem"
                                            itemLabel="#{stgdrRoleItem.role} - #{stgdrRoleItem.rolename}"

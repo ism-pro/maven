@@ -11,6 +11,7 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.ism.entities.admin.Company;
 import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
@@ -32,6 +33,7 @@ public class AnalyseAllowedFacade extends AbstractFacade<AnalyseAllowed> {
     private final String FIND_BY_POINT = "AnalyseAllowed.findByAaPoint";
     private final String FIND_BY_TYPE = "AnalyseAllowed.findByAaType";
     private final String FIND_BY_POINT_TYPE = "AnalyseAllowed.findByAaPointType";
+    private final String FIND_BY_POINT_TYPE_OF_COMPANY = "AnalyseAllowed.findByAaPointTypeOfCompany";
 
     @Override
     protected EntityManager getEntityManager() {
@@ -108,5 +110,14 @@ public class AnalyseAllowedFacade extends AbstractFacade<AnalyseAllowed> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<AnalyseAllowed> findByPointType(AnalysePoint aaPoint, AnalyseType aaType, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_POINT_TYPE_OF_COMPANY)
+                .setParameter("aaPoint", aaPoint)
+                .setParameter("aaType", aaType)
+                .setParameter("aaCompany", company);
+        return q.getResultList();
     }
 }

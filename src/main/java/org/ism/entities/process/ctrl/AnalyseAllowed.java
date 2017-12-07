@@ -46,6 +46,7 @@ import org.ism.entities.admin.Company;
     @NamedQuery(name = "AnalyseAllowed.findByAaType", query = "SELECT a FROM AnalyseAllowed a WHERE a.aaType = :aaType"),
     @NamedQuery(name = "AnalyseAllowed.findByAaTypeStr", query = "SELECT a FROM AnalyseAllowed a WHERE a.aaType.atType = :aaType"),
     @NamedQuery(name = "AnalyseAllowed.findByAaPointType", query = "SELECT a FROM AnalyseAllowed a WHERE a.aaPoint = :aaPoint AND a.aaType = :aaType"),
+    @NamedQuery(name = "AnalyseAllowed.findByAaPointTypeOfCompany", query = "SELECT a FROM AnalyseAllowed a WHERE a.aaPoint = :aaPoint AND a.aaType = :aaType AND a.aaCompany = :aaCompany"),
     @NamedQuery(name = "AnalyseAllowed.findByAaenlimitHH", query = "SELECT a FROM AnalyseAllowed a WHERE a.aaenlimitHH = :aaenlimitHH"),
     @NamedQuery(name = "AnalyseAllowed.findByAalimitHH", query = "SELECT a FROM AnalyseAllowed a WHERE a.aalimitHH = :aalimitHH"),
     @NamedQuery(name = "AnalyseAllowed.findByAaenlimitH", query = "SELECT a FROM AnalyseAllowed a WHERE a.aaenlimitH = :aaenlimitH"),

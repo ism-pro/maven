@@ -16,17 +16,9 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
@@ -458,126 +450,4 @@ public class ProcessAccessController implements Serializable {
         return false;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    /// CONVERTER
-    ///
-    ////////////////////////////////////////////////////////////////////////////
-    @FacesConverter(forClass = ProcessAccess.class, value = "processAccessConverter")
-    public static class ProcessAccessControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            ProcessAccessController controller = (ProcessAccessController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "processAccessController");
-            return controller.getProcessAccess(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof ProcessAccess) {
-                ProcessAccess o = (ProcessAccess) object;
-                return getStringKey(o.getPaId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), ProcessAccess.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    /// VALIDATOR
-    ///
-    ////////////////////////////////////////////////////////////////////////////
-    @FacesValidator(value = "ProcessAccess_ProcessAccessValidator")
-    public static class ProcessAccess_ProcessAccessValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "ProcessAccessDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "ProcessAccessDuplicationDetail_###";
-
-        @EJB
-        private org.ism.sessions.smq.ProcessAccessFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<ProcessAccess> lst = null;//= ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "ProcessAccess_DesignationValidator")
-    public static class ProcessAccessDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "ProcessAccessDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "ProcessAccessDuplicationDetail_#####";
-
-        @EJB
-        private org.ism.sessions.smq.ProcessAccessFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<ProcessAccess> lst = null;//= ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 }

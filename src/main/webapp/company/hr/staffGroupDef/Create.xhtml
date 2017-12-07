@@ -27,6 +27,7 @@
                         <p:inputText id="stgdGroupDef" 
                                      value="#{staffGroupDefController.selected.stgdGroupDef}" 
                                      title="#{ism.StaffGroupDefFieldInfo_stgdGroupDef}" 
+                                     validator="#{staffGroupDefCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdGroupDef}"/>
                         <p:message for="stgdGroupDef" />
                     </h:panelGrid>
@@ -37,6 +38,7 @@
                         <p:inputText id="stgdDesignation" 
                                      value="#{staffGroupDefController.selected.stgdDesignation}"
                                      title="#{ism.StaffGroupDefFieldInfo_stgdDesignation}" 
+                                     validator="#{staffGroupDefDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdDesignation}"/>
                         <p:message for="stgdDesignation"   />
                     </h:panelGrid>

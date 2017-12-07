@@ -26,14 +26,16 @@
                     </h:panelGrid>
 
 
+                   
                     <p:outputLabel value="#{ism.EquipementField_EEquipement}"  for="EEquipement" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
                         <p:inputText id="EEquipement" 
                                      value="#{equipementController.selected.EEquipement}" 
                                      title="#{ism.EquipementFieldInfo_EEquipement}" 
+                                     validator="#{equipementCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.EquipementRequiredMsg_EEquipement}" 
                                      />
-                        <p:message for="EEquipement"  />
+                        <p:message for="EEquipement" />
                     </h:panelGrid>
 
 
@@ -42,9 +44,10 @@
                         <p:inputText id="EDesignation" 
                                      value="#{equipementController.selected.EDesignation}" 
                                      title="#{ism.EquipementFieldInfo_EDesignation}" 
+                                     validator="#{equipementDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.EquipementRequiredMsg_EDesignation}" 
                                      />
-                        <p:message for="EDesignation"  />
+                        <p:message for="EDesignation" />
                     </h:panelGrid>
 
 

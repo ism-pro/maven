@@ -33,10 +33,10 @@
                         <p:selectOneMenu id="aaPoint"  widgetVar="aaPoint"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseAllowedController.selected.aaPoint}"
-                                         required="true" 
-                                         requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaPoint}" 
+                                         converter="#{analysePointConverter}"
+                                         required="true" requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaPoint}" 
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{analysePointController.itemsAvailableSelectOne}"
                                            var="aaPointItem"
                                            itemLabel="#{aaPointItem.apPoint} - #{aaPointItem.apDesignation}" 
@@ -51,10 +51,12 @@
                         <p:selectOneMenu id="aaType"  widgetVar="aaType"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseAllowedController.selected.aaType}"
+                                         converter="#{analyseTypeConverter}"
+                                         validator="#{analyseAllowedOnPointTypeValidator.validate}"
                                          required="true" 
                                          requiredMessage="#{ism.AnalyseAllowedRequiredMsg_aaType}" 
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{analyseTypeController.itemsAvailableSelectOne}"
                                            var="aaTypeItem"
                                            itemLabel="#{aaTypeItem.atType} - #{aaTypeItem.atDesignation}" 

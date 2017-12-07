@@ -15,17 +15,9 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
@@ -351,131 +343,4 @@ public class IsmAnalyseAlarmController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER Define IsmAnalyseAlarm
-     *
-     * ************************************************************************
-     */
-    @FacesConverter(forClass = IsmAnalyseAlarm.class, value = "ismAnalyseAlarmConverter")
-    public static class IsmAnalyseAlarmControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            IsmAnalyseAlarmController controller = (IsmAnalyseAlarmController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "ismAnalyseAlarmController");
-            return controller.getIsmAnalyseAlarm(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof IsmAnalyseAlarm) {
-                IsmAnalyseAlarm o = (IsmAnalyseAlarm) object;
-                return getStringKey(o.getId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), IsmAnalyseAlarm.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
-    /**
-     * ************************************************************************
-     * VALIDATOR
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesValidator(value = "IsmAnalyseAlarm_IsmAnalyseAlarmValidator")
-    public static class IsmAnalyseAlarm_IsmAnalyseAlarmValidator implements Validator {
-
-        public static final String P_DUPLICATION_CODE_SUMMARY_ID = "IsmAnalyseAlarmDuplicationSummary_####";
-        public static final String P_DUPLICATION_CODE_DETAIL_ID = "IsmAnalyseAlarmDuplicationDetail_###";
-
-        @EJB
-        private org.ism.sessions.app.IsmAnalyseAlarmFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<IsmAnalyseAlarm> lst = ejbFacade.findAll();// = ejbFacade.findByCode(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_CODE_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
-
-    @FacesValidator(value = "IsmAnalyseAlarm_DesignationValidator")
-    public static class IsmAnalyseAlarmDesignationValidator implements Validator {
-
-        public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "IsmAnalyseAlarmDuplicationSummary_#####";
-        public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "IsmAnalyseAlarmDuplicationDetail_#####";
-
-        @EJB
-        private org.ism.sessions.app.IsmAnalyseAlarmFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof InputText)) {
-                return;
-            }
-            InputText input = (InputText) uic;
-            List<IsmAnalyseAlarm> lst = ejbFacade.findAll(); // ejbFacade.findByDesignation(value);
-            if (lst != null) {
-                if (input.getValue() != null) {
-                    if (value.matches((String) input.getValue())) {
-                        return;
-                    }
-                }
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(P_DUPLICATION_DESIGNATION_DETAIL_ID)
-                        + value);
-                throw new ValidatorException(facesMsg);
-            }
-        }
-    }
 }

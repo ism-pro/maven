@@ -379,7 +379,7 @@
                               visible="#{staffController.getIsVisibleColKey(ism.StaffField_stGenre)}"
                               sortBy="#{item.stGenre}" filterBy="#{item.stGenre}" filterMatchMode="equals" >
                         <f:facet name="filter">
-                            <p:selectOneMenu> onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
+                            <p:selectOneMenu onchange="PF('datalist').filter()" converter="#{ismGenreConverter}">
                                 <f:selectItems var="genre" value="#{ismGenreController.items}"
                                                itemLabel="#{genre.genre} - #{genre.genrename}" itemValue="#{genre}" />
                             </p:selectOneMenu>

@@ -31,6 +31,7 @@
                         <p:inputText id="acCategory" 
                                      value="#{analyseCategoryController.selected.acCategory}" 
                                      title="#{ism.AnalyseCategoryFieldInfo_acCategory}" 
+                                     validator="#{analyseCategoryCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acCategory}" 
                                      />
                         <p:message for="acCategory"  />
@@ -42,6 +43,7 @@
                         <p:inputText id="acDesignation" 
                                      value="#{analyseCategoryController.selected.acDesignation}" 
                                      title="#{ism.AnalyseCategoryFieldInfo_acDesignation}" 
+                                     validator="#{analyseCategoryDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acDesignation}" 
                                      />
                         <p:message for="acDesignation"  />
@@ -50,7 +52,8 @@
 
                     <p:outputLabel value="#{ism.AnalyseCategoryField_acDescription}"  for="acDescription" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:inputTextarea rows="4" cols="30" id="acDescription" value="#{analyseCategoryController.selected.acDescription}" title="#{bundle.CreateAnalyseCategoryTitle_acDescription}" />
+                        <p:inputTextarea rows="4" cols="30" id="acDescription" value="#{analyseCategoryController.selected.acDescription}" 
+                                         title="#{bundle.CreateAnalyseCategoryTitle_acDescription}" />
                         <p:message for="acDescription"  />
                     </h:panelGrid>
 
@@ -73,7 +76,8 @@
                                     title="#{ism.AnalyseCategoryFieldInfo_acCreated}" 
                                     required="true" 
                                     requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acCreated}" 
-                                    showOn="button"/>
+                                    showOn="button"
+                                    disabled="true"/>
                         <p:message for="acCreated"  />
                     </h:panelGrid>
 
@@ -85,7 +89,7 @@
                                     title="#{ism.AnalyseCategoryFieldInfo_acChanged}" 
                                     required="true" 
                                     requiredMessage="#{ism.AnalyseCategoryRequiredMsg_acChanged}" 
-                                    showOn="button"/>
+                                    showOn="button" disabled="true"/>
                         <p:message for="acChanged"  />
                     </h:panelGrid>
 

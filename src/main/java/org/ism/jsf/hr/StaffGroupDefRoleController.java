@@ -21,8 +21,6 @@ import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.ToggleEvent;
@@ -30,19 +28,16 @@ import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.ism.entities.app.IsmRole;
 import org.ism.entities.hr.StaffGroupDef;
 import org.ism.services.CtrlAccess;
 import org.ism.services.CtrlAccessService;
-import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
+import org.ism.entities.admin.Company;
 
 /**
  *
@@ -503,124 +498,13 @@ public class StaffGroupDefRoleController implements Serializable {
         return getFacade().findByStaffGroups(groupDef);
     }
 
-    private StaffGroupDefRole getItemsBy(StaffGroupDef stgdrGroupDef, IsmRole role) {
+    public StaffGroupDefRole getItemsBy(StaffGroupDef stgdrGroupDef, IsmRole role) {
         return getFacade().findBy(stgdrGroupDef, role);
     }
-
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-    @FacesConverter(forClass = StaffGroupDefRole.class, value = "staffGroupDefRoleConverter")
-    public static class StaffGroupDefRoleControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            StaffGroupDefRoleController controller = (StaffGroupDefRoleController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "staffGroupDefRoleController");
-            return controller.getStaffGroupDefRole(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof StaffGroupDefRole) {
-                StaffGroupDefRole o = (StaffGroupDefRole) object;
-                return getStringKey(o.getStgdrId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), StaffGroupDefRole.class.getName()});
-                return null;
-            }
-        }
-
+    
+    public List<StaffGroupDefRole> getItemsByStaffGroupDefRole(StaffGroupDef stgdrGroupDef, IsmRole role, Company company) {
+        return getFacade().findByGroupDefRole(stgdrGroupDef, role, company);
     }
 
-    @FacesValidator(value = "StaffGroupDefRole_RoleValidator")
-    public static class StaffGroupDefRole_RoleValidator implements Validator {
 
-        public static final String M_SUMMARY_ID = "StaffGroupDefRoleDuplicationField_RoleSummary";
-        public static final String M_DETAIL_ID = "StaffGroupDefRoleDuplicationField_RoleDetail";
-
-        @EJB
-        private org.ism.sessions.hr.StaffGroupDefRoleFacade ejbFacade;
-
-        @Override
-        public void validate(FacesContext fc, UIComponent uic, Object o) throws ValidatorException {
-            String value = o.toString();
-            if ((fc == null) || (uic == null)) {
-                throw new NullPointerException();
-            }
-            if (!(uic instanceof SelectOneMenu)) {
-                return;
-            }
-
-            UIComponent uicGroupDef = JsfUtil.findComponent("stgdrGroupDef");
-            if (uicGroupDef == null) {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_SUMMARY_ID),
-                        "Component stgdrGroupDef does not exist !");
-                throw new ValidatorException(facesMsg);
-            }
-
-            SelectOneMenu somGroupDef = (SelectOneMenu) uicGroupDef;
-            SelectOneMenu somRole = (SelectOneMenu) uic;
-
-            if (somGroupDef == null) {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_SUMMARY_ID),
-                        "Nothing send from stgdrGroupDef");
-                throw new ValidatorException(facesMsg);
-            }
-
-            if (somRole == null) {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_SUMMARY_ID),
-                        "Nothing send from stgdrRole");
-                throw new ValidatorException(facesMsg);
-            }
-
-            StaffGroupDef staffGroupDefValue = (StaffGroupDef) somGroupDef.getValue();
-            IsmRole roleValue = (IsmRole) o;
-
-            StaffGroupDefRole staffGroupDefRole = ejbFacade.findBy(
-                    staffGroupDefValue,
-                    roleValue);
-
-            if (staffGroupDefRole == null) {
-                return;
-            } else {
-                FacesMessage facesMsg = JsfUtil.addErrorMessage(uic.getClientId(fc),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_SUMMARY_ID),
-                        ResourceBundle.getBundle(JsfUtil.BUNDLE).
-                        getString(M_DETAIL_ID)
-                );
-                throw new ValidatorException(facesMsg);
-            }
-
-        }
-    }
 }

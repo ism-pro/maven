@@ -26,14 +26,16 @@
                     </h:panelGrid>
 
 
+                   
                     <p:outputLabel value="#{ism.UniteField_UUnite}"  for="UUnite" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
                         <p:inputText id="UUnite" 
                                      value="#{uniteController.selected.UUnite}" 
                                      title="#{ism.UniteFieldInfo_UUnite}" 
+                                     validator="#{uniteCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.UniteRequiredMsg_UUnite}" 
                                      />
-                        <p:message for="UUnite"  />
+                        <p:message for="UUnite" />
                     </h:panelGrid>
 
 
@@ -42,9 +44,10 @@
                         <p:inputText id="UDesignation" 
                                      value="#{uniteController.selected.UDesignation}" 
                                      title="#{ism.UniteFieldInfo_UDesignation}" 
+                                     validator="#{uniteDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.UniteRequiredMsg_UDesignation}" 
                                      />
-                        <p:message for="UDesignation"  />
+                        <p:message for="UDesignation" />
                     </h:panelGrid>
 
 

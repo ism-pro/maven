@@ -33,6 +33,8 @@ public class StaffGroupDefFacade extends AbstractFacade<StaffGroupDef> {
     private final String SELECTALLBYLASTCHANGED = "StaffGroupDef.selectAllByLastChange";
     private final String FIND_BY_CODE = "StaffGroupDef.findByStgdGroupDef";       // query = "SELECT s FROM StaffGroupDef s WHERE s.stgdGroupDef = :stgdGroupDef"
     private final String FIND_BY_DESIGNATION = "StaffGroupDef.findByStgdDesignation";     //query = "SELECT s FROM StaffGroupDef s WHERE s.stgdDesignation = :stgdDesignation"
+    private final String FIND_BY_CODE_OF_COMPANY = "StaffGroupDef.findByStgdGroupDefOfCompany";  
+    private final String FIND_BY_DESIGNATION_OF_COMPANY = "StaffGroupDef.findByStgdDesignationOfCompany";    
     private final String FIND_GROUP_BY_COMPANY = "StaffGroupDef.findGroupByCompany";
     private final String FIND_BY_COMPANY = "StaffGroupDef.findByStgdCompany";
 
@@ -93,6 +95,22 @@ public class StaffGroupDefFacade extends AbstractFacade<StaffGroupDef> {
             return q.getResultList();
         }
         return null;
+    }
+
+    public List<StaffGroupDef> findByCode(String code, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_CODE_OF_COMPANY)
+                .setParameter("stgdGroupDef", code)
+                .setParameter("stgdCompany", company);
+        return q.getResultList();
+    }
+
+    public List<StaffGroupDef> findByDesignation(String designation, Company company) {
+        em.flush();
+        Query q = em.createNamedQuery(FIND_BY_DESIGNATION_OF_COMPANY)
+                .setParameter("stgdDesignation", designation)
+                .setParameter("stgdCompany", company);
+        return q.getResultList();
     }
 
 }

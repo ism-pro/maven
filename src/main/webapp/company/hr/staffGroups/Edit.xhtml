@@ -28,15 +28,18 @@
                                        value="#{staffGroupsController.selected.stgId}" />
                     </h:panelGrid>
 
+                    
+
                     <p:outputLabel value="#{ism.StaffGroupsField_stgStaff}" for="stgStaff" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectOneMenu id="stgStaff"  widgetVar="stgStaff"
                                          filter="true" filterMatchMode="contains"
                                          value="#{staffGroupsController.selected.stgStaff}"
-                                         title="#{ism.StaffGroupsFieldInfo_stgStaff}" 
+                                         title="#{ism.StaffGroupsFieldInfo_stgStaff}"
+                                         converter="#{staffConverter}"
                                          required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgStaff}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffController.itemsAvailableSelectOne}"
                                            var="stgStaffItem"
                                            itemLabel="#{stgStaffItem.stFirstname} #{stgStaffItem.stLastname} #{stgStaffItem.stMiddlename} [#{stgStaffItem.stStaff}]"
@@ -45,26 +48,34 @@
                         <p:message for="stgStaff" />
                     </h:panelGrid>
 
-
-
                     <p:outputLabel value="#{ism.StaffGroupsField_stgGroupDef}" for="stgGroupDef" />
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectOneMenu id="stgGroupDef" 
                                          filter="true" filterMatchMode="contains"
                                          value="#{staffGroupsController.selected.stgGroupDef}"
                                          title="#{ism.StaffGroupsFieldInfo_stgGroupDef}" 
+                                         converter="#{staffGroupDefConverter}"
+                                         validator="#{staffGroupsGroupDefOnStaffValidator.validate}"
                                          required="true" requiredMessage="#{ism.StaffGroupsRequiredMsg_stgGroupDef}"
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffGroupDefController.getItemsGrouped()}"
                                            var="stgGroupDefItem" 
                                            itemLabel="#{stgGroupDefItem.label} - #{stgGroupDefItem.description}"
-                                           itemValue="#{stgGroupDefItem.value}"/>
+                                           itemValue="#{stgGroupDefItem.value}"
+                                           
+                                           />
                         </p:selectOneMenu>
                         <p:message for="stgGroupDef" />
                     </h:panelGrid>
 
 
+
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgActivated}" for="stgActivated" />
+                    <p:selectBooleanCheckbox id="stgActivated" 
+                                             value="#{staffGroupsController.selected.stgActivated}" 
+                                             required="true" 
+                                             requiredMessage="#{ism.StaffGroupsRequiredMsg_stgActivated}"/>
 
 
                     <p:outputLabel value="#{ism.StaffGroupsField_stgCompany}" for="stgCompany" rendered="false" />
@@ -87,28 +98,13 @@
 
 
 
-                    <p:outputLabel value="#{ism.StaffGroupsField_stgActivated}" for="stgActivated" />
-                    <p:selectBooleanCheckbox id="stgActivated" 
-                                             value="#{staffGroupsController.selected.stgActivated}" 
-                                             required="true" 
-                                             requiredMessage="#{ism.StaffGroupsRequiredMsg_stgActivated}"/>
 
-
-
-                    <p:outputLabel value="#{ism.StaffGroupsField_stgCreated}" 
-                                   rendered="false" for="stgCreated" />
-                    <p:calendar id="stgCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false"
-                                value="#{staffGroupsController.selected.stgCreated}" 
-                                title="#{ism.StaffGroupsFieldInfo_stgCreated}" 
-                                required="true" 
-                                requiredMessage="#{ism.StaffGroupsRequiredMsg_stgCreated}" 
-                                showOn="button"/>
 
 
 
                     <p:outputLabel value="#{ism.StaffGroupsField_stgChanged}" 
                                    rendered="false" for="stgChanged" />
-                    <p:calendar id="stgChanged"  rendered="false"
+                    <p:calendar id="stgChanged"  rendered="false"  disabled="true"
                                 pattern="dd/MM/yyyy HH:mm:ss" 
                                 value="#{staffGroupsController.selected.stgChanged}" 
                                 title="#{ism.StaffGroupsFieldInfo_stgChanged}" 
@@ -118,6 +114,16 @@
                 </p:panelGrid>
 
 
+
+
+                    <p:outputLabel value="#{ism.StaffGroupsField_stgCreated}" 
+                                   rendered="false" for="stgCreated" />
+                    <p:calendar id="stgCreated" pattern="dd/MM/yyyy HH:mm:ss" rendered="false" disabled="true"
+                                value="#{staffGroupsController.selected.stgCreated}" 
+                                title="#{ism.StaffGroupsFieldInfo_stgCreated}" 
+                                required="true" 
+                                requiredMessage="#{ism.StaffGroupsRequiredMsg_stgCreated}" 
+                                showOn="button"/>
 
 
 

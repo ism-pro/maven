@@ -29,6 +29,7 @@ import org.ism.entities.process.ctrl.AnalyseAllowed;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.jsf.util.JsfUtil;
 import org.ism.charts.model.ChartModel;
+import org.ism.charts.model.axis.PlotLines;
 import org.ism.charts.model.properties.ChartType;
 import org.ism.entities.process.ctrl.AnalyseData;
 import org.primefaces.model.LazyDataModel;
@@ -304,6 +305,7 @@ public class ViewAnalyseChart implements Serializable {
                     dateFrom, dateTo, ""));
             // Setup YAxis
             chartModel.getyAxis().getTitle().setText(currentAnalyse.getAaType().getAtUnite().getUDesignation());
+            chartModel.getyAxis().setPlotLines(new PlotLines());
             chartModel.getyAxis().getPlotLines().setValue(0);
             chartModel.getyAxis().getPlotLines().setWidth(1);
             chartModel.getyAxis().getPlotLines().setColor("#808080");

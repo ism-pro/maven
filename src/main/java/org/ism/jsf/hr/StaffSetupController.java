@@ -297,48 +297,4 @@ public class StaffSetupController implements Serializable {
         }
     }
 
-    /* =========================================================================
-     * Staff Setup Converter
-     * ========================================================================*/
-    @FacesConverter(forClass = StaffSetup.class, value = "staffSetupConverter")
-    public static class StaffSetupControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            StaffSetupController controller = (StaffSetupController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "staffSetupController");
-            return controller.getStaffSetup(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof StaffSetup) {
-                StaffSetup o = (StaffSetup) object;
-                return getStringKey(o.getStsId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), StaffSetup.class.getName()});
-                return null;
-            }
-        }
-
-    }
-
 }

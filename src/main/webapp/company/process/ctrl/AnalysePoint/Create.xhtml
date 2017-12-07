@@ -33,6 +33,7 @@
                         <p:inputText id="apPoint" 
                                      value="#{analysePointController.selected.apPoint}" 
                                      title="#{ism.AnalysePointFieldInfo_apPoint}" 
+                                     validator="#{analysePointCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalysePointRequiredMsg_apPoint}" 
                                      />
                         <p:message for="apPoint" />
@@ -44,9 +45,29 @@
                         <p:inputText id="apDesignation" 
                                      value="#{analysePointController.selected.apDesignation}" 
                                      title="#{ism.AnalysePointFieldInfo_apDesignation}" 
+                                     validator="#{analysePointDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalysePointRequiredMsg_apDesignation}" 
                                      />
                         <p:message for="apDesignation" />
+                    </h:panelGrid>
+
+
+
+                    <p:outputLabel value="#{ism.AnalysePointField_apEquipement}"  for="apEquipement" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:selectOneMenu id="apEquipement"  widgetVar="apEquipement"
+                                         filter="true" filterMatchMode="contains"
+                                         value="#{analysePointController.selected.apEquipement}"
+                                         converter="#{equipementConverter}"
+                                         required="true" requiredMessage="#{ism.AnalysePointRequiredMsg_apEquipement}" 
+                                         >
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItems value="#{equipementController.itemsAvailableSelectOne}"
+                                           var="apEquipementItem"
+                                           itemLabel="#{apEquipementItem.EEquipement} - #{apEquipementItem.EDesignation}" 
+                                           itemValue="#{apEquipementItem}"/>
+                        </p:selectOneMenu>
+                        <p:message for="apEquipement" />
                     </h:panelGrid>
 
 
@@ -58,8 +79,8 @@
                     </h:panelGrid>
 
 
-                    <p:outputLabel value="#{ism.AnalysePointField_apDeleted}"  for="apDeleted" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                    <p:outputLabel value="#{ism.AnalysePointField_apDeleted}"  for="apDeleted" rendered="false" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
                         <p:selectBooleanCheckbox id="apDeleted"
                                                  value="#{analysePointController.selected.apDeleted}" 
                                                  required="true" 
@@ -67,26 +88,6 @@
                                                  />
                         <p:message for="apDeleted" />
                     </h:panelGrid>
-
-
-
-                    <p:outputLabel value="#{ism.AnalysePointField_apEquipement}"  for="apEquipement" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:selectOneMenu id="apEquipement"  widgetVar="apEquipement"
-                                         filter="true" filterMatchMode="contains"
-                                         value="#{analysePointController.selected.apEquipement}"
-                                         required="true" 
-                                         requiredMessage="#{ism.AnalysePointRequiredMsg_apEquipement}" 
-                                         >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
-                            <f:selectItems value="#{equipementController.itemsAvailableSelectOne}"
-                                           var="apEquipementItem"
-                                           itemLabel="#{apEquipementItem.EEquipement} - #{apEquipementItem.EDesignation}" 
-                                           itemValue="#{apEquipementItem}"/>
-                        </p:selectOneMenu>
-                        <p:message for="apEquipement" />
-                    </h:panelGrid>
-
 
 
 

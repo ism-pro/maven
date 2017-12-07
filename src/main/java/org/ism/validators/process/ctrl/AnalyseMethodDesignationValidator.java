@@ -33,8 +33,8 @@ import org.primefaces.component.inputtext.InputText;
 @FacesValidator(value = "analyseMethodDesignationValidator")
 public class AnalyseMethodDesignationValidator implements Validator, Serializable {
 
-    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalyseMethodDuplicationField_designationSummary";
-    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalyseMethodDuplicationField_designationDetail";
+    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalyseMethodDuplicationSummary_amDesignation";
+    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalyseMethodDuplicationDetail_amDesignation";
 
 
     @ManagedProperty(value = "#{analyseMethodController}")

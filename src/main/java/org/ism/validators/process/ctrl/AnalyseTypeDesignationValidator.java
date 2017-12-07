@@ -5,7 +5,6 @@
  */
 package org.ism.validators.process.ctrl;
 
-import org.ism.validators.process.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,8 +32,8 @@ import org.primefaces.component.inputtext.InputText;
 @FacesValidator(value = "analyseTypeDesignationValidator")
 public class AnalyseTypeDesignationValidator implements Validator, Serializable {
 
-    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalyseTypeDuplicationField_designationSummary";
-    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalyseTypeDuplicationField_designationDetail";
+    public static final String P_DUPLICATION_DESIGNATION_SUMMARY_ID = "AnalyseTypeDuplicationSummary_atDesignation";
+    public static final String P_DUPLICATION_DESIGNATION_DETAIL_ID = "AnalyseTypeDuplicationDetail_atDesignation";
 
 
     @ManagedProperty(value = "#{analyseTypeController}")

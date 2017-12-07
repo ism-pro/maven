@@ -32,8 +32,8 @@ import org.primefaces.component.inputtext.InputText;
 @FacesValidator(value = "equipementCodeValidator")
 public class EquipementCodeValidator implements Validator , Serializable {
 
-    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "EquipementDuplicationField_codeSummary";
-    public static final String P_DUPLICATION_CODE_DETAIL_ID = "EquipementDuplicationField_codeDetail";
+    public static final String P_DUPLICATION_CODE_SUMMARY_ID = "EquipementDuplicationSummary_EEquipement";
+    public static final String P_DUPLICATION_CODE_DETAIL_ID = "EquipementDuplicationDetail_EEquipement";
 
 
     @ManagedProperty(value = "#{equipementController}")

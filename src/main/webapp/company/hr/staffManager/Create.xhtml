@@ -117,11 +117,11 @@
                                 <p:calendar id="stBorned" pattern="#{ism.DatePatternU}" 
                                             value="#{staffManagerView.selected.stBorned}" 
                                             title="#{ism.StaffFieldInfo_stBorned}" 
-                                            mode="popup" showOn="button"
+                                            mode="popup"  placeholder="#{ism.DatePatternU}"
                                             locale="fr" navigator="true"
                                             showButtonPanel="true"
                                             effect="slideDown"
-                                            mindate="01/01/1930" maxdate="31/12/2099"
+                                            mindate="01/01/1930" maxdate="#{viewUtil.maintenant}"
                                             required="true"
                                             requiredMessage="#{ism.StaffRequiredMsg_stBorned}"/>
                                 <p:message for="stBorned"/>
@@ -130,11 +130,14 @@
 
                             <p:outputLabel value="#{ism.StaffField_stGenre}" for="stGenre" />
                             <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
-                                <p:selectOneMenu id="stGenre" value="#{staffManagerView.selected.stGenre}" >
+                                <p:selectOneMenu id="stGenre" 
+                                                 value="#{staffManagerView.selected.stGenre}"
+                                                 converter="#{ismGenreConverter}">
                                     <f:selectItems value="#{ismGenreController.itemsAvailableSelectOne}"
                                                    var="stGenreItem"
                                                    itemLabel="#{stGenreItem.genre} - #{stGenreItem.genrename}"
-                                                   itemValue="#{stGenreItem}"/>
+                                                   itemValue="#{stGenreItem}"
+                                                   />
                                 </p:selectOneMenu>
                             </h:panelGrid>
 
@@ -144,8 +147,10 @@
                                 <p:inputText id="stMaillist" 
                                              value="#{staffManagerView.selected.stMaillist}" 
                                              title="#{ism.StaffFieldInfo_stMaillist}" 
+                                             validator="#{staffMaillistValidator.validate}"
                                              required="false"
                                              requiredMessage="#{ism.StaffRequiredMsg_stMaillist}"/>
+
                                 <p:message for="stMaillist"/>
                             </h:panelGrid>
 
@@ -187,9 +192,10 @@
                                                  filter="true" filterMatchMode="contains"
                                                  value="#{staffManagerView.selected.stProcessus}"
                                                  title="#{ism.DocExplorerFieldInfo_Processus}" 
+                                                 converter="#{processusConverter}"
                                                  required="true" requiredMessage="#{ism.DocExplorerRequiredMsg_Processus}"
                                                  >
-                                    <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                                    <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                                     <f:selectItems value="#{processusController.itemsAvailableSelectOne}"
                                                    var="dcProcessusItem"
                                                    itemLabel="#{dcProcessusItem.PProcessus} - #{dcProcessusItem.PDesignation}"

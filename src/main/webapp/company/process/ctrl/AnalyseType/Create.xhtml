@@ -33,6 +33,7 @@
                         <p:inputText id="atType" 
                                      value="#{analyseTypeController.selected.atType}" 
                                      title="#{ism.AnalyseTypeFieldInfo_atType}" 
+                                     validator="#{analyseTypeCodeValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalyseTypeRequiredMsg_atType}" 
                                      />
                         <p:message for="atType" />
@@ -44,51 +45,10 @@
                         <p:inputText id="atDesignation" 
                                      value="#{analyseTypeController.selected.atDesignation}" 
                                      title="#{ism.AnalyseTypeFieldInfo_atDesignation}" 
+                                     validator="#{analyseTypeDesignationValidator.validate}"
                                      required="true" requiredMessage="#{ism.AnalyseTypeRequiredMsg_atDesignation}" 
                                      />
                         <p:message for="atDesignation" />
-                    </h:panelGrid>
-
-
-                    <p:outputLabel value="#{ism.AnalyseTypeField_atDescription}"  for="atDescription" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:inputTextarea rows="4" cols="30" id="atDescription" value="#{analyseTypeController.selected.atDescription}" title="#{bundle.CreateAnalyseTypeTitle_atDescription}" />
-                        <p:message for="atDescription" />
-                    </h:panelGrid>
-
-
-                    <p:outputLabel value="#{ism.AnalyseTypeField_atDeleted}"  for="atDeleted" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:selectBooleanCheckbox id="atDeleted"
-                                                 value="#{analyseTypeController.selected.atDeleted}" 
-                                                 required="true" 
-                                                 requiredMessage="#{ism.AnalyseTypeRequiredMsg_atDeleted}" 
-                                                 />
-                        <p:message for="atDeleted" />
-                    </h:panelGrid>
-
-
-                    <p:outputLabel value="#{ism.AnalyseTypeField_atCreated}"  for="atCreated" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:calendar id="atCreated" pattern="dd/MM/yyyy" rendered="false"
-                                    value="#{analyseTypeController.selected.atCreated}" 
-                                    title="#{ism.AnalyseTypeFieldInfo_atCreated}" 
-                                    required="true" 
-                                    requiredMessage="#{ism.AnalyseTypeRequiredMsg_atCreated}" 
-                                    showOn="button"/>
-                        <p:message for="atCreated" />
-                    </h:panelGrid>
-
-
-                    <p:outputLabel value="#{ism.AnalyseTypeField_atChanged}"  for="atChanged" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:calendar id="atChanged" pattern="dd/MM/yyyy" rendered="false"
-                                    value="#{analyseTypeController.selected.atChanged}" 
-                                    title="#{ism.AnalyseTypeFieldInfo_atChanged}" 
-                                    required="true" 
-                                    requiredMessage="#{ism.AnalyseTypeRequiredMsg_atChanged}" 
-                                    showOn="button"/>
-                        <p:message for="atChanged" />
                     </h:panelGrid>
 
 
@@ -97,10 +57,11 @@
                         <p:selectOneMenu id="atCategory"  widgetVar="atCategory"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseTypeController.selected.atCategory}"
+                                         converter="#{analyseCategoryConverter}"
                                          required="true" 
                                          requiredMessage="#{ism.AnalyseTypeRequiredMsg_atCategory}" 
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{analyseCategoryController.itemsAvailableSelectOne}"
                                            var="atCategoryItem"
                                            itemLabel="#{atCategoryItem.acCategory} - #{atCategoryItem.acDesignation}" 
@@ -110,17 +71,6 @@
                     </h:panelGrid>
 
 
-                    <p:outputLabel value="#{ism.AnalyseTypeField_atCompany}"  for="atCompany" />
-                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
-                        <p:inputText id="atCompany" widgetVar="atCompany"
-                                     value="#{analyseTypeController.selected.atCompany = staffAuthController.company}}"  
-                                     style="display: none" 
-                                     required="true" disabled="true" 
-                                     requiredMessage="#{ism.AnalyseTypeRequiredMsg_atCompany}" />
-                        <p:outputLabel style="margin-left: 5px;"
-                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
-                        <p:message for="atCompany" />
-                    </h:panelGrid>
 
 
                     <p:outputLabel value="#{ism.AnalyseTypeField_atMethod}"  for="atMethod" />
@@ -128,10 +78,10 @@
                         <p:selectOneMenu id="atMethod"  widgetVar="atMethod"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseTypeController.selected.atMethod}"
-                                         required="true" 
-                                         requiredMessage="#{ism.AnalyseTypeRequiredMsg_atMethod}" 
+                                         converter="#{analyseMethodConverter}"
+                                         required="true" requiredMessage="#{ism.AnalyseTypeRequiredMsg_atMethod}" 
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{analyseMethodController.itemsAvailableSelectOne}"
                                            var="atMethodItem"
                                            itemLabel="#{atMethodItem.amMethod} - #{atMethodItem.amDesignation}" 
@@ -146,10 +96,10 @@
                         <p:selectOneMenu id="atUnite"  widgetVar="atUnite"
                                          filter="true" filterMatchMode="contains"
                                          value="#{analyseTypeController.selected.atUnite}"
-                                         required="true" 
-                                         requiredMessage="#{ism.AnalyseTypeRequiredMsg_atUnite}" 
+                                         converter="#{uniteConverter}"
+                                         required="true" requiredMessage="#{ism.AnalyseTypeRequiredMsg_atUnite}" 
                                          >
-                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectList}" itemValue="#{null}"/>
                             <f:selectItems value="#{uniteController.itemsAvailableSelectOne}"
                                            var="atUniteItem"
                                            itemLabel="#{atUniteItem.UUnite} - #{atUniteItem.UDesignation}" 
@@ -158,6 +108,37 @@
                         <p:message for="atUnite" />
                     </h:panelGrid>
 
+                    
+                    
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atDescription}"  for="atDescription" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputTextarea rows="4" cols="30" id="atDescription" value="#{analyseTypeController.selected.atDescription}" title="#{bundle.CreateAnalyseTypeTitle_atDescription}" />
+                        <p:message for="atDescription" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atDeleted}"  for="atDeleted" rendered="false"/>
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" rendered="false" >                
+                        <p:selectBooleanCheckbox id="atDeleted"
+                                                 value="#{analyseTypeController.selected.atDeleted}" 
+                                                 required="true" 
+                                                 requiredMessage="#{ism.AnalyseTypeRequiredMsg_atDeleted}" 
+                                                 />
+                        <p:message for="atDeleted" />
+                    </h:panelGrid>
+
+
+                    <p:outputLabel value="#{ism.AnalyseTypeField_atCompany}"  for="atCompany" />
+                    <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;" >                
+                        <p:inputText id="atCompany" widgetVar="atCompany"
+                                     value="#{analyseTypeController.selected.atCompany = staffAuthController.company}}"  
+                                     style="display: none" 
+                                     required="true" disabled="true" 
+                                     requiredMessage="#{ism.AnalyseTypeRequiredMsg_atCompany}" />
+                        <p:outputLabel style="margin-left: 5px;"
+                                       value="#{staffAuthController.company.CCompany} - #{staffAuthController.company.CDesignation}" />
+                        <p:message for="atCompany" />
+                    </h:panelGrid>
 
                 </p:panelGrid>
 

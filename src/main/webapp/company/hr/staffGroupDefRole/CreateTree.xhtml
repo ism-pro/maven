@@ -22,13 +22,13 @@
                     <h:panelGrid columns="2" cellpadding="0px" cellspacing="0px" style="margin:0px; padding:0px;">
                         <p:selectOneMenu id="stgdGroupDef" 
                                          filter="true" filterMatchMode="contains"
-                                         value="#{staffGroupDefRoleController.selected.stgdrGroupDef}" 
-                                         required="true" 
-                                         requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdGroupDef}"
+                                         value="#{staffGroupDefRoleController.selected.stgdrGroupDef}"
+                                         converter="#{staffGroupDefConverter}"
+                                         required="true" requiredMessage="#{ism.StaffGroupDefRequiredMsg_stgdGroupDef}"
                                          valueChangeListener="#{staffGroupDefRoleController.handleGroupChange}"
                                          >
                             <p:ajax event="change" update="westGroup @form, :growl" />
-                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue=""/>
+                            <f:selectItem itemLabel="#{ism.SelectListMsg}" itemValue="#{null}"/>
                             <f:selectItems value="#{staffGroupDefController.itemsAvailableSelectOne}" 
                                            var="item"
                                            itemLabel="#{item.stgdGroupDef} - #{item.stgdDesignation}"

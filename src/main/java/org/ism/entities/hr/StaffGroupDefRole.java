@@ -40,16 +40,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "StaffGroupDefRole.findByStgdrActivated", query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrActivated = :stgdrActivated"),
     @NamedQuery(name = "StaffGroupDefRole.findByStgdrCreated", query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrCreated = :stgdrCreated"),
     @NamedQuery(name = "StaffGroupDefRole.findByStgdrChanged", query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrChanged = :stgdrChanged"),
-    @NamedQuery(name = "StaffGroupDefRole.findByStgdrGroups",
-            query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true"),
-    @NamedQuery(name = "StaffGroupDefRole.findByStgdrGroupAndRole",
-            query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrRole = :stgdrRole AND s.stgdrActivated =true"),
-    @NamedQuery(name = "StaffGroupDefRole.findByCompanyGroupsActivated",
-            query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrCompany = :stgdrCompany AND s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true"),
-    @NamedQuery(name = "StaffGroupDefRole.countCompanyGroupsActivated",
-            query = "SELECT count(s) FROM StaffGroupDefRole s WHERE s.stgdrCompany = :stgdrCompany AND s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true"),
-    @NamedQuery(name = "StaffGroupDefRole.selectAllByLastChange",
-            query = "SELECT s FROM StaffGroupDefRole s ORDER BY s.stgdrChanged DESC")
+    @NamedQuery(name = "StaffGroupDefRole.findByStgdrGroups", query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true"),
+    @NamedQuery(name = "StaffGroupDefRole.findByStgdrGroupAndRole", query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrRole = :stgdrRole AND s.stgdrActivated =true"),
+    @NamedQuery(name = "StaffGroupDefRole.findByStgdrGroupAndRoleOfCompany",query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrRole = :stgdrRole AND s.stgdrCompany = :stgdrCompany"),
+    @NamedQuery(name = "StaffGroupDefRole.findByCompanyGroupsActivated", query = "SELECT s FROM StaffGroupDefRole s WHERE s.stgdrCompany = :stgdrCompany AND s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true"),
+    @NamedQuery(name = "StaffGroupDefRole.countCompanyGroupsActivated", query = "SELECT count(s) FROM StaffGroupDefRole s WHERE s.stgdrCompany = :stgdrCompany AND s.stgdrGroupDef = :stgdrGroupDef AND s.stgdrActivated =true"),
+    @NamedQuery(name = "StaffGroupDefRole.selectAllByLastChange", query = "SELECT s FROM StaffGroupDefRole s ORDER BY s.stgdrChanged DESC")
 })
 public class StaffGroupDefRole implements Serializable {
 

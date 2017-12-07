@@ -255,7 +255,8 @@ public class AnalyseType implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.AnalyseType[ atId=" + atId + " ]";
+        //return "org.ism.entities.AnalyseType[ atId=" + atId + " ]";
+        return atType + " - " + atDesignation + "[" + atId + "]";
     }
 
 }
