@@ -17,9 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.ToggleEvent;
@@ -311,8 +308,7 @@ public class ProcessusController implements Serializable {
     public List<Processus> getItemsByCode(String code) {
         return getFacade().findByCode(code);
     }
-    
-    
+
     public List<Processus> getItemsByCode(String code, Company company) {
         return getFacade().findByCode(code, company);
     }
@@ -320,6 +316,7 @@ public class ProcessusController implements Serializable {
     public List<Processus> getItemsByDesignation(String designation) {
         return getFacade().findByDesignation(designation);
     }
+
     public List<Processus> getItemsByDesignation(String designation, Company company) {
         return getFacade().findByDesignation(designation, company);
     }
@@ -381,13 +378,4 @@ public class ProcessusController implements Serializable {
         return this.visibleColMap.get(key);
     }
 
-    /**
-     * ************************************************************************
-     * CONVERTER
-     *
-     *
-     * ************************************************************************
-     */
-
-    
 }

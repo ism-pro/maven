@@ -127,7 +127,8 @@ public class IsmAnalyseAlarm implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.IsmAnalyseAlarm[ id=" + id + " ]";
+        return alarm + " - " + alarmname + " [" + id + "]";
+        //return "org.ism.entities.IsmAnalyseAlarm[ id=" + id + " ]";
     }
 
 }

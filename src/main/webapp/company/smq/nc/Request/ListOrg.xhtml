@@ -92,34 +92,34 @@
 
 
                 <p:dataTable id="datalist" widgetVar="datalist"
-                             value="#{nonConformiteRequestController.lazyModel}" var="item"
+                             value="#{viewTabManager.ncRequest}" var="item"
 
                              selectionMode="single" 
                              selection="#{nonConformiteRequestController.selected}"
 
                              rowIndexVar="_rowIndex"
                              rowKey="#{item.ncrId}"
-                             rows="#{nonConformiteRequestController.tableSet.rows}" 
-                             rowsPerPageTemplate="#{nonConformiteRequestController.tableSet.rowsPerPageTemplate}"
+                             rows="#{tableView.rows}" 
+                             rowsPerPageTemplate="#{tableView.rowsPerPageTemplate}"
                              rowStyleClass="#{item.ncrState.istate == 'C' ? (viewUtil.maintenant >= nonConformiteActionsController.getLastActionFromNC(item).ncaDeadline ? 'ncr-state':'') : '' }"
 
-                             filterDelay="1000"
+                             filteredValue="#{viewTabManager.ncRequestFiltered}"
 
-                             paginator="#{nonConformiteRequestController.tableSet.paginator}" 
-                             paginatorTemplate="#{nonConformiteRequestController.tableSet.paginatorTemplate}"
-                             currentPageReportTemplate="#{nonConformiteRequestController.tableSet.currentPageReportTemplate}"
+                             paginator="#{tableView.paginator}" 
+                             paginatorTemplate="#{tableView.paginatorTemplate}"
+                             currentPageReportTemplate="#{tableView.currentPageReportTemplate}"
 
-                             resizableColumns="#{nonConformiteRequestController.tableSet.resizableColumns}"
-                             draggableColumns="#{nonConformiteRequestController.tableSet.draggableColumns}"
-                             liveResize="#{nonConformiteRequestController.tableSet.liveResize}"
-                             reflow="#{nonConformiteRequestController.tableSet.reflow}"
+                             resizableColumns="#{tableView.resizableColumns}"
+                             draggableColumns="#{tableView.draggableColumns}"
+                             liveResize="#{tableView.liveResize}"
+                             reflow="#{tableView.reflow}"
 
-                             multiViewState="#{nonConformiteRequestController.tableSet.multiViewState}"
-                             sortMode="#{nonConformiteRequestController.tableSet.sortMode}"
 
-                             lazy="#{nonConformiteRequestController.tableSet.lazy}"
                              emptyMessage="#{ism.EmptyList}"
 
+
+                             sortMode="#{tableView.sortMode}"
+                             multiViewState="true"
 
                              >
 
@@ -153,6 +153,13 @@
                             <p:ajax event="toggle" update=":growl"
                                     listener="#{nonConformiteRequestController.handleColumnToggle}" />
                         </p:columnToggler>
+
+                        <p:outputPanel style="float:right;">
+                            <h:outputText value="#{ism.Search}"  />
+                            <p:inputText id="globalFilter" onkeyup="PF('datalist').filter()" 
+                                         style="width:150px;" placeholder="#{ism.EnterKeyWord}" />
+                        </p:outputPanel>
+
 
                     </f:facet>
 
@@ -248,7 +255,7 @@
                               sortBy="#{item.ncrNature.ncnNature} - #{item.ncrNature.ncnDesignation}"
                               filterBy="#{item.ncrNature}">
                         <f:facet name="filter">
-                            <p:selectOneMenu onchange="PF('datalist').filter()"  >
+                            <p:selectOneMenu onchange="PF('datalist').filter()" >
                                 <f:selectItem itemLabel="#{ism.SelectList}" 
                                               itemValue="#{null}" noSelectionOption="true" />
                                 <f:selectItems value="#{nonConformiteNatureController.itemsAvailableSelectOne}" 
@@ -304,7 +311,7 @@
                               style="width: 72px;" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrOccured)}"
                               sortBy="#{item.ncrOccured}" filterBy="#{item.ncrOccured}"
-                              filterFunction="#{nonConformiteRequestController.handleFilterDateRange}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
                               >
                         <f:facet name="filter">
                             <p:inputText id="filterOccured" 
@@ -375,7 +382,7 @@
                               style="width: 72px;" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrCreated)}"
                               sortBy="#{item.ncrCreated}" filterBy="#{item.ncrCreated}"
-                              filterFunction="#{nonConformiteRequestController.handleFilterDateRange}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
                               >
                         <f:facet name="filter">
                             <p:inputText id="filterCreated" 
@@ -394,7 +401,7 @@
                               style="width: 72px;" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrChanged)}"
                               sortBy="#{item.ncrChanged}" filterBy="#{item.ncrChanged}"
-                              filterFunction="#{nonConformiteRequestController.handleFilterDateRange}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
                               >
                         <f:facet name="filter">
                             <p:inputText id="filterChanged" 
@@ -413,7 +420,7 @@
                               style="width: 72px;" 
                               visible="#{nonConformiteRequestController.getIsVisibleColKey(ism.NonConformiteRequestField_ncrEnddingAction)}"
                               sortBy="#{item.ncrenddingAction}" filterBy="#{item.ncrenddingAction}"
-                              filterFunction="#{nonConformiteRequestController.handleFilterDateRange}"
+                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
                               >
                         <f:facet name="filter">
                             <p:inputText id="filterEnddingAction" 
@@ -503,7 +510,7 @@
                                  styleClass="options-btn"
                                  value="#{ism.Delete}"
                                  title="Permet de supprimer la non conformité sélectionné !"
-                                 actionListener="#{nonConformiteRequestController.destroy}"
+                                 actionListener="#{viewTabManager.handleDestroy('nonConformiteRequest')}"
                                  update=":bodyForm:datalist,westGroup,:growl"
                                  onstart=";
                                  #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteRequestDlgHeader)};

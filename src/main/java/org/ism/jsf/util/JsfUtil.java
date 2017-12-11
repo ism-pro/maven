@@ -195,7 +195,7 @@ public class JsfUtil {
         }
 
         //{"start":"2016-04-18","end":"2016-05-31"}
-        if (!filterText.contains("start")) {
+        if (!filterText.contains(",")) {
             return false;
         }
         String strDate = filterText;

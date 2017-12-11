@@ -120,7 +120,8 @@ public class IsmMailtype implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.app.IsmMailtype[ id=" + id + " ]";
+        return type + " - " + designation + " [" + id + "]";
+        //return "org.ism.entities.app.IsmMailtype[ id=" + id + " ]";
     }
 
 

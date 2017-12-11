@@ -135,7 +135,8 @@ public class IsmNcrstate implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.IsmNcrstate[ id=" + id + " ]";
+        return istate + " - " + statename + " [" + id + "]";
+        //return "org.ism.entities.IsmNcrstate[ id=" + id + " ]";
     }
 
 }

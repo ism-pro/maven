@@ -421,7 +421,8 @@ public class NonConformiteRequest implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.NonConformiteRequest[ ncrId=" + ncrId + " ]";
+        return ncrProcessus + " - " + ncrTitle + " [" + ncrId + "]";
+        //return "org.ism.entities.NonConformiteRequest[ ncrId=" + ncrId + " ]";
     }
 
     public String getNcrClientname() {

@@ -190,7 +190,8 @@ public class NonConformiteFrequency implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.NonConformiteFrequency[ ncfId=" + ncfId + " ]";
+        return ncfFrequency + " - " + ncfDesignation + " [" + ncfId + "]";
+        //return "org.ism.entities.NonConformiteFrequency[ ncfId=" + ncfId + " ]";
     }
 
 }

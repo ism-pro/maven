@@ -128,7 +128,8 @@ public class IsmReport implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.app.IsmReport[ id=" + id + " ]";
+        return report + " - " + designation + " [" + id + "]";
+        //return "org.ism.entities.app.IsmReport[ id=" + id + " ]";
     }
 
 }

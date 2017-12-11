@@ -280,7 +280,7 @@ public abstract class AbstractFacade<T> {
             return null;
         }
 
-        if (!filterText.contains("start")) {
+        if (!filterText.contains(",")) {
             return null;
         }
 
@@ -296,8 +296,19 @@ public abstract class AbstractFacade<T> {
         return dates[1];
     }
 
-    protected Predicate likeFieldComposite(CriteriaBuilder cb, Root<T> rt, String field, String first, String second, String value){
-         return cb.like(cb.concat(cb.concat(rt.get(field).get(first), " - "), rt.get(field).get(second)), value);
+    /**
+     * 
+     * @param cb
+     * @param rt
+     * @param field concerned field in the main process
+     * @param code  corresponding to the code of the entities 
+     * @param designation corresponding to the name field of the designation
+     * @param id corresponding to the name field of id
+     * @param value value to be liked
+     * @return corresponding predected filter
+     */
+    protected Predicate likeFieldComposite(CriteriaBuilder cb, Root<T> rt, String field, String code, String designation, String id, String value){
+         return cb.like(cb.concat(cb.concat(cb.concat(cb.concat(cb.concat(rt.get(field).get(code), " - "), rt.get(field).get(designation)), " ["), rt.get(field).get(id)), "]"), value);
     }
     
     protected Predicate likeFieldStaffComposite(CriteriaBuilder cb, Root<T> rt, String field, String value){

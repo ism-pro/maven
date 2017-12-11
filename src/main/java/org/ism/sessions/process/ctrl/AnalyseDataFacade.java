@@ -5,7 +5,6 @@
  */
 package org.ism.sessions.process.ctrl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +13,10 @@ import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 import org.ism.entities.process.ctrl.AnalyseData;
 import org.ism.entities.process.ctrl.AnalysePoint;
 import org.ism.entities.process.ctrl.AnalyseType;
@@ -211,16 +205,16 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
         Predicate p = null;
         switch (field) {
             case "adPoint":
-                p = likeFieldComposite(cb, rt, field, "apPoint", "apDesignation", value);
+                p = likeFieldComposite(cb, rt, field, "apPoint", "apDesignation", "apId", value);
                 break;
             case "adType":
-                p = likeFieldComposite(cb, rt, field, "atType", "atDesignation", value);
+                p = likeFieldComposite(cb, rt, field, "atType", "atDesignation", "atId", value);
                 break;
             case "adSampler":
-                p = likeFieldStaffComposite(cb, rt, "adSampler", value);
+                p = likeFieldStaffComposite(cb, rt, field, value);
                 break;
             case "adValidator":
-                p = likeFieldStaffComposite(cb, rt, "adValidator", value);
+                p = likeFieldStaffComposite(cb, rt, field, value);
                 break;
             case "adsampleTime":
                 p = betweenFieldDate(cb, rt, field, value);
@@ -232,7 +226,7 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
                 p = betweenFieldDate(cb, rt, field, value);
                 break;
             case "adCompany":
-                p = likeFieldComposite(cb, rt, field, "c_company", "c_designation", value);
+                p = likeFieldComposite(cb, rt, field, "cCompany", "cDesignation", "cId", value);
                 break;
             default:
                 expr = rt.get(field);

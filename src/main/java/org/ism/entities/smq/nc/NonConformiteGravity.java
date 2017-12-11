@@ -190,7 +190,8 @@ public class NonConformiteGravity implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.NonConformiteGravity[ ncgId=" + ncgId + " ]";
+        return ncgGravity + " - " + ncgDesignation + " [" + ncgId + "]";
+        //return "org.ism.entities.NonConformiteGravity[ ncgId=" + ncgId + " ]";
     }
 
 }

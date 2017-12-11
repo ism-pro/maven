@@ -7,11 +7,16 @@ package org.ism.sessions.smq.nc;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.CacheRetrieveMode;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.ism.entities.admin.Company;
 import org.ism.entities.smq.Processus;
 import org.ism.entities.smq.nc.NonConformiteRequest;
@@ -60,8 +65,7 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
     private final String FIND_BY_DESIGNATION = "NonConformiteRequest.findByNcrTitle";            // query = "SELECT n FROM NonConformiteRequest n WHERE n.ncrTitle = :ncrTitle"
 
     private final String FIND_BY_DESIGNATION_OF_COMPANY = "NonConformiteRequest.findByNcrTitleOfCompany";
-    
-    
+
     private final String COUNT_ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.countItemsCreateInRange";
 
     private final String ITEMS_CREATE_IN_RANGE = "NonConformiteRequest.itemsCreateInRange";
@@ -340,7 +344,7 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
     /**
      * Count the amount of non conformite for a specified processus and state.
      *
-     * @param processus is the object processus 
+     * @param processus is the object processus
      * @param state is one of the istate not the object like A, B, C, D, E
      * @return a integer value corresponding to the result
      */
@@ -370,5 +374,98 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
                 .setParameter("ncrTitle", designation)
                 .setParameter("ncrCompany", company);
         return q.getResultList();
+    }
+
+    // /////////////////////////////////////////////////////////////////////////
+    //
+    //
+    // Criteria
+    //
+    //
+    // /////////////////////////////////////////////////////////////////////////
+    /**
+     * Filtring allow to append condition to a predicate depending on field.
+     * Main purpose of filtring is to implement entities conditions.
+     *
+     * <br> NonConformiteRequestField_ncrExtend=Etendre
+     * <br> NonConformiteRequestField_ncrId=N°
+     * <br> NonConformiteRequestField_ncrCompany=Société
+     * <br> NonConformiteRequestField_ncrProcessus=Processus
+     * <br> NonConformiteRequestField_ncrStaff=Emetteur
+     * <br> NonConformiteRequestField_ncrState=Etat
+     * <br> NonConformiteRequestField_ncrStatePrevious=Etat Actuel
+     * <br> NonConformiteRequestField_ncrStateNew=Etat à venir
+     * <br> NonConformiteRequestField_ncrNature=Nature
+     * <br> NonConformiteRequestField_ncrOccured=Apparition
+     * <br> NonConformiteRequestField_ncrProduct=Produit
+     * <br> NonConformiteRequestField_ncrTrace=Traçabilité
+     * <br> NonConformiteRequestField_ncrQuantity=Quantité
+     * <br> NonConformiteRequestField_ncrUnite=Unité
+     * <br> NonConformiteRequestField_ncrGravity=Gravité
+     * <br> NonConformiteRequestField_ncrFrequency=Fréquence
+     * <br> NonConformiteRequestField_ncrDescription=Description
+     * <br> NonConformiteRequestField_ncrTitle=Intitulé
+     * <br> NonConformiteRequestField_ncrLink=Lien/Image
+     * <br> NonConformiteRequestField_ncrApprouver=Approbateur
+     * <br> NonConformiteRequestField_ncrApprouved=Approuver
+     * <br> NonConformiteRequestField_ncrApprouvedDate=Date approb.
+     * <br> NonConformiteRequestField_ncrApprouvedDesc=Raison refus
+     * <br> NonConformiteRequestField_ncrCreated=Création
+     * <br> NonConformiteRequestField_ncrChanged=Modif.
+     * <br> NonConformiteRequestField_ncrEnddingAction=Echéance
+     * <br> NonConformiteRequestField_ncrClientname=Client - Nom
+     * <br> NonConformiteRequestField_ncrClientaddress=Client - Adresse
+     * <br> NonConformiteRequestField_ncrClientphone=Client - Phone
+     * <br> NonConformiteRequestField_ncrClientemail=Client - E-mail
+     * <br> NonConformiteRequestField_ncrClienttype=Client - Type
+     *
+     * @param cb is a criteria builder allowing to concat in this case
+     * @param rt is the main data
+     * @param filter couple of field filter and value of filter
+     * @return a predicate of filter
+     */
+    @Override
+    public Predicate filtring(CriteriaBuilder cb, Root<NonConformiteRequest> rt, Map.Entry<String, Object> filter) {
+        Expression<String> expr;
+        final String field = filter.getKey();
+        final String value = filter.getValue().toString(); //"%" + f.getValue() + "%";
+        Predicate p = null;
+        switch (field) {
+            case "ncrStaff":
+                p = likeFieldStaffComposite(cb, rt, field, value);
+                break;
+            case "ncrProcessus":
+                p = likeFieldComposite(cb, rt, field, "pProcessus", "pDesignation", "pId", value);
+                break;
+            case "ncrState":
+                p = likeFieldComposite(cb, rt, field, "istate", "statename", "id", value);
+                break;
+            case "ncrNature":
+                p = likeFieldComposite(cb, rt, field, "ncnNature", "ncnDesignation", "ncnId", value);
+                break;
+            case "ncrGravity":
+                p = likeFieldComposite(cb, rt, field, "ncgGravity", "ncgDesignation", "ncgId", value);
+                break;
+            case "ncrFrequency":
+                p = likeFieldComposite(cb, rt, field, "ncfFrequency", "ncfDesignation", "ncfId", value);
+                break;
+            case "ncrOccured":
+                p = betweenFieldDate(cb, rt, field, value);
+                break;
+            case "ncrCreated":
+                p = betweenFieldDate(cb, rt, field, value);
+                break;
+            case "ncrChanged":
+                p = betweenFieldDate(cb, rt, field, value);
+                break;
+            case "ncrCompany":
+                p = likeFieldComposite(cb, rt, field, "cCompany", "cDesignation", "cId", value);
+                break;
+            default:
+                expr = rt.get(field);
+                p = cb.like(expr, value);
+                break;
+        }
+        return p;
     }
 }

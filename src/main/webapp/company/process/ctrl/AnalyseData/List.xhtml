@@ -65,30 +65,30 @@
 
 
 
-                
+
                 <p:dataTable id="datalist" widgetVar="datalist"
                              value="#{analyseDataController.lazyModel}" var="item"
                              selectionMode="single" selection="#{analyseDataController.selected}"
                              rowIndexVar="_rowIndex"
                              rowKey="#{item.adId}"
-                             
+
                              paginator="#{analyseDataController.tableSet.paginator}"
                              rows="#{analyseDataController.tableSet.rows}"
-                             
+
                              resizableColumns="#{analyseDataController.tableSet.resizableColumns}"
                              rowsPerPageTemplate="#{analyseDataController.tableSet.rowsPerPageTemplate}"
                              paginatorTemplate="#{analyseDataController.tableSet.paginatorTemplate}"
                              currentPageReportTemplate="#{analyseDataController.tableSet.currentPageReportTemplate}"
-                             
+
                              liveResize="#{analyseDataController.tableSet.liveResize}"
                              reflow="#{analyseDataController.tableSet.reflow}"
-                             
+
                              draggableColumns="#{analyseDataController.tableSet.draggableColumns}"
                              sortMode="#{analyseDataController.tableSet.sortMode}"
-                             
+
                              emptyMessage="#{ism.EmptyList}"
-                             
-                             
+
+
                              filterDelay="1000"
                              lazy="#{analyseDataController.tableSet.lazy}"
                              multiViewState="#{analyseDataController.tableSet.multiViewState}"
@@ -317,7 +317,7 @@
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adenlimitBB)}"
                               sortBy="#{item.adenlimitBB}" filterBy="#{item.adenlimitBB}" 
                               filterMatchMode="equals" >
-                        
+
                         <f:facet name="filterMatchMode">
                             <p:outputLabel value="Test Match Mode" />
                         </f:facet>
@@ -354,12 +354,12 @@
                               style="width: 72px;" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adsampleTime)}"
                               sortBy="#{item.adsampleTime}" filterBy="#{item.adsampleTime}" 
-                              filterFunction="#{viewTabManager.handleDateRangeFilters}"
-                               >
+                              filterFunction="#{analyseDataController.handleFilterDateRange}"
+                              >
                         <f:facet name="filter">
-                            <p:inputText id="filterAdsampleTime" 
-                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
-                                         style="width: 100px!important;" >
+                            <p:inputText id="filterAdsampleTime"
+                                         onclick="dateRange(this);" 
+                                         style="width: 100px!important;">
                                 <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
                             </p:inputText>
                         </f:facet>
@@ -443,6 +443,28 @@
                 </p:dataTable>
             </h:form>
 
+            <script>
+                function dateRange(obj) {
+                    $(obj).daterangepicker({
+                        autoUpdateInput: false,
+                        showDropdowns: true,
+                        showISOWeekNumbers: true,
+                        autoApply: true,
+                        locale: {
+                            format: 'DD-MM-YYYY',
+                            cancelLabel: 'Clear'
+                        }
+                    });
+                    $(obj).on('apply.daterangepicker', function (ev, picker) {
+                        $(obj).val(picker.startDate.format('YYYY-MM-DD') + ',' + picker.endDate.format('YYYY-MM-DD'));
+                        $(obj).change();
+                    });
+
+                    $(obj).on('cancel.daterangepicker', function (ev, picker) {
+                        $(obj).val('');
+                    });
+                }
+            </script>
         </ui:define>
 
 

@@ -190,7 +190,8 @@ public class NonConformiteUnite implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.NonConformiteUnite[ ncuId=" + ncuId + " ]";
+        return ncuUnite + " - " + ncuDesignation + " [" + ncuId + "]";
+        //return "org.ism.entities.NonConformiteUnite[ ncuId=" + ncuId + " ]";
     }
 
 }

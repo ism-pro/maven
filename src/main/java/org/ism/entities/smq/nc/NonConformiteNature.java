@@ -189,7 +189,8 @@ public class NonConformiteNature implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.NonConformiteNature[ ncnId=" + ncnId + " ]";
+        return ncnNature + " - " + ncnDesignation + " [" + ncnId + "]";
+        //return "org.ism.entities.NonConformiteNature[ ncnId=" + ncnId + " ]";
     }
 
 }

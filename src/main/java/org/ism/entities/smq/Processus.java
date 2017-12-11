@@ -243,7 +243,7 @@ public class Processus implements Serializable {
     @Override
     public String toString() {
         //return "org.ism.entities.Processus[ pId=" + pId + " ]";
-        return pProcessus + " - " + pDesignation;
+        return pProcessus + " - " + pDesignation + " [" + pId + "]";
     }
 
 

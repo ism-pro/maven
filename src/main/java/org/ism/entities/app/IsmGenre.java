@@ -119,6 +119,7 @@ public class IsmGenre implements Serializable {
 
     @Override
     public String toString() {
-        return "org.ism.entities.IsmGenre[ id=" + id + " ]";
+        return genre + " - " + genrename + " [" + id + "]";
+        //return "org.ism.entities.IsmGenre[ id=" + id + " ]";
     }
 }

@@ -4,7 +4,7 @@
 
     <groupId>org.ism</groupId>
     <artifactId>ISM</artifactId>
-    <version>1712.07</version>
+    <version>1712.10</version>
     <packaging>war</packaging>
 
     <name>ISM</name>
@@ -460,6 +460,9 @@
         </repository>
     </repositories>
     <description>Industrial System Manager - ISM
+
+- Possibilité de configurer l'envoi d'email pour les non conformités
+- Envoi des email en fonction des différents états.
 
     </description>
 </project>

@@ -7,9 +7,11 @@ import org.ism.sessions.smq.nc.NonConformiteRequestFacade;
 import org.ism.entities.app.IsmNcrstate;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -17,15 +19,9 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import javax.faces.bean.SessionScoped;
@@ -34,11 +30,12 @@ import javax.faces.bean.ManagedProperty;
 import org.ism.entities.admin.Company;
 import org.ism.entities.smq.Processus;
 import org.ism.jsf.admin.MailsenderController;
-import org.primefaces.component.inputnumber.InputNumber;
-
-import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.ism.lazy.smq.nc.NonConformiteRequestLazyModel;
+import org.ism.services.TableSet;
+import org.primefaces.event.data.FilterEvent;
 import org.primefaces.event.data.SortEvent;
 import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
 
 @ManagedBean(name = "nonConformiteRequestController")
 @SessionScoped
@@ -59,20 +56,38 @@ public class NonConformiteRequestController implements Serializable {
     private Map<Integer, String> headerTextMap;     //!< map header in order to manage reodering
     private Map<String, Boolean> visibleColMap;     //!< Allow to keep 
 
-    private List<SortMeta> sortedValue;
+    /**
+     * Multi Sort Meta save table sorting
+     */
+    private List<SortMeta> multiSortMeta = null;
+    /**
+     * filters save table filters
+     */
+    private Map<String, Object> filters = null;
 
-    public List getSortedValue() {
-        JsfUtil.out("Now Return Sorted Value");
-        List<SortMeta> sorted = sortedValue;
-        return sortedValue;
-    }
+    /**
+     * Define table setups include with Analyse data controller
+     */
+    private TableSet tableSet = new TableSet();
 
-    public void setSortedValue(List sortedValue) {
-        JsfUtil.out("Now Set Sorted Value");
-        List<SortMeta> sorted = sortedValue;
-        this.sortedValue = sortedValue;
-    }
+    /**
+     * Define lazy model to load progressively data
+     */
+    private NonConformiteRequestLazyModel lazyModel;
 
+//    private List<SortMeta> sortedValue;
+//
+//    public List getSortedValue() {
+//        JsfUtil.out("Now Return Sorted Value");
+//        List<SortMeta> sorted = sortedValue;
+//        return sortedValue;
+//    }
+//
+//    public void setSortedValue(List sortedValue) {
+//        JsfUtil.out("Now Set Sorted Value");
+//        List<SortMeta> sorted = sortedValue;
+//        this.sortedValue = sortedValue;
+//    }
     public NonConformiteRequestController() {
     }
 
@@ -123,6 +138,8 @@ public class NonConformiteRequestController implements Serializable {
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrEnddingAction"), true);
         visibleColMap.put(ResourceBundle.getBundle(JsfUtil.BUNDLE).getString("NonConformiteRequestField_ncrCompany"), false);
 
+        // Initialize lazy model
+        lazyModel = new NonConformiteRequestLazyModel(ejbFacade);
     }
 
     private NonConformiteRequestFacade getFacade() {
@@ -224,12 +241,54 @@ public class NonConformiteRequestController implements Serializable {
 
     }
 
-    public void handleColumnSorting(SortEvent event) {
-        /*
-        Table table = (Table) event.getSource(); 
-        sortedValue = table.getMultiSortMeta();
-        JsfUtil.out("End handle Sorting event");
-         */
+    /**
+     * Handle Filter Date Range allow in a filter to manage a range sélection
+     *
+     * @param value a value is the corresponding filter
+     * @param filter a object filtred
+     * @param locale a local
+     * @return true if ok
+     * @throws ParseException an error
+     */
+    public boolean handleFilterDateRange(Object value, Object filter, Locale locale) throws ParseException {
+        return JsfUtil.dateRangeIn(value, filter, locale);
+    }
+
+    public void handleTableChanges() {
+
+    }
+
+    /**
+     * Handle filtering is used to save state of filters and restore it to lazy
+     * model if it is different from lazy
+     *
+     * @param event filter event
+     */
+    public void handleFiltering(FilterEvent event) {
+        filters = event.getFilters();
+        lazyModel.setFilters(filters);
+    }
+
+    /**
+     * Handle sorting is used to save state of sort in the lazy model to allow
+     * restore while staying in the same stage.
+     *
+     * @param event while sorting
+     */
+    public void handleSorting(SortEvent event) {
+
+        SortMeta sortMeta = new SortMeta(event.getSortColumn(),
+                event.getSortColumn().getField(),
+                event.isAscending() ? SortOrder.ASCENDING : SortOrder.DESCENDING,
+                null);
+        if (!multiSortMeta.contains(sortMeta)) {
+            multiSortMeta.add(sortMeta);
+        } else {
+            // reorder
+            multiSortMeta.remove(sortMeta);
+            multiSortMeta.add(sortMeta);
+        }
+        lazyModel.setMultiSortMeta(multiSortMeta);
     }
 
     /**
@@ -474,11 +533,21 @@ public class NonConformiteRequestController implements Serializable {
     public Boolean getIsVisibleColKey(String key) {
         return this.visibleColMap.get(key);
     }
+    
+    
+    public TableSet getTableSet() {
+        return tableSet;
+    }
 
-    /**
-     * ************************************************************************
-     *
-     */
+    public void setTableSet(TableSet tableSet) {
+        this.tableSet = tableSet;
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////
+    ///
+    /// Contrôle graphique renderer state
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
     /**
      * *
      *
@@ -603,5 +672,22 @@ public class NonConformiteRequestController implements Serializable {
     public void setMailsenderController(MailsenderController mailsenderController) {
         this.mailsenderController = mailsenderController;
     }
+    
+    
+    
+    /// ////////////////////////////////////////////////////////////////////////
+    //
+    /// LAZY
+    ///
+    /// ////////////////////////////////////////////////////////////////////////
+    public NonConformiteRequestLazyModel getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(NonConformiteRequestLazyModel lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
+
 
 }
