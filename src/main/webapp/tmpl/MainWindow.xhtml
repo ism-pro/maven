@@ -31,9 +31,11 @@
             <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.min-jsf.css"/>
             <h:outputStylesheet library="webjars" name="bootstrap/3.3.7/css/bootstrap.min-jsf.css" />
 
-            <!-- DATE RANGE PIKER -->
-            <h:outputStylesheet library="vendor" name="bootstrap.daterangepicker/2/bootstrap-datetimepicker.min.css" />
+            <!-- JQUERY UI REQUIRE FOR DATERANGE PICKER !!CSS INCOMPATIBLE!! -->
+            <!-- <h:outputStylesheet library="vendor" name="jquery-ui/1.12.1/jquery-ui.min.css" /> -->
             
+            <!-- DATE RANGE PIKER -->
+            <h:outputStylesheet library="vendor" name="daterangepicker/0.6.0/jquery.comiseo.daterangepicker.min.css" />
 
             <!-- After bootstrap is mendatory -->
             <h:outputStylesheet library="css" name="ism.min.css" /> 
@@ -47,14 +49,17 @@
             <!-- JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
             <!-- PRIMEFACES  -->
-            <h:outputScript library="primefaces" name="jquery/jquery.min.js" target="head" />
-
+            <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+            
+            <!-- JQUERY UI : NECESSAIRE POUR L'USAGE DE DATRERANGE PICKER -->
+            <h:outputScript library="vendor" name="jquery-ui/1.12.1/jquery-ui.min.js" target="head" />
+            
             <!-- ISM JS -->
             <h:outputScript library="js" name="ism-global.min.js" />
 
             <!-- Date Range Piker -->
             <h:outputScript library="js" name="moment/2.18.1/moment.min.js" target="head" />
-            <h:outputScript library="vendor" name="bootstrap.daterangepicker/2/bootstrap-datetimepicker.min.js" />
+            <h:outputScript library="vendor" name="daterangepicker/0.6.0/jquery.comiseo.daterangepicker.min.js" />
 
             <!-- BOOTSTRAP -->
             <h:outputScript library="webjars" name="bootstrap/3.3.7/js/bootstrap.min.js"  />
