@@ -90,6 +90,7 @@
 
 
                              filterDelay="1000"
+                             filteredValue="#{analyseDataController.lazyModel.filtredValue}"
                              lazy="#{analyseDataController.tableSet.lazy}"
                              multiViewState="#{analyseDataController.tableSet.multiViewState}"
                              >
@@ -357,10 +358,9 @@
                               filterFunction="#{analyseDataController.handleFilterDateRange}"
                               >
                         <f:facet name="filter">
-                            <p:inputText id="filterAdsampleTime"
-                                         onclick="dateRange(this);" 
-                                         style="width: 100px!important;">
-                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            <p:inputText id="filterAdsampleTime" style="width: 100px!important;"
+                                         onmouseover="$(this).daterangepicker();" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" />
                             </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.adsampleTime}">
@@ -385,9 +385,9 @@
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('datalist').filter()" styleClass="ui-btn-filters" >
                                 <f:converter converterId="javax.faces.Boolean" />
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItem itemLabel="" itemValue="true" />
-                                <f:selectItem itemLabel="" itemValue="false" />
+                                <f:selectItem itemLabel="" itemValue="#{null}" />
+                                <f:selectItem itemLabel="" itemValue="1" />
+                                <f:selectItem itemLabel="" itemValue="0" />
                             </p:selectOneButton>
                         </f:facet>
                         <p:selectBooleanCheckbox value="#{item.adDeleted}" disabled="true"/>
@@ -400,10 +400,9 @@
                               sortBy="#{item.adCreated}" filterBy="#{item.adCreated}" 
                               filterFunction="#{analyseDataController.handleFilterDateRange}" >
                         <f:facet name="filter">
-                            <p:inputText id="filterAdCreated" 
-                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
-                                         style="width: 100px!important;" >
-                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            <p:inputText id="filterAdCreated" style="width: 100px!important;"
+                                         onmouseover="$(this).daterangepicker();" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" />
                             </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.adCreated}">
@@ -416,12 +415,11 @@
                     <p:column headerText="#{ism.AnalyseDataField_adChanged}" 
                               visible="#{analyseDataController.getIsVisibleColKey(ism.AnalyseDataField_adChanged)}"
                               sortBy="#{item.adChanged}" filterBy="#{item.adChanged}" 
-                              filterFunction="#{viewTabManager.handleDateRangeFilters}" >
+                              filterFunction="#{analyseDataController.handleFilterDateRange}" >
                         <f:facet name="filter">
-                            <p:inputText id="filterAdChanged" 
-                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
-                                         style="width: 100px!important;" >
-                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            <p:inputText id="filterAdChanged" style="width: 100px!important;"
+                                         onmouseover="$(this).daterangepicker();" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" />
                             </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.adChanged}">
@@ -440,31 +438,10 @@
                     </p:column>
 
 
-                </p:dataTable>
+                </p:dataTable> 
             </h:form>
 
-            <script>
-                function dateRange(obj) {
-                    $(obj).daterangepicker({
-                        autoUpdateInput: false,
-                        showDropdowns: true,
-                        showISOWeekNumbers: true,
-                        autoApply: true,
-                        locale: {
-                            format: 'DD-MM-YYYY',
-                            cancelLabel: 'Clear'
-                        }
-                    });
-                    $(obj).on('apply.daterangepicker', function (ev, picker) {
-                        $(obj).val(picker.startDate.format('YYYY-MM-DD') + ',' + picker.endDate.format('YYYY-MM-DD'));
-                        $(obj).change();
-                    });
 
-                    $(obj).on('cancel.daterangepicker', function (ev, picker) {
-                        $(obj).val('');
-                    });
-                }
-            </script>
         </ui:define>
 
 

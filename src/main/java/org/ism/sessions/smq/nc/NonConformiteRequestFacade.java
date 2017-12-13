@@ -428,7 +428,7 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
     public Predicate filtring(CriteriaBuilder cb, Root<NonConformiteRequest> rt, Map.Entry<String, Object> filter) {
         Expression<String> expr;
         final String field = filter.getKey();
-        final String value = filter.getValue().toString(); //"%" + f.getValue() + "%";
+        final String value = filter.getValue().toString();
         Predicate p = null;
         switch (field) {
             case "ncrStaff":
@@ -449,21 +449,18 @@ public class NonConformiteRequestFacade extends AbstractFacade<NonConformiteRequ
             case "ncrFrequency":
                 p = likeFieldComposite(cb, rt, field, "ncfFrequency", "ncfDesignation", "ncfId", value);
                 break;
-            case "ncrOccured":
-                p = betweenFieldDate(cb, rt, field, value);
-                break;
-            case "ncrCreated":
-                p = betweenFieldDate(cb, rt, field, value);
-                break;
-            case "ncrChanged":
-                p = betweenFieldDate(cb, rt, field, value);
-                break;
             case "ncrCompany":
                 p = likeFieldComposite(cb, rt, field, "cCompany", "cDesignation", "cId", value);
                 break;
             default:
                 expr = rt.get(field);
-                p = cb.like(expr, value);
+                if (filter.getValue() instanceof Boolean) {
+                    p = cb.equal(expr, value);
+                } else if (value.contains("start") && value.contains("end")) {
+                    p = betweenFieldDate(cb, rt, field, value);
+                } else {
+                    p = cb.like(expr, value);
+                }
                 break;
         }
         return p;

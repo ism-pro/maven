@@ -13,7 +13,7 @@
 	right: 0.5em;
 	top: 50%;
 	margin-top: -8px;
-}
+} 
 
 .comiseo-daterangepicker {
 	position: absolute;
@@ -114,3 +114,32 @@
 	background: #b0c4de;
 	color: #fff;
 }
+
+
+
+
+
+
+
+/* =============================================================================
+    ISM
+===============================================================================*/
+.comiseo-daterangepicker-presets ul {
+    list-style-type: none;
+    text-decoration: none;
+}
+.comiseo-daterangepicker-presets ul a{
+    list-style-type: none;
+    text-decoration: none;
+}
+.comiseo-daterangepicker-triggerbutton.comiseo-daterangepicker-bottom{
+    min-width: 16px;
+    width: 100%!important;
+    min-height: 16px;
+    border: none;
+}
+.comiseo-daterangepicker-triggerbutton.comiseo-daterangepicker-bottom{
+    background: url("#{resource['img/ism/calendar/month.png']}") no-repeat;
+    background-size:contain;
+}
+

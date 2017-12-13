@@ -113,6 +113,14 @@ and open the template in the editor.
 
 
 
+.ui-inputfield.ui-inputtext.ui-widget.ui-state-default.ui-corner-all{
+    width: 100%;
+}
+
+.ui-column-customfilter.ui-inputfield.ui-inputtext.ui-widget.ui-state-default.ui-corner-all{
+    min-width: 100%!important;
+}
+
 
 
 

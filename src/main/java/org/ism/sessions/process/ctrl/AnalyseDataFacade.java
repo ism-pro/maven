@@ -230,7 +230,11 @@ public class AnalyseDataFacade extends AbstractFacade<AnalyseData> {
                 break;
             default:
                 expr = rt.get(field);
-                p = cb.like(expr, value);
+                if (filter.getValue() instanceof Boolean) {
+                    p = cb.equal(expr, value);
+                } else {
+                    p = cb.like(expr, value);
+                }
                 break;
         }
         return p;

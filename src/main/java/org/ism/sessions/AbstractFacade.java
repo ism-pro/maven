@@ -139,6 +139,7 @@ public abstract class AbstractFacade<T> {
         if (orders != null) {
             criteriaQuery = criteriaQuery.orderBy(orders);
         } else {
+            // ERREUR DE ID A NE PAS CONSIDERER CAR NON APPELER
             criteriaQuery = criteriaQuery.orderBy(criteriaBuilder.desc(root.get("adId")));
         }
 
@@ -312,7 +313,6 @@ public abstract class AbstractFacade<T> {
     }
     
     protected Predicate likeFieldStaffComposite(CriteriaBuilder cb, Root<T> rt, String field, String value){
-        //#{item.adSampler.stFirstname} #{item.adSampler.stLastname} #{item.adSampler.stMiddlename} [#{item.adSampler.stStaff}]
         return cb.like(cb.concat(cb.concat(cb.concat(cb.concat(cb.concat(cb.concat(cb.concat(rt.get(field).get("stFirstname"), " "), rt.get(field).get("stLastname")), " "), rt.get(field).get("stMiddlename")), " ["), rt.get(field).get("stStaff")), "]"), value); 
     }
     

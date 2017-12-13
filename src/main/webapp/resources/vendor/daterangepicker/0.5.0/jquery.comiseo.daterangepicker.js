@@ -7,6 +7,8 @@
  *   - jQuery 1.8.3+
  *   - jQuery UI 1.9.0+ (widget factory, position utility, button, menu, datepicker)
  *   - moment.js 2.3.0+
+ *   
+ *   Attention version modifié par moi
  */
 
 (function ($, window, undefined) {
@@ -204,8 +206,7 @@
 
             $self.append($menu);
 
-            $menu.menu()
-                    .data('ui-menu').delay = 0; // disable submenu delays
+            $menu.menu().data('ui-menu').delay = 0; // disable submenu delays
         }
 
         init();

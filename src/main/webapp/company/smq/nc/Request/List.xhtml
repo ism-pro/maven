@@ -55,7 +55,7 @@
                                 styleClass="options-btn"
                                 value="#{ism.Delete}"
                                 title="Permet de supprimer la non conformité sélectionné !"
-                                actionListener="#{viewTabManager.handleDestroy('nonConformiteRequest')}"
+                                actionListener="#{nonConformiteRequestController.destroy()}"
                                 update=":bodyForm:datalist, westGroup,:growl"
                                 onstart=";
                                 #{viewConfirmDialog.dlg.setHeader(ism.NonConformiteRequestDlgHeader)};
@@ -103,7 +103,6 @@
                              rowsPerPageTemplate="#{nonConformiteRequestController.tableSet.rowsPerPageTemplate}"
                              rowStyleClass="#{item.ncrState.istate == 'C' ? (viewUtil.maintenant >= nonConformiteActionsController.getLastActionFromNC(item).ncaDeadline ? 'ncr-state':'') : '' }"
 
-                             filterDelay="1000"
 
                              paginator="#{nonConformiteRequestController.tableSet.paginator}" 
                              paginatorTemplate="#{nonConformiteRequestController.tableSet.paginatorTemplate}"
@@ -117,6 +116,8 @@
                              multiViewState="#{nonConformiteRequestController.tableSet.multiViewState}"
                              sortMode="#{nonConformiteRequestController.tableSet.sortMode}"
 
+                             filterDelay="1000"
+                             filteredValue="#{analyseDataController.lazyModel.filtredValue}"
                              lazy="#{nonConformiteRequestController.tableSet.lazy}"
                              emptyMessage="#{ism.EmptyList}"
 
@@ -307,10 +308,9 @@
                               filterFunction="#{nonConformiteRequestController.handleFilterDateRange}"
                               >
                         <f:facet name="filter">
-                            <p:inputText id="filterOccured" 
-                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
-                                         style="width: 100px!important;" >
-                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            <p:inputText id="filterOccured"  style="width: 100px!important;"
+                                         onmouseover="$(this).daterangepicker();" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" />
                             </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.ncrOccured}">
@@ -378,10 +378,9 @@
                               filterFunction="#{nonConformiteRequestController.handleFilterDateRange}"
                               >
                         <f:facet name="filter">
-                            <p:inputText id="filterCreated" 
-                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
-                                         style="width: 100px!important;" >
-                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            <p:inputText id="filterCreated"  style="width: 100px!important;"
+                                         onmouseover="$(this).daterangepicker();" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" />
                             </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.ncrCreated}">
@@ -397,10 +396,9 @@
                               filterFunction="#{nonConformiteRequestController.handleFilterDateRange}"
                               >
                         <f:facet name="filter">
-                            <p:inputText id="filterChanged" 
-                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
-                                         style="width: 100px!important;" >
-                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            <p:inputText id="filterChanged"  style="width: 100px!important;"
+                                         onmouseover="$(this).daterangepicker();" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" />
                             </p:inputText>
                         </f:facet>
                         <h:outputText value="#{item.ncrChanged}">
@@ -416,14 +414,13 @@
                               filterFunction="#{nonConformiteRequestController.handleFilterDateRange}"
                               >
                         <f:facet name="filter">
-                            <p:inputText id="filterEnddingAction" 
-                                         onclick="$(this).daterangepicker({datepickerOptions: {initialText: 'Période...', applyButtonText: 'Ok', clearButtonText: 'Reset', cancelButtonText: 'Annuler', numberOfMonths: 2}})" 
-                                         style="width: 100px!important;" >
-                                <p:ajax event="change" oncomplete="PF('datalist').filter()" update="datalist"/>
+                            <p:inputText id="filterEnddingAction"  style="width: 100px!important;"
+                                         onmouseover="$(this).daterangepicker({datepickerOptions: {maxDate: null}});" >
+                                <p:ajax event="change" oncomplete="PF('datalist').filter()" />
                             </p:inputText>
                         </f:facet>
-                        <h:outputText rendered="#{nonConformiteActionsController.getLastActionFromNC(item)!=null?true:false}"
-                                      value="#{nonConformiteActionsController.getLastActionFromNC(item).ncaDeadline}" 
+                        <h:outputText rendered="#{item.ncrenddingAction!=null?true:false}"
+                                      value="#{item.ncrenddingAction}" 
                                       >
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>

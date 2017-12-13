@@ -32,6 +32,11 @@ public class NonConformiteRequestLazyModel extends LazyDataModel<NonConformiteRe
     private List<SortMeta> multiSortMeta = null;
     private Map<String, Object> filters = null;
 
+    /**
+     * Retained filtre value of table
+     */
+    private List<NonConformiteRequest> filtredValue;
+
     public NonConformiteRequestLazyModel() {
     }
 
@@ -188,6 +193,14 @@ public class NonConformiteRequestLazyModel extends LazyDataModel<NonConformiteRe
 
     public void setFilters(Map<String, Object> filters) {
         this.filters = filters;
+    }
+
+    public List<NonConformiteRequest> getFiltredValue() {
+        return filtredValue;
+    }
+
+    public void setFiltredValue(List<NonConformiteRequest> filtredValue) {
+        this.filtredValue = filtredValue;
     }
 
 }

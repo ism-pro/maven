@@ -253,7 +253,9 @@ public class NonConformiteActionsController implements Serializable {
                 selected = saveSelected;
             }
             // Now update request state
+            ncRequestCtrl.getSelected().setNcrenddingAction(selected.getNcaDeadline());
             ncRequestCtrl.updateOnActionCreate();
+            
 
             items = null;    // Invalidate list of items to trigger re-query.
             itemsNC = null;

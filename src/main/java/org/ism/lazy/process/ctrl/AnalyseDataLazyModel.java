@@ -32,6 +32,12 @@ public class AnalyseDataLazyModel extends LazyDataModel<AnalyseData> implements 
     private List<AnalyseData> datasource;
     private List<SortMeta> multiSortMeta = null;
     private Map<String, Object> filters = null;
+    
+    /**
+     * Retained filtre value of table
+     */
+    private List<AnalyseData> filtredValue;
+    
 
     public AnalyseDataLazyModel() {
     }
@@ -190,5 +196,15 @@ public class AnalyseDataLazyModel extends LazyDataModel<AnalyseData> implements 
     public void setFilters(Map<String, Object> filters) {
         this.filters = filters;
     }
+
+    public List<AnalyseData> getFiltredValue() {
+        return filtredValue;
+    }
+
+    public void setFiltredValue(List<AnalyseData> filtredValue) {
+        this.filtredValue = filtredValue;
+    }
+    
+    
 
 }
